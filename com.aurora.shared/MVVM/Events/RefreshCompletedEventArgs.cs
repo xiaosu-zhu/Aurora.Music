@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TagLib;
 
-namespace Aurora.Music.Core.Loader
+namespace Aurora.Shared.MVVM.Events
 {
-    class TagReader
+    public class RefreshCompletedEventArgs
     {
-
+        public object Args { get; set; }
     }
 }

@@ -26,5 +26,10 @@ namespace Aurora.Music
         {
             this.InitializeComponent();
         }
+
+        private async void Main_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
+        {
+            await Context.Go();
+        }
     }
 }

@@ -99,6 +99,7 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\MainPageViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -132,6 +133,16 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controls\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Aurora.Music.Core\Aurora.Music.Core.csproj">
+      <Project>{F0DBB792-F15D-4C3E-A6FE-5B184251C802}</Project>
+      <Name>Aurora.Music.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\com.aurora.shared\Aurora.Shared.csproj">
+      <Project>{026D99CF-1C25-4DCF-AD95-1070BBA9F8A8}</Project>
+      <Name>Aurora.Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
