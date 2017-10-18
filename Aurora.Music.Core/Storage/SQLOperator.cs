@@ -7,6 +7,7 @@ using Aurora.Shared.Extensions;
 using SQLite;
 using Windows.Storage;
 using TagLib;
+using Aurora.Music.Core.Models;
 
 namespace Aurora.Music.Core.Storage
 {
@@ -75,22 +76,22 @@ namespace Aurora.Music.Core.Storage
         public virtual double ReplayGainAlbumGain { get; set; }
         public virtual double ReplayGainAlbumPeak { get; set; }
         //public virtual IPicture[] Pictures { get; set; }
-        public string FirstAlbumArtist { get; }
-        public string FirstAlbumArtistSort { get; }
-        public string FirstPerformer { get; }
-        public string FirstPerformerSort { get; }
-        public string FirstComposerSort { get; }
-        public string FirstComposer { get; }
-        public string FirstGenre { get; }
-        public string JoinedAlbumArtists { get; }
-        public string JoinedPerformers { get; }
-        public string JoinedPerformersSort { get; }
-        public string JoinedComposers { get; }
+        public string FirstAlbumArtist { get; set; }
+        public string FirstAlbumArtistSort { get; set; }
+        public string FirstPerformer { get; set; }
+        public string FirstPerformerSort { get; set; }
+        public string FirstComposerSort { get; set; }
+        public string FirstComposer { get; set; }
+        public string FirstGenre { get; set; }
+        public string JoinedAlbumArtists { get; set; }
+        public string JoinedPerformers { get; set; }
+        public string JoinedPerformersSort { get; set; }
+        public string JoinedComposers { get; set; }
         public virtual string MusicBrainzTrackId { get; set; }
         public virtual string MusicBrainzReleaseArtistId { get; set; }
-        public virtual bool IsEmpty { get; }
+        public virtual bool IsEmpty { get; set; }
         public virtual string MusicBrainzArtistId { get; set; }
-        public TagTypes TagTypes { get; }
+        public TagTypes TagTypes { get; set; }
         public virtual string Title { get; set; }
         public virtual string TitleSort { get; set; }
         public virtual string Performers { get; set; }
@@ -100,7 +101,7 @@ namespace Aurora.Music.Core.Storage
         public virtual string Composers { get; set; }
         public virtual string ComposersSort { get; set; }
         public virtual string Album { get; set; }
-        public string JoinedGenres { get; }
+        public string JoinedGenres { get; set; }
         public virtual string AlbumSort { get; set; }
         public virtual string Genres { get; set; }
         public virtual uint Year { get; set; }
@@ -122,16 +123,37 @@ namespace Aurora.Music.Core.Storage
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
 
-        public int[] Songs { get; set; }
+        public Album() { }
 
+        public Album(Models.Album album)
+        {
+            Songs = string.Join('|', album.Songs);
+            Name = album.Name;
+            Genres = string.Join("$|$", album.Genres);
+            Year = album.Year;
+            AlbumSort = album.AlbumSort;
+            TrackCount = album.TrackCount;
+            DiscCount = album.DiscCount;
+            AlbumArtists = string.Join("$|$", album.AlbumArtists);
+            AlbumArtistsSort = string.Join("$|$", album.AlbumArtistsSort);
+            ReplayGainAlbumGain = album.ReplayGainAlbumGain;
+            ReplayGainAlbumPeak = album.ReplayGainAlbumPeak;
+            PicturePath = album.PicturePath;
+        }
+
+        public string Songs { get; set; }
+
+        public string PicturePath { get; set; }
+
+        [Unique]
         public string Name { get; set; }
-        public virtual string[] Genres { get; set; }
+        public virtual string Genres { get; set; }
         public virtual uint Year { get; set; }
         public virtual string AlbumSort { get; set; }
         public virtual uint TrackCount { get; set; }
         public virtual uint DiscCount { get; set; }
-        public virtual string[] AlbumArtists { get; set; }
-        public virtual string[] AlbumArtistsSort { get; set; }
+        public virtual string AlbumArtists { get; set; }
+        public virtual string AlbumArtistsSort { get; set; }
         public virtual double ReplayGainAlbumGain { get; set; }
         public virtual double ReplayGainAlbumPeak { get; set; }
     }
@@ -141,6 +163,13 @@ namespace Aurora.Music.Core.Storage
         private static readonly string DB_PATH = "main.db";
         private SQLiteAsyncConnection conn;
 
+        public event EventHandler<SongsAddedEventArgs> NewSongsAdded;
+
+        /// <summary>
+        /// Including album added and multiple album changed.
+        /// </summary>
+        public event EventHandler<AlbumModifiedEventArgs> AlbumModified;
+
         public SQLOperator()
         {
             conn = new SQLiteAsyncConnection(DB_PATH);
@@ -149,6 +178,7 @@ namespace Aurora.Music.Core.Storage
         public async Task CreateTable()
         {
             await conn.CreateTableAsync<Song>();
+            await conn.CreateTableAsync<Album>();
         }
 
         public async Task<bool> UpdateAsync(Models.Song song)
@@ -162,8 +192,30 @@ namespace Aurora.Music.Core.Storage
             }
             else
             {
-                await conn.InsertAsync(song);
+                await conn.InsertAsync(tag);
                 return true;
+            }
+        }
+
+        internal async Task UpdateSongListAsync(List<Song> tempList)
+        {
+            var newlist = new List<Song>();
+            foreach (var item in tempList)
+            {
+                var result = await conn.QueryAsync<Song>("SELECT ID FROM SONG WHERE FILEPATH = ?", item.FilePath);
+                if (result.Count > 0)
+                {
+                    continue;
+                }
+                else
+                {
+                    await conn.InsertAsync(item);
+                    newlist.Add(item);
+                }
+            }
+            if (newlist.Count > 0)
+            {
+                NewSongsAdded?.Invoke(this, new SongsAddedEventArgs(newlist.ToArray()));
             }
         }
 
@@ -206,7 +258,7 @@ namespace Aurora.Music.Core.Storage
             // GC.SuppressFinalize(this);
         }
 
-        internal static async Task<SQLOperator> CurrentAsync()
+        public static async Task<SQLOperator> CurrentAsync()
         {
             if (current != null && !current.disposedValue)
             {
@@ -228,6 +280,69 @@ namespace Aurora.Music.Core.Storage
         {
             return await conn.Table<T>().ToListAsync();
         }
-        #endregion
+
+        internal async Task AddtoAlbumAsync(IEnumerable<IGrouping<string, Song>> albums)
+        {
+            var newlist = new List<Album>();
+            foreach (var album in albums)
+            {
+                var result = await conn.QueryAsync<Album>("SELECT * FROM ALBUM WHERE NAME = ?", album.Key);
+                if (result.Count > 0)
+                {
+                    var p = result[0];
+                    p.Songs = p.Songs + '|' + string.Join('|', album.Select(x => x.ID).Distinct());
+                    if (p.AlbumArtists.IsNullorEmpty())
+                    {
+                        p.AlbumArtists = string.Join("$|$", album.Select(x => x.AlbumArtists));
+                    }
+                    if (p.AlbumArtistsSort.IsNullorEmpty())
+                    {
+                        p.AlbumArtistsSort = string.Join("$|$", album.Select(x => x.AlbumArtistsSort));
+                    }
+                    if (p.PicturePath.IsNullorEmpty())
+                    {
+                        p.PicturePath = album.Where(x => x.PicturePath.IsNullorEmpty()).FirstOrDefault().PicturePath;
+                    }
+                    if (p.Year == default(int))
+                    {
+                        p.Year = album.Where(x => x.Year != 0).FirstOrDefault().Year;
+                    }
+                    if (p.Genres.IsNullorEmpty())
+                    {
+                        p.Genres = string.Join("$|$", album.Select(x => x.Genres));
+                    }
+                    await conn.UpdateAsync(p);
+                    newlist.Add(p);
+                }
+                else
+                {
+                    var a = new Album
+                    {
+                        Name = album.Key,
+                        DiscCount = album.OrderByDescending(x => x.DiscCount).FirstOrDefault().DiscCount,
+                        TrackCount = album.OrderByDescending(x => x.DiscCount).FirstOrDefault().Track,
+
+                        AlbumArtists = string.Join("$|$", album.Select(x => x.AlbumArtists)),
+                        Genres = string.Join("$|$", album.Select(x => x.Genres)),
+                        AlbumArtistsSort = string.Join("$|$", album.Select(x => x.AlbumArtistsSort)),
+
+                        AlbumSort = album.Where(x => !x.AlbumSort.IsNullorEmpty()).FirstOrDefault().AlbumSort,
+                        ReplayGainAlbumGain = album.Where(x => x.ReplayGainAlbumGain != 0).FirstOrDefault().ReplayGainAlbumGain,
+                        ReplayGainAlbumPeak = album.Where(x => x.ReplayGainAlbumPeak != 0).FirstOrDefault().ReplayGainAlbumPeak,
+                        PicturePath = album.Where(x => x.PicturePath.IsNullorEmpty()).FirstOrDefault().PicturePath,
+                        Year = album.Where(x => x.Year != 0).FirstOrDefault().Year,
+
+                        Songs = string.Join('|', album.Select(x => x.ID).Distinct())
+                    };
+                    await conn.InsertAsync(a);
+                    newlist.Add(a);
+                }
+            }
+            if (newlist.Count > 0)
+            {
+                AlbumModified?.Invoke(this, new AlbumModifiedEventArgs(newlist.ToArray()));
+            }
+        }
     }
+    #endregion
 }

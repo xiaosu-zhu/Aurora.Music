@@ -108,6 +108,7 @@
   <ItemGroup>
     <Compile Include="Models\Music.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Storage\Events.cs" />
     <Compile Include="Storage\FileReader.cs" />
     <Compile Include="Storage\SQLOperator.cs" />
     <EmbeddedResource Include="Properties\Aurora.Music.Core.rd.xml" />

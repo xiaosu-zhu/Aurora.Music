@@ -1,0 +1,16 @@
+﻿<Page
+    x:Class="Aurora.Music.Pages.HomePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Aurora.Music.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <StackPanel Orientation="Vertical">
+            <TextBlock Style="{ThemeResource HeaderTextBlockStyle}" Margin="16,0" Text="Good Morning"/>
+            <TextBlock Style="{ThemeResource TitleTextBlockStyle}" Margin="16,0" Text="Here's your songs for today"/>
+        </StackPanel>
+    </Grid>
+</Page>

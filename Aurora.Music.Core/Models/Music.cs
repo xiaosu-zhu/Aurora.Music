@@ -46,7 +46,7 @@ namespace Aurora.Music.Core.Models
             Conductor = song.Conductor;
             DiscCount = song.DiscCount;
             Copyright = song.Copyright;
-            Genres = song.PerformersSort.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries); ;
+            Genres = song.PerformersSort.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);
             Grouping = song.Grouping;
             Lyrics = song.Lyrics;
             Performers = song.Performers.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);
@@ -149,22 +149,22 @@ namespace Aurora.Music.Core.Models
         public virtual double ReplayGainAlbumGain { get; set; }
         public virtual double ReplayGainAlbumPeak { get; set; }
         //public virtual IPicture[] Pictures { get; set; }
-        public string FirstAlbumArtist { get; }
-        public string FirstAlbumArtistSort { get; }
-        public string FirstPerformer { get; }
-        public string FirstPerformerSort { get; }
-        public string FirstComposerSort { get; }
-        public string FirstComposer { get; }
-        public string FirstGenre { get; }
-        public string JoinedAlbumArtists { get; }
-        public string JoinedPerformers { get; }
-        public string JoinedPerformersSort { get; }
-        public string JoinedComposers { get; }
+        public string FirstAlbumArtist { get; set; }
+        public string FirstAlbumArtistSort { get; set; }
+        public string FirstPerformer { get; set; }
+        public string FirstPerformerSort { get; set; }
+        public string FirstComposerSort { get; set; }
+        public string FirstComposer { get; set; }
+        public string FirstGenre { get; set; }
+        public string JoinedAlbumArtists { get; set; }
+        public string JoinedPerformers { get; set; }
+        public string JoinedPerformersSort { get; set; }
+        public string JoinedComposers { get; set; }
         public virtual string MusicBrainzTrackId { get; set; }
         public virtual string MusicBrainzReleaseArtistId { get; set; }
-        public virtual bool IsEmpty { get; }
+        public virtual bool IsEmpty { get; set; }
         public virtual string MusicBrainzArtistId { get; set; }
-        public TagTypes TagTypes { get; }
+        public TagTypes TagTypes { get; set; }
         public virtual string Title { get; set; }
         public virtual string TitleSort { get; set; }
         public virtual string[] Performers { get; set; }
@@ -174,7 +174,7 @@ namespace Aurora.Music.Core.Models
         public virtual string[] Composers { get; set; }
         public virtual string[] ComposersSort { get; set; }
         public virtual string Album { get; set; }
-        public string JoinedGenres { get; }
+        public string JoinedGenres { get; set; }
         public virtual string AlbumSort { get; set; }
         public virtual string[] Genres { get; set; }
         public virtual uint Year { get; set; }
@@ -193,8 +193,30 @@ namespace Aurora.Music.Core.Models
 
     public class Album
     {
+        public Album(Storage.Album album)
+        {
+            var songs = album.Songs.Split(new string[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
+            Songs = Array.ConvertAll(songs, (a) =>
+            {
+                return int.Parse(a);
+            });
+            Name = album.Name;
+            Genres=album.Genres.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);
+            Year = album.Year;
+            AlbumSort = album.AlbumSort;
+            TrackCount = album.TrackCount;
+            DiscCount = album.DiscCount;
+            AlbumArtists=album.AlbumArtists.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);
+            AlbumArtistsSort = album.AlbumArtistsSort.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);
+            ReplayGainAlbumGain = album.ReplayGainAlbumGain;
+            ReplayGainAlbumPeak = album.ReplayGainAlbumPeak;
+            PicturePath = album.PicturePath;
+        }
+
 
         public int[] Songs { get; set; }
+
+        public string PicturePath { get; set; }
 
         public string Name { get; set; }
         public virtual string[] Genres { get; set; }

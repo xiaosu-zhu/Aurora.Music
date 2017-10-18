@@ -29,18 +29,12 @@ namespace Aurora.Music.Core.Storage
         {
             var opr = await SQLOperator.CurrentAsync();
             var files = await GetFilesAsync(folder);
-            var count = (int)Math.Ceiling(files.Count / 500d);
-            var list = new List<Task>();
-            for (int i = 0; i < count; i++)
-            {
-                list.Add(ReadFileandSave(files.GetRange(i * count, count), opr));
-            }
-            await Task.WhenAll(list);
+            await ReadFileandSave(files, opr);
         }
 
         public static async Task ReadFileandSave(IEnumerable<StorageFile> files, SQLOperator opr)
         {
-
+            List<Song> tempList = new List<Song>();
             foreach (var file in files)
             {
                 bool b = false;
@@ -59,9 +53,10 @@ namespace Aurora.Music.Core.Storage
 
                 using (var tagTemp = File.Create(file.Path))
                 {
-                    await opr.UpdateAsync(await Models.Song.Create(tagTemp.Tag, file.Path));
+                    tempList.Add(new Song(await Models.Song.Create(tagTemp.Tag, file.Path)));
                 }
             }
+            await opr.UpdateSongListAsync(tempList);
         }
 
         public static async Task<List<Song>> ReadTags()
@@ -70,5 +65,16 @@ namespace Aurora.Music.Core.Storage
 
             return await opr.GetAllAsync<Song>();
         }
+
+        public static async Task AddToAlbums(IEnumerable<Song> songs)
+        {
+            await Task.Run(async () =>
+            {
+                var albums = from song in songs group song by song.Album into album select album;
+                var opr = await SQLOperator.CurrentAsync();
+                await opr.AddtoAlbumAsync(albums);
+            });
+        }
+
     }
 }

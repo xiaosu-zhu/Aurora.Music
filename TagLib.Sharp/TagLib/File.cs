@@ -31,7 +31,10 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Runtime.Serialization;
+using Aurora.Shared.Helpers;
+using Windows.Storage;
 
 namespace TagLib
 {
@@ -1602,11 +1605,18 @@ namespace TagLib
             {
                 get
                 {
-                    return System.IO.File.Open(Name,
-                   System.IO.FileMode.Open,
-                   System.IO.FileAccess.Read,
-                   System.IO.FileShare.Read);
+                    return AsyncHelper.RunSync(async () =>
+                    {
+                        var file = await StorageFile.GetFileFromPathAsync(Name);
+                        var stream = await file.OpenReadAsync();
+                        return stream.AsStreamForRead();
+                    });
                 }
+
+                //return System.IO.File.Open(Name,
+                //    System.IO.FileMode.Open,
+                //    System.IO.FileAccess.Read,
+                //    System.IO.FileShare.Read);
             }
 
             /// <summary>
@@ -1622,9 +1632,12 @@ namespace TagLib
             {
                 get
                 {
-                    return System.IO.File.Open(Name,
-                   System.IO.FileMode.Open,
-                   System.IO.FileAccess.ReadWrite);
+                    return AsyncHelper.RunSync(async () =>
+                    {
+                        var file = await StorageFile.GetFileFromPathAsync(Name);
+                        var stream = await file.OpenAsync(FileAccessMode.ReadWrite);
+                        return stream.AsStream();
+                    });
                 }
             }
 

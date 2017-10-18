@@ -4,24 +4,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Aurora.Music.Core.Storage;
+using Aurora.Shared.Helpers;
 using Aurora.Shared.MVVM;
 using Windows.Storage;
 
 namespace Aurora.Music.ViewModels
 {
-    class MainPageViewModel:ViewModelBase
+    class MainPageViewModel : ViewModelBase
     {
+        private SQLOperator opr = AsyncHelper.RunSync(async () => await SQLOperator.CurrentAsync());
         public async Task Go()
         {
-            var picker = new Windows.Storage.Pickers.FolderPicker();
-            picker.ViewMode = Windows.Storage.Pickers.PickerViewMode.Thumbnail;
-            picker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.MusicLibrary;
-            picker.FileTypeFilter.Add(".mp3");
-            picker.FileTypeFilter.Add(".m4a");
-            picker.FileTypeFilter.Add(".flac");
-
-            StorageFolder folder = await picker.PickSingleFolderAsync();
+            opr.NewSongsAdded += Opr_NewSongsAdded;
+            StorageFolder folder = KnownFolders.MusicLibrary;
             await FileReader.Read(folder);
+        }
+
+        private async void Opr_NewSongsAdded(object sender, SongsAddedEventArgs e)
+        {
+            await FileReader.AddToAlbums(e.NewSongs);
         }
     }
 }
