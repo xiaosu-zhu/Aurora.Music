@@ -11,6 +11,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
@@ -22,6 +23,8 @@ namespace Aurora.Music.Pages
     /// </summary>
     public sealed partial class CategoryListPage : Page
     {
+        private static object clickedItem;
+
         public CategoryListPage()
         {
             this.InitializeComponent();
@@ -32,13 +35,35 @@ namespace Aurora.Music.Pages
         private void ListView_ItemClick(object sender, ItemClickEventArgs e)
         {
             PrepareAnimationWithItem(e.ClickedItem);
-            LibraryPage.Current.Navigate(typeof(CategoryDetailsPage));
+            clickedItem = e.ClickedItem;
+            LibraryPage.Current.Navigate(typeof(CategoryDetailsPage), (e.ClickedItem as CategoryListItem).Title);
         }
 
         void PrepareAnimationWithItem(object item)
         {
             Category.PrepareConnectedAnimation("CategoryListIn", item, "Panel");
-            Category.PrepareConnectedAnimation("CategoryTitleMove", item, "Title");
+            Category.PrepareConnectedAnimation("CategoryTitleIn", item, "Title");
+        }
+
+        private void Category_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (clickedItem != null)
+            {
+                var animation =
+                    ConnectedAnimationService.GetForCurrentView().GetAnimation("CategoryListOut");
+                var animation1 =
+                   ConnectedAnimationService.GetForCurrentView().GetAnimation("CategoryTitleOut");
+                if (animation != null)
+                {
+                    Category.TryStartConnectedAnimationAsync(
+                        animation, clickedItem, "Panel");
+                }
+                if (animation1 != null)
+                {
+                    Category.TryStartConnectedAnimationAsync(
+                        animation1, clickedItem, "Title");
+                }
+            }
         }
     }
 

@@ -25,6 +25,13 @@ namespace Aurora.Music.Core.Storage
             return files;
         }
 
+        public static async Task<List<Models.Album>> ReadAlbumsAsync()
+        {
+            var opr = await SQLOperator.CurrentAsync();
+            var albums = await opr.GetAllAsync<Album>();
+            return albums.ConvertAll(a => new Models.Album(a));
+        }
+
         public static async Task Read(StorageFolder folder)
         {
             var opr = await SQLOperator.CurrentAsync();

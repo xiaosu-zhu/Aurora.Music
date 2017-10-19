@@ -18,6 +18,7 @@
             <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
             <Setter Property="TabNavigation" Value="Local" />
             <Setter Property="IsHoldingEnabled" Value="True" />
+            <Setter Property="Margin" Value="0,12" />
             <Setter Property="Padding" Value="0" />
             <Setter Property="HorizontalContentAlignment" Value="Left" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -120,7 +121,7 @@
         </Style>
     </Page.Resources>
 
-    <ListView x:Name="Category" IsItemClickEnabled="True" ItemsSource="{x:Bind categoryList}" SelectionMode="None" ItemClick="ListView_ItemClick" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemContainerStyle="{StaticResource GeneralListViewItem}">
+    <ListView x:Name="Category" Loaded="Category_Loaded" IsItemClickEnabled="True" ItemsSource="{x:Bind categoryList}" SelectionMode="None" ItemClick="ListView_ItemClick" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemContainerStyle="{StaticResource GeneralListViewItem}">
         <ListView.ItemTemplate>
             <DataTemplate x:DataType="pg:CategoryListItem">
                 <Grid x:Name="Panel" HorizontalAlignment="Stretch" Height="96">

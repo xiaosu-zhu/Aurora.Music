@@ -15,25 +15,37 @@
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <NavigationView Header="Aurora Music" x:Name="Main" SelectionChanged="Main_SelectionChanged" AlwaysShowHeader="False" Typography.Capitals="Titling" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <NavigationView.MenuItems>
-                <NavigationViewItem Content="HOME">
+                <NavigationViewItem Content="Home">
+                    <ToolTipService.ToolTip>
+                        Home
+                    </ToolTipService.ToolTip>
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE009;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem Content="LIBRARY">
+                <NavigationViewItem Content="Library">
+                    <ToolTipService.ToolTip>
+                        Library
+                    </ToolTipService.ToolTip>
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE7B8;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItemSeparator/>
-                <NavigationViewItem Content="PLAYLISTS">
+                <NavigationViewItem Content="Playlists">
+                    <ToolTipService.ToolTip>
+                        Playlists
+                    </ToolTipService.ToolTip>
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE169;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
             </NavigationView.MenuItems>
             <NavigationView.PaneFooter>
-                <NavigationViewItem Content="ABOUT">
+                <NavigationViewItem Content="About">
+                    <ToolTipService.ToolTip>
+                        About
+                    </ToolTipService.ToolTip>
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE170;" />
                     </NavigationViewItem.Icon>
@@ -44,9 +56,9 @@
                 <Frame HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="MainFrame"/>
                 <Grid HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="88" Background="{ThemeResource SystemControlAccentAcrylicElementAccentMediumHighBrush}"/>
             </Grid>
-            
+
         </NavigationView>
-        
+
 
         <Grid Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="32" x:Name="TitleBar" >
             <TextBlock Text="Aurora Music" Style="{ThemeResource CaptionTextBlockStyle}" Margin="56,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"/>

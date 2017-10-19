@@ -9,7 +9,7 @@
 
     <StackPanel x:Name="Main" Orientation="Vertical">
         <Grid x:Name="Panel" Height="48" Background="{ThemeResource SystemControlBackgroundAltHighBrush}">
-            <Button Style="{ThemeResource ButtonRevealStyle}" Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" Width="48" HorizontalAlignment="Left" VerticalAlignment="Stretch" >
+            <Button x:Name="BackButton" Click="BackButton_Click" Style="{ThemeResource ButtonRevealStyle}" Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" Width="48" HorizontalAlignment="Left" VerticalAlignment="Stretch" >
                 <Button.Content>
                     <SymbolIcon Symbol="Back"/>
                 </Button.Content>

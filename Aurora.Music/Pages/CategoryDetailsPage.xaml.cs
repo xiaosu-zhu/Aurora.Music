@@ -31,17 +31,26 @@ namespace Aurora.Music.Pages
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-
+            Title.Text = e.Parameter as string;
             var ani = ConnectedAnimationService.GetForCurrentView().GetAnimation("CategoryListIn");
             if (ani != null)
             {
                 ani.TryStart(Panel, new UIElement[] { Main });
             }
-            ani = ConnectedAnimationService.GetForCurrentView().GetAnimation("CategoryTitleMove");
+            ani = ConnectedAnimationService.GetForCurrentView().GetAnimation("CategoryTitleIn");
             if (ani != null)
             {
                 ani.TryStart(Title);
             }
+        }
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("CategoryListOut", Panel);
+
+            ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("CategoryTitleOut", Title);
+
+            LibraryPage.Current.Navigate(typeof(CategoryListPage), Title.Text);
         }
     }
 }
