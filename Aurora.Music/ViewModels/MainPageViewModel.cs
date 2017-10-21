@@ -13,7 +13,7 @@ namespace Aurora.Music.ViewModels
 {
     class MainPageViewModel : ViewModelBase
     {
-        private SQLOperator opr = AsyncHelper.RunSync(async () => await SQLOperator.CurrentAsync());
+        private SQLOperator opr = SQLOperator.Current();
         public async Task Go()
         {
             opr.NewSongsAdded += Opr_NewSongsAdded;

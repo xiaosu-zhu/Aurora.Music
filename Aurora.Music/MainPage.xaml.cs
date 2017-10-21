@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Aurora.Shared.Extensions;
 
 // https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
 
@@ -38,6 +39,7 @@ namespace Aurora.Music
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
+            ((string)null).IsNullorEmpty();
             await Context.Go();
         }
 

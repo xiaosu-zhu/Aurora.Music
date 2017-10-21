@@ -13,6 +13,11 @@ namespace Aurora.Music.Core.Storage
     {
         private static readonly string[] types = new[] { ".mp3", ".m4a", ".flac", ".wav" };
 
+        /// <summary>
+        /// TODO: Only pick files which not in the database, and find deleted files to delete
+        /// </summary>
+        /// <param name="folder"></param>
+        /// <returns></returns>
         public static async Task<List<StorageFile>> GetFilesAsync(StorageFolder folder)
         {
             var files = new List<StorageFile>();
@@ -27,7 +32,7 @@ namespace Aurora.Music.Core.Storage
 
         public static async Task<List<Models.Album>> GetAlbumsAsync()
         {
-            var opr = await SQLOperator.CurrentAsync();
+            var opr = SQLOperator.Current();
             var albums = await opr.GetAllAsync<Album>();
             return albums.ConvertAll(a => new Models.Album(a));
         }
@@ -40,7 +45,7 @@ namespace Aurora.Music.Core.Storage
 
         public static async Task ReadFileandSave(IEnumerable<StorageFile> files)
         {
-            var opr = await SQLOperator.CurrentAsync();
+            var opr = SQLOperator.Current();
             List<Song> tempList = new List<Song>();
             foreach (var file in files)
             {
@@ -61,16 +66,16 @@ namespace Aurora.Music.Core.Storage
 
                 using (var tagTemp = File.Create(file.Path))
                 {
-                    await opr.UpdateAsync(await Models.Song.Create(tagTemp.Tag, file.Path));
-                    //tempList.Add(new Song(await Models.Song.Create(tagTemp.Tag, file.Path)));
+                    //await opr.UpdateAsync(await Models.Song.Create(tagTemp.Tag, file.Path));
+                    tempList.Add(new Song(await Models.Song.Create(tagTemp.Tag, file.Path)));
                 }
             }
-            //await opr.UpdateSongListAsync(tempList);
+            await opr.UpdateSongListAsync(tempList);
         }
 
         public static async Task<List<Models.Song>> GetSongsAsync()
         {
-            var opr = await SQLOperator.CurrentAsync();
+            var opr = SQLOperator.Current();
             var songs = await opr.GetAllAsync<Song>();
             return songs.ConvertAll(a => new Models.Song(a));
         }
@@ -80,8 +85,8 @@ namespace Aurora.Music.Core.Storage
             await Task.Run(async () =>
             {
                 var albums = from song in songs group song by song.Album into album select album;
-                var opr = await SQLOperator.CurrentAsync();
-                await opr.AddtoAlbumAsync(albums);
+                var opr = SQLOperator.Current();
+                await opr.AddAlbumListAsync(albums);
             });
         }
 

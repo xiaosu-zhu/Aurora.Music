@@ -163,6 +163,16 @@ namespace Aurora.Music.Core.Storage
         private static readonly string DB_PATH = "main.db";
         private SQLiteAsyncConnection conn;
 
+        /// <summary>
+        /// use to provide persistent instance
+        /// </summary>
+        private static SQLOperator current;
+
+        /// <summary>
+        /// use to lock <see cref="Current"/> method.
+        /// </summary>
+        private static object lockable = new object();
+
         public event EventHandler<SongsAddedEventArgs> NewSongsAdded;
 
         /// <summary>
@@ -170,18 +180,19 @@ namespace Aurora.Music.Core.Storage
         /// </summary>
         public event EventHandler<AlbumModifiedEventArgs> AlbumModified;
 
-        public SQLOperator()
+        private SQLOperator()
         {
             conn = new SQLiteAsyncConnection(DB_PATH);
+            CreateTable();
         }
 
-        public async Task CreateTable()
+        private void CreateTable()
         {
-            await conn.CreateTableAsync<Song>();
-            await conn.CreateTableAsync<Album>();
+            conn.GetConnection().CreateTable<Song>();
+            conn.GetConnection().CreateTable<Album>();
         }
 
-        public async Task<bool> UpdateAsync(Models.Song song)
+        public async Task<bool> UpdateSongAsync(Models.Song song)
         {
             var tag = new Song(song);
 
@@ -197,7 +208,7 @@ namespace Aurora.Music.Core.Storage
             }
         }
 
-        internal async Task UpdateSongListAsync(List<Song> tempList)
+        public async Task UpdateSongListAsync(List<Song> tempList)
         {
             var newlist = new List<Song>();
             foreach (var item in tempList)
@@ -219,7 +230,110 @@ namespace Aurora.Music.Core.Storage
             }
         }
 
-        private static SQLOperator current;
+        public static SQLOperator Current()
+        {
+            lock (lockable)
+            {
+                if (current != null && !current.disposedValue)
+                {
+                    return current;
+                }
+                else if (current != null)
+                {
+                    current.Dispose();
+                    current = null;
+                }
+
+                var p = new SQLOperator();
+                current = p;
+                return p;
+            }
+        }
+
+        internal async Task<List<T>> GetAllAsync<T>() where T : new()
+        {
+            return await conn.Table<T>().ToListAsync();
+        }
+
+        public async Task AddAlbumListAsync(IEnumerable<IGrouping<string, Song>> albums)
+        {
+            var newlist = new List<Album>();
+            foreach (var album in albums)
+            {
+                var result = await conn.QueryAsync<Album>("SELECT * FROM ALBUM WHERE NAME = ?", album.Key);
+                if (result.Count > 0)
+                {
+                    var p = result[0];
+
+                    // the properties' converting rules is described *below*
+
+                    p.Songs = p.Songs + '|' + string.Join('|', album.Select(x => x.ID).Distinct());
+                    if (p.AlbumArtists.IsNullorEmpty())
+                    {
+                        p.AlbumArtists = album.Where(x => !x.AlbumArtists.IsNullorEmpty()).FirstOrDefault().AlbumArtists;
+                    }
+                    if (p.AlbumArtistsSort.IsNullorEmpty())
+                    {
+                        p.AlbumArtistsSort = album.Where(x => !x.AlbumArtistsSort.IsNullorEmpty()).FirstOrDefault().AlbumArtistsSort;
+                    }
+                    if (p.PicturePath.IsNullorEmpty())
+                    {
+                        p.PicturePath = album.Where(x => x.PicturePath.IsNullorEmpty()).FirstOrDefault().PicturePath;
+                    }
+                    if (p.Year == default(uint))
+                    {
+                        p.Year = album.Max(x => x.Year);
+                    }
+                    if (p.DiscCount == default(uint))
+                    {
+                        p.DiscCount = album.Max(x => x.DiscCount);
+                    }
+                    if (p.TrackCount == default(uint))
+                    {
+                        p.TrackCount = album.Max(x => x.TrackCount);
+                    }
+                    if (p.Genres.IsNullorEmpty())
+                    {
+                        p.Genres = album.Where(x => !x.Genres.IsNullorEmpty()).FirstOrDefault().Genres;
+                    }
+                    await conn.UpdateAsync(p);
+                    newlist.Add(p);
+                }
+                else
+                {
+                    var a = new Album
+                    {
+                        Name = album.Key,
+
+                        // uint value, use their max value
+                        DiscCount = album.Max(x => x.DiscCount),
+                        TrackCount = album.Max(x => x.DiscCount),
+                        Year = album.Max(x => x.Year),
+
+                        // TODO: not combine all, just use not-null value
+                        // string[] value, use their all value (remove duplicated values) combine
+                        AlbumArtists = album.Where(x => !x.AlbumArtists.IsNullorEmpty()).FirstOrDefault().AlbumArtists,
+                        Genres = album.Where(x => !x.Genres.IsNullorEmpty()).FirstOrDefault().Genres,
+                        AlbumArtistsSort = album.Where(x => !x.AlbumArtistsSort.IsNullorEmpty()).FirstOrDefault().AlbumArtistsSort,
+
+                        // normal value, use their not-null value
+                        AlbumSort = album.Where(x => !x.AlbumSort.IsNullorEmpty()).FirstOrDefault().AlbumSort,
+                        ReplayGainAlbumGain = album.Where(x => x.ReplayGainAlbumGain != 0).FirstOrDefault().ReplayGainAlbumGain,
+                        ReplayGainAlbumPeak = album.Where(x => x.ReplayGainAlbumPeak != 0).FirstOrDefault().ReplayGainAlbumPeak,
+                        PicturePath = album.Where(x => x.PicturePath.IsNullorEmpty()).FirstOrDefault().PicturePath,
+
+                        // songs, serialized as "ID0|ID1|ID2...|IDn"
+                        Songs = string.Join('|', album.Select(x => x.ID).Distinct())
+                    };
+                    await conn.InsertAsync(a);
+                    newlist.Add(a);
+                }
+            }
+            if (newlist.Count > 0)
+            {
+                AlbumModified?.Invoke(this, new AlbumModifiedEventArgs(newlist.ToArray()));
+            }
+        }
 
         #region IDisposable Support
         private bool disposedValue = false; // 要检测冗余调用
@@ -256,92 +370,6 @@ namespace Aurora.Music.Core.Storage
             Dispose(true);
             // TODO: 如果在以上内容中替代了终结器，则取消注释以下行。
             // GC.SuppressFinalize(this);
-        }
-
-        public static async Task<SQLOperator> CurrentAsync()
-        {
-            if (current != null && !current.disposedValue)
-            {
-                return current;
-            }
-            else if (current != null)
-            {
-                current.Dispose();
-                current = null;
-            }
-
-            var p = new SQLOperator();
-            await p.CreateTable();
-            current = p;
-            return p;
-        }
-
-        internal async Task<List<T>> GetAllAsync<T>() where T : new()
-        {
-            return await conn.Table<T>().ToListAsync();
-        }
-
-        internal async Task AddtoAlbumAsync(IEnumerable<IGrouping<string, Song>> albums)
-        {
-            var newlist = new List<Album>();
-            foreach (var album in albums)
-            {
-                var result = await conn.QueryAsync<Album>("SELECT * FROM ALBUM WHERE NAME = ?", album.Key);
-                if (result.Count > 0)
-                {
-                    var p = result[0];
-                    p.Songs = p.Songs + '|' + string.Join('|', album.Select(x => x.ID).Distinct());
-                    if (p.AlbumArtists.IsNullorEmpty())
-                    {
-                        p.AlbumArtists = string.Join("$|$", album.Select(x => x.AlbumArtists));
-                    }
-                    if (p.AlbumArtistsSort.IsNullorEmpty())
-                    {
-                        p.AlbumArtistsSort = string.Join("$|$", album.Select(x => x.AlbumArtistsSort));
-                    }
-                    if (p.PicturePath.IsNullorEmpty())
-                    {
-                        p.PicturePath = album.Where(x => x.PicturePath.IsNullorEmpty()).FirstOrDefault().PicturePath;
-                    }
-                    if (p.Year == default(int))
-                    {
-                        p.Year = album.Where(x => x.Year != 0).FirstOrDefault().Year;
-                    }
-                    if (p.Genres.IsNullorEmpty())
-                    {
-                        p.Genres = string.Join("$|$", album.Select(x => x.Genres));
-                    }
-                    await conn.UpdateAsync(p);
-                    newlist.Add(p);
-                }
-                else
-                {
-                    var a = new Album
-                    {
-                        Name = album.Key,
-                        DiscCount = album.OrderByDescending(x => x.DiscCount).FirstOrDefault().DiscCount,
-                        TrackCount = album.OrderByDescending(x => x.DiscCount).FirstOrDefault().Track,
-
-                        AlbumArtists = string.Join("$|$", album.Select(x => x.AlbumArtists)),
-                        Genres = string.Join("$|$", album.Select(x => x.Genres)),
-                        AlbumArtistsSort = string.Join("$|$", album.Select(x => x.AlbumArtistsSort)),
-
-                        AlbumSort = album.Where(x => !x.AlbumSort.IsNullorEmpty()).FirstOrDefault().AlbumSort,
-                        ReplayGainAlbumGain = album.Where(x => x.ReplayGainAlbumGain != 0).FirstOrDefault().ReplayGainAlbumGain,
-                        ReplayGainAlbumPeak = album.Where(x => x.ReplayGainAlbumPeak != 0).FirstOrDefault().ReplayGainAlbumPeak,
-                        PicturePath = album.Where(x => x.PicturePath.IsNullorEmpty()).FirstOrDefault().PicturePath,
-                        Year = album.Where(x => x.Year != 0).FirstOrDefault().Year,
-
-                        Songs = string.Join('|', album.Select(x => x.ID).Distinct())
-                    };
-                    await conn.InsertAsync(a);
-                    newlist.Add(a);
-                }
-            }
-            if (newlist.Count > 0)
-            {
-                AlbumModified?.Invoke(this, new AlbumModifiedEventArgs(newlist.ToArray()));
-            }
         }
     }
     #endregion

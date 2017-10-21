@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Aurora.Shared.Extensions;
 using TagLib;
 using Windows.Storage;
+using System.IO;
 
 namespace Aurora.Music.Core.Models
 {
@@ -121,7 +122,7 @@ namespace Aurora.Music.Core.Models
                         return s.Path;
                     }
                 }
-                catch (Exception)
+                catch (FileNotFoundException)
                 {
                     StorageFile cacheImg = await artworkFolder.CreateFileAsync(album, CreationCollisionOption.ReplaceExisting);
                     await FileIO.WriteBytesAsync(cacheImg, pictures[0].Data.Data);
@@ -201,12 +202,12 @@ namespace Aurora.Music.Core.Models
                 return int.Parse(a);
             });
             Name = album.Name;
-            Genres=album.Genres.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);
+            Genres = album.Genres.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);
             Year = album.Year;
             AlbumSort = album.AlbumSort;
             TrackCount = album.TrackCount;
             DiscCount = album.DiscCount;
-            AlbumArtists=album.AlbumArtists.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);
+            AlbumArtists = album.AlbumArtists.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);
             AlbumArtistsSort = album.AlbumArtistsSort.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);
             ReplayGainAlbumGain = album.ReplayGainAlbumGain;
             ReplayGainAlbumPeak = album.ReplayGainAlbumPeak;
