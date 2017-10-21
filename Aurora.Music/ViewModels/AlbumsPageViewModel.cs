@@ -7,12 +7,20 @@ using System.Threading.Tasks;
 using Aurora.Music.Core.Storage;
 using Aurora.Shared.Helpers;
 using Aurora.Shared.MVVM;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Aurora.Music.ViewModels
 {
     class AlbumsPageViewModel : ViewModelBase
     {
         public ObservableCollection<AlbumViewModel> AlbumList { get; set; } = new ObservableCollection<AlbumViewModel>();
+
+        private BitmapImage heroImage = null;
+        public BitmapImage HeroImage
+        {
+            get { return heroImage; }
+            set { SetProperty(ref heroImage, value); }
+        }
 
         public AlbumsPageViewModel()
         {

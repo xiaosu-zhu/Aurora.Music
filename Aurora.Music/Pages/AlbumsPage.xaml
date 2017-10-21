@@ -531,9 +531,7 @@
         <GridView.Header>
             <Grid Margin="-32,0,-32,32">
                 <ParallaxView HorizontalShift="0" Margin="0,0,0,80" Height="360" Source="{Binding ElementName=AlbumList}" VerticalShift="-480">
-                    <Grid>
-                        <TextBlock Text="MayDay" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" Margin="24" Style="{ThemeResource HeaderTextBlockStyle}" Typography.Capitals="AllSmallCaps"/>
-                    </Grid>
+                    <Image Source="{x:Bind Context.HeroImage, Mode=OneWay, FallbackValue=/Assets/Images/1}"/>
                 </ParallaxView>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="160" Margin="32,0">
                     <Image HorizontalAlignment="Center" VerticalAlignment="Center" Source="/Assets/Images/2" Height="160" Width="160"/>

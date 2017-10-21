@@ -202,13 +202,13 @@ namespace Aurora.Music.Core.Models
                 return int.Parse(a);
             });
             Name = album.Name;
-            Genres = album.Genres.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);
+            Genres = album.Genres.IsNullorEmpty() ? null : album.Genres.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);
             Year = album.Year;
             AlbumSort = album.AlbumSort;
             TrackCount = album.TrackCount;
             DiscCount = album.DiscCount;
-            AlbumArtists = album.AlbumArtists.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);
-            AlbumArtistsSort = album.AlbumArtistsSort.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);
+            AlbumArtists = album.AlbumArtists.IsNullorEmpty() ? null : album.AlbumArtists.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);
+            AlbumArtistsSort = album.AlbumArtistsSort.IsNullorEmpty() ? null : album.AlbumArtistsSort.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);
             ReplayGainAlbumGain = album.ReplayGainAlbumGain;
             ReplayGainAlbumPeak = album.ReplayGainAlbumPeak;
             PicturePath = album.PicturePath;
