@@ -35,5 +35,15 @@ namespace Aurora.Music
         {
             MainFrame.Navigate(navigateOptions[sender.MenuItems.IndexOf(args.SelectedItem)]);
         }
+
+        private async void Button_Click(object sender, RoutedEventArgs e)
+        {
+            await Context.Go();
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            Context.DebugPrint();
+        }
     }
 }

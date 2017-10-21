@@ -47,23 +47,23 @@ namespace Aurora.Music.Pages
 
         private void Category_Loaded(object sender, RoutedEventArgs e)
         {
-            if (clickedItem != null)
-            {
-                var animation =
-                    ConnectedAnimationService.GetForCurrentView().GetAnimation("CategoryListOut");
-                var animation1 =
-                   ConnectedAnimationService.GetForCurrentView().GetAnimation("CategoryTitleOut");
-                if (animation != null)
-                {
-                    Category.TryStartConnectedAnimationAsync(
-                        animation, clickedItem, "Panel");
-                }
-                if (animation1 != null)
-                {
-                    Category.TryStartConnectedAnimationAsync(
-                        animation1, clickedItem, "Title");
-                }
-            }
+            //if (clickedItem != null)
+            //{
+            //    var animation =
+            //        ConnectedAnimationService.GetForCurrentView().GetAnimation("CategoryListOut");
+            //    var animation1 =
+            //       ConnectedAnimationService.GetForCurrentView().GetAnimation("CategoryTitleOut");
+            //    if (animation != null)
+            //    {
+            //        Category.TryStartConnectedAnimationAsync(
+            //            animation, clickedItem, "Panel");
+            //    }
+            //    if (animation1 != null)
+            //    {
+            //        Category.TryStartConnectedAnimationAsync(
+            //            animation1, clickedItem, "Title");
+            //    }
+            //}
         }
     }
 

@@ -21,7 +21,7 @@ namespace Aurora.Music.ViewModels
 
         public async Task GetAlbums()
         {
-            var albums = await FileReader.ReadAlbumsAsync();
+            var albums = await FileReader.GetAlbumsAsync();
             foreach (var item in albums)
             {
                 AlbumList.Add(new AlbumViewModel(item));

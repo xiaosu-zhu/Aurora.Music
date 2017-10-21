@@ -356,8 +356,8 @@
     <None Include="TagLib\TagLib.sources" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\com.aurora.shared\Aurora.Shared.csproj">
-      <Project>{026D99CF-1C25-4DCF-AD95-1070BBA9F8A8}</Project>
+    <ProjectReference Include="..\Aurora.Shared\Aurora.Shared.csproj">
+      <Project>{026d99cf-1c25-4dcf-ad95-1070bba9f8a8}</Project>
       <Name>Aurora.Shared</Name>
     </ProjectReference>
   </ItemGroup>

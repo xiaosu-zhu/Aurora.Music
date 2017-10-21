@@ -117,15 +117,12 @@
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.0.1</Version>
     </PackageReference>
-    <PackageReference Include="sqlite-net-pcl">
-      <Version>1.4.118</Version>
-    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Loader\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\com.aurora.shared\Aurora.Shared.csproj">
+    <ProjectReference Include="..\Aurora.Shared\Aurora.Shared.csproj">
       <Project>{026d99cf-1c25-4dcf-ad95-1070bba9f8a8}</Project>
       <Name>Aurora.Shared</Name>
     </ProjectReference>

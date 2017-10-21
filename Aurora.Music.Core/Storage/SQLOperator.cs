@@ -185,7 +185,7 @@ namespace Aurora.Music.Core.Storage
         {
             var tag = new Song(song);
 
-            var result = await conn.QueryAsync<Song>("SELECT ID FROM SONG WHERE FILEPATH = ?", song.FilePath);
+            var result = await conn.QueryAsync<int>("SELECT ID FROM SONG WHERE FILEPATH = ?", song.FilePath);
             if (result.Count > 0)
             {
                 return true;
