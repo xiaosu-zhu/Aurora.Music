@@ -55,8 +55,6 @@
             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Frame HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="MainFrame"/>
                 <Grid HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="88" Background="{ThemeResource SystemControlAccentAcrylicElementAccentMediumHighBrush}">
-                    <Button Click="Button_Click"/>
-                    <Button Margin="32,0,0,0" Click="Button_Click_1"/>
                 </Grid>
             </Grid>
 

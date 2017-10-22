@@ -8,6 +8,9 @@ using Aurora.Music.Core.Storage;
 using Aurora.Shared.Helpers;
 using Aurora.Shared.MVVM;
 using Windows.UI.Xaml.Media.Imaging;
+using Windows.UI.Xaml.Media;
+using Windows.ApplicationModel.Core;
+using Aurora.Shared.Extensions;
 
 namespace Aurora.Music.ViewModels
 {
@@ -15,8 +18,8 @@ namespace Aurora.Music.ViewModels
     {
         public ObservableCollection<AlbumViewModel> AlbumList { get; set; } = new ObservableCollection<AlbumViewModel>();
 
-        private BitmapImage heroImage = null;
-        public BitmapImage HeroImage
+        private List<ImageSource> heroImage = null;
+        public List<ImageSource> HeroImage
         {
             get { return heroImage; }
             set { SetProperty(ref heroImage, value); }
@@ -30,10 +33,22 @@ namespace Aurora.Music.ViewModels
         public async Task GetAlbums()
         {
             var albums = await FileReader.GetAlbumsAsync();
-            foreach (var item in albums)
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
-                AlbumList.Add(new AlbumViewModel(item));
-            }
+                var list = new List<ImageSource>();
+                int i = 0;
+                foreach (var item in albums)
+                {
+                    AlbumList.Add(new AlbumViewModel(item));
+                    if (i < 9)
+                    {
+                        if (item.PicturePath.IsNullorEmpty()) continue;
+                        list.Add(new BitmapImage(new Uri(item.PicturePath)));
+                        i++;
+                    }
+                }
+                HeroImage = list;
+            });
         }
     }
 }

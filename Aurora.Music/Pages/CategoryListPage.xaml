@@ -119,13 +119,14 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <AcrylicBrush x:Key="SystemControlAcrylicElementBrush1" BackgroundSource="Backdrop" TintColor="{StaticResource SystemChromeAltHighColor}" TintOpacity="0.2" FallbackColor="{StaticResource SystemChromeMediumColor}" />
     </Page.Resources>
 
     <ListView x:Name="Category" Loaded="Category_Loaded" IsItemClickEnabled="True" ItemsSource="{x:Bind categoryList}" SelectionMode="None" ItemClick="ListView_ItemClick" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemContainerStyle="{StaticResource GeneralListViewItem}">
         <ListView.ItemTemplate>
             <DataTemplate x:DataType="pg:CategoryListItem">
                 <Grid x:Name="Panel" HorizontalAlignment="Stretch" Height="96">
-                    <Image HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="UniformToFill" Source="/Assets/Images/1"/>
+                    <Image HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="UniformToFill" Source="/Assets/Images/1.jpg"/>
                     <Grid Padding="4" Background="{ThemeResource SystemControlAcrylicElementBrush}" Width="96" HorizontalAlignment="Right" VerticalAlignment="Stretch">
                         <TextBlock x:Name="Title" Text="{x:Bind Title}" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{ThemeResource TitleTextBlockStyle}"/>
                     </Grid>
