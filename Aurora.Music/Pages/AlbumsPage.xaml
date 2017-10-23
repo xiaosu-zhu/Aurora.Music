@@ -722,25 +722,24 @@
                 <Grid HorizontalAlignment="Stretch" Height="360" Margin="0,0,0,40">
                     <Grid.Background>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                            <GradientStop Color="#00000000"/>
-                            <GradientStop Color="Black" Offset="1"/>
-                            <GradientStop Color="#00000000" Offset="0.75"/>
+                            <GradientStop Color="#00FFFFFF"/>
+                            <GradientStop Color="White" Offset="1"/>
                         </LinearGradientBrush>
                     </Grid.Background>
                 </Grid>
-                <Grid HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="80" Margin="32,0">
-                    <Grid Background="{x:Null}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="40">
-                        <TextBlock Foreground="White" Margin="8,0" Text="Beatles" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="NoWrap" MaxLines="1" Style="{ThemeResource SubheaderTextBlockStyle}" TextTrimming="Clip"/>
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="32">
+                    <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}" HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <TextBlock Foreground="White" Margin="12,4" Text="Beatles" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="NoWrap" MaxLines="1" Style="{ThemeResource SubheaderTextBlockStyle}" TextTrimming="Clip"/>
                     </Grid>
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Margin="0,0,0,8">
-                        <Grid VerticalAlignment="Bottom" Margin="8,0,4,0" Background="{ThemeResource SystemControlBackgroundAccentBrush}">
-                            <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Text="Rock" Margin="8,4"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,8">
+                        <Grid VerticalAlignment="Bottom" Margin="0,0,4,0" Background="{ThemeResource SystemControlBackgroundAccentBrush}">
+                            <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Text="Rock" Margin="12,8"/>
                         </Grid>
                         <Grid VerticalAlignment="Center" Margin="4,0,4,0" Background="{ThemeResource SystemControlBackgroundAccentBrush}">
-                            <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Text="Played 47 times" Margin="8,4"/>
+                            <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Text="Played 47 times" Margin="12,8"/>
                         </Grid>
                     </StackPanel>
-                </Grid>
+                </StackPanel>
             </Grid>
         </GridView.Header>
     </GridView>
