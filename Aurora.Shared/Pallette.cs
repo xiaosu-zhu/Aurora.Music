@@ -6,85 +6,190 @@ namespace Aurora.Shared
     public static class Palette
     {
 
-        private static readonly Color[] pallette = new Color[]
+        private static readonly Color[] colorarr = new Color[]
         {
-            //blue
-            Color.FromArgb(0xff, 0x21, 0x96, 0xf3),
-            //red
-            Color.FromArgb(0xff, 0xf4, 0x43, 0x36),
-            //orange
-            Color.FromArgb(0xff, 0xff, 0x98, 0x00),
-            //green
-            Color.FromArgb(0xff, 0x4c, 0xaf, 0x50),
-            //cyan
-            Color.FromArgb(0xff, 0x00, 0xbc, 0xd4),
+            //light yellow
+            Color.FromArgb(0xff, 0xff, 0xb9, 0x00),
+            //yellow orange
+            Color.FromArgb(0xff, 0xff, 0x8c, 0x00),
+            //vibrant orange
+            Color.FromArgb(0xff, 0xf7, 0x6c, 0x0c),
+            //dark orange
+            Color.FromArgb(0xff, 0xca, 0x50, 0x10),
+            //red orange
+            Color.FromArgb(0xff, 0xda, 0x3b, 0x01),
+            //light red
+            Color.FromArgb(0xff, 0xef, 0x69, 0x50),
+            //dark red
+            Color.FromArgb(0xff, 0xd1, 0x34, 0x38),
+            //vibrant red
+            Color.FromArgb(0xff, 0xff, 0x43, 0x43),
+            //red pink
+            Color.FromArgb(0xff, 0xe7, 0x48, 0x56),
+            //pink red
+            Color.FromArgb(0xff, 0xe8, 0x11, 0x23),
+            //light pink
+            Color.FromArgb(0xff, 0xea, 0x00, 0x5e),
             //pink
-            Color.FromArgb(0xff, 0xe9, 0x1e, 0x63),
+            Color.FromArgb(0xff, 0xc3, 0x00, 0x52),
+            //vibrant pink
+            Color.FromArgb(0xff, 0xe3, 0x00, 0x8c),
+            //dark pink
+            Color.FromArgb(0xff, 0xbf, 0x00, 0x77),
+            //pink blue
+            Color.FromArgb(0xff, 0xc2, 0x39, 0xb3),
+            //dark pink blue
+            Color.FromArgb(0xff, 0x9a, 0x00, 0x89),
+            //ms blue
+            Color.FromArgb(0xff, 0x00, 0x78, 0xd7),
+            //dark blue
+            Color.FromArgb(0xff, 0x00, 0x63, 0xb1),
+            //purple blue
+            Color.FromArgb(0xff, 0x00, 0x63, 0xb1),
+            //blue purple
+            Color.FromArgb(0xff, 0x6B, 0x69, 0xd6),
             //purple
-            Color.FromArgb(0xff, 0x9c, 0x27, 0xb0),
-            //deep purple
-            Color.FromArgb(0xff, 0x67, 0x3a, 0xb7),
-            //indigo
-            Color.FromArgb(0xff, 0x3f, 0x51, 0xb5),
-            //light blue
-            Color.FromArgb(0xff, 0x03, 0xa9, 0xf4),
-            //teal
-            Color.FromArgb(0xff, 0x00, 0x96, 0x88),
-            //light green
-            Color.FromArgb(0xff, 0x8b, 0xc3, 0x4a),
-            //Yellow
-            Color.FromArgb(0xff, 0xff, 0xeb, 0x3b),
-            //amber
-            Color.FromArgb(0xff, 0xff, 0xc1, 0x07),
-            //deep orange
-            Color.FromArgb(0xff, 0xff, 0x57, 0x22),
-            //brown
-            Color.FromArgb(0xff, 0x79, 0x55, 0x48),
-            //gray
-            Color.FromArgb(0xff, 0x9e, 0x9e, 0x9e),
+            Color.FromArgb(0xff, 0x87, 0x64, 0xb8),
+            //dark purple
+            Color.FromArgb(0xff, 0x74, 0x4D, 0xa9),
+            //red purple
+            Color.FromArgb(0xff, 0xb1, 0x46, 0xc2),
+            //dark red purple
+            Color.FromArgb(0xff, 0x88, 0x17, 0x98),
+            //cyan
+            Color.FromArgb(0xff, 0x00, 0x99, 0xbc),
+            //dark cyan
+            Color.FromArgb(0xff, 0x2d, 0x7d, 0x9a),
+            //light cyan
+            Color.FromArgb(0xff, 0x00, 0xb7, 0xc3),
+            //green cyan
+            Color.FromArgb(0xff, 0x03, 0x83, 0x87),
+            //light green cyan
+            Color.FromArgb(0xff, 0x0, 0xb2, 0x94),
+            //cyan green
+            Color.FromArgb(0xff, 0x01, 0x85, 0x74),
+            //light blue green
+            Color.FromArgb(0xff, 0x0, 0xcc, 0x6a),
+            //dark blue green
+            Color.FromArgb(0xff, 0x10, 0x89, 0x3e),
+            //red gray
+            Color.FromArgb(0xff, 0x7a, 0x75, 0x74),
+            //dark red gray
+            Color.FromArgb(0xff, 0x5d, 0x5a, 0x58),
             //blue gray
-            Color.FromArgb(0xff, 0x60, 0x7d, 0x8b),
-            //lime
-            Color.FromArgb(0xff, 0xcd, 0xdc, 0x39)
+            Color.FromArgb(0xff, 0x68, 0x76, 0x8a),
+            //dark blue gray
+            Color.FromArgb(0xff, 0x51, 0x5c, 0x6b),
+            //green gray
+            Color.FromArgb(0xff, 0x56, 0x7c, 0x73),
+            //dark green gray
+            Color.FromArgb(0xff, 0x48, 0x68, 0x60),
+            //red green
+            Color.FromArgb(0xff, 0x49, 0x82, 0x05),
+            //green
+            Color.FromArgb(0xff, 0x10, 0x7c, 0x10),
+            //gray
+            Color.FromArgb(0xff, 0x76, 0x76, 0x76),
+            //purple gray
+            Color.FromArgb(0xff, 0x4c, 0x4a, 0x48),
+            //cyan gray
+            Color.FromArgb(0xff, 0x69, 0x79, 0x7e),
+            //dark cyan gray
+            Color.FromArgb(0xff, 0x4a, 0x54, 0x59),
+            //light green gray
+            Color.FromArgb(0xff, 0x64, 0x7c, 0x64),
+            //deep green gray
+            Color.FromArgb(0xff, 0x52, 0x5e, 0x54),
+            //brown
+            Color.FromArgb(0xff, 0x84, 0x75, 0x45),
+            //brown gray
+            Color.FromArgb(0xff, 0x7e, 0x73, 0x5f)
         };
 
-        public static Color Red
+        public static Color LightYellow
         {
             get
             {
-                return pallette[1];
+                return colorarr[0];
             }
         }
 
-        public static Color Blue
+        public static Color YellowOrange
         {
             get
             {
-                return pallette[0];
+                return colorarr[1];
             }
         }
 
-        public static Color Orange
+        public static Color VibrantOrange
         {
             get
             {
-                return pallette[2];
+                return colorarr[2];
             }
         }
 
-        public static Color Green
+        public static Color DarkOrange
         {
             get
             {
-                return pallette[3];
+                return colorarr[3];
             }
         }
 
-        public static Color Cyan
+        public static Color RedOrange
         {
             get
             {
-                return pallette[4];
+                return colorarr[4];
+            }
+        }
+
+        public static Color LightRed
+        {
+            get
+            {
+                return colorarr[5];
+            }
+        }
+
+        public static Color DarkRed
+        {
+            get
+            {
+                return colorarr[6];
+            }
+        }
+
+        public static Color VibrantRed
+        {
+            get
+            {
+                return colorarr[7];
+            }
+        }
+        public static Color RedPink
+        {
+            get
+            {
+                return colorarr[8];
+            }
+        }
+
+        public static Color PinkRed
+        {
+            get
+            {
+                return colorarr[9];
+            }
+        }
+
+        public static Color LightPink
+        {
+            get
+            {
+                return colorarr[10];
             }
         }
 
@@ -92,121 +197,79 @@ namespace Aurora.Shared
         {
             get
             {
-                return pallette[5];
+                return colorarr[11];
             }
         }
 
-        public static Color Purple
+        public static Color VibrantPink
         {
             get
             {
-                return pallette[6];
+                return colorarr[12];
             }
         }
 
-        public static Color DeepPurple
+        public static Color DarkPink
         {
             get
             {
-                return pallette[7];
-            }
-        }
-        public static Color Indigo
-        {
-            get
-            {
-                return pallette[8];
+                return colorarr[13];
             }
         }
 
-        public static Color LightBlue
+        public static Color PinkBlue
         {
             get
             {
-                return pallette[9];
+                return colorarr[14];
             }
         }
 
-        public static Color Teal
+        public static Color DarkPinkBlue
         {
             get
             {
-                return pallette[10];
+                return colorarr[15];
             }
         }
 
-        public static Color LightGreen
+        public static Color Blue
         {
             get
             {
-                return pallette[11];
+                return colorarr[16];
             }
         }
 
-        public static Color Yellow
+        public static Color DarkBlue
         {
             get
             {
-                return pallette[12];
+                return colorarr[17];
             }
         }
 
-        public static Color Amber
+        public static Color PurpleBlue
         {
             get
             {
-                return pallette[13];
-            }
-        }
-
-        public static Color DeepOrange
-        {
-            get
-            {
-                return pallette[14];
-            }
-        }
-
-        public static Color Brown
-        {
-            get
-            {
-                return pallette[15];
-            }
-        }
-
-        public static Color Gray
-        {
-            get
-            {
-                return pallette[16];
-            }
-        }
-
-        public static Color BlueGray
-        {
-            get
-            {
-                return pallette[17];
-            }
-        }
-
-        public static Color Lime
-        {
-            get
-            {
-                return pallette[18];
+                return colorarr[18];
             }
         }
 
         public static Color GetRandom()
         {
-            return pallette[Tools.Random.Next(18)];
+            return colorarr[Tools.Random.Next(18)];
         }
 
         public static byte RGBtoL(Color color)
         {
             return (byte)(((color.R * 299) + (color.G * 587) + (color.B * 114)) / 1000);
+        }
+
+        public static bool IsDarkColor(Color c)
+        {
+            return (5 * c.G + 2 * c.R + c.B) <= 8 * 128;
         }
     }
 }
