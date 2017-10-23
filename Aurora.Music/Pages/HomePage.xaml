@@ -7,7 +7,21 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0,0.5" StartPoint="1,0.5">
+                <GradientStop Color="#FFC239B3"/>
+                <GradientStop Color="#FFFF4343" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Grid.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="White"/>
+                    <GradientStop Color="Transparent" Offset="1"/>
+                </LinearGradientBrush>
+            </Grid.Background>
+        </Grid>
         <StackPanel Orientation="Vertical">
             <TextBlock Style="{ThemeResource HeaderTextBlockStyle}" Margin="16,0" Text="Good Morning"/>
             <TextBlock Style="{ThemeResource TitleTextBlockStyle}" Margin="16,0" Text="Here's your songs for today"/>

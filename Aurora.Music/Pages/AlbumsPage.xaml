@@ -344,8 +344,8 @@
                     <ControlTemplate TargetType="GridViewItem">
                         <Grid x:Name="ContentBorder"
                 Background="{TemplateBinding Background}"
-                BorderBrush="{TemplateBinding BorderBrush}"
-                BorderThickness="{TemplateBinding BorderThickness}">
+                BorderBrush="{x:Null}"
+                BorderThickness="0">
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="CommonStates">
                                     <VisualState x:Name="Normal">
@@ -363,7 +363,7 @@
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightListLowBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlForegroundAccentBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FocusVisualBlack" Storyboard.TargetProperty="Stroke">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="Transparent" />
@@ -381,7 +381,7 @@
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightListMediumBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltListAccentMediumBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FocusVisualBlack" Storyboard.TargetProperty="Stroke">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="Transparent" />
@@ -627,7 +627,7 @@
                             <Rectangle x:Name="BorderRectangle"
                       IsHitTestVisible="False"
                       Stroke="{ThemeResource SystemControlHighlightListAccentLowBrush}"
-                      StrokeThickness="2"
+                      StrokeThickness="0"
                       Opacity="0"/>
                             <Border x:Name="MultiSelectSquare"
                   Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}"
@@ -682,14 +682,34 @@
     <GridView IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" SelectionMode="None" ItemsSource="{Binding Source={StaticResource AlbumListSource}}" Padding="32,0,32,160" ItemContainerStyle="{StaticResource GeneralGridViewItemStyle}" Style="{StaticResource GeneralGridViewStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="AlbumList">
         <GridView.ItemTemplate>
             <DataTemplate x:DataType="vm:AlbumViewModel">
-                <StackPanel Orientation="Vertical">
-                    <toolkit:DropShadowPanel BlurRadius="16" ShadowOpacity="0.4" OffsetX="0" OffsetY="0" Color="Black">
+                <StackPanel PointerEntered="StackPanel_PointerEntered" PointerExited="StackPanel_PointerExited" Orientation="Vertical">
+                    <StackPanel.Resources>
+                        <Storyboard x:Key="Normal" x:Name="Normal">
+                            <DoubleAnimation Storyboard.TargetName="Shadow" Duration="0:0:0.48"
+                                   Storyboard.TargetProperty="BlurRadius" EnableDependentAnimation="True"
+                                   To="16">
+                                <DoubleAnimation.EasingFunction>
+                                    <QuinticEase/>
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                        <Storyboard x:Key="PointerOver" x:Name="PointerOver">
+                            <DoubleAnimation Storyboard.TargetName="Shadow" Duration="0:0:0.48"
+                                   Storyboard.TargetProperty="BlurRadius" EnableDependentAnimation="True"
+                                   To="0">
+                                <DoubleAnimation.EasingFunction>
+                                    <QuinticEase/>
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </StackPanel.Resources>
+                    <toolkit:DropShadowPanel x:Name="Shadow" BlurRadius="16" ShadowOpacity="0.5" OffsetX="0" OffsetY="0" Color="Black">
                         <Grid Background="{ThemeResource SystemControlAcrylicWindowBrush}">
                             <toolkit:ImageEx Style="{ThemeResource QuickLoadImageEx}" Stretch="UniformToFill" PlaceholderStretch="Uniform" HorizontalAlignment="Center" PlaceholderSource="/Assets/LockScreenLogo.png" VerticalAlignment="Center" Source="{x:Bind ToImage(Artwork)}" Height="160" Width="160"/>
                         </Grid>
                     </toolkit:DropShadowPanel>
-                    <TextBlock MaxLines="1" TextTrimming="CharacterEllipsis" Text="{x:Bind Name}" Style="{ThemeResource BaseTextBlockStyle}" Margin="8,4,8,0"/>
-                    <TextBlock Text="{x:Bind AlbumArtists[0], FallbackValue=}" Style="{ThemeResource BodyTextBlockStyle}" Margin="8,4,8,8"/>
+                    <TextBlock MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{x:Bind Name}" Style="{ThemeResource BaseTextBlockStyle}" Margin="8,4,8,0"/>
+                    <TextBlock MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{x:Bind AlbumArtists[0], FallbackValue=}" Style="{ThemeResource BodyTextBlockStyle}" Margin="8,4,8,8"/>
                 </StackPanel>
             </DataTemplate>
         </GridView.ItemTemplate>
