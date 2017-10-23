@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Resources.Core;
+using Windows.System;
 using Windows.System.Profile;
 using Windows.UI.ViewManagement;
 
@@ -85,7 +88,28 @@ namespace Aurora.Shared.Helpers
 
             }
         }
+        public static async Task<string> GetCurrentUserNameAsync()
+        {
+            IReadOnlyList<User> users = await User.FindAllAsync();
+
+            var current = users.Where(p => p.AuthenticationStatus == UserAuthenticationStatus.LocallyAuthenticated &&
+                                        p.Type == UserType.LocalUser).FirstOrDefault();
+
+            // user may have username
+            var data = await current.GetPropertyAsync(KnownUserProperties.AccountName);
+            string displayName = (string)data;
+            //or may be authinticated using hotmail 
+            if (String.IsNullOrEmpty(displayName))
+            {
+
+                string a = (string)await current.GetPropertyAsync(KnownUserProperties.FirstName);
+                string b = (string)await current.GetPropertyAsync(KnownUserProperties.LastName);
+                displayName = string.Format("{0} {1}", a, b);
+            }
+            return displayName;
+        }
     }
+
 
     public enum DeviceFormFactorType
 

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.System.Threading;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -25,6 +26,10 @@ namespace Aurora.Music.Pages
         public HomePage()
         {
             this.InitializeComponent();
+            var t = ThreadPool.RunAsync(async x =>
+            {
+                await Context.Load();
+            });
         }
     }
 }

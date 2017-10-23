@@ -5,8 +5,7 @@ namespace Aurora.Shared
 {
     public static class Palette
     {
-
-        private static readonly Color[] colorarr = new Color[]
+        private static Color[] colorarr = new Color[]
         {
             //light yellow
             Color.FromArgb(0xff, 0xff, 0xb9, 0x00),
@@ -257,9 +256,241 @@ namespace Aurora.Shared
             }
         }
 
+        public static Color BluePurple
+        {
+            get
+            {
+                return colorarr[19];
+            }
+        }
+
+        public static Color Purple
+        {
+            get
+            {
+                return colorarr[20];
+            }
+        }
+
+        public static Color DarkPurple
+        {
+            get
+            {
+                return colorarr[21];
+            }
+        }
+
+        public static Color RedPurple
+        {
+            get
+            {
+                return colorarr[22];
+            }
+        }
+
+        public static Color DarkRedPurple
+        {
+            get
+            {
+                return colorarr[23];
+            }
+        }
+
+        public static Color Cyan
+        {
+            get
+            {
+                return colorarr[24];
+            }
+        }
+
+        public static Color DarkCyan
+        {
+            get
+            {
+                return colorarr[25];
+            }
+        }
+
+        public static Color LightCyan
+        {
+            get
+            {
+                return colorarr[26];
+            }
+        }
+
+        public static Color GreenCyan
+        {
+            get
+            {
+                return colorarr[28];
+            }
+        }
+
+        public static Color LightGreenCyan
+        {
+            get
+            {
+                return colorarr[28];
+            }
+        }
+
+        public static Color CyanGreen
+        {
+            get
+            {
+                return colorarr[29];
+            }
+        }
+
+        public static Color LightBlueGreen
+        {
+            get
+            {
+                return colorarr[30];
+            }
+        }
+
+        public static Color DarkBlueGreen
+        {
+            get
+            {
+                return colorarr[31];
+            }
+        }
+
+        public static Color RedGray
+        {
+            get
+            {
+                return colorarr[32];
+            }
+        }
+
+        public static Color DarkRedGray
+        {
+            get
+            {
+                return colorarr[33];
+            }
+        }
+
+        public static Color BlueGray
+        {
+            get
+            {
+                return colorarr[34];
+            }
+        }
+
+        public static Color DarkBlueGray
+        {
+            get
+            {
+                return colorarr[35];
+            }
+        }
+
+        public static Color GreenGray
+        {
+            get
+            {
+                return colorarr[36];
+            }
+        }
+
+        public static Color DarkGreenGray
+        {
+            get
+            {
+                return colorarr[37];
+            }
+        }
+
+        public static Color RedGreen
+        {
+            get
+            {
+                return colorarr[38];
+            }
+        }
+
+        public static Color Green
+        {
+            get
+            {
+                return colorarr[39];
+            }
+        }
+
+        public static Color Gray
+        {
+            get
+            {
+                return colorarr[40];
+            }
+        }
+
+        public static Color PurpleGray
+        {
+            get
+            {
+                return colorarr[41];
+            }
+        }
+
+        public static Color CyanGray
+        {
+            get
+            {
+                return colorarr[42];
+            }
+        }
+
+        public static Color DarkCyanGray
+        {
+            get
+            {
+                return colorarr[43];
+            }
+        }
+
+        public static Color LightGreenGray
+        {
+            get
+            {
+                return colorarr[44];
+            }
+        }
+
+        public static Color DeepGreenGray
+        {
+            get
+            {
+                return colorarr[45];
+            }
+        }
+
+        public static Color Brown
+        {
+            get
+            {
+                return colorarr[46];
+            }
+        }
+
+        public static Color BrownGray
+        {
+            get
+            {
+                return colorarr[47];
+            }
+        }
+
         public static Color GetRandom()
         {
-            return colorarr[Tools.Random.Next(18)];
+            return colorarr[Tools.Random.Next(colorarr.Length)];
         }
 
         public static byte RGBtoL(Color color)

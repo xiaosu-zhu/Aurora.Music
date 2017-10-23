@@ -716,14 +716,15 @@
 
         <GridView.Header>
             <Grid Margin="-32,0,-32,32">
-                <ParallaxView HorizontalShift="0" Margin="0,0,0,40" Height="360" Source="{Binding ElementName=AlbumList}" VerticalShift="480">
+                <ParallaxView HorizontalShift="0" Height="360" Source="{Binding ElementName=AlbumList}" VerticalShift="480">
                     <controls:ImageGrid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderBrush="{x:Null}" BorderThickness="0" ImageSources="{x:Bind Context.HeroImage, Mode=OneWay}"/>
                 </ParallaxView>
-                <Grid HorizontalAlignment="Stretch" Height="360" Margin="0,0,0,40">
+                <Grid HorizontalAlignment="Stretch" Height="360">
                     <Grid.Background>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                            <GradientStop Color="#00FFFFFF"/>
+                            <GradientStop Color="#AAFFFFFF"/>
                             <GradientStop Color="White" Offset="1"/>
+                            <GradientStop Color="#AAFFFFFF" Offset="0.667"/>
                         </LinearGradientBrush>
                     </Grid.Background>
                 </Grid>

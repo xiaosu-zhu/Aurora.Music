@@ -14,7 +14,7 @@ namespace Aurora.Music
         public MainPage()
         {
             this.InitializeComponent();
-            MainFrame.Navigate(typeof(HomePage));
+            MainFrame.Navigate(typeof(LibraryPage));
         }
 
         private Type[] navigateOptions = { typeof(HomePage), typeof(LibraryPage) };

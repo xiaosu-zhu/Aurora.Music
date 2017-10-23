@@ -13,7 +13,7 @@
     </Page.DataContext>
 
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <NavigationView Header="Aurora Music" x:Name="Main" SelectionChanged="Main_SelectionChanged" AlwaysShowHeader="False" Typography.Capitals="Titling" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <!--NavigationView Header="Aurora Music" x:Name="Main" SelectionChanged="Main_SelectionChanged" AlwaysShowHeader="False" Typography.Capitals="Titling" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <NavigationView.MenuItems>
                 <NavigationViewItem Content="Home">
                     <ToolTipService.ToolTip>
@@ -50,15 +50,10 @@
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE170;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-            </NavigationView.PaneFooter>
-
-            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <Frame HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="MainFrame"/>
-                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="88" Background="{ThemeResource SystemControlAccentAcrylicElementAccentMediumHighBrush}">
-                </Grid>
-            </Grid>
-
-        </NavigationView>
+            </NavigationView.PaneFooter!-->
+        <Frame HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="MainFrame"/>
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="88" Background="{ThemeResource SystemControlAccentAcrylicElementAccentMediumHighBrush}">
+        </Grid>
 
 
         <Grid Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="32" x:Name="TitleBar" >
