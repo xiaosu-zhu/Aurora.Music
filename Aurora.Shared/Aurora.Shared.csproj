@@ -146,7 +146,7 @@
     <Compile Include="MVVM\Events\RefreshCompletedEventArgs.cs" />
     <Compile Include="MVVM\ILOCollection.cs" />
     <Compile Include="MVVM\ViewModelBase.cs" />
-    <Compile Include="Pallette.cs" />
+    <Compile Include="Palette.cs" />
     <Compile Include="PinYinLib\Model\PinyinBaseUnit.cs" />
     <Compile Include="PinYinLib\Model\PinyinSearchUnit.cs" />
     <Compile Include="PinYinLib\Model\PinyinUnit.cs" />
