@@ -1,4 +1,5 @@
-﻿using Windows.System.Threading;
+﻿using Aurora.Music.ViewModels;
+using Windows.System.Threading;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
@@ -35,6 +36,11 @@ namespace Aurora.Music.Pages
             {
                 (s.Resources["Normal"] as Storyboard).Begin();
             }
+        }
+
+        private async void AlbumList_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            await Context.PlayAlbum(e.ClickedItem as AlbumViewModel);
         }
     }
 }

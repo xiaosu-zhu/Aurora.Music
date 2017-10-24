@@ -50,5 +50,12 @@ namespace Aurora.Music.ViewModels
                 HeroImage = list;
             });
         }
+
+        internal async Task PlayAlbum(AlbumViewModel album)
+        {
+            var songs = await album.GetSongs();
+            await MainPageViewModel.Current.NewPlayList(songs);
+            MainPageViewModel.Current.Play();
+        }
     }
 }

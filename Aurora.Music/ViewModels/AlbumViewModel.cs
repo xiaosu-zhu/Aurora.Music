@@ -8,12 +8,14 @@ using Aurora.Music.Core.Models;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.MVVM;
 using Windows.UI.Xaml.Media.Imaging;
+using System.Collections;
+using Aurora.Music.Core.Storage;
 
 namespace Aurora.Music.ViewModels
 {
     class AlbumViewModel : ViewModelBase
     {
-        public AlbumViewModel(Album item)
+        public AlbumViewModel(Core.Models.Album item)
         {
             songs = item.Songs;
             Name = item.Name;
@@ -48,6 +50,12 @@ namespace Aurora.Music.ViewModels
         public virtual string[] AlbumArtistsSort { get; set; }
         public virtual double ReplayGainAlbumGain { get; set; }
         public virtual double ReplayGainAlbumPeak { get; set; }
+
+        internal async Task<IEnumerable<Core.Storage.Song>> GetSongs()
+        {
+            var opr = SQLOperator.Current();
+            return await opr.GetSongs(songs);
+        }
 
         public BitmapImage ToImage(Uri r)
         {

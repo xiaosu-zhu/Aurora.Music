@@ -16,6 +16,7 @@ namespace Aurora.Music.Core.Models
 
         public Song(Storage.Song song)
         {
+            ID = song.ID;
             FilePath = song.FilePath;
             MusicBrainzArtistId = song.MusicBrainzArtistId;
             MusicBrainzDiscId = song.MusicBrainzDiscId;
@@ -189,6 +190,7 @@ namespace Aurora.Music.Core.Models
         public virtual string Conductor { get; set; }
         public virtual string Copyright { get; set; }
         public virtual string Comment { get; set; }
+        public object ID { get; set; }
     }
 
 

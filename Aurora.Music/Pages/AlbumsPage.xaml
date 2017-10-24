@@ -679,7 +679,7 @@
         </Style>
     </Page.Resources>
 
-    <GridView IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" SelectionMode="None" ItemsSource="{Binding Source={StaticResource AlbumListSource}}" Padding="32,0,32,160" ItemContainerStyle="{StaticResource GeneralGridViewItemStyle}" Style="{StaticResource GeneralGridViewStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="AlbumList">
+    <GridView ItemClick="AlbumList_ItemClick" IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" SelectionMode="None" ItemsSource="{Binding Source={StaticResource AlbumListSource}}" Padding="32,0,32,160" ItemContainerStyle="{StaticResource GeneralGridViewItemStyle}" Style="{StaticResource GeneralGridViewStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="AlbumList">
         <GridView.ItemTemplate>
             <DataTemplate x:DataType="vm:AlbumViewModel">
                 <StackPanel PointerEntered="StackPanel_PointerEntered" PointerExited="StackPanel_PointerExited" Orientation="Vertical">
