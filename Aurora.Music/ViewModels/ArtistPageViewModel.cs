@@ -14,7 +14,7 @@ using Aurora.Shared.Extensions;
 
 namespace Aurora.Music.ViewModels
 {
-    class AlbumsPageViewModel : ViewModelBase
+    class ArtistPageViewModel : ViewModelBase
     {
         public ObservableCollection<AlbumViewModel> AlbumList { get; set; } = new ObservableCollection<AlbumViewModel>();
 
@@ -25,7 +25,7 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref heroImage, value); }
         }
 
-        public AlbumsPageViewModel()
+        public ArtistPageViewModel()
         {
 
         }

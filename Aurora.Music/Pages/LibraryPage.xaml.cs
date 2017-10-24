@@ -29,7 +29,7 @@ namespace Aurora.Music.Pages
             this.InitializeComponent();
             Current = this;
             SubPanelFrame.Navigate(typeof(CategoryListPage));
-            MainFrame.Navigate(typeof(AlbumsPage));
+            MainFrame.Navigate(typeof(ArtistPage));
         }
 
         internal void Navigate(Type t)
