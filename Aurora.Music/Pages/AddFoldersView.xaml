@@ -1,0 +1,39 @@
+﻿<Page
+    x:Class="Aurora.Music.Pages.AddFoldersView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Aurora.Music.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <TextBlock Foreground="White" Style="{ThemeResource TitleTextBlockStyle}" Margin="8,4" HorizontalAlignment="Left" VerticalAlignment="Center">
+            <Run Text="Here's Scanning Folders"/>
+        </TextBlock>
+        <StackPanel Orientation="Horizontal" Margin="16,4">
+            <TextBlock Text="Including Music Library" Foreground="White" VerticalAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}"/>
+            <ToggleSwitch Foreground="White" Margin="16,0"/>
+        </StackPanel>
+        <Button Margin="16,4" Foreground="White" Style="{ThemeResource ButtonRevealStyle}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Add a New Folder" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                <SymbolIcon Symbol="Add" VerticalAlignment="Center"/>
+            </StackPanel>
+        </Button>
+        <ListView Margin="16,4">
+            <ListViewItem HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                <RelativePanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource SystemControlBackgroundListLowBrush}">
+                    <PersonPicture x:Name="Symbol" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" DisplayName="D" Width="36" Height="36" Margin="4"/>
+                    <StackPanel RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.RightOf="Symbol" Orientation="Vertical" VerticalAlignment="Center">
+                        <TextBlock Foreground="White" Text="CloudMusic" Style="{ThemeResource BaseTextBlockStyle}" Margin="8,4,8,0"/>
+                        <TextBlock Foreground="White" Text="3,220 Songs" Style="{ThemeResource BodyTextBlockStyle}" FontSize="10" Margin="8,0,8,4"/>
+                    </StackPanel>
+                    <Button Background="{x:Null}" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.AlignRightWithPanel="True" Style="{ThemeResource AccentButtonStyle}" Margin="4" VerticalAlignment="Center">
+                        <SymbolIcon Symbol="Delete"/>
+                    </Button>
+                </RelativePanel>
+            </ListViewItem>
+        </ListView>
+    </StackPanel>
+</Page>

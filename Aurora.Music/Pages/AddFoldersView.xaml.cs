@@ -20,26 +20,11 @@ namespace Aurora.Music.Pages
     /// <summary>
     /// 可用于自身或导航至 Frame 内部的空白页。
     /// </summary>
-    public sealed partial class LibraryPage : Page
+    public sealed partial class AddFoldersView : Page
     {
-        public static LibraryPage Current;
-
-        public LibraryPage()
+        public AddFoldersView()
         {
             this.InitializeComponent();
-            Current = this;
-            SubPanelFrame.Navigate(typeof(CategoryListView));
-            MainFrame.Navigate(typeof(ArtistPage));
-        }
-
-        internal void Navigate(Type t)
-        {
-            SubPanelFrame.Navigate(t);
-        }
-
-        internal void Navigate(Type t, object parameter)
-        {
-            SubPanelFrame.Navigate(t, parameter);
         }
     }
 }

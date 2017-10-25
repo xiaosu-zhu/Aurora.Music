@@ -21,11 +21,11 @@ namespace Aurora.Music.Pages
     /// <summary>
     /// 可用于自身或导航至 Frame 内部的空白页。
     /// </summary>
-    public sealed partial class CategoryListPage : Page
+    public sealed partial class CategoryListView : Page
     {
         private static object clickedItem;
 
-        public CategoryListPage()
+        public CategoryListView()
         {
             this.InitializeComponent();
         }
@@ -36,7 +36,7 @@ namespace Aurora.Music.Pages
         {
             PrepareAnimationWithItem(e.ClickedItem);
             clickedItem = e.ClickedItem;
-            LibraryPage.Current.Navigate(typeof(CategoryDetailsPage), (e.ClickedItem as CategoryListItem).Title);
+            LibraryPage.Current.Navigate(typeof(CategoryDetailsView), (e.ClickedItem as CategoryListItem).Title);
         }
 
         void PrepareAnimationWithItem(object item)
