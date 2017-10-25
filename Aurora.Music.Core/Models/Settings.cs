@@ -14,18 +14,6 @@ namespace Aurora.Music.Core.Models
         public bool IncludeMusicLibrary { get; set; } = true;
         public ElementTheme Theme { get; set; } = ElementTheme.Default;
 
-        public string[] FolderPaths { get; set; }
-
-        public void AddFolderPath(string path)
-        {
-            var list = new List<string>(FolderPaths)
-            {
-                path
-            };
-            FolderPaths = list.ToArray();
-            Save();
-        }
-
         public static Settings Load()
         {
             try

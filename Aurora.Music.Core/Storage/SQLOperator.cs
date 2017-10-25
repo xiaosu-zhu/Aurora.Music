@@ -158,6 +158,27 @@ namespace Aurora.Music.Core.Storage
         public virtual double ReplayGainAlbumPeak { get; set; }
     }
 
+    public class Folder
+    {
+        [PrimaryKey, AutoIncrement]
+        public int ID { get; set; }
+
+        public int SongsCount { get; set; }
+        public string Name { get; set; }
+
+        [Unique]
+        public string Path { get; set; }
+
+        public Folder() { }
+
+        public Folder(StorageFolder f)
+        {
+            SongsCount = -1;
+            Path = f.Path;
+            Name = f.DisplayName;
+        }
+    }
+
     public class SQLOperator : IDisposable
     {
 
@@ -228,6 +249,22 @@ namespace Aurora.Music.Core.Storage
         {
             conn.GetConnection().CreateTable<Song>();
             conn.GetConnection().CreateTable<Album>();
+            conn.GetConnection().CreateTable<Folder>();
+        }
+
+        public async Task<bool> AddFolderAsync(StorageFolder folder)
+        {
+            var f = new Folder(folder);
+            var result = await conn.QueryAsync<int>("SELECT ID FROM FOLDER WHERE PATH=?", folder.Path);
+            if (result.Count > 0)
+            {
+                return false;
+            }
+            else
+            {
+                await conn.InsertAsync(folder);
+                return true;
+            }
         }
 
         public async Task<bool> UpdateSongAsync(Models.Song song)
@@ -288,7 +325,7 @@ namespace Aurora.Music.Core.Storage
             }
         }
 
-        internal async Task<List<T>> GetAllAsync<T>() where T : new()
+        public async Task<List<T>> GetAllAsync<T>() where T : new()
         {
             return await conn.Table<T>().ToListAsync();
         }
