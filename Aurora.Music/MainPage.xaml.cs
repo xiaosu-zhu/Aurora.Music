@@ -1,6 +1,7 @@
 ﻿using System;
 using Aurora.Music.Pages;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml;
 
 // https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
 
@@ -14,7 +15,7 @@ namespace Aurora.Music
         public MainPage()
         {
             this.InitializeComponent();
-            MainFrame.Navigate(typeof(LibraryPage));
+            MainFrame.Navigate(typeof(HomePage));
         }
 
         private Type[] navigateOptions = { typeof(HomePage), typeof(LibraryPage) };
@@ -22,6 +23,12 @@ namespace Aurora.Music
         private void Main_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
             MainFrame.Navigate(navigateOptions[sender.MenuItems.IndexOf(args.SelectedItem)]);
+        }
+
+
+        public Visibility BooltoVisibility(bool b)
+        {
+            return b ? Visibility.Visible : Visibility.Collapsed;
         }
     }
 }

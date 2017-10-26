@@ -52,7 +52,43 @@
                 </NavigationViewItem>
             </NavigationView.PaneFooter!-->
         <Frame HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="MainFrame"/>
-        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="88" Background="{ThemeResource SystemControlAccentAcrylicElementAccentMediumHighBrush}">
+        <Grid Visibility="{x:Bind BooltoVisibility(Context.NeedShowPanel), Mode=OneWay}" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="88" Background="{ThemeResource SystemControlAccentAcrylicElementAccentMediumHighBrush}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <Image Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="Uniform"/>
+            <Slider Grid.Column="1" Margin="8" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+            <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Button Style="{ThemeResource ButtonRevealStyle}" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                    <Button.Content>
+                        <SymbolIcon Symbol="Previous"/>
+                    </Button.Content>
+                </Button>
+                <Button Style="{ThemeResource ButtonRevealStyle}" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                    <Button.Content>
+                        <SymbolIcon Symbol="Play"/>
+                    </Button.Content>
+                </Button>
+                <Button Style="{ThemeResource ButtonRevealStyle}" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                    <Button.Content>
+                        <SymbolIcon Symbol="Next"/>
+                    </Button.Content>
+                </Button>
+
+                <ToggleButton Style="{ThemeResource ToggleButtonRevealStyle}" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                    <ToggleButton.Content>
+                        <SymbolIcon Symbol="Shuffle"/>
+                    </ToggleButton.Content>
+                </ToggleButton>
+
+                <ToggleButton Style="{ThemeResource ToggleButtonRevealStyle}" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                    <ToggleButton.Content>
+                        <SymbolIcon Symbol="Refresh"/>
+                    </ToggleButton.Content>
+                </ToggleButton>
+            </StackPanel>
         </Grid>
 
 

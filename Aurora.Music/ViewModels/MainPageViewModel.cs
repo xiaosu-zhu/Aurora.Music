@@ -9,6 +9,7 @@ using Aurora.Shared.MVVM;
 using Windows.Storage;
 using System.Diagnostics;
 using Aurora.Music.Core.Player;
+using Windows.UI.Xaml;
 
 namespace Aurora.Music.ViewModels
 {
@@ -16,12 +17,21 @@ namespace Aurora.Music.ViewModels
     {
         public static MainPageViewModel Current;
 
-        private SQLOperator opr = SQLOperator.Current();
+        private SQLOperator opr;
         private Player player;
+
+        private bool needShowPanel;
+        public bool NeedShowPanel
+        {
+            get { return needShowPanel; }
+            set { SetProperty(ref needShowPanel, value); }
+        }
 
         public MainPageViewModel()
         {
+            opr = SQLOperator.Current();
             player = new Player();
+            opr.NewSongsAdded += Opr_NewSongsAdded;
             Current = this;
         }
 
@@ -32,7 +42,6 @@ namespace Aurora.Music.ViewModels
 
         public async Task Go()
         {
-            opr.NewSongsAdded += Opr_NewSongsAdded;
             StorageFolder folder = KnownFolders.MusicLibrary;
             await FileReader.Read(folder);
         }

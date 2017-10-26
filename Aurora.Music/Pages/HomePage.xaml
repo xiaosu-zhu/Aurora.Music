@@ -12,21 +12,40 @@
         <vm:HomePageViewModel x:Name="Context"/>
     </Page.DataContext>
 
-    <Grid>
-        <Grid.Background>
-            <LinearGradientBrush EndPoint="0,0.5" StartPoint="1,0.5">
-                <GradientStop Color="{x:Bind Context.LeftGradient, Mode=OneWay}"/>
-                <GradientStop Color="{x:Bind Context.RightGradient, Mode=OneWay}" Offset="1"/>
-            </LinearGradientBrush>
-        </Grid.Background>
-        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light">
+                    <LinearGradientBrush x:Key="HomePageGradient" EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FFFFFFFF"/>
+                        <GradientStop Color="Transparent" Offset="1"/>
+                    </LinearGradientBrush>
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Dark">
+                    <LinearGradientBrush x:Key="HomePageGradient" EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FF000000"/>
+                        <GradientStop Color="Transparent" Offset="1"/>
+                    </LinearGradientBrush>
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="HighContrast">
+                    <SolidColorBrush x:Key="myBrush" Color="{ThemeResource SystemColorButtonFaceColor}"/>
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+
+            <AcrylicBrush x:Key="HomePageBackground" BackgroundSource="HostBackdrop" TintColor="{StaticResource SystemChromeAltHighColor}" TintOpacity="0" FallbackColor="{StaticResource SystemChromeMediumColor}" />
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid Background="{ThemeResource HomePageBackground}">
+        <Grid Opacity="0.5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Grid.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="White"/>
-                    <GradientStop Color="Transparent" Offset="1"/>
+                <LinearGradientBrush EndPoint="0,0" StartPoint="1,0">
+                    <GradientStop Color="{x:Bind Context.LeftGradient, Mode=OneWay}"/>
+                    <GradientStop Color="{x:Bind Context.RightGradient, Mode=OneWay}" Offset="1"/>
                 </LinearGradientBrush>
             </Grid.Background>
         </Grid>
+        <Grid Opacity="0.5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource HomePageGradient}"/>
         <StackPanel Orientation="Vertical">
             <TextBlock Style="{ThemeResource HeaderTextBlockStyle}" Margin="16,0" Text="{x:Bind Context.WelcomeTitle, Mode=OneWay}"/>
             <TextBlock Style="{ThemeResource TitleTextBlockStyle}" Margin="16,0" Text="Here's your songs for today"/>

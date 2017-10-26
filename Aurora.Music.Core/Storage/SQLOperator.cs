@@ -257,14 +257,14 @@ namespace Aurora.Music.Core.Storage
 
         public async Task<bool> AddFolderAsync(StorageFolder folder)
         {
-            var f = new Folder(folder);
-            var result = await conn.QueryAsync<int>("SELECT ID FROM FOLDER WHERE PATH=?", f.Path);
+            var result = await conn.QueryAsync<int>("SELECT ID FROM FOLDER WHERE PATH=?", folder.Path);
             if (result.Count > 0)
             {
                 return false;
             }
             else
             {
+                var f = new Folder(folder);
                 await conn.InsertAsync(f);
                 return true;
             }
