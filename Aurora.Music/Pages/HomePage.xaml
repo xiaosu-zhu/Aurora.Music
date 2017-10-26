@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Aurora.Music.Pages"
     xmlns:vm="using:Aurora.Music.ViewModels"
+    xmlns:ctrls="using:Aurora.Music.Controls"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -35,9 +36,13 @@
                     <SolidColorBrush x:Key="myBrush" Color="{ThemeResource SystemColorButtonFaceColor}"/>
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
+            <DataTemplate x:DataType="vm:AlbumViewModel" x:Key="HomePageAlbum">
+
+            </DataTemplate>
+
+            <ctrls:HomePageTemplateSeletor x:Key="HomePageTemplateSelector" AlbumTemplate="{ThemeResource HomePageAlbum}" SongTemplate="{ThemeResource HomePageAlbum}"/>
+            
             <AcrylicBrush x:Key="HomePageBackground" BackgroundSource="HostBackdrop" TintColor="{StaticResource SystemChromeAltHighColor}" TintOpacity="0" FallbackColor="{StaticResource SystemChromeMediumColor}" />
-
-
             <Style TargetType="ListViewItem" x:Key="HomeListViewItemStyle">
                 <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
                 <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
@@ -162,7 +167,7 @@
                 </Button>
             </StackPanel>
             <TextBlock Margin="0,16" Text="Your Favorite" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold"/>
-            <ListView Margin="0,0,0,16" IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" SelectionMode="None" ItemsSource="{x:Bind Context.FavList}" ItemContainerStyle="{ThemeResource HomeListViewItemStyle}" Style="{StaticResource HorizontalListView}" x:Name="FavList">
+            <ListView Margin="0,0,0,16" ItemTemplateSelector="{StaticResource}" IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" SelectionMode="None" ItemsSource="{x:Bind Context.FavList}" ItemContainerStyle="{ThemeResource HomeListViewItemStyle}" Style="{StaticResource HorizontalListView}" x:Name="FavList">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="vm:GenericMusicItemViewModel">
                         <StackPanel Width="150" Background="{ThemeResource SystemControlBackgroundAltMediumHighBrush}" Orientation="Vertical">
