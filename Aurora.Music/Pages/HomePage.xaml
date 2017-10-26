@@ -183,7 +183,7 @@
             <ListView Margin="0,0,0,16" IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" SelectionMode="None" ItemsSource="{x:Bind Context.FavList}" ItemContainerStyle="{ThemeResource HomeListViewItemStyle}" Style="{StaticResource HorizontalListView}" x:Name="LuckyList">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="vm:GenericMusicItemViewModel">
-                        <StackPanel Width="150" Background="{ThemeResource SystemControlBackgroundAltMediumHighBrush}" Orientation="Vertical">
+                        <StackPanel Width="150" Background="{ThemeResource SystemControlBackgroundAltMediumBrush}" Orientation="Vertical">
                             <toolkit:ImageEx HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="{x:Bind Artwork}" PlaceholderSource="/Assets/Images/placeholder_b.png" Style="{ThemeResource QuickLoadImageEx}" Width="150" Height="150" Stretch="UniformToFill" PlaceholderStretch="UniformToFill"/>
                             <TextBlock Text="{x:Bind Title}" Style="{ThemeResource BaseTextBlockStyle}" MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Margin="8,4,8,0"/>
                             <TextBlock Text="{x:Bind Description}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Margin="8,0,8,0"/>

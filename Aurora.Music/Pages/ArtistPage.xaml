@@ -248,7 +248,7 @@
                         <Storyboard x:Key="PointerOver" x:Name="PointerOver">
                             <DoubleAnimation Storyboard.TargetName="Shadow" Duration="0:0:0.48"
                                    Storyboard.TargetProperty="BlurRadius" EnableDependentAnimation="True"
-                                   To="0">
+                                   To="24">
                                 <DoubleAnimation.EasingFunction>
                                     <QuinticEase/>
                                 </DoubleAnimation.EasingFunction>
