@@ -28,7 +28,7 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref rightGradient, value); }
         }
 
-        private string welcomeTitle = "Hi";
+        private string welcomeTitle = "Hi.";
         public string WelcomeTitle
         {
             get { return welcomeTitle; }
@@ -42,7 +42,7 @@ namespace Aurora.Music.ViewModels
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
                 if (!n.IsNullorWhiteSpace())
-                    WelcomeTitle = "Hi, " + n;
+                    WelcomeTitle = $"Hi, {n}.";
             });
         }
 

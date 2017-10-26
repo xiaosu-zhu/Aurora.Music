@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Aurora.Music.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -29,9 +30,27 @@ namespace Aurora.Music.Pages
             var t = ThreadPool.RunAsync(async x => await Context.Init());
         }
 
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            if (e.Parameter != null)
+            {
+                Context.ChangeForeGround();
+            }
+        }
+
         private void DeleteFolderBtn_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            foreach (var item in Context.Folders)
+            {
+                item.ToggleOpened(false);
+            }
+            ((sender as ListView).SelectedItem as FolderViewModel).ToggleOpened(true);
         }
     }
 }

@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
+using Windows.UI.Xaml;
 
 namespace Aurora.Music.ViewModels
 {
@@ -53,6 +54,14 @@ namespace Aurora.Music.ViewModels
             }
         }
 
+        private ElementTheme foreground = ElementTheme.Default;
+        public ElementTheme Foreground
+        {
+            get { return foreground; }
+            set { SetProperty(ref foreground, value); }
+        }
+
+
         private bool includeMusicLibrary;
         public bool IncludeMusicLibrary
         {
@@ -61,6 +70,7 @@ namespace Aurora.Music.ViewModels
             {
                 SetProperty(ref includeMusicLibrary, value);
                 settings.IncludeMusicLibrary = value;
+                settings.Save();
             }
         }
 
@@ -71,6 +81,11 @@ namespace Aurora.Music.ViewModels
             Folders = new ObservableCollection<FolderViewModel>();
             settings = Settings.Load();
             IncludeMusicLibrary = settings.IncludeMusicLibrary;
+        }
+
+        public void ChangeForeGround()
+        {
+            Foreground = ElementTheme.Dark;
         }
 
         public async Task Init()
@@ -87,7 +102,7 @@ namespace Aurora.Music.ViewModels
         }
     }
 
-    public class FolderViewModel
+    class FolderViewModel : ViewModelBase
     {
         public FolderViewModel(Folder item)
         {
@@ -96,6 +111,19 @@ namespace Aurora.Music.ViewModels
             Folder = AsyncHelper.RunSync(async () => await StorageFolder.GetFolderFromPathAsync(item.Path));
             FolderName = Folder.DisplayName;
             SongsCount = item.SongsCount;
+        }
+
+        private Visibility isOpened = Visibility.Collapsed;
+
+        public Visibility IsOpened
+        {
+            get { return isOpened; }
+            set { SetProperty(ref isOpened, value); }
+        }
+
+        public void ToggleOpened(bool b)
+        {
+            IsOpened = b ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public FolderViewModel() { }

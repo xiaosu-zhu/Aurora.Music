@@ -11,6 +11,17 @@ using Aurora.Music.Core.Models;
 
 namespace Aurora.Music.Core.Storage
 {
+    public class Statistics
+    {
+        [PrimaryKey, AutoIncrement]
+        public int ID { get; set; }
+
+        public int TargetID { get; set; }
+
+        public int PlayedCount { get; set; }
+        public bool Favorite { get; set; }
+    }
+
     public class Song
     {
         [PrimaryKey, AutoIncrement]

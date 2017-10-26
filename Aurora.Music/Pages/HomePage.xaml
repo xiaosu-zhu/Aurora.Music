@@ -36,8 +36,8 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <Grid Background="{ThemeResource HomePageBackground}">
-        <Grid Opacity="0.5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    <Grid x:Name="Main" Background="{ThemeResource HomePageBackground}">
+        <Grid x:Name="LayerGradient" Opacity="0.5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Grid.Background>
                 <LinearGradientBrush EndPoint="0,0" StartPoint="1,0">
                     <GradientStop Color="{x:Bind Context.LeftGradient, Mode=OneWay}"/>
@@ -45,10 +45,11 @@
                 </LinearGradientBrush>
             </Grid.Background>
         </Grid>
-        <Grid Opacity="0.5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource HomePageGradient}"/>
-        <StackPanel Orientation="Vertical">
+        <Grid x:Name="LayerMask" Opacity="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource HomePageGradient}"/>
+        <StackPanel Margin="32" Orientation="Vertical">
             <TextBlock Style="{ThemeResource HeaderTextBlockStyle}" Margin="16,0" Text="{x:Bind Context.WelcomeTitle, Mode=OneWay}"/>
-            <TextBlock Style="{ThemeResource TitleTextBlockStyle}" Margin="16,0" Text="Here's your songs for today"/>
+            <TextBlock Style="{ThemeResource TitleTextBlockStyle}" Margin="16,0" Text="Let's Play Something..."/>
+        
         </StackPanel>
     </Grid>
 </Page>

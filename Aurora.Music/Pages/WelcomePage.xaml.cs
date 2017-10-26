@@ -25,12 +25,18 @@ namespace Aurora.Music.Pages
         public WelcomePage()
         {
             this.InitializeComponent();
-            AddFolderFrame.Navigate(typeof(AddFoldersView));
+            AddFolderFrame.Navigate(typeof(AddFoldersView), new object());
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Main.SelectedIndex++;
+        }
+
+
+        public double IndexToProgress(int index)
+        {
+            return (100d / Main.Items.Count) * (index + 1);
         }
     }
 }
