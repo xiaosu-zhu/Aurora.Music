@@ -1,5 +1,6 @@
 ﻿using Aurora.Music.Core.Models;
 using Aurora.Music.Core.Storage;
+using Aurora.Shared.Helpers;
 using Aurora.Shared.MVVM;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
 using Windows.Storage;
 
 namespace Aurora.Music.ViewModels
@@ -33,15 +35,14 @@ namespace Aurora.Music.ViewModels
                     StorageFolder folder = await folderPicker.PickSingleFolderAsync();
                     if (folder != null)
                     {
-                        // Application now has read/write access to all contents in the picked folder
-                        // (including other sub-folder contents)
-                        Windows.Storage.AccessCache.StorageApplicationPermissions.
-                        FutureAccessList.AddOrReplace("PickedFolderToken", folder);
-
                         var opr = SQLOperator.Current();
                         if (await opr.AddFolderAsync(folder))
                         {
-                            Folders.Add(new FolderViewModel(new Folder(folder)));
+                            var l = await opr.GetFolderAsync(folder.Path);
+                            foreach (var item in l)
+                            {
+                                Folders.Add(new FolderViewModel(item));
+                            }
                         }
                     }
                     else
@@ -63,10 +64,11 @@ namespace Aurora.Music.ViewModels
             }
         }
 
-        public ObservableCollection<FolderViewModel> Folders { get; set; } = new ObservableCollection<FolderViewModel>();
+        public ObservableCollection<FolderViewModel> Folders { get; set; }
 
         public AddFoldersViewViewModel()
         {
+            Folders = new ObservableCollection<FolderViewModel>();
             settings = Settings.Load();
             IncludeMusicLibrary = settings.IncludeMusicLibrary;
         }
@@ -75,16 +77,13 @@ namespace Aurora.Music.ViewModels
         {
             var opr = SQLOperator.Current();
             var folders = await opr.GetAllAsync<Folder>();
-            foreach (var item in folders)
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
-                Folders.Add(new FolderViewModel
+                foreach (var item in folders)
                 {
-                    Disk = item.Path.Split(':').FirstOrDefault(),
-                    Path = item.Path,
-                    FolderName = item.Name,
-                    SongsCount = item.SongsCount
-                });
-            }
+                    Folders.Add(new FolderViewModel(item));
+                }
+            });
         }
     }
 
@@ -94,7 +93,8 @@ namespace Aurora.Music.ViewModels
         {
             Disk = item.Path.Split(':').FirstOrDefault();
             Path = item.Path;
-            FolderName = item.Name;
+            Folder = AsyncHelper.RunSync(async () => await StorageFolder.GetFolderFromPathAsync(item.Path));
+            FolderName = Folder.DisplayName;
             SongsCount = item.SongsCount;
         }
 
@@ -107,6 +107,8 @@ namespace Aurora.Music.ViewModels
         public string Path { get; set; }
 
         public int SongsCount { get; set; }
+
+        public StorageFolder Folder { get; set; }
 
         public string FormatCount(int count)
         {

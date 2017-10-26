@@ -164,7 +164,7 @@ namespace Aurora.Music.Core.Storage
         public int ID { get; set; }
 
         public int SongsCount { get; set; }
-        public string Name { get; set; }
+        public string Token { get; set; }
 
         [Unique]
         public string Path { get; set; }
@@ -173,9 +173,12 @@ namespace Aurora.Music.Core.Storage
 
         public Folder(StorageFolder f)
         {
+            // Application now has read/write access to all contents in the picked folder
+            // (including other sub-folder contents)
+            Token = Windows.Storage.AccessCache.StorageApplicationPermissions.
+            FutureAccessList.Add(f);
             SongsCount = -1;
             Path = f.Path;
-            Name = f.DisplayName;
         }
     }
 
@@ -255,14 +258,14 @@ namespace Aurora.Music.Core.Storage
         public async Task<bool> AddFolderAsync(StorageFolder folder)
         {
             var f = new Folder(folder);
-            var result = await conn.QueryAsync<int>("SELECT ID FROM FOLDER WHERE PATH=?", folder.Path);
+            var result = await conn.QueryAsync<int>("SELECT ID FROM FOLDER WHERE PATH=?", f.Path);
             if (result.Count > 0)
             {
                 return false;
             }
             else
             {
-                await conn.InsertAsync(folder);
+                await conn.InsertAsync(f);
                 return true;
             }
         }
@@ -420,6 +423,11 @@ namespace Aurora.Music.Core.Storage
                 list.Add(await conn.FindAsync<Song>(id));
             }
             return list;
+        }
+
+        public async Task<List<Folder>> GetFolderAsync(string path)
+        {
+            return await conn.QueryAsync<Folder>("SELECT * FROM FOLDER WHERE PATH=?", path);
         }
     }
 
