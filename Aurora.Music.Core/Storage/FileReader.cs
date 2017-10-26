@@ -46,7 +46,7 @@ namespace Aurora.Music.Core.Storage
         public static async Task ReadFileandSave(IEnumerable<StorageFile> files)
         {
             var opr = SQLOperator.Current();
-            List<Song> tempList = new List<Song>();
+            List<Models.Song> tempList = new List<Models.Song>();
             foreach (var file in files)
             {
                 bool b = false;
@@ -66,8 +66,8 @@ namespace Aurora.Music.Core.Storage
 
                 using (var tagTemp = File.Create(file.Path))
                 {
-                    //await opr.UpdateAsync(await Models.Song.Create(tagTemp.Tag, file.Path));
-                    tempList.Add(new Song(await Models.Song.Create(tagTemp.Tag, file.Path)));
+                    var proper = await file.Properties.GetMusicPropertiesAsync();
+                    tempList.Add(await Models.Song.Create(tagTemp.Tag, file.Path, proper));
                 }
             }
             await opr.UpdateSongListAsync(tempList);

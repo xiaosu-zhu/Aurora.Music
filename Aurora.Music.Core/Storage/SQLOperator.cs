@@ -20,6 +20,11 @@ namespace Aurora.Music.Core.Storage
 
         public int PlayedCount { get; set; }
         public bool Favorite { get; set; }
+
+        /// <summary>
+        /// 0: song, 1: album, 2: playlist
+        /// </summary>
+        public int TargeType { get; set; }
     }
 
     public class Song
@@ -33,6 +38,8 @@ namespace Aurora.Music.Core.Storage
         public Song(Models.Song song)
         {
             FilePath = song.FilePath;
+            Duration = song.Duration;
+            BitRate = song.BitRate;
             MusicBrainzArtistId = song.MusicBrainzArtistId;
             MusicBrainzDiscId = song.MusicBrainzDiscId;
             MusicBrainzReleaseArtistId = song.MusicBrainzReleaseArtistId;
@@ -71,6 +78,9 @@ namespace Aurora.Music.Core.Storage
             Year = song.Year;
             PicturePath = song.PicturePath;
         }
+
+        public TimeSpan Duration { get; set; }
+        public uint BitRate { get; set; }
 
         public string FilePath { get; set; }
         public string PicturePath { get; set; }
@@ -264,6 +274,7 @@ namespace Aurora.Music.Core.Storage
             conn.GetConnection().CreateTable<Song>();
             conn.GetConnection().CreateTable<Album>();
             conn.GetConnection().CreateTable<Folder>();
+            conn.GetConnection().CreateTable<Statistics>();
         }
 
         public async Task<bool> AddFolderAsync(StorageFolder folder)
@@ -297,7 +308,7 @@ namespace Aurora.Music.Core.Storage
             }
         }
 
-        public async Task UpdateSongListAsync(List<Song> tempList)
+        public async Task UpdateSongListAsync(List<Models.Song> tempList)
         {
             var newlist = new List<Song>();
             foreach (var item in tempList)
@@ -309,8 +320,9 @@ namespace Aurora.Music.Core.Storage
                 }
                 else
                 {
-                    await conn.InsertAsync(item);
-                    newlist.Add(item);
+                    var song = new Song(item);
+                    await conn.InsertAsync(song);
+                    newlist.Add(song);
                 }
             }
             if (newlist.Count > 0)

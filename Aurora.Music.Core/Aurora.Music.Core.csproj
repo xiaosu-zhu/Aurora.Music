@@ -113,6 +113,7 @@
     <Compile Include="Storage\Events.cs" />
     <Compile Include="Storage\FileReader.cs" />
     <Compile Include="Storage\SQLOperator.cs" />
+    <Compile Include="Utils\FormatHelper.cs" />
     <EmbeddedResource Include="Properties\Aurora.Music.Core.rd.xml" />
   </ItemGroup>
   <ItemGroup>

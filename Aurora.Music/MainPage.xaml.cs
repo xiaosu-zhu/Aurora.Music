@@ -12,9 +12,12 @@ namespace Aurora.Music
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        public static MainPage Current;
+
         public MainPage()
         {
             this.InitializeComponent();
+            Current = this;
             MainFrame.Navigate(typeof(HomePage));
         }
 
@@ -25,6 +28,15 @@ namespace Aurora.Music
             MainFrame.Navigate(navigateOptions[sender.MenuItems.IndexOf(args.SelectedItem)]);
         }
 
+        public void Navigate(Type type)
+        {
+            MainFrame.Navigate(type);
+        }
+
+        public void Navigate(Type type, object parameter)
+        {
+            MainFrame.Navigate(type, parameter);
+        }
 
         public Visibility BooltoVisibility(bool b)
         {

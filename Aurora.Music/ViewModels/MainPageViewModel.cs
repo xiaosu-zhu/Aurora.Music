@@ -51,7 +51,7 @@ namespace Aurora.Music.ViewModels
             await FileReader.AddToAlbums(e.NewSongs);
         }
 
-        internal async Task NewPlayList(IEnumerable<Core.Storage.Song> songs)
+        internal async Task NewPlayList(IEnumerable<Song> songs)
         {
             await player.NewPlayList(songs);
         }

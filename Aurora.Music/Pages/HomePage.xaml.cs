@@ -31,5 +31,10 @@ namespace Aurora.Music.Pages
                 await Context.Load();
             });
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            MainPage.Current.Navigate(typeof(LibraryPage));
+        }
     }
 }

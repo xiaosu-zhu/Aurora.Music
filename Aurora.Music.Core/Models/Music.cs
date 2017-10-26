@@ -7,6 +7,7 @@ using Aurora.Shared.Extensions;
 using TagLib;
 using Windows.Storage;
 using System.IO;
+using Windows.Storage.FileProperties;
 
 namespace Aurora.Music.Core.Models
 {
@@ -17,6 +18,8 @@ namespace Aurora.Music.Core.Models
         public Song(Storage.Song song)
         {
             ID = song.ID;
+            Duration = song.Duration;
+            BitRate = song.BitRate;
             FilePath = song.FilePath;
             MusicBrainzArtistId = song.MusicBrainzArtistId;
             MusicBrainzDiscId = song.MusicBrainzDiscId;
@@ -57,10 +60,12 @@ namespace Aurora.Music.Core.Models
             PicturePath = song.PicturePath;
         }
 
-        public static async Task<Song> Create(Tag tag, string path)
+        public static async Task<Song> Create(Tag tag, string path, MusicProperties music)
         {
             var s = new Song
             {
+                Duration = music.Duration,
+                BitRate = music.Bitrate,
                 FilePath = path,
                 MusicBrainzArtistId = tag.MusicBrainzArtistId,
                 MusicBrainzDiscId = tag.MusicBrainzDiscId,
@@ -107,7 +112,7 @@ namespace Aurora.Music.Core.Models
         {
             if (!pictures.IsNullorEmpty())
             {
-                album = Utils.InvalidFileNameChars.Aggregate(album, (current, c) => current.Replace(c + "", "_"));
+                album = Shared.Utils.InvalidFileNameChars.Aggregate(album, (current, c) => current.Replace(c + "", "_"));
                 var artworkFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Artworks", CreationCollisionOption.OpenIfExists);
                 try
                 {
@@ -136,7 +141,11 @@ namespace Aurora.Music.Core.Models
             }
         }
 
-        public string FilePath { get; set; }
+        public TimeSpan Duration { get; set; }
+        public uint BitRate { get; set; }
+
+        public string FilePath
+        { get; set; }
         public string PicturePath { get; set; }
 
         public virtual string MusicBrainzReleaseId { get; set; }
@@ -190,7 +199,7 @@ namespace Aurora.Music.Core.Models
         public virtual string Conductor { get; set; }
         public virtual string Copyright { get; set; }
         public virtual string Comment { get; set; }
-        public object ID { get; set; }
+        public int ID { get; set; }
     }
 
 

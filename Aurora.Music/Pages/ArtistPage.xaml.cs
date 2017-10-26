@@ -16,7 +16,7 @@ namespace Aurora.Music.Pages
         public ArtistPage()
         {
             this.InitializeComponent();
-            ThreadPool.RunAsync(async x =>
+            var t = ThreadPool.RunAsync(async x =>
             {
                 await Context.GetAlbums();
             });

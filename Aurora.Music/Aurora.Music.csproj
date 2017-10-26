@@ -130,6 +130,7 @@
     <Compile Include="ViewModels\AddFoldersViewViewModel.cs" />
     <Compile Include="ViewModels\ArtistPageViewModel.cs" />
     <Compile Include="ViewModels\AlbumViewModel.cs" />
+    <Compile Include="ViewModels\GenericMusicItemViewModel.cs" />
     <Compile Include="ViewModels\HomePageViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="ViewModels\SongViewModel.cs" />
@@ -141,6 +142,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Images\1.jpg" />
+    <Content Include="Assets\Images\placeholder.png" />
+    <Content Include="Assets\Images\placeholder_b.png" />
     <Content Include="Assets\Images\welcome_bg.jpg" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
@@ -199,6 +202,11 @@
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Styles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
   </ItemGroup>
   <ItemGroup>
