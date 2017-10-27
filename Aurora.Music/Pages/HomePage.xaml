@@ -90,7 +90,7 @@
                         HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                         VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                         ContentMargin="{TemplateBinding Padding}"
-                        CheckMode="{ThemeResource ListViewItemCheckMode}"
+                        CheckMode="{ThemeResource ListViewItemCheckMode}" RevealBackgroundShowsAboveContent="True"
                         RevealBackground="{ThemeResource ListViewItemRevealBackground}"
                         RevealBorderThickness="{ThemeResource ListViewItemRevealBorderThemeThickness}"
                         RevealBorderBrush="{ThemeResource ListViewItemRevealBorderBrush}">
@@ -154,7 +154,7 @@
         <StackPanel Margin="0,32" Orientation="Vertical">
             <TextBlock OpticalMarginAlignment="None" Margin="60,0,0,0" Style="{ThemeResource SubheaderTextBlockStyle}" FontWeight="Bold" Text="{x:Bind Context.WelcomeTitle, Mode=OneWay}"/>
             <TextBlock Margin="60,12,0,0" Style="{ThemeResource SubtitleTextBlockStyle}" Text="Let's Play Something..."/>
-            <TextBlock Margin="16,8" Text="Your Favorite" 
+            <TextBlock Margin="16,32,16,8" Text="Your Favorite" 
                        Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold"/>
             <ListView Margin="0,8" IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" 
                       SelectionMode="None" ItemsSource="{x:Bind Context.FavList}" 
@@ -177,7 +177,7 @@
                     <Grid VerticalAlignment="Stretch" Width="32"/>
                 </ListView.Footer>
             </ListView>
-            <TextBlock Margin="16,8" Text="Feeling Lucky" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold"/>
+            <TextBlock Margin="16,32,16,8" Text="Feeling Lucky" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold"/>
             <ListView Margin="0,8" IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" SelectionMode="None" ItemsSource="{x:Bind Context.FavList}" ItemContainerStyle="{ThemeResource HomeListViewItemStyle}" Style="{StaticResource HorizontalListView}" x:Name="LuckyList">
                 <ListView.Header>
                     <Grid VerticalAlignment="Stretch" Width="32"/>

@@ -337,7 +337,7 @@
                         HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                         VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                         ContentMargin="{TemplateBinding Padding}"
-                        CheckMode="{ThemeResource ListViewItemCheckMode}"
+                        CheckMode="{ThemeResource ListViewItemCheckMode}" RevealBackgroundShowsAboveContent="True"
                         RevealBackground="{ThemeResource ListViewItemRevealBackground}"
                         RevealBorderThickness="{ThemeResource ListViewItemRevealBorderThemeThickness}"
                         RevealBorderBrush="{ThemeResource ListViewItemRevealBorderBrush}">

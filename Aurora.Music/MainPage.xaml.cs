@@ -2,6 +2,7 @@
 using Aurora.Music.Pages;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml;
+using Aurora.Music.ViewModels;
 
 // https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
 
@@ -46,6 +47,15 @@ namespace Aurora.Music
         private void Toggle_PaneOpened(object sender, RoutedEventArgs e)
         {
             Root.IsPaneOpen = !Root.IsPaneOpen;
+        }
+
+        private void Pane_CurrentChanged(object sender, SelectionChangedEventArgs e)
+        {
+            foreach (var item in Context.HamList)
+            {
+                item.IsCurrent = false;
+            }
+            ((sender as ListView).SelectedItem as HamPanelItem).IsCurrent = true;
         }
     }
 }

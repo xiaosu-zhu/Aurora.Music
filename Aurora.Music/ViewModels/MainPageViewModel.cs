@@ -10,12 +10,35 @@ using Windows.Storage;
 using System.Diagnostics;
 using Aurora.Music.Core.Player;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media.Imaging;
+using Aurora.Music.Pages;
+using Windows.UI.Text;
 
 namespace Aurora.Music.ViewModels
 {
     class MainPageViewModel : ViewModelBase, IDisposable
     {
         public static MainPageViewModel Current;
+
+        public List<HamPanelItem> HamList { get; set; } = new List<HamPanelItem>()
+        {
+            new HamPanelItem
+            {
+                Title = "Home",
+                TargetType = typeof(HomePage),
+                IsCurrent = true
+            },
+            new HamPanelItem
+            {
+                Title = "Library",
+                TargetType = typeof(LibraryPage)
+            },
+            new HamPanelItem
+            {
+                Title = "Playlist",
+                TargetType = typeof(HomePage)
+            },
+        };
 
         private SQLOperator opr;
         private Player player;
@@ -25,6 +48,13 @@ namespace Aurora.Music.ViewModels
         {
             get { return needShowPanel; }
             set { SetProperty(ref needShowPanel, value); }
+        }
+
+        private BitmapImage currentArtwork;
+        public BitmapImage CurrentArtwork
+        {
+            get { return currentArtwork; }
+            set { SetProperty(ref currentArtwork, value); }
         }
 
         public MainPageViewModel()
@@ -59,6 +89,31 @@ namespace Aurora.Music.ViewModels
         public void Play()
         {
             player.Play();
+        }
+    }
+
+
+    class HamPanelItem : ViewModelBase
+    {
+        public string Title { get; set; }
+
+        public Type TargetType { get; set; }
+
+        private bool isCurrent;
+        public bool IsCurrent
+        {
+            get { return isCurrent; }
+            set { SetProperty(ref isCurrent, value); }
+        }
+
+        public FontWeight ChangeWeight(bool b)
+        {
+            return b ? FontWeights.Bold : FontWeights.Normal;
+        }
+
+        public Visibility ChangeVisibility(bool b)
+        {
+            return b ? Visibility.Visible : Visibility.Collapsed;
         }
     }
 }
