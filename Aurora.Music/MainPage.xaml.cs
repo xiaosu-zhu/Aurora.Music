@@ -42,5 +42,10 @@ namespace Aurora.Music
         {
             return b ? Visibility.Visible : Visibility.Collapsed;
         }
+
+        private void Toggle_PaneOpened(object sender, RoutedEventArgs e)
+        {
+            Root.IsPaneOpen = !Root.IsPaneOpen;
+        }
     }
 }

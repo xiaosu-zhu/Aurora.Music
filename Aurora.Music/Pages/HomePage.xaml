@@ -36,12 +36,7 @@
                     <SolidColorBrush x:Key="myBrush" Color="{ThemeResource SystemColorButtonFaceColor}"/>
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
-            <DataTemplate x:DataType="vm:AlbumViewModel" x:Key="HomePageAlbum">
 
-            </DataTemplate>
-
-            <ctrls:HomePageTemplateSeletor x:Key="HomePageTemplateSelector" AlbumTemplate="{ThemeResource HomePageAlbum}" SongTemplate="{ThemeResource HomePageAlbum}"/>
-            
             <AcrylicBrush x:Key="HomePageBackground" BackgroundSource="HostBackdrop" TintColor="{StaticResource SystemChromeAltHighColor}" TintOpacity="0" FallbackColor="{StaticResource SystemChromeMediumColor}" />
             <Style TargetType="ListViewItem" x:Key="HomeListViewItemStyle">
                 <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
@@ -156,18 +151,18 @@
             </Grid.Background>
         </Grid>
         <Grid x:Name="LayerMask" Opacity="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource HomePageGradient}"/>
-        <StackPanel Margin="32,32,0,0" Orientation="Vertical">
-            <TextBlock Style="{ThemeResource HeaderTextBlockStyle}" FontWeight="Bold" Text="{x:Bind Context.WelcomeTitle, Mode=OneWay}"/>
-            <TextBlock Style="{ThemeResource TitleTextBlockStyle}" Text="Let's Play Something..."/>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,16">
-                <Button Click="Button_Click" Style="{ThemeResource TextBlockButtonStyle}" Margin="8">
-                    <Button.Content>
-                        <TextBlock Text="Go to Library" Style="{ThemeResource TitleTextBlockStyle}"/>
-                    </Button.Content>
-                </Button>
-            </StackPanel>
-            <TextBlock Margin="0,16" Text="Your Favorite" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold"/>
-            <ListView Margin="0,0,0,16" ItemTemplateSelector="{StaticResource}" IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" SelectionMode="None" ItemsSource="{x:Bind Context.FavList}" ItemContainerStyle="{ThemeResource HomeListViewItemStyle}" Style="{StaticResource HorizontalListView}" x:Name="FavList">
+        <StackPanel Margin="0,32" Orientation="Vertical">
+            <TextBlock OpticalMarginAlignment="None" Margin="60,0,0,0" Style="{ThemeResource SubheaderTextBlockStyle}" FontWeight="Bold" Text="{x:Bind Context.WelcomeTitle, Mode=OneWay}"/>
+            <TextBlock Margin="60,12,0,0" Style="{ThemeResource SubtitleTextBlockStyle}" Text="Let's Play Something..."/>
+            <TextBlock Margin="16,8" Text="Your Favorite" 
+                       Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold"/>
+            <ListView Margin="0,8" IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" 
+                      SelectionMode="None" ItemsSource="{x:Bind Context.FavList}" 
+                      ItemContainerStyle="{ThemeResource HomeListViewItemStyle}" 
+                      Style="{StaticResource HorizontalListView}" x:Name="FavList">
+                <ListView.Header>
+                    <Grid VerticalAlignment="Stretch" Width="32"/>
+                </ListView.Header>
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="vm:GenericMusicItemViewModel">
                         <StackPanel Width="150" Background="{ThemeResource SystemControlBackgroundAltMediumBrush}" Orientation="Vertical">
@@ -178,9 +173,15 @@
                         </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
+                <ListView.Footer>
+                    <Grid VerticalAlignment="Stretch" Width="32"/>
+                </ListView.Footer>
             </ListView>
-            <TextBlock Margin="0,16" Text="Feeling Lucky" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold"/>
-            <ListView Margin="0,0,0,16" IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" SelectionMode="None" ItemsSource="{x:Bind Context.FavList}" ItemContainerStyle="{ThemeResource HomeListViewItemStyle}" Style="{StaticResource HorizontalListView}" x:Name="LuckyList">
+            <TextBlock Margin="16,8" Text="Feeling Lucky" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold"/>
+            <ListView Margin="0,8" IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" SelectionMode="None" ItemsSource="{x:Bind Context.FavList}" ItemContainerStyle="{ThemeResource HomeListViewItemStyle}" Style="{StaticResource HorizontalListView}" x:Name="LuckyList">
+                <ListView.Header>
+                    <Grid VerticalAlignment="Stretch" Width="32"/>
+                </ListView.Header>
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="vm:GenericMusicItemViewModel">
                         <StackPanel Width="150" Background="{ThemeResource SystemControlBackgroundAltMediumBrush}" Orientation="Vertical">
@@ -191,6 +192,9 @@
                         </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
+                <ListView.Footer>
+                    <Grid VerticalAlignment="Stretch" Width="32"/>
+                </ListView.Footer>
             </ListView>
         </StackPanel>
     </Grid>
