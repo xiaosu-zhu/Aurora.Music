@@ -231,10 +231,18 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <GridView ItemClick="AlbumList_ItemClick" IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" SelectionMode="None" ItemsSource="{Binding Source={StaticResource AlbumListSource}}" Padding="32,0,32,160" ItemContainerStyle="{StaticResource GeneralGridViewItemStyle}" Style="{StaticResource GeneralGridViewStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="AlbumList">
+    <GridView ItemClick="AlbumList_ItemClick" IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" 
+              SelectionMode="None" ItemsSource="{Binding Source={StaticResource AlbumListSource}}" 
+              Padding="32,0,32,160" ItemContainerStyle="{StaticResource GeneralGridViewItemStyle}" 
+              Style="{StaticResource GeneralGridViewStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+              x:Name="AlbumList">
         <GridView.ItemTemplate>
             <DataTemplate x:DataType="vm:AlbumViewModel">
-                <StackPanel PointerEntered="StackPanel_PointerEntered" PointerExited="StackPanel_PointerExited" Orientation="Vertical">
+                <StackPanel PointerEntered="StackPanel_PointerEntered" 
+                            PointerExited="StackPanel_PointerExited" 
+                            PointerPressed="StackPanel_PointerPressed" 
+                            PointerReleased="StackPanel_PointerReleased"
+                            Orientation="Vertical">
                     <StackPanel.Resources>
                         <Storyboard x:Key="Normal" x:Name="Normal">
                             <DoubleAnimation Storyboard.TargetName="Shadow" Duration="0:0:0.48"
@@ -254,14 +262,26 @@
                                 </DoubleAnimation.EasingFunction>
                             </DoubleAnimation>
                         </Storyboard>
+                        <Storyboard x:Key="PointerPressed" x:Name="PointerPressed">
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Shadow"
+                                   Storyboard.TargetProperty="BlurRadius">
+                                <DiscreteObjectKeyFrame Value="0" KeyTime="0"/>
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
                     </StackPanel.Resources>
                     <toolkit:DropShadowPanel x:Name="Shadow" BlurRadius="16" ShadowOpacity="0.5" OffsetX="0" OffsetY="0" Color="Black">
                         <Grid Background="{ThemeResource SystemControlAcrylicWindowBrush}">
-                            <toolkit:ImageEx Style="{ThemeResource QuickLoadImageEx}" Stretch="UniformToFill" PlaceholderStretch="Uniform" HorizontalAlignment="Center" PlaceholderSource="/Assets/LockScreenLogo.png" VerticalAlignment="Center" Source="{x:Bind ToImage(Artwork)}" Height="160" Width="160"/>
+                            <toolkit:ImageEx Style="{ThemeResource QuickLoadImageEx}" Stretch="UniformToFill" 
+                                             PlaceholderStretch="Uniform" HorizontalAlignment="Center" 
+                                             PlaceholderSource="/Assets/LockScreenLogo.png" VerticalAlignment="Center" 
+                                             Source="{x:Bind ToImage(Artwork)}" Height="160" Width="160"/>
                         </Grid>
                     </toolkit:DropShadowPanel>
-                    <TextBlock MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{x:Bind Name}" Style="{ThemeResource BaseTextBlockStyle}" Margin="8,4,8,0"/>
-                    <TextBlock MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{x:Bind AlbumArtists[0], FallbackValue=}" Style="{ThemeResource BodyTextBlockStyle}" Margin="8,4,8,8"/>
+                    <TextBlock MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{x:Bind Name}" 
+                               Style="{ThemeResource BaseTextBlockStyle}" Margin="8,4,8,0"/>
+                    <TextBlock MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" 
+                               Text="{x:Bind AlbumArtists[0], FallbackValue=}" Style="{ThemeResource BodyTextBlockStyle}" 
+                               Margin="8,4,8,8"/>
                 </StackPanel>
             </DataTemplate>
         </GridView.ItemTemplate>
@@ -269,7 +289,9 @@
         <GridView.Header>
             <Grid Margin="-32,0,-32,32">
                 <ParallaxView HorizontalShift="0" Height="360" Source="{Binding ElementName=AlbumList}" VerticalShift="480">
-                    <controls:ImageGrid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderBrush="{x:Null}" BorderThickness="0" ImageSources="{x:Bind Context.HeroImage, Mode=OneWay}"/>
+                    <controls:ImageGrid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                                        BorderBrush="{x:Null}" BorderThickness="0" 
+                                        ImageSources="{x:Bind Context.HeroImage, Mode=OneWay}"/>
                 </ParallaxView>
                 <Grid HorizontalAlignment="Stretch" Height="360">
                     <Grid.Background>
@@ -281,15 +303,25 @@
                     </Grid.Background>
                 </Grid>
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="32">
-                    <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}" HorizontalAlignment="Left" VerticalAlignment="Center">
-                        <TextBlock Foreground="White" Margin="12,4" Text="Beatles" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="NoWrap" MaxLines="1" Style="{ThemeResource SubheaderTextBlockStyle}" TextTrimming="Clip"/>
+                    <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}" 
+                          HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <TextBlock Foreground="White" Margin="12,4" Text="Beatles" 
+                                   HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                   TextWrapping="NoWrap" MaxLines="1" Style="{ThemeResource SubheaderTextBlockStyle}" 
+                                   TextTrimming="Clip"/>
                     </Grid>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,8">
-                        <Grid VerticalAlignment="Bottom" Margin="0,0,4,0" Background="{ThemeResource SystemControlBackgroundAccentBrush}">
-                            <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Text="Rock" Margin="12,8"/>
+                        <Grid VerticalAlignment="Bottom" Margin="0,0,4,0" 
+                              Background="{ThemeResource SystemControlBackgroundAccentBrush}">
+                            <TextBlock Style="{ThemeResource BodyTextBlockStyle}" 
+                                       Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" 
+                                       Text="Rock" Margin="12,8"/>
                         </Grid>
-                        <Grid VerticalAlignment="Center" Margin="4,0,4,0" Background="{ThemeResource SystemControlBackgroundAccentBrush}">
-                            <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Text="Played 47 times" Margin="12,8"/>
+                        <Grid VerticalAlignment="Center" Margin="4,0,4,0" 
+                              Background="{ThemeResource SystemControlBackgroundAccentBrush}">
+                            <TextBlock Style="{ThemeResource BodyTextBlockStyle}" 
+                                       Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" 
+                                       Text="Played 47 times" Margin="12,8"/>
                         </Grid>
                     </StackPanel>
                 </StackPanel>

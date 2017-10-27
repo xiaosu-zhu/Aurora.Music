@@ -42,5 +42,21 @@ namespace Aurora.Music.Pages
         {
             await Context.PlayAlbum(e.ClickedItem as AlbumViewModel);
         }
+
+        private void StackPanel_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            if (sender is StackPanel s)
+            {
+                (s.Resources["PointerPressed"] as Storyboard).Begin();
+            }
+        }
+
+        private void StackPanel_PointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            if (sender is StackPanel s)
+            {
+                (s.Resources["PointerOver"] as Storyboard).Begin();
+            }
+        }
     }
 }
