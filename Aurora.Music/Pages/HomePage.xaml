@@ -37,7 +37,9 @@
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
 
-            <AcrylicBrush x:Key="HomePageBackground" BackgroundSource="HostBackdrop" TintColor="{StaticResource SystemChromeAltHighColor}" TintOpacity="0" FallbackColor="{StaticResource SystemChromeMediumColor}" />
+            <AcrylicBrush x:Key="HomePageBackground" BackgroundSource="HostBackdrop" 
+                          TintColor="{StaticResource SystemChromeAltHighColor}" TintOpacity="0" 
+                          FallbackColor="{StaticResource SystemChromeMediumColor}" />
             <Style TargetType="ListViewItem" x:Key="HomeListViewItemStyle">
                 <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
                 <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
@@ -138,11 +140,102 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+            <Style TargetType="GridViewItem" x:Key="HeroGridViewItemStyle">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="GridViewItem">
+                            <ListViewItemPresenter ContentTransitions="{TemplateBinding ContentTransitions}"
+                        x:Name="Root"
+                        Control.IsTemplateFocusTarget="True" Background="{x:Null}"
+                        FocusVisualMargin="{TemplateBinding FocusVisualMargin}"
+                        FocusVisualPrimaryBrush="{TemplateBinding FocusVisualPrimaryBrush}"
+                        FocusVisualPrimaryThickness="{TemplateBinding FocusVisualPrimaryThickness}"
+                        FocusVisualSecondaryBrush="{TemplateBinding FocusVisualSecondaryBrush}"
+                        FocusVisualSecondaryThickness="{TemplateBinding FocusVisualSecondaryThickness}"
+                        SelectionCheckMarkVisualEnabled="{ThemeResource GridViewItemSelectionCheckMarkVisualEnabled}"
+                        CheckBrush="{ThemeResource GridViewItemCheckBrush}"
+                        CheckBoxBrush="{ThemeResource GridViewItemCheckBoxBrush}"
+                        DragBackground="{ThemeResource GridViewItemDragBackground}"
+                        DragForeground="{ThemeResource GridViewItemDragForeground}"
+                        FocusBorderBrush="{ThemeResource GridViewItemFocusBorderBrush}"
+                        FocusSecondaryBorderBrush="{ThemeResource GridViewItemFocusSecondaryBorderBrush}"
+                        PlaceholderBackground="{x:Null}"
+                        PointerOverBackground="{x:Null}"
+                        PointerOverForeground="{ThemeResource GridViewItemForegroundPointerOver}"
+                        SelectedBackground="{x:Null}"
+                        SelectedForeground="{ThemeResource GridViewItemForegroundSelected}"
+                        SelectedPointerOverBackground="{ThemeResource GridViewItemBackgroundSelectedPointerOver}"
+                        PressedBackground="{x:Null}"
+                        SelectedPressedBackground="{ThemeResource GridViewItemBackgroundSelectedPressed}"
+                        DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}"
+                        DragOpacity="{ThemeResource ListViewItemDragThemeOpacity}"
+                        ReorderHintOffset="{ThemeResource GridViewItemReorderHintThemeOffset}"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        ContentMargin="{TemplateBinding Padding}"
+                        CheckMode="{ThemeResource GridViewItemCheckMode}"
+                        RevealBackgroundShowsAboveContent="True">
+
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal" />
+                                        <VisualState x:Name="Selected" />
+
+                                        <VisualState x:Name="PointerOver">
+                                            <VisualState.Setters>
+                                                <Setter Target="Root.(RevealBrush.State)" Value="PointerOver" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+
+                                        <VisualState x:Name="PointerOverSelected">
+                                            <VisualState.Setters>
+                                                <Setter Target="Root.(RevealBrush.State)" Value="PointerOver" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState x:Name="PointerOverPressed">
+                                            <VisualState.Setters>
+                                                <Setter Target="Root.(RevealBrush.State)" Value="Pressed" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+
+                                        <VisualState x:Name="Pressed">
+                                            <VisualState.Setters>
+                                                <Setter Target="Root.(RevealBrush.State)" Value="Pressed" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+
+                                        <VisualState x:Name="PressedSelected">
+                                            <VisualState.Setters>
+                                                <Setter Target="Root.(RevealBrush.State)" Value="Pressed" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+
+                                    <VisualStateGroup x:Name="DisabledStates">
+                                        <VisualState x:Name="Enabled" />
+
+                                        <VisualState x:Name="Disabled">
+                                            <VisualState.Setters>
+                                                <Setter Target="Root.RevealBorderThickness" Value="0" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+
+                                </VisualStateManager.VisualStateGroups>
+                            </ListViewItemPresenter>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
         </ResourceDictionary>
     </Page.Resources>
 
     <Grid x:Name="Main" Background="{ThemeResource HomePageBackground}">
-        <Grid x:Name="LayerGradient" Opacity="0.5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="144"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.RowSpan="2" x:Name="LayerGradient" Opacity="0.5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Grid.Background>
                 <LinearGradientBrush EndPoint="0,0" StartPoint="1,0">
                     <GradientStop Color="{x:Bind Context.LeftGradient, Mode=OneWay}"/>
@@ -150,52 +243,112 @@
                 </LinearGradientBrush>
             </Grid.Background>
         </Grid>
-        <Grid x:Name="LayerMask" Opacity="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource HomePageGradient}"/>
-        <StackPanel Margin="0,32" Orientation="Vertical">
-            <TextBlock OpticalMarginAlignment="None" Margin="60,0,0,0" Style="{ThemeResource SubheaderTextBlockStyle}" FontWeight="Bold" Text="{x:Bind Context.WelcomeTitle, Mode=OneWay}"/>
-            <TextBlock Margin="60,12,0,0" Style="{ThemeResource SubtitleTextBlockStyle}" Text="Let's Play Something..."/>
-            <TextBlock Margin="16,32,16,8" Text="Your Favorite" 
+        <Grid Grid.RowSpan="2" x:Name="LayerMask" Opacity="1" 
+              HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+              Background="{ThemeResource HomePageGradient}"/>
+        <StackPanel Orientation="Vertical" Margin="0,32,0,0">
+            <TextBlock OpticalMarginAlignment="None" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                       Style="{ThemeResource SubheaderTextBlockStyle}" FontWeight="Bold" 
+                       Text="{x:Bind Context.WelcomeTitle, Mode=OneWay}"/>
+            <TextBlock Margin="0,12,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                       Style="{ThemeResource SubtitleTextBlockStyle}" Text="Let's Play Something..."/>
+        </StackPanel>
+        <ScrollViewer IsHorizontalScrollChainingEnabled="False" IsHorizontalRailEnabled="False" Grid.Row="1" 
+                      HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Hidden" 
+                      VerticalScrollMode="Auto" VerticalScrollBarVisibility="Auto" IsVerticalRailEnabled="True" 
+                      IsVerticalScrollChainingEnabled="True">
+            <StackPanel Margin="0,0,0,32" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <GridView ItemsSource="{x:Bind Context.HeroList}" SelectionMode="None" IsItemClickEnabled="True"
+                          HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                          Margin="80"
+                          ItemContainerStyle="{ThemeResource HeroGridViewItemStyle}" x:Name="HeroGrid">
+                    <GridView.ItemTemplate>
+                        <DataTemplate x:DataType="vm:GenericMusicItemViewModel">
+                            <Grid PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited" 
+                                  PointerPressed="Grid_PointerPressed" PointerReleased="Grid_PointerReleased" 
+                                  Background="{x:Null}"
+                                  Height="80" Width="80">
+                                <Ellipse Height="80" Width="80" Fill="Red">
+                                </Ellipse>
+                                <TextBlock Text="{x:Bind Title}" Style="{ThemeResource BaseTextBlockStyle}" 
+                                           HorizontalAlignment="Center" VerticalAlignment="Center"
+                                           Margin="8" MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"/>
+                            </Grid>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
+                </GridView>
+                <TextBlock Margin="16,32,16,8" Text="Your Favorite" 
                        Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold"/>
-            <ListView Margin="0,8" IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" 
+                <ListView Margin="0,8" IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" 
+                          ScrollViewer.IsHorizontalScrollChainingEnabled="True" ScrollViewer.IsHorizontalRailEnabled="True"
                       SelectionMode="None" ItemsSource="{x:Bind Context.FavList}" 
                       ItemContainerStyle="{ThemeResource HomeListViewItemStyle}" 
                       Style="{StaticResource HorizontalListView}" x:Name="FavList">
-                <ListView.Header>
-                    <Grid VerticalAlignment="Stretch" Width="32"/>
-                </ListView.Header>
-                <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="vm:GenericMusicItemViewModel">
-                        <StackPanel Width="150" Background="{ThemeResource SystemControlBackgroundAltMediumBrush}" Orientation="Vertical">
-                            <toolkit:ImageEx HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="{x:Bind Artwork}" PlaceholderSource="/Assets/Images/placeholder_b.png" Style="{ThemeResource QuickLoadImageEx}" Width="150" Height="150" Stretch="UniformToFill" PlaceholderStretch="UniformToFill"/>
-                            <TextBlock Text="{x:Bind Title}" Style="{ThemeResource BaseTextBlockStyle}" MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Margin="8,4,8,0"/>
-                            <TextBlock Text="{x:Bind Description}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Margin="8,0,8,0"/>
-                            <TextBlock Text="{x:Bind Addtional}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Margin="8,0,8,12"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-                <ListView.Footer>
-                    <Grid VerticalAlignment="Stretch" Width="32"/>
-                </ListView.Footer>
-            </ListView>
-            <TextBlock Margin="16,32,16,8" Text="Feeling Lucky" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold"/>
-            <ListView Margin="0,8" IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" SelectionMode="None" ItemsSource="{x:Bind Context.FavList}" ItemContainerStyle="{ThemeResource HomeListViewItemStyle}" Style="{StaticResource HorizontalListView}" x:Name="LuckyList">
-                <ListView.Header>
-                    <Grid VerticalAlignment="Stretch" Width="32"/>
-                </ListView.Header>
-                <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="vm:GenericMusicItemViewModel">
-                        <StackPanel Width="150" Background="{ThemeResource SystemControlBackgroundAltMediumBrush}" Orientation="Vertical">
-                            <toolkit:ImageEx HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="{x:Bind Artwork}" PlaceholderSource="/Assets/Images/placeholder_b.png" Style="{ThemeResource QuickLoadImageEx}" Width="150" Height="150" Stretch="UniformToFill" PlaceholderStretch="UniformToFill"/>
-                            <TextBlock Text="{x:Bind Title}" Style="{ThemeResource BaseTextBlockStyle}" MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Margin="8,4,8,0"/>
-                            <TextBlock Text="{x:Bind Description}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Margin="8,0,8,0"/>
-                            <TextBlock Text="{x:Bind Addtional}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Margin="8,0,8,12"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-                <ListView.Footer>
-                    <Grid VerticalAlignment="Stretch" Width="32"/>
-                </ListView.Footer>
-            </ListView>
-        </StackPanel>
+                    <ListView.Header>
+                        <Grid VerticalAlignment="Stretch" Width="32"/>
+                    </ListView.Header>
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="vm:GenericMusicItemViewModel">
+                            <StackPanel Width="150" Background="{ThemeResource SystemControlBackgroundAltMediumBrush}" 
+                                        Orientation="Vertical">
+                                <toolkit:ImageEx HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                                                 Source="{x:Bind Artwork}" PlaceholderSource="/Assets/Images/placeholder_b.png" 
+                                                 Style="{ThemeResource QuickLoadImageEx}" Width="150" Height="150" 
+                                                 Stretch="UniformToFill" PlaceholderStretch="UniformToFill"/>
+                                <TextBlock Text="{x:Bind Title}" Style="{ThemeResource BaseTextBlockStyle}" 
+                                           MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" 
+                                           Margin="8,4,8,0"/>
+                                <TextBlock Text="{x:Bind Description}" Style="{ThemeResource BodyTextBlockStyle}" 
+                                           MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" 
+                                           Margin="8,0,8,0"/>
+                                <TextBlock Text="{x:Bind Addtional}" Style="{ThemeResource BodyTextBlockStyle}" 
+                                           MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" 
+                                           Margin="8,0,8,12"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                    <ListView.Footer>
+                        <Grid VerticalAlignment="Stretch" Width="32"/>
+                    </ListView.Footer>
+                </ListView>
+                <TextBlock Margin="16,32,16,8" Text="Feeling Lucky" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold"/>
+                <ListView Margin="0,8" IsSynchronizedWithCurrentItem="False"
+                          ScrollViewer.IsHorizontalScrollChainingEnabled="True" 
+                          ScrollViewer.IsHorizontalRailEnabled="True"
+                          IsItemClickEnabled="True" SelectionMode="None" 
+                          ItemsSource="{x:Bind Context.FavList}" 
+                          ItemContainerStyle="{ThemeResource HomeListViewItemStyle}" 
+                          Style="{StaticResource HorizontalListView}" 
+                          x:Name="LuckyList">
+                    <ListView.Header>
+                        <Grid VerticalAlignment="Stretch" Width="32"/>
+                    </ListView.Header>
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="vm:GenericMusicItemViewModel">
+                            <StackPanel Width="150" 
+                                        Background="{ThemeResource SystemControlBackgroundAltMediumBrush}" 
+                                        Orientation="Vertical">
+                                <toolkit:ImageEx HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                                                 Source="{x:Bind Artwork}" PlaceholderSource="/Assets/Images/placeholder_b.png" 
+                                                 Style="{ThemeResource QuickLoadImageEx}" Width="150" Height="150" 
+                                                 Stretch="UniformToFill" PlaceholderStretch="UniformToFill"/>
+                                <TextBlock Text="{x:Bind Title}" Style="{ThemeResource BaseTextBlockStyle}" 
+                                           MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" 
+                                           Margin="8,4,8,0"/>
+                                <TextBlock Text="{x:Bind Description}" Style="{ThemeResource BodyTextBlockStyle}" 
+                                           MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" 
+                                           Margin="8,0,8,0"/>
+                                <TextBlock Text="{x:Bind Addtional}" Style="{ThemeResource BodyTextBlockStyle}" 
+                                           MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" 
+                                           Margin="8,0,8,12"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                    <ListView.Footer>
+                        <Grid VerticalAlignment="Stretch" Width="32"/>
+                    </ListView.Footer>
+                </ListView>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Page>

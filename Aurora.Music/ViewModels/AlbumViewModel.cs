@@ -34,6 +34,8 @@ namespace Aurora.Music.ViewModels
             ReplayGainAlbumPeak = item.ReplayGainAlbumPeak;
         }
 
+        public AlbumViewModel() { }
+
         private int[] songs;
 
         public ObservableCollection<SongViewModel> Songs { get; set; } = new ObservableCollection<SongViewModel>();

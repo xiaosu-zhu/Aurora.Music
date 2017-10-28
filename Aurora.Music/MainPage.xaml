@@ -600,13 +600,13 @@
                         FocusBorderBrush="{ThemeResource ListViewItemFocusBorderBrush}"
                         FocusSecondaryBorderBrush="{ThemeResource ListViewItemFocusSecondaryBorderBrush}"
                         PlaceholderBackground="{ThemeResource ListViewItemPlaceholderBackground}"
-                        PointerOverBackground="{ThemeResource ListViewItemBackgroundPointerOver}"
-                        PointerOverForeground="{ThemeResource ListViewItemForegroundPointerOver}"
+                        PointerOverBackground="{ThemeResource SystemControlBackgroundAccentBrush}"
+                        PointerOverForeground="{ThemeResource SystemControlForegroundAltHighBrush}"
                         SelectedBackground="Transparent"
                         SelectedForeground="{ThemeResource ListViewItemForegroundSelected}"
-                        SelectedPointerOverBackground="Transparent"
-                        PressedBackground="{ThemeResource ListViewItemBackgroundPressed}"
-                        SelectedPressedBackground="Transparent"
+                        SelectedPointerOverBackground="{ThemeResource SystemControlBackgroundAccentBrush}"
+                        PressedBackground="{ThemeResource SystemControlBackgroundAccentBrush}"
+                        SelectedPressedBackground="{ThemeResource SystemControlBackgroundAccentBrush}"
                         DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}"
                         DragOpacity="{ThemeResource ListViewItemDragThemeOpacity}"
                         ReorderHintOffset="{ThemeResource ListViewItemReorderHintThemeOffset}"
@@ -685,6 +685,12 @@
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
                 <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="180">
+                        <Grid.Background>
+                            <ImageBrush Stretch="UniformToFill" AlignmentX="Center" AlignmentY="Center"/>
+                        </Grid.Background>
+                    </Grid>
+                    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="180" Background="{ThemeResource SystemControlBackgroundBaseLowBrush}"/>
                     <Button Style="{ThemeResource MainPageHamStyle}" Background="Transparent"
                         HorizontalAlignment="Left" VerticalAlignment="Top" Click="Toggle_PaneOpened"
                         Margin="0,32,0,0" Width="48" Height="48">
@@ -697,8 +703,8 @@
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="vm:HamPanelItem">
                             <Grid Margin="0,8">
-                                <Grid Background="{ThemeResource SystemControlBackgroundBaseHighBrush}" HorizontalAlignment="Left" VerticalAlignment="Center" Height="2" Width="48" Visibility="{x:Bind ChangeVisibility(IsCurrent), Mode=OneWay}"/>
-                                <TextBlock Margin="72,8" Text="{x:Bind Title}" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="{x:Bind ChangeWeight(IsCurrent), Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                <Grid HorizontalAlignment="Left" VerticalAlignment="Center" Height="2" Width="48" Visibility="{x:Bind ChangeVisibility(IsCurrent), Mode=OneWay}"/>
+                                <TextBlock x:Name="Text" Margin="72,8" Text="{x:Bind Title}" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="{x:Bind ChangeWeight(IsCurrent), Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>

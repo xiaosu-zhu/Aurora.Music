@@ -56,6 +56,7 @@ namespace Aurora.Music
                 item.IsCurrent = false;
             }
             ((sender as ListView).SelectedItem as HamPanelItem).IsCurrent = true;
+            MainFrame.Navigate(((sender as ListView).SelectedItem as HamPanelItem).TargetType);
         }
     }
 }

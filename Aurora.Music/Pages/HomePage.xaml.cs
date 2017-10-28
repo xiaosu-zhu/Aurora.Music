@@ -38,5 +38,25 @@ namespace Aurora.Music.Pages
         {
             MainPage.Current.Navigate(typeof(LibraryPage));
         }
+
+        private void Grid_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+
+        }
+
+        private void Grid_PointerExited(object sender, PointerRoutedEventArgs e)
+        {
+
+        }
+
+        private void Grid_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+
+        }
+
+        private void Grid_PointerReleased(object sender, PointerRoutedEventArgs e)
+        {
+
+        }
     }
 }
