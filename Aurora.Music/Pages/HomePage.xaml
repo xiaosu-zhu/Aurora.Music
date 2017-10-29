@@ -386,7 +386,7 @@
                                     </Storyboard>
                                 </Grid.Resources>
                                 <toolkit:DropShadowPanel x:Name="Shadow"
-                                    OffsetX="0" OffsetY="0" BlurRadius="16" ShadowOpacity="0.2" Color="Black">
+                                    OffsetX="0" OffsetY="0" BlurRadius="16" ShadowOpacity="5" Color="Black">
                                     <Ellipse Height="144" Width="144">
                                         <Ellipse.Fill>
                                             <ImageBrush ImageSource="/Assets/Images/th.jpg" AlignmentX="Center" AlignmentY="Center" Stretch="UniformToFill"/>

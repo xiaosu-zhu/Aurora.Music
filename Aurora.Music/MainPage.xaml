@@ -1219,7 +1219,7 @@
                 <Frame HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="MainFrame"/>
                 <Grid Visibility="{x:Bind BooltoVisibility(Context.NeedShowPanel), Mode=OneWay}" 
                       HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="74" 
-                      Background="{ThemeResource SystemControlAltHighAcrylicElementBrush}">
+                      Background="{ThemeResource SystemControlAltLowAcrylicElementBrush}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="*"/>
@@ -1276,7 +1276,7 @@
                             </ToggleButton.Content>
                         </ToggleButton>
                     </StackPanel>
-                    <ProgressBar Background="{ThemeResource SystemControlAltHighAcrylicElementBrush}" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="4" 
+                    <ProgressBar Background="{ThemeResource SystemControlAltLowAcrylicElementBrush}" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="4" 
                                  Value="{x:Bind PositionToValue(Context.CurrentPosition, Context.TotalDuration), Mode=OneWay}"/>
                 </Grid>
 

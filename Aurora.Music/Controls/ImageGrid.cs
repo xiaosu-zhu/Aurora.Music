@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -33,13 +34,13 @@ namespace Aurora.Music.Controls
         public static readonly DependencyProperty ImageSourcesProperty =
             DependencyProperty.Register("ImageSources", typeof(object), typeof(ImageGrid), new PropertyMetadata(null, ImageSourcesChanged));
 
-        private static void ImageSourcesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static async void ImageSourcesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is ImageGrid imgGrid && e.NewValue is IList<ImageSource> source)
             {
-                if (imgGrid.main == null)
+                while (imgGrid.main == null)
                 {
-                    return;
+                    await Task.Delay(16);
                 }
                 var main = imgGrid.main;
                 main.Children.Clear();

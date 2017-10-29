@@ -56,6 +56,17 @@ namespace Aurora.Music.Core.Player
             });
         }
 
+        private void MediaPlaybackList_CurrentItemChanged(MediaPlaybackList sender, CurrentMediaPlaybackItemChangedEventArgs args)
+        {
+            StatusChanged?.Invoke(this, new StatusChangedArgs
+            {
+                State = mediaPlayer.PlaybackSession.PlaybackState,
+                IsShuffle = mediaPlaybackList.ShuffleEnabled,
+                IsLoop = mediaPlaybackList.AutoRepeatEnabled,
+                CurrentSong = mediaPlaybackList.CurrentItem
+            });
+        }
+
         public async Task NewPlayList(IEnumerable<Storage.Song> items)
         {
             mediaPlayer.Pause();
@@ -221,10 +232,6 @@ namespace Aurora.Music.Core.Player
                 mediaPlayer.Pause();
         }
 
-        private void MediaPlaybackList_CurrentItemChanged(MediaPlaybackList sender, CurrentMediaPlaybackItemChangedEventArgs args)
-        {
-            //throw new NotImplementedException();
-        }
 
         public void Dispose()
         {
