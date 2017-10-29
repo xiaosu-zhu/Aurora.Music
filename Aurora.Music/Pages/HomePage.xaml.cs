@@ -41,22 +41,27 @@ namespace Aurora.Music.Pages
 
         private void Grid_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
-
+            ((sender as Grid).Resources["PointerOver"] as Storyboard).Begin();
         }
 
         private void Grid_PointerExited(object sender, PointerRoutedEventArgs e)
         {
-
+            ((sender as Grid).Resources["Normal"] as Storyboard).Begin();
         }
 
         private void Grid_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
-
+            ((sender as Grid).Resources["Pressed"] as Storyboard).Begin();
         }
 
         private void Grid_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
+            ((sender as Grid).Resources["PointerOver"] as Storyboard).Begin();
+        }
 
+        private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            ContentPanel.Width = this.ActualWidth;
         }
     }
 }

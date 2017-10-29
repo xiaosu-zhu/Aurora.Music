@@ -13,6 +13,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;
 using Aurora.Music.Pages;
 using Windows.UI.Text;
+using Windows.ApplicationModel.Core;
 
 namespace Aurora.Music.ViewModels
 {
@@ -43,7 +44,7 @@ namespace Aurora.Music.ViewModels
         private SQLOperator opr;
         private Player player;
 
-        private bool needShowPanel;
+        private bool needShowPanel = true;
         public bool NeedShowPanel
         {
             get { return needShowPanel; }
@@ -57,12 +58,155 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref currentArtwork, value); }
         }
 
+        private double nowPlayingPosition;
+        public double NowPlayingPosition
+        {
+            get { return nowPlayingPosition; }
+            set { SetProperty(ref nowPlayingPosition, value); }
+        }
+
+        private bool? isPlaying;
+        public bool? IsPlaying
+        {
+            get { return isPlaying; }
+            set { SetProperty(ref isPlaying, value); }
+        }
+
+        private TimeSpan currentPosition;
+        public TimeSpan CurrentPosition
+        {
+            get { return currentPosition; }
+            set { SetProperty(ref currentPosition, value); }
+        }
+
+        private TimeSpan totalDuration;
+        public TimeSpan TotalDuration
+        {
+            get { return totalDuration; }
+            set { SetProperty(ref totalDuration, value); }
+        }
+
+        private string currentTitle;
+        public string CurrentTitle
+        {
+            get { return currentTitle; }
+            set { SetProperty(ref currentTitle, value); }
+        }
+
+        private string currentAlbum;
+        public string CurrentAlbum
+        {
+            get { return currentAlbum; }
+            set { SetProperty(ref currentAlbum, value); }
+        }
+
+        public DelegateCommand GoPrevious
+        {
+            get
+            {
+                return new DelegateCommand(() =>
+                {
+                    player?.GoPrevious();
+                });
+            }
+        }
+
+        public DelegateCommand GoNext
+        {
+            get
+            {
+                return new DelegateCommand(() =>
+                {
+                    player?.GoNext();
+                });
+            }
+        }
+
+        public DelegateCommand PlayPause
+        {
+            get
+            {
+                return new DelegateCommand(() =>
+                {
+                    player?.PlayPause();
+                });
+            }
+        }
+
+        public DelegateCommand ToggleShuffle
+        {
+            get
+            {
+                return new DelegateCommand(() =>
+                {
+                    player?.ToggleShuffle();
+                });
+            }
+        }
+
+        public DelegateCommand ToggleLoop
+        {
+            get
+            {
+                return new DelegateCommand(() =>
+                {
+                    player?.ToggleLoop();
+                });
+            }
+        }
+
         public MainPageViewModel()
         {
-            opr = SQLOperator.Current();
             player = new Player();
-            opr.NewSongsAdded += Opr_NewSongsAdded;
             Current = this;
+            player.StatusChanged += Player_StatusChanged;
+            player.PositionUpdated += Player_PositionUpdated;
+        }
+
+        private async void Player_PositionUpdated(object sender, PositionUpdatedArgs e)
+        {
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            {
+                CurrentPosition = e.Current;
+                TotalDuration = e.Total;
+            });
+        }
+
+        private async void Player_StatusChanged(object sender, StatusChangedArgs e)
+        {
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            {
+                switch (e.State)
+                {
+                    case Windows.Media.Playback.MediaPlaybackState.None:
+                    case Windows.Media.Playback.MediaPlaybackState.Opening:
+                    case Windows.Media.Playback.MediaPlaybackState.Buffering:
+                        IsPlaying = null;
+                        break;
+                    case Windows.Media.Playback.MediaPlaybackState.Playing:
+                        IsPlaying = true;
+                        break;
+                    case Windows.Media.Playback.MediaPlaybackState.Paused:
+                        IsPlaying = false;
+                        break;
+                    default:
+                        break;
+                }
+                if (e.CurrentSong != null)
+                {
+                    var p = e.CurrentSong.GetDisplayProperties().MusicProperties;
+                    CurrentTitle = p.Title;
+                    CurrentAlbum = p.AlbumTitle;
+                    if (e.CurrentSong.Source.CustomProperties["Artwork"] is Uri u)
+                    {
+                        CurrentArtwork = new BitmapImage(u);
+                    }
+                    else
+                    {
+                        CurrentArtwork = null;
+                    }
+                }
+            });
         }
 
         public void Dispose()
@@ -70,25 +214,9 @@ namespace Aurora.Music.ViewModels
             ((IDisposable)player).Dispose();
         }
 
-        public async Task Go()
-        {
-            StorageFolder folder = KnownFolders.MusicLibrary;
-            await FileReader.Read(folder);
-        }
-
-        private async void Opr_NewSongsAdded(object sender, SongsAddedEventArgs e)
-        {
-            await FileReader.AddToAlbums(e.NewSongs);
-        }
-
         internal async Task NewPlayList(IEnumerable<Song> songs)
         {
             await player.NewPlayList(songs);
-        }
-
-        public void Play()
-        {
-            player.Play();
         }
     }
 

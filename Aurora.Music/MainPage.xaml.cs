@@ -29,6 +29,29 @@ namespace Aurora.Music
             MainFrame.Navigate(navigateOptions[sender.MenuItems.IndexOf(args.SelectedItem)]);
         }
 
+        Symbol NullableBoolToSymbol(bool? b)
+        {
+            if (b is bool bb)
+            {
+                return bb ? Symbol.Pause : Symbol.Play;
+            }
+            return Symbol.Play;
+        }
+
+        double PositionToValue(TimeSpan t1, TimeSpan total)
+        {
+            if (total == null || total.TotalMilliseconds < 1)
+            {
+                return 0;
+            }
+            return 100 * (t1.TotalMilliseconds / total.TotalMilliseconds);
+        }
+
+        string PositionToString(TimeSpan t1, TimeSpan total)
+        {
+            return (t1.ToString(@"m\:ss") + '/' + total.ToString(@"m\:ss"));
+        }
+
         public void Navigate(Type type)
         {
             MainFrame.Navigate(type);

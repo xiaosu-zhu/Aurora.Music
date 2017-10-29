@@ -86,37 +86,37 @@ namespace Aurora.Music.ViewModels
                 });
                 HeroList.Add(new GenericMusicItemViewModel
                 {
-                    Title = "Octopus Garden",
+                    Title = "Afternoon Pick",
                     Description = "3 mins, 3 secs",
-                    Addtional = "Favorite",
+                    Addtional = "Afternoon Picks",
                 });
                 HeroList.Add(new GenericMusicItemViewModel
                 {
-                    Title = "LOVE",
+                    Title = "Shuffle All",
                     Description = "15 Songs",
                     Addtional = "Played 35 times",
                 });
                 HeroList.Add(new GenericMusicItemViewModel
                 {
-                    Title = "Let It Be",
+                    Title = "Favorties Picks",
                     Description = "5 mins, 13 secs",
                     Addtional = "The Beatles",
                 });
                 HeroList.Add(new GenericMusicItemViewModel
                 {
-                    Title = "Love Me Do",
+                    Title = "Friday Picks",
                     Description = "2 mins, 24 secs",
                     Addtional = "The Beatles",
                 });
                 HeroList.Add(new GenericMusicItemViewModel
                 {
-                    Title = "The Beatles",
+                    Title = "Recently Played",
                     Description = "30 Songs",
                     Addtional = "The Beatles",
                 });
                 HeroList.Add(new GenericMusicItemViewModel
                 {
-                    Title = "Octopus Garden",
+                    Title = "Classic Picks",
                     Description = "3 mins, 3 secs",
                     Addtional = "Favorite",
                 });

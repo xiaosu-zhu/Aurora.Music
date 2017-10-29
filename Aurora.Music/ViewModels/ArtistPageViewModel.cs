@@ -33,11 +33,12 @@ namespace Aurora.Music.ViewModels
         public async Task GetAlbums()
         {
             var albums = await FileReader.GetAlbumsAsync();
+            var a = albums.OrderByDescending(x => x.Year);
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
                 var list = new List<ImageSource>();
                 int i = 0;
-                foreach (var item in albums)
+                foreach (var item in a)
                 {
                     AlbumList.Add(new AlbumViewModel(item));
                     if (i < 9)
@@ -55,7 +56,7 @@ namespace Aurora.Music.ViewModels
         {
             var songs = await album.GetSongs();
             await MainPageViewModel.Current.NewPlayList(songs);
-            MainPageViewModel.Current.Play();
+            MainPageViewModel.Current.PlayPause.Execute();
         }
     }
 }

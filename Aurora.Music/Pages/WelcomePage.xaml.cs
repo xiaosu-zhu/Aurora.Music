@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -22,6 +23,8 @@ namespace Aurora.Music.Pages
     /// </summary>
     public sealed partial class WelcomePage : Page
     {
+        private bool searchBegined;
+
         public WelcomePage()
         {
             this.InitializeComponent();
@@ -37,6 +40,27 @@ namespace Aurora.Music.Pages
         public double IndexToProgress(int index)
         {
             return (100d / Main.Items.Count) * (index + 1);
+        }
+
+        private async Task StartSearching()
+        {
+            searchBegined = true;
+            await Context.StartSearch();
+        }
+
+        private async void Main_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (Main.SelectedIndex == Main.Items.Count - 1 && !searchBegined)
+            {
+                await StartSearching();
+            }
+        }
+
+        private void Finish_Click(object sender, RoutedEventArgs e)
+        {
+            Frame rootFrame = Window.Current.Content as Frame;
+
+            rootFrame.Navigate(typeof(MainPage));
         }
     }
 }

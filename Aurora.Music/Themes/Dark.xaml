@@ -1,0 +1,9 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <RevealBorderBrush x:Key="SystemControlBackgroundAltLowRevealBrush" TargetTheme="Dark" Color="{StaticResource SystemRevealAltLowColor}" FallbackColor="{StaticResource SystemRevealAltLowColor}" />
+    <RevealBorderBrush x:Key="SystemControlBackgroundAltHighRevealBrush" TargetTheme="Dark" Color="{StaticResource SystemRevealAltHighColor}" FallbackColor="{StaticResource SystemAltHighColor}" />
+
+    <RevealBorderBrush x:Key="SystemControlBackgroundAltMediumRevealBrush" TargetTheme="Dark" Color="{StaticResource SystemRevealAltMediumColor}" FallbackColor="{StaticResource SystemAltHighColor}" />
+    <RevealBorderBrush x:Key="SystemControlBackgroundAltMediumHighBrush" TargetTheme="Dark" Color="{StaticResource SystemRevealAltMediumHighColor}" FallbackColor="{StaticResource SystemAltHighColor}" />
+</ResourceDictionary>

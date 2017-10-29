@@ -2,7 +2,7 @@
     x:Class="Aurora.Music.Pages.HomePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Aurora.Music.Pages"
+    xmlns:local="using:Aurora.Music.Pages" SizeChanged="Page_SizeChanged"
     xmlns:vm="using:Aurora.Music.ViewModels"
     xmlns:ctrls="using:Aurora.Music.Controls"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
@@ -40,6 +40,69 @@
             <AcrylicBrush x:Key="HomePageBackground" BackgroundSource="HostBackdrop" 
                           TintColor="{StaticResource SystemChromeAltHighColor}" TintOpacity="0" 
                           FallbackColor="{StaticResource SystemChromeMediumColor}" />
+
+            <Style x:Key="HeroGridViewStyle" TargetType="GridView">
+                <Setter Property="Padding" Value="0,0,0,10"/>
+                <Setter Property="IsTabStop" Value="False"/>
+                <Setter Property="TabNavigation" Value="Once"/>
+                <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+                <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+                <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Disabled"/>
+                <Setter Property="ScrollViewer.IsHorizontalRailEnabled" Value="False"/>
+                <Setter Property="ScrollViewer.VerticalScrollMode" Value="Enabled"/>
+                <Setter Property="ScrollViewer.IsVerticalRailEnabled" Value="True"/>
+                <Setter Property="ScrollViewer.ZoomMode" Value="Disabled"/>
+                <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False"/>
+                <Setter Property="ScrollViewer.BringIntoViewOnFocusChange" Value="True"/>
+                <Setter Property="IsSwipeEnabled" Value="True"/>
+                <Setter Property="UseSystemFocusVisuals" Value="True"/>
+                <Setter Property="FocusVisualMargin" Value="-2"/>
+                <Setter Property="ItemContainerTransitions">
+                    <Setter.Value>
+                        <TransitionCollection>
+                            <AddDeleteThemeTransition/>
+                            <ContentThemeTransition/>
+                            <ReorderThemeTransition/>
+                            <EntranceThemeTransition IsStaggeringEnabled="True"/>
+                        </TransitionCollection>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="ItemsPanel">
+                    <Setter.Value>
+                        <ItemsPanelTemplate>
+                            <ItemsWrapGrid Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="GridView">
+                            <Border Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" 
+                                    BorderBrush="{TemplateBinding BorderBrush}">
+                                <ScrollViewer x:Name="ScrollViewer" AutomationProperties.AccessibilityView="Raw" 
+                                              BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}" 
+                                              HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}" 
+                                              HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}" 
+                                              IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}" 
+                                              IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}" 
+                                              IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}" 
+                                              IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}" 
+                                              IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}" 
+                                              TabNavigation="{TemplateBinding TabNavigation}" 
+                                              VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}" 
+                                              VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}" 
+                                              ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
+                                    <ItemsPresenter Footer="{TemplateBinding Footer}" FooterTransitions="{TemplateBinding FooterTransitions}" 
+                                                    FooterTemplate="{TemplateBinding FooterTemplate}" Header="{TemplateBinding Header}" 
+                                                    HeaderTransitions="{TemplateBinding HeaderTransitions}" 
+                                                    HeaderTemplate="{TemplateBinding HeaderTemplate}" 
+                                                    Padding="{TemplateBinding Padding}"/>
+                                </ScrollViewer>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
             <Style TargetType="ListViewItem" x:Key="HomeListViewItemStyle">
                 <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
                 <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
@@ -145,7 +208,7 @@
                     <Setter.Value>
                         <ControlTemplate TargetType="GridViewItem">
                             <ListViewItemPresenter ContentTransitions="{TemplateBinding ContentTransitions}"
-                        x:Name="Root"
+                        x:Name="Root" Margin="16"
                         Control.IsTemplateFocusTarget="True" Background="{x:Null}"
                         FocusVisualMargin="{TemplateBinding FocusVisualMargin}"
                         FocusVisualPrimaryBrush="{TemplateBinding FocusVisualPrimaryBrush}"
@@ -175,7 +238,6 @@
                         ContentMargin="{TemplateBinding Padding}"
                         CheckMode="{ThemeResource GridViewItemCheckMode}"
                         RevealBackgroundShowsAboveContent="True">
-
                                 <VisualStateManager.VisualStateGroups>
                                     <VisualStateGroup x:Name="CommonStates">
                                         <VisualState x:Name="Normal" />
@@ -230,11 +292,14 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <Grid x:Name="Main" Background="{ThemeResource HomePageBackground}">
+    <Grid x:Name="Main" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource HomePageBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="144"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
         <Grid Grid.RowSpan="2" x:Name="LayerGradient" Opacity="0.5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Grid.Background>
                 <LinearGradientBrush EndPoint="0,0" StartPoint="1,0">
@@ -254,25 +319,91 @@
                        Style="{ThemeResource SubtitleTextBlockStyle}" Text="Let's Play Something..."/>
         </StackPanel>
         <ScrollViewer IsHorizontalScrollChainingEnabled="False" IsHorizontalRailEnabled="False" Grid.Row="1" 
-                      HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Hidden" 
+                      HorizontalScrollMode="Auto" HorizontalScrollBarVisibility="Hidden" 
+                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                       VerticalScrollMode="Auto" VerticalScrollBarVisibility="Auto" IsVerticalRailEnabled="True" 
                       IsVerticalScrollChainingEnabled="True">
-            <StackPanel Margin="0,0,0,32" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <GridView ItemsSource="{x:Bind Context.HeroList}" SelectionMode="None" IsItemClickEnabled="True"
-                          HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                          Margin="80"
-                          ItemContainerStyle="{ThemeResource HeroGridViewItemStyle}" x:Name="HeroGrid">
+            <StackPanel Margin="0,0,0,32" Orientation="Vertical" x:Name="ContentPanel"
+                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <GridView SelectionMode="None" IsItemClickEnabled="True" ItemsSource="{x:Bind Context.HeroList}"
+                          ItemContainerStyle="{ThemeResource HeroGridViewItemStyle}"
+                          HorizontalAlignment="Center" VerticalAlignment="Stretch" Padding="40"
+                          Margin="60" Style="{ThemeResource HeroGridViewStyle}" x:Name="HeroGrid">
                     <GridView.ItemTemplate>
                         <DataTemplate x:DataType="vm:GenericMusicItemViewModel">
-                            <Grid PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited" 
+                            <Grid Background="{x:Null}" PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited" 
                                   PointerPressed="Grid_PointerPressed" PointerReleased="Grid_PointerReleased" 
-                                  Background="{x:Null}"
-                                  Height="80" Width="80">
-                                <Ellipse Height="80" Width="80" Fill="Red">
+                                  Height="144" Width="144">
+                                <Grid.Resources>
+                                    <Storyboard x:Key="PointerOver">
+                                        <DoubleAnimation Storyboard.TargetName="Title" Storyboard.TargetProperty="Opacity"
+                                                         EnableDependentAnimation="True" To="0" Duration="0:0:0.48">
+                                            <DoubleAnimation.EasingFunction>
+                                                <QuinticEase/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                        <DoubleAnimation Storyboard.TargetName="Icon" Storyboard.TargetProperty="Opacity"
+                                                         EnableDependentAnimation="True" To="1" Duration="0:0:0.48">
+                                            <DoubleAnimation.EasingFunction>
+                                                <QuinticEase/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                        <DoubleAnimation Storyboard.TargetName="Shadow" Storyboard.TargetProperty="BlurRadius"
+                                                         EnableDependentAnimation="True" To="32" Duration="0:0:0.48">
+                                            <DoubleAnimation.EasingFunction>
+                                                <QuinticEase/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                    </Storyboard>
+
+                                    <Storyboard x:Key="Pressed">
+                                        <DoubleAnimation Storyboard.TargetName="Shadow" Storyboard.TargetProperty="BlurRadius"
+                                                         EnableDependentAnimation="True" To="-4" Duration="0:0:0.48">
+                                            <DoubleAnimation.EasingFunction>
+                                                <QuinticEase/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                    <Storyboard x:Key="Normal">
+                                        <DoubleAnimation Storyboard.TargetName="Title" Storyboard.TargetProperty="Opacity"
+                                                         EnableDependentAnimation="True" To="1" Duration="0:0:0.48">
+                                            <DoubleAnimation.EasingFunction>
+                                                <QuinticEase/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                        <DoubleAnimation Storyboard.TargetName="Icon" Storyboard.TargetProperty="Opacity"
+                                                         EnableDependentAnimation="True" To="0" Duration="0:0:0.48">
+                                            <DoubleAnimation.EasingFunction>
+                                                <QuinticEase/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                        <DoubleAnimation Storyboard.TargetName="Shadow" Storyboard.TargetProperty="BlurRadius"
+                                                         EnableDependentAnimation="True" To="16" Duration="0:0:0.48">
+                                            <DoubleAnimation.EasingFunction>
+                                                <QuinticEase/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </Grid.Resources>
+                                <toolkit:DropShadowPanel x:Name="Shadow"
+                                    OffsetX="0" OffsetY="0" BlurRadius="16" ShadowOpacity="0.2" Color="Black">
+                                    <Ellipse Height="144" Width="144">
+                                        <Ellipse.Fill>
+                                            <ImageBrush ImageSource="/Assets/Images/th.jpg" AlignmentX="Center" AlignmentY="Center" Stretch="UniformToFill"/>
+                                        </Ellipse.Fill>
+                                    </Ellipse>
+                                </toolkit:DropShadowPanel>
+                                <Ellipse Height="144" Width="144" Fill="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}">
                                 </Ellipse>
-                                <TextBlock Text="{x:Bind Title}" Style="{ThemeResource BaseTextBlockStyle}" 
-                                           HorizontalAlignment="Center" VerticalAlignment="Center"
-                                           Margin="8" MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"/>
+                                <TextBlock x:Name="Title" Text="{x:Bind Title}" Style="{ThemeResource SubtitleTextBlockStyle}"
+                                           Foreground="{ThemeResource SystemControlForegroundAltHighBrush}"
+                                           HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"
+                                           Margin="12" MaxLines="2" TextWrapping="WrapWholeWords" 
+                                               TextTrimming="CharacterEllipsis"/>
+                                <FontIcon x:Name="Icon" FontFamily="Segoe MDL2 Assets" Opacity="0"
+                                           Foreground="{ThemeResource SystemControlForegroundAltHighBrush}"
+                                          Glyph="&#xE102;" FontSize="32"
+                                          HorizontalAlignment="Center" VerticalAlignment="Center" />
                             </Grid>
                         </DataTemplate>
                     </GridView.ItemTemplate>
@@ -281,7 +412,7 @@
                        Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold"/>
                 <ListView Margin="0,8" IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" 
                           ScrollViewer.IsHorizontalScrollChainingEnabled="True" ScrollViewer.IsHorizontalRailEnabled="True"
-                      SelectionMode="None" ItemsSource="{x:Bind Context.FavList}" 
+                      SelectionMode="None" ItemsSource="{x:Bind Context.FavList}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                       ItemContainerStyle="{ThemeResource HomeListViewItemStyle}" 
                       Style="{StaticResource HorizontalListView}" x:Name="FavList">
                     <ListView.Header>
@@ -312,7 +443,7 @@
                     </ListView.Footer>
                 </ListView>
                 <TextBlock Margin="16,32,16,8" Text="Feeling Lucky" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold"/>
-                <ListView Margin="0,8" IsSynchronizedWithCurrentItem="False"
+                <ListView Margin="0,8" IsSynchronizedWithCurrentItem="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                           ScrollViewer.IsHorizontalScrollChainingEnabled="True" 
                           ScrollViewer.IsHorizontalRailEnabled="True"
                           IsItemClickEnabled="True" SelectionMode="None" 
