@@ -18,6 +18,8 @@ namespace Aurora.Music.Core.Player
         private MediaPlayer mediaPlayer;
         private MediaPlaybackList mediaPlaybackList;
 
+        private object lockable = new object();
+
         public event EventHandler<PositionUpdatedArgs> PositionUpdated;
         public event EventHandler<StatusChangedArgs> StatusChanged;
 
@@ -38,11 +40,25 @@ namespace Aurora.Music.Core.Player
 
         private void PlaybackSession_PositionChanged(MediaPlaybackSession sender, object args)
         {
-            PositionUpdated?.Invoke(this, new PositionUpdatedArgs
+            lock (lockable)
             {
-                Current = sender.Position,
-                Total = (TimeSpan)mediaPlaybackList.CurrentItem.Source.CustomProperties["Duration"]
-            });
+                if (mediaPlaybackList.CurrentItem == null)
+                {
+                    PositionUpdated?.Invoke(this, new PositionUpdatedArgs
+                    {
+                        Current = default(TimeSpan),
+                        Total = default(TimeSpan)
+                    });
+                }
+                else
+                {
+                    PositionUpdated?.Invoke(this, new PositionUpdatedArgs
+                    {
+                        Current = sender.Position,
+                        Total = (TimeSpan)mediaPlaybackList.CurrentItem.Source.CustomProperties["Duration"]
+                    });
+                }
+            }
         }
 
         private void PlaybackSession_PlaybackStateChanged(MediaPlaybackSession sender, object args)
@@ -83,11 +99,11 @@ namespace Aurora.Music.Core.Player
 
                 var props = mediaPlaybackItem.GetDisplayProperties();
                 props.Type = Windows.Media.MediaPlaybackType.Music;
-                props.MusicProperties.Title = item.Title;
-                props.MusicProperties.AlbumTitle = item.Album;
-                props.MusicProperties.AlbumArtist = item.AlbumArtists.IsNullorEmpty() ? null : item.AlbumArtists.Replace("$|$", ", ");
+                props.MusicProperties.Title = item.Title.IsNullorEmpty() ? item.FilePath.Split('\\').LastOrDefault() : item.Title;
+                props.MusicProperties.AlbumTitle = item.Album.IsNullorEmpty() ? "" : item.Album;
+                props.MusicProperties.AlbumArtist = item.AlbumArtists.IsNullorEmpty() ? "" : item.AlbumArtists.Replace("$|$", ", ");
                 props.MusicProperties.AlbumTrackCount = item.TrackCount;
-                props.MusicProperties.Artist = item.Performers.IsNullorEmpty() ? null : item.Performers.Replace("$|$", ", ");
+                props.MusicProperties.Artist = item.Performers.IsNullorEmpty() ? "" : item.Performers.Replace("$|$", ", ");
                 props.MusicProperties.TrackNumber = item.Track;
                 if (!item.Genres.IsNullorEmpty())
                 {

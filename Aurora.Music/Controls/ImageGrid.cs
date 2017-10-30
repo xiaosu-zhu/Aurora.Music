@@ -55,8 +55,8 @@ namespace Aurora.Music.Controls
                     {
                         Source = source[i],
                         Stretch = Stretch.UniformToFill,
-                        HorizontalAlignment = HorizontalAlignment.Stretch,
-                        VerticalAlignment = VerticalAlignment.Stretch
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                        VerticalAlignment = VerticalAlignment.Center
                     });
                 }
                 switch (count)
@@ -64,13 +64,6 @@ namespace Aurora.Music.Controls
                     case 0:
                         return;
                     case 1:
-                        main.Children.Add(new Image
-                        {
-                            Source = source[0],
-                            Stretch = Stretch.UniformToFill,
-                            HorizontalAlignment = HorizontalAlignment.Stretch,
-                            VerticalAlignment = VerticalAlignment.Stretch
-                        });
                         break;
                     case 2:
                         main.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });

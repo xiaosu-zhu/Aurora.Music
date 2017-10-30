@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Aurora.Music.Core.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -58,6 +59,9 @@ namespace Aurora.Music.Pages
 
         private void Finish_Click(object sender, RoutedEventArgs e)
         {
+            var s = Settings.Load();
+            s.WelcomeFinished = true;
+            s.Save();
             Frame rootFrame = Window.Current.Content as Frame;
 
             rootFrame.Navigate(typeof(MainPage));

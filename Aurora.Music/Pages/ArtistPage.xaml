@@ -19,9 +19,20 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../Themes/Styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            <CollectionViewSource x:Key="AlbumListSource" Source="{x:Bind Context.AlbumList}"/>
-
-            <!-- Default style for Windows.UI.Xaml.Controls.ScrollViewer -->
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light">
+                    <LinearGradientBrush x:Key="ArtistsPageGradient" EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="White" Offset="1"/>
+                        <GradientStop Color="#AAFFFFFF" Offset="0.667"/>
+                    </LinearGradientBrush>
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Dark">
+                    <LinearGradientBrush x:Key="ArtistsPageGradient" EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="Black" Offset="1"/>
+                        <GradientStop Color="#AA000000" Offset="0.667"/>
+                    </LinearGradientBrush>
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
 
             <Style x:Key="GeneralGridViewStyle" TargetType="GridView">
                 <Setter Property="Padding" Value="0,0,0,10"/>
@@ -68,11 +79,12 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+
         </ResourceDictionary>
     </Page.Resources>
 
     <GridView ItemClick="AlbumList_ItemClick" IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" 
-              SelectionMode="None" ItemsSource="{Binding Source={StaticResource AlbumListSource}}" 
+              SelectionMode="None" ItemsSource="{x:Bind Context.AlbumList}" 
               Padding="32,0,32,160" ItemContainerStyle="{StaticResource GeneralGridViewItemStyle}" 
               Style="{StaticResource GeneralGridViewStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
               x:Name="AlbumList">
@@ -103,13 +115,17 @@
                             </DoubleAnimation>
                         </Storyboard>
                         <Storyboard x:Key="PointerPressed" x:Name="PointerPressed">
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Shadow"
-                                   Storyboard.TargetProperty="BlurRadius">
-                                <DiscreteObjectKeyFrame Value="0" KeyTime="0"/>
-                            </ObjectAnimationUsingKeyFrames>
+                            <DoubleAnimation Storyboard.TargetName="Shadow" Duration="0:0:0.48"
+                                   Storyboard.TargetProperty="BlurRadius" EnableDependentAnimation="True"
+                                   To="0">
+                                <DoubleAnimation.EasingFunction>
+                                    <QuinticEase/>
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
                         </Storyboard>
                     </StackPanel.Resources>
-                    <toolkit:DropShadowPanel x:Name="Shadow" BlurRadius="16" ShadowOpacity="0.5" OffsetX="0" OffsetY="0" Color="Black">
+                    <toolkit:DropShadowPanel x:Name="Shadow" BlurRadius="16" ShadowOpacity="0.5" OffsetX="0" OffsetY="0" 
+                                             Color="{ThemeResource SystemBaseHighColor}">
                         <Grid Background="{ThemeResource SystemControlAcrylicWindowBrush}">
                             <toolkit:ImageEx Style="{ThemeResource QuickLoadImageEx}" Stretch="UniformToFill" 
                                              PlaceholderStretch="Uniform" HorizontalAlignment="Center" 
@@ -118,29 +134,22 @@
                         </Grid>
                     </toolkit:DropShadowPanel>
                     <TextBlock MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{x:Bind Name}" 
-                               Style="{ThemeResource BaseTextBlockStyle}" Margin="8,4,8,0"/>
-                    <TextBlock MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" 
+                               Style="{ThemeResource BaseTextBlockStyle}" Padding="4,0,4,0" Margin="0,4,0,0" Width="160"/>
+                    <TextBlock MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Width="160" 
                                Text="{x:Bind AlbumArtists[0], FallbackValue=}" Style="{ThemeResource BodyTextBlockStyle}" 
-                               Margin="8,4,8,8"/>
+                               Padding="4,0" Margin="0,0,0,4"/>
                 </StackPanel>
             </DataTemplate>
         </GridView.ItemTemplate>
 
         <GridView.Header>
             <Grid Margin="-32,0,-32,32">
-                <ParallaxView HorizontalShift="0" Height="360" Source="{Binding ElementName=AlbumList}" VerticalShift="480">
-                    <controls:ImageGrid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                                        BorderBrush="{x:Null}" BorderThickness="0" 
+                <ParallaxView HorizontalShift="0" Height="360" Source="{Binding ElementName=AlbumList}" VerticalShift="-480">
+                    <controls:ImageGrid HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                        BorderBrush="{x:Null}" BorderThickness="0"  
                                         ImageSources="{x:Bind Context.HeroImage, Mode=OneWay}"/>
                 </ParallaxView>
-                <Grid HorizontalAlignment="Stretch" Height="360">
-                    <Grid.Background>
-                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                            <GradientStop Color="#AAFFFFFF"/>
-                            <GradientStop Color="White" Offset="1"/>
-                            <GradientStop Color="#AAFFFFFF" Offset="0.667"/>
-                        </LinearGradientBrush>
-                    </Grid.Background>
+                <Grid HorizontalAlignment="Stretch" Height="360" Background="{ThemeResource ArtistsPageGradient}">
                 </Grid>
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="32">
                     <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}" 

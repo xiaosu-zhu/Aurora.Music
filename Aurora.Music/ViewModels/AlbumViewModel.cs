@@ -38,7 +38,7 @@ namespace Aurora.Music.ViewModels
 
         private int[] songs;
 
-        public ObservableCollection<SongViewModel> Songs { get; set; } = new ObservableCollection<SongViewModel>();
+        public ObservableCollection<Core.Storage.Song> Songs { get; set; } = new ObservableCollection<Core.Storage.Song>();
 
         public Uri Artwork { get; set; }
 
@@ -56,7 +56,14 @@ namespace Aurora.Music.ViewModels
         internal async Task<IEnumerable<Core.Storage.Song>> GetSongs()
         {
             var opr = SQLOperator.Current();
-            return await opr.GetSongs(songs);
+            var s = await opr.GetSongs(songs);
+            var s1 = s.OrderBy(x => x.Track);
+            s1 = s1.OrderBy(x => x.Disc);
+            foreach (var item in s1)
+            {
+                Songs.Add(item);
+            }
+            return s1;
         }
 
         public BitmapImage ToImage(Uri r)

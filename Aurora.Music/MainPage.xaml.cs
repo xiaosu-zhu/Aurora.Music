@@ -3,6 +3,7 @@ using Aurora.Music.Pages;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml;
 using Aurora.Music.ViewModels;
+using Aurora.Shared.Controls;
 
 // https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
 
@@ -11,7 +12,7 @@ namespace Aurora.Music
     /// <summary>
     /// 可用于自身或导航至 Frame 内部的空白页。
     /// </summary>
-    public sealed partial class MainPage : Page
+    public sealed partial class MainPage : Page, IChangeTheme
     {
         public static MainPage Current;
 
@@ -40,7 +41,7 @@ namespace Aurora.Music
 
         double PositionToValue(TimeSpan t1, TimeSpan total)
         {
-            if (total == null || total.TotalMilliseconds < 1)
+            if (total == null || total == default(TimeSpan))
             {
                 return 0;
             }
@@ -49,6 +50,10 @@ namespace Aurora.Music
 
         string PositionToString(TimeSpan t1, TimeSpan total)
         {
+            if (total == null || total == default(TimeSpan))
+            {
+                return "0:00/0:00";
+            }
             return (t1.ToString(@"m\:ss") + '/' + total.ToString(@"m\:ss"));
         }
 
@@ -80,6 +85,14 @@ namespace Aurora.Music
             }
             ((sender as ListView).SelectedItem as HamPanelItem).IsCurrent = true;
             MainFrame.Navigate(((sender as ListView).SelectedItem as HamPanelItem).TargetType);
+        }
+
+        public void ChangeTheme()
+        {
+            if(MainFrame.Content is IChangeTheme iT)
+            {
+                iT.ChangeTheme();
+            }
         }
     }
 }

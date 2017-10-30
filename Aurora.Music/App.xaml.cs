@@ -1,4 +1,6 @@
-﻿using Aurora.Music.Pages;
+﻿using Aurora.Music.Core.Models;
+using Aurora.Music.Pages;
+using Aurora.Shared.Controls;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -26,6 +28,9 @@ namespace Aurora.Music
     /// </summary>
     sealed partial class App : Application
     {
+        private UISettings ui;
+        private Frame rootFrame;
+
         /// <summary>
         /// 初始化单一实例应用程序对象。这是执行的创作代码的第一行，
         /// 已执行，逻辑上等同于 main() 或 WinMain()。
@@ -47,12 +52,15 @@ namespace Aurora.Music
             ApplicationViewTitleBar titleBar = ApplicationView.GetForCurrentView().TitleBar;
             titleBar.ButtonBackgroundColor = Colors.Transparent;
             titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-            titleBar.ButtonHoverBackgroundColor = Color.FromArgb(0x40, 0x00, 0x00, 0x00);
+            titleBar.ButtonHoverBackgroundColor = Color.FromArgb(0x33, 0x00, 0x00, 0x00);
             titleBar.ButtonForegroundColor = Colors.Black;
             titleBar.ButtonHoverForegroundColor = Colors.White;
             titleBar.ButtonInactiveForegroundColor = Colors.Gray;
 
-            Frame rootFrame = Window.Current.Content as Frame;
+            ui = new UISettings();
+            ui.ColorValuesChanged += Ui_ColorValuesChanged;
+
+            rootFrame = Window.Current.Content as Frame;
 
             // 不要在窗口已包含内容时重复应用程序初始化，
             // 只需确保窗口处于活动状态
@@ -82,11 +90,28 @@ namespace Aurora.Music
                     // 当导航堆栈尚未还原时，导航到第一页，
                     // 并通过将所需信息作为导航参数传入来配置
                     // 参数
-                    rootFrame.Navigate(typeof(MainPage), e.Arguments);
+                    if (Settings.Load().WelcomeFinished)
+                        rootFrame.Navigate(typeof(MainPage), e.Arguments);
+                    else
+                        rootFrame.Navigate(typeof(WelcomePage), e.Arguments);
                 }
                 // 确保当前窗口处于活动状态
                 Window.Current.Activate();
             }
+        }
+
+        private async void Ui_ColorValuesChanged(UISettings sender, object args)
+        {
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            {
+                if (rootFrame != null)
+                {
+                    if (rootFrame.Content is IChangeTheme iT)
+                    {
+                        iT.ChangeTheme();
+                    }
+                }
+            });
         }
 
         /// <summary>

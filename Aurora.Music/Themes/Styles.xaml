@@ -4,6 +4,9 @@
     xmlns:local="using:Aurora.Music.Themes"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls">
 
+    <AcrylicBrush x:Key="SystemControlAltTranslucentAcrylicElementBrush" BackgroundSource="Backdrop" TintColor="{StaticResource SystemChromeAltHighColor}" TintOpacity="0.2" FallbackColor="{StaticResource SystemAltLowColor}" />
+    <AcrylicBrush x:Key="SystemControlAltTranslucentAcrylicWindowBrush" BackgroundSource="HostBackdrop" TintColor="{StaticResource SystemChromeAltHighColor}" TintOpacity="0.2" FallbackColor="{StaticResource SystemAltLowColor}" />
+
 
     <Style x:Key="NarrowScrollViewer" TargetType="ScrollViewer">
         <Setter Property="HorizontalScrollMode" Value="Auto" />

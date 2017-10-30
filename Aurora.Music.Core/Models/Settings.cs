@@ -14,11 +14,13 @@ namespace Aurora.Music.Core.Models
         public bool IncludeMusicLibrary { get; set; } = true;
         public ElementTheme Theme { get; set; } = ElementTheme.Default;
 
+        public bool WelcomeFinished { get; set; } = false;
+
         public static Settings Load()
         {
             try
             {
-                if(LocalSettingsHelper.GetContainer(SETTINGS_CONTAINER).ReadGroupSettings(out Settings s))
+                if (LocalSettingsHelper.GetContainer(SETTINGS_CONTAINER).ReadGroupSettings(out Settings s))
                 {
                     return s;
                 }

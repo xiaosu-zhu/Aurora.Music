@@ -41,7 +41,6 @@ namespace Aurora.Music.ViewModels
             },
         };
 
-        private SQLOperator opr;
         private Player player;
 
         private bool needShowPanel = true;
@@ -94,6 +93,8 @@ namespace Aurora.Music.ViewModels
         }
 
         private string currentAlbum;
+        private string lastUriPath;
+
         public string CurrentAlbum
         {
             get { return currentAlbum; }
@@ -199,7 +200,15 @@ namespace Aurora.Music.ViewModels
                     CurrentAlbum = p.AlbumTitle;
                     if (e.CurrentSong.Source.CustomProperties["Artwork"] is Uri u)
                     {
-                        CurrentArtwork = new BitmapImage(u);
+                        if (lastUriPath == u.AbsolutePath)
+                        {
+
+                        }
+                        else
+                        {
+                            CurrentArtwork = new BitmapImage(u);
+                            lastUriPath = u.AbsolutePath;
+                        }
                     }
                     else
                     {
