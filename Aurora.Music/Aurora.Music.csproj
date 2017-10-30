@@ -131,6 +131,8 @@
     <Compile Include="ViewModels\AddFoldersViewViewModel.cs" />
     <Compile Include="ViewModels\ArtistPageViewModel.cs" />
     <Compile Include="ViewModels\AlbumViewModel.cs" />
+    <Compile Include="ViewModels\ArtistsPageViewModel.cs" />
+    <Compile Include="ViewModels\ArtistViewModel.cs" />
     <Compile Include="ViewModels\GenericMusicItemViewModel.cs" />
     <Compile Include="ViewModels\HomePageViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
@@ -242,6 +244,10 @@
     <ProjectReference Include="..\Aurora.Shared\Aurora.Shared.csproj">
       <Project>{026d99cf-1c25-4dcf-ad95-1070bba9f8a8}</Project>
       <Name>Aurora.Shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TagLib.Sharp\TagLib.Sharp.csproj">
+      <Project>{2355f4e1-9225-433b-98cd-f36df22d042b}</Project>
+      <Name>TagLib.Sharp</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

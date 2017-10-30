@@ -25,14 +25,21 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref heroImage, value); }
         }
 
+        private string artist;
+        public string Artist
+        {
+            get { return artist; }
+            set { SetProperty(ref artist, value); }
+        }
+
         public ArtistPageViewModel()
         {
 
         }
 
-        public async Task GetAlbums()
+        public async Task GetAlbums(string artist)
         {
-            var albums = await FileReader.GetAlbumsAsync();
+            var albums = await FileReader.GetAlbumsAsync("AlbumArtists", artist);
             var a = albums.OrderByDescending(x => x.Year);
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
@@ -54,7 +61,7 @@ namespace Aurora.Music.ViewModels
 
         internal async Task PlayAlbum(AlbumViewModel album)
         {
-            var songs = await album.GetSongs();
+            var songs = await album.FindSongs();
             await MainPageViewModel.Current.NewPlayList(songs);
             MainPageViewModel.Current.PlayPause.Execute();
         }

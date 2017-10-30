@@ -53,8 +53,13 @@ namespace Aurora.Music.ViewModels
         public virtual double ReplayGainAlbumGain { get; set; }
         public virtual double ReplayGainAlbumPeak { get; set; }
 
-        internal async Task<IEnumerable<Core.Storage.Song>> GetSongs()
+        internal async Task<IEnumerable<Core.Storage.Song>> FindSongs()
         {
+            if (Songs.Count == songs.Length)
+            {
+                return Songs.ToArray();
+            }
+            Songs.Clear();
             var opr = SQLOperator.Current();
             var s = await opr.GetSongs(songs);
             var s1 = s.OrderBy(x => x.Track);

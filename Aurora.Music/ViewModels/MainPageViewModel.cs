@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Media.Imaging;
 using Aurora.Music.Pages;
 using Windows.UI.Text;
 using Windows.ApplicationModel.Core;
+using Windows.UI.Xaml.Media;
 
 namespace Aurora.Music.ViewModels
 {
@@ -27,16 +28,19 @@ namespace Aurora.Music.ViewModels
             {
                 Title = "Home",
                 TargetType = typeof(HomePage),
+                Icon="\uE80F",
                 IsCurrent = true
             },
             new HamPanelItem
             {
                 Title = "Library",
+                Icon="\uE2AC",
                 TargetType = typeof(LibraryPage)
             },
             new HamPanelItem
             {
                 Title = "Playlist",
+                Icon="\uE955",
                 TargetType = typeof(HomePage)
             },
         };
@@ -236,6 +240,8 @@ namespace Aurora.Music.ViewModels
 
         public Type TargetType { get; set; }
 
+        public string Icon { get; set; }
+
         private bool isCurrent;
         public bool IsCurrent
         {
@@ -248,9 +254,9 @@ namespace Aurora.Music.ViewModels
             return b ? FontWeights.Bold : FontWeights.Normal;
         }
 
-        public Visibility ChangeVisibility(bool b)
+        public SolidColorBrush ChangeForeground(bool b)
         {
-            return b ? Visibility.Visible : Visibility.Collapsed;
+            return (SolidColorBrush)(b ? MainPage.Current.Resources["SystemControlBackgroundAccentBrush"] : MainPage.Current.Resources["SystemControlForegroundBaseHighBrush"]);
         }
     }
 }

@@ -1206,7 +1206,7 @@
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="vm:HamPanelItem">
                             <Grid Margin="0,8">
-                                <Grid HorizontalAlignment="Left" VerticalAlignment="Center" Height="2" Width="48" Visibility="{x:Bind ChangeVisibility(IsCurrent), Mode=OneWay}"/>
+                                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Icon}" FontSize="24" Margin="12,8" Foreground="{x:Bind ChangeForeground(IsCurrent), Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                                 <TextBlock x:Name="Text" Margin="72,8" Text="{x:Bind Title}" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="{x:Bind ChangeWeight(IsCurrent), Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                             </Grid>
                         </DataTemplate>

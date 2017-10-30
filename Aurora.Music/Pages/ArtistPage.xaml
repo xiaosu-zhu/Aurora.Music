@@ -90,8 +90,8 @@
               x:Name="AlbumList">
         <GridView.ItemTemplate>
             <DataTemplate x:DataType="vm:AlbumViewModel">
-                <StackPanel PointerEntered="StackPanel_PointerEntered" 
-                            PointerExited="StackPanel_PointerExited" 
+                <StackPanel PointerEntered="StackPanel_PointerEntered" PointerCanceled="StackPanel_PointerExited"
+                            PointerExited="StackPanel_PointerExited" PointerCaptureLost="StackPanel_PointerExited"
                             PointerPressed="StackPanel_PointerPressed" 
                             PointerReleased="StackPanel_PointerReleased"
                             Orientation="Vertical">
@@ -144,7 +144,7 @@
 
         <GridView.Header>
             <Grid Margin="-32,0,-32,32">
-                <ParallaxView HorizontalShift="0" Height="360" Source="{Binding ElementName=AlbumList}" VerticalShift="-480">
+                <ParallaxView HorizontalShift="0" Height="360" Source="{Binding ElementName=AlbumList}" VerticalShift="-640">
                     <controls:ImageGrid HorizontalAlignment="Center" VerticalAlignment="Center" 
                                         BorderBrush="{x:Null}" BorderThickness="0"  
                                         ImageSources="{x:Bind Context.HeroImage, Mode=OneWay}"/>
@@ -154,7 +154,7 @@
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="32">
                     <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}" 
                           HorizontalAlignment="Left" VerticalAlignment="Center">
-                        <TextBlock Foreground="White" Margin="12,4" Text="Beatles" 
+                        <TextBlock Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Margin="12,4" Text="{x:Bind Context.Artist, Mode=OneWay}" 
                                    HorizontalAlignment="Center" VerticalAlignment="Center" 
                                    TextWrapping="NoWrap" MaxLines="1" Style="{ThemeResource SubheaderTextBlockStyle}" 
                                    TextTrimming="Clip"/>

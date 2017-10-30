@@ -522,6 +522,23 @@ namespace Aurora.Music.Core.Storage
         {
             return await conn.QueryAsync<Folder>("SELECT * FROM FOLDER WHERE PATH=?", path);
         }
+
+        internal async Task<List<T>> GetWithQueryAsync<T>(string character, object value) where T : new()
+        {
+            var type = typeof(T);
+            return await conn.QueryAsync<T>($"SELECT * FROM {type.Name} WHERE {character} = '{value}'");
+        }
+
+        public async Task<List<Artist>> GetArtistsAsync()
+        {
+            return await conn.QueryAsync<Artist>("SELECT COUNT(*) AS COUNT, ALBUMARTISTS FROM SONG GROUP BY ALBUMARTISTS");
+        }
+    }
+
+    public class Artist
+    {
+        public int Count { get; set; }
+        public string AlbumArtists { get; set; }
     }
 
 }

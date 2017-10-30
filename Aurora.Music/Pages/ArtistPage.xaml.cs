@@ -18,7 +18,7 @@ namespace Aurora.Music.Pages
             this.InitializeComponent();
             var t = ThreadPool.RunAsync(async x =>
             {
-                await Context.GetAlbums();
+                await Context.GetAlbums("The Beatles");
             });
         }
 

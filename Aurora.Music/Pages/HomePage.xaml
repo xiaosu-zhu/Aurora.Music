@@ -320,10 +320,10 @@
         </StackPanel>
         <ScrollViewer IsHorizontalScrollChainingEnabled="False" IsHorizontalRailEnabled="False" Grid.Row="1" 
                       HorizontalScrollMode="Auto" HorizontalScrollBarVisibility="Hidden" 
-                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{ThemeResource NarrowScrollViewer}"
                       VerticalScrollMode="Auto" VerticalScrollBarVisibility="Auto" IsVerticalRailEnabled="True" 
                       IsVerticalScrollChainingEnabled="True">
-            <StackPanel Margin="0,0,0,32" Orientation="Vertical" x:Name="ContentPanel"
+            <StackPanel Margin="0,0,0,160" Orientation="Vertical" x:Name="ContentPanel"
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <GridView SelectionMode="None" IsItemClickEnabled="True" ItemsSource="{x:Bind Context.HeroList}"
                           ItemContainerStyle="{ThemeResource HeroGridViewItemStyle}"
@@ -332,7 +332,8 @@
                     <GridView.ItemTemplate>
                         <DataTemplate x:DataType="vm:GenericMusicItemViewModel">
                             <Grid Background="{x:Null}" PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited" 
-                                  PointerPressed="Grid_PointerPressed" PointerReleased="Grid_PointerReleased" 
+                                  PointerPressed="Grid_PointerPressed" PointerReleased="Grid_PointerReleased" PointerCanceled="Grid_PointerExited"
+                                  PointerCaptureLost="Grid_PointerExited"
                                   Height="144" Width="144">
                                 <Grid.Resources>
                                     <Storyboard x:Key="PointerOver">

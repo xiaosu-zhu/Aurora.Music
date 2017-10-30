@@ -94,9 +94,9 @@ namespace Aurora.Music.ViewModels
         private async void FileReader_Completed(object sender, EventArgs e)
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
-          {
-              Finish = 1;
-          });
+            {
+                Finish = 1;
+            });
         }
 
         private async void FileReader_ProgressUpdated(object sender, ProgressReport e)
@@ -120,10 +120,6 @@ namespace Aurora.Music.ViewModels
                     case 4:
                         Progress4 = Math.Round(e.Percent);
                         Hint = $"Sorting Albums: {Progress4}%";
-                        if (e.Percent > 99)
-                        {
-                            FileReader_Completed(null, null);
-                        }
                         break;
                     default:
                         break;

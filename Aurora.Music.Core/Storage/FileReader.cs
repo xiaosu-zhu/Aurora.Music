@@ -36,6 +36,13 @@ namespace Aurora.Music.Core.Storage
             return files;
         }
 
+        public static async Task<List<Models.Album>> GetAlbumsAsync(string character, string value)
+        {
+            var opr = SQLOperator.Current();
+            var albums = await opr.GetWithQueryAsync<Album>(character, value);
+            return albums.ConvertAll(a => new Models.Album(a));
+        }
+
         public async static Task<List<Models.Album>> GetAlbumsAsync()
         {
             var opr = SQLOperator.Current();
@@ -121,6 +128,10 @@ namespace Aurora.Music.Core.Storage
             {
                 NewSongsAdded?.Invoke(this, new SongsAddedEventArgs(newlist.ToArray()));
             }
+            else
+            {
+                Completed?.Invoke(this, EventArgs.Empty);
+            }
         }
 
         public async Task<List<Models.Song>> GetSongsAsync()
@@ -150,6 +161,7 @@ namespace Aurora.Music.Core.Storage
                     report.Percent = 100 * (i++) / count;
                     ProgressUpdated?.Invoke(this, report);
                 }
+                Completed?.Invoke(this, EventArgs.Empty);
             });
         }
     }

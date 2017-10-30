@@ -52,11 +52,22 @@ namespace Aurora.Music.Core.Player
                 }
                 else
                 {
-                    PositionUpdated?.Invoke(this, new PositionUpdatedArgs
+                    try
                     {
-                        Current = sender.Position,
-                        Total = (TimeSpan)mediaPlaybackList.CurrentItem.Source.CustomProperties["Duration"]
-                    });
+                        PositionUpdated?.Invoke(this, new PositionUpdatedArgs
+                        {
+                            Current = sender.Position,
+                            Total = (TimeSpan)mediaPlaybackList.CurrentItem.Source.CustomProperties["Duration"]
+                        });
+                    }
+                    catch (NullReferenceException)
+                    {
+                        PositionUpdated?.Invoke(this, new PositionUpdatedArgs
+                        {
+                            Current = sender.Position,
+                            Total = default(TimeSpan)
+                        });
+                    }
                 }
             }
         }
