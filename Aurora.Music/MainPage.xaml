@@ -1244,7 +1244,7 @@
                         </Button.Content>
                         <Button.Flyout>
                             <Flyout>
-                                <ListView MaxHeight="360" SelectedIndex="{x:Bind Context.CurrentIndex, Mode=OneWay}" ItemsSource="{x:Bind Context.NowPlayingList}" ItemContainerStyle="{ThemeResource GeneralListViewItemStyle}">
+                                <ListView MaxHeight="360" IsSynchronizedWithCurrentItem="False" SelectedIndex="{x:Bind Context.CurrentIndex, Mode=OneWay}" ItemsSource="{x:Bind Context.NowPlayingList}" ItemContainerStyle="{ThemeResource GeneralListViewItemStyle}">
                                     <ListView.ItemTemplate>
                                         <DataTemplate x:DataType="vm:SongViewModel">
                                             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">

@@ -109,7 +109,7 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref currentAlbum, value); }
         }
 
-        private string nowListPreview;
+        private string nowListPreview="0/0";
         public string NowListPreview
         {
             get { return nowListPreview; }

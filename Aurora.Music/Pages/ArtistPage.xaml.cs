@@ -35,6 +35,7 @@ namespace Aurora.Music.Pages
             base.OnNavigatedTo(e);
             if (e.Parameter is string s)
             {
+                Context.Artist = s;
                 await Context.GetAlbums(s);
                 var ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.ArtistPageInAnimation);
                 if (ani != null)

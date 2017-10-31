@@ -63,7 +63,6 @@ namespace Aurora.Music.ViewModels
             list.Shuffle();
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
-                Artist = artist;
                 AlbumList = aList;
                 HeroImage = list.ConvertAll(x => (ImageSource)new BitmapImage(x));
             });
