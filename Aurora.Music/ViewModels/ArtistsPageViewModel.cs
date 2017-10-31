@@ -12,22 +12,31 @@ namespace Aurora.Music.ViewModels
 {
     class ArtistsPageViewModel : ViewModelBase
     {
-        public ObservableCollection<ArtistViewModel> ArtistList { get; set; } = new ObservableCollection<ArtistViewModel>();
+        private ObservableCollection<ArtistViewModel> aritstList;
+
+        public ObservableCollection<ArtistViewModel> ArtistList
+        {
+            get { return aritstList; }
+            set { SetProperty(ref aritstList, value); }
+        }
 
         public async Task GetArtists()
         {
             var opr = SQLOperator.Current();
             var artists = await opr.GetArtistsAsync();
+            var list = new ObservableCollection<ArtistViewModel>();
+            foreach (var item in artists)
+            {
+                list.Add(new ArtistViewModel
+                {
+                    SongsCount = item.Count,
+                    Name = item.AlbumArtists
+                });
+            }
+            await Task.Delay(160);
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
-                foreach (var item in artists)
-                {
-                    ArtistList.Add(new ArtistViewModel
-                    {
-                        SongsCount = item.Count,
-                        Name = item.AlbumArtists
-                    });
-                }
+                ArtistList = list;
             });
         }
     }

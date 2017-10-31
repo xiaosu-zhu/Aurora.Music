@@ -245,6 +245,10 @@
       <Project>{026d99cf-1c25-4dcf-ad95-1070bba9f8a8}</Project>
       <Name>Aurora.Shared</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ExpressionBuilder\ExpressionBuilder.csproj">
+      <Project>{97f79cb4-fb7b-4dc3-8a08-28fa5694a73c}</Project>
+      <Name>ExpressionBuilder</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TagLib.Sharp\TagLib.Sharp.csproj">
       <Project>{2355f4e1-9225-433b-98cd-f36df22d042b}</Project>
       <Name>TagLib.Sharp</Name>
