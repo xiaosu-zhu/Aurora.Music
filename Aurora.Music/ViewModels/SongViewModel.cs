@@ -5,14 +5,23 @@ using System.Text;
 using System.Threading.Tasks;
 using Aurora.Shared.MVVM;
 using Windows.UI.Xaml.Media.Imaging;
+using Aurora.Music.Core.Utils;
 
 namespace Aurora.Music.ViewModels
 {
     class SongViewModel
     {
+        public string DurationtoString(TimeSpan t)
+        {
+            return t.ToString(@"m\:ss");
+        }
+
+        public int ID { get; set; }
+        public uint Index { get; set; }
         public string FilePath { get; set; }
         public string PicturePath { get; set; }
 
+        public TimeSpan Duration { get; set; }
         public string MusicBrainzReleaseId { get; set; }
         public string MusicBrainzDiscId { get; set; }
         public string MusicIpId { get; set; }

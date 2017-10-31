@@ -15,6 +15,8 @@ using Aurora.Music.Pages;
 using Windows.UI.Text;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Xaml.Media;
+using Windows.Media.Playback;
+using System.Collections.ObjectModel;
 
 namespace Aurora.Music.ViewModels
 {
@@ -44,6 +46,8 @@ namespace Aurora.Music.ViewModels
                 TargetType = typeof(HomePage)
             },
         };
+
+        public ObservableCollection<SongViewModel> NowPlayingList { get; set; } = new ObservableCollection<SongViewModel>();
 
         private Player player;
 
@@ -103,6 +107,20 @@ namespace Aurora.Music.ViewModels
         {
             get { return currentAlbum; }
             set { SetProperty(ref currentAlbum, value); }
+        }
+
+        private string nowListPreview;
+        public string NowListPreview
+        {
+            get { return nowListPreview; }
+            set { SetProperty(ref nowListPreview, value); }
+        }
+
+        private int currentIndex = -1;
+        public int CurrentIndex
+        {
+            get { return currentIndex; }
+            set { SetProperty(ref currentIndex, value); }
         }
 
         public DelegateCommand GoPrevious
@@ -183,7 +201,7 @@ namespace Aurora.Music.ViewModels
             {
                 switch (e.State)
                 {
-                    case Windows.Media.Playback.MediaPlaybackState.None:
+                    case MediaPlaybackState.None:
                     case Windows.Media.Playback.MediaPlaybackState.Opening:
                     case Windows.Media.Playback.MediaPlaybackState.Buffering:
                         IsPlaying = null;
@@ -217,6 +235,24 @@ namespace Aurora.Music.ViewModels
                     else
                     {
                         CurrentArtwork = null;
+                    }
+                    if (e.Items is IList<MediaPlaybackItem> l)
+                    {
+                        NowListPreview = $"{e.CurrentIndex + 1}/{l.Count}";
+                        uint i = 1;
+                        NowPlayingList.Clear();
+                        foreach (var item in l)
+                        {
+                            var prop = item.GetDisplayProperties();
+                            NowPlayingList.Add(new SongViewModel
+                            {
+                                Index = i++,
+                                Title = prop.MusicProperties.Title,
+                                Duration = (TimeSpan)item.Source.CustomProperties["Duration"],
+                                ID = (int)item.Source.CustomProperties["ID"]
+                            });
+                        }
+                        CurrentIndex = Convert.ToInt32(e.CurrentIndex);
                     }
                 }
             });

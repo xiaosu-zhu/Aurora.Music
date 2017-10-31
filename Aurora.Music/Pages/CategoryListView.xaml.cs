@@ -35,8 +35,7 @@ namespace Aurora.Music.Pages
         private void ListView_ItemClick(object sender, ItemClickEventArgs e)
         {
             PrepareAnimationWithItem(e.ClickedItem);
-            clickedItem = e.ClickedItem;
-            LibraryPage.Current.Navigate(typeof(CategoryDetailsView), (e.ClickedItem as CategoryListItem).Title);
+            LibraryPage.Current.LefPanelNavigate(typeof(CategoryDetailsView), (e.ClickedItem as CategoryListItem).Title);
         }
 
         void PrepareAnimationWithItem(object item)

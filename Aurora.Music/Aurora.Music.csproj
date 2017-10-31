@@ -95,6 +95,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Consts.cs" />
     <Compile Include="Controls\ImageGrid.cs" />
     <Compile Include="Controls\TemplateSeletor.cs" />
     <Compile Include="MainPage.xaml.cs">

@@ -32,14 +32,24 @@ namespace Aurora.Music.Pages
             MainFrame.Navigate(typeof(ArtistsPage));
         }
 
-        internal void Navigate(Type t)
+        internal void LefPanelNavigate(Type t)
         {
             SubPanelFrame.Navigate(t);
         }
 
-        internal void Navigate(Type t, object parameter)
+        internal void LefPanelNavigate(Type t, object parameter)
         {
             SubPanelFrame.Navigate(t, parameter);
+        }
+
+        internal void Navigate(Type type, object parameter)
+        {
+            MainFrame.Navigate(type, parameter);
+        }
+
+        internal void Navigate(Type type)
+        {
+            MainFrame.Navigate(type);
         }
     }
 }

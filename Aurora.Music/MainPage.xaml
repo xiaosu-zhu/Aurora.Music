@@ -1225,6 +1225,7 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="2"/>
@@ -1237,11 +1238,36 @@
                         <TextBlock Text="{x:Bind Context.CurrentTitle, Mode=OneWay}" Style="{ThemeResource BaseTextBlockStyle}" MaxLines="2" TextTrimming="CharacterEllipsis" Margin="4"/>
                         <TextBlock Text="{x:Bind Context.CurrentAlbum, Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Margin="4,0,4,4"/>
                     </StackPanel>
-                    <StackPanel Grid.Row="1" Orientation="Horizontal" Grid.Column="2" Margin="4,0"
+                    <Button Style="{ThemeResource ButtonRevealStyle}" Grid.Row="1" Grid.Column="2" Margin="12,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Button.Content>
+                            <TextBlock Text="{x:Bind Context.NowListPreview,Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" Margin="4"/>
+                        </Button.Content>
+                        <Button.Flyout>
+                            <Flyout>
+                                <ListView MaxHeight="360" SelectedIndex="{x:Bind Context.CurrentIndex, Mode=OneWay}" ItemsSource="{x:Bind Context.NowPlayingList}" ItemContainerStyle="{ThemeResource GeneralListViewItemStyle}">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate x:DataType="vm:SongViewModel">
+                                            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="32"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="64"/>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Text="{x:Bind Index}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextTrimming="CharacterEllipsis" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="4"/>
+                                                <TextBlock Text="{x:Bind Title}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextTrimming="CharacterEllipsis" MaxWidth="240" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="4"/>
+                                                <TextBlock Text="{x:Bind DurationtoString(Duration)}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextTrimming="CharacterEllipsis" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="4"/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" Grid.Column="3" Margin="4,0"
                                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{x:Bind PositionToString(Context.CurrentPosition, Context.TotalDuration), Mode=OneWay}" Margin="4"/>
                     </StackPanel>
-                    <StackPanel Grid.Row="1" Orientation="Horizontal" Grid.Column="3" Margin="4,0"
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" Grid.Column="4" Margin="4,0"
                                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <Button Style="{ThemeResource MainPageRoundButton}" Command="{x:Bind Context.GoPrevious}"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">

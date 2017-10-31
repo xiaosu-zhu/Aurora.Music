@@ -90,7 +90,9 @@ namespace Aurora.Music.Core.Player
                 State = mediaPlayer.PlaybackSession.PlaybackState,
                 IsShuffle = mediaPlaybackList.ShuffleEnabled,
                 IsLoop = mediaPlaybackList.AutoRepeatEnabled,
-                CurrentSong = mediaPlaybackList.CurrentItem
+                CurrentSong = mediaPlaybackList.CurrentItem,
+                CurrentIndex = mediaPlaybackList.CurrentItemIndex,
+                Items = mediaPlaybackList.Items
             });
         }
 
@@ -272,6 +274,9 @@ namespace Aurora.Music.Core.Player
         public MediaPlaybackState State { get; set; }
         public bool IsLoop { get; set; }
         public bool IsShuffle { get; set; }
+
+        public uint CurrentIndex { get; set; }
+        public IObservableVector<MediaPlaybackItem> Items { get; internal set; }
     }
 
     public class PositionUpdatedArgs

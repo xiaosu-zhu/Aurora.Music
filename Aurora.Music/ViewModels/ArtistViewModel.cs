@@ -5,7 +5,7 @@ namespace Aurora.Music.ViewModels
 {
     class ArtistViewModel : ViewModelBase
     {
-        private string rawName;
+        public string RawName;
 
         private string name;
         public string Name
@@ -21,7 +21,7 @@ namespace Aurora.Music.ViewModels
                 {
                     SetProperty(ref name, value);
                 }
-                rawName = value;
+                RawName = value;
             }
         }
 

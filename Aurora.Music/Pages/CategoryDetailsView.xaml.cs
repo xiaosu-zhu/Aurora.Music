@@ -50,7 +50,7 @@ namespace Aurora.Music.Pages
 
             ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("CategoryTitleOut", Title);
 
-            LibraryPage.Current.Navigate(typeof(CategoryListView), Title.Text);
+            LibraryPage.Current.LefPanelNavigate(typeof(CategoryListView), Title.Text);
         }
     }
 }

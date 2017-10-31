@@ -1,4 +1,5 @@
-﻿using Aurora.Shared.Extensions;
+﻿using Aurora.Music.ViewModels;
+using Aurora.Shared.Extensions;
 using ExpressionBuilder;
 using System.Numerics;
 using Windows.System.Threading;
@@ -59,7 +60,9 @@ namespace Aurora.Music.Pages
 
         private void ArtistList_ItemClick(object sender, ItemClickEventArgs e)
         {
+            ArtistList.PrepareConnectedAnimation(Consts.ArtistPageInAnimation, e.ClickedItem, "ArtistImage");
 
+            LibraryPage.Current.Navigate(typeof(ArtistPage), (e.ClickedItem as ArtistViewModel).RawName);
         }
 
         private void ArtistList_Loaded(object sender, RoutedEventArgs e)

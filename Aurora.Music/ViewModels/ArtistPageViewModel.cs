@@ -16,7 +16,12 @@ namespace Aurora.Music.ViewModels
 {
     class ArtistPageViewModel : ViewModelBase
     {
-        public ObservableCollection<AlbumViewModel> AlbumList { get; set; } = new ObservableCollection<AlbumViewModel>();
+        private ObservableCollection<AlbumViewModel> albumList;
+        public ObservableCollection<AlbumViewModel> AlbumList
+        {
+            get { return albumList; }
+            set { SetProperty(ref albumList, value); }
+        }
 
         private List<ImageSource> heroImage = null;
         public List<ImageSource> HeroImage
@@ -41,21 +46,26 @@ namespace Aurora.Music.ViewModels
         {
             var albums = await FileReader.GetAlbumsAsync("AlbumArtists", artist);
             var a = albums.OrderByDescending(x => x.Year);
+
+            var list = new List<Uri>();
+            var aList = new ObservableCollection<AlbumViewModel>();
+            int i = 0;
+            foreach (var item in a)
+            {
+                aList.Add(new AlbumViewModel(item));
+                if (i < 9)
+                {
+                    if (item.PicturePath.IsNullorEmpty()) continue;
+                    list.Add(new Uri(item.PicturePath));
+                    i++;
+                }
+            }
+            list.Shuffle();
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
-                var list = new List<ImageSource>();
-                int i = 0;
-                foreach (var item in a)
-                {
-                    AlbumList.Add(new AlbumViewModel(item));
-                    if (i < 9)
-                    {
-                        if (item.PicturePath.IsNullorEmpty()) continue;
-                        list.Add(new BitmapImage(new Uri(item.PicturePath)));
-                        i++;
-                    }
-                }
-                HeroImage = list;
+                Artist = artist;
+                AlbumList = aList;
+                HeroImage = list.ConvertAll(x => (ImageSource)new BitmapImage(x));
             });
         }
 
