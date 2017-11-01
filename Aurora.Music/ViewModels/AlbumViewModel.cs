@@ -21,7 +21,7 @@ namespace Aurora.Music.ViewModels
             Name = item.Name;
             if (!item.PicturePath.IsNullorEmpty())
             {
-                Artwork = new Uri(item.PicturePath);
+                ArtworkURI = item.PicturePath;
             }
             Genres = item.Genres;
             Year = item.Year;
@@ -37,10 +37,22 @@ namespace Aurora.Music.ViewModels
         public AlbumViewModel() { }
 
         private int[] songs;
+        private BitmapImage artwork;
 
         public ObservableCollection<Core.Storage.Song> Songs { get; set; } = new ObservableCollection<Core.Storage.Song>();
 
-        public Uri Artwork { get; set; }
+        private string ArtworkURI { get; set; }
+        public BitmapImage Artwork
+        {
+            get
+            {
+                return artwork;
+            }
+            set
+            {
+                SetProperty(ref artwork, value);
+            }
+        }
 
         public string Name { get; set; }
         public virtual string[] Genres { get; set; }
@@ -71,12 +83,12 @@ namespace Aurora.Music.ViewModels
             return s1;
         }
 
-        public BitmapImage ToImage(Uri r)
+        public void ToImage()
         {
-            if (r != null)
-                return new BitmapImage(r);
+            if (!ArtworkURI.IsNullorEmpty())
+                Artwork = new BitmapImage(new Uri(ArtworkURI));
             else
-                return null;
+                return;
         }
     }
 }

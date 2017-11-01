@@ -1302,7 +1302,7 @@
                             </ToggleButton.Content>
                         </ToggleButton>
                     </StackPanel>
-                    <ProgressBar Background="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="4" 
+                    <ProgressBar Background="{x:Null}" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="5" 
                                  Value="{x:Bind PositionToValue(Context.CurrentPosition, Context.TotalDuration), Mode=OneWay}"/>
                 </Grid>
 

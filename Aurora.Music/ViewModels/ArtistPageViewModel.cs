@@ -68,6 +68,17 @@ namespace Aurora.Music.ViewModels
             });
         }
 
+        internal void GetArtwork()
+        {
+            var t = CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
+            {
+                foreach (var item in AlbumList)
+                {
+                    item.ToImage();
+                };
+            });
+        }
+
         internal async Task PlayAlbum(AlbumViewModel album)
         {
             var songs = await album.FindSongs();

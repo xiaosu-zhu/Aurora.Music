@@ -28,9 +28,12 @@
     <Grid>
         <GridView ItemClick="AlbumList_ItemClick" IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" 
               SelectionMode="None" ItemsSource="{x:Bind Context.AlbumList, Mode=OneWay}" Loaded="AlbumList_Loaded"
-              Padding="32,400,32,160" ItemContainerStyle="{StaticResource GeneralGridViewItemStyle}" 
+              Padding="32,360,32,160" ItemContainerStyle="{StaticResource GeneralGridViewItemStyle}" 
               Style="{StaticResource GeneralGridViewStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
               x:Name="AlbumList">
+            <GridView.Header>
+                <Grid Height="40"/>
+            </GridView.Header>
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="vm:AlbumViewModel">
                     <StackPanel PointerEntered="StackPanel_PointerEntered" PointerCanceled="StackPanel_PointerExited"
@@ -72,8 +75,8 @@
                             <Grid Background="{ThemeResource SystemControlAcrylicWindowBrush}">
                                 <toolkit:ImageEx Style="{ThemeResource QuickLoadImageEx}" Stretch="UniformToFill" 
                                              PlaceholderStretch="Uniform" HorizontalAlignment="Center" 
-                                             PlaceholderSource="/Assets/LockScreenLogo.png" VerticalAlignment="Center" 
-                                             Source="{x:Bind ToImage(Artwork)}" Height="160" Width="160"/>
+                                             PlaceholderSource="/Assets/Images/placeholder_b.png" VerticalAlignment="Center" 
+                                             Source="{x:Bind Artwork,Mode=OneWay}" Height="160" Width="160"/>
                             </Grid>
                         </toolkit:DropShadowPanel>
                         <TextBlock MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{x:Bind Name}" 

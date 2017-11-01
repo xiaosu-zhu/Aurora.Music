@@ -42,8 +42,54 @@ namespace Aurora.Music.Pages
                 {
                     ani.TryStart(Header);
                 }
-            }
+                var work = ThreadPool.RunAsync(x =>
+                {
+                    Context.GetArtwork();
+                });
+            };
 
+            
+        }
+
+        private void StackPanel_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            if (sender is StackPanel s)
+            {
+                (s.Resources["PointerOver"] as Storyboard).Begin();
+            }
+        }
+
+        private void StackPanel_PointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            if (sender is StackPanel s)
+            {
+                (s.Resources["Normal"] as Storyboard).Begin();
+            }
+        }
+
+        private async void AlbumList_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            await Context.PlayAlbum(e.ClickedItem as AlbumViewModel);
+        }
+
+        private void StackPanel_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            if (sender is StackPanel s)
+            {
+                (s.Resources["PointerPressed"] as Storyboard).Begin();
+            }
+        }
+
+        private void StackPanel_PointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            if (sender is StackPanel s)
+            {
+                (s.Resources["PointerOver"] as Storyboard).Begin();
+            }
+        }
+
+        private void AlbumList_Loaded(object sender, RoutedEventArgs e)
+        {
             var scrollviewer = AlbumList.GetScrollViewer();
             _scrollerPropertySet = ElementCompositionPreview.GetScrollViewerManipulationPropertySet(scrollviewer);
             _compositor = _scrollerPropertySet.Compositor;
@@ -98,47 +144,6 @@ namespace Aurora.Music.Pages
             headerbgVisual.StartAnimation("Opacity", bgOpacityAnimation);
             headerbgOverlayVisual.StartAnimation("Opacity", bgOpacityAnimation);
             bgBlurVisual.StartAnimation("Opacity", bgblurOpacityAnimation);
-        }
-
-        private void StackPanel_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
-            if (sender is StackPanel s)
-            {
-                (s.Resources["PointerOver"] as Storyboard).Begin();
-            }
-        }
-
-        private void StackPanel_PointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
-            if (sender is StackPanel s)
-            {
-                (s.Resources["Normal"] as Storyboard).Begin();
-            }
-        }
-
-        private async void AlbumList_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            await Context.PlayAlbum(e.ClickedItem as AlbumViewModel);
-        }
-
-        private void StackPanel_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
-            if (sender is StackPanel s)
-            {
-                (s.Resources["PointerPressed"] as Storyboard).Begin();
-            }
-        }
-
-        private void StackPanel_PointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
-            if (sender is StackPanel s)
-            {
-                (s.Resources["PointerOver"] as Storyboard).Begin();
-            }
-        }
-
-        private void AlbumList_Loaded(object sender, RoutedEventArgs e)
-        {
         }
     }
 }

@@ -8,11 +8,18 @@ using TagLib;
 using Windows.Storage;
 using System.IO;
 using Windows.Storage.FileProperties;
+using Aurora.Shared.Helpers;
+using Aurora.Music.Core.Storage;
 
 namespace Aurora.Music.Core.Models
 {
     public class Song
     {
+        private static StorageFolder artworkFolder = AsyncHelper.RunSync(async () =>
+        {
+            return await ApplicationData.Current.LocalFolder.CreateFolderAsync("Artworks", CreationCollisionOption.OpenIfExists);
+        });
+
         public Song() { }
 
         public Song(Storage.Song song)
@@ -113,7 +120,7 @@ namespace Aurora.Music.Core.Models
             if (!pictures.IsNullorEmpty())
             {
                 album = Shared.Utils.InvalidFileNameChars.Aggregate(album, (current, c) => current.Replace(c + "", "_"));
-                var artworkFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Artworks", CreationCollisionOption.OpenIfExists);
+                album = $"{album}.{pictures[0].MimeType.Split('/').LastOrDefault()}";
                 try
                 {
                     var s = await artworkFolder.GetFileAsync(album);
@@ -205,6 +212,7 @@ namespace Aurora.Music.Core.Models
 
     public class Album
     {
+
         public Album(Storage.Album album)
         {
             var songs = album.Songs.Split(new string[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
@@ -225,6 +233,30 @@ namespace Aurora.Music.Core.Models
             PicturePath = album.PicturePath;
         }
 
+        public Album(IGrouping<string, Storage.Song> album)
+        {
+            Name = album.Key;
+
+            // uint value, use their max value
+            DiscCount = album.Max(x => x.DiscCount);
+            TrackCount = album.Max(x => x.TrackCount);
+            Year = album.Max(x => x.Year);
+
+            // TODO: not combine all, just use not-null value
+            // string[] value, use their all value (remove duplicated values) combine
+            AlbumArtists = (from aa in album where !aa.AlbumArtists.IsNullorEmpty() select aa.AlbumArtists).ToArray();//album.Where(x => !x.AlbumArtists.IsNullorEmpty()).FirstOrDefault().AlbumArtists;
+            Genres = (from aa in album where !aa.Genres.IsNullorEmpty() select aa.Genres).ToArray();
+            AlbumArtistsSort = (from aa in album where !aa.AlbumArtistsSort.IsNullorEmpty() select aa.AlbumArtistsSort).ToArray();
+
+            // normal value, use their not-null value
+            AlbumSort = (from aa in album where !aa.AlbumSort.IsNullorEmpty() select aa.AlbumSort).FirstOrDefault();
+            ReplayGainAlbumGain = (from aa in album where aa.ReplayGainAlbumGain != double.NaN select aa.ReplayGainAlbumGain).FirstOrDefault();
+            ReplayGainAlbumPeak = (from aa in album where aa.ReplayGainAlbumPeak != double.NaN select aa.ReplayGainAlbumPeak).FirstOrDefault();
+            PicturePath = (from aa in album where !aa.PicturePath.IsNullorEmpty() select aa.PicturePath).FirstOrDefault();
+
+            // songs, serialized as "ID0|ID1|ID2...|IDn"
+            Songs = album.Select(x => x.ID).Distinct().ToArray();
+        }
 
         public int[] Songs { get; set; }
 

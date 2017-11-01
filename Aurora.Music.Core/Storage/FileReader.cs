@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 using Aurora.Shared.Helpers;
 using TagLib;
 using Windows.Storage;
+using Aurora.Shared.Extensions;
 
 namespace Aurora.Music.Core.Storage
 {
     public class FileReader
     {
-        private static readonly string[] types = new[] { ".mp3", ".m4a", ".flac", ".wav" };
+        private static readonly string[] FILE_TYPES = new[] { ".mp3", ".m4a", ".flac", ".wav" };
 
         public event EventHandler<ProgressReport> ProgressUpdated;
         public event EventHandler Completed;
@@ -39,6 +40,12 @@ namespace Aurora.Music.Core.Storage
         public static async Task<List<Models.Album>> GetAlbumsAsync(string character, string value)
         {
             var opr = SQLOperator.Current();
+            if (value.IsNullorEmpty())
+            {
+                var songs = await opr.GetWithQueryAsync<Song>(character, value);
+                var albumGrouping = from song in songs group song by song.Album;
+                return albumGrouping.ToList().ConvertAll(a => new Models.Album(a));
+            }
             var albums = await opr.GetWithQueryAsync<Album>(character, value);
             return albums.ConvertAll(a => new Models.Album(a));
         }
@@ -78,24 +85,10 @@ namespace Aurora.Music.Core.Storage
             var opr = SQLOperator.Current();
             List<Models.Song> tempList = new List<Models.Song>();
             double i = 1;
-            var total = files.Count;
-            foreach (var file in files)
+            var filteredFiles = files.Where(x => Array.Exists(FILE_TYPES, u => u.Equals(x.FileType, StringComparison.InvariantCultureIgnoreCase)));
+            var total = filteredFiles.Count();
+            foreach (var file in filteredFiles)
             {
-                bool b = false;
-
-                foreach (var item in types)
-                {
-                    if (item.Equals(file.FileType, StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        b = true;
-                        break;
-                    }
-                }
-                if (!b)
-                {
-                    continue;
-                }
-
                 using (var tagTemp = File.Create(file.Path))
                 {
                     var proper = await file.Properties.GetMusicPropertiesAsync();

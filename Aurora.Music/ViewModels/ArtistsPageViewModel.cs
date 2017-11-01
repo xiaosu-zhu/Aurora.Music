@@ -1,10 +1,7 @@
 ﻿using Aurora.Music.Core.Storage;
 using Aurora.Shared.MVVM;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 
@@ -33,7 +30,6 @@ namespace Aurora.Music.ViewModels
                     Name = item.AlbumArtists
                 });
             }
-            await Task.Delay(160);
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
                 ArtistList = list;

@@ -16,12 +16,13 @@ namespace Aurora.Music.ViewModels
                 if (value.IsNullorWhiteSpace())
                 {
                     SetProperty(ref name, "Unknown Artist");
+                    RawName = string.Empty;
                 }
                 else
                 {
                     SetProperty(ref name, value);
+                    RawName = value;
                 }
-                RawName = value;
             }
         }
 

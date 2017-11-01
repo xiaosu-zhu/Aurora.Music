@@ -29,6 +29,8 @@ namespace Aurora.Music.Core.Storage
 
     public class Song
     {
+        private string albumArtists;
+
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
 
@@ -51,6 +53,8 @@ namespace Aurora.Music.Core.Storage
             MusicIpId = song.MusicIpId;
             BeatsPerMinute = song.BeatsPerMinute;
             Album = song.Album;
+            Performers = string.Join("$|$", song.Performers);
+            PerformersSort = string.Join("$|$", song.PerformersSort);
             AlbumArtists = string.Join("$|$", song.AlbumArtists);
             AlbumArtistsSort = string.Join("$|$", song.AlbumArtistsSort);
             AlbumSort = song.AlbumSort;
@@ -73,8 +77,6 @@ namespace Aurora.Music.Core.Storage
             Genres = string.Join("$|$", song.Genres);
             Grouping = song.Grouping;
             Lyrics = song.Lyrics;
-            Performers = string.Join("$|$", song.Performers);
-            PerformersSort = string.Join("$|$", song.PerformersSort);
             Year = song.Year;
             PicturePath = song.PicturePath;
         }
@@ -117,7 +119,24 @@ namespace Aurora.Music.Core.Storage
         public virtual string TitleSort { get; set; }
         public virtual string Performers { get; set; }
         public virtual string PerformersSort { get; set; }
-        public virtual string AlbumArtists { get; set; }
+        public virtual string AlbumArtists
+        {
+            get
+            {
+                return albumArtists;
+            }
+            set
+            {
+                if (value.IsNullorEmpty())
+                {
+                    albumArtists = Performers;
+                }
+                else
+                {
+                    albumArtists = value;
+                }
+            }
+        }
         public virtual string AlbumArtistsSort { get; set; }
         public virtual string Composers { get; set; }
         public virtual string ComposersSort { get; set; }
@@ -526,6 +545,10 @@ namespace Aurora.Music.Core.Storage
         internal async Task<List<T>> GetWithQueryAsync<T>(string character, object value) where T : new()
         {
             var type = typeof(T);
+            if (value == null)
+            {
+                return await conn.QueryAsync<T>($"SELECT * FROM {type.Name} WHERE {character} IS NULL");
+            }
             return await conn.QueryAsync<T>($"SELECT * FROM {type.Name} WHERE {character} = '{value}'");
         }
 
