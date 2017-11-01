@@ -54,6 +54,13 @@ namespace Aurora.Music.ViewModels
             }
         }
 
+        internal async Task RemoveFolder(FolderViewModel folderViewModel)
+        {
+            var opr = SQLOperator.Current();
+            await opr.RemoveFolderAsync(folderViewModel.Path);
+            Folders.Remove(folderViewModel);
+        }
+
         private ElementTheme foreground = ElementTheme.Default;
         public ElementTheme Foreground
         {

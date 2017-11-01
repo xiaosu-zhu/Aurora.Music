@@ -17,6 +17,19 @@ using Windows.Graphics.Imaging;
 
 namespace Aurora.Shared.Helpers
 {
+    public class StorageFileComparer : IEqualityComparer<StorageFile>
+    {
+        public bool Equals(StorageFile x, StorageFile y)
+        {
+            return x.Path == y.Path;
+        }
+
+        public int GetHashCode(StorageFile obj)
+        {
+            return obj.GetHashCode();
+        }
+    }
+
     public class FileIOHelper
     {
         /// <summary>

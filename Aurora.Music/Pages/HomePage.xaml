@@ -20,21 +20,8 @@
                 <ResourceDictionary Source="../Themes/Styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <ResourceDictionary.ThemeDictionaries>
-                <ResourceDictionary x:Key="Light">
-                    <LinearGradientBrush x:Key="HomePageGradient" EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="#FFFFFFFF"/>
-                        <GradientStop Color="Transparent" Offset="1"/>
-                    </LinearGradientBrush>
-                </ResourceDictionary>
-                <ResourceDictionary x:Key="Dark">
-                    <LinearGradientBrush x:Key="HomePageGradient" EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="#FF000000"/>
-                        <GradientStop Color="Transparent" Offset="1"/>
-                    </LinearGradientBrush>
-                </ResourceDictionary>
-                <ResourceDictionary x:Key="HighContrast">
-                    <SolidColorBrush x:Key="myBrush" Color="{ThemeResource SystemColorButtonFaceColor}"/>
-                </ResourceDictionary>
+                <ResourceDictionary x:Key="Light" Source="../Themes/Light.xaml"/>
+                <ResourceDictionary x:Key="Dark" Source="../Themes/Dark.xaml"/>
             </ResourceDictionary.ThemeDictionaries>
 
             <AcrylicBrush x:Key="HomePageBackground" BackgroundSource="HostBackdrop" 

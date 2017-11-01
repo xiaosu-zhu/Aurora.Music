@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Aurora.Shared.Extensions;
 using TagLib;
@@ -9,16 +7,12 @@ using Windows.Storage;
 using System.IO;
 using Windows.Storage.FileProperties;
 using Aurora.Shared.Helpers;
-using Aurora.Music.Core.Storage;
 
 namespace Aurora.Music.Core.Models
 {
     public class Song
     {
-        private static StorageFolder artworkFolder = AsyncHelper.RunSync(async () =>
-        {
-            return await ApplicationData.Current.LocalFolder.CreateFolderAsync("Artworks", CreationCollisionOption.OpenIfExists);
-        });
+        
 
         public Song() { }
 
@@ -123,10 +117,10 @@ namespace Aurora.Music.Core.Models
                 album = $"{album}.{pictures[0].MimeType.Split('/').LastOrDefault()}";
                 try
                 {
-                    var s = await artworkFolder.GetFileAsync(album);
+                    var s = await Consts.ArtworkFolder.GetFileAsync(album);
                     if (s == null)
                     {
-                        StorageFile cacheImg = await artworkFolder.CreateFileAsync(album, CreationCollisionOption.ReplaceExisting);
+                        StorageFile cacheImg = await Consts.ArtworkFolder.CreateFileAsync(album, CreationCollisionOption.ReplaceExisting);
                         await FileIO.WriteBytesAsync(cacheImg, pictures[0].Data.Data);
                         return cacheImg.Path;
                     }
@@ -137,7 +131,7 @@ namespace Aurora.Music.Core.Models
                 }
                 catch (FileNotFoundException)
                 {
-                    StorageFile cacheImg = await artworkFolder.CreateFileAsync(album, CreationCollisionOption.ReplaceExisting);
+                    StorageFile cacheImg = await Consts.ArtworkFolder.CreateFileAsync(album, CreationCollisionOption.ReplaceExisting);
                     await FileIO.WriteBytesAsync(cacheImg, pictures[0].Data.Data);
                     return cacheImg.Path;
                 }
@@ -244,9 +238,9 @@ namespace Aurora.Music.Core.Models
 
             // TODO: not combine all, just use not-null value
             // string[] value, use their all value (remove duplicated values) combine
-            AlbumArtists = (from aa in album where !aa.AlbumArtists.IsNullorEmpty() select aa.AlbumArtists).ToArray();//album.Where(x => !x.AlbumArtists.IsNullorEmpty()).FirstOrDefault().AlbumArtists;
-            Genres = (from aa in album where !aa.Genres.IsNullorEmpty() select aa.Genres).ToArray();
-            AlbumArtistsSort = (from aa in album where !aa.AlbumArtistsSort.IsNullorEmpty() select aa.AlbumArtistsSort).ToArray();
+            AlbumArtists = new string[] { (from aa in album where !aa.AlbumArtists.IsNullorEmpty() select aa.AlbumArtists).FirstOrDefault() };//album.Where(x => !x.AlbumArtists.IsNullorEmpty()).FirstOrDefault().AlbumArtists;
+            Genres = new string[] { (from aa in album where !aa.Genres.IsNullorEmpty() select aa.Genres).FirstOrDefault() };
+            AlbumArtistsSort = new string[] { (from aa in album where !aa.AlbumArtistsSort.IsNullorEmpty() select aa.AlbumArtistsSort).FirstOrDefault() };
 
             // normal value, use their not-null value
             AlbumSort = (from aa in album where !aa.AlbumSort.IsNullorEmpty() select aa.AlbumSort).FirstOrDefault();

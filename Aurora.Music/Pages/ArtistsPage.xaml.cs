@@ -1,4 +1,5 @@
-﻿using Aurora.Music.ViewModels;
+﻿using Aurora.Music.Core;
+using Aurora.Music.ViewModels;
 using Aurora.Shared.Extensions;
 using ExpressionBuilder;
 using System.Numerics;

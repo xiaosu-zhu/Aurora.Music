@@ -5,6 +5,13 @@
         <GradientStop Color="White" Offset="1"/>
         <GradientStop Color="#AAFFFFFF" Offset="0.667"/>
     </LinearGradientBrush>
+    <LinearGradientBrush x:Key="HomePageGradient" EndPoint="0.5,1" StartPoint="0.5,0">
+        <GradientStop Color="#FFFFFFFF"/>
+        <GradientStop Color="Transparent" Offset="1"/>
+    </LinearGradientBrush>
+    
+    <AcrylicBrush x:Key="SystemControlAltTranslucentAcrylicElementBrush" BackgroundSource="Backdrop" TintColor="{StaticResource SystemChromeAltHighColor}" TintOpacity="0.2" FallbackColor="{StaticResource SystemAltLowColor}" />
+    <AcrylicBrush x:Key="SystemControlAltTranslucentAcrylicWindowBrush" BackgroundSource="HostBackdrop" TintColor="{StaticResource SystemChromeAltHighColor}" TintOpacity="0.2" FallbackColor="{StaticResource SystemAltLowColor}" />
 
     <RevealBorderBrush x:Key="SystemControlBackgroundAltLowRevealBrush" TargetTheme="Light" Color="{StaticResource SystemRevealAltLowColor}" FallbackColor="{StaticResource SystemAltLowColor}" />
     <RevealBorderBrush x:Key="SystemControlBackgroundAltHighRevealBrush" TargetTheme="Light" Color="{StaticResource SystemRevealAltHighColor}" FallbackColor="{StaticResource SystemAltHighColor}" />

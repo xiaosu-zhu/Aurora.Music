@@ -37,6 +37,20 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref artist, value); }
         }
 
+        private string genres;
+        public string Genres
+        {
+            get { return genres; }
+            set { SetProperty(ref genres, value); }
+        }
+
+        private string songsCount;
+        public string SongsCount
+        {
+            get { return songsCount; }
+            set { SetProperty(ref songsCount, value); }
+        }
+
         public ArtistPageViewModel()
         {
 
@@ -61,9 +75,16 @@ namespace Aurora.Music.ViewModels
                 }
             }
             list.Shuffle();
+            var genres = (from alb in a
+                          where !alb.Genres.IsNullorEmpty()
+                          group alb by alb.Genres into grp
+                          orderby grp.Count() descending
+                          select grp.Key).First();
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
                 AlbumList = aList;
+                SongsCount = aList.Count == 1 ? "1 Album" : $"{aList.Count} Albums";
+                Genres = genres.Length > 0 ? string.Join(", ", genres) : "Various Genres";
                 HeroImage = list.ConvertAll(x => (ImageSource)new BitmapImage(x));
             });
         }

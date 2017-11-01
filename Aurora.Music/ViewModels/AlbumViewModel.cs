@@ -2,13 +2,10 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Aurora.Music.Core.Models;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.MVVM;
 using Windows.UI.Xaml.Media.Imaging;
-using System.Collections;
 using Aurora.Music.Core.Storage;
 
 namespace Aurora.Music.ViewModels
@@ -39,7 +36,7 @@ namespace Aurora.Music.ViewModels
         private int[] songs;
         private BitmapImage artwork;
 
-        public ObservableCollection<Core.Storage.Song> Songs { get; set; } = new ObservableCollection<Core.Storage.Song>();
+        public ObservableCollection<Song> Songs { get; set; } = new ObservableCollection<Core.Storage.Song>();
 
         private string ArtworkURI { get; set; }
         public BitmapImage Artwork

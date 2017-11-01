@@ -25,7 +25,7 @@ namespace Aurora.Music.Core.Storage
         /// </summary>
         /// <param name="folder"></param>
         /// <returns></returns>
-        private async Task<List<StorageFile>> GetFilesAsync(StorageFolder folder)
+        private async Task<IEnumerable<StorageFile>> GetFilesAsync(StorageFolder folder)
         {
             var files = new List<StorageFile>();
             files.AddRange(await folder.GetFilesAsync());
@@ -34,7 +34,9 @@ namespace Aurora.Music.Core.Storage
             {
                 files.AddRange(await GetFilesAsync(item));
             }
-            return files;
+
+            var filteredFiles = files.Where(x => Array.Exists(FILE_TYPES, u => u.Equals(x.FileType, StringComparison.InvariantCultureIgnoreCase)));
+            return filteredFiles;
         }
 
         public static async Task<List<Models.Album>> GetAlbumsAsync(string character, string value)
@@ -66,14 +68,17 @@ namespace Aurora.Music.Core.Storage
             report.Percent = 0;
             foreach (var item in folder)
             {
-                list.AddRange(await GetFilesAsync(item));
+                var files = await GetFilesAsync(item);
 
+                var opr = SQLOperator.Current();
+                await opr.UpdateFolderAsync(item, files.Count());
+                list.AddRange(files);
                 report.Stage = 1;
                 report.Percent = 100 * i / folder.Count;
                 i++;
                 ProgressUpdated?.Invoke(this, report);
             }
-            list.Distinct();
+            list.Distinct(new StorageFileComparer());
             report.Stage = 1;
             report.Percent = 100;
             ProgressUpdated?.Invoke(this, report);
@@ -85,9 +90,8 @@ namespace Aurora.Music.Core.Storage
             var opr = SQLOperator.Current();
             List<Models.Song> tempList = new List<Models.Song>();
             double i = 1;
-            var filteredFiles = files.Where(x => Array.Exists(FILE_TYPES, u => u.Equals(x.FileType, StringComparison.InvariantCultureIgnoreCase)));
-            var total = filteredFiles.Count();
-            foreach (var file in filteredFiles)
+            var total = files.Count();
+            foreach (var file in files)
             {
                 using (var tagTemp = File.Create(file.Path))
                 {

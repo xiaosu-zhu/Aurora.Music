@@ -39,11 +39,6 @@ namespace Aurora.Music.Pages
             }
         }
 
-        private void DeleteFolderBtn_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             foreach (var item in Context.Folders)
@@ -51,6 +46,11 @@ namespace Aurora.Music.Pages
                 item.ToggleOpened(false);
             }
             ((sender as ListView).SelectedItem as FolderViewModel).ToggleOpened(true);
+        }
+
+        private async void DeleteFolderBtn_Click(object sender, RoutedEventArgs e)
+        {
+            await Context.RemoveFolder(sender as FolderViewModel);
         }
     }
 }

@@ -109,7 +109,13 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref currentAlbum, value); }
         }
 
-        private string nowListPreview="0/0";
+        private string nowListPreview = "-/-";
+
+        internal void FastForward(bool v)
+        {
+            throw new NotImplementedException();
+        }
+
         public string NowListPreview
         {
             get { return nowListPreview; }
@@ -156,25 +162,27 @@ namespace Aurora.Music.ViewModels
             }
         }
 
-        public DelegateCommand ToggleShuffle
+        private bool? isShuffle = false;
+        public bool? IsShuffle
         {
-            get
+            get { return isShuffle; }
+            set
             {
-                return new DelegateCommand(() =>
-                {
-                    player?.ToggleShuffle();
-                });
+                SetProperty(ref isShuffle, value);
+
+                player?.ToggleShuffle(value);
             }
         }
 
-        public DelegateCommand ToggleLoop
+        private bool? isLoop = false;
+        public bool? IsLoop
         {
-            get
+            get { return isLoop; }
+            set
             {
-                return new DelegateCommand(() =>
-                {
-                    player?.ToggleLoop();
-                });
+                SetProperty(ref isLoop, value);
+
+                player?.ToggleLoop(value);
             }
         }
 

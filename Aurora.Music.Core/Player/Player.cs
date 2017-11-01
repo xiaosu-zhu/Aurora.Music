@@ -188,15 +188,29 @@ namespace Aurora.Music.Core.Player
             mediaPlayer.Source = mediaPlaybackList;
         }
 
-        public void ToggleLoop()
+        public void ToggleLoop(bool? b)
         {
-            mediaPlaybackList.AutoRepeatEnabled = true;
+            mediaPlaybackList.AutoRepeatEnabled = b ?? false;
         }
 
-        public void ToggleShuffle()
+        public void ToggleShuffle(bool? b)
         {
-            mediaPlaybackList.SetShuffledItems(mediaPlaybackList.Items);
-            mediaPlaybackList.ShuffleEnabled = true;
+            if (b is bool boo)
+            {
+                if (boo)
+                {
+                    mediaPlaybackList.SetShuffledItems(mediaPlaybackList.Items);
+                    mediaPlaybackList.ShuffleEnabled = true;
+                }
+                else
+                {
+                    mediaPlaybackList.ShuffleEnabled = false;
+                }
+            }
+            else
+            {
+                mediaPlaybackList.ShuffleEnabled = false;
+            }
         }
 
         public void GoNext()
@@ -205,11 +219,18 @@ namespace Aurora.Music.Core.Player
             {
                 return;
             }
+            if (mediaPlaybackList.AutoRepeatEnabled)
+            {
+                mediaPlaybackList.MoveNext();
+                return;
+            }
+
             if (mediaPlaybackList.CurrentItemIndex == mediaPlaybackList.Items.Count - 1)
             {
                 Stop();
                 return;
             }
+
             mediaPlaybackList.MoveNext();
         }
 
@@ -238,7 +259,17 @@ namespace Aurora.Music.Core.Player
             {
                 return;
             }
-            if (mediaPlaybackList.CurrentItemIndex == mediaPlaybackList.Items.Count - 1)
+            if (mediaPlayer.PlaybackSession.Position.TotalSeconds > 3)
+            {
+                mediaPlayer.PlaybackSession.Position = TimeSpan.Zero;
+                return;
+            }
+            if (mediaPlaybackList.AutoRepeatEnabled)
+            {
+                mediaPlaybackList.MovePrevious();
+                return;
+            }
+            if(mediaPlaybackList.CurrentItemIndex == 0)
             {
                 Stop();
                 return;

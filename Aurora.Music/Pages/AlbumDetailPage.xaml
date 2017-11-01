@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="Aurora.Music.Pages.ArtistPage"
+    x:Class="Aurora.Music.Pages.AlbumDetailPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Aurora.Music.Pages"
@@ -11,7 +11,7 @@
     mc:Ignorable="d">
 
     <Page.DataContext>
-        <vm:ArtistPageViewModel x:Name="Context"/>
+        <vm:AlbumDetailViewModel x:Name="Context"/>
     </Page.DataContext>
 
     <Page.Resources>
@@ -26,20 +26,14 @@
         </ResourceDictionary>
     </Page.Resources>
     <Grid>
-        <GridView ItemClick="AlbumList_ItemClick" IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" 
-              SelectionMode="None" ItemsSource="{x:Bind Context.AlbumList, Mode=OneWay}" Loaded="AlbumList_Loaded"
-              Padding="32,360,32,160" ItemContainerStyle="{StaticResource GeneralGridViewItemStyle}" 
-              Style="{StaticResource GeneralGridViewStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-              x:Name="AlbumList">
-            <GridView.Header>
-                <Grid Height="40"/>
-            </GridView.Header>
-            <GridView.ItemTemplate>
-                <DataTemplate x:DataType="vm:AlbumViewModel">
-                    <StackPanel PointerEntered="StackPanel_PointerEntered" PointerCanceled="StackPanel_PointerExited"
-                            PointerExited="StackPanel_PointerExited" PointerCaptureLost="StackPanel_PointerExited"
-                            PointerPressed="StackPanel_PointerPressed" 
-                            PointerReleased="StackPanel_PointerReleased"
+        <ListView IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" 
+              SelectionMode="None" ItemsSource="{x:Bind Context.SongList, Mode=OneWay}"
+              Padding="32,360,32,160" ItemContainerStyle="{StaticResource GeneralListViewItemStyle}" 
+              HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+              x:Name="SongList">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="vm:SongViewModel">
+                    <StackPanel
                             Orientation="Vertical">
                         <StackPanel.Resources>
                             <Storyboard x:Key="Normal" x:Name="Normal">
@@ -70,31 +64,18 @@
                                 </DoubleAnimation>
                             </Storyboard>
                         </StackPanel.Resources>
-                        <toolkit:DropShadowPanel x:Name="Shadow" BlurRadius="16" ShadowOpacity="0.5" OffsetX="0" OffsetY="0" 
-                                             Color="{ThemeResource SystemBaseHighColor}">
-                            <Grid Background="{ThemeResource SystemControlAcrylicWindowBrush}">
-                                <toolkit:ImageEx Style="{ThemeResource QuickLoadImageEx}" Stretch="UniformToFill" 
-                                             PlaceholderStretch="Uniform" HorizontalAlignment="Center" 
-                                             PlaceholderSource="/Assets/Images/placeholder_b.png" VerticalAlignment="Center" 
-                                             Source="{x:Bind Artwork,Mode=OneWay}" Height="160" Width="160"/>
-                            </Grid>
-                        </toolkit:DropShadowPanel>
-                        <TextBlock MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{x:Bind Name}" 
+                        <TextBlock MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{x:Bind Title}" 
                                Style="{ThemeResource BaseTextBlockStyle}" Padding="4,0,4,0" Margin="0,4,0,0" Width="160"/>
                         <TextBlock MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Width="160" 
                                Text="{x:Bind AlbumArtists[0], FallbackValue=}" Style="{ThemeResource BodyTextBlockStyle}" 
                                Padding="4,0" Margin="0,0,0,4"/>
                     </StackPanel>
                 </DataTemplate>
-            </GridView.ItemTemplate>
-        </GridView>
+            </ListView.ItemTemplate>
+        </ListView>
         <Grid Height="360" x:Name="Header" HorizontalAlignment="Stretch" VerticalAlignment="Top">
             <Grid x:Name="BGBlur" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="360" Background="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}"/>
-            <ParallaxView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="360" VerticalShift="-480" Source="{Binding ElementName=AlbumList}">
-                <controls:ImageGrid x:Name="HeaderBG" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                                        BorderBrush="{x:Null}" BorderThickness="0"  
-                                        ImageSources="{x:Bind Context.HeroImage, Mode=OneWay}"/>
-            </ParallaxView>
+            <Image x:Name="HeaderBG" HorizontalAlignment="Center" VerticalAlignment="Stretch" Stretch="UniformToFill" Height="360" Source="{x:Bind Context.HeroImage, Mode=OneWay}"/>
 
             <Grid x:Name="HeaderBGOverlay" HorizontalAlignment="Stretch" Height="360" Background="{ThemeResource ArtistsPageGradient}"/>
             <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Margin="32">
@@ -104,14 +85,14 @@
                 </Grid.RowDefinitions>
                 <Grid Canvas.ZIndex="9999" x:Name="TitleShrink" Background="{x:Null}"
                           HorizontalAlignment="Left" VerticalAlignment="Center" Height="48">
-                    <TextBlock Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" Margin="12,0" Text="{x:Bind Context.Artist, Mode=OneWay}" 
+                    <TextBlock Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" Margin="12,0" Text="{x:Bind Context.Album.Name, Mode=OneWay}" 
                                    HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"
                                    TextWrapping="NoWrap" MaxLines="1" Style="{ThemeResource SubheaderTextBlockStyle}" 
                                    TextTrimming="Clip"/>
                 </Grid>
                 <Grid Canvas.ZIndex="9999" x:Name="Title" Background="{ThemeResource SystemControlBackgroundAccentBrush}" 
                           HorizontalAlignment="Left" VerticalAlignment="Center" Height="48">
-                    <TextBlock Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Margin="12,0" Text="{x:Bind Context.Artist, Mode=OneWay}" 
+                    <TextBlock Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Margin="12,0" Text="{x:Bind Context.Album.Name, Mode=OneWay}" 
                                    HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"
                                    TextWrapping="NoWrap" MaxLines="1" Style="{ThemeResource SubheaderTextBlockStyle}" 
                                    TextTrimming="Clip"/>
@@ -121,13 +102,13 @@
                               Background="{ThemeResource SystemControlBackgroundAccentBrush}">
                         <TextBlock Style="{ThemeResource BodyTextBlockStyle}" 
                                        Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" 
-                                       Text="{x:Bind Context.Genres,Mode=OneWay}" Margin="12,8"/>
+                                       Text="Rock" Margin="12,8"/>
                     </Grid>
                     <Grid VerticalAlignment="Center" Margin="4,0,4,0" 
                               Background="{ThemeResource SystemControlBackgroundAccentBrush}">
                         <TextBlock Style="{ThemeResource BodyTextBlockStyle}" 
                                        Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" 
-                                       Text="{x:Bind Context.SongsCount,Mode=OneWay}" Margin="12,8"/>
+                                       Text="Played 47 times" Margin="12,8"/>
                     </Grid>
                 </StackPanel>
             </Grid>

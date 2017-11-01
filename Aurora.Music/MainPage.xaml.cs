@@ -4,6 +4,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml;
 using Aurora.Music.ViewModels;
 using Aurora.Shared.Controls;
+using Windows.UI.Input;
 
 // https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
 
@@ -21,6 +22,10 @@ namespace Aurora.Music
             this.InitializeComponent();
             Current = this;
             MainFrame.Navigate(typeof(HomePage));
+            GestureRecognizer g = new GestureRecognizer
+            {
+                GestureSettings = GestureSettings.HoldWithMouse
+            };
         }
 
         private Type[] navigateOptions = { typeof(HomePage), typeof(LibraryPage) };
@@ -89,9 +94,21 @@ namespace Aurora.Music
 
         public void ChangeTheme()
         {
-            if(MainFrame.Content is IChangeTheme iT)
+            if (MainFrame.Content is IChangeTheme iT)
             {
                 iT.ChangeTheme();
+            }
+        }
+
+        private void FastFoward_Holding(object sender, Windows.UI.Xaml.Input.HoldingRoutedEventArgs e)
+        {
+            if(e.HoldingState == HoldingState.Canceled)
+            {
+                Context.FastForward(false);
+            }
+            else
+            {
+                Context.FastForward(true);
             }
         }
     }

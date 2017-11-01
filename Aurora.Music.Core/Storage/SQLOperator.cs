@@ -311,6 +311,21 @@ namespace Aurora.Music.Core.Storage
             }
         }
 
+        public async Task UpdateFolderAsync(StorageFolder folder, int v)
+        {
+            var result = await conn.QueryAsync<Folder>("SELECT * FROM FOLDER WHERE PATH=?", folder.Path);
+            if (result.Count > 0)
+            {
+                result[0].SongsCount = v;
+                await conn.UpdateAsync(result[0]);
+            }
+            else
+            {
+                var f = new Folder(folder);
+                await conn.InsertAsync(f);
+            }
+        }
+
         public async Task<Song> UpdateSongAsync(Models.Song song)
         {
             var tag = new Song(song);
@@ -555,6 +570,11 @@ namespace Aurora.Music.Core.Storage
         public async Task<List<Artist>> GetArtistsAsync()
         {
             return await conn.QueryAsync<Artist>("SELECT COUNT(*) AS COUNT, ALBUMARTISTS FROM SONG GROUP BY ALBUMARTISTS");
+        }
+
+        public async Task RemoveFolderAsync(string path)
+        {
+            await conn.QueryAsync<object>("DELETE FROM FOLDER WHERE PATH=?", path);
         }
     }
 

@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Aurora.Shared.MVVM;
-using Windows.UI.Xaml.Media.Imaging;
-using Aurora.Music.Core.Utils;
 
 namespace Aurora.Music.ViewModels
 {
