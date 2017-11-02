@@ -10,7 +10,7 @@
         <GradientStop Color="#FF000000"/>
         <GradientStop Color="Transparent" Offset="1"/>
     </LinearGradientBrush>
-    
+
     <AcrylicBrush x:Key="SystemControlAltTranslucentAcrylicElementBrush" BackgroundSource="Backdrop" TintColor="{StaticResource SystemChromeAltHighColor}" TintOpacity="0.2" FallbackColor="{StaticResource SystemAltLowColor}" />
     <AcrylicBrush x:Key="SystemControlAltTranslucentAcrylicWindowBrush" BackgroundSource="HostBackdrop" TintColor="{StaticResource SystemChromeAltHighColor}" TintOpacity="0.2" FallbackColor="{StaticResource SystemAltLowColor}" />
 
@@ -18,4 +18,7 @@
     <RevealBorderBrush x:Key="SystemControlBackgroundAltHighRevealBrush" TargetTheme="Dark" Color="{StaticResource SystemRevealAltHighColor}" FallbackColor="{StaticResource SystemAltHighColor}" />
     <RevealBorderBrush x:Key="SystemControlBackgroundAltMediumRevealBrush" TargetTheme="Dark" Color="{StaticResource SystemRevealAltMediumColor}" FallbackColor="{StaticResource SystemAltHighColor}" />
     <RevealBorderBrush x:Key="SystemControlBackgroundAltMediumHighBrush" TargetTheme="Dark" Color="{StaticResource SystemRevealAltMediumHighColor}" FallbackColor="{StaticResource SystemAltHighColor}" />
+
+    <SolidColorBrush x:Key="SongListEvenBrush" Color="{StaticResource SystemChromeDisabledHighColor}" Opacity="0.3"/>
+    <SolidColorBrush x:Key="SongListOddBrush" Color="{StaticResource SystemAltHighColor}" Opacity="0.3"/>
 </ResourceDictionary>

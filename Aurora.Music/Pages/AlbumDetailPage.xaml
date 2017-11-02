@@ -23,55 +23,36 @@
                 <ResourceDictionary x:Key="Light" Source="../Themes/Light.xaml"/>
                 <ResourceDictionary x:Key="Dark" Source="../Themes/Dark.xaml"/>
             </ResourceDictionary.ThemeDictionaries>
-        </ResourceDictionary>
+
+            <DataTemplate x:Key="OddTemplate" x:DataType="vm:SongViewModel">
+                <StackPanel Height="48" Background="{ThemeResource SongListOddBrush}" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <TextBlock MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{x:Bind Title}" 
+                               Style="{ThemeResource BaseTextBlockStyle}" Padding="4,0" Margin="4" Width="160" VerticalAlignment="Center"/>
+                    <TextBlock MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Width="160" VerticalAlignment="Center"
+                               Text="{x:Bind AlbumArtists[0], FallbackValue=}" Style="{ThemeResource BodyTextBlockStyle}" 
+                               Padding="4,0" Margin="4"/>
+                </StackPanel>
+            </DataTemplate>
+            <DataTemplate x:Key="EvenTemplate" x:DataType="vm:SongViewModel">
+                <StackPanel Height="48" Background="{ThemeResource SongListEvenBrush}" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <TextBlock MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{x:Bind Title}" 
+                               Style="{ThemeResource BaseTextBlockStyle}" Padding="4,0" Margin="4" Width="160" VerticalAlignment="Center"/>
+                    <TextBlock MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Width="160" VerticalAlignment="Center"
+                               Text="{x:Bind AlbumArtists[0], FallbackValue=}" Style="{ThemeResource BodyTextBlockStyle}" 
+                               Padding="4,0" Margin="4"/>
+                </StackPanel>
+            </DataTemplate>
+
+            <controls:SongListTemplateSelector x:Key="SongListTemplateSelector" EvenTemplate="{StaticResource EvenTemplate}" OddTemplate="{StaticResource OddTemplate}"/>
+        
+</ResourceDictionary>
     </Page.Resources>
     <Grid>
-        <ListView IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" 
-              SelectionMode="None" ItemsSource="{x:Bind Context.SongList, Mode=OneWay}"
-              Padding="32,360,32,160" ItemContainerStyle="{StaticResource GeneralListViewItemStyle}" 
+        <ListView IsSynchronizedWithCurrentItem="False" ItemsSource="{x:Bind Context.SongList, Mode=OneWay}"
+                  ItemTemplateSelector="{StaticResource SongListTemplateSelector}"
+              Padding="32,384,32,160" ItemContainerStyle="{StaticResource GeneralListViewItemStyle}" 
               HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
               x:Name="SongList">
-            <ListView.ItemTemplate>
-                <DataTemplate x:DataType="vm:SongViewModel">
-                    <StackPanel
-                            Orientation="Vertical">
-                        <StackPanel.Resources>
-                            <Storyboard x:Key="Normal" x:Name="Normal">
-                                <DoubleAnimation Storyboard.TargetName="Shadow" Duration="0:0:0.48"
-                                   Storyboard.TargetProperty="BlurRadius" EnableDependentAnimation="True"
-                                   To="16">
-                                    <DoubleAnimation.EasingFunction>
-                                        <QuinticEase/>
-                                    </DoubleAnimation.EasingFunction>
-                                </DoubleAnimation>
-                            </Storyboard>
-                            <Storyboard x:Key="PointerOver" x:Name="PointerOver">
-                                <DoubleAnimation Storyboard.TargetName="Shadow" Duration="0:0:0.48"
-                                   Storyboard.TargetProperty="BlurRadius" EnableDependentAnimation="True"
-                                   To="24">
-                                    <DoubleAnimation.EasingFunction>
-                                        <QuinticEase/>
-                                    </DoubleAnimation.EasingFunction>
-                                </DoubleAnimation>
-                            </Storyboard>
-                            <Storyboard x:Key="PointerPressed" x:Name="PointerPressed">
-                                <DoubleAnimation Storyboard.TargetName="Shadow" Duration="0:0:0.48"
-                                   Storyboard.TargetProperty="BlurRadius" EnableDependentAnimation="True"
-                                   To="0">
-                                    <DoubleAnimation.EasingFunction>
-                                        <QuinticEase/>
-                                    </DoubleAnimation.EasingFunction>
-                                </DoubleAnimation>
-                            </Storyboard>
-                        </StackPanel.Resources>
-                        <TextBlock MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{x:Bind Title}" 
-                               Style="{ThemeResource BaseTextBlockStyle}" Padding="4,0,4,0" Margin="0,4,0,0" Width="160"/>
-                        <TextBlock MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Width="160" 
-                               Text="{x:Bind AlbumArtists[0], FallbackValue=}" Style="{ThemeResource BodyTextBlockStyle}" 
-                               Padding="4,0" Margin="0,0,0,4"/>
-                    </StackPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
         </ListView>
         <Grid Height="360" x:Name="Header" HorizontalAlignment="Stretch" VerticalAlignment="Top">
             <Grid x:Name="BGBlur" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="360" Background="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}"/>
@@ -102,13 +83,13 @@
                               Background="{ThemeResource SystemControlBackgroundAccentBrush}">
                         <TextBlock Style="{ThemeResource BodyTextBlockStyle}" 
                                        Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" 
-                                       Text="Rock" Margin="12,8"/>
+                                       Text="{x:Bind Context.SongsCount(Context.Album),Mode=OneWay}" Margin="12,8"/>
                     </Grid>
                     <Grid VerticalAlignment="Center" Margin="4,0,4,0" 
                               Background="{ThemeResource SystemControlBackgroundAccentBrush}">
                         <TextBlock Style="{ThemeResource BodyTextBlockStyle}" 
                                        Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" 
-                                       Text="Played 47 times" Margin="12,8"/>
+                                       Text="{x:Bind Context.GenresToString(Context.Album),Mode=OneWay}" Margin="12,8"/>
                     </Grid>
                 </StackPanel>
             </Grid>

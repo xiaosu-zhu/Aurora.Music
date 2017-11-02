@@ -558,7 +558,7 @@
                         <DataTemplate x:DataType="vm:GenericMusicItemViewModel">
                             <StackPanel Width="150" Background="{ThemeResource SystemControlBackgroundAltMediumBrush}" 
                                         Orientation="Vertical">
-                                <toolkit:ImageEx HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                                <toolkit:ImageEx x:Phase="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                                                  Source="{x:Bind Artwork}" PlaceholderSource="/Assets/Images/placeholder_b.png" 
                                                  Style="{ThemeResource QuickLoadImageEx}" Width="150" Height="150" 
                                                  Stretch="UniformToFill" PlaceholderStretch="UniformToFill"/>
@@ -595,7 +595,7 @@
                             <StackPanel Width="150" 
                                         Background="{ThemeResource SystemControlBackgroundAltMediumBrush}" 
                                         Orientation="Vertical">
-                                <toolkit:ImageEx HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                                <toolkit:ImageEx x:Phase="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                                                  Source="{x:Bind Artwork}" PlaceholderSource="/Assets/Images/placeholder_b.png" 
                                                  Style="{ThemeResource QuickLoadImageEx}" Width="150" Height="150" 
                                                  Stretch="UniformToFill" PlaceholderStretch="UniformToFill"/>

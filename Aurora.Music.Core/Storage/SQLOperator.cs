@@ -11,7 +11,7 @@ using Aurora.Music.Core.Models;
 
 namespace Aurora.Music.Core.Storage
 {
-    public class Statistics
+    public class STATISTICS
     {
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
@@ -24,20 +24,20 @@ namespace Aurora.Music.Core.Storage
         /// <summary>
         /// 0: song, 1: album, 2: playlist
         /// </summary>
-        public int TargeType { get; set; }
+        public int TargetType { get; set; }
     }
 
-    public class Song
+    public class SONG
     {
         private string albumArtists;
 
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
 
-        public Song() { }
+        public SONG() { }
 
 
-        public Song(Models.Song song)
+        public SONG(Models.Song song)
         {
             FilePath = song.FilePath;
             Duration = song.Duration;
@@ -158,14 +158,14 @@ namespace Aurora.Music.Core.Storage
     }
 
 
-    public class Album
+    public class ALBUM
     {
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
 
-        public Album() { }
+        public ALBUM() { }
 
-        public Album(Models.Album album)
+        public ALBUM(Models.Album album)
         {
             Songs = string.Join('|', album.Songs);
             Name = album.Name;
@@ -198,7 +198,7 @@ namespace Aurora.Music.Core.Storage
         public virtual double ReplayGainAlbumPeak { get; set; }
     }
 
-    public class Folder
+    public class FOLDER
     {
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
@@ -209,9 +209,9 @@ namespace Aurora.Music.Core.Storage
         [Unique]
         public string Path { get; set; }
 
-        public Folder() { }
+        public FOLDER() { }
 
-        public Folder(StorageFolder f)
+        public FOLDER(StorageFolder f)
         {
             // Application now has read/write access to all contents in the picked folder
             // (including other sub-folder contents)
@@ -282,6 +282,11 @@ namespace Aurora.Music.Core.Storage
         /// </summary>
         public event EventHandler<AlbumModifiedEventArgs> AlbumModified;
 
+        public static string SQLEscaping(string value)
+        {
+            return value.Replace("'", @"\'").Replace("_", @"\_").Replace("%", @"\%");
+        }
+
         private SQLOperator()
         {
             conn = new SQLiteAsyncConnection(DB_PATH);
@@ -290,10 +295,10 @@ namespace Aurora.Music.Core.Storage
 
         private void CreateTable()
         {
-            conn.GetConnection().CreateTable<Song>();
-            conn.GetConnection().CreateTable<Album>();
-            conn.GetConnection().CreateTable<Folder>();
-            conn.GetConnection().CreateTable<Statistics>();
+            conn.GetConnection().CreateTable<SONG>();
+            conn.GetConnection().CreateTable<ALBUM>();
+            conn.GetConnection().CreateTable<FOLDER>();
+            conn.GetConnection().CreateTable<STATISTICS>();
         }
 
         public async Task<bool> AddFolderAsync(StorageFolder folder)
@@ -305,7 +310,7 @@ namespace Aurora.Music.Core.Storage
             }
             else
             {
-                var f = new Folder(folder);
+                var f = new FOLDER(folder);
                 await conn.InsertAsync(f);
                 return true;
             }
@@ -313,7 +318,7 @@ namespace Aurora.Music.Core.Storage
 
         public async Task UpdateFolderAsync(StorageFolder folder, int v)
         {
-            var result = await conn.QueryAsync<Folder>("SELECT * FROM FOLDER WHERE PATH=?", folder.Path);
+            var result = await conn.QueryAsync<FOLDER>("SELECT * FROM FOLDER WHERE PATH=?", folder.Path);
             if (result.Count > 0)
             {
                 result[0].SongsCount = v;
@@ -321,14 +326,14 @@ namespace Aurora.Music.Core.Storage
             }
             else
             {
-                var f = new Folder(folder);
+                var f = new FOLDER(folder);
                 await conn.InsertAsync(f);
             }
         }
 
-        public async Task<Song> UpdateSongAsync(Models.Song song)
+        public async Task<SONG> UpdateSongAsync(Song song)
         {
-            var tag = new Song(song);
+            var tag = new SONG(song);
 
             var result = await conn.QueryAsync<int>("SELECT ID FROM SONG WHERE FILEPATH = ?", song.FilePath);
             if (result.Count > 0)
@@ -342,19 +347,19 @@ namespace Aurora.Music.Core.Storage
             }
         }
 
-        public async Task UpdateSongListAsync(List<Models.Song> tempList)
+        public async Task UpdateSongListAsync(List<Song> tempList)
         {
-            var newlist = new List<Song>();
+            var newlist = new List<SONG>();
             foreach (var item in tempList)
             {
-                var result = await conn.QueryAsync<Song>("SELECT ID FROM SONG WHERE FILEPATH = ?", item.FilePath);
+                var result = await conn.QueryAsync<SONG>("SELECT ID FROM SONG WHERE FILEPATH = ?", item.FilePath);
                 if (result.Count > 0)
                 {
                     continue;
                 }
                 else
                 {
-                    var song = new Song(item);
+                    var song = new SONG(item);
                     await conn.InsertAsync(song);
                     newlist.Add(song);
                 }
@@ -390,9 +395,9 @@ namespace Aurora.Music.Core.Storage
             return await conn.Table<T>().ToListAsync();
         }
 
-        internal async Task AddAlbumAsync(IGrouping<string, Song> album)
+        internal async Task AddAlbumAsync(IGrouping<string, SONG> album)
         {
-            var result = await conn.QueryAsync<Album>("SELECT * FROM ALBUM WHERE NAME = ?", album.Key);
+            var result = await conn.QueryAsync<ALBUM>("SELECT * FROM ALBUM WHERE NAME = ?", album.Key);
             if (result.Count > 0)
             {
                 var p = result[0];
@@ -432,7 +437,7 @@ namespace Aurora.Music.Core.Storage
             }
             else
             {
-                var a = new Album
+                var a = new ALBUM
                 {
                     Name = album.Key,
 
@@ -460,12 +465,12 @@ namespace Aurora.Music.Core.Storage
             }
         }
 
-        public async Task AddAlbumListAsync(IEnumerable<IGrouping<string, Song>> albums)
+        public async Task AddAlbumListAsync(IEnumerable<IGrouping<string, SONG>> albums)
         {
-            var newlist = new List<Album>();
+            var newlist = new List<ALBUM>();
             foreach (var album in albums)
             {
-                var result = await conn.QueryAsync<Album>("SELECT * FROM ALBUM WHERE NAME = ?", album.Key);
+                var result = await conn.QueryAsync<ALBUM>("SELECT * FROM ALBUM WHERE NAME = ?", album.Key);
                 if (result.Count > 0)
                 {
                     var p = result[0];
@@ -506,7 +511,7 @@ namespace Aurora.Music.Core.Storage
                 }
                 else
                 {
-                    var a = new Album
+                    var a = new ALBUM
                     {
                         Name = album.Key,
 
@@ -542,19 +547,19 @@ namespace Aurora.Music.Core.Storage
 
 
 
-        public async Task<IEnumerable<Song>> GetSongs(int[] ids)
+        public async Task<IEnumerable<SONG>> GetSongs(int[] ids)
         {
-            var list = new List<Song>();
+            var list = new List<SONG>();
             foreach (var id in ids)
             {
-                list.Add(await conn.FindAsync<Song>(id));
+                list.Add(await conn.FindAsync<SONG>(id));
             }
             return list;
         }
 
-        public async Task<List<Folder>> GetFolderAsync(string path)
+        public async Task<List<FOLDER>> GetFolderAsync(string path)
         {
-            return await conn.QueryAsync<Folder>("SELECT * FROM FOLDER WHERE PATH=?", path);
+            return await conn.QueryAsync<FOLDER>("SELECT * FROM FOLDER WHERE PATH=?", path);
         }
 
         internal async Task<List<T>> GetWithQueryAsync<T>(string character, object value) where T : new()
@@ -575,6 +580,30 @@ namespace Aurora.Music.Core.Storage
         public async Task RemoveFolderAsync(string path)
         {
             await conn.QueryAsync<object>("DELETE FROM FOLDER WHERE PATH=?", path);
+        }
+
+        internal async Task SongCountAddAsync(int id, int countToAdd)
+        {
+            var res = await conn.QueryAsync<STATISTICS>("SELECT * FROM Statistics WHERE TARGETID=? AND TARGETTYPE=0", id);
+            if (res.Count > 0)
+            {
+                res[0].PlayedCount += countToAdd;
+                await conn.UpdateAsync(res[0]);
+            }
+            else
+            {
+                await conn.InsertAsync(new STATISTICS
+                {
+                    TargetID = id,
+                    TargetType = 0,
+                    PlayedCount = countToAdd
+                });
+            }
+        }
+
+        internal async Task<List<T>> GetWithQueryAsync<T>(string v) where T : new()
+        {
+            return await conn.QueryAsync<T>(v);
         }
     }
 

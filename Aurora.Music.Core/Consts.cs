@@ -1,9 +1,5 @@
 ﻿using Aurora.Shared.Helpers;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace Aurora.Music.Core
@@ -14,6 +10,15 @@ namespace Aurora.Music.Core
         {
             return await ApplicationData.Current.LocalFolder.CreateFolderAsync("Artworks", CreationCollisionOption.OpenIfExists);
         });
+
+        public const string ID = "ID";
+
+        public const string BlackPlaceholder = "ms-appx:///Assets/Images/placeholder_b.png";
+        public const string WhitePlaceholder = "ms-appx:///Assets/Images/placeholder.png";
+
+        public const string Duration = "Duration";
+
+        public const string Artwork = "Artwork";
 
         public const string ArtistPageInAnimation = "ARTIST_PAGE_IN";
     }

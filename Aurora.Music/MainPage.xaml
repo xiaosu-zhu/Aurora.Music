@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Aurora.Music" xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:vm="using:Aurora.Music.ViewModels"
+    xmlns:controls="using:Aurora.Music.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
@@ -471,16 +472,7 @@
                                 </Grid>
                                 <Grid x:Name="ContentRoot" Grid.ColumnSpan="2">
                                     <Border Child="{TemplateBinding Content}"/>
-                                    <Rectangle x:Name="LightDismissLayer" Visibility="Collapsed">
-                                        <Rectangle.Fill>
-                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                                                <GradientStopCollection>
-                                                    <GradientStop Color="#66000000" Offset="0"/>
-                                                    <GradientStop Color="#33000000" Offset="1"/>
-                                                </GradientStopCollection>
-                                            </LinearGradientBrush>
-                                        </Rectangle.Fill>
-                                    </Rectangle>
+                                    <Rectangle x:Name="LightDismissLayer" Visibility="Collapsed" Fill="#66000000"/>
                                 </Grid>
                             </Grid>
                         </ControlTemplate>
@@ -1241,6 +1233,31 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+            <DataTemplate x:Key="EvenTemplate" x:DataType="vm:SongViewModel">
+                <Grid Background="{ThemeResource SongListEvenBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="32"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="64"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{x:Bind Index}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextTrimming="CharacterEllipsis" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="8,4"/>
+                    <TextBlock Text="{x:Bind Title}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextTrimming="CharacterEllipsis" MaxWidth="240" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="4"/>
+                    <TextBlock Text="{x:Bind DurationtoString(Duration)}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextTrimming="CharacterEllipsis" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="8,4"/>
+                </Grid>
+            </DataTemplate>
+            <DataTemplate x:Key="OddTemplate" x:DataType="vm:SongViewModel">
+                <Grid Background="{ThemeResource SongListOddBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="32"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="64"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{x:Bind Index}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextTrimming="CharacterEllipsis" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="8,4"/>
+                    <TextBlock Text="{x:Bind Title}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextTrimming="CharacterEllipsis" MaxWidth="240" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="4"/>
+                    <TextBlock Text="{x:Bind DurationtoString(Duration)}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextTrimming="CharacterEllipsis" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="8,4"/>
+                </Grid>
+            </DataTemplate>
+            <controls:SongListTemplateSelector x:Key="SongListTemplateSelector" EvenTemplate="{StaticResource EvenTemplate}" OddTemplate="{StaticResource OddTemplate}"/>
         </ResourceDictionary>
     </Page.Resources>
 
@@ -1313,21 +1330,7 @@
                         </Button.Content>
                         <Button.Flyout>
                             <Flyout>
-                                <ListView MaxHeight="360" IsSynchronizedWithCurrentItem="False" SelectedIndex="{x:Bind Context.CurrentIndex, Mode=OneWay}" ItemsSource="{x:Bind Context.NowPlayingList}" ItemContainerStyle="{ThemeResource GeneralListViewItemStyle}">
-                                    <ListView.ItemTemplate>
-                                        <DataTemplate x:DataType="vm:SongViewModel">
-                                            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="32"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="64"/>
-                                                </Grid.ColumnDefinitions>
-                                                <TextBlock Text="{x:Bind Index}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextTrimming="CharacterEllipsis" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="4"/>
-                                                <TextBlock Text="{x:Bind Title}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextTrimming="CharacterEllipsis" MaxWidth="240" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="4"/>
-                                                <TextBlock Text="{x:Bind DurationtoString(Duration)}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextTrimming="CharacterEllipsis" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="4"/>
-                                            </Grid>
-                                        </DataTemplate>
-                                    </ListView.ItemTemplate>
+                                <ListView MaxHeight="360" IsSynchronizedWithCurrentItem="False" ItemTemplateSelector="{StaticResource SongListTemplateSelector}" SelectedIndex="{x:Bind Context.CurrentIndex, Mode=OneWay}" ItemsSource="{x:Bind Context.NowPlayingList}" ItemContainerStyle="{ThemeResource GeneralListViewItemStyle}">
                                 </ListView>
                             </Flyout>
                         </Button.Flyout>

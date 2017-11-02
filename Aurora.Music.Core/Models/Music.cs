@@ -12,11 +12,11 @@ namespace Aurora.Music.Core.Models
 {
     public class Song
     {
-        
+
 
         public Song() { }
 
-        public Song(Storage.Song song)
+        public Song(Storage.SONG song)
         {
             ID = song.ID;
             Duration = song.Duration;
@@ -114,7 +114,7 @@ namespace Aurora.Music.Core.Models
             if (!pictures.IsNullorEmpty())
             {
                 album = Shared.Utils.InvalidFileNameChars.Aggregate(album, (current, c) => current.Replace(c + "", "_"));
-                album = $"{album}.{pictures[0].MimeType.Split('/').LastOrDefault()}";
+                album = $"{album}.{pictures[0].MimeType.Split('/').LastOrDefault().Replace("jpeg", "jpg")}";
                 try
                 {
                     var s = await Consts.ArtworkFolder.GetFileAsync(album);
@@ -207,7 +207,7 @@ namespace Aurora.Music.Core.Models
     public class Album
     {
 
-        public Album(Storage.Album album)
+        public Album(Storage.ALBUM album)
         {
             var songs = album.Songs.Split(new string[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
             Songs = Array.ConvertAll(songs, (a) =>
@@ -227,9 +227,9 @@ namespace Aurora.Music.Core.Models
             PicturePath = album.PicturePath;
         }
 
-        public Album(IGrouping<string, Storage.Song> album)
+        public Album(IGrouping<string, Storage.SONG> album)
         {
-            Name = album.Key;
+            Name = album.Key.IsNullorEmpty() ? "Unknown Album" : album.Key;
 
             // uint value, use their max value
             DiscCount = album.Max(x => x.DiscCount);
@@ -238,9 +238,9 @@ namespace Aurora.Music.Core.Models
 
             // TODO: not combine all, just use not-null value
             // string[] value, use their all value (remove duplicated values) combine
-            AlbumArtists = new string[] { (from aa in album where !aa.AlbumArtists.IsNullorEmpty() select aa.AlbumArtists).FirstOrDefault() };//album.Where(x => !x.AlbumArtists.IsNullorEmpty()).FirstOrDefault().AlbumArtists;
-            Genres = new string[] { (from aa in album where !aa.Genres.IsNullorEmpty() select aa.Genres).FirstOrDefault() };
-            AlbumArtistsSort = new string[] { (from aa in album where !aa.AlbumArtistsSort.IsNullorEmpty() select aa.AlbumArtistsSort).FirstOrDefault() };
+            AlbumArtists = (from aa in album where !aa.AlbumArtists.IsNullorEmpty() select aa.AlbumArtists).FirstOrDefault()?.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);//album.Where(x => !x.AlbumArtists.IsNullorEmpty()).FirstOrDefault().AlbumArtists;
+            Genres = (from aa in album where !aa.Genres.IsNullorEmpty() select aa.Genres).FirstOrDefault()?.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);
+            AlbumArtistsSort = (from aa in album where !aa.AlbumArtistsSort.IsNullorEmpty() select aa.AlbumArtistsSort).FirstOrDefault()?.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);
 
             // normal value, use their not-null value
             AlbumSort = (from aa in album where !aa.AlbumSort.IsNullorEmpty() select aa.AlbumSort).FirstOrDefault();

@@ -26,7 +26,7 @@
         </ResourceDictionary>
     </Page.Resources>
     <Grid>
-        <GridView ItemClick="AlbumList_ItemClick" IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" 
+        <GridView ShowsScrollingPlaceholders="True" ItemClick="AlbumList_ItemClick" IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" 
               SelectionMode="None" ItemsSource="{x:Bind Context.AlbumList, Mode=OneWay}" Loaded="AlbumList_Loaded"
               Padding="32,360,32,160" ItemContainerStyle="{StaticResource GeneralGridViewItemStyle}" 
               Style="{StaticResource GeneralGridViewStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
@@ -73,7 +73,7 @@
                         <toolkit:DropShadowPanel x:Name="Shadow" BlurRadius="16" ShadowOpacity="0.5" OffsetX="0" OffsetY="0" 
                                              Color="{ThemeResource SystemBaseHighColor}">
                             <Grid Background="{ThemeResource SystemControlAcrylicWindowBrush}">
-                                <toolkit:ImageEx Style="{ThemeResource QuickLoadImageEx}" Stretch="UniformToFill" 
+                                <toolkit:ImageEx x:Phase="3" Style="{ThemeResource QuickLoadImageEx}" Stretch="UniformToFill" 
                                              PlaceholderStretch="Uniform" HorizontalAlignment="Center" 
                                              PlaceholderSource="/Assets/Images/placeholder_b.png" VerticalAlignment="Center" 
                                              Source="{x:Bind Artwork,Mode=OneWay}" Height="160" Width="160"/>

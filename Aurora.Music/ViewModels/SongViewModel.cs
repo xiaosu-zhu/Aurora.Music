@@ -1,12 +1,82 @@
 ﻿using System;
+using Aurora.Music.Core.Storage;
+using Aurora.Shared.Extensions;
+using Aurora.Music.Core.Utils;
 
 namespace Aurora.Music.ViewModels
 {
     class SongViewModel
     {
+        public SongViewModel()
+        {
+
+        }
+
+        public SongViewModel(SONG song)
+        {
+            ID = song.ID;
+            Duration = song.Duration;
+            BitRate = song.BitRate;
+            FilePath = song.FilePath;
+            MusicBrainzArtistId = song.MusicBrainzArtistId;
+            MusicBrainzDiscId = song.MusicBrainzDiscId;
+            MusicBrainzReleaseArtistId = song.MusicBrainzReleaseArtistId;
+            MusicBrainzReleaseCountry = song.MusicBrainzReleaseCountry;
+            MusicBrainzReleaseId = song.MusicBrainzReleaseId;
+            MusicBrainzReleaseStatus = song.MusicBrainzReleaseStatus;
+            MusicBrainzReleaseType = song.MusicBrainzReleaseType;
+            MusicBrainzTrackId = song.MusicBrainzTrackId;
+            MusicIpId = song.MusicIpId;
+            BeatsPerMinute = song.BeatsPerMinute;
+            Album = song.Album;
+            AlbumArtists = song.AlbumArtists.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);
+            AlbumArtistsSort = song.AlbumArtistsSort.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);
+            AlbumSort = song.AlbumSort;
+            AmazonId = song.AmazonId;
+            Title = song.Title;
+            TitleSort = song.TitleSort;
+            Track = song.Track;
+            TrackCount = song.TrackCount;
+            ReplayGainTrackGain = song.ReplayGainTrackGain;
+            ReplayGainTrackPeak = song.ReplayGainTrackPeak;
+            ReplayGainAlbumGain = song.ReplayGainAlbumGain;
+            ReplayGainAlbumPeak = song.ReplayGainAlbumPeak;
+            Comment = song.Comment;
+            Disc = song.Disc;
+            Composers = song.Composers.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);
+            ComposersSort = song.ComposersSort.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);
+            Conductor = song.Conductor;
+            DiscCount = song.DiscCount;
+            Copyright = song.Copyright;
+            Genres = song.PerformersSort.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);
+            Grouping = song.Grouping;
+            Lyrics = song.Lyrics;
+            Performers = song.Performers.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);
+            PerformersSort = song.PerformersSort.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);
+            Year = song.Year;
+            PicturePath = song.PicturePath;
+        }
+
+        public string StrArrtoDisplay(string[] arr)
+        {
+            if (arr.IsNullorEmpty())
+            {
+                return "Various";
+            }
+            else
+            {
+                return string.Join(", ", arr);
+            }
+        }
+
         public string DurationtoString(TimeSpan t)
         {
             return t.ToString(@"m\:ss");
+        }
+
+        public string FormatDuration(TimeSpan t)
+        {
+            return t.GetSongDurationFormat();
         }
 
         public int ID { get; set; }
@@ -15,6 +85,7 @@ namespace Aurora.Music.ViewModels
         public string PicturePath { get; set; }
 
         public TimeSpan Duration { get; set; }
+        public uint BitRate { get; private set; }
         public string MusicBrainzReleaseId { get; set; }
         public string MusicBrainzDiscId { get; set; }
         public string MusicIpId { get; set; }

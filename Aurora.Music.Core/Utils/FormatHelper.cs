@@ -8,7 +8,7 @@ namespace Aurora.Music.Core.Utils
 {
     public static class TimeSpanFormatter
     {
-        public static string GetSongDurationFormat(TimeSpan t)
+        public static string GetSongDurationFormat(this TimeSpan t)
         {
             if (t.TotalMinutes == 1)
             {
@@ -25,7 +25,7 @@ namespace Aurora.Music.Core.Utils
             else return $"{Math.Floor(t.TotalMinutes)} mins, {Math.Floor(t.TotalMinutes)} secs";
         }
 
-        public static string GetAlbumDurationFormat(TimeSpan t)
+        public static string GetAlbumDurationFormat(this TimeSpan t)
         {
             if (t.TotalHours == 1)
             {

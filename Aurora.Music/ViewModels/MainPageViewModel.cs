@@ -17,6 +17,7 @@ using Windows.ApplicationModel.Core;
 using Windows.UI.Xaml.Media;
 using Windows.Media.Playback;
 using System.Collections.ObjectModel;
+using Aurora.Music.Core;
 
 namespace Aurora.Music.ViewModels
 {
@@ -256,8 +257,8 @@ namespace Aurora.Music.ViewModels
                             {
                                 Index = i++,
                                 Title = prop.MusicProperties.Title,
-                                Duration = (TimeSpan)item.Source.CustomProperties["Duration"],
-                                ID = (int)item.Source.CustomProperties["ID"]
+                                Duration = (TimeSpan)item.Source.CustomProperties[Consts.Duration],
+                                ID = (int)item.Source.CustomProperties[Consts.ID]
                             });
                         }
                         CurrentIndex = Convert.ToInt32(e.CurrentIndex);
@@ -271,7 +272,7 @@ namespace Aurora.Music.ViewModels
             ((IDisposable)player).Dispose();
         }
 
-        internal async Task NewPlayList(IEnumerable<Song> songs)
+        internal async Task NewPlayList(IEnumerable<SONG> songs)
         {
             await player.NewPlayList(songs);
         }

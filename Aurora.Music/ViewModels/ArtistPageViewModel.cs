@@ -58,7 +58,7 @@ namespace Aurora.Music.ViewModels
 
         public async Task GetAlbums(string artist)
         {
-            var albums = await FileReader.GetAlbumsAsync("AlbumArtists", artist);
+            var albums = await FileReader.GetAlbumsAsync(artist);
             var a = albums.OrderByDescending(x => x.Year);
 
             var list = new List<Uri>();
@@ -79,30 +79,32 @@ namespace Aurora.Music.ViewModels
                           where !alb.Genres.IsNullorEmpty()
                           group alb by alb.Genres into grp
                           orderby grp.Count() descending
-                          select grp.Key).First();
+                          select grp.Key).FirstOrDefault();
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
                 AlbumList = aList;
                 SongsCount = aList.Count == 1 ? "1 Album" : $"{aList.Count} Albums";
-                Genres = genres.Length > 0 ? string.Join(", ", genres) : "Various Genres";
+                Genres = genres.IsNullorEmpty() ? "Various Genres" : string.Join(", ", genres);
                 HeroImage = list.ConvertAll(x => (ImageSource)new BitmapImage(x));
             });
         }
 
-        internal void GetArtwork()
+        internal async void GetArtwork()
         {
-            var t = CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
+            foreach (var item in AlbumList)
             {
-                foreach (var item in AlbumList)
+                await Task.Delay(160);
+                var t = CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
                 {
+
                     item.ToImage();
-                };
-            });
+                });
+            };
         }
 
         internal async Task PlayAlbum(AlbumViewModel album)
         {
-            var songs = await album.FindSongs();
+            var songs = await album.GetSongsAsync();
             await MainPageViewModel.Current.NewPlayList(songs);
             MainPageViewModel.Current.PlayPause.Execute();
         }

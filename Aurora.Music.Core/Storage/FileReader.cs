@@ -39,23 +39,41 @@ namespace Aurora.Music.Core.Storage
             return filteredFiles;
         }
 
-        public static async Task<List<Models.Album>> GetAlbumsAsync(string character, string value)
+        public static async Task<List<Models.Album>> GetAlbumsAsync(string value)
         {
             var opr = SQLOperator.Current();
             if (value.IsNullorEmpty())
             {
-                var songs = await opr.GetWithQueryAsync<Song>(character, value);
+                // anonymous artists, get their songs
+                var songs = await opr.GetWithQueryAsync<SONG>("ALBUMARTISTS", value);
                 var albumGrouping = from song in songs group song by song.Album;
                 return albumGrouping.ToList().ConvertAll(a => new Models.Album(a));
             }
-            var albums = await opr.GetWithQueryAsync<Album>(character, value);
-            return albums.ConvertAll(a => new Models.Album(a));
+
+            // get aritst-associated albums
+            var albums = await opr.GetWithQueryAsync<ALBUM>("ALBUMARTISTS", value);
+            var res = albums.ConvertAll(a => new Models.Album(a));
+
+            // get single song
+            // sqlite escaping
+            value = SQLOperator.SQLEscaping(value);
+            var otherSongs = await opr.GetWithQueryAsync<SONG>($"SELECT * FROM SONG WHERE PERFORMERS='{value}'");
+
+            // remove duplicated (we suppose that artist's all song is just 1000+, this way can find all song and don't take long time)
+            otherSongs.RemoveAll(x => !albums.Where(b => b.Name == x.Album).IsNullorEmpty());
+            var otherGrouping = from song in otherSongs group song by song.Album;
+            // otherSongs has item
+            if (!otherGrouping.IsNullorEmpty())
+            {
+                res.AddRange(otherGrouping.ToList().ConvertAll(a => new Models.Album(a)));
+            }
+            return res;
         }
 
         public async static Task<List<Models.Album>> GetAlbumsAsync()
         {
             var opr = SQLOperator.Current();
-            var albums = await opr.GetAllAsync<Album>();
+            var albums = await opr.GetAllAsync<ALBUM>();
             return albums.ConvertAll(a => new Models.Album(a));
         }
 
@@ -108,7 +126,7 @@ namespace Aurora.Music.Core.Storage
             report.Percent = 0;
             i = 1;
             ProgressUpdated?.Invoke(this, report);
-            var newlist = new List<Song>();
+            var newlist = new List<SONG>();
             foreach (var song in tempList)
             {
                 var t = await opr.UpdateSongAsync(song);
@@ -134,11 +152,11 @@ namespace Aurora.Music.Core.Storage
         public async Task<List<Models.Song>> GetSongsAsync()
         {
             var opr = SQLOperator.Current();
-            var songs = await opr.GetAllAsync<Song>();
+            var songs = await opr.GetAllAsync<SONG>();
             return songs.ConvertAll(a => new Models.Song(a));
         }
 
-        public async Task AddToAlbums(IEnumerable<Song> songs)
+        public async Task AddToAlbums(IEnumerable<SONG> songs)
         {
             await Task.Run(async () =>
             {

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 
 namespace Aurora.Music.Controls
 {
@@ -13,7 +14,6 @@ namespace Aurora.Music.Controls
     {
         public DataTemplate AlbumTemplate { get; set; }
         public DataTemplate SongTemplate { get; set; }
-        
 
         protected override DataTemplate SelectTemplateCore(object item)
         {
@@ -31,6 +31,42 @@ namespace Aurora.Music.Controls
         protected override DataTemplate SelectTemplateCore(object item, DependencyObject container)
         {
             return SelectTemplate(item);
+        }
+    }
+
+    class SongListTemplateSelector : DataTemplateSelector
+    {
+        public DataTemplate EvenTemplate { get; set; }
+        public DataTemplate OddTemplate { get; set; }
+
+        protected override DataTemplate SelectTemplateCore(object item)
+        {
+            if (item is SongViewModel s)
+            {
+                if (s.Index % 2 == 0)
+                {
+                    return EvenTemplate;
+                }
+                else
+                {
+                    return OddTemplate;
+                }
+            }
+            return EvenTemplate;
+        }
+
+        protected override DataTemplate SelectTemplateCore(object item, DependencyObject container)
+        {
+            var listview = ItemsControl.ItemsControlFromItemContainer(container);
+            var index = listview.IndexFromContainer(container);
+            if (index % 2 == 0)
+            {
+                return EvenTemplate;
+            }
+            else
+            {
+                return OddTemplate;
+            }
         }
     }
 }

@@ -33,10 +33,10 @@ namespace Aurora.Music.ViewModels
 
         public AlbumViewModel() { }
 
-        private int[] songs;
+        public int[] songs { get; private set; }
         private BitmapImage artwork;
 
-        public ObservableCollection<Song> Songs { get; set; } = new ObservableCollection<Core.Storage.Song>();
+        public List<SONG> Songs { get; set; } = new List<SONG>();
 
         private string ArtworkURI { get; set; }
         public BitmapImage Artwork
@@ -51,7 +51,16 @@ namespace Aurora.Music.ViewModels
             }
         }
 
-        public string Name { get; set; }
+        private string title;
+        public string Name
+        {
+            get { return title; }
+            set
+            {
+                SetProperty(ref title, value);
+            }
+        }
+
         public virtual string[] Genres { get; set; }
         public virtual uint Year { get; set; }
         public virtual string AlbumSort { get; set; }
@@ -62,21 +71,18 @@ namespace Aurora.Music.ViewModels
         public virtual double ReplayGainAlbumGain { get; set; }
         public virtual double ReplayGainAlbumPeak { get; set; }
 
-        internal async Task<IEnumerable<Core.Storage.Song>> FindSongs()
+        internal async Task<IEnumerable<SONG>> GetSongsAsync()
         {
             if (Songs.Count == songs.Length)
             {
-                return Songs.ToArray();
+                return Songs;
             }
             Songs.Clear();
             var opr = SQLOperator.Current();
             var s = await opr.GetSongs(songs);
             var s1 = s.OrderBy(x => x.Track);
             s1 = s1.OrderBy(x => x.Disc);
-            foreach (var item in s1)
-            {
-                Songs.Add(item);
-            }
+            Songs.AddRange(s1);
             return s1;
         }
 

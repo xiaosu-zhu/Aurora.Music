@@ -98,7 +98,7 @@ namespace Aurora.Music.ViewModels
         public async Task Init()
         {
             var opr = SQLOperator.Current();
-            var folders = await opr.GetAllAsync<Folder>();
+            var folders = await opr.GetAllAsync<FOLDER>();
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
                 foreach (var item in folders)
@@ -111,7 +111,7 @@ namespace Aurora.Music.ViewModels
 
     class FolderViewModel : ViewModelBase
     {
-        public FolderViewModel(Folder item)
+        public FolderViewModel(FOLDER item)
         {
             Disk = item.Path.Split(':').FirstOrDefault();
             Path = item.Path;

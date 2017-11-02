@@ -3,6 +3,7 @@ using Aurora.Music.ViewModels;
 using Aurora.Shared.Extensions;
 using ExpressionBuilder;
 using System.Numerics;
+using System.Threading.Tasks;
 using Windows.System.Threading;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
@@ -36,20 +37,25 @@ namespace Aurora.Music.Pages
             base.OnNavigatedTo(e);
             if (e.Parameter is string s)
             {
-                Context.Artist = s;
-                await Context.GetAlbums(s);
-                var ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.ArtistPageInAnimation);
-                if (ani != null)
+                if (s.IsNullorWhiteSpace())
                 {
-                    ani.TryStart(Header);
+                    Context.Artist = "Unknown Artist";
                 }
-                var work = ThreadPool.RunAsync(x =>
+                else
                 {
+                    Context.Artist = s;
+                }
+
+                await Context.GetAlbums(s);
+                
+                var work = ThreadPool.RunAsync(async x =>
+                {
+                    await Task.Delay(160);
                     Context.GetArtwork();
                 });
             };
 
-            
+
         }
 
         private void StackPanel_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
@@ -68,9 +74,9 @@ namespace Aurora.Music.Pages
             }
         }
 
-        private async void AlbumList_ItemClick(object sender, ItemClickEventArgs e)
+        private void AlbumList_ItemClick(object sender, ItemClickEventArgs e)
         {
-            await Context.PlayAlbum(e.ClickedItem as AlbumViewModel);
+            LibraryPage.Current.Navigate(typeof(AlbumDetailPage), e.ClickedItem);
         }
 
         private void StackPanel_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
@@ -91,6 +97,11 @@ namespace Aurora.Music.Pages
 
         private void AlbumList_Loaded(object sender, RoutedEventArgs e)
         {
+            var ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.ArtistPageInAnimation);
+            if (ani != null)
+            {
+                ani.TryStart(Title, new UIElement[] { HeaderBG, Details });
+            }
             var scrollviewer = AlbumList.GetScrollViewer();
             _scrollerPropertySet = ElementCompositionPreview.GetScrollViewerManipulationPropertySet(scrollviewer);
             _compositor = _scrollerPropertySet.Compositor;

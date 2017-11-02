@@ -68,7 +68,7 @@ namespace Aurora.Music.ViewModels
             {
                 list.Add(KnownFolders.MusicLibrary);
             }
-            var p = await opr.GetAllAsync<Folder>();
+            var p = await opr.GetAllAsync<FOLDER>();
             fileReader.ProgressUpdated += FileReader_ProgressUpdated;
             fileReader.Completed += FileReader_Completed;
             fileReader.NewSongsAdded += Opr_NewSongsAdded;

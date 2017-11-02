@@ -40,10 +40,10 @@
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
-                        <toolkit:RoundImageEx x:Name="ArtistImage" PlaceholderSource="/Assets/Images/artist_placeholder.png" PlaceholderStretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="8,4" Width="96" Height="96" CornerRadius="999"/>
-                        <StackPanel Orientation="Vertical" Grid.Row="1" Height="56" HorizontalAlignment="Center" VerticalAlignment="Center" Width="96" Margin="8,4">
-                            <TextBlock Text="{x:Bind Name}" HorizontalAlignment="Center" VerticalAlignment="Center" MaxLines="2" TextTrimming="CharacterEllipsis" Style="{ThemeResource BaseTextBlockStyle}" Margin="8,0"/>
-                            <TextBlock Text="{x:Bind CountToString(SongsCount)}" HorizontalAlignment="Center" VerticalAlignment="Center" MaxLines="2" TextTrimming="CharacterEllipsis" Style="{ThemeResource BaseTextBlockStyle}" Margin="8,4"/>
+                        <toolkit:RoundImageEx x:Name="ArtistImage" PlaceholderSource="/Assets/Images/artist_placeholder.png" PlaceholderStretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="8,4" Width="100" Height="100" CornerRadius="999"/>
+                        <StackPanel Orientation="Vertical" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Margin="0,4">
+                            <TextBlock x:Name="ArtistName" Text="{x:Bind Name}" HorizontalAlignment="Center" VerticalAlignment="Center" MaxLines="1" TextTrimming="CharacterEllipsis" Style="{ThemeResource BaseTextBlockStyle}" Margin="0,0"/>
+                            <TextBlock Text="{x:Bind CountToString(SongsCount)}" HorizontalAlignment="Center" VerticalAlignment="Center" MaxLines="1" TextTrimming="CharacterEllipsis" Style="{ThemeResource BodyTextBlockStyle}" Margin="0,4"/>
                         </StackPanel>
                     </Grid>
                 </DataTemplate>

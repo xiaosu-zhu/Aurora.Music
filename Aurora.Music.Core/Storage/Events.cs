@@ -8,9 +8,9 @@ namespace Aurora.Music.Core.Storage
 {
     public class SongsAddedEventArgs
     {
-        public Song[] NewSongs { get; set; }
+        public SONG[] NewSongs { get; set; }
 
-        public SongsAddedEventArgs(Song[] songs)
+        public SongsAddedEventArgs(SONG[] songs)
         {
             NewSongs = songs;
         }
@@ -18,9 +18,9 @@ namespace Aurora.Music.Core.Storage
 
     public class AlbumModifiedEventArgs
     {
-        public Album[] ChangedAlbums { get; set; }
+        public ALBUM[] ChangedAlbums { get; set; }
 
-        public AlbumModifiedEventArgs(Album[] album)
+        public AlbumModifiedEventArgs(ALBUM[] album)
         {
             ChangedAlbums = album;
         }
