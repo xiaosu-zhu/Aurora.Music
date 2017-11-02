@@ -21,5 +21,6 @@ namespace Aurora.Music.Core
         public const string Artwork = "Artwork";
 
         public const string ArtistPageInAnimation = "ARTIST_PAGE_IN";
+        public const string AlbumDetailPageInAnimation = "ALBUM_DETAIL_IN";
     }
 }

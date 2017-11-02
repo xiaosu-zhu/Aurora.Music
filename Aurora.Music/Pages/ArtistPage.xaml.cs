@@ -6,6 +6,7 @@ using System.Numerics;
 using System.Threading.Tasks;
 using Windows.System.Threading;
 using Windows.UI.Composition;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
@@ -26,16 +27,68 @@ namespace Aurora.Music.Pages
         private CompositionPropertySet _scrollerPropertySet;
         private Compositor _compositor;
         private CompositionPropertySet _props;
+        private AlbumViewModel _clickedAlbum;
 
         public ArtistPage()
         {
             this.InitializeComponent();
+            this.NavigationCacheMode = NavigationCacheMode.Enabled;
+
+        }
+
+        private void ArtistPage_BackRequested(object sender, BackRequestedEventArgs e)
+        {
+            e.Handled = true;
+            ConnectedAnimationService.GetForCurrentView().PrepareToAnimate(Consts.ArtistPageInAnimation + "_1", Title);
+            ConnectedAnimationService.GetForCurrentView().PrepareToAnimate(Consts.ArtistPageInAnimation + "_2", HeaderBG);
+            LibraryPage.Current.GoBack();
+            UnloadObject(this);
         }
 
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            if (e.Parameter is string s)
+
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
+            AppViewBackButtonVisibility.Visible;
+            SystemNavigationManager.GetForCurrentView().BackRequested -= ArtistPage_BackRequested;
+            SystemNavigationManager.GetForCurrentView().BackRequested += ArtistPage_BackRequested;
+
+            if (!Context.AlbumList.IsNullorEmpty() && _clickedAlbum != null)
+            {
+                AlbumList.ScrollIntoView(_clickedAlbum);
+                var ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.AlbumDetailPageInAnimation + "_1");
+                if (ani != null)
+                {
+                    AlbumList.TryStartConnectedAnimationAsync(ani, _clickedAlbum, "AlbumName");
+                }
+                ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.AlbumDetailPageInAnimation + "_2");
+                if (ani != null)
+                {
+                    AlbumList.TryStartConnectedAnimationAsync(ani, _clickedAlbum, "Shadow");
+                }
+                return;
+            }
+            else if (_clickedAlbum != null)
+            {
+                if (_clickedAlbum.AlbumArtists.IsNullorEmpty())
+                {
+                    Context.Artist = "Unknown Artist";
+                    await Context.GetAlbums(string.Empty);
+                }
+                else
+                {
+                    Context.Artist = string.Join(", ", _clickedAlbum.AlbumArtists);
+                    await Context.GetAlbums(string.Join("$|$", _clickedAlbum.AlbumArtists));
+                }
+                var work = ThreadPool.RunAsync(async x =>
+                {
+                    await Task.Delay(160);
+                    Context.GetArtwork();
+                });
+                return;
+            }
+            else if (e.Parameter is string s)
             {
                 if (s.IsNullorWhiteSpace())
                 {
@@ -47,28 +100,30 @@ namespace Aurora.Music.Pages
                 }
 
                 await Context.GetAlbums(s);
-                
+
                 var work = ThreadPool.RunAsync(async x =>
                 {
                     await Task.Delay(160);
                     Context.GetArtwork();
                 });
-            };
-
-
+            }
+            else
+            {
+                LibraryPage.Current.GoBack();
+            }
         }
 
-        private void StackPanel_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        private void StackPanel_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
-            if (sender is StackPanel s)
+            if (sender is Panel s)
             {
                 (s.Resources["PointerOver"] as Storyboard).Begin();
             }
         }
 
-        private void StackPanel_PointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        private void StackPanel_PointerExited(object sender, PointerRoutedEventArgs e)
         {
-            if (sender is StackPanel s)
+            if (sender is Panel s)
             {
                 (s.Resources["Normal"] as Storyboard).Begin();
             }
@@ -76,20 +131,23 @@ namespace Aurora.Music.Pages
 
         private void AlbumList_ItemClick(object sender, ItemClickEventArgs e)
         {
+            AlbumList.PrepareConnectedAnimation(Consts.AlbumDetailPageInAnimation + "_1", e.ClickedItem, "AlbumName");
+            AlbumList.PrepareConnectedAnimation(Consts.AlbumDetailPageInAnimation + "_2", e.ClickedItem, "Shadow");
             LibraryPage.Current.Navigate(typeof(AlbumDetailPage), e.ClickedItem);
+            _clickedAlbum = e.ClickedItem as AlbumViewModel;
         }
 
-        private void StackPanel_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        private void StackPanel_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
-            if (sender is StackPanel s)
+            if (sender is Panel s)
             {
                 (s.Resources["PointerPressed"] as Storyboard).Begin();
             }
         }
 
-        private void StackPanel_PointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        private void StackPanel_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
-            if (sender is StackPanel s)
+            if (sender is Panel s)
             {
                 (s.Resources["PointerOver"] as Storyboard).Begin();
             }
@@ -102,6 +160,7 @@ namespace Aurora.Music.Pages
             {
                 ani.TryStart(Title, new UIElement[] { HeaderBG, Details });
             }
+
             var scrollviewer = AlbumList.GetScrollViewer();
             _scrollerPropertySet = ElementCompositionPreview.GetScrollViewerManipulationPropertySet(scrollviewer);
             _compositor = _scrollerPropertySet.Compositor;
@@ -156,6 +215,16 @@ namespace Aurora.Music.Pages
             headerbgVisual.StartAnimation("Opacity", bgOpacityAnimation);
             headerbgOverlayVisual.StartAnimation("Opacity", bgOpacityAnimation);
             bgBlurVisual.StartAnimation("Opacity", bgblurOpacityAnimation);
+        }
+
+        private void Page_Unloaded(object sender, RoutedEventArgs e)
+        {
+            SystemNavigationManager.GetForCurrentView().BackRequested -= ArtistPage_BackRequested;
+        }
+
+        private async void PlayAlbum_Click(object sender, RoutedEventArgs e)
+        {
+            await Context.PlayAlbumAsync((sender as Button).DataContext as AlbumViewModel);
         }
     }
 }

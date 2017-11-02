@@ -8,6 +8,7 @@
     xmlns:controls="using:Aurora.Music.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Unloaded="Page_Unloaded"
     mc:Ignorable="d">
 
     <Page.DataContext>
@@ -25,30 +26,44 @@
             </ResourceDictionary.ThemeDictionaries>
 
             <DataTemplate x:Key="OddTemplate" x:DataType="vm:SongViewModel">
-                <StackPanel Height="48" Background="{ThemeResource SongListOddBrush}" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                    <TextBlock MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{x:Bind Title}" 
-                               Style="{ThemeResource BaseTextBlockStyle}" Padding="4,0" Margin="4" Width="160" VerticalAlignment="Center"/>
-                    <TextBlock MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Width="160" VerticalAlignment="Center"
-                               Text="{x:Bind AlbumArtists[0], FallbackValue=}" Style="{ThemeResource BodyTextBlockStyle}" 
-                               Padding="4,0" Margin="4"/>
-                </StackPanel>
+                <Grid Height="48" Background="{ThemeResource SongListOddBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="48"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{x:Bind GetIndex()}" HorizontalAlignment="Center" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Style="{ThemeResource BodyTextBlockStyle}"/>
+                    <TextBlock MaxLines="1" Grid.Column="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{x:Bind Title}" 
+                               Style="{ThemeResource BaseTextBlockStyle}" Margin="8,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <TextBlock MaxLines="1" Grid.Column="2" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" 
+                               HorizontalAlignment="Right" VerticalAlignment="Center"
+                               Text="{x:Bind FormatDuration(Duration)}" Style="{ThemeResource BodyTextBlockStyle}" 
+                               Margin="8,0"/>
+                </Grid>
             </DataTemplate>
             <DataTemplate x:Key="EvenTemplate" x:DataType="vm:SongViewModel">
-                <StackPanel Height="48" Background="{ThemeResource SongListEvenBrush}" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                    <TextBlock MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{x:Bind Title}" 
-                               Style="{ThemeResource BaseTextBlockStyle}" Padding="4,0" Margin="4" Width="160" VerticalAlignment="Center"/>
-                    <TextBlock MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Width="160" VerticalAlignment="Center"
-                               Text="{x:Bind AlbumArtists[0], FallbackValue=}" Style="{ThemeResource BodyTextBlockStyle}" 
-                               Padding="4,0" Margin="4"/>
-                </StackPanel>
+                <Grid Height="48" Background="{ThemeResource SongListEvenBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="48"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{x:Bind GetIndex()}" HorizontalAlignment="Center" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Style="{ThemeResource BodyTextBlockStyle}"/>
+                    <TextBlock MaxLines="1" Grid.Column="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{x:Bind Title}" 
+                               Style="{ThemeResource BaseTextBlockStyle}" Margin="8,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <TextBlock MaxLines="1" Grid.Column="2" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" 
+                               HorizontalAlignment="Right" VerticalAlignment="Center"
+                               Text="{x:Bind FormatDuration(Duration)}" Style="{ThemeResource BodyTextBlockStyle}" 
+                               Margin="8,0"/>
+                </Grid>
             </DataTemplate>
 
             <controls:SongListTemplateSelector x:Key="SongListTemplateSelector" EvenTemplate="{StaticResource EvenTemplate}" OddTemplate="{StaticResource OddTemplate}"/>
-        
-</ResourceDictionary>
+
+        </ResourceDictionary>
     </Page.Resources>
     <Grid>
-        <ListView IsSynchronizedWithCurrentItem="False" ItemsSource="{x:Bind Context.SongList, Mode=OneWay}"
+        <ListView Loaded="SongList_Loaded" IsSynchronizedWithCurrentItem="False" ItemsSource="{x:Bind Context.SongList, Mode=OneWay}"
                   ItemTemplateSelector="{StaticResource SongListTemplateSelector}"
               Padding="32,384,32,160" ItemContainerStyle="{StaticResource GeneralListViewItemStyle}" 
               HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
@@ -56,9 +71,10 @@
         </ListView>
         <Grid Height="360" x:Name="Header" HorizontalAlignment="Stretch" VerticalAlignment="Top">
             <Grid x:Name="BGBlur" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="360" Background="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}"/>
-            <Image x:Name="HeaderBG" HorizontalAlignment="Center" VerticalAlignment="Stretch" Stretch="UniformToFill" Height="360" Source="{x:Bind Context.HeroImage, Mode=OneWay}"/>
-
-            <Grid x:Name="HeaderBGOverlay" HorizontalAlignment="Stretch" Height="360" Background="{ThemeResource ArtistsPageGradient}"/>
+            <toolkit:DropShadowPanel x:Name="HeaderBG" BlurRadius="16" ShadowOpacity="0.5" OffsetX="0" OffsetY="0" HorizontalAlignment="Right" Margin="64" VerticalAlignment="Center" 
+                                             Color="{ThemeResource SystemBaseHighColor}">
+                <Image Stretch="Uniform" Height="160" Source="{x:Bind Context.HeroImage, Mode=OneWay,TargetNullValue=/Assets/Images/welcom_bg.png}"/>
+            </toolkit:DropShadowPanel>
             <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Margin="32">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>

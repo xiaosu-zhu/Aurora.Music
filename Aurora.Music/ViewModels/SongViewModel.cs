@@ -79,6 +79,15 @@ namespace Aurora.Music.ViewModels
             return t.GetSongDurationFormat();
         }
 
+        public string GetIndex()
+        {
+            if (Track == 0)
+            {
+                return (Index + 1).ToString();
+            }
+            return Track.ToString();
+        }
+
         public int ID { get; set; }
         public uint Index { get; set; }
         public string FilePath { get; set; }

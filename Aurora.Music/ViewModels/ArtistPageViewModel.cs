@@ -93,16 +93,15 @@ namespace Aurora.Music.ViewModels
         {
             foreach (var item in AlbumList)
             {
-                await Task.Delay(160);
+                await Task.Delay(96);
                 var t = CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
                 {
-
-                    item.ToImage();
+                    item.GetArtwork();
                 });
             };
         }
 
-        internal async Task PlayAlbum(AlbumViewModel album)
+        internal async Task PlayAlbumAsync(AlbumViewModel album)
         {
             var songs = await album.GetSongsAsync();
             await MainPageViewModel.Current.NewPlayList(songs);

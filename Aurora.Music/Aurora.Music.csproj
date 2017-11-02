@@ -149,6 +149,9 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Images\1.jpg" />
+    <Content Include="Assets\Images\2.jpg" />
+    <Content Include="Assets\Images\3.jpg" />
     <Content Include="Assets\Images\artist_placeholder.png" />
     <Content Include="Assets\Images\artists_bg.jpg" />
     <Content Include="Assets\Images\placeholder.png" />

@@ -20,7 +20,7 @@ namespace Aurora.Music.ViewModels
                 }
                 else
                 {
-                    SetProperty(ref name, value);
+                    SetProperty(ref name, value.Replace("$|$", ", "));
                     RawName = value;
                 }
             }
