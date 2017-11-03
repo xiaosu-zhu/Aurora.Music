@@ -10,6 +10,8 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
 using EF = ExpressionBuilder.ExpressionFunctions;
+using Windows.UI.Xaml.Navigation;
+using Windows.UI.Xaml.Media.Animation;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -23,14 +25,37 @@ namespace Aurora.Music.Pages
         private CompositionPropertySet _scrollerPropertySet;
         private Compositor _compositor;
         private CompositionPropertySet _props;
+        private ArtistViewModel _clickedArtist;
 
         public ArtistsPage()
         {
             this.InitializeComponent();
+            this.NavigationCacheMode = NavigationCacheMode.Enabled;
+
             var t = ThreadPool.RunAsync(async x =>
             {
                 await Context.GetArtists();
             });
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            if (!Context.ArtistList.IsNullorEmpty() && _clickedArtist != null)
+            {
+                ArtistList.ScrollIntoView(_clickedArtist);
+                var ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.ArtistPageInAnimation + "_1");
+                if (ani != null)
+                {
+                    ArtistList.TryStartConnectedAnimationAsync(ani, _clickedArtist, "ArtistName");
+                }
+                ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.ArtistPageInAnimation + "_2");
+                if (ani != null)
+                {
+                    ArtistList.TryStartConnectedAnimationAsync(ani, _clickedArtist, "ArtistImage");
+                }
+                return;
+            }
         }
 
         private void ArtistCell_PointerEntered(object sender, PointerRoutedEventArgs e)
@@ -64,6 +89,7 @@ namespace Aurora.Music.Pages
             ArtistList.PrepareConnectedAnimation(Consts.ArtistPageInAnimation, e.ClickedItem, "ArtistName");
 
             LibraryPage.Current.Navigate(typeof(ArtistPage), (e.ClickedItem as ArtistViewModel).RawName);
+            _clickedArtist = e.ClickedItem as ArtistViewModel;
         }
 
         private void ArtistList_Loaded(object sender, RoutedEventArgs e)

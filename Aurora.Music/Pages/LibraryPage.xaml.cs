@@ -51,5 +51,10 @@ namespace Aurora.Music.Pages
         {
             MainFrame.Navigate(type);
         }
+
+        internal void GoBack()
+        {
+            MainFrame.GoBack();
+        }
     }
 }

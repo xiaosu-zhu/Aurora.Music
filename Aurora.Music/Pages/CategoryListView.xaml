@@ -20,7 +20,7 @@
         <ListView.ItemTemplate>
             <DataTemplate x:DataType="pg:CategoryListItem">
                 <Grid x:Name="Panel" HorizontalAlignment="Stretch" Height="96">
-                    <Image HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="UniformToFill" Source="/Assets/Images/artists_bg.jpg"/>
+                    <Image HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="UniformToFill" Source="{x:Bind Index}"/>
                     <Grid Padding="12" Background="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <TextBlock x:Name="Title" Text="{x:Bind Title}" FontWeight="Bold" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{ThemeResource TitleTextBlockStyle}"/>
                     </Grid>

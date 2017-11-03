@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
@@ -30,7 +31,7 @@ namespace Aurora.Music.Pages
             this.InitializeComponent();
         }
 
-        CategoryListItem[] categoryList = { new CategoryListItem { Title = "Songs" }, new CategoryListItem { Title = "Albums" }, new CategoryListItem { Title = "Artists" } };
+        CategoryListItem[] categoryList = { new CategoryListItem { Title = "Songs", Index = new BitmapImage(new Uri("ms-appx:///Assets/Images/1.jpg")) }, new CategoryListItem { Title = "Albums", Index = new BitmapImage(new Uri("ms-appx:///Assets/Images/2.jpg")) }, new CategoryListItem { Title = "Artists", Index = new BitmapImage(new Uri("ms-appx:///Assets/Images/3.jpg")) } };
 
         private void ListView_ItemClick(object sender, ItemClickEventArgs e)
         {
@@ -71,6 +72,8 @@ namespace Aurora.Music.Pages
     public class CategoryListItem
     {
         public string Title { get; set; }
+
+        public BitmapImage Index { get; set; }
     }
 
 }

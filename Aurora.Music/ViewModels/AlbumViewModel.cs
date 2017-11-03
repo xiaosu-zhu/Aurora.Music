@@ -86,7 +86,7 @@ namespace Aurora.Music.ViewModels
             return s1;
         }
 
-        public void ToImage()
+        public void GetArtwork()
         {
             if (!ArtworkURI.IsNullorEmpty())
                 Artwork = new BitmapImage(new Uri(ArtworkURI));

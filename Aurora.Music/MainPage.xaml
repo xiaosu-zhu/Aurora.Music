@@ -1234,10 +1234,10 @@
                 </Setter>
             </Style>
             <DataTemplate x:Key="EvenTemplate" x:DataType="vm:SongViewModel">
-                <Grid Background="{ThemeResource SongListEvenBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Grid Background="{ThemeResource SongListEvenBrush}" Height="48" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="32"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="280"/>
                         <ColumnDefinition Width="64"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="{x:Bind Index}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextTrimming="CharacterEllipsis" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="8,4"/>
@@ -1246,10 +1246,10 @@
                 </Grid>
             </DataTemplate>
             <DataTemplate x:Key="OddTemplate" x:DataType="vm:SongViewModel">
-                <Grid Background="{ThemeResource SongListOddBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Grid Background="{ThemeResource SongListOddBrush}" Height="48" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="32"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="280"/>
                         <ColumnDefinition Width="64"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="{x:Bind Index}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextTrimming="CharacterEllipsis" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="8,4"/>
