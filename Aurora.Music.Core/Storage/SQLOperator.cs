@@ -25,6 +25,34 @@ namespace Aurora.Music.Core.Storage
         /// 0: song, 1: album, 2: playlist
         /// </summary>
         public int TargetType { get; set; }
+
+        /// <summary>
+        /// See <see cref="Consts.GenreTypes"/>
+        /// </summary>
+        public int GenreType { get; set; }
+
+        public DateTime LastPlay { get; set; }
+    }
+
+    public class PLAYSTATISTIC
+    {
+        [PrimaryKey, AutoIncrement]
+        public int ID { get; set; }
+
+        public int TargetID { get; set; }
+
+        public int Sunday { get; set; }
+        public int Monday { get; set; }
+        public int Tuesday { get; set; }
+        public int Wednesday { get; set; }
+        public int Thursday { get; set; }
+        public int Friday { get; set; }
+        public int Saturday { get; set; }
+
+        public int Morning { get; set; }
+        public int Noon { get; set; }
+        public int Afternoon { get; set; }
+        public int Evening { get; set; }
     }
 
     public class SONG
@@ -299,6 +327,7 @@ namespace Aurora.Music.Core.Storage
             conn.GetConnection().CreateTable<ALBUM>();
             conn.GetConnection().CreateTable<FOLDER>();
             conn.GetConnection().CreateTable<STATISTICS>();
+            conn.GetConnection().CreateTable<PLAYSTATISTIC>();
         }
 
         public async Task<bool> AddFolderAsync(StorageFolder folder)
