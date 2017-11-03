@@ -115,9 +115,9 @@ namespace Aurora.Music.ViewModels
     {
         public FolderViewModel(FOLDER item)
         {
+            Folder = AsyncHelper.RunSync(async () => await item.GetFolderAsync());
             Disk = item.Path.Split(':').FirstOrDefault();
             Path = item.Path;
-            Folder = AsyncHelper.RunSync(async () => await StorageFolder.GetFolderFromPathAsync(item.Path));
             FolderName = Folder.DisplayName;
             SongsCount = item.SongsCount;
         }

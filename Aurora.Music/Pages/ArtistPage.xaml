@@ -168,7 +168,7 @@
                                 </DoubleAnimation>
                             </Storyboard>
                         </Grid.Resources>
-                        <toolkit:DropShadowPanel x:Name="Shadow" BlurRadius="16" ShadowOpacity="0.5" OffsetX="0" OffsetY="0" 
+                        <toolkit:DropShadowPanel x:Name="Shadow" BlurRadius="16" ShadowOpacity="0.5" OffsetX="0" OffsetY="0"
                                              Color="{ThemeResource SystemBaseHighColor}">
                             <Grid Background="{ThemeResource SystemControlAcrylicWindowBrush}">
                                 <toolkit:ImageEx x:Name="Artwork" x:Phase="3" Style="{ThemeResource QuickLoadImageEx}" Stretch="UniformToFill" 

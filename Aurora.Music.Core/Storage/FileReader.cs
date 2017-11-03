@@ -25,18 +25,11 @@ namespace Aurora.Music.Core.Storage
         /// </summary>
         /// <param name="folder"></param>
         /// <returns></returns>
-        private async Task<IEnumerable<StorageFile>> GetFilesAsync(StorageFolder folder)
+        private async Task<IList<StorageFile>> GetFilesAsync(StorageFolder folder)
         {
             var files = new List<StorageFile>();
-            files.AddRange(await folder.GetFilesAsync());
-            var folders = await folder.GetFoldersAsync();
-            foreach (var item in folders)
-            {
-                files.AddRange(await GetFilesAsync(item));
-            }
-
-            var filteredFiles = files.Where(x => Array.Exists(FILE_TYPES, u => u.Equals(x.FileType, StringComparison.InvariantCultureIgnoreCase)));
-            return filteredFiles;
+            files.AddRange(await new FileTracker(folder).SearchFolder());
+            return files;
         }
 
         public static async Task<List<Models.Album>> GetAlbumsAsync(string value)
@@ -89,21 +82,22 @@ namespace Aurora.Music.Core.Storage
                 var files = await GetFilesAsync(item);
 
                 var opr = SQLOperator.Current();
-                await opr.UpdateFolderAsync(item, files.Count());
+                await opr.UpdateFolderAsync(item, files.Count);
+
+
                 list.AddRange(files);
                 report.Stage = 1;
                 report.Percent = 100 * i / folder.Count;
                 i++;
                 ProgressUpdated?.Invoke(this, report);
             }
-            list.Distinct(new StorageFileComparer());
             report.Stage = 1;
             report.Percent = 100;
             ProgressUpdated?.Invoke(this, report);
-            await ReadFileandSave(list);
+            await ReadFileandSave(from a in list group a by a.Path into b select b.First());
         }
 
-        private async Task ReadFileandSave(IList<StorageFile> files)
+        public async Task ReadFileandSave(IEnumerable<StorageFile> files)
         {
             var opr = SQLOperator.Current();
             List<Models.Song> tempList = new List<Models.Song>();
@@ -117,7 +111,7 @@ namespace Aurora.Music.Core.Storage
                     tempList.Add(await Models.Song.Create(tagTemp.Tag, file.Path, proper));
                 }
                 report.Stage = 2;
-                report.Percent = 100 * i / files.Count;
+                report.Percent = 100 * i / total;
                 i++;
                 ProgressUpdated?.Invoke(this, report);
             }

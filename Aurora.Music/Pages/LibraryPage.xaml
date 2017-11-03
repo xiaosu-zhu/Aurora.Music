@@ -19,7 +19,6 @@
         </Grid.ColumnDefinitions>
         <ScrollViewer HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Hidden" VerticalScrollMode="Auto" VerticalScrollBarVisibility="Auto" IsVerticalRailEnabled="True">
             <Grid Background="{ThemeResource SystemControlAcrylicWindowBrush}" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <TextBlock OpticalMarginAlignment="None" Margin="60,32,0,0" Style="{ThemeResource SubheaderTextBlockStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Top" FontWeight="Bold" Text="Library"/>
                 <StackPanel Visibility="Collapsed" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <Image Source="http://www.haorenshuo.com/wp-content/uploads/2016/07/wuyuetian1.jpg" Stretch="UniformToFill" HorizontalAlignment="Left" VerticalAlignment="Center" Height="160" Width="160" Margin="8,8,0,0"/>
                     <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}" HorizontalAlignment="Left" Margin="8,8,0,0">
@@ -38,6 +37,8 @@
                 <Frame Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="SubPanelFrame"/>
             </Grid>
         </ScrollViewer>
+        <TextBlock OpticalMarginAlignment="None" Margin="60,32,0,0" Style="{ThemeResource SubheaderTextBlockStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Top" FontWeight="Bold" Text="Library"/>
+
         <Frame x:Name="MainFrame" Background="{ThemeResource SystemControlBackgroundAltHighBrush}" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
         </Frame>

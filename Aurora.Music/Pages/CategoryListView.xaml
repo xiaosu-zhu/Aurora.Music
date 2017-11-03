@@ -19,10 +19,12 @@
     <ListView x:Name="Category" Loaded="Category_Loaded" IsItemClickEnabled="True" ItemsSource="{x:Bind categoryList}" SelectionMode="None" ItemClick="ListView_ItemClick" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemContainerStyle="{StaticResource GeneralListViewItemStyle}">
         <ListView.ItemTemplate>
             <DataTemplate x:DataType="pg:CategoryListItem">
-                <Grid x:Name="Panel" HorizontalAlignment="Stretch" Height="96">
+                <Grid x:Name="Panel" HorizontalAlignment="Stretch" Height="{x:Bind GetHeight(IsCurrent), Mode=OneWay}">
                     <Image HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="UniformToFill" Source="{x:Bind Index}"/>
-                    <Grid Padding="12" Background="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <TextBlock x:Name="Title" Text="{x:Bind Title}" FontWeight="Bold" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{ThemeResource TitleTextBlockStyle}"/>
+                    <Grid Background="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    </Grid>
+                    <Grid Background="{x:Null}" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="96">
+                        <TextBlock Margin="12" x:Name="Title" Text="{x:Bind Title}" FontWeight="Bold" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{ThemeResource TitleTextBlockStyle}"/>
                     </Grid>
                 </Grid>
             </DataTemplate>

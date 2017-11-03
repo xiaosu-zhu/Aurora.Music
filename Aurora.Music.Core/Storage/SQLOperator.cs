@@ -251,6 +251,18 @@ namespace Aurora.Music.Core.Storage
             SongsCount = -1;
             Path = f.Path;
         }
+
+        public async Task<StorageFolder> GetFolderAsync()
+        {
+            var f = await Windows.Storage.AccessCache.StorageApplicationPermissions.
+            FutureAccessList.GetFolderAsync(Token);
+            if (f.Path != Path)
+            {
+                Path = f.Path;
+                await SQLOperator.Current().UpdateFolderAsync(this);
+            }
+            return f;
+        }
     }
 
     public class SQLOperator : IDisposable
@@ -698,7 +710,7 @@ namespace Aurora.Music.Core.Storage
             var t = DateTime.Now;
             var day = t.DayOfWeek.ToString();
             var res = await conn.QueryAsync<int>($"SELECT TARGETID FROM PLAYSTATISTIC WHERE {day}>0 ORDER BY {day} DESC LIMIT 50");
-            return await conn.QueryAsync<SONG>("SELECT * FROM SONG WHERE ID IN ?",res);
+            return await conn.QueryAsync<SONG>("SELECT * FROM SONG WHERE ID IN ?", res);
         }
 
         public async Task<List<SONG>> GetRandomList()
@@ -710,6 +722,26 @@ namespace Aurora.Music.Core.Storage
         {
             return await conn.QueryAsync<T>(v);
         }
+
+        internal async Task UpdateFolderAsync(FOLDER f)
+        {
+            await conn.InsertOrReplaceAsync(f);
+        }
+
+        internal async Task<IList<string>> GetFilePathsAsync()
+        {
+            return (await conn.QueryAsync<Path>("SELECT FILEPATH FROM SONG")).ConvertAll(x => x.FilePath);
+        }
+
+        internal async Task RemoveSongAsync(string path)
+        {
+            await conn.QueryAsync<int>("DELETE FROM SONG WHERE FILEPATH=?", path);
+        }
+    }
+
+    public class Path
+    {
+        public string FilePath { get; set; }
     }
 
     public class Artist

@@ -18,6 +18,8 @@ using Windows.UI.Xaml.Media;
 using Windows.Media.Playback;
 using System.Collections.ObjectModel;
 using Aurora.Music.Core;
+using Windows.System.Threading;
+using Aurora.Shared.Extensions;
 
 namespace Aurora.Music.ViewModels
 {
@@ -204,6 +206,26 @@ namespace Aurora.Music.ViewModels
             Current = this;
             player.StatusChanged += Player_StatusChanged;
             player.PositionUpdated += Player_PositionUpdated;
+            var t = ThreadPool.RunAsync(async x =>
+            {
+                await FindFileChanges();
+            });
+        }
+
+        private async Task FindFileChanges()
+        {
+            var addedFiles = await FileTracker.FindChanges();
+            if (!addedFiles.IsNullorEmpty())
+            {
+                var reader = new FileReader();
+                reader.NewSongsAdded += Reader_NewSongsAdded;
+                await reader.ReadFileandSave(addedFiles);
+            }
+        }
+
+        private async void Reader_NewSongsAdded(object sender, SongsAddedEventArgs e)
+        {
+            await new FileReader().AddToAlbums(e.NewSongs);
         }
 
         private async void Player_PositionUpdated(object sender, PositionUpdatedArgs e)
@@ -222,14 +244,14 @@ namespace Aurora.Music.ViewModels
                 switch (e.State)
                 {
                     case MediaPlaybackState.None:
-                    case Windows.Media.Playback.MediaPlaybackState.Opening:
-                    case Windows.Media.Playback.MediaPlaybackState.Buffering:
+                    case MediaPlaybackState.Opening:
+                    case MediaPlaybackState.Buffering:
                         IsPlaying = null;
                         break;
-                    case Windows.Media.Playback.MediaPlaybackState.Playing:
+                    case MediaPlaybackState.Playing:
                         IsPlaying = true;
                         break;
-                    case Windows.Media.Playback.MediaPlaybackState.Paused:
+                    case MediaPlaybackState.Paused:
                         IsPlaying = false;
                         break;
                     default:
@@ -280,6 +302,8 @@ namespace Aurora.Music.ViewModels
 
         public void Dispose()
         {
+            player.StatusChanged -= Player_StatusChanged;
+            player.PositionUpdated -= Player_PositionUpdated;
             ((IDisposable)player).Dispose();
         }
 

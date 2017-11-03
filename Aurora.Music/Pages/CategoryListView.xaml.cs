@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Aurora.Shared.MVVM;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -31,7 +32,7 @@ namespace Aurora.Music.Pages
             this.InitializeComponent();
         }
 
-        CategoryListItem[] categoryList = { new CategoryListItem { Title = "Songs", Index = new BitmapImage(new Uri("ms-appx:///Assets/Images/1.jpg")) }, new CategoryListItem { Title = "Albums", Index = new BitmapImage(new Uri("ms-appx:///Assets/Images/2.jpg")) }, new CategoryListItem { Title = "Artists", Index = new BitmapImage(new Uri("ms-appx:///Assets/Images/3.jpg")) } };
+        CategoryListItem[] categoryList = { new CategoryListItem { Title = "Songs", Index = new BitmapImage(new Uri("ms-appx:///Assets/Images/1.jpg")), IsCurrent = true }, new CategoryListItem { Title = "Albums", Index = new BitmapImage(new Uri("ms-appx:///Assets/Images/2.jpg")) }, new CategoryListItem { Title = "Artists", Index = new BitmapImage(new Uri("ms-appx:///Assets/Images/3.jpg")) } };
 
         private void ListView_ItemClick(object sender, ItemClickEventArgs e)
         {
@@ -69,11 +70,23 @@ namespace Aurora.Music.Pages
 
 
 
-    public class CategoryListItem
+    public class CategoryListItem : ViewModelBase
     {
         public string Title { get; set; }
 
         public BitmapImage Index { get; set; }
+
+        private bool isCurrent;
+        public bool IsCurrent
+        {
+            get { return isCurrent; }
+            set { SetProperty(ref isCurrent, value); }
+        }
+
+        public double GetHeight(bool b)
+        {
+            return b ? 192d : 96d;
+        }
     }
 
 }

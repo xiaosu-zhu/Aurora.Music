@@ -12,6 +12,7 @@ using Aurora.Shared.Extensions;
 using Windows.Storage.Streams;
 using Aurora.Music.Core.Storage;
 using Windows.System.Threading;
+using System.IO;
 
 namespace Aurora.Music.Core.Player
 {
@@ -113,44 +114,51 @@ namespace Aurora.Music.Core.Player
             mediaPlaybackList.Items.Clear();
             foreach (var item in items)
             {
-                StorageFile file = await StorageFile.GetFileFromPathAsync(item.FilePath);
-                var mediaSource = MediaSource.CreateFromStorageFile(file);
-
-                mediaSource.CustomProperties[Consts.ID] = item.ID;
-                mediaSource.CustomProperties[Consts.Duration] = item.Duration;
-                mediaSource.CustomProperties[Consts.Artwork] = new Uri(item.PicturePath.IsNullorEmpty() ? Consts.BlackPlaceholder : item.PicturePath);
-                var mediaPlaybackItem = new MediaPlaybackItem(mediaSource);
-                var props = mediaPlaybackItem.GetDisplayProperties();
-
-                if (item.PicturePath.IsNullorEmpty())
+                try
                 {
-                    props.Thumbnail = RandomAccessStreamReference.CreateFromUri(new Uri(Consts.WhitePlaceholder));
-                }
-                else
-                {
-                    props.Thumbnail = RandomAccessStreamReference.CreateFromFile(await StorageFile.GetFileFromPathAsync(item.PicturePath));
-                }
+                    StorageFile file = await StorageFile.GetFileFromPathAsync(item.FilePath);
+                    var mediaSource = MediaSource.CreateFromStorageFile(file);
 
-                props.Type = Windows.Media.MediaPlaybackType.Music;
-                props.MusicProperties.Title = item.Title.IsNullorEmpty() ? item.FilePath.Split('\\').LastOrDefault() : item.Title;
-                props.MusicProperties.AlbumTitle = item.Album.IsNullorEmpty() ? "" : item.Album;
-                props.MusicProperties.AlbumArtist = item.AlbumArtists.IsNullorEmpty() ? "" : item.AlbumArtists.Replace("$|$", ", ");
-                props.MusicProperties.AlbumTrackCount = item.TrackCount;
-                props.MusicProperties.Artist = item.Performers.IsNullorEmpty() ? "" : item.Performers.Replace("$|$", ", ");
-                props.MusicProperties.TrackNumber = item.Track;
-                if (!item.Genres.IsNullorEmpty())
-                {
-                    var gen = item.Performers.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);
-                    foreach (var g in gen)
+                    mediaSource.CustomProperties[Consts.ID] = item.ID;
+                    mediaSource.CustomProperties[Consts.Duration] = item.Duration;
+                    mediaSource.CustomProperties[Consts.Artwork] = new Uri(item.PicturePath.IsNullorEmpty() ? Consts.BlackPlaceholder : item.PicturePath);
+                    var mediaPlaybackItem = new MediaPlaybackItem(mediaSource);
+                    var props = mediaPlaybackItem.GetDisplayProperties();
+
+                    if (item.PicturePath.IsNullorEmpty())
                     {
-                        props.MusicProperties.Genres.Add(g);
+                        props.Thumbnail = RandomAccessStreamReference.CreateFromUri(new Uri(Consts.WhitePlaceholder));
                     }
+                    else
+                    {
+                        props.Thumbnail = RandomAccessStreamReference.CreateFromFile(await StorageFile.GetFileFromPathAsync(item.PicturePath));
+                    }
+
+                    props.Type = Windows.Media.MediaPlaybackType.Music;
+                    props.MusicProperties.Title = item.Title.IsNullorEmpty() ? item.FilePath.Split('\\').LastOrDefault() : item.Title;
+                    props.MusicProperties.AlbumTitle = item.Album.IsNullorEmpty() ? "" : item.Album;
+                    props.MusicProperties.AlbumArtist = item.AlbumArtists.IsNullorEmpty() ? "" : item.AlbumArtists.Replace("$|$", ", ");
+                    props.MusicProperties.AlbumTrackCount = item.TrackCount;
+                    props.MusicProperties.Artist = item.Performers.IsNullorEmpty() ? "" : item.Performers.Replace("$|$", ", ");
+                    props.MusicProperties.TrackNumber = item.Track;
+                    if (!item.Genres.IsNullorEmpty())
+                    {
+                        var gen = item.Performers.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);
+                        foreach (var g in gen)
+                        {
+                            props.MusicProperties.Genres.Add(g);
+                        }
+                    }
+
+
+                    mediaPlaybackItem.ApplyDisplayProperties(props);
+
+                    mediaPlaybackList.Items.Add(mediaPlaybackItem);
                 }
-
-
-                mediaPlaybackItem.ApplyDisplayProperties(props);
-
-                mediaPlaybackList.Items.Add(mediaPlaybackItem);
+                catch (FileNotFoundException)
+                {
+                    continue;
+                }
             }
             mediaPlayer.Source = mediaPlaybackList;
         }

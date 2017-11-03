@@ -1002,8 +1002,8 @@
             <Style TargetType="Button" x:Key="MainPageRectangleButton">
                 <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAltLowRevealBrush}" />
                 <Setter Property="Foreground" Value="{ThemeResource ButtonForeground}" />
-                <Setter Property="BorderBrush" Value="{x:Null}" />
-                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="BorderBrush" Value="{ThemeResource ButtonRevealBorderBrush}" />
+                <Setter Property="BorderThickness" Value="{ThemeResource ButtonRevealBorderThemeThickness}" />
                 <Setter Property="Padding" Value="0" />
                 <Setter Property="HorizontalAlignment" Value="Center" />
                 <Setter Property="VerticalAlignment" Value="Center" />
@@ -1015,7 +1015,7 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="Button">
-                            <Grid x:Name="RootGrid" Background="{TemplateBinding Background}" BorderBrush="{ThemeResource ButtonRevealBorderBrush}" BorderThickness="{ThemeResource ButtonRevealBorderThemeThickness}">
+                            <Grid x:Name="RootGrid" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
                                 <VisualStateManager.VisualStateGroups>
                                     <VisualStateGroup x:Name="CommonStates">
                                         <VisualState x:Name="Normal">

@@ -21,7 +21,7 @@ namespace Aurora.Shared.Helpers
     {
         public bool Equals(StorageFile x, StorageFile y)
         {
-            return x.Path == y.Path;
+            return x.Path.Equals(y.Path);
         }
 
         public int GetHashCode(StorageFile obj)
@@ -71,7 +71,7 @@ namespace Aurora.Shared.Helpers
             }
         }
 
-        
+
 
         public static async Task<StorageFile> CreateCacheFileAsync(string name)
         {
