@@ -20,46 +20,48 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
-
-    <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <TextBlock Style="{ThemeResource TitleTextBlockStyle}" Margin="8,4" HorizontalAlignment="Left" VerticalAlignment="Center">
+    
+    <ScrollViewer MaxHeight="360" HorizontalScrollBarVisibility="Hidden" HorizontalScrollMode="Disabled" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <TextBlock Style="{ThemeResource TitleTextBlockStyle}" Margin="8,4" HorizontalAlignment="Left" VerticalAlignment="Center">
             <Run Text="Here's Scanning Folders"/>
-        </TextBlock>
-        <StackPanel Orientation="Horizontal" Margin="16,4">
-            <TextBlock Text="Including Music Library" VerticalAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}"/>
-            <ToggleSwitch Style="{StaticResource ColoredToggleSwitch}" IsOn="{x:Bind Context.IncludeMusicLibrary, Mode=TwoWay}" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" Margin="16,0"/>
-        </StackPanel>
-        <Button Command="{x:Bind Context.AddFolderCommand}" HorizontalAlignment="Right" Margin="16,4" Style="{ThemeResource ButtonRevealStyle}" Content="Add"/>
-        <ListView SelectionChanged="ListView_SelectionChanged" Margin="16,4" ItemContainerStyle="{ThemeResource GeneralListViewItemStyle}" ItemsSource="{x:Bind Context.Folders}">
-            <ListView.ItemTemplate>
-                <DataTemplate x:DataType="vm:FolderViewModel">
-                    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="auto"/>
-                        </Grid.RowDefinitions>
-                        <PersonPicture x:Name="Symbol" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" DisplayName="{x:Bind Disk}" Width="36" Height="36" Margin="8,4"/>
-                        <StackPanel HorizontalAlignment="Stretch" Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
-                            <TextBlock Text="{x:Bind FolderName}" Style="{ThemeResource BaseTextBlockStyle}" Margin="8,4,8,0"/>
-                            <TextBlock Text="{x:Bind FormatCount(SongsCount)}" Style="{ThemeResource BodyTextBlockStyle}" FontSize="10" Margin="8,0,8,4"/>
-                        </StackPanel>
-                        <Grid Visibility="{x:Bind IsOpened, Mode=OneWay}" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+            </TextBlock>
+            <StackPanel Orientation="Horizontal" Margin="16,4">
+                <TextBlock Text="Including Music Library" VerticalAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}"/>
+                <ToggleSwitch Style="{StaticResource ColoredToggleSwitch}" IsOn="{x:Bind Context.IncludeMusicLibrary, Mode=TwoWay}" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" Margin="16,0"/>
+            </StackPanel>
+            <Button Command="{x:Bind Context.AddFolderCommand}" HorizontalAlignment="Right" Margin="16,4" Style="{ThemeResource ButtonRevealStyle}" Content="Add"/>
+            <ListView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="ListView_SelectionChanged" Margin="16,4" ItemContainerStyle="{ThemeResource GeneralListViewItemStyle}" ItemsSource="{x:Bind Context.Folders}">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="vm:FolderViewModel">
+                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Stretch" Text="{x:Bind Path}" Style="{ThemeResource BodyTextBlockStyle}" Margin="4" MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"/>
-                            <Button Grid.Column="1" Background="{x:Null}" x:Name="DeleteFolderBtn" Click="DeleteFolderBtn_Click" Style="{ThemeResource AccentButtonStyle}" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <SymbolIcon Symbol="Delete"/>
-                            </Button>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            <PersonPicture x:Name="Symbol" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" DisplayName="{x:Bind Disk}" Width="36" Height="36" Margin="8,4"/>
+                            <StackPanel HorizontalAlignment="Stretch" Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
+                                <TextBlock Text="{x:Bind FolderName}" Style="{ThemeResource BaseTextBlockStyle}" Margin="8,4,8,0"/>
+                                <TextBlock Text="{x:Bind FormatCount(SongsCount)}" Style="{ThemeResource BodyTextBlockStyle}" FontSize="10" Margin="8,0,8,4"/>
+                            </StackPanel>
+                            <Grid Visibility="{x:Bind IsOpened, Mode=OneWay}" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Stretch" Text="{x:Bind Path}" Style="{ThemeResource BodyTextBlockStyle}" Margin="4" MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"/>
+                                <Button Grid.Column="1" Background="{x:Null}" x:Name="DeleteFolderBtn" Click="DeleteFolderBtn_Click" Style="{ThemeResource AccentButtonStyle}" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <SymbolIcon Symbol="Delete"/>
+                                </Button>
+                            </Grid>
                         </Grid>
-                    </Grid>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-    </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackPanel>
+    </ScrollViewer>
 </Page>

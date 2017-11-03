@@ -126,6 +126,7 @@ namespace Aurora.Music.Pages
         private void Page_Unloaded(object sender, RoutedEventArgs e)
         {
             SystemNavigationManager.GetForCurrentView().BackRequested -= AlbumDetailPage_BackRequested;
+            Context = null;
         }
     }
 }

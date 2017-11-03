@@ -1,5 +1,6 @@
 ﻿using Aurora.Music.Core.Models;
 using Aurora.Music.Core.Storage;
+using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
 using Aurora.Shared.MVVM;
 using System;
@@ -103,7 +104,8 @@ namespace Aurora.Music.ViewModels
             {
                 foreach (var item in folders)
                 {
-                    Folders.Add(new FolderViewModel(item));
+                    if (!item.Path.IsNullorEmpty())
+                        Folders.Add(new FolderViewModel(item));
                 }
             });
         }

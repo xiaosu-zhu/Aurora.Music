@@ -163,6 +163,17 @@ namespace Aurora.Music.ViewModels
             }
         }
 
+        public DelegateCommand GotoSettings
+        {
+            get
+            {
+                return new DelegateCommand(() =>
+                {
+                    MainPage.Current.Navigate(typeof(SettingsPage));
+                });
+            }
+        }
+
         private bool? isShuffle = false;
         public bool? IsShuffle
         {

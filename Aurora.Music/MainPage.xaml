@@ -1298,6 +1298,24 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
+                <Grid Grid.Row="2" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Command="{x:Bind Context.GotoSettings}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{ThemeResource MainPageRectangleButton}" BorderThickness="0" >
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE115;" Margin="8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                            <TextBlock Margin="8" Text="Settings" Style="{ThemeResource SubtitleTextBlockStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{ThemeResource MainPageRectangleButton}" BorderThickness="0" >
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEB68;" Margin="8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                            <TextBlock Margin="8" Text="About" Style="{ThemeResource SubtitleTextBlockStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        </StackPanel>
+                    </Button>
+                </Grid>
             </Grid>
         </SplitView.Pane>
         <SplitView.Content>

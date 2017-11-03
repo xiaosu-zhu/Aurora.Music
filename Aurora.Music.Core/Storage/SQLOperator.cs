@@ -26,11 +26,6 @@ namespace Aurora.Music.Core.Storage
         /// </summary>
         public int TargetType { get; set; }
 
-        /// <summary>
-        /// See <see cref="Consts.GenreTypes"/>
-        /// </summary>
-        public int GenreType { get; set; }
-
         public DateTime LastPlay { get; set; }
     }
 
@@ -40,6 +35,10 @@ namespace Aurora.Music.Core.Storage
         public int ID { get; set; }
 
         public int TargetID { get; set; }
+        /// <summary>
+        /// 0: song, 1: album, 2: playlist
+        /// </summary>
+        public int TargetType { get; set; }
 
         public int Sunday { get; set; }
         public int Monday { get; set; }
@@ -53,6 +52,10 @@ namespace Aurora.Music.Core.Storage
         public int Noon { get; set; }
         public int Afternoon { get; set; }
         public int Evening { get; set; }
+        public int Dusk { get; set; }
+
+        public static readonly string[] dateProjection = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
+        public static readonly string[] timeProjection = { "Morning", "Noon", "Afternoon", "Evening" };
     }
 
     public class SONG
@@ -65,7 +68,7 @@ namespace Aurora.Music.Core.Storage
         public SONG() { }
 
 
-        public SONG(Models.Song song)
+        public SONG(Song song)
         {
             FilePath = song.FilePath;
             Duration = song.Duration;
@@ -193,7 +196,7 @@ namespace Aurora.Music.Core.Storage
 
         public ALBUM() { }
 
-        public ALBUM(Models.Album album)
+        public ALBUM(Album album)
         {
             Songs = string.Join('|', album.Songs);
             Name = album.Name;
@@ -332,8 +335,8 @@ namespace Aurora.Music.Core.Storage
 
         public async Task<bool> AddFolderAsync(StorageFolder folder)
         {
-            var result = await conn.QueryAsync<int>("SELECT ID FROM FOLDER WHERE PATH=?", folder.Path);
-            if (result.Count > 0)
+            var token = await conn.QueryAsync<FOLDER>("SELECT * FROM FOLDER WHERE PATH=?", folder.Path);
+            if (token.Count > 0)
             {
                 return false;
             }
@@ -613,10 +616,12 @@ namespace Aurora.Music.Core.Storage
 
         internal async Task SongCountAddAsync(int id, int countToAdd)
         {
-            var res = await conn.QueryAsync<STATISTICS>("SELECT * FROM Statistics WHERE TARGETID=? AND TARGETTYPE=0", id);
+            var res = await conn.QueryAsync<STATISTICS>("SELECT * FROM STATISTICS WHERE TARGETID=? AND TARGETTYPE=0", id);
+            var time = DateTime.Now;
             if (res.Count > 0)
             {
                 res[0].PlayedCount += countToAdd;
+                res[0].LastPlay = time;
                 await conn.UpdateAsync(res[0]);
             }
             else
@@ -625,9 +630,80 @@ namespace Aurora.Music.Core.Storage
                 {
                     TargetID = id,
                     TargetType = 0,
-                    PlayedCount = countToAdd
+                    PlayedCount = countToAdd,
+                    LastPlay = time
                 });
             }
+            var resPlay = await conn.QueryAsync<PLAYSTATISTIC>("SELECT * FROM PLAYSTATISTIC WHERE TARGETID=? AND TARGETTYPE=0", id);
+            if (resPlay.Count > 0)
+            {
+                var dateval = (int)resPlay[0].GetType().GetProperty(time.DayOfWeek.ToString()).GetValue(resPlay[0]);
+                resPlay[0].GetType().GetProperty(time.DayOfWeek.ToString()).SetValue(resPlay[0], dateval + 1);
+                if (time.Hour < 5)
+                {
+                    resPlay[0].Evening++;
+                }
+                else if (time.Hour < 10)
+                {
+                    resPlay[0].Morning++;
+                }
+                else if (time.Hour < 14)
+                {
+                    resPlay[0].Noon++;
+                }
+                else if (time.Hour < 19)
+                {
+                    resPlay[0].Afternoon++;
+                }
+                else if (time.Hour < 23)
+                {
+                    resPlay[0].Dusk++;
+                }
+                await conn.UpdateAsync(resPlay[0]);
+            }
+            else
+            {
+                var pS = new PLAYSTATISTIC
+                {
+                    TargetID = id,
+                    TargetType = 0
+                };
+                pS.GetType().GetProperty(time.DayOfWeek.ToString()).SetValue(pS, 1);
+                if (time.Hour < 5)
+                {
+                    pS.Evening++;
+                }
+                else if (time.Hour < 10)
+                {
+                    pS.Morning++;
+                }
+                else if (time.Hour < 14)
+                {
+                    pS.Noon++;
+                }
+                else if (time.Hour < 19)
+                {
+                    pS.Afternoon++;
+                }
+                else if (time.Hour < 23)
+                {
+                    pS.Dusk++;
+                }
+                await conn.InsertAsync(pS);
+            }
+        }
+
+        public async Task<List<SONG>> GetTodayList()
+        {
+            var t = DateTime.Now;
+            var day = t.DayOfWeek.ToString();
+            var res = await conn.QueryAsync<int>($"SELECT TARGETID FROM PLAYSTATISTIC WHERE {day}>0 ORDER BY {day} DESC LIMIT 50");
+            return await conn.QueryAsync<SONG>("SELECT * FROM SONG WHERE ID IN ?",res);
+        }
+
+        public async Task<List<SONG>> GetRandomList()
+        {
+            return await conn.QueryAsync<SONG>("SELECT * FROM SONG ORDER BY RANDOM() LIMIT 50");
         }
 
         internal async Task<List<T>> GetWithQueryAsync<T>(string v) where T : new()

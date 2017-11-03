@@ -4,6 +4,7 @@ using Aurora.Shared.Extensions;
 using ExpressionBuilder;
 using System.Numerics;
 using Windows.System.Threading;
+using System;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -38,7 +39,7 @@ namespace Aurora.Music.Pages
             });
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
             if (!Context.ArtistList.IsNullorEmpty() && _clickedArtist != null)
@@ -47,12 +48,12 @@ namespace Aurora.Music.Pages
                 var ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.ArtistPageInAnimation + "_1");
                 if (ani != null)
                 {
-                    ArtistList.TryStartConnectedAnimationAsync(ani, _clickedArtist, "ArtistName");
+                    await ArtistList.TryStartConnectedAnimationAsync(ani, _clickedArtist, "ArtistName");
                 }
                 ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.ArtistPageInAnimation + "_2");
                 if (ani != null)
                 {
-                    ArtistList.TryStartConnectedAnimationAsync(ani, _clickedArtist, "ArtistImage");
+                    await ArtistList.TryStartConnectedAnimationAsync(ani, _clickedArtist, "ArtistImage");
                 }
                 return;
             }
@@ -148,6 +149,10 @@ namespace Aurora.Music.Pages
             headerbgVisual.StartAnimation("Opacity", bgOpacityAnimation);
             headerbgOverlayVisual.StartAnimation("Opacity", bgOpacityAnimation);
             bgBlurVisual.StartAnimation("Opacity", bgblurOpacityAnimation);
+        }
+
+        private void Page_Unloaded(object sender, RoutedEventArgs e)
+        {
         }
     }
 }

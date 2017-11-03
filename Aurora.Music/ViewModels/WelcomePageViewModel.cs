@@ -66,6 +66,7 @@ namespace Aurora.Music.ViewModels
             var list = new List<StorageFolder>();
             if (set.IncludeMusicLibrary)
             {
+                // TODO: music library don't have path
                 list.Add(KnownFolders.MusicLibrary);
             }
             var p = await opr.GetAllAsync<FOLDER>();
@@ -76,6 +77,7 @@ namespace Aurora.Music.ViewModels
             {
                 try
                 {
+                    // TODO: folder attribute
                     list.Add(await StorageFolder.GetFolderFromPathAsync(fo.Path));
                 }
                 catch (Exception)

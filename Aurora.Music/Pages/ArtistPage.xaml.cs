@@ -3,6 +3,7 @@ using Aurora.Music.ViewModels;
 using Aurora.Shared.Extensions;
 using ExpressionBuilder;
 using System.Numerics;
+using System;
 using System.Threading.Tasks;
 using Windows.System.Threading;
 using Windows.UI.Composition;
@@ -60,12 +61,12 @@ namespace Aurora.Music.Pages
                 var ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.AlbumDetailPageInAnimation + "_1");
                 if (ani != null)
                 {
-                    AlbumList.TryStartConnectedAnimationAsync(ani, _clickedAlbum, "AlbumName");
+                    await AlbumList.TryStartConnectedAnimationAsync(ani, _clickedAlbum, "AlbumName");
                 }
                 ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.AlbumDetailPageInAnimation + "_2");
                 if (ani != null)
                 {
-                    AlbumList.TryStartConnectedAnimationAsync(ani, _clickedAlbum, "Shadow");
+                    await AlbumList.TryStartConnectedAnimationAsync(ani, _clickedAlbum, "Shadow");
                 }
                 return;
             }

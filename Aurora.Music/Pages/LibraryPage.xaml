@@ -18,8 +18,8 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <ScrollViewer HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Hidden" VerticalScrollMode="Auto" VerticalScrollBarVisibility="Auto" IsVerticalRailEnabled="True">
-            <Grid Padding="0,32" Background="{ThemeResource SystemControlAcrylicWindowBrush}" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <TextBlock OpticalMarginAlignment="None" Margin="60,0,0,0" Style="{ThemeResource SubheaderTextBlockStyle}" FontWeight="Bold" Text="Library"/>
+            <Grid Background="{ThemeResource SystemControlAcrylicWindowBrush}" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <TextBlock OpticalMarginAlignment="None" Margin="60,32,0,0" Style="{ThemeResource SubheaderTextBlockStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Top" FontWeight="Bold" Text="Library"/>
                 <StackPanel Visibility="Collapsed" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <Image Source="http://www.haorenshuo.com/wp-content/uploads/2016/07/wuyuetian1.jpg" Stretch="UniformToFill" HorizontalAlignment="Left" VerticalAlignment="Center" Height="160" Width="160" Margin="8,8,0,0"/>
                     <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}" HorizontalAlignment="Left" Margin="8,8,0,0">
@@ -35,7 +35,7 @@
                         <TextBlock Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Text="PLAYED 2776 TIMES" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}" Margin="8"/>
                     </Grid>
                 </StackPanel>
-                <Frame Margin="0,60,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="SubPanelFrame"/>
+                <Frame Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="SubPanelFrame"/>
             </Grid>
         </ScrollViewer>
         <Frame x:Name="MainFrame" Background="{ThemeResource SystemControlBackgroundAltHighBrush}" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
