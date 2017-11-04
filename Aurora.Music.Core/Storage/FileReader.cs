@@ -7,6 +7,7 @@ using Aurora.Shared.Helpers;
 using TagLib;
 using Windows.Storage;
 using Aurora.Shared.Extensions;
+using Aurora.Music.Core.Models;
 
 namespace Aurora.Music.Core.Storage
 {
@@ -59,16 +60,35 @@ namespace Aurora.Music.Core.Storage
             // otherSongs has item
             if (!otherGrouping.IsNullorEmpty())
             {
-                res.AddRange(otherGrouping.ToList().ConvertAll(a => new Models.Album(a)));
+                res.AddRange(otherGrouping.ToList().ConvertAll(a => new Album(a)));
             }
             return res;
         }
 
-        public async static Task<List<Models.Album>> GetAlbumsAsync()
+        public static async Task<List<Song>> GetRandomListAsync()
+        {
+            return (await SQLOperator.Current().GetRandomListAsync<SONG>()).ConvertAll(x => new Song(x));
+        }
+
+        public static async Task<IEnumerable<ListWithKey<Song>>> GetHeroListAsync()
+        {
+            var opr = SQLOperator.Current();
+            var songs = await opr.GetRandomListAsync<SONG>();
+            var todaySuggestion = await opr.GetTodayListAsync();
+            var fav = await opr.GetFavListAsync();
+            return new List<ListWithKey<Song>>
+            {
+                new ListWithKey<Song>("Feeling Lucky", songs.ConvertAll(x=>new Song(x))),
+                new ListWithKey<Song>("Today's Suggestion", todaySuggestion.ConvertAll(x=>new Song(x))),
+                new ListWithKey<Song>("Favorite Picks", fav.ConvertAll(x=>new Song(x)))
+            };
+        }
+
+        public async static Task<List<Album>> GetAlbumsAsync()
         {
             var opr = SQLOperator.Current();
             var albums = await opr.GetAllAsync<ALBUM>();
-            return albums.ConvertAll(a => new Models.Album(a));
+            return albums.ConvertAll(a => new Album(a));
         }
 
         public async Task Read(IList<StorageFolder> folder)
@@ -101,7 +121,7 @@ namespace Aurora.Music.Core.Storage
         public async Task ReadFileandSave(IEnumerable<StorageFile> files)
         {
             var opr = SQLOperator.Current();
-            List<Models.Song> tempList = new List<Models.Song>();
+            List<Song> tempList = new List<Song>();
             double i = 1;
             var total = files.Count();
             foreach (var file in files)
@@ -109,7 +129,7 @@ namespace Aurora.Music.Core.Storage
                 using (var tagTemp = File.Create(file.Path))
                 {
                     var proper = await file.Properties.GetMusicPropertiesAsync();
-                    tempList.Add(await Models.Song.Create(tagTemp.Tag, file.Path, proper));
+                    tempList.Add(await Song.Create(tagTemp.Tag, file.Path, proper));
                 }
                 report.Stage = 2;
                 report.Percent = 100 * i / total;
@@ -144,11 +164,11 @@ namespace Aurora.Music.Core.Storage
             }
         }
 
-        public async Task<List<Models.Song>> GetSongsAsync()
+        public async Task<List<Song>> GetSongsAsync()
         {
             var opr = SQLOperator.Current();
             var songs = await opr.GetAllAsync<SONG>();
-            return songs.ConvertAll(a => new Models.Song(a));
+            return songs.ConvertAll(a => new Song(a));
         }
 
         public async Task AddToAlbums(IEnumerable<SONG> songs)

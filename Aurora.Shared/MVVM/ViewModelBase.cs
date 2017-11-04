@@ -2,10 +2,12 @@
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
+using Aurora.Shared.Extensions;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Windows.UI;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
@@ -14,6 +16,13 @@ namespace Aurora.Shared.MVVM
     public abstract class ViewModelBase : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private bool isAccentDark = Palette.IsDarkColor(new UISettings().GetColorValue(UIColorType.Accent));
+        public bool IsAccentDark
+        {
+            get { return isAccentDark; }
+            set { SetProperty(ref isAccentDark, value); }
+        }
 
         protected void RaisePropertyChanged(string propertyName = null)
         {
@@ -43,6 +52,9 @@ namespace Aurora.Shared.MVVM
         {
             return isAccentDark ? new SolidColorBrush(Colors.White) : new SolidColorBrush(Colors.Black);
         }
-
+        public Visibility CollapseIfEmpty(string s)
+        {
+            return s.IsNullorEmpty() ? Visibility.Collapsed : Visibility.Visible;
+        }
     }
 }

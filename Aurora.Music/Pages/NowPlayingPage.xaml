@@ -13,7 +13,7 @@
         <vm:NowPlayingPageViewModel x:Name="Context"/>
     </Page.DataContext>
 
-    <Grid Padding="48,80,48,0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid x:Name="Root" Padding="48,80,48,0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="auto"/>
@@ -22,10 +22,19 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        
+
         <StackPanel HorizontalAlignment="Left" VerticalAlignment="Stretch">
-            <toolkit:ImageEx x:Name="Artwork" Source="{x:Bind Context.CurrentArtwork,Mode=OneWay}" Width="150" Height="150"/>
-            <TextBlock Text="{x:Bind Context.Song.Title,Mode=OneWay}"/>
+            <toolkit:ImageEx Margin="0,12" x:Name="Artwork" Source="{x:Bind Context.CurrentArtwork,Mode=OneWay}" Stretch="Uniform" HorizontalAlignment="Stretch" Height="200"/>
+
+            <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,4">
+                <TextBlock Margin="4" Foreground="{x:Bind Context.AccentForeground(Context.IsAccentDark), Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Context.ArtistsToString(Context.Song.AlbumArtists),Mode=OneWay}"/>
+            </Grid>
+            <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,4">
+                <TextBlock Margin="4" Foreground="{x:Bind Context.AccentForeground(Context.IsAccentDark), Mode=OneWay}" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold" Text="{x:Bind Context.Song.Title,Mode=OneWay}"/>
+            </Grid>
+            <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,4">
+                <TextBlock Margin="4" Foreground="{x:Bind Context.AccentForeground(Context.IsAccentDark), Mode=OneWay}" Style="{ThemeResource SubtitleTextBlockStyle}" Text="{x:Bind Context.Song.Album,Mode=OneWay}"/>
+            </Grid>
         </StackPanel>
     </Grid>
 </Page>

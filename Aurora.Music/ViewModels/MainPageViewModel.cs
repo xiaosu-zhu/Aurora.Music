@@ -21,6 +21,7 @@ using Aurora.Music.Core;
 using Windows.System.Threading;
 using Aurora.Shared.Extensions;
 using Windows.UI;
+using Windows.UI.ViewManagement;
 
 namespace Aurora.Music.ViewModels
 {
@@ -68,7 +69,10 @@ namespace Aurora.Music.ViewModels
         public bool IsLeftTopDark
         {
             get { return isLeftTopDark; }
-            set { SetProperty(ref isLeftTopDark, value); }
+            set
+            {
+                SetProperty(ref isLeftTopDark, value);
+            }
         }
         public SolidColorBrush TitleForeground(bool b)
         {

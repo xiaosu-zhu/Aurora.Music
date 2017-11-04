@@ -705,17 +705,26 @@ namespace Aurora.Music.Core.Storage
             }
         }
 
-        public async Task<List<SONG>> GetTodayList()
+        public async Task<List<SONG>> GetTodayListAsync()
         {
             var t = DateTime.Now;
             var day = t.DayOfWeek.ToString();
-            var res = await conn.QueryAsync<int>($"SELECT TARGETID FROM PLAYSTATISTIC WHERE {day}>0 ORDER BY {day} DESC LIMIT 50");
-            return await conn.QueryAsync<SONG>("SELECT * FROM SONG WHERE ID IN ?", res);
+            var res = await conn.QueryAsync<int>($"SELECT TARGETID FROM PLAYSTATISTIC WHERE {day}>0 AND TARGETTYPE=0 ORDER BY {day} DESC LIMIT 50");
+            var distintedres = res.Distinct();
+            return await conn.QueryAsync<SONG>($"SELECT * FROM SONG WHERE ID IN ({string.Join(',', distintedres)})");
         }
 
-        public async Task<List<SONG>> GetRandomList()
+        public async Task<List<SONG>> GetFavListAsync()
         {
-            return await conn.QueryAsync<SONG>("SELECT * FROM SONG ORDER BY RANDOM() LIMIT 50");
+            var res = await conn.QueryAsync<int>($"SELECT TARGETID FROM STATISTICS WHERE TARGETTYPE=0 AND PlayedCount>0 ORDER BY PlayedCount DESC LIMIT 25");
+            res.AddRange(await conn.QueryAsync<int>($"SELECT TARGETID FROM STATISTICS WHERE TARGETTYPE=0 AND Favorite=1 ORDER BY RANDOM() LIMIT 25"));
+            var distintedres = res.Distinct();
+            return await conn.QueryAsync<SONG>($"SELECT * FROM SONG WHERE ID IN ({string.Join(',', distintedres)})");
+        }
+
+        public async Task<List<T>> GetRandomListAsync<T>() where T : new()
+        {
+            return await conn.QueryAsync<T>($"SELECT * FROM {typeof(T).Name} ORDER BY RANDOM() LIMIT 50");
         }
 
         internal async Task<List<T>> GetWithQueryAsync<T>(string v) where T : new()

@@ -7,13 +7,34 @@ using Windows.Storage;
 using System.IO;
 using Windows.Storage.FileProperties;
 using Aurora.Shared.Helpers;
+using System.Collections.Generic;
 
 namespace Aurora.Music.Core.Models
 {
+    public class GenericMusicItem
+    {
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public string Addtional { get; set; }
+
+        public string PicturePath { get; set; }
+
+        public int[] IDs { get; set; }
+    }
+
+    public class ListWithKey<T> : List<T>
+    {
+        public string Key { get; }
+
+        public ListWithKey(string key, IEnumerable<T> items)
+        {
+            Key = key;
+            AddRange(items);
+        }
+    }
+
     public class Song
     {
-
-
         public Song() { }
 
         public Song(Storage.SONG song)

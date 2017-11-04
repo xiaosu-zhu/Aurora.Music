@@ -45,7 +45,7 @@ namespace Aurora.Music.Pages
             var ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.NowPlayingPageInAnimation);
             if (ani != null)
             {
-                ani.TryStart(Artwork);
+                ani.TryStart(Artwork, new UIElement[] { Root });
             }
         }
     }

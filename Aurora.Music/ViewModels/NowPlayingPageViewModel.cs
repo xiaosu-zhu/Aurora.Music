@@ -1,6 +1,7 @@
 ﻿using Aurora.Music.Core;
 using Aurora.Music.Core.Player;
 using Aurora.Music.Core.Storage;
+using Aurora.Shared.Extensions;
 using Aurora.Shared.MVVM;
 using System;
 using System.Collections.Generic;
@@ -126,6 +127,15 @@ namespace Aurora.Music.ViewModels
                     player?.PlayPause();
                 });
             }
+        }
+
+        public string ArtistsToString(string[] artists)
+        {
+            if (!artists.IsNullorEmpty())
+            {
+                return string.Join(", ", artists);
+            }
+            return "Unknown Artist";
         }
 
         private bool? isShuffle = false;
