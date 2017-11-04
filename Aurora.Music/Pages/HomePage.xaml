@@ -454,7 +454,7 @@
               HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
               Background="{ThemeResource HomePageGradient}"/>
         <ScrollViewer IsHorizontalScrollChainingEnabled="False" IsHorizontalRailEnabled="False" 
-                      HorizontalScrollMode="Auto" HorizontalScrollBarVisibility="Hidden" 
+                      HorizontalScrollMode="Auto" HorizontalScrollBarVisibility="Hidden" x:Name="MainScroller"
                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{ThemeResource NarrowScrollViewer}"
                       VerticalScrollMode="Auto" VerticalScrollBarVisibility="Auto" IsVerticalRailEnabled="True" 
                       IsVerticalScrollChainingEnabled="True">
@@ -617,7 +617,9 @@
                 </ListView>
             </StackPanel>
         </ScrollViewer>
-        <StackPanel Height="120" Padding="0,32,0,0" VerticalAlignment="Top" HorizontalAlignment="Stretch" Background="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}" Orientation="Vertical">
+        <StackPanel Loaded="Header_Loaded" x:Name="HeaderBG" Height="120" Padding="0,32,0,0" VerticalAlignment="Top" HorizontalAlignment="Stretch" Background="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}" Orientation="Vertical">
+        </StackPanel>
+        <StackPanel Loaded="Header_Loaded" x:Name="Header" Height="120" Padding="0,32,0,0" VerticalAlignment="Top" HorizontalAlignment="Stretch" Orientation="Vertical">
             <TextBlock OpticalMarginAlignment="None" HorizontalAlignment="Center" VerticalAlignment="Center" 
                        Style="{ThemeResource SubheaderTextBlockStyle}" FontWeight="Bold" 
                        Text="{x:Bind Context.WelcomeTitle, Mode=OneWay}"/>

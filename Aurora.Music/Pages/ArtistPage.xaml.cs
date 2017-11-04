@@ -119,6 +119,7 @@ namespace Aurora.Music.Pages
             if (sender is Panel s)
             {
                 (s.Resources["PointerOver"] as Storyboard).Begin();
+                e.Handled = true;
             }
         }
 
@@ -127,6 +128,7 @@ namespace Aurora.Music.Pages
             if (sender is Panel s)
             {
                 (s.Resources["Normal"] as Storyboard).Begin();
+                e.Handled = true;
             }
         }
 
@@ -143,6 +145,7 @@ namespace Aurora.Music.Pages
             if (sender is Panel s)
             {
                 (s.Resources["PointerPressed"] as Storyboard).Begin();
+                e.Handled = true;
             }
         }
 
@@ -151,6 +154,7 @@ namespace Aurora.Music.Pages
             if (sender is Panel s)
             {
                 (s.Resources["PointerOver"] as Storyboard).Begin();
+                e.Handled = true;
             }
         }
 
@@ -226,6 +230,20 @@ namespace Aurora.Music.Pages
         private async void PlayAlbum_Click(object sender, RoutedEventArgs e)
         {
             await Context.PlayAlbumAsync((sender as Button).DataContext as AlbumViewModel);
+        }
+
+        private void Button_PointerReleased(object sender, PointerRoutedEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        private void Button_Holding(object sender, HoldingRoutedEventArgs e)
+        {
+            if (e.HoldingState == Windows.UI.Input.HoldingState.Completed)
+            {
+                PlayAlbum_Click(sender, null);
+                e.Handled = true;
+            }
         }
     }
 }

@@ -20,6 +20,7 @@ using System.Collections.ObjectModel;
 using Aurora.Music.Core;
 using Windows.System.Threading;
 using Aurora.Shared.Extensions;
+using Windows.UI;
 
 namespace Aurora.Music.ViewModels
 {
@@ -50,9 +51,29 @@ namespace Aurora.Music.ViewModels
             },
         };
 
+        internal Player GetPlayer()
+        {
+            if (player == null)
+            {
+                player = new Player();
+            }
+            return player;
+        }
+
         public ObservableCollection<SongViewModel> NowPlayingList { get; set; } = new ObservableCollection<SongViewModel>();
 
         private Player player;
+
+        private bool isLeftTopDark;
+        public bool IsLeftTopDark
+        {
+            get { return isLeftTopDark; }
+            set { SetProperty(ref isLeftTopDark, value); }
+        }
+        public SolidColorBrush TitleForeground(bool b)
+        {
+            return b ? new SolidColorBrush(Colors.White) : new SolidColorBrush(Colors.Black);
+        }
 
         private bool needShowPanel = true;
         public bool NeedShowPanel
@@ -130,6 +151,20 @@ namespace Aurora.Music.ViewModels
         {
             get { return currentIndex; }
             set { SetProperty(ref currentIndex, value); }
+        }
+
+        private bool needHeader;
+        public bool NeedShowTitle
+        {
+            get { return needHeader; }
+            set { SetProperty(ref needHeader, value); }
+        }
+
+        private string title;
+        public string Title
+        {
+            get { return title; }
+            set { SetProperty(ref title, value); }
         }
 
         public DelegateCommand GoPrevious
@@ -286,12 +321,9 @@ namespace Aurora.Music.ViewModels
                         foreach (var item in l)
                         {
                             var prop = item.GetDisplayProperties();
-                            NowPlayingList.Add(new SongViewModel
+                            NowPlayingList.Add(new SongViewModel(item.Source.CustomProperties[Consts.SONG] as SONG)
                             {
                                 Index = i++,
-                                Title = prop.MusicProperties.Title,
-                                Duration = (TimeSpan)item.Source.CustomProperties[Consts.Duration],
-                                ID = (int)item.Source.CustomProperties[Consts.ID]
                             });
                         }
                         CurrentIndex = Convert.ToInt32(e.CurrentIndex);

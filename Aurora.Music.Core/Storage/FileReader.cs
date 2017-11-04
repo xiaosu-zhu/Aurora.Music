@@ -35,6 +35,10 @@ namespace Aurora.Music.Core.Storage
         public static async Task<List<Models.Album>> GetAlbumsAsync(string value)
         {
             var opr = SQLOperator.Current();
+
+            // get single song
+            // sqlite escaping
+            value = SQLOperator.SQLEscaping(value);
             if (value.IsNullorEmpty())
             {
                 // anonymous artists, get their songs
@@ -47,9 +51,6 @@ namespace Aurora.Music.Core.Storage
             var albums = await opr.GetWithQueryAsync<ALBUM>("ALBUMARTISTS", value);
             var res = albums.ConvertAll(a => new Models.Album(a));
 
-            // get single song
-            // sqlite escaping
-            value = SQLOperator.SQLEscaping(value);
             var otherSongs = await opr.GetWithQueryAsync<SONG>($"SELECT * FROM SONG WHERE PERFORMERS='{value}'");
 
             // remove duplicated (we suppose that artist's all song is just 1000+, this way can find all song and don't take long time)

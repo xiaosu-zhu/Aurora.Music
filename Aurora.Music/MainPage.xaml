@@ -500,7 +500,6 @@
                                 <VisualStateManager.VisualStateGroups>
                                     <VisualStateGroup x:Name="CommonStates">
                                         <VisualState x:Name="Normal">
-
                                             <Storyboard>
                                                 <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
                                             </Storyboard>
@@ -513,7 +512,6 @@
                                                 <Setter Target="ContentPresenter.BorderBrush" Value="{ThemeResource ButtonRevealBorderBrushPointerOver}" />
                                                 <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ButtonForegroundPointerOver}" />
                                             </VisualState.Setters>
-
                                             <Storyboard>
                                                 <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
                                             </Storyboard>
@@ -1320,13 +1318,13 @@
         </SplitView.Pane>
         <SplitView.Content>
             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <Frame HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="MainFrame"/>
+                <Frame Visibility="Visible" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="MainFrame"/>
                 <Grid Visibility="{x:Bind BooltoVisibility(Context.NeedShowPanel), Mode=OneWay}" 
                       HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="74" 
                       Background="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="auto"/>
@@ -1335,12 +1333,35 @@
                         <RowDefinition Height="2"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <toolkit:ImageEx Grid.Row="1" Source="{x:Bind Context.CurrentArtwork, Mode=OneWay}"
+                    <StackPanel Orientation="Horizontal" x:Name="NavigatePanel" PointerEntered="StackPanel_PointerEntered" PointerExited="StackPanel_PointerExited"
+                                PointerReleased="StackPanel_PointerReleased" PointerPressed="NavigatePanel_PointerPressed" PointerCanceled="StackPanel_PointerExited" PointerCaptureLost="StackPanel_PointerExited" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1">
+                        <StackPanel.Resources>
+                            <Storyboard x:Key="PointerOver">
+                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NavigatePanel" Storyboard.TargetProperty="Background">
+                                    <DiscreteObjectKeyFrame Value="{ThemeResource SystemControlBackgroundBaseLowRevealBackgroundBrush}"/>
+                                </ObjectAnimationUsingKeyFrames>
+                                <PointerUpThemeAnimation Storyboard.TargetName="NavigatePanel"/>
+                            </Storyboard>
+                            <Storyboard x:Key="PointerPressed">
+                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NavigatePanel" Storyboard.TargetProperty="Background">
+                                    <DiscreteObjectKeyFrame Value="{ThemeResource SystemControlBackgroundBaseMediumLowRevealBorderBrush}"/>
+                                </ObjectAnimationUsingKeyFrames>
+                                <PointerDownThemeAnimation Storyboard.TargetName="NavigatePanel"/>
+                            </Storyboard>
+                            <Storyboard x:Key="Normal">
+                                <PointerUpThemeAnimation Storyboard.TargetName="NavigatePanel"/>
+                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NavigatePanel" Storyboard.TargetProperty="Background">
+                                    <DiscreteObjectKeyFrame Value="Transparent"/>
+                                </ObjectAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </StackPanel.Resources>
+                        <toolkit:ImageEx Grid.Row="1" Source="{x:Bind Context.CurrentArtwork, Mode=OneWay}" x:Name="Artwork"
                                      Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                            Stretch="Uniform"/>
-                    <StackPanel Margin="12,0" Grid.Row="1" Orientation="Vertical" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center">
-                        <TextBlock Text="{x:Bind Context.CurrentTitle, Mode=OneWay}" Style="{ThemeResource BaseTextBlockStyle}" MaxLines="2" TextTrimming="CharacterEllipsis" Margin="4"/>
-                        <TextBlock Text="{x:Bind Context.CurrentAlbum, Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Margin="4,0,4,4"/>
+                        <StackPanel Margin="12,0" Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <TextBlock Text="{x:Bind Context.CurrentTitle, Mode=OneWay}" Style="{ThemeResource BaseTextBlockStyle}" MaxLines="2" TextTrimming="CharacterEllipsis" Margin="4"/>
+                            <TextBlock Text="{x:Bind Context.CurrentAlbum, Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Margin="4,0,4,4"/>
+                        </StackPanel>
                     </StackPanel>
                     <Button Style="{ThemeResource MainPageRectangleButton}" Grid.Row="1" Grid.Column="2" Margin="12,0" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Button.Content>
@@ -1396,7 +1417,7 @@
                     <ProgressBar Background="{x:Null}" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="5" 
                                  Value="{x:Bind PositionToValue(Context.CurrentPosition, Context.TotalDuration), Mode=OneWay}"/>
                 </Grid>
-
+                <Frame x:Name="OverlayFrame" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                 <Button Style="{ThemeResource MainPageHamStyle}" Background="Transparent"
                         HorizontalAlignment="Left" VerticalAlignment="Top" Click="Toggle_PaneOpened"
                         Margin="0,32,0,0" Width="48" Height="48">
@@ -1404,7 +1425,13 @@
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE700;" />
                     </Button.Content>
                 </Button>
-                <Grid Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Top" 
+                <TextBlock Visibility="{x:Bind BooltoVisibility(Context.NeedShowTitle), Mode=OneWay}" 
+                           OpticalMarginAlignment="None" Margin="60,32,0,0" 
+                           Style="{ThemeResource SubheaderTextBlockStyle}"
+                           Foreground="{x:Bind Context.TitleForeground(Context.IsLeftTopDark), Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                           FontWeight="Bold" Text="{x:Bind Context.Title,Mode=OneWay}"/>
+
+                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top" 
                       Height="32" x:Name="TitleBar" >
                     <TextBlock Text="Aurora Music" Style="{ThemeResource CaptionTextBlockStyle}" 
                                Margin="56,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" 

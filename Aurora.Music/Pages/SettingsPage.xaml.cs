@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Aurora.Music.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,9 @@ namespace Aurora.Music.Pages
         {
             this.InitializeComponent();
             LoactionFrame.Navigate(typeof(AddFoldersView));
+            MainPageViewModel.Current.Title = "Settings";
+            MainPageViewModel.Current.NeedShowTitle = true;
+            MainPageViewModel.Current.IsLeftTopDark = false;
         }
     }
 }

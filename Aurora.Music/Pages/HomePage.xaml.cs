@@ -1,20 +1,20 @@
-﻿using Microsoft.Toolkit.Uwp.UI.Controls;
+﻿using Aurora.Music.Core;
+using Aurora.Music.ViewModels;
+using Aurora.Shared.Extensions;
+using ExpressionBuilder;
+using System.Numerics;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using System.Threading.Tasks;
 using Windows.System.Threading;
+using Windows.UI.Composition;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
+using EF = ExpressionBuilder.ExpressionFunctions;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -25,6 +25,10 @@ namespace Aurora.Music.Pages
     /// </summary>
     public sealed partial class HomePage : Page
     {
+        private CompositionPropertySet _scrollerPropertySet;
+        private Compositor _compositor;
+        private CompositionPropertySet _props;
+
         public HomePage()
         {
             this.InitializeComponent();
@@ -62,6 +66,29 @@ namespace Aurora.Music.Pages
         private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             ContentPanel.Width = this.ActualWidth;
+        }
+
+        private void Header_Loaded(object sender, RoutedEventArgs e)
+        {
+            var scrollviewer = MainScroller;
+            _scrollerPropertySet = ElementCompositionPreview.GetScrollViewerManipulationPropertySet(scrollviewer);
+            _compositor = _scrollerPropertySet.Compositor;
+
+            _props = _compositor.CreatePropertySet();
+            _props.InsertScalar("progress", 0);
+
+            // Get references to our property sets for use with ExpressionNodes
+            var scrollingProperties = _scrollerPropertySet.GetSpecializedReference<ManipulationPropertySetReferenceNode>();
+            var props = _props.GetReference();
+            var progressNode = props.GetScalarProperty("progress");
+
+            // Create and start an ExpressionAnimation to track scroll progress over the desired distance
+            ExpressionNode progressAnimation = EF.Clamp(-scrollingProperties.Translation.Y / ((float)Header.Height), 0, 1);
+            _props.StartAnimation("progress", progressAnimation);
+
+            var headerbgVisual = ElementCompositionPreview.GetElementVisual(HeaderBG);
+            var bgblurOpacityAnimation = EF.Clamp(progressNode, 0, 1);
+            headerbgVisual.StartAnimation("Opacity", bgblurOpacityAnimation);
         }
     }
 }

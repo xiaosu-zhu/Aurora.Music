@@ -5,6 +5,8 @@ using Windows.UI.Xaml;
 using Aurora.Music.ViewModels;
 using Aurora.Shared.Controls;
 using Windows.UI.Input;
+using Windows.UI.Xaml.Media.Animation;
+using Aurora.Music.Core;
 
 // https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
 
@@ -102,13 +104,56 @@ namespace Aurora.Music
 
         private void FastFoward_Holding(object sender, Windows.UI.Xaml.Input.HoldingRoutedEventArgs e)
         {
-            if(e.HoldingState == HoldingState.Canceled)
+            if (e.HoldingState == HoldingState.Canceled)
             {
                 Context.FastForward(false);
             }
             else
             {
                 Context.FastForward(true);
+            }
+        }
+
+        private void StackPanel_PointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            if (Context.NowPlayingList.Count > 0 && Context.CurrentIndex >= 0)
+            {
+                OverlayFrame.Visibility = Visibility.Visible;
+                MainFrame.Visibility = Visibility.Collapsed;
+                ConnectedAnimationService.GetForCurrentView().PrepareToAnimate(Consts.NowPlayingPageInAnimation, Artwork);
+                OverlayFrame.Navigate(typeof(NowPlayingPage), Context.NowPlayingList[Context.CurrentIndex]);
+            }
+            if (sender is Panel s)
+            {
+                (s.Resources["Normal"] as Storyboard).Begin();
+                e.Handled = true;
+            }
+        }
+
+        private void StackPanel_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            if (sender is Panel s)
+            {
+                (s.Resources["PointerOver"] as Storyboard).Begin();
+                e.Handled = true;
+            }
+        }
+
+        private void StackPanel_PointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            if (sender is Panel s)
+            {
+                (s.Resources["Normal"] as Storyboard).Begin();
+                e.Handled = true;
+            }
+        }
+
+        private void NavigatePanel_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            if (sender is Panel s)
+            {
+                (s.Resources["PointerPressed"] as Storyboard).Begin();
+                e.Handled = true;
             }
         }
     }

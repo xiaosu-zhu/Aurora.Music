@@ -107,6 +107,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Consts.cs" />
+    <Compile Include="Models\ISortable.cs" />
     <Compile Include="Models\Music.cs" />
     <Compile Include="Models\Settings.cs" />
     <Compile Include="Player\Player.cs" />

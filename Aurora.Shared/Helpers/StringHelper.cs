@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Aurora.Shared.Helpers
 {
-    public class StringHelper
+    public class StringHelper : IComparer<string>
     {
         private const string FOLDER_SEPARATOR = "/";
         private const string WINDOWS_FOLDER_SEPARATOR = "\\";
@@ -21,6 +22,9 @@ namespace Aurora.Shared.Helpers
             return Regex.IsMatch(s, REG_CN);
         }
 
-
+        public int Compare(string x, string y)
+        {
+            return CultureInfo.CurrentCulture.CompareInfo.Compare(x, y);
+        }
     }
 }

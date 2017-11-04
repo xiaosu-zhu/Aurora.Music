@@ -122,6 +122,7 @@ namespace Aurora.Music.Core.Player
                     mediaSource.CustomProperties[Consts.ID] = item.ID;
                     mediaSource.CustomProperties[Consts.Duration] = item.Duration;
                     mediaSource.CustomProperties[Consts.Artwork] = new Uri(item.PicturePath.IsNullorEmpty() ? Consts.BlackPlaceholder : item.PicturePath);
+                    mediaSource.CustomProperties[Consts.SONG] = item;
                     var mediaPlaybackItem = new MediaPlaybackItem(mediaSource);
                     var props = mediaPlaybackItem.GetDisplayProperties();
 

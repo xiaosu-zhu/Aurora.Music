@@ -1,9 +1,10 @@
-﻿using Aurora.Shared.Extensions;
+﻿using Aurora.Music.Core.Models;
+using Aurora.Shared.Extensions;
 using Aurora.Shared.MVVM;
 
 namespace Aurora.Music.ViewModels
 {
-    class ArtistViewModel : ViewModelBase
+    class ArtistViewModel : ViewModelBase, IKey
     {
         public string RawName;
 
@@ -32,6 +33,8 @@ namespace Aurora.Music.ViewModels
             get { return albumCount; }
             set { SetProperty(ref albumCount, value); }
         }
+
+        public string Key => Name;
 
         public string CountToString(int count)
         {

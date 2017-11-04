@@ -327,7 +327,7 @@ namespace Aurora.Music.Core.Storage
 
         public static string SQLEscaping(string value)
         {
-            return value.Replace("'", @"\'").Replace("_", @"\_").Replace("%", @"\%");
+            return value.Replace("'", @"''");
         }
 
         private SQLOperator()
@@ -744,10 +744,12 @@ namespace Aurora.Music.Core.Storage
         public string FilePath { get; set; }
     }
 
-    public class Artist
+    public class Artist : IKey
     {
         public int Count { get; set; }
         public string AlbumArtists { get; set; }
+
+        public string Key => AlbumArtists;
     }
 
 }

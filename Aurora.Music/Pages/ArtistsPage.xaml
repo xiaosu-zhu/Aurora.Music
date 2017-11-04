@@ -19,6 +19,14 @@
                 <ResourceDictionary x:Key="Light" Source="../Themes/Light.xaml"/>
                 <ResourceDictionary x:Key="Dark" Source="../Themes/Dark.xaml"/>
             </ResourceDictionary.ThemeDictionaries>
+            <CollectionViewSource x:Name="ArtistListSource" x:Key="ArtistListSource" IsSourceGrouped="True" Source="{x:Bind Context.ArtistList,Mode=OneWay}"/>
+
+            <DataTemplate x:Key="ArtistGroupHeader">
+                <TextBlock Text="{Binding Key}" Foreground="{ThemeResource ApplicationForegroundThemeBrush}"/>
+            </DataTemplate>
+            <DataTemplate x:Key="ZoomedOutGrid">
+                <TextBlock Text="{Binding Group.Key}" Foreground="{ThemeResource ApplicationForegroundThemeBrush}"/>
+            </DataTemplate>
         </ResourceDictionary>
     </Page.Resources>
 
@@ -26,30 +34,53 @@
         <vm:ArtistsPageViewModel x:Name="Context"/>
     </Page.DataContext>
     <Grid>
-        <GridView ItemClick="ArtistList_ItemClick" IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" 
-              SelectionMode="None" ItemsSource="{x:Bind Context.ArtistList,Mode=OneWay}" Loaded="ArtistList_Loaded"
-              Padding="32,360,32,160" ItemContainerStyle="{StaticResource GeneralGridViewItemStyle}" 
+        <SemanticZoom>
+            <SemanticZoom.ZoomedOutView>
+                <GridView Padding="64,128,64,0" FontSize="20" ItemsSource="{x:Bind ArtistListSource.View.CollectionGroups, Mode=OneWay}">
+                    <GridView.Header>
+                        <Grid Height="280"/>
+                    </GridView.Header>
+                    <GridView.Footer>
+                        <Grid Height="160"/>
+                    </GridView.Footer>
+                </GridView>
+            </SemanticZoom.ZoomedOutView>
+            <SemanticZoom.ZoomedInView>
+                <GridView ItemClick="ArtistList_ItemClick" IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" 
+              SelectionMode="None" ItemsSource="{x:Bind ArtistListSource.View, Mode=OneWay}" Loaded="ArtistList_Loaded"
+              Padding="32,0" ItemContainerStyle="{StaticResource GeneralGridViewItemStyle}" 
               Style="{StaticResource GeneralGridViewStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
               x:Name="ArtistList">
-            <GridView.ItemTemplate>
-                <DataTemplate x:DataType="vm:ArtistViewModel">
-                    <Grid Background="{x:Null}" x:Name="ArtistCell" PointerEntered="ArtistCell_PointerEntered" 
+                    <GridView.GroupStyle>
+                        <GroupStyle HeaderTemplate="{StaticResource ArtistGroupHeader}"/>
+                    </GridView.GroupStyle>
+                    <GridView.Header>
+                        <Grid Height="400"/>
+                    </GridView.Header>
+                    <GridView.Footer>
+                        <Grid Height="160"/>
+                    </GridView.Footer>
+                    <GridView.ItemTemplate>
+                        <DataTemplate x:DataType="vm:ArtistViewModel">
+                            <Grid Background="{x:Null}" x:Name="ArtistCell" PointerEntered="ArtistCell_PointerEntered" 
                           PointerPressed="ArtistCell_PointerPressed" PointerExited="ArtistCell_PointerExited"
                           PointerReleased="ArtistCell_PointerReleased" PointerCaptureLost="ArtistCell_PointerExited" 
                           PointerCanceled="ArtistCell_PointerExited">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="auto"/>
-                        </Grid.RowDefinitions>
-                        <toolkit:RoundImageEx x:Name="ArtistImage" PlaceholderSource="/Assets/Images/artist_placeholder.png" PlaceholderStretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="8,4" Width="100" Height="100" CornerRadius="999"/>
-                        <StackPanel Orientation="Vertical" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Margin="0,4">
-                            <TextBlock x:Name="ArtistName" Text="{x:Bind Name}" HorizontalAlignment="Center" VerticalAlignment="Center" MaxLines="1" TextTrimming="CharacterEllipsis" Style="{ThemeResource BaseTextBlockStyle}" Margin="0,0"/>
-                            <TextBlock Text="{x:Bind CountToString(SongsCount)}" HorizontalAlignment="Center" VerticalAlignment="Center" MaxLines="1" TextTrimming="CharacterEllipsis" Style="{ThemeResource BodyTextBlockStyle}" Margin="0,4"/>
-                        </StackPanel>
-                    </Grid>
-                </DataTemplate>
-            </GridView.ItemTemplate>
-        </GridView>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
+                                <toolkit:RoundImageEx x:Name="ArtistImage" PlaceholderSource="/Assets/Images/artist_placeholder.png" PlaceholderStretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="8,4" Width="100" Height="100" CornerRadius="999"/>
+                                <StackPanel Orientation="Vertical" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Margin="0,4">
+                                    <TextBlock x:Name="ArtistName" Text="{x:Bind Name}" HorizontalAlignment="Center" VerticalAlignment="Center" MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Style="{ThemeResource BaseTextBlockStyle}" Margin="0,0"/>
+                                    <TextBlock Text="{x:Bind CountToString(SongsCount)}" HorizontalAlignment="Center" VerticalAlignment="Center" MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Style="{ThemeResource BodyTextBlockStyle}" Margin="0,4"/>
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
+                </GridView>
+            </SemanticZoom.ZoomedInView>
+        </SemanticZoom>
 
         <Grid Height="360" x:Name="Header" HorizontalAlignment="Stretch" VerticalAlignment="Top">
             <Grid x:Name="BGBlur" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="360" Background="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}"/>

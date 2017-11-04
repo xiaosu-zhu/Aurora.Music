@@ -37,7 +37,6 @@
                 <Frame Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="SubPanelFrame"/>
             </Grid>
         </ScrollViewer>
-        <TextBlock OpticalMarginAlignment="None" Margin="60,32,0,0" Style="{ThemeResource SubheaderTextBlockStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Top" FontWeight="Bold" Text="Library"/>
 
         <Frame x:Name="MainFrame" Background="{ThemeResource SystemControlBackgroundAltHighBrush}" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 

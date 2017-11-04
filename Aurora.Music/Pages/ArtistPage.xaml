@@ -91,15 +91,14 @@
         </ResourceDictionary>
     </Page.Resources>
 
-
     <Grid>
         <GridView ShowsScrollingPlaceholders="True" ItemClick="AlbumList_ItemClick" IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" 
               SelectionMode="None" ItemsSource="{x:Bind Context.AlbumList, Mode=OneWay}" Loaded="AlbumList_Loaded"
-              Padding="32,360,32,160" ItemContainerStyle="{StaticResource GeneralGridViewItemStyle}" 
+              Padding="32,0,32,160" ItemContainerStyle="{StaticResource GeneralGridViewItemStyle}" 
               Style="{StaticResource GeneralGridViewStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
               x:Name="AlbumList">
             <GridView.Header>
-                <Grid Height="40"/>
+                <Grid Height="400"/>
             </GridView.Header>
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="vm:AlbumViewModel">
@@ -195,7 +194,7 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Button Click="PlayAlbum_Click" Style="{ThemeResource NoBorderButton}" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Background="{ThemeResource SystemControlBackgroundBaseMediumRevealBorderBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                            <Button Click="PlayAlbum_Click" PointerReleased="Button_PointerReleased" Holding="Button_Holding" IsHoldingEnabled="True" Style="{ThemeResource NoBorderButton}" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Background="{ThemeResource SystemControlBackgroundBaseMediumRevealBorderBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                                 <Button.Content>
                                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE102;" />
                                 </Button.Content>

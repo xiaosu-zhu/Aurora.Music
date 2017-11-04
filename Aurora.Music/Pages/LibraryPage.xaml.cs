@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Aurora.Music.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -30,6 +31,9 @@ namespace Aurora.Music.Pages
             Current = this;
             SubPanelFrame.Navigate(typeof(CategoryListView));
             MainFrame.Navigate(typeof(ArtistsPage));
+            MainPageViewModel.Current.Title = "Library";
+            MainPageViewModel.Current.NeedShowTitle = true;
+            MainPageViewModel.Current.IsLeftTopDark = true;
         }
 
         internal void LefPanelNavigate(Type t)
