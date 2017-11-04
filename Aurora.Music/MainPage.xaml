@@ -1319,7 +1319,7 @@
         <SplitView.Content>
             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Frame Visibility="Visible" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="MainFrame"/>
-                <Grid Visibility="{x:Bind BooltoVisibility(Context.NeedShowPanel), Mode=OneWay}" 
+                <Grid Visibility="{x:Bind Context.BooltoVisibility(Context.NeedShowPanel), Mode=OneWay}" 
                       HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="74" 
                       Background="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}">
                     <Grid.ColumnDefinitions>
@@ -1425,7 +1425,7 @@
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE700;" />
                     </Button.Content>
                 </Button>
-                <TextBlock Visibility="{x:Bind BooltoVisibility(Context.NeedShowTitle), Mode=OneWay}" 
+                <TextBlock Visibility="{x:Bind Context.BooltoVisibility(Context.NeedShowTitle), Mode=OneWay}" 
                            OpticalMarginAlignment="None" Margin="60,32,0,0" 
                            Style="{ThemeResource SubheaderTextBlockStyle}"
                            Foreground="{x:Bind Context.TitleForeground(Context.IsLeftTopDark), Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Top" 

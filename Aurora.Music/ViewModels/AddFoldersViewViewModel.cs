@@ -122,17 +122,12 @@ namespace Aurora.Music.ViewModels
             SongsCount = item.SongsCount;
         }
 
-        private Visibility isOpened = Visibility.Collapsed;
+        private bool isOpened;
 
-        public Visibility IsOpened
+        public bool IsOpened
         {
             get { return isOpened; }
             set { SetProperty(ref isOpened, value); }
-        }
-
-        public void ToggleOpened(bool b)
-        {
-            IsOpened = b ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public FolderViewModel() { }

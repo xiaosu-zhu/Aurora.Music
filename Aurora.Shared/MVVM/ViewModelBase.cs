@@ -5,7 +5,9 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Windows.UI;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media;
 
 namespace Aurora.Shared.MVVM
 {
@@ -37,5 +39,10 @@ namespace Aurora.Shared.MVVM
         {
             return !b ? Visibility.Visible : Visibility.Collapsed;
         }
+        public SolidColorBrush AccentForeground(bool isAccentDark)
+        {
+            return isAccentDark ? new SolidColorBrush(Colors.White) : new SolidColorBrush(Colors.Black);
+        }
+
     }
 }

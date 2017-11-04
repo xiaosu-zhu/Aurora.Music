@@ -20,7 +20,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
-    
+
     <ScrollViewer MaxHeight="360" HorizontalScrollBarVisibility="Hidden" HorizontalScrollMode="Disabled" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <TextBlock Style="{ThemeResource TitleTextBlockStyle}" Margin="8,4" HorizontalAlignment="Left" VerticalAlignment="Center">
@@ -48,7 +48,7 @@
                                 <TextBlock Text="{x:Bind FolderName}" Style="{ThemeResource BaseTextBlockStyle}" Margin="8,4,8,0"/>
                                 <TextBlock Text="{x:Bind FormatCount(SongsCount)}" Style="{ThemeResource BodyTextBlockStyle}" FontSize="10" Margin="8,0,8,4"/>
                             </StackPanel>
-                            <Grid Visibility="{x:Bind IsOpened, Mode=OneWay}" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                            <Grid Visibility="{x:Bind BooltoVisibility(IsOpened), Mode=OneWay}" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="auto"/>

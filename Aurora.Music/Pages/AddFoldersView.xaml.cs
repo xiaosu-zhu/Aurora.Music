@@ -43,9 +43,9 @@ namespace Aurora.Music.Pages
         {
             foreach (var item in Context.Folders)
             {
-                item.ToggleOpened(false);
+                item.IsOpened = false;
             }
-            ((sender as ListView).SelectedItem as FolderViewModel).ToggleOpened(true);
+            ((sender as ListView).SelectedItem as FolderViewModel).IsOpened = true;
         }
 
         private async void DeleteFolderBtn_Click(object sender, RoutedEventArgs e)
