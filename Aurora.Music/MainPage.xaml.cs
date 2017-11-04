@@ -7,6 +7,9 @@ using Aurora.Shared.Controls;
 using Windows.UI.Input;
 using Windows.UI.Xaml.Media.Animation;
 using Aurora.Music.Core;
+using Windows.UI.Xaml.Media;
+using Aurora.Shared;
+using Windows.UI.ViewManagement;
 
 // https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
 
@@ -100,6 +103,8 @@ namespace Aurora.Music
             {
                 iT.ChangeTheme();
             }
+            var ui = new UISettings();
+            Context.IsDarkAccent = Palette.IsDarkColor(ui.GetColorValue(UIColorType.Accent));
         }
 
         private void FastFoward_Holding(object sender, Windows.UI.Xaml.Input.HoldingRoutedEventArgs e)

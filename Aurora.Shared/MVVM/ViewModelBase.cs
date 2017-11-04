@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Windows.UI.Xaml;
 
 namespace Aurora.Shared.MVVM
 {
@@ -28,5 +29,13 @@ namespace Aurora.Shared.MVVM
             return changed;
         }
 
+        public Visibility BooltoVisibility(bool b)
+        {
+            return b ? Visibility.Visible : Visibility.Collapsed;
+        }
+        public Visibility BoolNottoVisibility(bool b)
+        {
+            return !b ? Visibility.Visible : Visibility.Collapsed;
+        }
     }
 }

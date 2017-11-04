@@ -121,6 +121,12 @@
                     </Grid>
                 </StackPanel>
             </Grid>
+            <Button Content="Play" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+            <ComboBox HorizontalAlignment="Left" VerticalAlignment="Bottom" Header="Sort by:">
+                <ComboBoxItem>A-Z</ComboBoxItem>
+                <ComboBoxItem>Songs</ComboBoxItem>
+                <ComboBoxItem>Genres</ComboBoxItem>
+            </ComboBox>
         </Grid>
     </Grid>
 </Page>

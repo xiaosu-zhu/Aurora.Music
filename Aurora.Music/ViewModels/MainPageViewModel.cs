@@ -235,6 +235,13 @@ namespace Aurora.Music.ViewModels
             }
         }
 
+        private bool darkAccent;
+        public bool IsDarkAccent
+        {
+            get { return darkAccent; }
+            set { SetProperty(ref darkAccent, value); }
+        }
+
         public MainPageViewModel()
         {
             player = new Player();
