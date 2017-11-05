@@ -24,6 +24,8 @@ namespace Aurora.Music.Core.Player
         private object lockable = new object();
         private int _songCountID;
 
+        public bool? IsPlaying { get; set; }
+
         public event EventHandler<PositionUpdatedArgs> PositionUpdated;
         public event EventHandler<StatusChangedArgs> StatusChanged;
 
@@ -91,6 +93,22 @@ namespace Aurora.Music.Core.Player
 
         private void PlaybackSession_PlaybackStateChanged(MediaPlaybackSession sender, object args)
         {
+            switch (mediaPlayer.PlaybackSession.PlaybackState)
+            {
+                case MediaPlaybackState.None:
+                case MediaPlaybackState.Opening:
+                case MediaPlaybackState.Buffering:
+                    IsPlaying = null;
+                    break;
+                case MediaPlaybackState.Playing:
+                    IsPlaying = true;
+                    break;
+                case MediaPlaybackState.Paused:
+                    IsPlaying = false;
+                    break;
+                default:
+                    break;
+            }
             StatusChanged?.Invoke(this, new StatusChangedArgs
             {
                 State = mediaPlayer.PlaybackSession.PlaybackState,
@@ -102,6 +120,22 @@ namespace Aurora.Music.Core.Player
 
         private void MediaPlaybackList_CurrentItemChanged(MediaPlaybackList sender, CurrentMediaPlaybackItemChangedEventArgs args)
         {
+            switch (mediaPlayer.PlaybackSession.PlaybackState)
+            {
+                case MediaPlaybackState.None:
+                case MediaPlaybackState.Opening:
+                case MediaPlaybackState.Buffering:
+                    IsPlaying = null;
+                    break;
+                case MediaPlaybackState.Playing:
+                    IsPlaying = true;
+                    break;
+                case MediaPlaybackState.Paused:
+                    IsPlaying = false;
+                    break;
+                default:
+                    break;
+            }
             StatusChanged?.Invoke(this, new StatusChangedArgs
             {
                 State = mediaPlayer.PlaybackSession.PlaybackState,

@@ -39,6 +39,7 @@ namespace Aurora.Music.ViewModels
         {
             Song = song;
             CurrentArtwork = new BitmapImage(new Uri(song.PicturePath));
+            IsPlaying = player.IsPlaying;
             var t = ThreadPool.RunAsync(async x =>
             {
                 _lastSong = song.ID;

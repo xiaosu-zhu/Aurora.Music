@@ -939,6 +939,11 @@
                 Background="{TemplateBinding Background}"
                 BorderBrush="{x:Null}"
                 BorderThickness="0">
+                        <Grid.Transitions>
+                            <TransitionCollection>
+                                <RepositionThemeTransition/>
+                            </TransitionCollection>
+                        </Grid.Transitions>
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal">

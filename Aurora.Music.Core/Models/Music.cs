@@ -26,7 +26,7 @@ namespace Aurora.Music.Core.Models
         {
             Title = s.Title;
             Description = s.Album;
-            Addtional = s.FilePath;
+            Addtional = s.AlbumArtists.IsNullorEmpty() ? "Unknown Artists" : string.Join(", ", s.AlbumArtists.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries));
             IDs = new int[] { s.ID };
             PicturePath = s.PicturePath;
         }
@@ -38,8 +38,8 @@ namespace Aurora.Music.Core.Models
             {
                 return int.Parse(a);
             });
-            Description = ids.Length.ToString() + (ids.Length == 1 ? "Song" : "Songs");
-            Addtional = s.Year.ToString();
+            Description = ids.Length.ToString() + (ids.Length == 1 ? " Song" : " Songs");
+            Addtional = s.AlbumArtists.IsNullorEmpty() ? "Unknown Artists" : string.Join(", ", s.AlbumArtists.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries));
             IDs = ids;
             PicturePath = s.PicturePath;
         }

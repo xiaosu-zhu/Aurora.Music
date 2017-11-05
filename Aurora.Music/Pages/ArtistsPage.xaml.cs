@@ -154,5 +154,15 @@ namespace Aurora.Music.Pages
         private void Page_Unloaded(object sender, RoutedEventArgs e)
         {
         }
+
+        private void SemanticZoom_ViewChangeCompleted(object sender, SemanticZoomViewChangedEventArgs e)
+        {
+            var zoom = sender as SemanticZoom;
+            if (zoom.IsZoomedInViewActive)
+            {
+                var scroller = ArtistList.GetScrollViewer();
+                scroller.ChangeView(null, scroller.VerticalOffset - 120, null);
+            }
+        }
     }
 }

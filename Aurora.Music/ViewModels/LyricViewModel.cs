@@ -30,7 +30,7 @@ namespace Aurora.Music.ViewModels
             for (int i = 0; i < lyric.Count; i++)
             {
                 Contents[i].IsCurrent = false;
-                if (current < (lyric[i].Key + lyric.Offset))
+                if (!b && current < (lyric[i].Key + lyric.Offset))
                 {
                     if (i == 0)
                     {
