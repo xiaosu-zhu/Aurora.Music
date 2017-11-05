@@ -32,7 +32,7 @@ namespace Aurora.Music.Pages
             this.InitializeComponent();
         }
 
-        CategoryListItem[] categoryList = { new CategoryListItem { Title = "Songs", Index = new BitmapImage(new Uri("ms-appx:///Assets/Images/1.jpg")), IsCurrent = true }, new CategoryListItem { Title = "Albums", Index = new BitmapImage(new Uri("ms-appx:///Assets/Images/2.jpg")) }, new CategoryListItem { Title = "Artists", Index = new BitmapImage(new Uri("ms-appx:///Assets/Images/3.jpg")) } };
+        CategoryListItem[] categoryList = { new CategoryListItem { Title = "Songs", Index = new BitmapImage(new Uri("ms-appx:///Assets/Images/1.png")), IsCurrent = true }, new CategoryListItem { Title = "Albums", Index = new BitmapImage(new Uri("ms-appx:///Assets/Images/2.png")) }, new CategoryListItem { Title = "Artists", Index = new BitmapImage(new Uri("ms-appx:///Assets/Images/3.png")) } };
 
         private void ListView_ItemClick(object sender, ItemClickEventArgs e)
         {

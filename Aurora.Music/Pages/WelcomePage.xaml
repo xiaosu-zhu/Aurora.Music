@@ -303,7 +303,7 @@
     <Grid>
         <ParallaxView Source="{Binding ElementName=Main}" HorizontalShift="240">
             <Grid>
-                <Image Source="/Assets/Images/welcome_bg.jpg" 
+                <Image Source="/Assets/Images/welcome_bg.png" 
                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="UniformToFill"/>
                 <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#AA000000"/>
             </Grid>

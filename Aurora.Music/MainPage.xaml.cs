@@ -35,27 +35,11 @@ namespace Aurora.Music
 
         private Type[] navigateOptions = { typeof(HomePage), typeof(LibraryPage) };
 
+        public bool CanGoBack { get => MainFrame.Visibility == Visibility.Visible; }
+
         private void Main_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
             MainFrame.Navigate(navigateOptions[sender.MenuItems.IndexOf(args.SelectedItem)]);
-        }
-
-        Symbol NullableBoolToSymbol(bool? b)
-        {
-            if (b is bool bb)
-            {
-                return bb ? Symbol.Pause : Symbol.Play;
-            }
-            return Symbol.Play;
-        }
-
-        double PositionToValue(TimeSpan t1, TimeSpan total)
-        {
-            if (total == null || total == default(TimeSpan))
-            {
-                return 0;
-            }
-            return 100 * (t1.TotalMilliseconds / total.TotalMilliseconds);
         }
 
         string PositionToString(TimeSpan t1, TimeSpan total)
@@ -69,11 +53,15 @@ namespace Aurora.Music
 
         public void Navigate(Type type)
         {
+            if (OverlayFrame.Visibility == Visibility.Visible)
+                return;
             MainFrame.Navigate(type);
         }
 
         public void Navigate(Type type, object parameter)
         {
+            if (OverlayFrame.Visibility == Visibility.Visible)
+                return;
             MainFrame.Navigate(type, parameter);
         }
 
@@ -121,6 +109,8 @@ namespace Aurora.Music
                 OverlayFrame.Visibility = Visibility.Visible;
                 MainFrame.Visibility = Visibility.Collapsed;
                 ConnectedAnimationService.GetForCurrentView().PrepareToAnimate(Consts.NowPlayingPageInAnimation, Artwork);
+                ConnectedAnimationService.GetForCurrentView().PrepareToAnimate($"{Consts.NowPlayingPageInAnimation}_1", Title);
+                ConnectedAnimationService.GetForCurrentView().PrepareToAnimate($"{Consts.NowPlayingPageInAnimation}_2", Album).Completed += MainPage_Completed; ;
                 OverlayFrame.Navigate(typeof(NowPlayingPage), Context.NowPlayingList[Context.CurrentIndex]);
             }
             if (sender is Panel s)
@@ -128,6 +118,43 @@ namespace Aurora.Music
                 (s.Resources["Normal"] as Storyboard).Begin();
                 e.Handled = true;
             }
+        }
+
+        private void MainPage_Completed(ConnectedAnimation sender, object args)
+        {
+            NowPanel.Visibility = Visibility.Collapsed;
+            sender.Completed -= MainPage_Completed;
+        }
+
+        public void GoBackFromNowPlaying()
+        {
+            if (OverlayFrame.Visibility == Visibility.Visible)
+            {
+                NowPanel.Visibility = Visibility.Visible;
+                MainFrame.Visibility = Visibility.Visible;
+                var ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.NowPlayingPageInAnimation);
+                if (ani != null)
+                {
+                    ani.TryStart(Artwork, new UIElement[] { Root });
+                }
+                ani = ConnectedAnimationService.GetForCurrentView().GetAnimation($"{Consts.NowPlayingPageInAnimation}_1");
+                if (ani != null)
+                {
+                    ani.TryStart(Title);
+                }
+                ani = ConnectedAnimationService.GetForCurrentView().GetAnimation($"{Consts.NowPlayingPageInAnimation}_2");
+                if (ani != null)
+                {
+                    ani.TryStart(Album);
+                }
+                ani.Completed += Ani_Completed;
+            }
+        }
+
+        private void Ani_Completed(ConnectedAnimation sender, object args)
+        {
+            sender.Completed -= Ani_Completed;
+            OverlayFrame.Visibility = Visibility.Collapsed;
         }
 
         private void StackPanel_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)

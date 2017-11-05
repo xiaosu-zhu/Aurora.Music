@@ -583,7 +583,7 @@
                           ScrollViewer.IsHorizontalScrollChainingEnabled="True" 
                           ScrollViewer.IsHorizontalRailEnabled="True"
                           IsItemClickEnabled="True" SelectionMode="None" 
-                          ItemsSource="{x:Bind Context.FavList}" 
+                          ItemsSource="{x:Bind Context.RandomList}" 
                           ItemContainerStyle="{ThemeResource HomeListViewItemStyle}" 
                           Style="{StaticResource HorizontalListView}" 
                           x:Name="LuckyList">

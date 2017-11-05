@@ -95,6 +95,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Converters.cs" />
     <Compile Include="Controls\ImageGrid.cs" />
     <Compile Include="Controls\TemplateSeletor.cs" />
     <Compile Include="MainPage.xaml.cs">
@@ -146,6 +147,7 @@
     <Compile Include="ViewModels\GenericMusicItemViewModel.cs" />
     <Compile Include="ViewModels\GroupedItem.cs" />
     <Compile Include="ViewModels\HomePageViewModel.cs" />
+    <Compile Include="ViewModels\LyricViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="ViewModels\NowPlayingPageViewModel.cs" />
     <Compile Include="ViewModels\SongViewModel.cs" />
@@ -157,15 +159,26 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\Images\1.jpg" />
-    <Content Include="Assets\Images\2.jpg" />
-    <Content Include="Assets\Images\3.jpg" />
-    <Content Include="Assets\Images\artist_placeholder.png" />
-    <Content Include="Assets\Images\artists_bg.jpg" />
-    <Content Include="Assets\Images\placeholder.png" />
-    <Content Include="Assets\Images\placeholder_b.png" />
-    <Content Include="Assets\Images\th.jpg" />
-    <Content Include="Assets\Images\welcome_bg.jpg" />
+    <Content Include="Assets\Images\1.png" />
+    <Content Include="Assets\Images\2.png" />
+    <Content Include="Assets\Images\3.png" />
+    <Content Include="Assets\Images\artists_bg.png" />
+    <Content Include="Assets\Images\artist_placeholder.scale-100.png" />
+    <Content Include="Assets\Images\artist_placeholder.scale-125.png" />
+    <Content Include="Assets\Images\artist_placeholder.scale-150.png" />
+    <Content Include="Assets\Images\artist_placeholder.scale-200.png" />
+    <Content Include="Assets\Images\artist_placeholder.scale-400.png" />
+    <Content Include="Assets\Images\placeholder.scale-100.png" />
+    <Content Include="Assets\Images\placeholder.scale-125.png" />
+    <Content Include="Assets\Images\placeholder.scale-150.png" />
+    <Content Include="Assets\Images\placeholder.scale-200.png" />
+    <Content Include="Assets\Images\placeholder.scale-400.png" />
+    <Content Include="Assets\Images\placeholder_b.scale-100.png" />
+    <Content Include="Assets\Images\placeholder_b.scale-125.png" />
+    <Content Include="Assets\Images\placeholder_b.scale-150.png" />
+    <Content Include="Assets\Images\placeholder_b.scale-200.png" />
+    <Content Include="Assets\Images\placeholder_b.scale-400.png" />
+    <Content Include="Assets\Images\welcome_bg.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -276,6 +289,10 @@
     <ProjectReference Include="..\ExpressionBuilder\ExpressionBuilder.csproj">
       <Project>{97f79cb4-fb7b-4dc3-8a08-28fa5694a73c}</Project>
       <Name>ExpressionBuilder</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LrcParser\LrcParser.csproj">
+      <Project>{f37aac14-a99f-4282-9c01-2eb2cefca34c}</Project>
+      <Name>LrcParser</Name>
     </ProjectReference>
     <ProjectReference Include="..\TagLib.Sharp\TagLib.Sharp.csproj">
       <Project>{2355f4e1-9225-433b-98cd-f36df22d042b}</Project>

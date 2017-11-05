@@ -8,6 +8,7 @@ using System.IO;
 using Windows.Storage.FileProperties;
 using Aurora.Shared.Helpers;
 using System.Collections.Generic;
+using Aurora.Music.Core.Storage;
 
 namespace Aurora.Music.Core.Models
 {
@@ -20,6 +21,28 @@ namespace Aurora.Music.Core.Models
         public string PicturePath { get; set; }
 
         public int[] IDs { get; set; }
+
+        public GenericMusicItem(SONG s)
+        {
+            Title = s.Title;
+            Description = s.Album;
+            Addtional = s.FilePath;
+            IDs = new int[] { s.ID };
+            PicturePath = s.PicturePath;
+        }
+        public GenericMusicItem(ALBUM s)
+        {
+            Title = s.Name;
+            var songs = s.Songs.Split(new string[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
+            var ids = Array.ConvertAll(songs, (a) =>
+            {
+                return int.Parse(a);
+            });
+            Description = ids.Length.ToString() + (ids.Length == 1 ? "Song" : "Songs");
+            Addtional = s.Year.ToString();
+            IDs = ids;
+            PicturePath = s.PicturePath;
+        }
     }
 
     public class ListWithKey<T> : List<T>

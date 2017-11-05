@@ -85,7 +85,7 @@ namespace Aurora.Shared.Helpers
 
             // calculate the position object in order to know how much to scroll to
             var transform = selectorItem.TransformToVisual((UIElement)scrollViewer.Content);
-            var position = transform.TransformPoint(new Point(0, 0));
+            var position = transform.TransformPoint(new Point(0, 0 - listViewBase.ActualHeight / 2));
 
             // when virtualized, scroll back to previous position without animation
             if (isVirtualizing)
@@ -171,7 +171,7 @@ namespace Aurora.Shared.Helpers
             }
         }
 
-        public static void ChangeTitlebarButtonColor(Color backGround,Color foreGround)
+        public static void ChangeTitlebarButtonColor(Color backGround, Color foreGround)
         {
             var view = ApplicationView.GetForCurrentView();
             var otherB = backGround;

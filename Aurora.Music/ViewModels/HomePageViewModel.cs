@@ -37,6 +37,7 @@ namespace Aurora.Music.ViewModels
         }
 
         public ObservableCollection<GenericMusicItemViewModel> FavList { get; set; } = new ObservableCollection<GenericMusicItemViewModel>();
+        public ObservableCollection<GenericMusicItemViewModel> RandomList { get; set; } = new ObservableCollection<GenericMusicItemViewModel>();
 
         public ObservableCollection<GenericMusicItemViewModel> HeroList { get; set; } = new ObservableCollection<GenericMusicItemViewModel>();
 
@@ -44,6 +45,7 @@ namespace Aurora.Music.ViewModels
         {
             var n = await SystemInfoHelper.GetCurrentUserNameAsync();
             var hero = await FileReader.GetHeroListAsync();
+            var fav = await FileReader.GetFavListAsync();
             var ran = await FileReader.GetRandomListAsync();
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
@@ -55,12 +57,20 @@ namespace Aurora.Music.ViewModels
                         continue;
                     HeroList.Add(new GenericMusicItemViewModel()
                     {
-                        IDs = item.Select(x => x.ID).ToArray(),
+                        IDs = item.Select(x => x.IDs).Aggregate((a, b) =>
+                        {
+                            return a.Concat(b).ToArray();
+                        }),
                         Title = item.Key,
-                        Artwork = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri((from i in item where !i.PicturePath.IsNullorEmpty() select i.PicturePath into p orderby p.Length select p).FirstOrDefault()))
+                        Artwork = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri((from i in item where !i.PicturePath.IsNullorEmpty() select i.PicturePath into p orderby Tools.Random.Next() select p).FirstOrDefault()))
                     });
                 }
                 foreach (var item in ran)
+                {
+                    RandomList.Add(new GenericMusicItemViewModel(item));
+                }
+
+                foreach (var item in fav)
                 {
                     FavList.Add(new GenericMusicItemViewModel(item));
                 }

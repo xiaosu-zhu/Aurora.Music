@@ -34,7 +34,7 @@
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="{x:Bind GetIndex()}" HorizontalAlignment="Center" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Style="{ThemeResource BodyTextBlockStyle}"/>
                     <TextBlock MaxLines="1" Grid.Column="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{x:Bind Title}" 
-                               Style="{ThemeResource BaseTextBlockStyle}" Margin="8,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                               Style="{ThemeResource BodyTextBlockStyle}" Margin="8,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                     <TextBlock MaxLines="1" Grid.Column="2" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" 
                                HorizontalAlignment="Right" VerticalAlignment="Center"
                                Text="{x:Bind FormatDuration(Duration)}" Style="{ThemeResource BodyTextBlockStyle}" 
@@ -50,7 +50,7 @@
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="{x:Bind GetIndex()}" HorizontalAlignment="Center" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Style="{ThemeResource BodyTextBlockStyle}"/>
                     <TextBlock MaxLines="1" Grid.Column="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{x:Bind Title}" 
-                               Style="{ThemeResource BaseTextBlockStyle}" Margin="8,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                               Style="{ThemeResource BodyTextBlockStyle}" Margin="8,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                     <TextBlock MaxLines="1" Grid.Column="2" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" 
                                HorizontalAlignment="Right" VerticalAlignment="Center"
                                Text="{x:Bind FormatDuration(Duration)}" Style="{ThemeResource BodyTextBlockStyle}" 

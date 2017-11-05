@@ -108,6 +108,8 @@
   <ItemGroup>
     <Compile Include="Consts.cs" />
     <Compile Include="Models\ISortable.cs" />
+    <Compile Include="Models\Json\GecimiJson.cs" />
+    <Compile Include="Models\Lyric.cs" />
     <Compile Include="Models\Music.cs" />
     <Compile Include="Models\Settings.cs" />
     <Compile Include="Player\Player.cs" />
@@ -116,6 +118,7 @@
     <Compile Include="Storage\FileReader.cs" />
     <Compile Include="Storage\FileTracker.cs" />
     <Compile Include="Storage\SQLOperator.cs" />
+    <Compile Include="Storage\WebRequester.cs" />
     <Compile Include="Utils\FormatHelper.cs" />
     <EmbeddedResource Include="Properties\Aurora.Music.Core.rd.xml" />
   </ItemGroup>
@@ -123,12 +126,19 @@
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.0.1</Version>
     </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>10.0.3</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Aurora.Shared\Aurora.Shared.csproj">
       <Project>{026d99cf-1c25-4dcf-ad95-1070bba9f8a8}</Project>
       <Name>Aurora.Shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LrcParser\LrcParser.csproj">
+      <Project>{f37aac14-a99f-4282-9c01-2eb2cefca34c}</Project>
+      <Name>LrcParser</Name>
     </ProjectReference>
     <ProjectReference Include="..\TagLib.Sharp\TagLib.Sharp.csproj">
       <Project>{2355f4e1-9225-433b-98cd-f36df22d042b}</Project>

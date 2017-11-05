@@ -52,7 +52,7 @@ namespace Aurora.Music.Core.Storage
             var albums = await opr.GetWithQueryAsync<ALBUM>("ALBUMARTISTS", value);
             var res = albums.ConvertAll(a => new Models.Album(a));
 
-            var otherSongs = await opr.GetWithQueryAsync<SONG>($"SELECT * FROM SONG WHERE PERFORMERS='{value}'");
+            var otherSongs = await opr.GetWithQueryAsync<SONG>($"SELECT * FROM SONG WHERE PERFORMERS='{value}' OR ALBUMARTISTS='{value}'");
 
             // remove duplicated (we suppose that artist's all song is just 1000+, this way can find all song and don't take long time)
             otherSongs.RemoveAll(x => !albums.Where(b => b.Name == x.Album).IsNullorEmpty());
@@ -65,22 +65,32 @@ namespace Aurora.Music.Core.Storage
             return res;
         }
 
-        public static async Task<List<Song>> GetRandomListAsync()
+        public static async Task<List<GenericMusicItem>> GetFavListAsync()
         {
-            return (await SQLOperator.Current().GetRandomListAsync<SONG>()).ConvertAll(x => new Song(x));
+            return await SQLOperator.Current().GetFavListAsync();
         }
 
-        public static async Task<IEnumerable<ListWithKey<Song>>> GetHeroListAsync()
+        public static async Task<List<GenericMusicItem>> GetRandomListAsync()
         {
             var opr = SQLOperator.Current();
-            var songs = await opr.GetRandomListAsync<SONG>();
+            var songs = await opr.GetRandomListAsync<SONG>(25);
+            var albums = await opr.GetRandomListAsync<ALBUM>(25);
+            var list = songs.ConvertAll(x => new GenericMusicItem(x));
+            list.AddRange(albums.ConvertAll(x => new GenericMusicItem(x)));
+            return list;
+        }
+
+        public static async Task<IEnumerable<ListWithKey<GenericMusicItem>>> GetHeroListAsync()
+        {
+            var opr = SQLOperator.Current();
+            var songs = await GetRandomListAsync();
             var todaySuggestion = await opr.GetTodayListAsync();
             var fav = await opr.GetFavListAsync();
-            return new List<ListWithKey<Song>>
+            return new List<ListWithKey<GenericMusicItem>>
             {
-                new ListWithKey<Song>("Feeling Lucky", songs.ConvertAll(x=>new Song(x))),
-                new ListWithKey<Song>("Today's Suggestion", todaySuggestion.ConvertAll(x=>new Song(x))),
-                new ListWithKey<Song>("Favorite Picks", fav.ConvertAll(x=>new Song(x)))
+                new ListWithKey<GenericMusicItem>("Feeling Lucky", songs),
+                new ListWithKey<GenericMusicItem>($"{DateTime.Today.DayOfWeek}'s Suggestion", todaySuggestion),
+                new ListWithKey<GenericMusicItem>("Favorite Picks", fav)
             };
         }
 

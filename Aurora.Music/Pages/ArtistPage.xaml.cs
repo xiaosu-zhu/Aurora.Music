@@ -34,11 +34,14 @@ namespace Aurora.Music.Pages
         {
             this.InitializeComponent();
             this.NavigationCacheMode = NavigationCacheMode.Enabled;
-
         }
 
         private void ArtistPage_BackRequested(object sender, BackRequestedEventArgs e)
         {
+            if (e.Handled)
+            {
+                return;
+            }
             e.Handled = true;
             ConnectedAnimationService.GetForCurrentView().PrepareToAnimate(Consts.ArtistPageInAnimation + "_1", Title);
             ConnectedAnimationService.GetForCurrentView().PrepareToAnimate(Consts.ArtistPageInAnimation + "_2", HeaderBG);
@@ -119,7 +122,6 @@ namespace Aurora.Music.Pages
             if (sender is Panel s)
             {
                 (s.Resources["PointerOver"] as Storyboard).Begin();
-                e.Handled = true;
             }
         }
 
@@ -128,7 +130,6 @@ namespace Aurora.Music.Pages
             if (sender is Panel s)
             {
                 (s.Resources["Normal"] as Storyboard).Begin();
-                e.Handled = true;
             }
         }
 
@@ -145,7 +146,6 @@ namespace Aurora.Music.Pages
             if (sender is Panel s)
             {
                 (s.Resources["PointerPressed"] as Storyboard).Begin();
-                e.Handled = true;
             }
         }
 
@@ -154,7 +154,6 @@ namespace Aurora.Music.Pages
             if (sender is Panel s)
             {
                 (s.Resources["PointerOver"] as Storyboard).Begin();
-                e.Handled = true;
             }
         }
 
@@ -230,11 +229,6 @@ namespace Aurora.Music.Pages
         private async void PlayAlbum_Click(object sender, RoutedEventArgs e)
         {
             await Context.PlayAlbumAsync((sender as Button).DataContext as AlbumViewModel);
-        }
-
-        private void Button_PointerReleased(object sender, PointerRoutedEventArgs e)
-        {
-            e.Handled = true;
         }
 
         private void Button_Holding(object sender, HoldingRoutedEventArgs e)

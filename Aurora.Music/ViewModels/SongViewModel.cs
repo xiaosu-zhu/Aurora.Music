@@ -2,6 +2,8 @@
 using Aurora.Music.Core.Storage;
 using Aurora.Shared.Extensions;
 using Aurora.Music.Core.Utils;
+using Aurora.Music.Core;
+using System.Linq;
 
 namespace Aurora.Music.ViewModels
 {
@@ -91,7 +93,13 @@ namespace Aurora.Music.ViewModels
         public int ID { get; set; }
         public uint Index { get; set; }
         public string FilePath { get; set; }
-        public string PicturePath { get; set; }
+
+        private string picturePath;
+        public string PicturePath
+        {
+            get { return picturePath.IsNullorEmpty() ? Consts.BlackPlaceholder : picturePath; }
+            set { picturePath = value; }
+        }
 
         public TimeSpan Duration { get; set; }
         public uint BitRate { get; private set; }
@@ -122,7 +130,14 @@ namespace Aurora.Music.ViewModels
         public string MusicBrainzReleaseArtistId { get; set; }
         public bool IsEmpty { get; }
         public string MusicBrainzArtistId { get; set; }
-        public string Title { get; set; }
+
+        private string title;
+        public string Title
+        {
+            get { return title.IsNullorEmpty() ? FilePath.Split('\\').LastOrDefault() : title; }
+            set { title = value; }
+        }
+
         public string TitleSort { get; set; }
         public string[] Performers { get; set; }
         public string[] PerformersSort { get; set; }

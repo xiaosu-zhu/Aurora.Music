@@ -1,18 +1,23 @@
 ﻿using Aurora.Music.Core;
+using Aurora.Music.Core.Models;
 using Aurora.Music.Core.Player;
 using Aurora.Music.Core.Storage;
 using Aurora.Shared.Extensions;
+using Aurora.Shared.Helpers;
 using Aurora.Shared.MVVM;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using Windows.ApplicationModel.Core;
 using Windows.Media.Playback;
+using Windows.System.Threading;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace Aurora.Music.ViewModels
 {
-    class NowPlayingPageViewModel : ViewModelBase
+    class NowPlayingPageViewModel : ViewModelBase, IDisposable
     {
         private BitmapImage artwork;
         public BitmapImage CurrentArtwork
@@ -22,13 +27,6 @@ namespace Aurora.Music.ViewModels
         }
 
         private Player player;
-
-        private string currentTitle;
-        public string CurrentTitle
-        {
-            get { return currentTitle; }
-            set { SetProperty(ref currentTitle, value); }
-        }
 
         private SongViewModel song;
         public SongViewModel Song
@@ -41,6 +39,30 @@ namespace Aurora.Music.ViewModels
         {
             Song = song;
             CurrentArtwork = new BitmapImage(new Uri(song.PicturePath));
+            var t = ThreadPool.RunAsync(async x =>
+            {
+                _lastSong = song.ID;
+                var substis = await WebRequester.GetSongLrcListAsync(Song.Title, Song.Performers.IsNullorEmpty() ? null : Song.Performers[0]);
+                if (!substis.IsNullorEmpty())
+                {
+                    var l = new LyricViewModel(new Lyric(LrcParser.Parser.Parse(await ApiRequestHelper.HttpGet(substis.First().Value))));
+                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                    {
+                        Lyric = l;
+                    });
+                }
+                else
+                {
+                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                    {
+                        Lyric = null;
+                    });
+                }
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                {
+                    SubstituteLyrics = substis;
+                });
+            });
         }
 
         private TimeSpan currentPosition;
@@ -57,6 +79,22 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref currentDuration, value); }
         }
 
+        private LyricViewModel lyric;
+        public LyricViewModel Lyric
+        {
+            get { return lyric; }
+            set { SetProperty(ref lyric, value); }
+        }
+
+        internal void PositionChange(TimeSpan timeSpan)
+        {
+            if (Math.Abs((timeSpan - CurrentPosition).TotalSeconds) < 1)
+            {
+                return;
+            }
+            player.GotoPosition(timeSpan);
+        }
+
         private string lastUriPath;
 
         private bool? isPlaying;
@@ -66,18 +104,24 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref isPlaying, value); }
         }
 
-        private string currentAlbum;
-        public string CurrentAlbum
-        {
-            get { return currentAlbum; }
-            set { SetProperty(ref currentAlbum, value); }
-        }
-
         private int currentIndex;
         public int CurrentIndex
         {
             get { return currentIndex; }
             set { SetProperty(ref currentIndex, value); }
+        }
+
+        private double positionValue;
+        public double PositionValue
+        {
+            get
+            {
+                return positionValue;
+            }
+            set
+            {
+                SetProperty(ref positionValue, value);
+            }
         }
 
         public ObservableCollection<SongViewModel> NowPlayingList { get; set; } = new ObservableCollection<SongViewModel>();
@@ -94,6 +138,38 @@ namespace Aurora.Music.ViewModels
             player = MainPageViewModel.Current.GetPlayer();
             player.StatusChanged += Player_StatusChanged;
             player.PositionUpdated += Player_PositionUpdated;
+        }
+
+        public string TimeSpanFormat(TimeSpan t)
+        {
+            return t.ToString(@"m\:ss");
+        }
+
+        public Symbol NullableBoolToSymbol(bool? b)
+        {
+            if (b is bool bb)
+            {
+                return bb ? Symbol.Pause : Symbol.Play;
+            }
+            return Symbol.Play;
+        }
+
+        public string NullableBoolToString(bool? b)
+        {
+            if (b is bool bb)
+            {
+                return bb ? "Pause" : "Play";
+            }
+            return "Play";
+        }
+
+        public double PositionToValue(TimeSpan t1, TimeSpan total)
+        {
+            if (total == null || total == default(TimeSpan))
+            {
+                return 0;
+            }
+            return 100 * (t1.TotalMilliseconds / total.TotalMilliseconds);
         }
 
         public DelegateCommand GoPrevious
@@ -151,6 +227,8 @@ namespace Aurora.Music.ViewModels
         }
 
         private bool? isLoop = false;
+        private int _lastSong;
+
         public bool? IsLoop
         {
             get { return isLoop; }
@@ -162,12 +240,19 @@ namespace Aurora.Music.ViewModels
             }
         }
 
+        public IEnumerable<KeyValuePair<string, string>> SubstituteLyrics { get; private set; }
+
         private async void Player_PositionUpdated(object sender, PositionUpdatedArgs e)
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
                 CurrentPosition = e.Current;
                 TotalDuration = e.Total;
+                if (Lyric != null && CurrentPosition != default(TimeSpan))
+                {
+                    Lyric.Update(CurrentPosition);
+                }
+                PositionValue = PositionToValue(CurrentPosition, TotalDuration);
             });
         }
 
@@ -227,6 +312,44 @@ namespace Aurora.Music.ViewModels
                     }
                 }
             });
+            if (e.CurrentSong != null)
+            {
+                if (_lastSong != (int)e.CurrentSong.Source.CustomProperties[Consts.ID])
+                {
+                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                    {
+                        Lyric = null;
+                    });
+                    _lastSong = (int)e.CurrentSong.Source.CustomProperties[Consts.ID];
+                    var substis = await WebRequester.GetSongLrcListAsync(Song.Title, Song.Performers.IsNullorEmpty() ? null : Song.Performers[0]);
+                    if (!substis.IsNullorEmpty())
+                    {
+                        var l = new LyricViewModel(new Lyric(LrcParser.Parser.Parse(await ApiRequestHelper.HttpGet(substis.First().Value))));
+                        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                        {
+                            Lyric = l;
+                        });
+                    }
+                    else
+                    {
+                        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                        {
+                            Lyric = null;
+                        });
+                    }
+                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                    {
+                        SubstituteLyrics = substis;
+                    });
+                }
+            }
+        }
+
+        public void Dispose()
+        {
+            player.PositionUpdated -= Player_PositionUpdated;
+            player.StatusChanged -= Player_StatusChanged;
+
         }
     }
 }

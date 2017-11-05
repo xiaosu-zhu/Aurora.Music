@@ -58,7 +58,7 @@ namespace Aurora.Music.Core.Storage
         public static readonly string[] timeProjection = { "Morning", "Noon", "Afternoon", "Evening" };
     }
 
-    public class SONG
+    public class SONG : IEqualityComparer<SONG>
     {
         private string albumArtists;
 
@@ -146,7 +146,16 @@ namespace Aurora.Music.Core.Storage
         public virtual bool IsEmpty { get; set; }
         public virtual string MusicBrainzArtistId { get; set; }
         public TagTypes TagTypes { get; set; }
-        public virtual string Title { get; set; }
+
+        private string title;
+
+        public string Title
+        {
+            get => title.IsNullorEmpty() ? FilePath.Split('\\').LastOrDefault() : title;
+            set { title = value; }
+        }
+
+
         public virtual string TitleSort { get; set; }
         public virtual string Performers { get; set; }
         public virtual string PerformersSort { get; set; }
@@ -186,6 +195,16 @@ namespace Aurora.Music.Core.Storage
         public virtual string Conductor { get; set; }
         public virtual string Copyright { get; set; }
         public virtual string Comment { get; set; }
+
+        public bool Equals(SONG x, SONG y)
+        {
+            return x.ID == y.ID;
+        }
+
+        public int GetHashCode(SONG obj)
+        {
+            return obj.ID.GetHashCode();
+        }
     }
 
 
@@ -705,26 +724,44 @@ namespace Aurora.Music.Core.Storage
             }
         }
 
-        public async Task<List<SONG>> GetTodayListAsync()
+        public async Task<List<GenericMusicItem>> GetTodayListAsync()
         {
             var t = DateTime.Now;
             var day = t.DayOfWeek.ToString();
-            var res = await conn.QueryAsync<int>($"SELECT TARGETID FROM PLAYSTATISTIC WHERE {day}>0 AND TARGETTYPE=0 ORDER BY {day} DESC LIMIT 50");
-            var distintedres = res.Distinct();
-            return await conn.QueryAsync<SONG>($"SELECT * FROM SONG WHERE ID IN ({string.Join(',', distintedres)})");
+            var a = await conn.QueryAsync<PLAYSTATISTIC>($"SELECT * FROM PLAYSTATISTIC WHERE {day}>0 AND TARGETTYPE=0 ORDER BY {day} DESC LIMIT 50");
+            var aRes = await conn.QueryAsync<SONG>($"SELECT * FROM SONG WHERE ID IN ({string.Join(',', a.Select(x => x.TargetID))})");
+
+
+            var b = await conn.QueryAsync<PLAYSTATISTIC>($"SELECT * FROM PLAYSTATISTIC WHERE {day}>0 AND TARGETTYPE=1 ORDER BY {day} DESC LIMIT 50");
+            var bRes = await conn.QueryAsync<ALBUM>($"SELECT * FROM ALBUM WHERE ID IN ({string.Join(',', b.Select(x => x.TargetID))})");
+
+
+            var list = aRes.ConvertAll(x => new GenericMusicItem(x));
+            list.AddRange(bRes.ConvertAll(x => new GenericMusicItem(x)));
+            return list;
         }
 
-        public async Task<List<SONG>> GetFavListAsync()
+        public async Task<List<GenericMusicItem>> GetFavListAsync()
         {
-            var res = await conn.QueryAsync<int>($"SELECT TARGETID FROM STATISTICS WHERE TARGETTYPE=0 AND PlayedCount>0 ORDER BY PlayedCount DESC LIMIT 25");
-            res.AddRange(await conn.QueryAsync<int>($"SELECT TARGETID FROM STATISTICS WHERE TARGETTYPE=0 AND Favorite=1 ORDER BY RANDOM() LIMIT 25"));
+            var res = await conn.QueryAsync<STATISTICS>($"SELECT * FROM STATISTICS WHERE TARGETTYPE=0 AND PlayedCount>0 ORDER BY PlayedCount DESC LIMIT 25");
+            res.AddRange(await conn.QueryAsync<STATISTICS>($"SELECT * FROM STATISTICS WHERE TARGETTYPE=0 AND Favorite=1 ORDER BY RANDOM() LIMIT 25"));
             var distintedres = res.Distinct();
-            return await conn.QueryAsync<SONG>($"SELECT * FROM SONG WHERE ID IN ({string.Join(',', distintedres)})");
+            var alist = await conn.QueryAsync<SONG>($"SELECT * FROM SONG WHERE ID IN ({string.Join(',', distintedres.Select(x => x.TargetID))})");
+
+            var bres = await conn.QueryAsync<STATISTICS>($"SELECT * FROM STATISTICS WHERE TARGETTYPE=0 AND PlayedCount>0 ORDER BY PlayedCount DESC LIMIT 25");
+            bres.AddRange(await conn.QueryAsync<STATISTICS>($"SELECT * FROM STATISTICS WHERE TARGETTYPE=0 AND Favorite=1 ORDER BY RANDOM() LIMIT 25"));
+            var bdistintedres = bres.Distinct();
+            var blist = await conn.QueryAsync<ALBUM>($"SELECT * FROM ALBUM WHERE ID IN ({string.Join(',', bdistintedres.Select(x => x.TargetID))})");
+
+
+            var list = alist.ConvertAll(x => new GenericMusicItem(x));
+            list.AddRange(blist.ConvertAll(x => new GenericMusicItem(x)));
+            return list;
         }
 
-        public async Task<List<T>> GetRandomListAsync<T>() where T : new()
+        public async Task<List<T>> GetRandomListAsync<T>(int count = 50) where T : new()
         {
-            return await conn.QueryAsync<T>($"SELECT * FROM {typeof(T).Name} ORDER BY RANDOM() LIMIT 50");
+            return await conn.QueryAsync<T>($"SELECT * FROM {typeof(T).Name} ORDER BY RANDOM() LIMIT ?", count);
         }
 
         internal async Task<List<T>> GetWithQueryAsync<T>(string v) where T : new()

@@ -194,7 +194,7 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Button Click="PlayAlbum_Click" PointerReleased="Button_PointerReleased" Holding="Button_Holding" IsHoldingEnabled="True" Style="{ThemeResource NoBorderButton}" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Background="{ThemeResource SystemControlBackgroundBaseMediumRevealBorderBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                            <Button Click="PlayAlbum_Click" Holding="Button_Holding" IsHoldingEnabled="True" Style="{ThemeResource NoBorderButton}" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Background="{ThemeResource SystemControlBackgroundBaseMediumRevealBorderBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                                 <Button.Content>
                                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE102;" />
                                 </Button.Content>

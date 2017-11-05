@@ -22,6 +22,7 @@ using Windows.System.Threading;
 using Aurora.Shared.Extensions;
 using Windows.UI;
 using Windows.UI.ViewManagement;
+using Windows.UI.Xaml.Controls;
 
 namespace Aurora.Music.ViewModels
 {
@@ -72,6 +73,8 @@ namespace Aurora.Music.ViewModels
             set
             {
                 SetProperty(ref isLeftTopDark, value);
+                ApplicationViewTitleBar titleBar = ApplicationView.GetForCurrentView().TitleBar;
+                titleBar.ForegroundColor = value ? Colors.Black : Colors.White;
             }
         }
         public SolidColorBrush TitleForeground(bool b)
@@ -327,14 +330,13 @@ namespace Aurora.Music.ViewModels
                     if (e.Items is IList<MediaPlaybackItem> l)
                     {
                         NowListPreview = $"{e.CurrentIndex + 1}/{l.Count}";
-                        uint i = 1;
                         NowPlayingList.Clear();
-                        foreach (var item in l)
+                        for (int i = 0; i < l.Count; i++)
                         {
-                            var prop = item.GetDisplayProperties();
-                            NowPlayingList.Add(new SongViewModel(item.Source.CustomProperties[Consts.SONG] as SONG)
+                            var prop = l[i].GetDisplayProperties();
+                            NowPlayingList.Add(new SongViewModel(l[i].Source.CustomProperties[Consts.SONG] as SONG)
                             {
-                                Index = i++,
+                                Index = (uint)(i + 1),
                             });
                         }
                         CurrentIndex = Convert.ToInt32(e.CurrentIndex);
@@ -354,6 +356,25 @@ namespace Aurora.Music.ViewModels
         {
             await player.NewPlayList(songs);
         }
+
+        public Symbol NullableBoolToSymbol(bool? b)
+        {
+            if (b is bool bb)
+            {
+                return bb ? Symbol.Pause : Symbol.Play;
+            }
+            return Symbol.Play;
+        }
+
+        public double PositionToValue(TimeSpan t1, TimeSpan total)
+        {
+            if (total == null || total == default(TimeSpan))
+            {
+                return 0;
+            }
+            return 100 * (t1.TotalMilliseconds / total.TotalMilliseconds);
+        }
+
     }
 
 

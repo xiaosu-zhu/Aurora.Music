@@ -84,6 +84,11 @@ namespace Aurora.Music.Core.Player
             }
         }
 
+        public void GotoPosition(TimeSpan timeSpan)
+        {
+            mediaPlayer.PlaybackSession.Position = timeSpan;
+        }
+
         private void PlaybackSession_PlaybackStateChanged(MediaPlaybackSession sender, object args)
         {
             StatusChanged?.Invoke(this, new StatusChangedArgs

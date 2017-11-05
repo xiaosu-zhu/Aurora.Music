@@ -36,6 +36,8 @@ namespace Aurora.Music.Pages
             {
                 await Context.Load();
             });
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
+            AppViewBackButtonVisibility.Collapsed;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

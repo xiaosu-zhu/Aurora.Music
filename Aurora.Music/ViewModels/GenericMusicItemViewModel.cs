@@ -42,6 +42,13 @@ namespace Aurora.Music.ViewModels
             Artwork = song.PicturePath.IsNullorEmpty() ? null : new BitmapImage(new Uri(song.PicturePath));
             IDs = new int[] { song.ID };
         }
-
+        public GenericMusicItemViewModel(Core.Models.GenericMusicItem item)
+        {
+            Title = item.Title;
+            Description = item.Description;
+            Addtional = item.Addtional;
+            IDs = item.IDs;
+            Artwork = item.PicturePath.IsNullorEmpty() ? null : new BitmapImage(new Uri(item.PicturePath));
+        }
     }
 }

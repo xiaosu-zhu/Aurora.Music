@@ -56,5 +56,17 @@ namespace Aurora.Shared.MVVM
         {
             return s.IsNullorEmpty() ? Visibility.Collapsed : Visibility.Visible;
         }
+        public Visibility CollapseIfNotEmpty(string s)
+        {
+            return !s.IsNullorEmpty() ? Visibility.Collapsed : Visibility.Visible;
+        }
+        public Visibility CollapseIfNull(object s)
+        {
+            return s == null ? Visibility.Collapsed : Visibility.Visible;
+        }
+        public Visibility CollapseIfNotNull(object s)
+        {
+            return s != null ? Visibility.Collapsed : Visibility.Visible;
+        }
     }
 }
