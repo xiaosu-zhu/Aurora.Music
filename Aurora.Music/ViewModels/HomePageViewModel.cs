@@ -62,7 +62,7 @@ namespace Aurora.Music.ViewModels
                             return a.Concat(b).ToArray();
                         }),
                         Title = item.Key,
-                        Artwork = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri((from i in item where !i.PicturePath.IsNullorEmpty() select i.PicturePath into p orderby Tools.Random.Next() select p).FirstOrDefault()))
+                        Artwork = new Uri((from i in item where !i.PicturePath.IsNullorEmpty() select i.PicturePath into p orderby Tools.Random.Next() select p).FirstOrDefault())
                     });
                 }
                 foreach (var item in ran)

@@ -19,8 +19,8 @@ namespace Aurora.Music.ViewModels
 {
     class NowPlayingPageViewModel : ViewModelBase, IDisposable
     {
-        private BitmapImage artwork;
-        public BitmapImage CurrentArtwork
+        private Uri artwork;
+        public Uri CurrentArtwork
         {
             get { return artwork; }
             set { SetProperty(ref artwork, value); }
@@ -45,7 +45,7 @@ namespace Aurora.Music.ViewModels
         public void Init(SongViewModel song)
         {
             Song = song;
-            CurrentArtwork = song.PicturePath.IsNullorEmpty() ? null : new BitmapImage(new Uri(song.PicturePath));
+            CurrentArtwork = song.PicturePath.IsNullorEmpty() ? null : new Uri(song.PicturePath);
             lastUriPath = song.PicturePath;
             IsPlaying = player.IsPlaying;
             var t = ThreadPool.RunAsync(async x =>
@@ -75,8 +75,8 @@ namespace Aurora.Music.ViewModels
             });
         }
 
-        private BitmapImage placeHolder = new BitmapImage(new Uri((App.Current as App).IsBlackTheme ? Consts.WhitePlaceholder : Consts.BlackPlaceholder));
-        public BitmapImage PlaceHolder
+        private Uri placeHolder = new Uri((App.Current as App).IsBlackTheme ? Consts.WhitePlaceholder : Consts.BlackPlaceholder);
+        public Uri PlaceHolder
         {
             get { return placeHolder; }
             set { SetProperty(ref placeHolder, value); }
@@ -304,7 +304,7 @@ namespace Aurora.Music.ViewModels
                         }
                         else
                         {
-                            CurrentArtwork = new BitmapImage(u);
+                            CurrentArtwork = u;
                             lastUriPath = u.AbsolutePath;
                         }
                     }

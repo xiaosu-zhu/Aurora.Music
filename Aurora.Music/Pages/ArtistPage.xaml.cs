@@ -85,11 +85,6 @@ namespace Aurora.Music.Pages
                     Context.Artist = string.Join(", ", _clickedAlbum.AlbumArtists);
                     await Context.GetAlbums(string.Join("$|$", _clickedAlbum.AlbumArtists));
                 }
-                var work = ThreadPool.RunAsync(async x =>
-                {
-                    await Task.Delay(160);
-                    Context.GetArtwork();
-                });
                 return;
             }
             else if (e.Parameter is string s)
@@ -104,12 +99,6 @@ namespace Aurora.Music.Pages
                 }
 
                 await Context.GetAlbums(s);
-
-                var work = ThreadPool.RunAsync(async x =>
-                {
-                    await Task.Delay(160);
-                    Context.GetArtwork();
-                });
             }
             else
             {

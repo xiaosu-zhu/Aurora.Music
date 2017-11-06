@@ -73,7 +73,11 @@
             <Grid x:Name="BGBlur" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="360" Background="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}"/>
             <toolkit:DropShadowPanel x:Name="HeaderBG" BlurRadius="16" ShadowOpacity="0.5" OffsetX="0" OffsetY="0" HorizontalAlignment="Right" Margin="64" VerticalAlignment="Center" 
                                              Color="{ThemeResource SystemBaseHighColor}">
-                <Image Stretch="Uniform" Height="160" Source="{x:Bind Context.HeroImage, Mode=OneWay,TargetNullValue=/Assets/Images/welcom_bg.png}"/>
+                <Image Stretch="Uniform" Height="160" x:DeferLoadStrategy="Lazy" x:Name="HeaderGBImg">
+                    <Image.Source>
+                        <BitmapImage DecodePixelHeight="160" DecodePixelType="Logical" UriSource="{x:Bind Context.HeroImage,Mode=OneWay,TargetNullValue=ms-appx:///Assets/Images/welcom_bg.png}"/>
+                    </Image.Source>
+                </Image>
             </toolkit:DropShadowPanel>
             <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Margin="32">
                 <Grid.RowDefinitions>

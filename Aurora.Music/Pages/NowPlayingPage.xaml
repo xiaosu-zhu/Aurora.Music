@@ -387,7 +387,7 @@
 
     <Grid x:Name="Root" Padding="48,80,48,0" Background="{ThemeResource SystemControlAltLowAcrylicWindowBrush}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" MaxWidth="720" MinWidth="240"/>
+            <ColumnDefinition Width="*" MinWidth="240"/>
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -400,7 +400,15 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <toolkit:ImageEx Margin="0,12" x:Name="Artwork" PlaceholderSource="{x:Bind Context.PlaceHolder,Mode=OneWay}" Source="{x:Bind Context.CurrentArtwork,Mode=OneWay}" PlaceholderStretch="Uniform" Stretch="Uniform" HorizontalAlignment="Left" VerticalAlignment="Stretch"/>
+            <toolkit:ImageEx Margin="0,12" x:Name="Artwork" Style="{ThemeResource QuickLoadImageEx}"
+                             PlaceholderStretch="Uniform" Stretch="Uniform" HorizontalAlignment="Left" VerticalAlignment="Stretch">
+                <toolkit:ImageEx.PlaceholderSource>
+                    <BitmapImage UriSource="{x:Bind Context.PlaceHolder,Mode=OneWay, TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png}"/>
+                </toolkit:ImageEx.PlaceholderSource>
+                <toolkit:ImageEx.Source>
+                    <BitmapImage UriSource="{x:Bind Context.CurrentArtwork,Mode=OneWay, TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png}"/>
+                </toolkit:ImageEx.Source>
+            </toolkit:ImageEx>
             <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Stretch" Grid.Row="1">
                 <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,4">
                     <TextBlock Margin="8,4" Foreground="{x:Bind Context.AccentForeground(Context.IsAccentDark), Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Context.ArtistsToString(Context.Song.AlbumArtists),Mode=OneWay}"/>
@@ -411,6 +419,17 @@
                 <Grid x:Name="Album" Background="{ThemeResource SystemControlBackgroundAccentBrush}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,4">
                     <TextBlock Margin="8,4" Foreground="{x:Bind Context.AccentForeground(Context.IsAccentDark), Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Context.Song.Album,Mode=OneWay}"/>
                 </Grid>
+                <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Margin="0,8" HorizontalAlignment="Left" VerticalAlignment="Stretch" Foreground="{ThemeResource SystemControlHighlightBaseHighRevealBorderBrush}" TextWrapping="NoWrap" TextTrimming="None">
+                    <!--Run Text="2017"/>
+                    <Run Text="·"/>
+                    <Run Text="Pop"/>
+                    <Run Text="·"/>
+                    <Run Text="2/10 Track"/>
+                    <Run Text="·"/>
+                    <Run Text="1/1 Disc"/>
+                    <Run Text="·"/>
+                    <Run Text="256 Kbps"/-->
+                </TextBlock>
             </StackPanel>
         </Grid>
         <ListView Style="{ThemeResource HorizontalListView}" Grid.Column="1" Margin="32" Width="320" HorizontalAlignment="Stretch" VerticalAlignment="Top" MaxHeight="320" IsSynchronizedWithCurrentItem="False" SelectionChanged="ListView_SelectionChanged" ItemContainerStyle="{ThemeResource LyricListItem}" ItemsSource="{x:Bind Context.Lyric.Contents,Mode=OneWay}" SelectedIndex="{x:Bind Context.Lyric.CurrentIndex,Mode=OneWay}">
@@ -439,7 +458,7 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <Slider Grid.Column="1" Minimum="0" Maximum="100" ThumbToolTipValueConverter="{StaticResource SliderToolTipConverter}" Value="{x:Bind Context.PositionToValue(Context.CurrentPosition, Context.TotalDuration), Mode=OneWay}" ValueChanged="Slider_ValueChanged" HorizontalAlignment="Stretch" Margin="4" VerticalAlignment="Center" Style="{ThemeResource RoundSlider}"/>
+            <Slider Grid.Column="1" Minimum="0" Maximum="100" ThumbToolTipValueConverter="{StaticResource SliderToolTipConverter}" Value="{x:Bind Context.PositionToValue(Context.CurrentPosition, Context.TotalDuration), Mode=OneWay}" ValueChanged="Slider_ValueChanged" HorizontalAlignment="Stretch" Margin="4,8,4,0" VerticalAlignment="Center" Style="{ThemeResource RoundSlider}"/>
             <TextBlock Text="{x:Bind Context.TimeSpanFormat(Context.CurrentPosition),Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
             <TextBlock Grid.Column="2" Text="{x:Bind Context.TimeSpanFormat(Context.TotalDuration),Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
             <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="4" HorizontalAlignment="Left" VerticalAlignment="Stretch" Grid.ColumnSpan="2">

@@ -170,10 +170,14 @@
                         <toolkit:DropShadowPanel x:Name="Shadow" BlurRadius="16" ShadowOpacity="0.5" OffsetX="0" OffsetY="0"
                                              Color="{ThemeResource SystemBaseHighColor}">
                             <Grid Background="{ThemeResource SystemControlAcrylicWindowBrush}">
-                                <toolkit:ImageEx x:Name="Artwork" x:Phase="3" Style="{ThemeResource QuickLoadImageEx}" Stretch="UniformToFill" 
-                                             PlaceholderStretch="Uniform" HorizontalAlignment="Center" 
+                                <toolkit:ImageEx x:Name="Artwork" Style="{ThemeResource QuickLoadImageEx}" Stretch="UniformToFill" 
+                                             PlaceholderStretch="Uniform" HorizontalAlignment="Center"
                                              PlaceholderSource="/Assets/Images/placeholder_b.png" VerticalAlignment="Center" 
-                                             Source="{x:Bind Artwork,Mode=OneWay}" Height="160" Width="160"/>
+                                             Height="160" Width="160">
+                                    <toolkit:ImageEx.Source>
+                                        <BitmapImage UriSource="{x:Bind Artwork,Mode=OneWay, TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png}"/>
+                                    </toolkit:ImageEx.Source>
+                                </toolkit:ImageEx>
                             </Grid>
                         </toolkit:DropShadowPanel>
                         <StackPanel Grid.Row="1" Orientation="Vertical">

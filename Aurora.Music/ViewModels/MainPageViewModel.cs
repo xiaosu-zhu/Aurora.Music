@@ -89,8 +89,8 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref needShowPanel, value); }
         }
 
-        private BitmapImage currentArtwork;
-        public BitmapImage CurrentArtwork
+        private Uri currentArtwork;
+        public Uri CurrentArtwork
         {
             get { return currentArtwork; }
             set { SetProperty(ref currentArtwork, value); }
@@ -319,7 +319,7 @@ namespace Aurora.Music.ViewModels
                         }
                         else
                         {
-                            CurrentArtwork = new BitmapImage(u);
+                            CurrentArtwork = u;
                             lastUriPath = u.AbsolutePath;
                         }
                     }

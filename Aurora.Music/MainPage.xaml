@@ -21,7 +21,7 @@
                 <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                 <Setter Property="VerticalContentAlignment" Value="Stretch"/>
                 <Setter Property="OpenPaneLength" Value="{ThemeResource SplitViewOpenPaneThemeLength}"/>
-                <Setter Property="PaneBackground" Value="{ThemeResource SystemControlAltMediumLowAcrylicElementMediumBrush}"/>
+                <Setter Property="PaneBackground" Value="{ThemeResource SystemControlAltLowAcrylicElementBrush}"/>
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="SplitView">
@@ -784,8 +784,12 @@
                                 </ObjectAnimationUsingKeyFrames>
                             </Storyboard>
                         </StackPanel.Resources>
-                        <toolkit:ImageEx Grid.Row="1" Source="{x:Bind Context.CurrentArtwork, Mode=OneWay}" x:Name="Artwork"
-                                     Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Stretch" Stretch="Uniform"/>
+                        <Image Grid.Row="1" x:Name="Artwork"
+                                     Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Stretch" Stretch="Uniform">
+                            <Image.Source>
+                                <BitmapImage UriSource="{x:Bind Context.CurrentArtwork, Mode=OneWay, TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png}"/>
+                            </Image.Source>
+                        </Image>
                         <StackPanel Margin="12,0" Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
                             <TextBlock x:Name="Title" Text="{x:Bind Context.CurrentTitle, Mode=OneWay}" Style="{ThemeResource BaseTextBlockStyle}" MaxLines="2" TextTrimming="CharacterEllipsis" Margin="4"/>
                             <TextBlock x:Name="Album" Text="{x:Bind Context.CurrentAlbum, Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Margin="4,0,4,4"/>

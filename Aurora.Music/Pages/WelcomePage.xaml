@@ -303,8 +303,12 @@
     <Grid>
         <ParallaxView Source="{Binding ElementName=Main}" HorizontalShift="240">
             <Grid>
-                <Image Source="/Assets/Images/welcome_bg.png" 
-                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="UniformToFill"/>
+                <Image x:DeferLoadStrategy="Lazy" x:Name="WelcomBG"
+                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="UniformToFill">
+                    <Image.Source>
+                        <BitmapImage UriSource="/Assets/Images/welcome_bg.png" DecodePixelHeight="1080" DecodePixelType="Logical"/>
+                    </Image.Source>
+                </Image>
                 <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#AA000000"/>
             </Grid>
         </ParallaxView>

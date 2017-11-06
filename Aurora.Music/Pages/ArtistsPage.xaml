@@ -261,7 +261,12 @@
 
         <Grid Height="360" x:Name="Header" HorizontalAlignment="Stretch" VerticalAlignment="Top">
             <Grid x:Name="BGBlur" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="360" Background="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}"/>
-            <Image x:Name="HeaderBG" Source="/Assets/Images/artists_bg.png" Stretch="UniformToFill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <Image x:Name="HeaderBG" Stretch="UniformToFill" 
+                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Image.Source>
+                    <BitmapImage UriSource="/Assets/Images/artists_bg.png" DecodePixelHeight="360" DecodePixelType="Logical"/>
+                </Image.Source>
+            </Image>
             <Grid x:Name="HeaderBGOverlay" HorizontalAlignment="Stretch" Height="360" Background="{ThemeResource ArtistsPageGradient}">
             </Grid>
             <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Margin="32,32,32,32">

@@ -27,8 +27,8 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref album, value); }
         }
 
-        private BitmapImage heroImage;
-        public BitmapImage HeroImage
+        private Uri heroImage;
+        public Uri HeroImage
         {
             get { return heroImage; }
             set { SetProperty(ref heroImage, value); }
@@ -38,7 +38,7 @@ namespace Aurora.Music.ViewModels
         {
             if (a != null)
             {
-                return a.songs.Length == 1 ? "1 Song" : $"{a.TrackCount} Songs";
+                return a.SongsID.Length == 1 ? "1 Song" : $"{a.TrackCount} Songs";
             }
             return "0 Songs";
         }

@@ -17,7 +17,7 @@ namespace Aurora.Music.ViewModels
         public string Description { get; set; }
         public string Addtional { get; set; }
 
-        public BitmapImage Artwork { get; set; }
+        public Uri Artwork { get; set; }
 
         public int[] IDs { get; set; }
 
@@ -31,7 +31,7 @@ namespace Aurora.Music.ViewModels
             Title = album.Name;
             Addtional = string.Join(", ", album.AlbumArtists);
             Description = album.Songs.Length + album.Songs.Length == 1 ? " Song" : " Songs";
-            Artwork = album.PicturePath.IsNullorEmpty() ? null : new BitmapImage(new Uri(album.PicturePath));
+            Artwork = album.PicturePath.IsNullorEmpty() ? null : new Uri(album.PicturePath);
             IDs = album.Songs;
         }
 
@@ -40,7 +40,7 @@ namespace Aurora.Music.ViewModels
             Title = song.Title;
             Addtional = string.Join(", ", song.Performers);
             Description = TimeSpanFormatter.GetSongDurationFormat(song.Duration);
-            Artwork = song.PicturePath.IsNullorEmpty() ? null : new BitmapImage(new Uri(song.PicturePath));
+            Artwork = song.PicturePath.IsNullorEmpty() ? null : new Uri(song.PicturePath);
             IDs = new int[] { song.ID };
         }
         public GenericMusicItemViewModel(Core.Models.GenericMusicItem item)
@@ -49,7 +49,7 @@ namespace Aurora.Music.ViewModels
             Description = item.Description;
             Addtional = item.Addtional;
             IDs = item.IDs;
-            Artwork = item.PicturePath.IsNullorEmpty() ? null : new BitmapImage(new Uri(item.PicturePath));
+            Artwork = item.PicturePath.IsNullorEmpty() ? null : new Uri(item.PicturePath);
         }
 
         internal async Task<IEnumerable<SONG>> GetSongsAsync()

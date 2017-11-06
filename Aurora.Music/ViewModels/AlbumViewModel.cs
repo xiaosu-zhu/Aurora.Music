@@ -14,11 +14,11 @@ namespace Aurora.Music.ViewModels
     {
         public AlbumViewModel(Core.Models.Album item)
         {
-            songs = item.Songs;
+            SongsID = item.Songs;
             Name = item.Name;
             if (!item.PicturePath.IsNullorEmpty())
             {
-                ArtworkURI = item.PicturePath;
+                artworkUri = new Uri(item.PicturePath);
             }
             Genres = item.Genres;
             Year = item.Year;
@@ -33,21 +33,20 @@ namespace Aurora.Music.ViewModels
 
         public AlbumViewModel() { }
 
-        public int[] songs { get; private set; }
-        private BitmapImage artwork;
+        public int[] SongsID { get; private set; }
 
         public List<SONG> Songs { get; set; } = new List<SONG>();
 
-        private string ArtworkURI { get; set; }
-        public BitmapImage Artwork
+        private Uri artworkUri;
+        public Uri Artwork
         {
             get
             {
-                return artwork;
+                return artworkUri;
             }
             set
             {
-                SetProperty(ref artwork, value);
+                SetProperty(ref artworkUri, value);
             }
         }
 
@@ -73,25 +72,17 @@ namespace Aurora.Music.ViewModels
 
         internal async Task<IEnumerable<SONG>> GetSongsAsync()
         {
-            if (Songs.Count == songs.Length)
+            if (Songs.Count == SongsID.Length)
             {
                 return Songs;
             }
             Songs.Clear();
             var opr = SQLOperator.Current();
-            var s = await opr.GetSongsAsync(songs);
+            var s = await opr.GetSongsAsync(SongsID);
             var s1 = s.OrderBy(x => x.Track);
             s1 = s1.OrderBy(x => x.Disc);
             Songs.AddRange(s1);
             return s1;
-        }
-
-        public void GetArtwork()
-        {
-            if (!ArtworkURI.IsNullorEmpty())
-                Artwork = new BitmapImage(new Uri(ArtworkURI));
-            else
-                return;
         }
     }
 }

@@ -85,20 +85,13 @@ namespace Aurora.Music.ViewModels
                 AlbumList = aList;
                 SongsCount = aList.Count == 1 ? "1 Album" : $"{aList.Count} Albums";
                 Genres = genres.IsNullorEmpty() ? "Various Genres" : string.Join(", ", genres);
-                HeroImage = list.ConvertAll(x => (ImageSource)new BitmapImage(x));
-            });
-        }
-
-        internal async void GetArtwork()
-        {
-            foreach (var item in AlbumList)
-            {
-                await Task.Delay(96);
-                var t = CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
+                HeroImage = list.ConvertAll(x => (ImageSource)new BitmapImage(x)
                 {
-                    item.GetArtwork();
+                    DecodePixelHeight = 200,
+                    DecodePixelWidth = 200,
+                    DecodePixelType = DecodePixelType.Logical
                 });
-            };
+            });
         }
 
         internal async Task PlayAlbumAsync(AlbumViewModel album)
