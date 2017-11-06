@@ -665,11 +665,11 @@
             <DataTemplate x:Key="EvenTemplate" x:DataType="vm:SongViewModel">
                 <Grid Background="{ThemeResource SongListEvenBrush}" Height="48" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="32"/>
+                        <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="280"/>
                         <ColumnDefinition Width="64"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="{x:Bind Index}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextTrimming="CharacterEllipsis" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="8,4"/>
+                    <TextBlock Text="{x:Bind GetIndex()}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="12,4"/>
                     <TextBlock Text="{x:Bind Title}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextTrimming="CharacterEllipsis" MaxWidth="240" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="4"/>
                     <TextBlock Text="{x:Bind DurationtoString(Duration)}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextTrimming="CharacterEllipsis" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="8,4"/>
                 </Grid>
@@ -677,11 +677,11 @@
             <DataTemplate x:Key="OddTemplate" x:DataType="vm:SongViewModel">
                 <Grid Background="{ThemeResource SongListOddBrush}" Height="48" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="32"/>
+                        <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="280"/>
                         <ColumnDefinition Width="64"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="{x:Bind Index}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextTrimming="CharacterEllipsis" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="8,4"/>
+                    <TextBlock Text="{x:Bind GetIndex()}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="12,4"/>
                     <TextBlock Text="{x:Bind Title}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextTrimming="CharacterEllipsis" MaxWidth="240" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="4"/>
                     <TextBlock Text="{x:Bind DurationtoString(Duration)}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextTrimming="CharacterEllipsis" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="8,4"/>
                 </Grid>
@@ -846,7 +846,7 @@
                                  Value="{x:Bind Context.PositionToValue(Context.CurrentPosition, Context.TotalDuration), Mode=OneWay}"/>
                 </Grid>
                 <Frame x:Name="OverlayFrame" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                <Button Style="{ThemeResource MainPageHamStyle}" Background="Transparent" Foreground="{x:Bind Context.TitleForeground(Context.IsLeftTopDark), Mode=OneWay}"
+                <Button Style="{ThemeResource MainPageHamStyle}" Background="Transparent" Foreground="{x:Bind Context.TitleForeground(Context.IsLeftTopForeWhite), Mode=OneWay}"
                         HorizontalAlignment="Left" VerticalAlignment="Top" Click="Toggle_PaneOpened"
                         Margin="0,32,0,0" Width="48" Height="48">
                     <Button.Content>
@@ -856,14 +856,14 @@
                 <TextBlock Visibility="{x:Bind Context.BooltoVisibility(Context.NeedShowTitle), Mode=OneWay}" 
                            OpticalMarginAlignment="None" Margin="60,32,0,0" 
                            Style="{ThemeResource SubheaderTextBlockStyle}"
-                           Foreground="{x:Bind Context.TitleForeground(Context.IsLeftTopDark), Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                           Foreground="{x:Bind Context.TitleForeground(Context.IsLeftTopForeWhite), Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Top" 
                            FontWeight="Bold" Text="{x:Bind Context.Title,Mode=OneWay}"/>
 
                 <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top" 
-                      Height="32" x:Name="TitleBar" >
+                      Height="32" x:Name="TitleBar" Visibility="{x:Bind Context.BooltoVisibility(Context.NeedShowTitle), Mode=OneWay}" >
                     <TextBlock Text="Aurora Music" Style="{ThemeResource CaptionTextBlockStyle}" 
                                Margin="60,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" 
-                               Foreground="{x:Bind Context.TitleForeground(Context.IsLeftTopDark), Mode=OneWay}"/>
+                               Foreground="{x:Bind Context.TitleForeground(Context.IsLeftTopForeWhite), Mode=OneWay}"/>
                 </Grid>
             </Grid>
         </SplitView.Content>

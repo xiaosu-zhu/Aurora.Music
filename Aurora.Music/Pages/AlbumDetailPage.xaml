@@ -28,11 +28,11 @@
             <DataTemplate x:Key="OddTemplate" x:DataType="vm:SongViewModel">
                 <Grid Height="48" Background="{ThemeResource SongListOddBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="48"/>
+                        <ColumnDefinition Width="96"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="{x:Bind GetIndex()}" HorizontalAlignment="Center" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Style="{ThemeResource BodyTextBlockStyle}"/>
+                    <TextBlock Text="{x:Bind GetIndex()}" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Style="{ThemeResource BodyTextBlockStyle}"/>
                     <TextBlock MaxLines="1" Grid.Column="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{x:Bind Title}" 
                                Style="{ThemeResource BodyTextBlockStyle}" Margin="8,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                     <TextBlock MaxLines="1" Grid.Column="2" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" 
@@ -44,11 +44,11 @@
             <DataTemplate x:Key="EvenTemplate" x:DataType="vm:SongViewModel">
                 <Grid Height="48" Background="{ThemeResource SongListEvenBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="48"/>
+                        <ColumnDefinition Width="96"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="{x:Bind GetIndex()}" HorizontalAlignment="Center" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Style="{ThemeResource BodyTextBlockStyle}"/>
+                    <TextBlock Text="{x:Bind Track}" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Style="{ThemeResource BodyTextBlockStyle}"/>
                     <TextBlock MaxLines="1" Grid.Column="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{x:Bind Title}" 
                                Style="{ThemeResource BodyTextBlockStyle}" Margin="8,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                     <TextBlock MaxLines="1" Grid.Column="2" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" 

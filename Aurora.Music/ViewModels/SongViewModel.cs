@@ -83,11 +83,7 @@ namespace Aurora.Music.ViewModels
 
         public string GetIndex()
         {
-            if (Track == 0)
-            {
-                return (Index + 1).ToString();
-            }
-            return Track.ToString();
+            return (Index + 1).ToString();
         }
 
         public int ID { get; set; }
@@ -150,7 +146,20 @@ namespace Aurora.Music.ViewModels
         public string AlbumSort { get; set; }
         public string[] Genres { get; set; }
         public uint Year { get; set; }
-        public uint Track { get; set; }
+
+        private uint track;
+        public uint Track
+        {
+            get
+            {
+                if (track == default(uint))
+                    return Index + 1;
+                return track;
+            }
+            set { track = value; }
+        }
+
+
         public uint TrackCount { get; set; }
         public uint Disc { get; set; }
         public uint DiscCount { get; set; }

@@ -387,7 +387,7 @@
 
     <Grid x:Name="Root" Padding="48,80,48,0" Background="{ThemeResource SystemControlAltLowAcrylicWindowBrush}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*" MaxWidth="720" MinWidth="240"/>
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -395,18 +395,24 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Margin="12" HorizontalAlignment="Left" VerticalAlignment="Stretch">
-            <toolkit:ImageEx Margin="0,12" x:Name="Artwork" Source="{x:Bind Context.CurrentArtwork,Mode=OneWay}" Stretch="Uniform" HorizontalAlignment="Left" Height="200"/>
-            <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,4">
-                <TextBlock Margin="8,4" Foreground="{x:Bind Context.AccentForeground(Context.IsAccentDark), Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Context.ArtistsToString(Context.Song.AlbumArtists),Mode=OneWay}"/>
-            </Grid>
-            <Grid x:Name="Title" Background="{ThemeResource SystemControlBackgroundAccentBrush}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,4">
-                <TextBlock Margin="8,4" Foreground="{x:Bind Context.AccentForeground(Context.IsAccentDark), Mode=OneWay}" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold" Text="{x:Bind Context.Song.Title,Mode=OneWay}"/>
-            </Grid>
-            <Grid x:Name="Album" Background="{ThemeResource SystemControlBackgroundAccentBrush}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,4">
-                <TextBlock Margin="8,4" Foreground="{x:Bind Context.AccentForeground(Context.IsAccentDark), Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Context.Song.Album,Mode=OneWay}"/>
-            </Grid>
-        </StackPanel>
+        <Grid Margin="12" HorizontalAlignment="Left" VerticalAlignment="Stretch">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <toolkit:ImageEx Margin="0,12" x:Name="Artwork" PlaceholderSource="{x:Bind Context.PlaceHolder,Mode=OneWay}" Source="{x:Bind Context.CurrentArtwork,Mode=OneWay}" PlaceholderStretch="Uniform" Stretch="Uniform" HorizontalAlignment="Left" VerticalAlignment="Stretch"/>
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Stretch" Grid.Row="1">
+                <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,4">
+                    <TextBlock Margin="8,4" Foreground="{x:Bind Context.AccentForeground(Context.IsAccentDark), Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Context.ArtistsToString(Context.Song.AlbumArtists),Mode=OneWay}"/>
+                </Grid>
+                <Grid x:Name="Title" Background="{ThemeResource SystemControlBackgroundAccentBrush}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,4">
+                    <TextBlock Margin="8,4" Foreground="{x:Bind Context.AccentForeground(Context.IsAccentDark), Mode=OneWay}" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold" Text="{x:Bind Context.Song.Title,Mode=OneWay}"/>
+                </Grid>
+                <Grid x:Name="Album" Background="{ThemeResource SystemControlBackgroundAccentBrush}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,4">
+                    <TextBlock Margin="8,4" Foreground="{x:Bind Context.AccentForeground(Context.IsAccentDark), Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Context.Song.Album,Mode=OneWay}"/>
+                </Grid>
+            </StackPanel>
+        </Grid>
         <ListView Style="{ThemeResource HorizontalListView}" Grid.Column="1" Margin="32" Width="320" HorizontalAlignment="Stretch" VerticalAlignment="Top" MaxHeight="320" IsSynchronizedWithCurrentItem="False" SelectionChanged="ListView_SelectionChanged" ItemContainerStyle="{ThemeResource LyricListItem}" ItemsSource="{x:Bind Context.Lyric.Contents,Mode=OneWay}" SelectedIndex="{x:Bind Context.Lyric.CurrentIndex,Mode=OneWay}">
             <ListView.Header>
                 <Grid Height="160" Width="320">

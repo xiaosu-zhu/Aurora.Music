@@ -67,7 +67,7 @@ namespace Aurora.Music.ViewModels
         private Player player;
 
         private bool isLeftTopDark;
-        public bool IsLeftTopDark
+        public bool IsLeftTopForeWhite
         {
             get { return isLeftTopDark; }
             set
@@ -336,7 +336,7 @@ namespace Aurora.Music.ViewModels
                             var prop = l[i].GetDisplayProperties();
                             NowPlayingList.Add(new SongViewModel(l[i].Source.CustomProperties[Consts.SONG] as SONG)
                             {
-                                Index = (uint)(i + 1),
+                                Index = (uint)i,
                             });
                         }
                         CurrentIndex = Convert.ToInt32(e.CurrentIndex);

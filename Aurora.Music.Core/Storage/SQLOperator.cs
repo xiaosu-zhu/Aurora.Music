@@ -610,7 +610,7 @@ namespace Aurora.Music.Core.Storage
 
 
 
-        public async Task<IEnumerable<SONG>> GetSongs(int[] ids)
+        public async Task<IEnumerable<SONG>> GetSongsAsync(int[] ids)
         {
             var list = new List<SONG>();
             foreach (var id in ids)

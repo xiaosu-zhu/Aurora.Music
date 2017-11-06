@@ -35,10 +35,18 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref song, value); }
         }
 
+        private string lyricHint;
+        public string LyricHint
+        {
+            get { return lyricHint; }
+            set { SetProperty(ref lyricHint, value); }
+        }
+
         public void Init(SongViewModel song)
         {
             Song = song;
-            CurrentArtwork = new BitmapImage(new Uri(song.PicturePath));
+            CurrentArtwork = song.PicturePath.IsNullorEmpty() ? null : new BitmapImage(new Uri(song.PicturePath));
+            lastUriPath = song.PicturePath;
             IsPlaying = player.IsPlaying;
             var t = ThreadPool.RunAsync(async x =>
             {
@@ -46,7 +54,7 @@ namespace Aurora.Music.ViewModels
                 var substis = await WebRequester.GetSongLrcListAsync(Song.Title, Song.Performers.IsNullorEmpty() ? null : Song.Performers[0]);
                 if (!substis.IsNullorEmpty())
                 {
-                    var l = new LyricViewModel(new Lyric(LrcParser.Parser.Parse(await ApiRequestHelper.HttpGet(substis.First().Value))));
+                    var l = new LyricViewModel(new Lyric(LrcParser.Parser.Parse(await ApiRequestHelper.HttpGet(substis.First().Value), Song.Duration)));
                     await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                     {
                         Lyric = l;
@@ -57,6 +65,7 @@ namespace Aurora.Music.ViewModels
                     await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                     {
                         Lyric = null;
+                        LyricHint = "Can't find lyrics.";
                     });
                 }
                 await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
@@ -64,6 +73,13 @@ namespace Aurora.Music.ViewModels
                     SubstituteLyrics = substis;
                 });
             });
+        }
+
+        private BitmapImage placeHolder = new BitmapImage(new Uri((App.Current as App).IsBlackTheme ? Consts.WhitePlaceholder : Consts.BlackPlaceholder));
+        public BitmapImage PlaceHolder
+        {
+            get { return placeHolder; }
+            set { SetProperty(ref placeHolder, value); }
         }
 
         private TimeSpan currentPosition;
@@ -325,7 +341,7 @@ namespace Aurora.Music.ViewModels
                     var substis = await WebRequester.GetSongLrcListAsync(Song.Title, Song.Performers.IsNullorEmpty() ? null : Song.Performers[0]);
                     if (!substis.IsNullorEmpty())
                     {
-                        var l = new LyricViewModel(new Lyric(LrcParser.Parser.Parse(await ApiRequestHelper.HttpGet(substis.First().Value))));
+                        var l = new LyricViewModel(new Lyric(LrcParser.Parser.Parse(await ApiRequestHelper.HttpGet(substis.First().Value), Song.Duration)));
                         await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                         {
                             Lyric = l;

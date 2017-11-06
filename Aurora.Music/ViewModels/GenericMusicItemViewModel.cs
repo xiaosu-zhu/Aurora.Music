@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Media.Imaging;
+using Aurora.Music.Core.Storage;
 
 namespace Aurora.Music.ViewModels
 {
@@ -49,6 +50,12 @@ namespace Aurora.Music.ViewModels
             Addtional = item.Addtional;
             IDs = item.IDs;
             Artwork = item.PicturePath.IsNullorEmpty() ? null : new BitmapImage(new Uri(item.PicturePath));
+        }
+
+        internal async Task<IEnumerable<SONG>> GetSongsAsync()
+        {
+            var opr = SQLOperator.Current();
+            return await opr.GetSongsAsync(IDs);
         }
     }
 }

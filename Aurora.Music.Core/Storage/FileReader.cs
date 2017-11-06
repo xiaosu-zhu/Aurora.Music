@@ -28,6 +28,7 @@ namespace Aurora.Music.Core.Storage
         /// <returns></returns>
         private async Task<IList<StorageFile>> GetFilesAsync(StorageFolder folder)
         {
+            // TODO: determine is ondrive on demand
             var files = new List<StorageFile>();
             files.AddRange(await new FileTracker(folder).SearchFolder());
             return files;
@@ -73,10 +74,12 @@ namespace Aurora.Music.Core.Storage
         public static async Task<List<GenericMusicItem>> GetRandomListAsync()
         {
             var opr = SQLOperator.Current();
-            var songs = await opr.GetRandomListAsync<SONG>(25);
-            var albums = await opr.GetRandomListAsync<ALBUM>(25);
+            var p = Tools.Random.Next(15);
+            var songs = await opr.GetRandomListAsync<SONG>(25 - p);
+            var albums = await opr.GetRandomListAsync<ALBUM>(p);
             var list = songs.ConvertAll(x => new GenericMusicItem(x));
             list.AddRange(albums.ConvertAll(x => new GenericMusicItem(x)));
+            list.Shuffle();
             return list;
         }
 
@@ -86,12 +89,17 @@ namespace Aurora.Music.Core.Storage
             var songs = await GetRandomListAsync();
             var todaySuggestion = await opr.GetTodayListAsync();
             var fav = await opr.GetFavListAsync();
-            return new List<ListWithKey<GenericMusicItem>>
+            songs.Shuffle();
+            todaySuggestion.Shuffle();
+            fav.Shuffle();
+            var res = new List<ListWithKey<GenericMusicItem>>
             {
                 new ListWithKey<GenericMusicItem>("Feeling Lucky", songs),
                 new ListWithKey<GenericMusicItem>($"{DateTime.Today.DayOfWeek}'s Suggestion", todaySuggestion),
                 new ListWithKey<GenericMusicItem>("Favorite Picks", fav)
             };
+            res.Shuffle();
+            return res;
         }
 
         public async static Task<List<Album>> GetAlbumsAsync()
@@ -113,8 +121,14 @@ namespace Aurora.Music.Core.Storage
                 var files = await GetFilesAsync(item);
 
                 var opr = SQLOperator.Current();
-                await opr.UpdateFolderAsync(item, files.Count);
+                if (KnownFolders.MusicLibrary.Equals(item))
+                {
 
+                }
+                else
+                {
+                    await opr.UpdateFolderAsync(item, files.Count);
+                }
 
                 list.AddRange(files);
                 report.Stage = 1;

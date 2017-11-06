@@ -25,6 +25,18 @@ namespace LrcParser
             }
         }
 
+        public Lyric(string s, TimeSpan duration)
+        {
+            var sl = s.Split('\n');
+
+            Slices = sl.Select(x => new Slice
+            {
+                Offset = TimeSpan.FromMilliseconds(duration.TotalMilliseconds * (Array.IndexOf(sl, x) / (double)sl.Length)),
+                Contet = x
+            }).OrderBy(x => 1);
+            AddtionalInfo = null;
+        }
+
         public IOrderedEnumerable<Slice> Slices { get; set; }
         public List<KeyValuePair<string, string>> AddtionalInfo { get; set; }
 

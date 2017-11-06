@@ -79,7 +79,7 @@ namespace Aurora.Music.ViewModels
             }
             Songs.Clear();
             var opr = SQLOperator.Current();
-            var s = await opr.GetSongs(songs);
+            var s = await opr.GetSongsAsync(songs);
             var s1 = s.OrderBy(x => x.Track);
             s1 = s1.OrderBy(x => x.Disc);
             Songs.AddRange(s1);

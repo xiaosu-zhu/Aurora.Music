@@ -30,6 +30,7 @@ namespace Aurora.Music
     {
         private UISettings ui;
         private Frame rootFrame;
+        public bool IsBlackTheme { get; set; } = false;
 
         /// <summary>
         /// 初始化单一实例应用程序对象。这是执行的创作代码的第一行，

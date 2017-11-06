@@ -16,7 +16,7 @@ namespace Aurora.Music.Pages
             LoactionFrame.Navigate(typeof(AddFoldersView));
             MainPageViewModel.Current.Title = "Settings";
             MainPageViewModel.Current.NeedShowTitle = true;
-            MainPageViewModel.Current.IsLeftTopDark = false;
+            MainPageViewModel.Current.IsLeftTopForeWhite = false;
         }
     }
 }

@@ -36,6 +36,13 @@ namespace Aurora.Music.Pages
             {
                 await Context.Load();
             });
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            MainPageViewModel.Current.NeedShowTitle = false;
+            MainPageViewModel.Current.IsLeftTopForeWhite = false;
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
             AppViewBackButtonVisibility.Collapsed;
         }
@@ -60,9 +67,11 @@ namespace Aurora.Music.Pages
             ((sender as Grid).Resources["Pressed"] as Storyboard).Begin();
         }
 
-        private void Grid_PointerReleased(object sender, PointerRoutedEventArgs e)
+        private async void Grid_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
             ((sender as Grid).Resources["PointerOver"] as Storyboard).Begin();
+            await MainPageViewModel.Current.NewPlayList(await ((sender as FrameworkElement).DataContext as GenericMusicItemViewModel).GetSongsAsync());
+            MainPageViewModel.Current.PlayPause.Execute();
         }
 
         private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -91,6 +100,12 @@ namespace Aurora.Music.Pages
             var headerbgVisual = ElementCompositionPreview.GetElementVisual(HeaderBG);
             var bgblurOpacityAnimation = EF.Clamp(progressNode, 0, 1);
             headerbgVisual.StartAnimation("Opacity", bgblurOpacityAnimation);
+        }
+
+        private async void FavList_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            await MainPageViewModel.Current.NewPlayList(await (e.ClickedItem as GenericMusicItemViewModel).GetSongsAsync());
+            MainPageViewModel.Current.PlayPause.Execute();
         }
     }
 }

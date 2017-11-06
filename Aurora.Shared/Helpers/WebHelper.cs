@@ -188,7 +188,12 @@ namespace Aurora.Shared.Helpers
         public static async Task<string> HttpGet(string url, IEnumerable<KeyValuePair<string, string>> getDataStr = null, string encode = "utf-8", CookieCollection cc = null)
         {
             try
-            {  //Get方式提交数据只需要在网址后面使用？即可，如果多组数据，需要在提交的时候使用&连接
+            {
+                if (!WebHelper.IsInternet())
+                {
+                    return null;
+                }
+                //Get方式提交数据只需要在网址后面使用？即可，如果多组数据，需要在提交的时候使用&连接
                 if (getDataStr.IsNullorEmpty())
                 {
                     url = Uri.EscapeUriString(url);

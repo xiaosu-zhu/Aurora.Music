@@ -31,10 +31,6 @@ namespace Aurora.Music.Pages
         public NowPlayingPage()
         {
             this.InitializeComponent();
-            MainPageViewModel.Current.Title = "Now Playing";
-            MainPageViewModel.Current.NeedShowTitle = true;
-            MainPageViewModel.Current.IsLeftTopDark = false;
-            SystemNavigationManager.GetForCurrentView().BackRequested += NowPlayingPage_BackRequested;
         }
 
         private void NowPlayingPage_BackRequested(object sender, BackRequestedEventArgs e)
@@ -50,6 +46,15 @@ namespace Aurora.Music.Pages
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+
+            MainPageViewModel.Current.Title = "Now Playing";
+            MainPageViewModel.Current.NeedShowTitle = true;
+            MainPageViewModel.Current.IsLeftTopForeWhite = false;
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
+            AppViewBackButtonVisibility.Visible;
+            SystemNavigationManager.GetForCurrentView().BackRequested += NowPlayingPage_BackRequested;
+
+
             if (e.Parameter is SongViewModel s)
                 Context.Init(s);
             else

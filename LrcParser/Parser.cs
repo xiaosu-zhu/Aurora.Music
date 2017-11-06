@@ -29,10 +29,14 @@ namespace LrcParser
             return list;
         }
 
-        public static Lyric Parse(string lrc)
+        public static Lyric Parse(string lrc, TimeSpan duration)
         {
             var slices = ParsePrefix(lrc);
-            return new Lyric(CreateSlice(slices).OrderBy(x => x.Offset), CreateDescription(slices));
+            if (slices.Count > 0)
+            {
+                return new Lyric(CreateSlice(slices).OrderBy(x => x.Offset), CreateDescription(slices));
+            }
+            return new Lyric(lrc, duration);
         }
 
         private static List<KeyValuePair<string, string>> CreateDescription(IEnumerable<KeyValuePair<string, string>> slices)

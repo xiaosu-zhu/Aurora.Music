@@ -33,7 +33,7 @@ namespace Aurora.Music.Pages
             MainFrame.Navigate(typeof(ArtistsPage));
             MainPageViewModel.Current.Title = "Library";
             MainPageViewModel.Current.NeedShowTitle = true;
-            MainPageViewModel.Current.IsLeftTopDark = true;
+            MainPageViewModel.Current.IsLeftTopForeWhite = true;
         }
 
         internal void LefPanelNavigate(Type t)

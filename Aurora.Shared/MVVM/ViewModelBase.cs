@@ -68,5 +68,21 @@ namespace Aurora.Shared.MVVM
         {
             return s != null ? Visibility.Collapsed : Visibility.Visible;
         }
+        public Visibility CollapseIfZero(int count)
+        {
+            return count == 0 ? Visibility.Collapsed : Visibility.Visible;
+        }
+        public Visibility CollapseIfZero(uint count)
+        {
+            return count == 0 ? Visibility.Collapsed : Visibility.Visible;
+        }
+        public Visibility CollapseIfNotZero(int count)
+        {
+            return count != 0 ? Visibility.Collapsed : Visibility.Visible;
+        }
+        public Visibility CollapseIfNotZero(uint count)
+        {
+            return count != 0 ? Visibility.Collapsed : Visibility.Visible;
+        }
     }
 }

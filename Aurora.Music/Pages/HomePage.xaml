@@ -546,13 +546,15 @@
                 </GridView>
                 <TextBlock Margin="16,32,16,8" Text="Your Favorite" 
                        Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold"/>
-                <ListView Margin="0,8" IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" 
+                <ListView Margin="0,8" IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" ItemClick="FavList_ItemClick"
                           ScrollViewer.IsHorizontalScrollChainingEnabled="True" ScrollViewer.IsHorizontalRailEnabled="True"
                       SelectionMode="None" ItemsSource="{x:Bind Context.FavList}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                       ItemContainerStyle="{ThemeResource HomeListViewItemStyle}" 
                       Style="{StaticResource HorizontalListView}" x:Name="FavList">
                     <ListView.Header>
-                        <Grid VerticalAlignment="Stretch" Width="32"/>
+                        <Grid VerticalAlignment="Stretch" Padding="32,16,0,16">
+                            <TextBlock Visibility="{x:Bind Context.CollapseIfNotZero(Context.FavList.Count),Mode=OneWay}" Text="No enough statistics" Style="{ThemeResource SubtitleTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
                     </ListView.Header>
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="vm:GenericMusicItemViewModel">
@@ -582,7 +584,7 @@
                 <ListView Margin="0,8" IsSynchronizedWithCurrentItem="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                           ScrollViewer.IsHorizontalScrollChainingEnabled="True" 
                           ScrollViewer.IsHorizontalRailEnabled="True"
-                          IsItemClickEnabled="True" SelectionMode="None" 
+                          IsItemClickEnabled="True" SelectionMode="None" ItemClick="FavList_ItemClick"
                           ItemsSource="{x:Bind Context.RandomList}" 
                           ItemContainerStyle="{ThemeResource HomeListViewItemStyle}" 
                           Style="{StaticResource HorizontalListView}" 
