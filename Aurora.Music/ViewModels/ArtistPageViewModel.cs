@@ -11,6 +11,7 @@ using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Media;
 using Windows.ApplicationModel.Core;
 using Aurora.Shared.Extensions;
+using Windows.System.Threading;
 
 namespace Aurora.Music.ViewModels
 {
@@ -59,22 +60,32 @@ namespace Aurora.Music.ViewModels
         public async Task GetAlbums(string artist)
         {
             var albums = await FileReader.GetAlbumsAsync(artist);
-            var a = albums.OrderByDescending(x => x.Year);
+            var b = ThreadPool.RunAsync(async x =>
+            {
+                var aa = albums.ToList();
+                aa.Shuffle();
+                var list = new List<Uri>();
+                for (int j = 0; j < albums.Count || j < 9; j++)
+                {
+                    if (j < 9)
+                    {
+                        if (albums[j].PicturePath.IsNullorEmpty()) continue;
+                        list.Add(new Uri(albums[j].PicturePath));
+                    }
+                }
+                list.Shuffle();
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                {
+                    HeroImage = list.ConvertAll(y => (ImageSource)new BitmapImage(y));
+                });
+            });
 
-            var list = new List<Uri>();
+            var a = albums.OrderByDescending(x => x.Year);
             var aList = new ObservableCollection<AlbumViewModel>();
-            int i = 0;
             foreach (var item in a)
             {
                 aList.Add(new AlbumViewModel(item));
-                if (i < 9)
-                {
-                    if (item.PicturePath.IsNullorEmpty()) continue;
-                    list.Add(new Uri(item.PicturePath));
-                    i++;
-                }
             }
-            list.Shuffle();
             var genres = (from alb in a
                           where !alb.Genres.IsNullorEmpty()
                           group alb by alb.Genres into grp
@@ -85,12 +96,6 @@ namespace Aurora.Music.ViewModels
                 AlbumList = aList;
                 SongsCount = aList.Count == 1 ? "1 Album" : $"{aList.Count} Albums";
                 Genres = genres.IsNullorEmpty() ? "Various Genres" : string.Join(", ", genres);
-                HeroImage = list.ConvertAll(x => (ImageSource)new BitmapImage(x)
-                {
-                    DecodePixelHeight = 200,
-                    DecodePixelWidth = 200,
-                    DecodePixelType = DecodePixelType.Logical
-                });
             });
         }
 

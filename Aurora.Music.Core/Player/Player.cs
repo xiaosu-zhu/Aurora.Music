@@ -249,7 +249,7 @@ namespace Aurora.Music.Core.Player
 
         public void GoNext()
         {
-            if (mediaPlaybackList.Items.Count < 1)
+            if (mediaPlaybackList.CurrentItem==null || mediaPlaybackList.Items.Count < 1)
             {
                 return;
             }
@@ -289,7 +289,7 @@ namespace Aurora.Music.Core.Player
 
         public void GoPrevious()
         {
-            if (mediaPlaybackList.Items.Count < 1)
+            if (mediaPlaybackList.CurrentItem == null || mediaPlaybackList.Items.Count < 1)
             {
                 return;
             }

@@ -8,6 +8,7 @@ using SQLite;
 using Windows.Storage;
 using TagLib;
 using Aurora.Music.Core.Models;
+using Aurora.Shared.Helpers;
 
 namespace Aurora.Music.Core.Storage
 {
@@ -755,7 +756,20 @@ namespace Aurora.Music.Core.Storage
 
 
             var list = alist.ConvertAll(x => new GenericMusicItem(x));
-            list.AddRange(blist.ConvertAll(x => new GenericMusicItem(x)));
+            list.AddRange(blist.ConvertAll(x =>
+            {
+                var songs = Array.ConvertAll(x.Songs.Split(new string[] { "|" }, StringSplitOptions.RemoveEmptyEntries), (a) =>
+                {
+                    return int.Parse(a);
+                });
+                var s = AsyncHelper.RunSync(async () => await GetSongsAsync(songs));
+                var s1 = s.OrderBy(a => a.Track);
+                s1 = s1.OrderBy(a => a.Disc);
+                return new GenericMusicItem(x)
+                {
+                    IDs = s1.Select(b => b.ID).ToArray()
+                };
+            }));
             return list;
         }
 

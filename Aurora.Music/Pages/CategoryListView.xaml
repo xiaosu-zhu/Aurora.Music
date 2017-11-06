@@ -22,7 +22,7 @@
                 <Grid x:Name="Panel" HorizontalAlignment="Stretch" Height="{x:Bind GetHeight(IsCurrent), Mode=OneWay}">
                     <Image x:Name="CategoryBG" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="UniformToFill">
                         <Image.Source>
-                            <BitmapImage UriSource="{x:Bind Index, TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png}" DecodePixelHeight="200" DecodePixelWidth="200" DecodePixelType="Logical"/>
+                            <BitmapImage UriSource="{x:Bind Index, TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png}" DecodePixelWidth="200" DecodePixelType="Logical"/>
                         </Image.Source>
                     </Image>
                     <Grid Background="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">

@@ -45,8 +45,6 @@ namespace Aurora.Music.ViewModels
         {
             var n = await SystemInfoHelper.GetCurrentUserNameAsync();
             var hero = await FileReader.GetHeroListAsync();
-            var fav = await FileReader.GetFavListAsync();
-            var ran = await FileReader.GetRandomListAsync();
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
                 if (!n.IsNullorWhiteSpace())
@@ -65,16 +63,26 @@ namespace Aurora.Music.ViewModels
                         Artwork = new Uri((from i in item where !i.PicturePath.IsNullorEmpty() select i.PicturePath into p orderby Tools.Random.Next() select p).FirstOrDefault())
                     });
                 }
+            });
+
+            var ran = await FileReader.GetRandomListAsync();
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            {
                 foreach (var item in ran)
                 {
                     RandomList.Add(new GenericMusicItemViewModel(item));
                 }
+            });
 
+            var fav = await FileReader.GetFavListAsync();
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            {
                 foreach (var item in fav)
                 {
                     FavList.Add(new GenericMusicItemViewModel(item));
                 }
             });
+
         }
 
     }
