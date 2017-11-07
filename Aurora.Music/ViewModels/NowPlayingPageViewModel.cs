@@ -35,7 +35,7 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref song, value); }
         }
 
-        private string lyricHint;
+        private string lyricHint = "Loading lyrics...";
         public string LyricHint
         {
             get { return lyricHint; }
@@ -54,24 +54,20 @@ namespace Aurora.Music.ViewModels
                 var substis = await WebRequester.GetSongLrcListAsync(Song.Title, Song.Performers.IsNullorEmpty() ? null : Song.Performers[0]);
                 if (!substis.IsNullorEmpty())
                 {
-                    var l = new LyricViewModel(new Lyric(LrcParser.Parser.Parse(await ApiRequestHelper.HttpGet(substis.First().Value), Song.Duration)));
-                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                    var l = new Lyric(LrcParser.Parser.Parse(await ApiRequestHelper.HttpGet(substis.First().Value), Song.Duration));
+                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
                     {
-                        Lyric = l;
+                        Lyric.New(l);
                     });
                 }
                 else
                 {
-                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
                     {
-                        Lyric = null;
+                        Lyric.Clear();
                         LyricHint = "Can't find lyrics.";
                     });
                 }
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
-                {
-                    SubstituteLyrics = substis;
-                });
             });
         }
 
@@ -96,7 +92,7 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref currentDuration, value); }
         }
 
-        private LyricViewModel lyric;
+        private LyricViewModel lyric = new LyricViewModel();
         public LyricViewModel Lyric
         {
             get { return lyric; }
@@ -257,8 +253,6 @@ namespace Aurora.Music.ViewModels
             }
         }
 
-        public IEnumerable<KeyValuePair<string, string>> SubstituteLyrics { get; private set; }
-
         private async void Player_PositionUpdated(object sender, PositionUpdatedArgs e)
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
@@ -295,7 +289,7 @@ namespace Aurora.Music.ViewModels
                 }
                 if (e.CurrentSong != null)
                 {
-                    Song = new SongViewModel(e.CurrentSong.Source.CustomProperties[Consts.SONG] as SONG);
+                    Song = new SongViewModel(e.CurrentSong.Source.CustomProperties[Consts.SONG] as Song);
                     if (e.CurrentSong.Source.CustomProperties["Artwork"] is Uri u)
                     {
                         if (lastUriPath == u.AbsolutePath)
@@ -320,7 +314,7 @@ namespace Aurora.Music.ViewModels
                         foreach (var item in l)
                         {
                             var prop = item.GetDisplayProperties();
-                            NowPlayingList.Add(new SongViewModel(item.Source.CustomProperties[Consts.SONG] as SONG)
+                            NowPlayingList.Add(new SongViewModel(item.Source.CustomProperties[Consts.SONG] as Song)
                             {
                                 Index = i++
                             });
@@ -335,29 +329,27 @@ namespace Aurora.Music.ViewModels
                 {
                     await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                     {
-                        Lyric = null;
+                        Lyric.Clear();
+                        LyricHint = "Loading lyrics...";
                     });
                     _lastSong = (int)e.CurrentSong.Source.CustomProperties[Consts.ID];
                     var substis = await WebRequester.GetSongLrcListAsync(Song.Title, Song.Performers.IsNullorEmpty() ? null : Song.Performers[0]);
                     if (!substis.IsNullorEmpty())
                     {
-                        var l = new LyricViewModel(new Lyric(LrcParser.Parser.Parse(await ApiRequestHelper.HttpGet(substis.First().Value), Song.Duration)));
+                        var l = new Lyric(LrcParser.Parser.Parse(await ApiRequestHelper.HttpGet(substis.First().Value), Song.Duration));
                         await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                         {
-                            Lyric = l;
+                            Lyric.New(l);
                         });
                     }
                     else
                     {
                         await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                         {
-                            Lyric = null;
+                            Lyric.Clear();
+                            LyricHint = "Can't find lyrics.";
                         });
                     }
-                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
-                    {
-                        SubstituteLyrics = substis;
-                    });
                 }
             }
         }

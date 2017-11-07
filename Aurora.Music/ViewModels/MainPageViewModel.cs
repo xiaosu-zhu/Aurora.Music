@@ -23,6 +23,7 @@ using Aurora.Shared.Extensions;
 using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml.Controls;
+using Aurora.Music.Core.Models;
 
 namespace Aurora.Music.ViewModels
 {
@@ -334,7 +335,7 @@ namespace Aurora.Music.ViewModels
                         for (int i = 0; i < l.Count; i++)
                         {
                             var prop = l[i].GetDisplayProperties();
-                            NowPlayingList.Add(new SongViewModel(l[i].Source.CustomProperties[Consts.SONG] as SONG)
+                            NowPlayingList.Add(new SongViewModel(l[i].Source.CustomProperties[Consts.SONG] as Song)
                             {
                                 Index = (uint)i,
                             });
@@ -352,9 +353,9 @@ namespace Aurora.Music.ViewModels
             ((IDisposable)player).Dispose();
         }
 
-        internal async Task NewPlayList(IEnumerable<SONG> songs)
+        internal async Task InstantPlay(IList<Song> songs, int startIndex = 0)
         {
-            await player.NewPlayList(songs);
+            await player.InstantPlay(songs, startIndex);
         }
 
         public Symbol NullableBoolToSymbol(bool? b)

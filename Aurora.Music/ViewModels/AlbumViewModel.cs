@@ -7,6 +7,7 @@ using Aurora.Shared.Extensions;
 using Aurora.Shared.MVVM;
 using Windows.UI.Xaml.Media.Imaging;
 using Aurora.Music.Core.Storage;
+using Aurora.Music.Core.Models;
 
 namespace Aurora.Music.ViewModels
 {
@@ -35,7 +36,7 @@ namespace Aurora.Music.ViewModels
 
         public int[] SongsID { get; private set; }
 
-        public List<SONG> Songs { get; set; } = new List<SONG>();
+        public List<Song> Songs { get; set; } = new List<Song>();
 
         private Uri artworkUri;
         public Uri Artwork
@@ -70,7 +71,7 @@ namespace Aurora.Music.ViewModels
         public virtual double ReplayGainAlbumGain { get; set; }
         public virtual double ReplayGainAlbumPeak { get; set; }
 
-        internal async Task<IEnumerable<SONG>> GetSongsAsync()
+        internal async Task<List<Song>> GetSongsAsync()
         {
             if (Songs.Count == SongsID.Length)
             {
@@ -82,7 +83,7 @@ namespace Aurora.Music.ViewModels
             var s1 = s.OrderBy(x => x.Track);
             s1 = s1.OrderBy(x => x.Disc);
             Songs.AddRange(s1);
-            return s1;
+            return s1.ToList();
         }
     }
 }

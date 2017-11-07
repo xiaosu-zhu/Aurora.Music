@@ -12,7 +12,7 @@ using Aurora.Shared.Helpers;
 
 namespace Aurora.Music.Core.Storage
 {
-    public class STATISTICS
+    class STATISTICS
     {
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
@@ -30,7 +30,7 @@ namespace Aurora.Music.Core.Storage
         public DateTime LastPlay { get; set; }
     }
 
-    public class PLAYSTATISTIC
+    class PLAYSTATISTIC
     {
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
@@ -59,7 +59,7 @@ namespace Aurora.Music.Core.Storage
         public static readonly string[] timeProjection = { "Morning", "Noon", "Afternoon", "Evening" };
     }
 
-    public class SONG : IEqualityComparer<SONG>
+    class SONG : IEqualityComparer<SONG>
     {
         private string albumArtists;
 
@@ -74,6 +74,8 @@ namespace Aurora.Music.Core.Storage
             FilePath = song.FilePath;
             Duration = song.Duration;
             BitRate = song.BitRate;
+            SampleRate = song.SampleRate;
+            AudioChannels = song.AudioChannels;
             MusicBrainzArtistId = song.MusicBrainzArtistId;
             MusicBrainzDiscId = song.MusicBrainzDiscId;
             MusicBrainzReleaseArtistId = song.MusicBrainzReleaseArtistId;
@@ -148,6 +150,9 @@ namespace Aurora.Music.Core.Storage
         public virtual string MusicBrainzArtistId { get; set; }
         public TagTypes TagTypes { get; set; }
 
+        public int SampleRate { get; private set; }
+        public int AudioChannels { get; private set; }
+
         private string title;
 
         public string Title
@@ -209,7 +214,7 @@ namespace Aurora.Music.Core.Storage
     }
 
 
-    public class ALBUM
+    class ALBUM
     {
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
@@ -338,12 +343,12 @@ namespace Aurora.Music.Core.Storage
         /// </summary>
         private static object lockable = new object();
 
-        public event EventHandler<SongsAddedEventArgs> NewSongsAdded;
+        internal event EventHandler<SongsAddedEventArgs> NewSongsAdded;
 
         /// <summary>
         /// Including album added and multiple album changed.
         /// </summary>
-        public event EventHandler<AlbumModifiedEventArgs> AlbumModified;
+        internal event EventHandler<AlbumModifiedEventArgs> AlbumModified;
 
         public static string SQLEscaping(string value)
         {
@@ -395,7 +400,7 @@ namespace Aurora.Music.Core.Storage
             }
         }
 
-        public async Task<SONG> UpdateSongAsync(Song song)
+        internal async Task<SONG> UpdateSongAsync(Song song)
         {
             var tag = new SONG(song);
 
@@ -430,7 +435,7 @@ namespace Aurora.Music.Core.Storage
             }
             if (newlist.Count > 0)
             {
-                NewSongsAdded?.Invoke(this, new SongsAddedEventArgs(newlist.ToArray()));
+                NewSongsAdded?.Invoke(this, new SongsAddedEventArgs(newlist.ToArray().Select(x => new Song(x)).ToArray()));
             }
         }
 
@@ -457,6 +462,76 @@ namespace Aurora.Music.Core.Storage
         public async Task<List<T>> GetAllAsync<T>() where T : new()
         {
             return await conn.Table<T>().ToListAsync();
+        }
+
+        internal async Task AddAlbumAsync(IGrouping<string, Song> album)
+        {
+            var result = await conn.QueryAsync<ALBUM>("SELECT * FROM ALBUM WHERE NAME = ?", album.Key);
+            if (result.Count > 0)
+            {
+                var p = result[0];
+
+                // the properties' converting rules is described *below*
+
+                p.Songs = p.Songs + '|' + string.Join('|', album.Select(x => x.ID).Distinct());
+                if (p.AlbumArtists.IsNullorEmpty())
+                {
+                    p.AlbumArtists = string.Join("$|$", (from aa in album where !aa.AlbumArtists.IsNullorEmpty() select aa.AlbumArtists).FirstOrDefault());
+                }
+                if (p.AlbumArtistsSort.IsNullorEmpty())
+                {
+                    p.AlbumArtistsSort = string.Join("$|$", (from aa in album where !aa.AlbumArtistsSort.IsNullorEmpty() select aa.AlbumArtistsSort).FirstOrDefault());
+                }
+                if (p.Genres.IsNullorEmpty())
+                {
+                    p.Genres = string.Join("$|$", (from aa in album where !aa.Genres.IsNullorEmpty() select aa.Genres).FirstOrDefault());
+                }
+                if (p.PicturePath.IsNullorEmpty())
+                {
+                    p.PicturePath = (from aa in album where !aa.PicturePath.IsNullorEmpty() select aa.PicturePath).FirstOrDefault();
+                }
+                if (p.Year == default(uint))
+                {
+                    p.Year = album.Max(x => x.Year);
+                }
+                if (p.DiscCount == default(uint))
+                {
+                    p.DiscCount = album.Max(x => x.DiscCount);
+                }
+                if (p.TrackCount == default(uint))
+                {
+                    p.TrackCount = album.Max(x => x.TrackCount);
+                }
+                await conn.UpdateAsync(p);
+            }
+            else
+            {
+                var a = new ALBUM
+                {
+                    Name = album.Key,
+
+                    // uint value, use their max value
+                    DiscCount = album.Max(x => x.DiscCount),
+                    TrackCount = album.Max(x => x.TrackCount),
+                    Year = album.Max(x => x.Year),
+
+                    // TODO: not combine all, just use not-null value
+                    // string[] value, use their all value (remove duplicated values) combine
+                    AlbumArtists = string.Join("$|$", (from aa in album where !aa.AlbumArtists.IsNullorEmpty() select aa.AlbumArtists).FirstOrDefault()),//album.Where(x => !x.AlbumArtists.IsNullorEmpty()).FirstOrDefault().AlbumArtists;
+                    Genres = string.Join("$|$", (from aa in album where !aa.Genres.IsNullorEmpty() select aa.Genres).FirstOrDefault()),
+                    AlbumArtistsSort = string.Join("$|$", (from aa in album where !aa.AlbumArtistsSort.IsNullorEmpty() select aa.AlbumArtistsSort).FirstOrDefault()),
+
+                    // normal value, use their not-null value
+                    AlbumSort = (from aa in album where !aa.AlbumSort.IsNullorEmpty() select aa.AlbumSort).FirstOrDefault(),
+                    ReplayGainAlbumGain = (from aa in album where aa.ReplayGainAlbumGain != double.NaN select aa.ReplayGainAlbumGain).FirstOrDefault(),
+                    ReplayGainAlbumPeak = (from aa in album where aa.ReplayGainAlbumPeak != double.NaN select aa.ReplayGainAlbumPeak).FirstOrDefault(),
+                    PicturePath = (from aa in album where !aa.PicturePath.IsNullorEmpty() select aa.PicturePath).FirstOrDefault(),
+
+                    // songs, serialized as "ID0|ID1|ID2...|IDn"
+                    Songs = string.Join('|', album.Select(x => x.ID).Distinct())
+                };
+                await conn.InsertAsync(a);
+            }
         }
 
         internal async Task AddAlbumAsync(IGrouping<string, SONG> album)
@@ -529,7 +604,7 @@ namespace Aurora.Music.Core.Storage
             }
         }
 
-        public async Task AddAlbumListAsync(IEnumerable<IGrouping<string, SONG>> albums)
+        internal async Task AddAlbumListAsync(IEnumerable<IGrouping<string, SONG>> albums)
         {
             var newlist = new List<ALBUM>();
             foreach (var album in albums)
@@ -605,20 +680,20 @@ namespace Aurora.Music.Core.Storage
             }
             if (newlist.Count > 0)
             {
-                AlbumModified?.Invoke(this, new AlbumModifiedEventArgs(newlist.ToArray()));
+                AlbumModified?.Invoke(this, new AlbumModifiedEventArgs(newlist.ToArray().Select(x => new Album(x)).ToArray()));
             }
         }
 
 
 
-        public async Task<IEnumerable<SONG>> GetSongsAsync(int[] ids)
+        public async Task<IList<Song>> GetSongsAsync(int[] ids)
         {
             var list = new List<SONG>();
             foreach (var id in ids)
             {
                 list.Add(await conn.FindAsync<SONG>(id));
             }
-            return list;
+            return list.ConvertAll(x => new Song(x));
         }
 
         public async Task<List<FOLDER>> GetFolderAsync(string path)

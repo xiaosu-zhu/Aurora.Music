@@ -21,6 +21,9 @@
                 <ResourceDictionary x:Key="Dark" Source="../Themes/Dark.xaml"/>
             </ResourceDictionary.ThemeDictionaries>
             <controls:SliderToolTipConverter x:Key="SliderToolTipConverter"/>
+
+            <CollectionViewSource Source="{x:Bind Context.Lyric.Contents,Mode=OneWay}" x:Key="LyricSource"/>
+
             <Style x:Key="RoundSlider" TargetType="Slider">
                 <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAltMediumLowBrush}"/>
                 <Setter Property="BorderThickness" Value="{ThemeResource SliderBorderThemeThickness}"/>
@@ -279,7 +282,7 @@
             <Style TargetType="ListViewItem" x:Key="LyricListItem">
                 <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
                 <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
-                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="Background" Value="{x:Null}" />
                 <Setter Property="Foreground" Value="{ThemeResource ListViewItemForeground}" />
                 <Setter Property="TabNavigation" Value="Local" />
                 <Setter Property="IsHoldingEnabled" Value="True" />
@@ -333,7 +336,7 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-            <Style x:Key="HorizontalListView" TargetType="ListView">
+            <Style x:Key="LyricListView" TargetType="ListView">
                 <Setter Property="IsTabStop" Value="False"/>
                 <Setter Property="TabNavigation" Value="Once"/>
                 <Setter Property="IsSwipeEnabled" Value="True"/>
@@ -360,7 +363,7 @@
                 <Setter Property="ItemsPanel">
                     <Setter.Value>
                         <ItemsPanelTemplate>
-                            <ItemsStackPanel Orientation="Vertical"/>
+                            <StackPanel Orientation="Vertical"/>
                         </ItemsPanelTemplate>
                     </Setter.Value>
                 </Setter>
@@ -385,7 +388,7 @@
         <vm:NowPlayingPageViewModel x:Name="Context"/>
     </Page.DataContext>
 
-    <Grid x:Name="Root" Padding="48,80,48,0" Background="{ThemeResource SystemControlAltLowAcrylicWindowBrush}">
+    <Grid x:Name="Root" Padding="48,80,48,0" Background="{ThemeResource SystemControlAltTranslucentAcrylicWindowBrush}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" MinWidth="240"/>
             <ColumnDefinition Width="auto"/>
@@ -432,10 +435,16 @@
                 </TextBlock>
             </StackPanel>
         </Grid>
-        <ListView Style="{ThemeResource HorizontalListView}" Grid.Column="1" Margin="32" Width="320" HorizontalAlignment="Stretch" VerticalAlignment="Top" MaxHeight="320" IsSynchronizedWithCurrentItem="False" SelectionChanged="ListView_SelectionChanged" ItemContainerStyle="{ThemeResource LyricListItem}" ItemsSource="{x:Bind Context.Lyric.Contents,Mode=OneWay}" SelectedIndex="{x:Bind Context.Lyric.CurrentIndex,Mode=OneWay}">
+        <ListView Style="{ThemeResource LyricListView}" Grid.Column="1" Margin="32" 
+                  Width="320" HorizontalAlignment="Stretch" VerticalAlignment="Top" MaxHeight="320" 
+                  IsSynchronizedWithCurrentItem="False" SelectionChanged="ListView_SelectionChanged" SelectedIndex="{x:Bind Context.Lyric.CurrentIndex,Mode=OneWay}"
+                  ItemContainerStyle="{ThemeResource LyricListItem}" ItemsSource="{Binding Source={StaticResource LyricSource}}">
             <ListView.Header>
                 <Grid Height="160" Width="320">
-                    <TextBlock Visibility="{x:Bind Context.CollapseIfNotNull(Context.Lyric),Mode=OneWay}" Margin="12,0" Text="Loading Lyrics" HorizontalAlignment="Center" VerticalAlignment="Bottom" Style="{ThemeResource SubtitleTextBlockStyle}"/>
+                    <toolkit:DropShadowPanel Visibility="{x:Bind Context.BoolNottoVisibility(Context.Lyric.HasLyric),Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="12,0" Color="White" ShadowOpacity="0.66" BlurRadius="8" OffsetX="0" OffsetY="0">
+                        <TextBlock Text="{x:Bind Context.LyricHint,Mode=OneWay}" 
+                               Style="{ThemeResource SubtitleTextBlockStyle}"/>
+                    </toolkit:DropShadowPanel>
                 </Grid>
             </ListView.Header>
             <ListView.Footer>
@@ -444,7 +453,9 @@
             </ListView.Footer>
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="vm:LrcContent">
-                    <TextBlock HorizontalAlignment="Center" Width="320" VerticalAlignment="Center" TextAlignment="Center" TextWrapping="WrapWholeWords" Opacity="{x:Bind CurrentOpacity(IsCurrent),Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Content}"/>
+                    <toolkit:DropShadowPanel Opacity="{x:Bind CurrentOpacity(IsCurrent),Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Center" Color="White" BlurRadius="8" OffsetX="0" OffsetY="0" ShadowOpacity="0.66">
+                        <TextBlock TextAlignment="Center" TextWrapping="WrapWholeWords" Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Content}"/>
+                    </toolkit:DropShadowPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

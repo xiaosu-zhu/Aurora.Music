@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Aurora.Music.Core.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,9 +9,9 @@ namespace Aurora.Music.Core.Storage
 {
     public class SongsAddedEventArgs
     {
-        public SONG[] NewSongs { get; set; }
+        public Song[] NewSongs { get; set; }
 
-        public SongsAddedEventArgs(SONG[] songs)
+        public SongsAddedEventArgs(Song[] songs)
         {
             NewSongs = songs;
         }
@@ -18,9 +19,9 @@ namespace Aurora.Music.Core.Storage
 
     public class AlbumModifiedEventArgs
     {
-        public ALBUM[] ChangedAlbums { get; set; }
+        public Album[] ChangedAlbums { get; set; }
 
-        public AlbumModifiedEventArgs(ALBUM[] album)
+        public AlbumModifiedEventArgs(Album[] album)
         {
             ChangedAlbums = album;
         }

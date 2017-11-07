@@ -21,7 +21,7 @@
                 <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                 <Setter Property="VerticalContentAlignment" Value="Stretch"/>
                 <Setter Property="OpenPaneLength" Value="{ThemeResource SplitViewOpenPaneThemeLength}"/>
-                <Setter Property="PaneBackground" Value="{ThemeResource SystemControlAltLowAcrylicElementBrush}"/>
+                <Setter Property="PaneBackground" Value="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}"/>
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="SplitView">

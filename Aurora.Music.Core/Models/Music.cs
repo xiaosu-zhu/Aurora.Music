@@ -22,7 +22,7 @@ namespace Aurora.Music.Core.Models
 
         public int[] IDs { get; set; }
 
-        public GenericMusicItem(SONG s)
+        internal GenericMusicItem(SONG s)
         {
             Title = s.Title;
             Description = s.Album;
@@ -30,7 +30,7 @@ namespace Aurora.Music.Core.Models
             IDs = new int[] { s.ID };
             PicturePath = s.PicturePath;
         }
-        public GenericMusicItem(ALBUM s)
+        internal GenericMusicItem(ALBUM s)
         {
             Title = s.Name;
             var songs = s.Songs.Split(new string[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
@@ -60,7 +60,7 @@ namespace Aurora.Music.Core.Models
     {
         public Song() { }
 
-        public Song(Storage.SONG song)
+        internal Song(Storage.SONG song)
         {
             ID = song.ID;
             Duration = song.Duration;
@@ -103,14 +103,19 @@ namespace Aurora.Music.Core.Models
             PerformersSort = song.PerformersSort.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);
             Year = song.Year;
             PicturePath = song.PicturePath;
+
+            SampleRate = song.SampleRate;
+            AudioChannels = song.AudioChannels;
         }
 
-        public static async Task<Song> Create(Tag tag, string path, MusicProperties music)
+        public static async Task<Song> Create(Tag tag, string path, Properties music)
         {
             var s = new Song
             {
                 Duration = music.Duration,
-                BitRate = music.Bitrate,
+                BitRate = Convert.ToUInt32(music.AudioBitrate),
+                SampleRate = music.AudioSampleRate,
+                AudioChannels = music.AudioChannels,
                 FilePath = path,
                 MusicBrainzArtistId = tag.MusicBrainzArtistId,
                 MusicBrainzDiscId = tag.MusicBrainzDiscId,
@@ -245,13 +250,15 @@ namespace Aurora.Music.Core.Models
         public virtual string Copyright { get; set; }
         public virtual string Comment { get; set; }
         public int ID { get; set; }
+        public int SampleRate { get; private set; }
+        public int AudioChannels { get; private set; }
     }
 
 
     public class Album
     {
 
-        public Album(Storage.ALBUM album)
+        internal Album(Storage.ALBUM album)
         {
             var songs = album.Songs.Split(new string[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
             Songs = Array.ConvertAll(songs, (a) =>
@@ -271,7 +278,7 @@ namespace Aurora.Music.Core.Models
             PicturePath = album.PicturePath;
         }
 
-        public Album(IGrouping<string, Storage.SONG> album)
+        internal Album(IGrouping<string, Storage.SONG> album)
         {
             Name = album.Key.IsNullorEmpty() ? "Unknown Album" : album.Key;
 

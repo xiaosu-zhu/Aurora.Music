@@ -31,6 +31,10 @@ namespace LrcParser
 
         public static Lyric Parse(string lrc, TimeSpan duration)
         {
+            if (lrc == null)
+            {
+                return null;
+            }
             var slices = ParsePrefix(lrc);
             if (slices.Count > 0)
             {

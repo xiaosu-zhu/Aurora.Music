@@ -78,7 +78,24 @@ namespace Aurora.Music.Core.Storage
             var songs = await opr.GetRandomListAsync<SONG>(25 - p);
             var albums = await opr.GetRandomListAsync<ALBUM>(p);
             var list = songs.ConvertAll(x => new GenericMusicItem(x));
-            list.AddRange(albums.ConvertAll(x => new GenericMusicItem(x)));
+
+            foreach (var album in albums)
+            {
+                var albumSongs = Array.ConvertAll(album.Songs.Split(new string[] { "|" }, StringSplitOptions.RemoveEmptyEntries), (a) =>
+                {
+                    return int.Parse(a);
+                });
+
+                var s = await opr.GetSongsAsync(albumSongs);
+                var s1 = s.OrderBy(a => a.Track);
+                s1 = s1.OrderBy(a => a.Disc);
+
+                list.Add(new GenericMusicItem(album)
+                {
+                    IDs = s1.Select(b => b.ID).ToArray()
+                });
+            }
+
             list.Shuffle();
             return list;
         }
@@ -152,8 +169,7 @@ namespace Aurora.Music.Core.Storage
             {
                 using (var tagTemp = File.Create(file.Path))
                 {
-                    var proper = await file.Properties.GetMusicPropertiesAsync();
-                    tempList.Add(await Song.Create(tagTemp.Tag, file.Path, proper));
+                    tempList.Add(await Song.Create(tagTemp.Tag, file.Path, tagTemp.Properties));
                 }
                 report.Stage = 2;
                 report.Percent = 100 * i / total;
@@ -180,7 +196,7 @@ namespace Aurora.Music.Core.Storage
             }
             if (newlist.Count > 0)
             {
-                NewSongsAdded?.Invoke(this, new SongsAddedEventArgs(newlist.ToArray()));
+                await AddToAlbums(newlist);
             }
             else
             {
@@ -195,7 +211,31 @@ namespace Aurora.Music.Core.Storage
             return songs.ConvertAll(a => new Song(a));
         }
 
-        public async Task AddToAlbums(IEnumerable<SONG> songs)
+        public async Task AddToAlbums(IEnumerable<Song> songs)
+        {
+            await Task.Run(async () =>
+            {
+                report.Stage = 4;
+                report.Percent = 0;
+                ProgressUpdated?.Invoke(this, report);
+                double i = 1;
+
+                var albums = from song in songs group song by song.Album into album select album;
+                var opr = SQLOperator.Current();
+
+                var count = albums.Count();
+                foreach (var item in albums)
+                {
+                    await opr.AddAlbumAsync(item);
+                    report.Stage = 4;
+                    report.Percent = 100 * (i++) / count;
+                    ProgressUpdated?.Invoke(this, report);
+                }
+                Completed?.Invoke(this, EventArgs.Empty);
+            });
+        }
+
+        internal async Task AddToAlbums(IEnumerable<SONG> songs)
         {
             await Task.Run(async () =>
             {

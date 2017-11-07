@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Media.Imaging;
 using Aurora.Music.Core.Storage;
+using Aurora.Music.Core.Models;
 
 namespace Aurora.Music.ViewModels
 {
@@ -52,7 +53,7 @@ namespace Aurora.Music.ViewModels
             Artwork = item.PicturePath.IsNullorEmpty() ? null : new Uri(item.PicturePath);
         }
 
-        internal async Task<IEnumerable<SONG>> GetSongsAsync()
+        internal async Task<IList<Song>> GetSongsAsync()
         {
             var opr = SQLOperator.Current();
             return await opr.GetSongsAsync(IDs);

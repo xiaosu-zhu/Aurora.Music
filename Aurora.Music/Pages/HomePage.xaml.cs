@@ -70,8 +70,7 @@ namespace Aurora.Music.Pages
         private async void Grid_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
             ((sender as Grid).Resources["PointerOver"] as Storyboard).Begin();
-            await MainPageViewModel.Current.NewPlayList(await ((sender as FrameworkElement).DataContext as GenericMusicItemViewModel).GetSongsAsync());
-            MainPageViewModel.Current.PlayPause.Execute();
+            await MainPageViewModel.Current.InstantPlay(await ((sender as FrameworkElement).DataContext as GenericMusicItemViewModel).GetSongsAsync());
         }
 
         private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -104,8 +103,7 @@ namespace Aurora.Music.Pages
 
         private async void FavList_ItemClick(object sender, ItemClickEventArgs e)
         {
-            await MainPageViewModel.Current.NewPlayList(await (e.ClickedItem as GenericMusicItemViewModel).GetSongsAsync());
-            MainPageViewModel.Current.PlayPause.Execute();
+            await MainPageViewModel.Current.InstantPlay(await (e.ClickedItem as GenericMusicItemViewModel).GetSongsAsync());
         }
     }
 }

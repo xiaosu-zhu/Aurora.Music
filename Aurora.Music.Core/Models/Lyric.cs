@@ -15,6 +15,10 @@ namespace Aurora.Music.Core.Models
 
         public Lyric(LrcParser.Lyric l)
         {
+            if (l == null)
+            {
+                return;
+            }
             this.lyric = l;
             Add(new KeyValuePair<TimeSpan, string>(TimeSpan.Zero, string.Join(Environment.NewLine, l.AddtionalInfo.Select(x => $"{x.Key}: {x.Value}"))));
             AddRange(l.Slices.Select(x => new KeyValuePair<TimeSpan, string>(x.Offset, x.Contet)));

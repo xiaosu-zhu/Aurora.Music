@@ -1,31 +1,71 @@
 ﻿using Aurora.Music.Core.Models;
 using Aurora.Shared.MVVM;
 using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace Aurora.Music.ViewModels
 {
     class LyricViewModel : ViewModelBase
     {
-        public List<LrcContent> Contents { get; set; }
-        private int index;
+        private ObservableCollection<LrcContent> content;
+        public ObservableCollection<LrcContent> Contents
+        {
+            get { return content; }
+            set { SetProperty(ref content, value); }
+        }
+        private int index = -1;
         public int CurrentIndex
         {
             get { return index; }
             set { SetProperty(ref index, value); }
         }
 
+        private bool hasLryic;
+        public bool HasLyric
+        {
+            get { return hasLryic; }
+            set { SetProperty(ref hasLryic, value); }
+        }
+
         private Lyric lyric;
 
-        public LyricViewModel(Lyric l)
+        public LyricViewModel()
         {
+            Contents = new ObservableCollection<LrcContent>();
+        }
+
+        public void Clear()
+        {
+            Contents.Clear();
+            lyric = null;
+            HasLyric = false;
+        }
+
+        public void New(Lyric l)
+        {
+
+            Contents.Clear();
+            if (l == null || l == default(Lyric))
+            {
+                HasLyric = false;
+                return;
+            }
             lyric = l;
-            Contents = new List<LrcContent>(l.Select(x => new LrcContent() { Content = x.Value }));
+            foreach (var item in l)
+            {
+                Contents.Add(new LrcContent() { Content = item.Value });
+            }
+            HasLyric = true;
+            CurrentIndex = -1;
         }
 
         public void Update(TimeSpan current)
         {
+            if (lyric == null || Contents.Count == 0)
+            {
+                return;
+            }
             bool b = false;
             for (int i = 0; i < lyric.Count; i++)
             {
@@ -34,10 +74,14 @@ namespace Aurora.Music.ViewModels
                 {
                     if (i == 0)
                     {
-                        i++;
+                        CurrentIndex = 0;
+                        Contents[0].IsCurrent = true;
                     }
-                    CurrentIndex = i - 1;
-                    Contents[i - 1].IsCurrent = true;
+                    else
+                    {
+                        CurrentIndex = i - 1;
+                        Contents[i - 1].IsCurrent = true;
+                    }
                     b = true;
                 }
             }

@@ -102,8 +102,7 @@ namespace Aurora.Music.ViewModels
         internal async Task PlayAlbumAsync(AlbumViewModel album)
         {
             var songs = await album.GetSongsAsync();
-            await MainPageViewModel.Current.NewPlayList(songs);
-            MainPageViewModel.Current.PlayPause.Execute();
+            await MainPageViewModel.Current.InstantPlay(songs);
         }
     }
 }

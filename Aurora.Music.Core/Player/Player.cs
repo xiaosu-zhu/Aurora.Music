@@ -13,6 +13,7 @@ using Windows.Storage.Streams;
 using Aurora.Music.Core.Storage;
 using Windows.System.Threading;
 using System.IO;
+using Aurora.Music.Core.Models;
 
 namespace Aurora.Music.Core.Player
 {
@@ -147,52 +148,142 @@ namespace Aurora.Music.Core.Player
             });
         }
 
-        public async Task NewPlayList(IEnumerable<SONG> items)
+        public async Task InstantPlay(IList<Song> items, int startIndex = 0)
         {
+            if (items.IsNullorEmpty())
+            {
+                throw new ArgumentNullException("Items empty");
+            }
             mediaPlayer.Pause();
             mediaPlaybackList.Items.Clear();
+            if (startIndex <= 0)
+            {
+                var item = items[0];
+                var builtin = await GetBuiltInArtworkAsync(item.ID, item.FilePath);
+
+                /// **Local files can only create from <see cref="StorageFile"/>**
+                StorageFile file = await StorageFile.GetFileFromPathAsync(item.FilePath);
+
+                var mediaSource = MediaSource.CreateFromStorageFile(file);
+                mediaSource.CustomProperties[Consts.ID] = item.ID;
+                mediaSource.CustomProperties[Consts.Duration] = item.Duration;
+                mediaSource.CustomProperties[Consts.Artwork] = new Uri(builtin.IsNullorEmpty() ? Consts.BlackPlaceholder : builtin);
+                item.PicturePath = builtin.IsNullorEmpty() ? item.PicturePath : builtin;
+                mediaSource.CustomProperties[Consts.SONG] = item;
+
+                var mediaPlaybackItem = new MediaPlaybackItem(mediaSource);
+                var props = mediaPlaybackItem.GetDisplayProperties();
+
+                await WriteProperties(item, props, builtin);
+
+                mediaPlaybackItem.ApplyDisplayProperties(props);
+                mediaPlaybackList.Items.Add(mediaPlaybackItem);
+                mediaPlaybackList.StartingItem = mediaPlaybackItem;
+
+                mediaPlayer.Source = mediaPlaybackList;
+                Play();
+
+                var t = ThreadPool.RunAsync(async (x) =>
+                {
+                    await AddtoPlayListAsync(items.TakeLast(items.Count - 1));
+                });
+            }
+            else
+            {
+                if (startIndex >= items.Count)
+                {
+                    startIndex = items.Count - 1;
+                }
+                var item = items[startIndex];
+
+                var listBefore = items.Take(startIndex);
+                var listAfter = items.TakeLast(items.Count - 1 - startIndex);
+
+                var builtin = await GetBuiltInArtworkAsync(item.ID, item.FilePath);
+                StorageFile file = await StorageFile.GetFileFromPathAsync(item.FilePath);
+
+                var mediaSource = MediaSource.CreateFromStorageFile(file);
+                mediaSource.CustomProperties[Consts.ID] = item.ID;
+                mediaSource.CustomProperties[Consts.Duration] = item.Duration;
+                mediaSource.CustomProperties[Consts.Artwork] = new Uri(builtin.IsNullorEmpty() ? Consts.BlackPlaceholder : builtin);
+                item.PicturePath = builtin.IsNullorEmpty() ? item.PicturePath : builtin;
+                mediaSource.CustomProperties[Consts.SONG] = item;
+
+                var mediaPlaybackItem = new MediaPlaybackItem(mediaSource);
+                var props = mediaPlaybackItem.GetDisplayProperties();
+
+                await WriteProperties(item, props, builtin);
+
+                mediaPlaybackItem.ApplyDisplayProperties(props);
+                mediaPlaybackList.Items.Add(mediaPlaybackItem);
+                mediaPlaybackList.StartingItem = mediaPlaybackItem;
+
+                mediaPlayer.Source = mediaPlaybackList;
+                Play();
+
+                var t = ThreadPool.RunAsync(async (x) =>
+                {
+                    await AddtoPlayListFirstAsync(listBefore);
+                    await AddtoPlayListAsync(listAfter);
+                });
+            }
+        }
+
+        public async Task AddtoPlayListFirstAsync(IEnumerable<Song> items)
+        {
+            int i = 0;
             foreach (var item in items)
             {
                 try
                 {
+                    var builtin = await GetBuiltInArtworkAsync(item.ID, item.FilePath);
                     StorageFile file = await StorageFile.GetFileFromPathAsync(item.FilePath);
+
                     var mediaSource = MediaSource.CreateFromStorageFile(file);
 
                     mediaSource.CustomProperties[Consts.ID] = item.ID;
                     mediaSource.CustomProperties[Consts.Duration] = item.Duration;
-                    mediaSource.CustomProperties[Consts.Artwork] = new Uri(item.PicturePath.IsNullorEmpty() ? Consts.BlackPlaceholder : item.PicturePath);
+                    mediaSource.CustomProperties[Consts.Artwork] = new Uri(builtin.IsNullorEmpty() ? Consts.BlackPlaceholder : builtin);
+                    item.PicturePath = builtin.IsNullorEmpty() ? item.PicturePath : builtin;
                     mediaSource.CustomProperties[Consts.SONG] = item;
                     var mediaPlaybackItem = new MediaPlaybackItem(mediaSource);
                     var props = mediaPlaybackItem.GetDisplayProperties();
 
-                    if (item.PicturePath.IsNullorEmpty())
-                    {
-                        props.Thumbnail = RandomAccessStreamReference.CreateFromUri(new Uri(Consts.WhitePlaceholder));
-                    }
-                    else
-                    {
-                        props.Thumbnail = RandomAccessStreamReference.CreateFromFile(await StorageFile.GetFileFromPathAsync(item.PicturePath));
-                    }
-
-                    props.Type = Windows.Media.MediaPlaybackType.Music;
-                    props.MusicProperties.Title = item.Title.IsNullorEmpty() ? item.FilePath.Split('\\').LastOrDefault() : item.Title;
-                    props.MusicProperties.AlbumTitle = item.Album.IsNullorEmpty() ? "" : item.Album;
-                    props.MusicProperties.AlbumArtist = item.AlbumArtists.IsNullorEmpty() ? "" : item.AlbumArtists.Replace("$|$", ", ");
-                    props.MusicProperties.AlbumTrackCount = item.TrackCount;
-                    props.MusicProperties.Artist = item.Performers.IsNullorEmpty() ? "" : item.Performers.Replace("$|$", ", ");
-                    props.MusicProperties.TrackNumber = item.Track;
-                    if (!item.Genres.IsNullorEmpty())
-                    {
-                        var gen = item.Performers.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);
-                        foreach (var g in gen)
-                        {
-                            props.MusicProperties.Genres.Add(g);
-                        }
-                    }
-
+                    await WriteProperties(item, props, builtin);
 
                     mediaPlaybackItem.ApplyDisplayProperties(props);
 
+                    mediaPlaybackList.Items.Insert(i++, mediaPlaybackItem);
+                }
+                catch (FileNotFoundException)
+                {
+                    continue;
+                }
+            }
+        }
+
+        public async Task AddtoPlayListAsync(IEnumerable<Song> items)
+        {
+            foreach (var item in items)
+            {
+                try
+                {
+                    var builtin = await GetBuiltInArtworkAsync(item.ID, item.FilePath);
+                    StorageFile file = await StorageFile.GetFileFromPathAsync(item.FilePath);
+
+                    var mediaSource = MediaSource.CreateFromStorageFile(file);
+
+                    mediaSource.CustomProperties[Consts.ID] = item.ID;
+                    mediaSource.CustomProperties[Consts.Duration] = item.Duration;
+                    mediaSource.CustomProperties[Consts.Artwork] = new Uri(builtin.IsNullorEmpty() ? Consts.BlackPlaceholder : builtin);
+                    item.PicturePath = builtin.IsNullorEmpty() ? item.PicturePath : builtin;
+                    mediaSource.CustomProperties[Consts.SONG] = item;
+                    var mediaPlaybackItem = new MediaPlaybackItem(mediaSource);
+                    var props = mediaPlaybackItem.GetDisplayProperties();
+
+                    await WriteProperties(item, props, builtin);
+
+                    mediaPlaybackItem.ApplyDisplayProperties(props);
                     mediaPlaybackList.Items.Add(mediaPlaybackItem);
                 }
                 catch (FileNotFoundException)
@@ -200,7 +291,84 @@ namespace Aurora.Music.Core.Player
                     continue;
                 }
             }
-            mediaPlayer.Source = mediaPlaybackList;
+        }
+
+        private async Task WriteProperties(Song item, MediaItemDisplayProperties props, string pic)
+        {
+            if (pic == string.Empty)
+            {
+                props.Thumbnail = RandomAccessStreamReference.CreateFromUri(new Uri(Consts.WhitePlaceholder));
+            }
+            else
+            {
+                props.Thumbnail = RandomAccessStreamReference.CreateFromFile(await StorageFile.GetFileFromPathAsync(pic));
+            }
+
+            props.Type = Windows.Media.MediaPlaybackType.Music;
+            props.MusicProperties.Title = item.Title.IsNullorEmpty() ? item.FilePath.Split('\\').LastOrDefault() : item.Title;
+            props.MusicProperties.AlbumTitle = item.Album.IsNullorEmpty() ? "" : item.Album;
+            props.MusicProperties.AlbumArtist = item.AlbumArtists.IsNullorEmpty() ? "" : string.Join(", ", item.AlbumArtists);
+            props.MusicProperties.AlbumTrackCount = item.TrackCount;
+            props.MusicProperties.Artist = item.Performers.IsNullorEmpty() ? "" : string.Join(", ", item.Performers);
+            props.MusicProperties.TrackNumber = item.Track;
+            if (!item.Genres.IsNullorEmpty())
+            {
+                foreach (var g in item.Genres)
+                {
+                    props.MusicProperties.Genres.Add(g);
+                }
+            }
+        }
+
+        private async Task<string> GetBuiltInArtworkAsync(int id, string filePath)
+        {
+            var options = new Windows.Storage.Search.QueryOptions(Windows.Storage.Search.CommonFileQuery.DefaultQuery, new string[] { ".jpg", ".png", ".bmp" })
+            {
+                ApplicationSearchFilter = $"filename:{id}"
+            };
+
+            var query = ApplicationData.Current.TemporaryFolder.CreateFileQueryWithOptions(options);
+            var files = await query.GetFilesAsync();
+            if (files.Count > 0)
+            {
+                return files[0].Path;
+            }
+            else
+            {
+                using (var tag = TagLib.File.Create(filePath))
+                {
+
+                    var pictures = tag.Tag.Pictures;
+                    if (!pictures.IsNullorEmpty())
+                    {
+                        var fileName = $"{id}.{pictures[0].MimeType.Split('/').LastOrDefault().Replace("jpeg", "jpg")}";
+                        try
+                        {
+                            var s = await ApplicationData.Current.TemporaryFolder.GetFileAsync(fileName);
+                            if (s == null)
+                            {
+                                StorageFile cacheImg = await ApplicationData.Current.TemporaryFolder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
+                                await FileIO.WriteBytesAsync(cacheImg, pictures[0].Data.Data);
+                                return cacheImg.Path;
+                            }
+                            else
+                            {
+                                return s.Path;
+                            }
+                        }
+                        catch (FileNotFoundException)
+                        {
+                            StorageFile cacheImg = await ApplicationData.Current.TemporaryFolder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
+                            await FileIO.WriteBytesAsync(cacheImg, pictures[0].Data.Data);
+                            return cacheImg.Path;
+                        }
+                    }
+                    else
+                    {
+                        return string.Empty;
+                    }
+                }
+            }
         }
 
         public void PlayPause()
@@ -249,7 +417,7 @@ namespace Aurora.Music.Core.Player
 
         public void GoNext()
         {
-            if (mediaPlaybackList.CurrentItem==null || mediaPlaybackList.Items.Count < 1)
+            if (mediaPlaybackList.CurrentItem == null || mediaPlaybackList.Items.Count < 1)
             {
                 return;
             }

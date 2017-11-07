@@ -562,7 +562,7 @@
                     </ListView.Header>
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="vm:GenericMusicItemViewModel">
-                            <StackPanel Width="150" Background="{ThemeResource SystemControlBackgroundAltMediumBrush}" 
+                            <StackPanel Width="150" Background="{ThemeResource SystemControlBackgroundAltLowRevealBrush}" 
                                         Orientation="Vertical">
                                 <toolkit:ImageEx x:Name="Artwork" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                                  PlaceholderSource="/Assets/Images/placeholder_b.png"
@@ -603,7 +603,7 @@
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="vm:GenericMusicItemViewModel">
                             <StackPanel Width="150" 
-                                        Background="{ThemeResource SystemControlBackgroundAltMediumBrush}" 
+                                        Background="{ThemeResource SystemControlBackgroundAltLowRevealBrush}" 
                                         Orientation="Vertical">
                                 <toolkit:ImageEx x:Name="Artwork" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                                  PlaceholderSource="/Assets/Images/placeholder_b.png"

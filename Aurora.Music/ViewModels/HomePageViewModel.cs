@@ -1,4 +1,5 @@
-﻿using Aurora.Music.Core.Storage;
+﻿using Aurora.Music.Core;
+using Aurora.Music.Core.Storage;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
 using Aurora.Shared.MVVM;
@@ -53,6 +54,7 @@ namespace Aurora.Music.ViewModels
                 {
                     if (item.IsNullorEmpty())
                         continue;
+                    var pic = (from i in item where !i.PicturePath.IsNullorEmpty() select i.PicturePath into p orderby Tools.Random.Next() select p).FirstOrDefault();
                     HeroList.Add(new GenericMusicItemViewModel()
                     {
                         IDs = item.Select(x => x.IDs).Aggregate((a, b) =>
@@ -60,7 +62,7 @@ namespace Aurora.Music.ViewModels
                             return a.Concat(b).ToArray();
                         }),
                         Title = item.Key,
-                        Artwork = new Uri((from i in item where !i.PicturePath.IsNullorEmpty() select i.PicturePath into p orderby Tools.Random.Next() select p).FirstOrDefault())
+                        Artwork = pic.IsNullorEmpty() ? null : new Uri(pic)
                     });
                 }
             });

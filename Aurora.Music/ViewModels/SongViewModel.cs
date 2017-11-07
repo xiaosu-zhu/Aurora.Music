@@ -4,6 +4,7 @@ using Aurora.Shared.Extensions;
 using Aurora.Music.Core.Utils;
 using Aurora.Music.Core;
 using System.Linq;
+using Aurora.Music.Core.Models;
 
 namespace Aurora.Music.ViewModels
 {
@@ -14,7 +15,7 @@ namespace Aurora.Music.ViewModels
 
         }
 
-        public SongViewModel(SONG song)
+        public SongViewModel(Song song)
         {
             ID = song.ID;
             Duration = song.Duration;
@@ -31,8 +32,8 @@ namespace Aurora.Music.ViewModels
             MusicIpId = song.MusicIpId;
             BeatsPerMinute = song.BeatsPerMinute;
             Album = song.Album;
-            AlbumArtists = song.AlbumArtists.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);
-            AlbumArtistsSort = song.AlbumArtistsSort.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);
+            AlbumArtists = song.AlbumArtists;
+            AlbumArtistsSort = song.AlbumArtistsSort;
             AlbumSort = song.AlbumSort;
             AmazonId = song.AmazonId;
             Title = song.Title;
@@ -45,18 +46,20 @@ namespace Aurora.Music.ViewModels
             ReplayGainAlbumPeak = song.ReplayGainAlbumPeak;
             Comment = song.Comment;
             Disc = song.Disc;
-            Composers = song.Composers.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);
-            ComposersSort = song.ComposersSort.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);
+            Composers = song.Composers;
+            ComposersSort = song.ComposersSort;
             Conductor = song.Conductor;
             DiscCount = song.DiscCount;
             Copyright = song.Copyright;
-            Genres = song.PerformersSort.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);
+            Genres = song.PerformersSort;
             Grouping = song.Grouping;
             Lyrics = song.Lyrics;
-            Performers = song.Performers.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);
-            PerformersSort = song.PerformersSort.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);
+            Performers = song.Performers;
+            PerformersSort = song.PerformersSort;
             Year = song.Year;
             PicturePath = song.PicturePath;
+            SampleRate = song.SampleRate;
+            AudioChannels = song.AudioChannels;
         }
 
         public string StrArrtoDisplay(string[] arr)
@@ -99,6 +102,11 @@ namespace Aurora.Music.ViewModels
 
         public TimeSpan Duration { get; set; }
         public uint BitRate { get; private set; }
+
+
+        public int SampleRate { get; private set; }
+        public int AudioChannels { get; private set; }
+
         public string MusicBrainzReleaseId { get; set; }
         public string MusicBrainzDiscId { get; set; }
         public string MusicIpId { get; set; }
