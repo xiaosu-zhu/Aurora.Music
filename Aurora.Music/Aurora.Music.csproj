@@ -168,11 +168,6 @@
     <Content Include="Assets\Images\artist_placeholder.scale-150.png" />
     <Content Include="Assets\Images\artist_placeholder.scale-200.png" />
     <Content Include="Assets\Images\artist_placeholder.scale-400.png" />
-    <Content Include="Assets\Images\placeholder.scale-100.png" />
-    <Content Include="Assets\Images\placeholder.scale-125.png" />
-    <Content Include="Assets\Images\placeholder.scale-150.png" />
-    <Content Include="Assets\Images\placeholder.scale-200.png" />
-    <Content Include="Assets\Images\placeholder.scale-400.png" />
     <Content Include="Assets\Images\placeholder_b.scale-100.png" />
     <Content Include="Assets\Images\placeholder_b.scale-125.png" />
     <Content Include="Assets\Images\placeholder_b.scale-150.png" />

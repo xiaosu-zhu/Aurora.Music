@@ -5,6 +5,7 @@ using Aurora.Music.Core.Utils;
 using Aurora.Music.Core;
 using System.Linq;
 using Aurora.Music.Core.Models;
+using System.Collections.Generic;
 
 namespace Aurora.Music.ViewModels
 {
@@ -13,6 +14,52 @@ namespace Aurora.Music.ViewModels
         public SongViewModel()
         {
 
+        }
+
+        public string GetAddtionalDesc()
+        {
+            var descs = new List<string>();
+            if (Year != default(uint))
+            {
+                descs.Add(Year.ToString());
+            }
+            if (!Genres.IsNullorEmpty())
+            {
+                descs.AddRange(Genres);
+            }
+            if (BitRate != default(uint))
+            {
+                descs.Add($"{BitRate / 1024} Kbps");
+            }
+            if (SampleRate != default(uint))
+            {
+                descs.Add($"{SampleRate / 1000} KHz");
+            }
+            var type = GetFileType();
+            if (!type.IsNullorEmpty())
+                descs.Add(type);
+            return string.Join(" · ", descs);
+        }
+
+        private string GetFileType()
+        {
+            var ext = FilePath.Split('.').Last().ToLower();
+            switch (ext)
+            {
+                case "mp3": return "MPEG-Layer 3";
+                case "flac": return "Free Loseless";
+                case "m4a":
+                    if (BitRate > 400 * 1024)
+                    {
+                        return "Apple Loseless";
+                    }
+                    else
+                    {
+                        return "Advanced Audio Coding";
+                    }
+                case "wav": return "Waveform";
+                default: return null;
+            }
         }
 
         public SongViewModel(Song song)
@@ -160,7 +207,7 @@ namespace Aurora.Music.ViewModels
         {
             get
             {
-                if (track == default(uint))
+                if (track == 0)
                     return Index + 1;
                 return track;
             }

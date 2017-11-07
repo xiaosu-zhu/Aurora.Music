@@ -16,7 +16,6 @@ namespace Aurora.Music.Core
         public const string SONG = "SONG";
 
         public const string BlackPlaceholder = "ms-appx:///Assets/Images/placeholder_b.png";
-        public const string WhitePlaceholder = "ms-appx:///Assets/Images/placeholder.png";
 
         public const string Duration = "Duration";
 

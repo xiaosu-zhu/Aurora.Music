@@ -52,21 +52,25 @@ namespace Aurora.Music.ViewModels
             return "Various Genres";
         }
 
+        public AlbumDetailViewModel()
+        {
+            SongList = new ObservableCollection<SongViewModel>();
+        }
+
         public async Task GetSongsAsync(AlbumViewModel a)
         {
             Album = a;
             await a.GetSongsAsync();
-            var list = new ObservableCollection<SongViewModel>();
-            for (int i = 0; i < a.Songs.Count; i++)
-            {
-                list.Add(new SongViewModel(a.Songs[i])
-                {
-                    Index = (uint)i
-                });
-            }
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
-                SongList = list;
+                SongList.Clear();
+                for (int i = 0; i < a.Songs.Count; i++)
+                {
+                    SongList.Add(new SongViewModel(a.Songs[i])
+                    {
+                        Index = (uint)i
+                    });
+                }
             });
         }
     }

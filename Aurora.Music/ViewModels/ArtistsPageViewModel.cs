@@ -33,27 +33,32 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref songsCount, value); }
         }
 
+        public ArtistsPageViewModel()
+        {
+            ArtistList = new ObservableCollection<GroupedItem<ArtistViewModel>>();
+        }
+
         public async Task GetArtists()
         {
             var opr = SQLOperator.Current();
             var artists = await opr.GetArtistsAsync();
             var grouped = GroupedItem<Artist>.CreateGroupsByAlpha(artists);
 
-            var list = new ObservableCollection<GroupedItem<ArtistViewModel>>();
-            long sum = 0;
-            foreach (var item in grouped)
-            {
-                list.Add(new GroupedItem<ArtistViewModel>(item.Key, item.Select(i => new ArtistViewModel
-                {
-                    Name = i.AlbumArtists,
-                    SongsCount = i.Count
-                })));
-                sum += item.Count();
-            }
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
-                ArtistList = list;
-                ArtistsCount = list.Count == 1 ? "1 Artists" : $"{list.Count} Artists";
+                ArtistList.Clear();
+
+                long sum = 0;
+                foreach (var item in grouped)
+                {
+                    ArtistList.Add(new GroupedItem<ArtistViewModel>(item.Key, item.Select(i => new ArtistViewModel
+                    {
+                        Name = i.AlbumArtists,
+                        SongsCount = i.Count
+                    })));
+                    sum += item.Count();
+                }
+                ArtistsCount = ArtistList.Count == 1 ? "1 Artists" : $"{ArtistList.Count} Artists";
                 SongsCount = sum == 1 ? "1 Song" : $"{sum} Songs";
             });
         }

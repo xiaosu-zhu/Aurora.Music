@@ -81,20 +81,30 @@ namespace Aurora.Music.Pages
             }
         }
 
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+
+            SystemNavigationManager.GetForCurrentView().BackRequested -= NowPlayingPage_BackRequested;
+            MainPageViewModel.Current.RestoreLastTitle();
+        }
+
         private async void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            try
-            {
-                await (sender as ListView).ScrollToIndex((sender as ListView).SelectedIndex);
-            }
-            catch (Exception)
-            {
-            }
+            if (Context.Lyric.Contents.Count > 0 && (sender as ListView).SelectedIndex >= 0)
+                try
+                {
+                    await (sender as ListView).ScrollToIndex((sender as ListView).SelectedIndex);
+                }
+                catch (Exception)
+                {
+                }
         }
 
         private void Page_Unloaded(object sender, RoutedEventArgs e)
         {
             SystemNavigationManager.GetForCurrentView().BackRequested -= NowPlayingPage_BackRequested;
+            MainPageViewModel.Current.RestoreLastTitle();
             Context.Dispose();
         }
 

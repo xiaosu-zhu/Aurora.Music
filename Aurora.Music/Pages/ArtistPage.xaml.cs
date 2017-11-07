@@ -29,6 +29,7 @@ namespace Aurora.Music.Pages
         private Compositor _compositor;
         private CompositionPropertySet _props;
         private AlbumViewModel _clickedAlbum;
+        private string _lastParameter;
 
         public ArtistPage()
         {
@@ -58,7 +59,7 @@ namespace Aurora.Music.Pages
             SystemNavigationManager.GetForCurrentView().BackRequested -= ArtistPage_BackRequested;
             SystemNavigationManager.GetForCurrentView().BackRequested += ArtistPage_BackRequested;
 
-            if (!Context.AlbumList.IsNullorEmpty() && _clickedAlbum != null)
+            if (!Context.AlbumList.IsNullorEmpty() && _clickedAlbum != null && (string)e.Parameter == _lastParameter)
             {
                 AlbumList.ScrollIntoView(_clickedAlbum);
                 var ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.AlbumDetailPageInAnimation + "_1");
@@ -73,22 +74,25 @@ namespace Aurora.Music.Pages
                 }
                 return;
             }
-            else if (_clickedAlbum != null)
+            else if (_clickedAlbum != null && (string)e.Parameter == _lastParameter)
             {
-                if (_clickedAlbum.AlbumArtists.IsNullorEmpty())
+                Context.Artist = _lastParameter;
+                await Context.GetAlbums(_lastParameter);
+                var ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.AlbumDetailPageInAnimation + "_1");
+                if (ani != null)
                 {
-                    Context.Artist = "Unknown Artist";
-                    await Context.GetAlbums(string.Empty);
+                    await AlbumList.TryStartConnectedAnimationAsync(ani, _clickedAlbum, "AlbumName");
                 }
-                else
+                ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.AlbumDetailPageInAnimation + "_2");
+                if (ani != null)
                 {
-                    Context.Artist = string.Join(", ", _clickedAlbum.AlbumArtists);
-                    await Context.GetAlbums(string.Join("$|$", _clickedAlbum.AlbumArtists));
+                    await AlbumList.TryStartConnectedAnimationAsync(ani, _clickedAlbum, "Shadow");
                 }
                 return;
             }
             else if (e.Parameter is string s)
             {
+                _lastParameter = s;
                 if (s.IsNullorWhiteSpace())
                 {
                     Context.Artist = "Unknown Artist";

@@ -808,24 +808,25 @@ namespace Aurora.Music.Core.Storage
             var aRes = await conn.QueryAsync<SONG>($"SELECT * FROM SONG WHERE ID IN ({string.Join(',', a.Select(x => x.TargetID))})");
 
 
-            var b = await conn.QueryAsync<PLAYSTATISTIC>($"SELECT * FROM PLAYSTATISTIC WHERE {day}>0 AND TARGETTYPE=1 ORDER BY {day} DESC LIMIT 50");
+            var b = await conn.QueryAsync<PLAYSTATISTIC>($"SELECT * FROM PLAYSTATISTIC WHERE {day}>0 AND TARGETTYPE=1 ORDER BY {day} DESC LIMIT 5");
             var bRes = await conn.QueryAsync<ALBUM>($"SELECT * FROM ALBUM WHERE ID IN ({string.Join(',', b.Select(x => x.TargetID))})");
 
 
             var list = aRes.ConvertAll(x => new GenericMusicItem(x));
             list.AddRange(bRes.ConvertAll(x => new GenericMusicItem(x)));
+            list.Shuffle();
             return list;
         }
 
         public async Task<List<GenericMusicItem>> GetFavListAsync()
         {
-            var res = await conn.QueryAsync<STATISTICS>($"SELECT * FROM STATISTICS WHERE TARGETTYPE=0 AND PlayedCount>0 ORDER BY PlayedCount DESC LIMIT 25");
+            var res = await conn.QueryAsync<STATISTICS>($"SELECT * FROM STATISTICS WHERE TARGETTYPE=0 AND PlayedCount>=(SELECT AVG(PlayedCount) FROM STATISTICS) ORDER BY PlayedCount DESC LIMIT 25");
             res.AddRange(await conn.QueryAsync<STATISTICS>($"SELECT * FROM STATISTICS WHERE TARGETTYPE=0 AND Favorite=1 ORDER BY RANDOM() LIMIT 25"));
             var distintedres = res.Distinct();
             var alist = await conn.QueryAsync<SONG>($"SELECT * FROM SONG WHERE ID IN ({string.Join(',', distintedres.Select(x => x.TargetID))})");
 
-            var bres = await conn.QueryAsync<STATISTICS>($"SELECT * FROM STATISTICS WHERE TARGETTYPE=0 AND PlayedCount>0 ORDER BY PlayedCount DESC LIMIT 25");
-            bres.AddRange(await conn.QueryAsync<STATISTICS>($"SELECT * FROM STATISTICS WHERE TARGETTYPE=0 AND Favorite=1 ORDER BY RANDOM() LIMIT 25"));
+            var bres = await conn.QueryAsync<STATISTICS>($"SELECT * FROM STATISTICS WHERE TARGETTYPE=0 AND PlayedCount>=(SELECT AVG(PlayedCount) FROM STATISTICS) ORDER BY PlayedCount DESC LIMIT 5");
+            bres.AddRange(await conn.QueryAsync<STATISTICS>($"SELECT * FROM STATISTICS WHERE TARGETTYPE=0 AND Favorite=1 ORDER BY RANDOM() LIMIT 5"));
             var bdistintedres = bres.Distinct();
             var blist = await conn.QueryAsync<ALBUM>($"SELECT * FROM ALBUM WHERE ID IN ({string.Join(',', bdistintedres.Select(x => x.TargetID))})");
 
@@ -845,6 +846,7 @@ namespace Aurora.Music.Core.Storage
                     IDs = s1.Select(b => b.ID).ToArray()
                 };
             }));
+            list.Shuffle();
             return list;
         }
 

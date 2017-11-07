@@ -7,10 +7,10 @@
         <ResourceDictionary Source="./Dark.xaml" x:Key="Dark"/>
     </ResourceDictionary.ThemeDictionaries>
     <Style TargetType="Button" x:Key="RevealRoundButton">
-        <Setter Property="Background" Value="{x:Null}" />
+        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAltLowRevealBrush}" />
         <Setter Property="Foreground" Value="{ThemeResource ButtonForeground}" />
-        <Setter Property="BorderBrush" Value="{x:Null}" />
-        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="BorderBrush" Value="{ThemeResource ButtonRevealBorderBrush}" />
+        <Setter Property="BorderThickness" Value="{ThemeResource ButtonRevealBorderThemeThickness}" />
         <Setter Property="Padding" Value="0" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Center" />
@@ -22,7 +22,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
+                    <Grid x:Name="RootGrid" Background="{x:Null}">
 
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
@@ -69,11 +69,12 @@
                             </VisualStateGroup>
 
                         </VisualStateManager.VisualStateGroups>
-                        <Ellipse x:Name="BG" Fill="{ThemeResource SystemControlBackgroundAltLowRevealBrush}" Stroke="{ThemeResource ButtonRevealBorderBrush}"
-                                         StrokeThickness="{ThemeResource ButtonRevealBorderThemeThickness}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        <Ellipse x:Name="BG" Fill="{TemplateBinding Background}" Stroke="{TemplateBinding BorderBrush}"
+                                         StrokeThickness="{TemplateBinding BorderThickness}" 
+                                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                         <ContentPresenter x:Name="ContentPresenter"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
+                            BorderBrush="{x:Null}"
+                            BorderThickness="0"
                             Content="{TemplateBinding Content}"
                             ContentTransitions="{TemplateBinding ContentTransitions}"
                             ContentTemplate="{TemplateBinding ContentTemplate}"
@@ -142,8 +143,8 @@
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
                         <ContentPresenter x:Name="ContentPresenter"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
+                            BorderBrush="{x:Null}"
+                            BorderThickness="0"
                             Content="{TemplateBinding Content}"
                             ContentTransitions="{TemplateBinding ContentTransitions}"
                             ContentTemplate="{TemplateBinding ContentTemplate}"
@@ -158,10 +159,10 @@
     </Style>
 
     <Style TargetType="ToggleButton" x:Key="RevealRoundToggleButton">
-        <Setter Property="Background" Value="{x:Null}" />
-        <Setter Property="Foreground" Value="{ThemeResource ToggleButtonForeground}" />
-        <Setter Property="BorderBrush" Value="{x:Null}" />
-        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAltLowRevealBrush}" />
+        <Setter Property="Foreground" Value="{ThemeResource ButtonForeground}" />
+        <Setter Property="BorderBrush" Value="{ThemeResource ButtonRevealBorderBrush}" />
+        <Setter Property="BorderThickness" Value="{ThemeResource ButtonRevealBorderThemeThickness}" />
         <Setter Property="Padding" Value="0" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Center" />
@@ -173,7 +174,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ToggleButton">
-                    <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
+                    <Grid x:Name="RootGrid" Background="{x:Null}">
 
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
@@ -304,11 +305,11 @@
                             </VisualStateGroup>
 
                         </VisualStateManager.VisualStateGroups>
-                        <Ellipse x:Name="BG" Fill="{ThemeResource SystemControlBackgroundAltLowRevealBrush}" Stroke="{ThemeResource ToggleButtonRevealBorderBrush}"
-                                         StrokeThickness="{ThemeResource ToggleButtonRevealBorderThemeThickness}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        <Ellipse x:Name="BG" Fill="{TemplateBinding Background}" Stroke="{TemplateBinding BorderBrush}"
+                                         StrokeThickness="{TemplateBinding BorderThickness}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                         <ContentPresenter x:Name="ContentPresenter"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
+                            BorderBrush="{x:Null}"
+                            BorderThickness="0"
                             Content="{TemplateBinding Content}"
                             ContentTransitions="{TemplateBinding ContentTransitions}"
                             ContentTemplate="{TemplateBinding ContentTemplate}"
@@ -321,6 +322,7 @@
             </Setter.Value>
         </Setter>
     </Style>
+    
     <Style x:Key="GeneralGridViewStyle" TargetType="GridView">
         <Setter Property="Padding" Value="0,0,0,10"/>
         <Setter Property="IsTabStop" Value="False"/>

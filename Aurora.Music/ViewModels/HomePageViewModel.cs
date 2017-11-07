@@ -50,6 +50,8 @@ namespace Aurora.Music.ViewModels
             {
                 if (!n.IsNullorWhiteSpace())
                     WelcomeTitle = $"Hi, {n}.";
+
+                HeroList.Clear();
                 foreach (var item in hero)
                 {
                     if (item.IsNullorEmpty())
@@ -70,6 +72,7 @@ namespace Aurora.Music.ViewModels
             var ran = await FileReader.GetRandomListAsync();
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
+                RandomList.Clear();
                 foreach (var item in ran)
                 {
                     RandomList.Add(new GenericMusicItemViewModel(item));
@@ -79,6 +82,7 @@ namespace Aurora.Music.ViewModels
             var fav = await FileReader.GetFavListAsync();
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
+                FavList.Clear();
                 foreach (var item in fav)
                 {
                     FavList.Add(new GenericMusicItemViewModel(item));

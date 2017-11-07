@@ -54,7 +54,7 @@ namespace Aurora.Music.ViewModels
 
         public ArtistPageViewModel()
         {
-
+            AlbumList = new ObservableCollection<AlbumViewModel>();
         }
 
         public async Task GetAlbums(string artist)
@@ -65,13 +65,10 @@ namespace Aurora.Music.ViewModels
                 var aa = albums.ToList();
                 aa.Shuffle();
                 var list = new List<Uri>();
-                for (int j = 0; j < albums.Count || j < 9; j++)
+                for (int j = 0; j < albums.Count && j < 9; j++)
                 {
-                    if (j < 9)
-                    {
-                        if (albums[j].PicturePath.IsNullorEmpty()) continue;
-                        list.Add(new Uri(albums[j].PicturePath));
-                    }
+                    if (albums[j].PicturePath.IsNullorEmpty()) continue;
+                    list.Add(new Uri(albums[j].PicturePath));
                 }
                 list.Shuffle();
                 await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
@@ -81,11 +78,6 @@ namespace Aurora.Music.ViewModels
             });
 
             var a = albums.OrderByDescending(x => x.Year);
-            var aList = new ObservableCollection<AlbumViewModel>();
-            foreach (var item in a)
-            {
-                aList.Add(new AlbumViewModel(item));
-            }
             var genres = (from alb in a
                           where !alb.Genres.IsNullorEmpty()
                           group alb by alb.Genres into grp
@@ -93,8 +85,12 @@ namespace Aurora.Music.ViewModels
                           select grp.Key).FirstOrDefault();
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
-                AlbumList = aList;
-                SongsCount = aList.Count == 1 ? "1 Album" : $"{aList.Count} Albums";
+                AlbumList.Clear();
+                foreach (var item in a)
+                {
+                    AlbumList.Add(new AlbumViewModel(item));
+                }
+                SongsCount = AlbumList.Count == 1 ? "1 Album" : $"{AlbumList.Count} Albums";
                 Genres = genres.IsNullorEmpty() ? "Various Genres" : string.Join(", ", genres);
             });
         }

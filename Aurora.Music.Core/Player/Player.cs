@@ -260,6 +260,7 @@ namespace Aurora.Music.Core.Player
                     continue;
                 }
             }
+            MediaPlaybackList_CurrentItemChanged(null, null);
         }
 
         public async Task AddtoPlayListAsync(IEnumerable<Song> items)
@@ -291,13 +292,14 @@ namespace Aurora.Music.Core.Player
                     continue;
                 }
             }
+            MediaPlaybackList_CurrentItemChanged(null, null);
         }
 
         private async Task WriteProperties(Song item, MediaItemDisplayProperties props, string pic)
         {
             if (pic == string.Empty)
             {
-                props.Thumbnail = RandomAccessStreamReference.CreateFromUri(new Uri(Consts.WhitePlaceholder));
+                props.Thumbnail = RandomAccessStreamReference.CreateFromUri(new Uri(Consts.BlackPlaceholder));
             }
             else
             {

@@ -132,6 +132,7 @@ namespace Aurora.Music
             {
                 NowPanel.Visibility = Visibility.Visible;
                 MainFrame.Visibility = Visibility.Visible;
+                OverlayFrame.Content = null;
                 var ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.NowPlayingPageInAnimation);
                 if (ani != null)
                 {

@@ -25,7 +25,7 @@
             <CollectionViewSource Source="{x:Bind Context.Lyric.Contents,Mode=OneWay}" x:Key="LyricSource"/>
 
             <Style x:Key="RoundSlider" TargetType="Slider">
-                <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAltMediumLowBrush}"/>
+                <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAltLowRevealBrush}"/>
                 <Setter Property="BorderThickness" Value="{ThemeResource SliderBorderThemeThickness}"/>
                 <Setter Property="Foreground" Value="{ThemeResource SliderTrackValueFill}"/>
                 <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
@@ -422,7 +422,8 @@
                 <Grid x:Name="Album" Background="{ThemeResource SystemControlBackgroundAccentBrush}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,4">
                     <TextBlock Margin="8,4" Foreground="{x:Bind Context.AccentForeground(Context.IsAccentDark), Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Context.Song.Album,Mode=OneWay}"/>
                 </Grid>
-                <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Margin="0,8" HorizontalAlignment="Left" VerticalAlignment="Stretch" Foreground="{ThemeResource SystemControlHighlightBaseHighRevealBorderBrush}" TextWrapping="NoWrap" TextTrimming="None">
+                <toolkit:DropShadowPanel Margin="0,8" HorizontalAlignment="Left" VerticalAlignment="Stretch" Color="White" ShadowOpacity="0.66" BlurRadius="8" OffsetX="0" OffsetY="0">
+                    <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Context.Song.GetAddtionalDesc(),Mode=OneWay}" Foreground="{ThemeResource SystemControlBackgroundBaseHighRevealBorderBrush}" TextWrapping="NoWrap" TextTrimming="None">
                     <!--Run Text="2017"/>
                     <Run Text="·"/>
                     <Run Text="Pop"/>
@@ -432,11 +433,12 @@
                     <Run Text="1/1 Disc"/>
                     <Run Text="·"/>
                     <Run Text="256 Kbps"/-->
-                </TextBlock>
+                    </TextBlock>
+                </toolkit:DropShadowPanel>
             </StackPanel>
         </Grid>
-        <ListView Style="{ThemeResource LyricListView}" Grid.Column="1" Margin="32" 
-                  Width="320" HorizontalAlignment="Stretch" VerticalAlignment="Top" MaxHeight="320" 
+        <ListView Style="{ThemeResource LyricListView}" Grid.Column="1" Margin="60" 
+                  Width="320" HorizontalAlignment="Stretch" VerticalAlignment="Center" MaxHeight="320" 
                   IsSynchronizedWithCurrentItem="False" SelectionChanged="ListView_SelectionChanged" SelectedIndex="{x:Bind Context.Lyric.CurrentIndex,Mode=OneWay}"
                   ItemContainerStyle="{ThemeResource LyricListItem}" ItemsSource="{Binding Source={StaticResource LyricSource}}">
             <ListView.Header>
@@ -454,7 +456,7 @@
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="vm:LrcContent">
                     <toolkit:DropShadowPanel Opacity="{x:Bind CurrentOpacity(IsCurrent),Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Center" Color="White" BlurRadius="8" OffsetX="0" OffsetY="0" ShadowOpacity="0.66">
-                        <TextBlock TextAlignment="Center" TextWrapping="WrapWholeWords" Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Content}"/>
+                        <TextBlock MaxWidth="320" TextAlignment="Center" TextTrimming="None" TextWrapping="WrapWholeWords" Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Content}"/>
                     </toolkit:DropShadowPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
@@ -470,8 +472,12 @@
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
             <Slider Grid.Column="1" Minimum="0" Maximum="100" ThumbToolTipValueConverter="{StaticResource SliderToolTipConverter}" Value="{x:Bind Context.PositionToValue(Context.CurrentPosition, Context.TotalDuration), Mode=OneWay}" ValueChanged="Slider_ValueChanged" HorizontalAlignment="Stretch" Margin="4,8,4,0" VerticalAlignment="Center" Style="{ThemeResource RoundSlider}"/>
-            <TextBlock Text="{x:Bind Context.TimeSpanFormat(Context.CurrentPosition),Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-            <TextBlock Grid.Column="2" Text="{x:Bind Context.TimeSpanFormat(Context.TotalDuration),Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            <toolkit:DropShadowPanel HorizontalAlignment="Center" VerticalAlignment="Center" Color="White" BlurRadius="8" OffsetX="0" OffsetY="0" ShadowOpacity="0.66">
+                <TextBlock Text="{x:Bind Context.TimeSpanFormat(Context.CurrentPosition),Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}"/>
+            </toolkit:DropShadowPanel>
+            <toolkit:DropShadowPanel Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Color="White" BlurRadius="8" OffsetX="0" OffsetY="0" ShadowOpacity="0.66">
+                <TextBlock Text="{x:Bind Context.TimeSpanFormat(Context.TotalDuration),Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}"/>
+            </toolkit:DropShadowPanel>
             <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="4" HorizontalAlignment="Left" VerticalAlignment="Stretch" Grid.ColumnSpan="2">
                 <Button Style="{ThemeResource RevealRoundButton}" Command="{x:Bind Context.GoPrevious}" ToolTipService.ToolTip="Previous"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">

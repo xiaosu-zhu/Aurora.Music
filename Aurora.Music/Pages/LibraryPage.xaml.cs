@@ -59,7 +59,10 @@ namespace Aurora.Music.Pages
         internal void GoBack()
         {
             if (MainPage.Current.CanGoBack)
+            {
+                MainFrame.Content = null;
                 MainFrame.GoBack();
+            }
         }
     }
 }

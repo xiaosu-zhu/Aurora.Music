@@ -67,12 +67,14 @@ namespace Aurora.Music.ViewModels
 
         private Player player;
 
+        private bool _lastLeftTop;
         private bool isLeftTopDark;
         public bool IsLeftTopForeWhite
         {
             get { return isLeftTopDark; }
             set
             {
+                _lastLeftTop = isLeftTopDark;
                 SetProperty(ref isLeftTopDark, value);
                 ApplicationViewTitleBar titleBar = ApplicationView.GetForCurrentView().TitleBar;
                 titleBar.ForegroundColor = value ? Colors.Black : Colors.White;
@@ -109,6 +111,13 @@ namespace Aurora.Music.ViewModels
         {
             get { return isPlaying; }
             set { SetProperty(ref isPlaying, value); }
+        }
+
+        internal void RestoreLastTitle()
+        {
+            NeedShowTitle = _lastneedshow;
+            Title = _lasttitle;
+            IsLeftTopForeWhite = _lastLeftTop;
         }
 
         private TimeSpan currentPosition;
@@ -161,18 +170,28 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref currentIndex, value); }
         }
 
+        private bool _lastneedshow;
         private bool needHeader;
         public bool NeedShowTitle
         {
             get { return needHeader; }
-            set { SetProperty(ref needHeader, value); }
+            set
+            {
+                _lastneedshow = needHeader;
+                SetProperty(ref needHeader, value);
+            }
         }
 
+        private string _lasttitle;
         private string title;
         public string Title
         {
             get { return title; }
-            set { SetProperty(ref title, value); }
+            set
+            {
+                _lasttitle = title;
+                SetProperty(ref title, value);
+            }
         }
 
         public DelegateCommand GoPrevious

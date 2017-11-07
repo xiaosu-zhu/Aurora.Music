@@ -462,8 +462,8 @@
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <GridView SelectionMode="None" IsItemClickEnabled="True" ItemsSource="{x:Bind Context.HeroList}"
                           ItemContainerStyle="{ThemeResource HeroGridViewItemStyle}"
-                          HorizontalAlignment="Center" VerticalAlignment="Stretch" Padding="40"
-                          Margin="60" Style="{ThemeResource HeroGridViewStyle}" x:Name="HeroGrid">
+                          HorizontalAlignment="Center" VerticalAlignment="Stretch" Padding="0"
+                          Margin="64" Style="{ThemeResource HeroGridViewStyle}" x:Name="HeroGrid">
                     <GridView.ItemTemplate>
                         <DataTemplate x:DataType="vm:GenericMusicItemViewModel">
                             <Grid Background="{x:Null}" PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited" 
@@ -548,7 +548,7 @@
                         </DataTemplate>
                     </GridView.ItemTemplate>
                 </GridView>
-                <TextBlock Margin="16,32,16,8" Text="Your Favorite" 
+                <TextBlock Margin="60,16,16,8" Text="Your Favorite" 
                        Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold"/>
                 <ListView Margin="0,8" IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" ItemClick="FavList_ItemClick"
                           ScrollViewer.IsHorizontalScrollChainingEnabled="True" ScrollViewer.IsHorizontalRailEnabled="True"
@@ -556,8 +556,8 @@
                       ItemContainerStyle="{ThemeResource HomeListViewItemStyle}" 
                       Style="{StaticResource HorizontalListView}" x:Name="FavList">
                     <ListView.Header>
-                        <Grid VerticalAlignment="Stretch" Padding="32,16,0,16">
-                            <TextBlock Visibility="{x:Bind Context.CollapseIfNotZero(Context.FavList.Count),Mode=OneWay}" Text="No enough statistics" Style="{ThemeResource SubtitleTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Grid VerticalAlignment="Stretch" Padding="32,0">
+                            <TextBlock Visibility="{x:Bind Context.CollapseIfNotZero(Context.FavList.Count),Mode=OneWay,FallbackValue=Collapsed}" Text="No enough statistics" Style="{ThemeResource SubtitleTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Grid>
                     </ListView.Header>
                     <ListView.ItemTemplate>
@@ -569,7 +569,7 @@
                                                  Style="{ThemeResource QuickLoadImageEx}" Width="150" Height="150" 
                                                  Stretch="UniformToFill" PlaceholderStretch="UniformToFill">
                                     <toolkit:ImageEx.Source>
-                                        <BitmapImage UriSource="{x:Bind Artwork, TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png}"/>
+                                        <BitmapImage UriSource="{x:Bind Artwork,TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png}"/>
                                     </toolkit:ImageEx.Source>
                                 </toolkit:ImageEx>
                                 <TextBlock Text="{x:Bind Title}" Style="{ThemeResource BaseTextBlockStyle}" 
@@ -585,10 +585,10 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                     <ListView.Footer>
-                        <Grid VerticalAlignment="Stretch" Width="32"/>
+                        <Grid VerticalAlignment="Stretch" Width="64"/>
                     </ListView.Footer>
                 </ListView>
-                <TextBlock Margin="16,32,16,8" Text="Feeling Lucky" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold"/>
+                <TextBlock Margin="60,16,16,8" Text="Feeling Lucky" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold"/>
                 <ListView Margin="0,8" IsSynchronizedWithCurrentItem="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                           ScrollViewer.IsHorizontalScrollChainingEnabled="True" 
                           ScrollViewer.IsHorizontalRailEnabled="True"
@@ -598,7 +598,7 @@
                           Style="{StaticResource HorizontalListView}" 
                           x:Name="LuckyList">
                     <ListView.Header>
-                        <Grid VerticalAlignment="Stretch" Width="32"/>
+                        <Grid VerticalAlignment="Stretch" Width="64"/>
                     </ListView.Header>
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="vm:GenericMusicItemViewModel">

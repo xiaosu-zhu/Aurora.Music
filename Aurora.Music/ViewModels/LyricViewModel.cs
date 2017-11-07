@@ -37,58 +37,67 @@ namespace Aurora.Music.ViewModels
 
         public void Clear()
         {
-            Contents.Clear();
-            lyric = null;
-            HasLyric = false;
+            lock (Contents)
+            {
+                CurrentIndex = -1;
+                Contents.Clear();
+                lyric = null;
+                HasLyric = false;
+            }
         }
 
         public void New(Lyric l)
         {
-
-            Contents.Clear();
-            if (l == null || l == default(Lyric))
+            lock (Contents)
             {
-                HasLyric = false;
-                return;
+                CurrentIndex = -1;
+                Contents.Clear();
+                if (l == null || l == default(Lyric))
+                {
+                    HasLyric = false;
+                    return;
+                }
+                lyric = l;
+                foreach (var item in l)
+                {
+                    Contents.Add(new LrcContent() { Content = item.Value });
+                }
+                HasLyric = true;
             }
-            lyric = l;
-            foreach (var item in l)
-            {
-                Contents.Add(new LrcContent() { Content = item.Value });
-            }
-            HasLyric = true;
-            CurrentIndex = -1;
         }
 
         public void Update(TimeSpan current)
         {
-            if (lyric == null || Contents.Count == 0)
+            lock (Contents)
             {
-                return;
-            }
-            bool b = false;
-            for (int i = 0; i < lyric.Count; i++)
-            {
-                Contents[i].IsCurrent = false;
-                if (!b && current < (lyric[i].Key + lyric.Offset))
+                if (lyric == null || Contents.Count == 0)
                 {
-                    if (i == 0)
-                    {
-                        CurrentIndex = 0;
-                        Contents[0].IsCurrent = true;
-                    }
-                    else
-                    {
-                        CurrentIndex = i - 1;
-                        Contents[i - 1].IsCurrent = true;
-                    }
-                    b = true;
+                    return;
                 }
-            }
-            if (!b)
-            {
-                CurrentIndex = lyric.Count - 1;
-                Contents[lyric.Count - 1].IsCurrent = true;
+                bool b = false;
+                for (int i = 0; i < lyric.Count; i++)
+                {
+                    Contents[i].IsCurrent = false;
+                    if (!b && current < (lyric[i].Key + lyric.Offset))
+                    {
+                        if (i == 0)
+                        {
+                            CurrentIndex = 0;
+                            Contents[0].IsCurrent = true;
+                        }
+                        else
+                        {
+                            CurrentIndex = i - 1;
+                            Contents[i - 1].IsCurrent = true;
+                        }
+                        b = true;
+                    }
+                }
+                if (!b)
+                {
+                    CurrentIndex = lyric.Count - 1;
+                    Contents[lyric.Count - 1].IsCurrent = true;
+                }
             }
         }
     }

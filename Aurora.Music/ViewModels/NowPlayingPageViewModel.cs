@@ -71,7 +71,7 @@ namespace Aurora.Music.ViewModels
             });
         }
 
-        private Uri placeHolder = new Uri((App.Current as App).IsBlackTheme ? Consts.WhitePlaceholder : Consts.BlackPlaceholder);
+        private Uri placeHolder = new Uri(Consts.BlackPlaceholder);
         public Uri PlaceHolder
         {
             get { return placeHolder; }
