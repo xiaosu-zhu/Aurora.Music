@@ -354,7 +354,7 @@
                     <Setter.Value>
                         <ControlTemplate TargetType="GridViewItem">
                             <ListViewItemPresenter ContentTransitions="{TemplateBinding ContentTransitions}"
-                        x:Name="Root" Margin="16"
+                        x:Name="Root" Margin="24,12"
                         Control.IsTemplateFocusTarget="True" Background="{x:Null}"
                         FocusVisualMargin="{TemplateBinding FocusVisualMargin}"
                         FocusVisualPrimaryBrush="{TemplateBinding FocusVisualPrimaryBrush}"
@@ -469,7 +469,7 @@
                             <Grid Background="{x:Null}" PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited" 
                                   PointerPressed="Grid_PointerPressed" PointerReleased="Grid_PointerReleased" PointerCanceled="Grid_PointerExited"
                                   PointerCaptureLost="Grid_PointerExited"
-                                  Height="144" Width="144">
+                                  Height="160" Width="160">
                                 <Grid.Resources>
                                     <Storyboard x:Key="PointerOver">
                                         <DoubleAnimation Storyboard.TargetName="Title" Storyboard.TargetProperty="Opacity"
@@ -521,24 +521,24 @@
                                         </DoubleAnimation>
                                     </Storyboard>
                                 </Grid.Resources>
-                                <Rectangle Height="100" Width="100" RenderTransformOrigin="0.5,0" HorizontalAlignment="Center" VerticalAlignment="Top" Fill="#000">
+                                <Rectangle Height="112" Width="112" RenderTransformOrigin="0.5,0" HorizontalAlignment="Center" VerticalAlignment="Top" Fill="#000">
                                     <Rectangle.RenderTransform>
                                         <CompositeTransform TranslateY="-14"/>
                                     </Rectangle.RenderTransform>
                                 </Rectangle>
-                                <Rectangle Height="112" Width="112" RenderTransformOrigin="0.5,0" HorizontalAlignment="Center" VerticalAlignment="Top" Fill="#111">
+                                <Rectangle Height="128" Width="128" RenderTransformOrigin="0.5,0" HorizontalAlignment="Center" VerticalAlignment="Top" Fill="#111">
                                     <Rectangle.RenderTransform>
                                         <CompositeTransform TranslateY="-12"/>
                                     </Rectangle.RenderTransform>
                                 </Rectangle>
-                                <Rectangle Height="128" Width="128" RenderTransformOrigin="0.5,0" HorizontalAlignment="Center" VerticalAlignment="Top" Fill="#222">
+                                <Rectangle Height="144" Width="144" RenderTransformOrigin="0.5,0" HorizontalAlignment="Center" VerticalAlignment="Top" Fill="#222">
                                     <Rectangle.RenderTransform>
                                         <CompositeTransform TranslateY="-8"/>
                                     </Rectangle.RenderTransform>
                                 </Rectangle>
                                 <toolkit:DropShadowPanel x:Name="Shadow"
                                     OffsetX="0" OffsetY="0" BlurRadius="16" ShadowOpacity="0.5" Color="{ThemeResource SystemBaseHighColor}">
-                                    <Rectangle Height="144" Width="144">
+                                    <Rectangle Height="160" Width="160">
                                         <Rectangle.Fill>
                                             <ImageBrush AlignmentX="Center" AlignmentY="Center" Stretch="UniformToFill">
                                                 <ImageBrush.ImageSource>
@@ -548,7 +548,7 @@
                                         </Rectangle.Fill>
                                     </Rectangle>
                                 </toolkit:DropShadowPanel>
-                                <Rectangle Height="144" Width="144" Fill="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}">
+                                <Rectangle Height="160" Width="160" Fill="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}">
                                 </Rectangle>
                                 <TextBlock x:Name="Title" Text="{x:Bind Title}" Style="{ThemeResource SubtitleTextBlockStyle}"
                                            Foreground="{ThemeResource SystemControlForegroundAltHighBrush}"
@@ -571,7 +571,7 @@
                       ItemContainerStyle="{ThemeResource HomeListViewItemStyle}" 
                       Style="{StaticResource HorizontalListView}" x:Name="FavList">
                     <ListView.Header>
-                        <Grid VerticalAlignment="Stretch" Padding="32,0">
+                        <Grid VerticalAlignment="Stretch" Padding="64,0,0,0" MinWidth="64">
                             <TextBlock Visibility="{x:Bind Context.CollapseIfNotZero(Context.FavList.Count),Mode=OneWay,FallbackValue=Collapsed}" Text="No enough statistics" Style="{ThemeResource SubtitleTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Grid>
                     </ListView.Header>
