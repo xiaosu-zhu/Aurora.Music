@@ -521,19 +521,19 @@
                                         </DoubleAnimation>
                                     </Storyboard>
                                 </Grid.Resources>
-                                <Rectangle Height="112" Width="112" RenderTransformOrigin="0.5,0" HorizontalAlignment="Center" VerticalAlignment="Top" Fill="#000">
+                                <Rectangle Height="112" Width="112" RenderTransformOrigin="0.5,0" HorizontalAlignment="Center" VerticalAlignment="Top" Fill="{x:Bind GetMainColor(0.3)}">
                                     <Rectangle.RenderTransform>
-                                        <CompositeTransform TranslateY="-14"/>
+                                        <CompositeTransform TranslateY="-10"/>
                                     </Rectangle.RenderTransform>
                                 </Rectangle>
-                                <Rectangle Height="128" Width="128" RenderTransformOrigin="0.5,0" HorizontalAlignment="Center" VerticalAlignment="Top" Fill="#111">
-                                    <Rectangle.RenderTransform>
-                                        <CompositeTransform TranslateY="-12"/>
-                                    </Rectangle.RenderTransform>
-                                </Rectangle>
-                                <Rectangle Height="144" Width="144" RenderTransformOrigin="0.5,0" HorizontalAlignment="Center" VerticalAlignment="Top" Fill="#222">
+                                <Rectangle Height="128" Width="128" RenderTransformOrigin="0.5,0" HorizontalAlignment="Center" VerticalAlignment="Top" Fill="{x:Bind GetMainColor(0.5)}">
                                     <Rectangle.RenderTransform>
                                         <CompositeTransform TranslateY="-8"/>
+                                    </Rectangle.RenderTransform>
+                                </Rectangle>
+                                <Rectangle Fill="{x:Bind GetMainColor(0.7)}" Height="144" Width="144" RenderTransformOrigin="0.5,0" HorizontalAlignment="Center" VerticalAlignment="Top">
+                                    <Rectangle.RenderTransform>
+                                        <CompositeTransform TranslateY="-4"/>
                                     </Rectangle.RenderTransform>
                                 </Rectangle>
                                 <toolkit:DropShadowPanel x:Name="Shadow"

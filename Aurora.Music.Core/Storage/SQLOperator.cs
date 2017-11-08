@@ -9,6 +9,7 @@ using Windows.Storage;
 using TagLib;
 using Aurora.Music.Core.Models;
 using Aurora.Shared.Helpers;
+using Windows.UI;
 
 namespace Aurora.Music.Core.Storage
 {

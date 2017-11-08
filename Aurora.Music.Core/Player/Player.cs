@@ -167,7 +167,7 @@ namespace Aurora.Music.Core.Player
                 var mediaSource = MediaSource.CreateFromStorageFile(file);
                 mediaSource.CustomProperties[Consts.ID] = item.ID;
                 mediaSource.CustomProperties[Consts.Duration] = item.Duration;
-                mediaSource.CustomProperties[Consts.Artwork] = new Uri(builtin.IsNullorEmpty() ? Consts.BlackPlaceholder : builtin);
+                mediaSource.CustomProperties[Consts.Artwork] = builtin.IsNullorEmpty() ? null : new Uri(builtin);
                 item.PicturePath = builtin.IsNullorEmpty() ? item.PicturePath : builtin;
                 mediaSource.CustomProperties[Consts.SONG] = item;
 
@@ -205,7 +205,7 @@ namespace Aurora.Music.Core.Player
                 var mediaSource = MediaSource.CreateFromStorageFile(file);
                 mediaSource.CustomProperties[Consts.ID] = item.ID;
                 mediaSource.CustomProperties[Consts.Duration] = item.Duration;
-                mediaSource.CustomProperties[Consts.Artwork] = new Uri(builtin.IsNullorEmpty() ? Consts.BlackPlaceholder : builtin);
+                mediaSource.CustomProperties[Consts.Artwork] = builtin.IsNullorEmpty() ? null : new Uri(builtin);
                 item.PicturePath = builtin.IsNullorEmpty() ? item.PicturePath : builtin;
                 mediaSource.CustomProperties[Consts.SONG] = item;
 
@@ -243,7 +243,7 @@ namespace Aurora.Music.Core.Player
 
                     mediaSource.CustomProperties[Consts.ID] = item.ID;
                     mediaSource.CustomProperties[Consts.Duration] = item.Duration;
-                    mediaSource.CustomProperties[Consts.Artwork] = new Uri(builtin.IsNullorEmpty() ? Consts.BlackPlaceholder : builtin);
+                    mediaSource.CustomProperties[Consts.Artwork] = builtin.IsNullorEmpty() ? null : new Uri(builtin);
                     item.PicturePath = builtin.IsNullorEmpty() ? item.PicturePath : builtin;
                     mediaSource.CustomProperties[Consts.SONG] = item;
                     var mediaPlaybackItem = new MediaPlaybackItem(mediaSource);
@@ -276,7 +276,7 @@ namespace Aurora.Music.Core.Player
 
                     mediaSource.CustomProperties[Consts.ID] = item.ID;
                     mediaSource.CustomProperties[Consts.Duration] = item.Duration;
-                    mediaSource.CustomProperties[Consts.Artwork] = new Uri(builtin.IsNullorEmpty() ? Consts.BlackPlaceholder : builtin);
+                    mediaSource.CustomProperties[Consts.Artwork] = builtin.IsNullorEmpty() ? null : new Uri(builtin);
                     item.PicturePath = builtin.IsNullorEmpty() ? item.PicturePath : builtin;
                     mediaSource.CustomProperties[Consts.SONG] = item;
                     var mediaPlaybackItem = new MediaPlaybackItem(mediaSource);

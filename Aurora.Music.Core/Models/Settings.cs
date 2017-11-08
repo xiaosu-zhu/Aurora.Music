@@ -15,6 +15,7 @@ namespace Aurora.Music.Core.Models
         public ElementTheme Theme { get; set; } = ElementTheme.Default;
 
         public bool WelcomeFinished { get; set; } = false;
+        public string OutputDeviceID { get; set; }
 
         public static Settings Load()
         {

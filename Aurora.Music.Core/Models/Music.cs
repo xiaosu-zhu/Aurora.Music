@@ -9,6 +9,7 @@ using Windows.Storage.FileProperties;
 using Aurora.Shared.Helpers;
 using System.Collections.Generic;
 using Aurora.Music.Core.Storage;
+using Windows.UI;
 
 namespace Aurora.Music.Core.Models
 {
@@ -103,7 +104,6 @@ namespace Aurora.Music.Core.Models
             PerformersSort = song.PerformersSort.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);
             Year = song.Year;
             PicturePath = song.PicturePath;
-
             SampleRate = song.SampleRate;
             AudioChannels = song.AudioChannels;
         }
@@ -152,13 +152,14 @@ namespace Aurora.Music.Core.Models
                 Lyrics = tag.Lyrics,
                 Performers = tag.Performers,
                 PerformersSort = tag.PerformersSort,
-                Year = tag.Year,
-                PicturePath = await GetPicturePath(tag.Pictures, tag.Album)
+                Year = tag.Year
             };
+
+            s.PicturePath = await s.GetPicturePath(tag.Pictures, tag.Album);
             return s;
         }
 
-        private async static Task<string> GetPicturePath(IPicture[] pictures, string album)
+        private async Task<string> GetPicturePath(IPicture[] pictures, string album)
         {
             if (!pictures.IsNullorEmpty())
             {
@@ -278,7 +279,7 @@ namespace Aurora.Music.Core.Models
             PicturePath = album.PicturePath;
         }
 
-        internal Album(IGrouping<string, Storage.SONG> album)
+        internal Album(IGrouping<string, SONG> album)
         {
             Name = album.Key.IsNullorEmpty() ? "Unknown Album" : album.Key;
 

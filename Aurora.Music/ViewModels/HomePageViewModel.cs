@@ -1,5 +1,6 @@
 ﻿using Aurora.Music.Core;
 using Aurora.Music.Core.Storage;
+using Aurora.Shared;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
 using Aurora.Shared.MVVM;
@@ -10,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
+using Windows.Graphics.Imaging;
 using Windows.UI;
 
 namespace Aurora.Music.ViewModels
@@ -46,11 +48,10 @@ namespace Aurora.Music.ViewModels
         {
             var n = await SystemInfoHelper.GetCurrentUserNameAsync();
             var hero = await FileReader.GetHeroListAsync();
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
             {
                 if (!n.IsNullorWhiteSpace())
                     WelcomeTitle = $"Hi, {n}.";
-
                 HeroList.Clear();
                 foreach (var item in hero)
                 {
@@ -64,7 +65,8 @@ namespace Aurora.Music.ViewModels
                             return a.Concat(b).ToArray();
                         }),
                         Title = item.Key,
-                        Artwork = pic.IsNullorEmpty() ? null : new Uri(pic)
+                        Artwork = pic.IsNullorEmpty() ? null : new Uri(pic),
+                        MainColor = pic.IsNullorEmpty() ? Palette.Blue : await ImagingHelper.GetMainColor(pic)
                     });
                 }
             });

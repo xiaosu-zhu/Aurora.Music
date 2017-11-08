@@ -45,8 +45,8 @@ namespace Aurora.Music.ViewModels
         public void Init(SongViewModel song)
         {
             Song = song;
-            CurrentArtwork = song.PicturePath.IsNullorEmpty() ? null : new Uri(song.PicturePath);
-            lastUriPath = song.PicturePath;
+            CurrentArtwork = song.PicturePath == Consts.BlackPlaceholder ? null : new Uri(song.PicturePath);
+            lastUriPath = song.PicturePath == Consts.BlackPlaceholder ? null : song.PicturePath;
             IsPlaying = player.IsPlaying;
             var t = ThreadPool.RunAsync(async x =>
             {
@@ -71,7 +71,7 @@ namespace Aurora.Music.ViewModels
             });
         }
 
-        private Uri placeHolder = new Uri(Consts.BlackPlaceholder);
+        private Uri placeHolder = new Uri(Consts.NowPlaceholder);
         public Uri PlaceHolder
         {
             get { return placeHolder; }

@@ -123,6 +123,9 @@
     <EmbeddedResource Include="Properties\Aurora.Music.Core.rd.xml" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="ksemenenko.ColorThief">
+      <Version>1.1.0.3</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.0.1</Version>
     </PackageReference>

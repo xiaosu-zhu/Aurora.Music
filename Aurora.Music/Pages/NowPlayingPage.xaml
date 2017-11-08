@@ -406,10 +406,10 @@
             <toolkit:ImageEx Margin="0,12" x:Name="Artwork" Style="{ThemeResource QuickLoadImageEx}"
                              PlaceholderStretch="Uniform" Stretch="Uniform" HorizontalAlignment="Left" VerticalAlignment="Stretch">
                 <toolkit:ImageEx.PlaceholderSource>
-                    <BitmapImage UriSource="{x:Bind Context.PlaceHolder,Mode=OneWay, TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png}"/>
+                    <BitmapImage UriSource="{x:Bind Context.PlaceHolder,Mode=OneWay, TargetNullValue=ms-appx:///Assets/Images/now_placeholder.png}"/>
                 </toolkit:ImageEx.PlaceholderSource>
                 <toolkit:ImageEx.Source>
-                    <BitmapImage UriSource="{x:Bind Context.CurrentArtwork,Mode=OneWay, TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png}"/>
+                    <BitmapImage UriSource="{x:Bind Context.CurrentArtwork,Mode=OneWay, TargetNullValue=ms-appx:///Assets/Images/now_placeholder.png}"/>
                 </toolkit:ImageEx.Source>
             </toolkit:ImageEx>
             <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Stretch" Grid.Row="1">

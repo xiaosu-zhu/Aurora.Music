@@ -1,5 +1,6 @@
 ﻿{
   "dependencies": {
+    "ksemenenko.ColorThief": "1.1.0.3",
     "Microsoft.NETCore.UniversalWindowsPlatform": "6.0.1",
     "WriteableBitmapEx": "1.5.1"
   },

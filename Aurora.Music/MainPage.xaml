@@ -738,7 +738,7 @@
                             <TextBlock Margin="8" Text="Settings" Style="{ThemeResource SubtitleTextBlockStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                         </StackPanel>
                     </Button>
-                    <Button Height="48" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{ThemeResource RevealRectangleButton}" BorderThickness="0" >
+                    <Button Height="48" Grid.Column="1" Command="{x:Bind Context.GotoAbout}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{ThemeResource RevealRectangleButton}" BorderThickness="0" >
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
                             <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEB68;" Margin="8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                             <TextBlock Margin="8" Text="About" Style="{ThemeResource SubtitleTextBlockStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>

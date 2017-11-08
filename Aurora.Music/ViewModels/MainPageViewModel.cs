@@ -80,7 +80,7 @@ namespace Aurora.Music.ViewModels
                 titleBar.ForegroundColor = value ? Colors.Black : Colors.White;
             }
         }
-        
+
 
         private bool needShowPanel = true;
         public bool NeedShowPanel
@@ -231,6 +231,17 @@ namespace Aurora.Music.ViewModels
                 return new DelegateCommand(() =>
                 {
                     MainPage.Current.Navigate(typeof(SettingsPage));
+                });
+            }
+        }
+
+        public DelegateCommand GotoAbout
+        {
+            get
+            {
+                return new DelegateCommand(() =>
+                {
+                    MainPage.Current.Navigate(typeof(AboutPage));
                 });
             }
         }

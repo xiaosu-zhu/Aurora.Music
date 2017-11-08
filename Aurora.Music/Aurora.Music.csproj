@@ -101,6 +101,9 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\AboutPage.xaml.cs">
+      <DependentUpon>AboutPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\AddFoldersView.xaml.cs">
       <DependentUpon>AddFoldersView.xaml</DependentUpon>
     </Compile>
@@ -150,6 +153,7 @@
     <Compile Include="ViewModels\LyricViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="ViewModels\NowPlayingPageViewModel.cs" />
+    <Compile Include="ViewModels\SettingsPageViewModel.cs" />
     <Compile Include="ViewModels\SongViewModel.cs" />
     <Compile Include="ViewModels\WelcomePageViewModel.cs" />
   </ItemGroup>
@@ -168,12 +172,18 @@
     <Content Include="Assets\Images\artist_placeholder.scale-150.png" />
     <Content Include="Assets\Images\artist_placeholder.scale-200.png" />
     <Content Include="Assets\Images\artist_placeholder.scale-400.png" />
+    <Content Include="Assets\Images\now_placeholder.scale-100.png" />
+    <Content Include="Assets\Images\now_placeholder.scale-125.png" />
+    <Content Include="Assets\Images\now_placeholder.scale-150.png" />
+    <Content Include="Assets\Images\now_placeholder.scale-200.png" />
+    <Content Include="Assets\Images\now_placeholder.scale-400.png" />
     <Content Include="Assets\Images\placeholder_b.scale-100.png" />
     <Content Include="Assets\Images\placeholder_b.scale-125.png" />
     <Content Include="Assets\Images\placeholder_b.scale-150.png" />
     <Content Include="Assets\Images\placeholder_b.scale-200.png" />
     <Content Include="Assets\Images\placeholder_b.scale-400.png" />
     <Content Include="Assets\Images\welcome_bg.png" />
+    <Content Include="Assets\logo.svg" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -191,6 +201,10 @@
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\AboutPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\AddFoldersView.xaml">
       <SubType>Designer</SubType>

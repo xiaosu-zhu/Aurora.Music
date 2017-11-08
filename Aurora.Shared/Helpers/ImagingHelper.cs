@@ -257,7 +257,46 @@ namespace Aurora.Shared.Helpers
 
         }
 
+        public static async Task<Color> GetMainColor(string path)
+        {
+            //get the file
+            var file = await StorageFile.GetFileFromPathAsync(path);
 
+            using (var stream = await file.OpenAsync(FileAccessMode.Read))
+            {
+                //Create a decoder for the image
+                var decoder = await BitmapDecoder.CreateAsync(stream);
+
+                ////Create a transform to get a 1x1 image
+                //var myTransform = new BitmapTransform { ScaledHeight = 1, ScaledWidth = 1 };
+
+                ////Get the pixel provider
+                //var pixels = await decoder.GetPixelDataAsync(
+                //    BitmapPixelFormat.Rgba8,
+                //    BitmapAlphaMode.Ignore,
+                //    myTransform,
+                //    ExifOrientationMode.IgnoreExifOrientation,
+                //    ColorManagementMode.DoNotColorManage);
+
+                ////Get the bytes of the 1x1 scaled image
+                //var bytes = pixels.DetachPixelData();
+
+                var colorThief = new ColorThiefDotNet.ColorThief();
+                return FromColorThief((await colorThief.GetColor(decoder)).Color);
+
+                //read the color 
+                //return Color.FromArgb(255, bytes[0], bytes[1], bytes[2]);
+            }
+        }
+
+        public static Color FromColorThief(ColorThiefDotNet.Color d)
+        {
+            var a = d.A;
+            var r = d.R;
+            var g = d.G;
+            var b = d.B;
+            return Color.FromArgb(a, r, g, b);
+        }
 
         public static async Task<Color> New(Stream stream)
 
