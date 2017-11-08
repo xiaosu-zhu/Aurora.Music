@@ -167,9 +167,9 @@
                                 </DoubleAnimation>
                             </Storyboard>
                         </Grid.Resources>
-                        <toolkit:DropShadowPanel x:Name="Shadow" BlurRadius="16" ShadowOpacity="0.5" OffsetX="0" OffsetY="0"
+                        <toolkit:DropShadowPanel Margin="8,4" x:Name="Shadow" BlurRadius="16" ShadowOpacity="0.5" OffsetX="0" OffsetY="0"
                                              Color="{ThemeResource SystemBaseHighColor}">
-                            <Grid Background="{ThemeResource SystemControlAcrylicWindowBrush}">
+                            <Grid Background="{ThemeResource SystemControlAltTranslucentAcrylicWindowBrush}">
                                 <toolkit:ImageEx x:Name="Artwork" Style="{ThemeResource QuickLoadImageEx}" Stretch="UniformToFill" 
                                              PlaceholderStretch="Uniform" HorizontalAlignment="Center"
                                              PlaceholderSource="/Assets/Images/placeholder_b.png" VerticalAlignment="Center" 
@@ -180,14 +180,14 @@
                                 </toolkit:ImageEx>
                             </Grid>
                         </toolkit:DropShadowPanel>
-                        <StackPanel Grid.Row="1" Orientation="Vertical">
+                        <StackPanel Margin="8,4" Grid.Row="1" Orientation="Vertical">
                             <TextBlock x:Name="AlbumName" MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{x:Bind Name}" 
-                               Style="{ThemeResource BaseTextBlockStyle}" Padding="4,0" Margin="0,4,0,0" Width="160"/>
+                               Style="{ThemeResource BaseTextBlockStyle}" Padding="4,0" Width="160"/>
                             <TextBlock MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Width="160" 
                                Text="{x:Bind AlbumArtists[0], FallbackValue=}" Style="{ThemeResource BodyTextBlockStyle}" 
-                               Padding="4,0" Margin="0,0,0,4"/>
+                               Padding="4,0"/>
                         </StackPanel>
-                        <Grid Grid.Row="0" Opacity="0" x:Name="FloatPanel" Height="0" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
+                        <Grid Grid.Row="0" Opacity="0" x:Name="FloatPanel" Height="0" Margin="8,4" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
                             <Grid.Background>
                                 <LinearGradientBrush EndPoint="0.5,0" StartPoint="0.5,1">
                                     <GradientStop Color="#80000000"/>

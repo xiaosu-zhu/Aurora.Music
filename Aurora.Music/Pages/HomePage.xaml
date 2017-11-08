@@ -462,8 +462,8 @@
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <GridView SelectionMode="None" IsItemClickEnabled="True" ItemsSource="{x:Bind Context.HeroList}"
                           ItemContainerStyle="{ThemeResource HeroGridViewItemStyle}"
-                          HorizontalAlignment="Center" VerticalAlignment="Stretch" Padding="0"
-                          Margin="64" Style="{ThemeResource HeroGridViewStyle}" x:Name="HeroGrid">
+                          HorizontalAlignment="Center" VerticalAlignment="Stretch" Padding="64"
+                          Margin="0" Style="{ThemeResource HeroGridViewStyle}" x:Name="HeroGrid">
                     <GridView.ItemTemplate>
                         <DataTemplate x:DataType="vm:GenericMusicItemViewModel">
                             <Grid Background="{x:Null}" PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited" 
@@ -521,20 +521,35 @@
                                         </DoubleAnimation>
                                     </Storyboard>
                                 </Grid.Resources>
+                                <Rectangle Height="100" Width="100" RenderTransformOrigin="0.5,0" HorizontalAlignment="Center" VerticalAlignment="Top" Fill="#000">
+                                    <Rectangle.RenderTransform>
+                                        <CompositeTransform TranslateY="-14"/>
+                                    </Rectangle.RenderTransform>
+                                </Rectangle>
+                                <Rectangle Height="112" Width="112" RenderTransformOrigin="0.5,0" HorizontalAlignment="Center" VerticalAlignment="Top" Fill="#111">
+                                    <Rectangle.RenderTransform>
+                                        <CompositeTransform TranslateY="-12"/>
+                                    </Rectangle.RenderTransform>
+                                </Rectangle>
+                                <Rectangle Height="128" Width="128" RenderTransformOrigin="0.5,0" HorizontalAlignment="Center" VerticalAlignment="Top" Fill="#222">
+                                    <Rectangle.RenderTransform>
+                                        <CompositeTransform TranslateY="-8"/>
+                                    </Rectangle.RenderTransform>
+                                </Rectangle>
                                 <toolkit:DropShadowPanel x:Name="Shadow"
                                     OffsetX="0" OffsetY="0" BlurRadius="16" ShadowOpacity="0.5" Color="{ThemeResource SystemBaseHighColor}">
-                                    <Ellipse Height="144" Width="144">
-                                        <Ellipse.Fill>
+                                    <Rectangle Height="144" Width="144">
+                                        <Rectangle.Fill>
                                             <ImageBrush AlignmentX="Center" AlignmentY="Center" Stretch="UniformToFill">
                                                 <ImageBrush.ImageSource>
                                                     <BitmapImage UriSource="{x:Bind Artwork, TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png}"/>
                                                 </ImageBrush.ImageSource>
                                             </ImageBrush>
-                                        </Ellipse.Fill>
-                                    </Ellipse>
+                                        </Rectangle.Fill>
+                                    </Rectangle>
                                 </toolkit:DropShadowPanel>
-                                <Ellipse Height="144" Width="144" Fill="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}">
-                                </Ellipse>
+                                <Rectangle Height="144" Width="144" Fill="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}">
+                                </Rectangle>
                                 <TextBlock x:Name="Title" Text="{x:Bind Title}" Style="{ThemeResource SubtitleTextBlockStyle}"
                                            Foreground="{ThemeResource SystemControlForegroundAltHighBrush}"
                                            HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"

@@ -65,15 +65,9 @@ namespace Aurora.Music
             MainFrame.Navigate(type, parameter);
         }
 
-        private void Toggle_PaneOpened(object sender, RoutedEventArgs e)
-        {
-            Root.IsPaneOpen = !Root.IsPaneOpen;
-        }
+        private void Toggle_PaneOpened(object sender, RoutedEventArgs e) => Root.IsPaneOpen = !Root.IsPaneOpen;
 
-        public SolidColorBrush TitleForeground(bool b)
-        {
-            return (SolidColorBrush)(b ? Resources["SystemControlForegroundAltHighBrush"] : Resources["SystemControlForegroundBaseHighBrush"]);
-        }
+        public SolidColorBrush TitleForeground(bool b) => (SolidColorBrush)(b ? Resources["SystemControlForegroundAltHighBrush"] : Resources["SystemControlForegroundBaseHighBrush"]);
 
         private void Pane_CurrentChanged(object sender, SelectionChangedEventArgs e)
         {
