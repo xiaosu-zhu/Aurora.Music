@@ -80,10 +80,7 @@ namespace Aurora.Music.ViewModels
                 titleBar.ForegroundColor = value ? Colors.Black : Colors.White;
             }
         }
-        public SolidColorBrush TitleForeground(bool b)
-        {
-            return b ? new SolidColorBrush(Colors.White) : new SolidColorBrush(Colors.Black);
-        }
+        
 
         private bool needShowPanel = true;
         public bool NeedShowPanel

@@ -70,6 +70,11 @@ namespace Aurora.Music
             Root.IsPaneOpen = !Root.IsPaneOpen;
         }
 
+        public SolidColorBrush TitleForeground(bool b)
+        {
+            return (SolidColorBrush)(b ? Resources["SystemControlForegroundAltHighBrush"] : Resources["SystemControlForegroundBaseHighBrush"]);
+        }
+
         private void Pane_CurrentChanged(object sender, SelectionChangedEventArgs e)
         {
             foreach (var item in Context.HamList)

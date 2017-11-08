@@ -473,10 +473,10 @@
             </Grid.RowDefinitions>
             <Slider Grid.Column="1" Minimum="0" Maximum="100" ThumbToolTipValueConverter="{StaticResource SliderToolTipConverter}" Value="{x:Bind Context.PositionToValue(Context.CurrentPosition, Context.TotalDuration), Mode=OneWay}" ValueChanged="Slider_ValueChanged" HorizontalAlignment="Stretch" Margin="4,8,4,0" VerticalAlignment="Center" Style="{ThemeResource RoundSlider}"/>
             <toolkit:DropShadowPanel HorizontalAlignment="Center" VerticalAlignment="Center" Color="White" BlurRadius="8" OffsetX="0" OffsetY="0" ShadowOpacity="0.66">
-                <TextBlock Text="{x:Bind Context.TimeSpanFormat(Context.CurrentPosition),Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}"/>
+                <TextBlock Text="{x:Bind Context.TimeSpanFormat(Context.CurrentPosition),Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource SystemControlBackgroundBaseHighRevealBorderBrush}"/>
             </toolkit:DropShadowPanel>
             <toolkit:DropShadowPanel Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Color="White" BlurRadius="8" OffsetX="0" OffsetY="0" ShadowOpacity="0.66">
-                <TextBlock Text="{x:Bind Context.TimeSpanFormat(Context.TotalDuration),Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}"/>
+                <TextBlock Text="{x:Bind Context.TimeSpanFormat(Context.TotalDuration),Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource SystemControlBackgroundBaseHighRevealBorderBrush}"/>
             </toolkit:DropShadowPanel>
             <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="4" HorizontalAlignment="Left" VerticalAlignment="Stretch" Grid.ColumnSpan="2">
                 <Button Style="{ThemeResource RevealRoundButton}" Command="{x:Bind Context.GoPrevious}" ToolTipService.ToolTip="Previous"
