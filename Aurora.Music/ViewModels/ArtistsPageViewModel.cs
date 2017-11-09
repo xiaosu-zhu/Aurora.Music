@@ -56,7 +56,7 @@ namespace Aurora.Music.ViewModels
                         Name = i.AlbumArtists,
                         SongsCount = i.Count
                     })));
-                    sum += item.Count();
+                    sum += item.Select(x => x.Count).Sum();
                 }
                 ArtistsCount = ArtistList.Count == 1 ? "1 Artists" : $"{ArtistList.Count} Artists";
                 SongsCount = sum == 1 ? "1 Song" : $"{sum} Songs";
