@@ -1,4 +1,5 @@
 ﻿using Aurora.Music.Core.Models;
+using Aurora.Shared.Helpers;
 using Aurora.Shared.MVVM;
 using System;
 using System.Collections.Generic;
@@ -20,14 +21,48 @@ namespace Aurora.Music.ViewModels
             get { return audioSelectedIndex; }
             set
             {
+                if (value == -1)
+                    return;
                 SetProperty(ref audioSelectedIndex, value);
+
                 settings.OutputDeviceID = DevicList[value].ID;
+                settings.Save();
+                MainPageViewModel.Current.GetPlayer().ChangeAudioEndPoint(settings.OutputDeviceID);
+            }
+        }
+
+        private double playerVolume;
+        public double PlayerVolume
+        {
+            get { return playerVolume; }
+            set
+            {
+                if (!value.AlmostEqualTo(playerVolume))
+                {
+                    MainPageViewModel.Current.GetPlayer().ChangeVolume(value);
+                    settings.PlayerVolume = value;
+                    settings.Save();
+                }
+
+                SetProperty(ref playerVolume, value);
+            }
+        }
+
+        private int lyricSource;
+        public int LyricSource
+        {
+            get { return lyricSource; }
+            set
+            {
+                SetProperty(ref lyricSource, value);
+                settings.LyricSource = value;
             }
         }
 
         public SettingsPageViewModel()
         {
             settings = Settings.Load();
+            PlayerVolume = settings.PlayerVolume;
         }
 
         public ObservableCollection<DeviceInformationViewModel> DevicList = new ObservableCollection<DeviceInformationViewModel>();
@@ -41,7 +76,7 @@ namespace Aurora.Music.ViewModels
             {
                 DevicList.Add(new DeviceInformationViewModel()
                 {
-                    Name = "Auto",
+                    Name = "System default",
                     ID = null,
                     Tag = null
                 });
@@ -61,6 +96,8 @@ namespace Aurora.Music.ViewModels
                 }
 
             });
+
+            await Task.Delay(100);
             var index = DevicList.IndexOf(DevicList.First(x => x.ID == settings.OutputDeviceID));
             if (index == -1)
                 index = 0;

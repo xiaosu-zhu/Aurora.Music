@@ -12,8 +12,8 @@
         <vm:SettingsPageViewModel x:Name="Context"/>
     </Page.DataContext>
 
-    <ScrollViewer HorizontalScrollBarVisibility="Hidden" HorizontalScrollMode="Disabled">
-        <StackPanel Padding="60,80,60,0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <ScrollViewer HorizontalScrollBarVisibility="Hidden" HorizontalScrollMode="Disabled" VerticalScrollMode="Enabled">
+        <StackPanel Padding="60,80,60,160" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
@@ -26,15 +26,65 @@
                 <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <Frame x:Name="LoactionFrame" Height="360" HorizontalAlignment="Left" MaxWidth="720"/>
                     <StackPanel Margin="8" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <TextBlock Text="Player Configuration" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,8"/>
-                        <ComboBox HorizontalAlignment="Left" VerticalAlignment="Center" IsSynchronizedWithCurrentItem="False" SelectedIndex="{x:Bind Context.AudioSelectedIndex,Mode=OneWay}" Header="Output Device" ItemsSource="{x:Bind Context.DevicList}" Margin="12,8"/>
-                        <Slider HorizontalAlignment="Left" VerticalAlignment="Center" Header="Output volume level" Margin="12,8,12,0" Value="100" MaxWidth="320"/>
-                        <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="We suggest you to control the system volume directly." HorizontalAlignment="Left" VerticalAlignment="Center" Margin="12,0,12,8"/>
+                        <TextBlock Text="Player Configuration" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12"/>
+                        <ComboBox HorizontalAlignment="Left" VerticalAlignment="Center" IsSynchronizedWithCurrentItem="False" SelectedIndex="{x:Bind Context.AudioSelectedIndex,Mode=TwoWay}" Header="Output Endpoint" ItemsSource="{x:Bind Context.DevicList}" Margin="12,12,12,0"/>
+                        <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="'System default' will be applied at next launch." HorizontalAlignment="Left" VerticalAlignment="Center" Margin="12,0,12,12"/>
+                        <Slider Value="{x:Bind Context.PlayerVolume,Mode=TwoWay}" HorizontalAlignment="Left" VerticalAlignment="Center" Header="Volume Level" Margin="12,12,12,0" Width="240"/>
+                        <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="We suggest you to control the system volume directly." HorizontalAlignment="Left" VerticalAlignment="Center" Margin="12,0,12,12"/>
                     </StackPanel>
                     <StackPanel Margin="8" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <TextBlock Text="Extensions" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,8"/>
-                        <ComboBox HorizontalAlignment="Left" VerticalAlignment="Center" IsSynchronizedWithCurrentItem="False" Header="Lyric Source" Margin="12,8"/>
-                        <ListView Header="Audio effect plugins" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="12,8"/>
+                        <ComboBox HorizontalAlignment="Left" VerticalAlignment="Center" SelectedIndex="{x:Bind Context.LyricSource,Mode=TwoWay}" IsSynchronizedWithCurrentItem="False" Header="Lyric Source" Margin="12">
+                            <ComboBox.Items>
+                                <ComboBoxItem Content="Gecimi.com" Tag="GECIMI"/>
+                            </ComboBox.Items>
+                        </ComboBox>
+                        
+                        <ListView Header="Audio effect plugins" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="12"/>
+                    </StackPanel>
+                    <TextBlock Text="Audio Graph" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,8"/>
+                    <TextBlock Text="PLEASE NOTE: When effects are enabled, you will not minimize this app, or output will be suspended" Style="{ThemeResource BodyTextBlockStyle}"/>
+                    <Grid Margin="32,72" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Column="0" Margin="18,0" Grid.ColumnSpan="9" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource SystemControlBackgroundBaseHighRevealBorderBrush}" Height="2"/>
+                        <Ellipse Fill="{ThemeResource SystemControlAccentAcrylicWindowAccentMediumHighBrush}" Height="36" Width="36"/>
+                        <Ellipse Grid.Column="2" Fill="{ThemeResource SystemControlAltLowAcrylicWindowBrush}" Height="36" Width="36">
+                            <Ellipse.RenderTransform>
+                                <TranslateTransform Y="-48"/>
+                            </Ellipse.RenderTransform>
+                        </Ellipse>
+                        <Ellipse Grid.Column="4" Fill="{ThemeResource SystemControlAltLowAcrylicWindowBrush}"  Height="36" Width="36">
+                            <Ellipse.RenderTransform>
+                                <TranslateTransform Y="-48"/>
+                            </Ellipse.RenderTransform>
+                        </Ellipse>
+                        <Ellipse Grid.Column="6" Fill="{ThemeResource SystemControlAltLowAcrylicWindowBrush}"  Height="36" Width="36">
+                            <Ellipse.RenderTransform>
+                                <TranslateTransform Y="-48"/>
+                            </Ellipse.RenderTransform>
+                        </Ellipse>
+                        <Ellipse Grid.Column="8" Fill="{ThemeResource SystemControlAccentAcrylicWindowAccentMediumHighBrush}" Height="36" Width="36"/>
+                        <TextBlock Margin="0,12" Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="1" Grid.Column="0" Text="Input" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Margin="0,12" Style="{ThemeResource BaseTextBlockStyle}" Foreground="Gray" Grid.Row="1" Grid.Column="2" Text="Threshold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Margin="0,12" Style="{ThemeResource BaseTextBlockStyle}" Foreground="Gray" Grid.Row="1" Grid.Column="4" Text="Equalizer" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Margin="0,12" Style="{ThemeResource BaseTextBlockStyle}" Foreground="Gray" Grid.Row="1" Grid.Column="6" Text="Reverb" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Margin="0,12" Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="1" Grid.Column="8" Text="Output" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+                    <StackPanel Margin="8" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">

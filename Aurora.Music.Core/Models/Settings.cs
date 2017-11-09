@@ -16,6 +16,9 @@ namespace Aurora.Music.Core.Models
 
         public bool WelcomeFinished { get; set; } = false;
         public string OutputDeviceID { get; set; }
+        private string lyricSource;
+        public int LyricSource { get; set; } = 0;
+        public double PlayerVolume { get; set; } = 100d;
 
         public static Settings Load()
         {

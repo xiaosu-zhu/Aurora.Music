@@ -14,6 +14,7 @@ using Aurora.Music.Core.Storage;
 using Windows.System.Threading;
 using System.IO;
 using Aurora.Music.Core.Models;
+using Windows.Devices.Enumeration;
 
 namespace Aurora.Music.Core.Player
 {
@@ -22,12 +23,32 @@ namespace Aurora.Music.Core.Player
         private MediaPlayer mediaPlayer;
         private MediaPlaybackList mediaPlaybackList;
 
+        private DeviceInformation _autoDevice;
+
         private object lockable = new object();
         private int _songCountID;
 
         public bool? IsPlaying { get; set; }
 
         public event EventHandler<PositionUpdatedArgs> PositionUpdated;
+
+        public async void ChangeAudioEndPoint(string outputDeviceID)
+        {
+            if (outputDeviceID.IsNullorEmpty() || outputDeviceID == mediaPlayer.AudioDevice?.Id)
+            {
+                return;
+            }
+            var outputDevice = await DeviceInformation.CreateFromIdAsync(outputDeviceID);
+            mediaPlayer.AudioDevice = outputDevice;
+            Pause();
+            PlayWithRestart();
+        }
+
+        public void ChangeVolume(double value)
+        {
+            mediaPlayer.Volume = value / 100d;
+        }
+
         public event EventHandler<StatusChangedArgs> StatusChanged;
 
         public Player()
@@ -37,6 +58,13 @@ namespace Aurora.Music.Core.Player
                 AudioCategory = MediaPlayerAudioCategory.Media,
 
             };
+
+            var settings = Settings.Load();
+            ChangeAudioEndPoint(settings.OutputDeviceID);
+            ChangeVolume(settings.PlayerVolume);
+
+            _autoDevice = mediaPlayer.AudioDevice;
+            var type = mediaPlayer.AudioDeviceType;
             var mgr = mediaPlayer.CommandManager;
             mgr.IsEnabled = true;
             mediaPlaybackList = new MediaPlaybackList();
@@ -181,7 +209,6 @@ namespace Aurora.Music.Core.Player
                 mediaPlaybackList.StartingItem = mediaPlaybackItem;
 
                 mediaPlayer.Source = mediaPlaybackList;
-                Play();
 
                 var t = ThreadPool.RunAsync(async (x) =>
                 {
@@ -218,15 +245,16 @@ namespace Aurora.Music.Core.Player
                 mediaPlaybackList.Items.Add(mediaPlaybackItem);
                 mediaPlaybackList.StartingItem = mediaPlaybackItem;
 
-                mediaPlayer.Source = mediaPlaybackList;
-                Play();
-
                 var t = ThreadPool.RunAsync(async (x) =>
                 {
                     await AddtoPlayListFirstAsync(listBefore);
                     await AddtoPlayListAsync(listAfter);
                 });
             }
+
+
+
+            PlayWithRestart();
         }
 
         public async Task AddtoPlayListFirstAsync(IEnumerable<Song> items)
@@ -259,8 +287,8 @@ namespace Aurora.Music.Core.Player
                 {
                     continue;
                 }
+                MediaPlaybackList_CurrentItemChanged(null, null);
             }
-            MediaPlaybackList_CurrentItemChanged(null, null);
         }
 
         public async Task AddtoPlayListAsync(IEnumerable<Song> items)
@@ -291,8 +319,8 @@ namespace Aurora.Music.Core.Player
                 {
                     continue;
                 }
+                MediaPlaybackList_CurrentItemChanged(null, null);
             }
-            MediaPlaybackList_CurrentItemChanged(null, null);
         }
 
         private async Task WriteProperties(Song item, MediaItemDisplayProperties props, string pic)
@@ -483,10 +511,20 @@ namespace Aurora.Music.Core.Player
 
         public void Play()
         {
-            if (mediaPlaybackList.Items.Count < 1)
+            if (mediaPlaybackList == null || mediaPlaybackList.Items.IsNullorEmpty())
             {
                 return;
             }
+            mediaPlayer.Play();
+        }
+
+        public void PlayWithRestart()
+        {
+            if (mediaPlaybackList == null || mediaPlaybackList.Items.IsNullorEmpty())
+            {
+                return;
+            }
+            mediaPlayer.Source = mediaPlaybackList;
             mediaPlayer.Play();
         }
 

@@ -13,6 +13,11 @@ namespace Aurora.Shared.Helpers
     /// </summary>
     public static class Tools
     {
+        public static bool AlmostEqualTo(this double value1, double value2)
+        {
+            return Math.Abs(value1 - value2) < 0.0000001;
+        }
+
         /// <summary>
         /// 把枚举值放入一个列表中
         /// </summary>

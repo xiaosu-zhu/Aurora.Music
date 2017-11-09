@@ -71,12 +71,17 @@ namespace Aurora.Music
 
         private void Pane_CurrentChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (OverlayFrame.Visibility == Visibility.Visible)
+            {
+                GoBackFromNowPlaying();
+            }
             foreach (var item in Context.HamList)
             {
                 item.IsCurrent = false;
             }
             ((sender as ListView).SelectedItem as HamPanelItem).IsCurrent = true;
             MainFrame.Navigate(((sender as ListView).SelectedItem as HamPanelItem).TargetType);
+            Root.IsPaneOpen = false;
         }
 
         public void ChangeTheme()
@@ -146,8 +151,13 @@ namespace Aurora.Music
                 if (ani != null)
                 {
                     ani.TryStart(Album);
+
+                    ani.Completed += Ani_Completed;
                 }
-                ani.Completed += Ani_Completed;
+                else
+                {
+                    OverlayFrame.Visibility = Visibility.Collapsed;
+                }
             }
         }
 
