@@ -12,10 +12,11 @@ using Windows.UI.Xaml.Media;
 using Windows.ApplicationModel.Core;
 using Aurora.Shared.Extensions;
 using Windows.System.Threading;
+using Aurora.Music.Core.Models;
 
 namespace Aurora.Music.ViewModels
 {
-    class ArtistPageViewModel : ViewModelBase
+    class ArtistPageViewModel : ViewModelBase, IKey
     {
         private ObservableCollection<AlbumViewModel> albumList;
         public ObservableCollection<AlbumViewModel> AlbumList
@@ -51,6 +52,8 @@ namespace Aurora.Music.ViewModels
             get { return songsCount; }
             set { SetProperty(ref songsCount, value); }
         }
+
+        public string Key => Artist;
 
         public ArtistPageViewModel()
         {

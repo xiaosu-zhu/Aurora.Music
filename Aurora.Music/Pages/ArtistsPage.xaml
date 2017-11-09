@@ -304,17 +304,17 @@
                 </StackPanel>
             </Grid>
             <StackPanel Height="48" HorizontalAlignment="Right" VerticalAlignment="Bottom" Orientation="Horizontal" Margin="12,0">
-                <Button Margin="8,0" Style="{ThemeResource RevealRectangleButton}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Button Margin="8,0" Command="{x:Bind Context.PlayAll}" Style="{ThemeResource RevealRectangleButton}" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <StackPanel Orientation="Horizontal">
                         <SymbolIcon Symbol="Play" Margin="8,4,0,4"/>
                         <TextBlock Margin="4,4,8,4" Text="Play"/>
                     </StackPanel>
                 </Button>
-                <ComboBox Margin="8,0" BorderBrush="{x:Null}" SelectedIndex="0" BorderThickness="0" Style="{StaticResource HorizontalComboBox}" HorizontalAlignment="Left" VerticalAlignment="Center" Header="Sort by:">
-                    <ComboBoxItem>A-Z</ComboBoxItem>
-                    <ComboBoxItem>Songs</ComboBoxItem>
-                    <ComboBoxItem>Genres</ComboBoxItem>
-                </ComboBox>
+                <!--ComboBox SelectionChanged="ComboBox_SelectionChanged" Margin="8,0" BorderBrush="{x:Null}" SelectedIndex="0" BorderThickness="0" Style="{StaticResource HorizontalComboBox}" HorizontalAlignment="Left" VerticalAlignment="Center" Header="Sort by:">
+                    <ComboBoxItem Tag="Name">A-Z</ComboBoxItem>
+                    <ComboBoxItem Tag="Year">Year</ComboBoxItem>
+                    <ComboBoxItem Tag="Genres">Genres</ComboBoxItem>
+                </-->
             </StackPanel>
         </Grid>
     </Grid>

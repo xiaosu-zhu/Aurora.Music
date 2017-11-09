@@ -20,6 +20,13 @@ namespace Aurora.Music.Core.Storage
         private ProgressReport report = new ProgressReport();
         public event EventHandler<SongsAddedEventArgs> NewSongsAdded;
 
+        public static async Task<IList<Song>> GetAllSongAsync()
+        {
+            var opr = SQLOperator.Current();
+            var songs = await opr.GetAllAsync<SONG>();
+            return songs.ConvertAll(x => new Song(x));
+        }
+
 
         /// <summary>
         /// TODO: Only pick files which not in the database, and find deleted files to delete

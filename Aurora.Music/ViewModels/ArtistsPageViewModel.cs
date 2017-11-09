@@ -1,6 +1,7 @@
 ﻿using Aurora.Music.Core.Storage;
 using Aurora.Shared.MVVM;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
@@ -17,6 +18,17 @@ namespace Aurora.Music.ViewModels
         {
             get { return aritstList; }
             set { SetProperty(ref aritstList, value); }
+        }
+
+        public DelegateCommand PlayAll
+        {
+            get
+            {
+                return new DelegateCommand(async () =>
+                {
+                    await MainPageViewModel.Current.InstantPlay(await FileReader.GetAllSongAsync());
+                });
+            }
         }
 
         private string artistsCount;
@@ -56,11 +68,41 @@ namespace Aurora.Music.ViewModels
                         Name = i.AlbumArtists,
                         SongsCount = i.Count
                     })));
-                    sum += item.Select(x => x.Count).Sum();
+                    sum += item.Sum(x => x.Count);
                 }
                 ArtistsCount = ArtistList.Count == 1 ? "1 Artists" : $"{ArtistList.Count} Artists";
                 SongsCount = sum == 1 ? "1 Song" : $"{sum} Songs";
             });
+        }
+
+        internal void ChangeSort(string p)
+        {
+            int sum = 0;
+
+            var artists = ArtistList.ToList();
+
+            var list = new List<ArtistViewModel>();
+
+            switch (p)
+            {
+                case "Name":
+                    ArtistList.Clear();
+                    foreach (var artist in artists)
+                    {
+                        list.AddRange(artist);
+                    }
+                    var grouped = GroupedItem<ArtistViewModel>.CreateGroupsByAlpha(list);
+                    foreach (var item in grouped)
+                    {
+                        ArtistList.Add(new GroupedItem<ArtistViewModel>(item.Key, item));
+                        sum += item.Sum(x => x.SongsCount);
+                    }
+                    ArtistsCount = ArtistList.Count == 1 ? "1 Artists" : $"{ArtistList.Count} Artists";
+                    SongsCount = sum == 1 ? "1 Song" : $"{sum} Songs";
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

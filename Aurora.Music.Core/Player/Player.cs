@@ -15,6 +15,7 @@ using Windows.System.Threading;
 using System.IO;
 using Aurora.Music.Core.Models;
 using Windows.Devices.Enumeration;
+using Windows.Foundation;
 
 namespace Aurora.Music.Core.Player
 {
@@ -27,6 +28,7 @@ namespace Aurora.Music.Core.Player
 
         private object lockable = new object();
         private int _songCountID;
+        private IAsyncAction _addPlayListTask;
 
         public bool? IsPlaying { get; set; }
 
@@ -182,8 +184,12 @@ namespace Aurora.Music.Core.Player
             {
                 throw new ArgumentNullException("Items empty");
             }
+            _addPlayListTask?.Cancel();
+
+
             mediaPlayer.Pause();
             mediaPlaybackList.Items.Clear();
+
             if (startIndex <= 0)
             {
                 var item = items[0];
@@ -210,7 +216,7 @@ namespace Aurora.Music.Core.Player
 
                 mediaPlayer.Source = mediaPlaybackList;
 
-                var t = ThreadPool.RunAsync(async (x) =>
+                _addPlayListTask = ThreadPool.RunAsync(async (x) =>
                 {
                     await AddtoPlayListAsync(items.TakeLast(items.Count - 1));
                 });
@@ -245,7 +251,7 @@ namespace Aurora.Music.Core.Player
                 mediaPlaybackList.Items.Add(mediaPlaybackItem);
                 mediaPlaybackList.StartingItem = mediaPlaybackItem;
 
-                var t = ThreadPool.RunAsync(async (x) =>
+                _addPlayListTask = ThreadPool.RunAsync(async (x) =>
                 {
                     await AddtoPlayListFirstAsync(listBefore);
                     await AddtoPlayListAsync(listAfter);

@@ -164,5 +164,11 @@ namespace Aurora.Music.Pages
                 scroller.ChangeView(null, scroller.VerticalOffset - 120, null);
             }
         }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var p = (string)((sender as ComboBox).SelectedItem as ComboBoxItem).Tag;
+            Context.ChangeSort(p);
+        }
     }
 }

@@ -27,7 +27,7 @@ namespace Aurora.Music.ViewModels
             {
                 descs.AddRange(Genres);
             }
-            if (BitRate != default(uint))
+            if (BitRate != default(uint) && BitRate != 0u)
             {
                 descs.Add($"{BitRate / 1024} Kbps");
             }
