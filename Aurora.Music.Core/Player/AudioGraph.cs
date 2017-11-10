@@ -16,15 +16,54 @@ namespace Aurora.Music.Core.Player
         private static object lockable = new object();
 
 
+
+        #region IDisposable Support
+        private bool disposedValue = false; // 要检测冗余调用
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    // TODO: 释放托管状态(托管对象)。
+                }
+
+                // TODO: 释放未托管的资源(未托管的对象)并在以下内容中替代终结器。
+                // TODO: 将大型字段设置为 null。
+
+                disposedValue = true;
+            }
+        }
+
+        // TODO: 仅当以上 Dispose(bool disposing) 拥有用于释放未托管资源的代码时才替代终结器。
+        // ~AudioGraphPlayer() {
+        //   // 请勿更改此代码。将清理代码放入以上 Dispose(bool disposing) 中。
+        //   Dispose(false);
+        // }
+
+        // 添加此代码以正确实现可处置模式。
+        public void Dispose()
+        {
+            // 请勿更改此代码。将清理代码放入以上 Dispose(bool disposing) 中。
+            Dispose(true);
+            // TODO: 如果在以上内容中替代了终结器，则取消注释以下行。
+            // GC.SuppressFinalize(this);
+        }
+        #endregion
+
         public event EventHandler<PositionUpdatedArgs> PositionUpdated;
         public event EventHandler<StatusChangedArgs> StatusChanged;
 
         #region IDisposable
         /*******************IDisposable**************************/
-        AudioFileInputNode      fileInputNode;
-        AudioGraph              audioGraph;
-        AudioDeviceOutputNode   deviceOutputNode;
-        AudioSubmixNode         effectsNode;
+        AudioFileInputNode fileInputNode;
+        private StorageFile currentItem;
+        AudioGraph audioGraph;
+        AudioDeviceOutputNode deviceOutputNode;
+        AudioSubmixNode reverbNode;
+        AudioSubmixNode eqNode;
+        AudioSubmixNode limiterNode;
         /*******************IDisposable**************************/
         #endregion
 
@@ -37,6 +76,7 @@ namespace Aurora.Music.Core.Player
 
         public async void Init()
         {
+
             var settings = Settings.Load();
 
             audioSettings = new AudioGraphSettings(Windows.Media.Render.AudioRenderCategory.Media);
@@ -51,6 +91,8 @@ namespace Aurora.Music.Core.Player
 
             audioGraph = result.Graph;
             ChangeVolume(settings.PlayerVolume);
+
+            files = new List<StorageFile>();
         }
 
         private async Task CreateFileInputNodeAsync(IStorageFile file)
@@ -88,40 +130,55 @@ namespace Aurora.Music.Core.Player
             {
 
             };
-            effectsNode = audioGraph.CreateSubmixNode();
+            reverbNode = audioGraph.CreateSubmixNode();
         }
 
         private void ApplyEffects(Effects e)
         {
 
-            if (effectsNode == null)
-                return;
+            if (reverbNode == null)
+            {
+                reverbNode = audioGraph.CreateSubmixNode();
+            }
+            if (eqNode == null)
+            {
+                eqNode = audioGraph.CreateSubmixNode();
+            }
+            if (limiterNode == null)
+            {
+                limiterNode = audioGraph.CreateSubmixNode();
+            }
 
-            effectsNode.RemoveOutgoingConnection(deviceOutputNode);
-            fileInputNode.RemoveOutgoingConnection(effectsNode);
-            effectsNode.EffectDefinitions.Clear();
+            fileInputNode.RemoveOutgoingConnection(limiterNode);
+            limiterNode.RemoveOutgoingConnection(eqNode);
+            eqNode.RemoveOutgoingConnection(reverbNode);
+            reverbNode.RemoveOutgoingConnection(deviceOutputNode);
+
+            reverbNode.EffectDefinitions.Clear();
+            eqNode.EffectDefinitions.Clear();
+            limiterNode.EffectDefinitions.Clear();
 
             if (e == Effects.Equalizer)
             {
-                effectsNode.EffectDefinitions.Add(eqEffect);
+                reverbNode.EffectDefinitions.Add(eqEffect);
             }
             if (e == Effects.Limiter)
             {
-                effectsNode.EffectDefinitions.Add(limiterEffect);
+                reverbNode.EffectDefinitions.Add(limiterEffect);
             }
             if (e == Effects.Reverb)
             {
-                effectsNode.EffectDefinitions.Add(reverbEffect);
+                reverbNode.EffectDefinitions.Add(reverbEffect);
             }
-
-            fileInputNode.AddOutgoingConnection(effectsNode);
-            effectsNode.AddOutgoingConnection(deviceOutputNode);
         }
 
         private void ShutdownEffects()
         {
-            effectsNode.RemoveOutgoingConnection(deviceOutputNode);
-            fileInputNode.RemoveOutgoingConnection(effectsNode);
+            fileInputNode.RemoveOutgoingConnection(limiterNode);
+            limiterNode.RemoveOutgoingConnection(eqNode);
+            eqNode.RemoveOutgoingConnection(reverbNode);
+            reverbNode.RemoveOutgoingConnection(deviceOutputNode);
+
             fileInputNode.AddOutgoingConnection(deviceOutputNode);
         }
 
@@ -165,7 +222,28 @@ namespace Aurora.Music.Core.Player
 
         public async Task NewPlayList(IList<Song> songs, int startIndex = 0)
         {
-            throw new NotImplementedException();
+            files.Clear();
+            foreach (var item in songs)
+            {
+                files.Add(await StorageFile.GetFileFromPathAsync(item.FilePath));
+            }
+            if (startIndex < 0)
+                startIndex = 0;
+            if (startIndex >= files.Count)
+                startIndex = files.Count - 1;
+            if (files.Count < 1)
+            {
+                throw new ArgumentException("Files empty");
+            }
+
+            var result = await audioGraph.CreateFileInputNodeAsync(files[startIndex]);
+            if (result.Status != AudioFileNodeCreationStatus.Success)
+            {
+                throw new InvalidOperationException(result.Status.ToString());
+            }
+            fileInputNode = result.FileInputNode;
+
+            currentItem = files[startIndex];
         }
 
         public void Next()
@@ -198,13 +276,20 @@ namespace Aurora.Music.Core.Player
 
         private void PrepareToPlay()
         {
-            throw new NotImplementedException();
+            if (currentItem != null && fileInputNode != null && currentPosition is TimeSpan t)
+            {
+                fileInputNode.StartTime = t;
+            }
             PlugInGraph();
         }
 
         private void PlugInGraph()
         {
-            throw new NotImplementedException();
+
+            fileInputNode.AddOutgoingConnection(limiterNode);
+            limiterNode.AddOutgoingConnection(eqNode);
+            eqNode.AddOutgoingConnection(reverbNode);
+            reverbNode.AddOutgoingConnection(deviceOutputNode);
         }
 
         public void Previous()
@@ -234,40 +319,10 @@ namespace Aurora.Music.Core.Player
             throw new NotImplementedException();
         }
 
-        #region IDisposable Support
-        private bool disposedValue = false; // 要检测冗余调用
 
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
-                    // TODO: 释放托管状态(托管对象)。
-                }
+        private List<StorageFile> files;
 
-                // TODO: 释放未托管的资源(未托管的对象)并在以下内容中替代终结器。
-                // TODO: 将大型字段设置为 null。
-
-                disposedValue = true;
-            }
-        }
-
-        // TODO: 仅当以上 Dispose(bool disposing) 拥有用于释放未托管资源的代码时才替代终结器。
-        // ~AudioGraphPlayer() {
-        //   // 请勿更改此代码。将清理代码放入以上 Dispose(bool disposing) 中。
-        //   Dispose(false);
-        // }
-
-        // 添加此代码以正确实现可处置模式。
-        public void Dispose()
-        {
-            // 请勿更改此代码。将清理代码放入以上 Dispose(bool disposing) 中。
-            Dispose(true);
-            // TODO: 如果在以上内容中替代了终结器，则取消注释以下行。
-            // GC.SuppressFinalize(this);
-        }
-        #endregion
+        public bool? IsPlaying { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     }
 
     [Flags]

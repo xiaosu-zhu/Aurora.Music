@@ -21,6 +21,8 @@ namespace Aurora.Music.Core.Player
         void Loop(bool? isOn);
         void Shuffle(bool? isOn);
 
+        bool? IsPlaying { get; set; }
+
         event EventHandler<PositionUpdatedArgs> PositionUpdated;
         event EventHandler<StatusChangedArgs> StatusChanged;
 

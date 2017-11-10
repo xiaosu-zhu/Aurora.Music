@@ -26,7 +26,7 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref artwork, value); }
         }
 
-        private Player player;
+        private IPlayer player;
 
         private SongViewModel song;
         public SongViewModel Song
@@ -213,7 +213,21 @@ namespace Aurora.Music.ViewModels
             {
                 return new DelegateCommand(() =>
                 {
-                    player?.PlayPause();
+                    if (IsPlaying is bool b)
+                    {
+                        if (b)
+                        {
+                            player?.Pause();
+                        }
+                        else
+                        {
+                            player?.Play();
+                        }
+                    }
+                    else
+                    {
+                        player?.Play();
+                    }
                 });
             }
         }
@@ -271,22 +285,7 @@ namespace Aurora.Music.ViewModels
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
-                switch (e.State)
-                {
-                    case MediaPlaybackState.None:
-                    case MediaPlaybackState.Opening:
-                    case MediaPlaybackState.Buffering:
-                        IsPlaying = null;
-                        break;
-                    case MediaPlaybackState.Playing:
-                        IsPlaying = true;
-                        break;
-                    case MediaPlaybackState.Paused:
-                        IsPlaying = false;
-                        break;
-                    default:
-                        break;
-                }
+                IsPlaying = player.IsPlaying;
                 if (e.CurrentSong != null)
                 {
                     Song = new SongViewModel(e.CurrentSong.Source.CustomProperties[Consts.SONG] as Song);
