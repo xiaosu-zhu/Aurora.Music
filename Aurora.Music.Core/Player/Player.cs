@@ -19,7 +19,7 @@ using Windows.Foundation;
 
 namespace Aurora.Music.Core.Player
 {
-    public class Player : IDisposable
+    public class Player : IDisposable, IPlayer
     {
         private MediaPlayer mediaPlayer;
         private MediaPlaybackList mediaPlaybackList;
@@ -117,11 +117,6 @@ namespace Aurora.Music.Core.Player
             }
         }
 
-        public void GotoPosition(TimeSpan timeSpan)
-        {
-            mediaPlayer.PlaybackSession.Position = timeSpan;
-        }
-
         private void PlaybackSession_PlaybackStateChanged(MediaPlaybackSession sender, object args)
         {
             switch (mediaPlayer.PlaybackSession.PlaybackState)
@@ -178,7 +173,7 @@ namespace Aurora.Music.Core.Player
             });
         }
 
-        public async Task InstantPlay(IList<Song> items, int startIndex = 0)
+        public async Task NewPlayList(IList<Song> items, int startIndex = 0)
         {
             if (items.IsNullorEmpty())
             {
@@ -263,7 +258,7 @@ namespace Aurora.Music.Core.Player
             PlayWithRestart();
         }
 
-        public async Task AddtoPlayListFirstAsync(IEnumerable<Song> items)
+        private async Task AddtoPlayListFirstAsync(IEnumerable<Song> items)
         {
             int i = 0;
             foreach (var item in items)
@@ -297,7 +292,7 @@ namespace Aurora.Music.Core.Player
             }
         }
 
-        public async Task AddtoPlayListAsync(IEnumerable<Song> items)
+        private async Task AddtoPlayListAsync(IEnumerable<Song> items)
         {
             foreach (var item in items)
             {
@@ -426,12 +421,12 @@ namespace Aurora.Music.Core.Player
             }
         }
 
-        public void ToggleLoop(bool? b)
+        public void Loop(bool? b)
         {
             mediaPlaybackList.AutoRepeatEnabled = b ?? false;
         }
 
-        public void ToggleShuffle(bool? b)
+        public void Shuffle(bool? b)
         {
             if (b is bool boo)
             {
@@ -451,7 +446,7 @@ namespace Aurora.Music.Core.Player
             }
         }
 
-        public void GoNext()
+        public void Next()
         {
             if (mediaPlaybackList.CurrentItem == null || mediaPlaybackList.Items.Count < 1)
             {
@@ -483,15 +478,15 @@ namespace Aurora.Music.Core.Player
             mediaPlayer.Source = null;
         }
 
-        public void Seek(TimeSpan offset)
+        public void Seek(TimeSpan position)
         {
             if (mediaPlayer.PlaybackSession.CanSeek)
             {
-                mediaPlayer.PlaybackSession.Position = offset;
+                mediaPlayer.PlaybackSession.Position = position;
             }
         }
 
-        public void GoPrevious()
+        public void Previous()
         {
             if (mediaPlaybackList.CurrentItem == null || mediaPlaybackList.Items.Count < 1)
             {

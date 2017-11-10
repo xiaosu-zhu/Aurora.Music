@@ -13,7 +13,6 @@ namespace Aurora.Music.Core.Storage
 {
     public class FileReader
     {
-        private static readonly string[] FILE_TYPES = new[] { ".mp3", ".m4a", ".flac", ".wav" };
 
         public event EventHandler<ProgressReport> ProgressUpdated;
         public event EventHandler Completed;

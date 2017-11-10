@@ -105,7 +105,7 @@ namespace Aurora.Music.ViewModels
             {
                 return;
             }
-            player.GotoPosition(timeSpan);
+            player.Seek(timeSpan);
         }
 
         private string lastUriPath;
@@ -191,7 +191,7 @@ namespace Aurora.Music.ViewModels
             {
                 return new DelegateCommand(() =>
                 {
-                    player?.GoPrevious();
+                    player?.Previous();
                 });
             }
         }
@@ -202,7 +202,7 @@ namespace Aurora.Music.ViewModels
             {
                 return new DelegateCommand(() =>
                 {
-                    player?.GoNext();
+                    player?.Next();
                 });
             }
         }
@@ -235,7 +235,7 @@ namespace Aurora.Music.ViewModels
             {
                 SetProperty(ref isShuffle, value);
 
-                player?.ToggleShuffle(value);
+                player?.Shuffle(value);
             }
         }
 
@@ -249,7 +249,7 @@ namespace Aurora.Music.ViewModels
             {
                 SetProperty(ref isLoop, value);
 
-                player?.ToggleLoop(value);
+                player?.Loop(value);
             }
         }
 
