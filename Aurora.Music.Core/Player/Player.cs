@@ -31,7 +31,8 @@ namespace Aurora.Music.Core.Player
         private IAsyncAction _addPlayListTask;
         private List<Song> currentList;
 
-        public bool? IsPlaying { get; set; }
+        private bool? isPlaying;
+        public bool? IsPlaying { get => isPlaying; }
 
         public event EventHandler<PositionUpdatedArgs> PositionUpdated;
 
@@ -127,13 +128,13 @@ namespace Aurora.Music.Core.Player
                 case MediaPlaybackState.None:
                 case MediaPlaybackState.Opening:
                 case MediaPlaybackState.Buffering:
-                    IsPlaying = null;
+                    isPlaying = null;
                     break;
                 case MediaPlaybackState.Playing:
-                    IsPlaying = true;
+                    isPlaying = true;
                     break;
                 case MediaPlaybackState.Paused:
-                    IsPlaying = false;
+                    isPlaying = false;
                     break;
                 default:
                     break;
@@ -154,13 +155,13 @@ namespace Aurora.Music.Core.Player
                 case MediaPlaybackState.None:
                 case MediaPlaybackState.Opening:
                 case MediaPlaybackState.Buffering:
-                    IsPlaying = null;
+                    isPlaying = null;
                     break;
                 case MediaPlaybackState.Playing:
-                    IsPlaying = true;
+                    isPlaying = true;
                     break;
                 case MediaPlaybackState.Paused:
-                    IsPlaying = false;
+                    isPlaying = false;
                     break;
                 default:
                     break;

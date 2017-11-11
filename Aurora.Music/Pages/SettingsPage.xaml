@@ -22,7 +22,7 @@
     <Grid>
         <ScrollViewer HorizontalScrollBarVisibility="Hidden" Style="{ThemeResource NarrowScrollViewer}"
                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalScrollMode="Disabled" VerticalScrollMode="Enabled">
-            <StackPanel Padding="60,80,60,160" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+            <StackPanel Padding="60,120,60,160" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                 <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
@@ -110,6 +110,6 @@
                 </Grid>
             </StackPanel>
         </ScrollViewer>
-        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="80" Background="{ThemeResource SystemControlAltHighAcrylicElementBrush}"/>
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="96" Background="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}"/>
     </Grid>
   </Page>

@@ -9,6 +9,7 @@ using Windows.Storage;
 using Aurora.Shared.Extensions;
 using Windows.Devices.Enumeration;
 using Windows.System.Threading;
+using Aurora.Shared.Helpers;
 
 namespace Aurora.Music.Core.Player
 {
@@ -105,10 +106,6 @@ namespace Aurora.Music.Core.Player
             {
                 return isPlaying;
             }
-            set
-            {
-                throw new InvalidOperationException();
-            }
         }
 
         private ReverbEffectDefinition reverbEffect;
@@ -120,8 +117,10 @@ namespace Aurora.Music.Core.Player
         private bool isLoop;
         private bool isShuffle;
         private bool prepared;
+        private ThreadPoolTimer updateTimer;
+        private bool graphBuilt;
 
-        public async void Init()
+        public async Task Init()
         {
             var settings = Settings.Load();
 
@@ -149,6 +148,7 @@ namespace Aurora.Music.Core.Player
         {
             currentPlayList = new List<Song>();
             files = new List<StorageFile>();
+            AsyncHelper.RunSync(async () => await Init());
         }
 
         private async Task<AudioFileInputNode> CreateFileInputNodeAsync(IStorageFile file)
@@ -168,9 +168,9 @@ namespace Aurora.Music.Core.Player
                 throw new InvalidOperationException("Can't load file");
             }
 
-            prepareNextTimer?.Cancel();
-            prepareNextTimer = null;
-            prepareNextTimer = ThreadPoolTimer.CreateTimer(FileAlmostComplete, fileInputNode.Duration - TimeSpan.FromSeconds(3));
+            //prepareNextTimer?.Cancel();
+            //prepareNextTimer = null;
+            //prepareNextTimer = ThreadPoolTimer.CreateTimer(FileAlmostComplete, result.FileInputNode.Duration - TimeSpan.FromSeconds(3));
 
             return result.FileInputNode;
         }
@@ -221,11 +221,6 @@ namespace Aurora.Music.Core.Player
             {
                 limiterNode = audioGraph.CreateSubmixNode();
             }
-
-            fileInputNode.RemoveOutgoingConnection(limiterNode);
-            limiterNode.RemoveOutgoingConnection(eqNode);
-            eqNode.RemoveOutgoingConnection(reverbNode);
-            reverbNode.RemoveOutgoingConnection(deviceOutputNode);
 
             reverbNode.EffectDefinitions.Clear();
             eqNode.EffectDefinitions.Clear();
@@ -282,7 +277,7 @@ namespace Aurora.Music.Core.Player
         public void ChangeVolume(double vol)
         {
             // TODO: gain(dB) to volume?
-            deviceOutputNode.OutgoingGain = vol;
+            //deviceOutputNode.OutgoingGain = vol;
         }
 
         public void Loop(bool? isOn)
@@ -318,11 +313,41 @@ namespace Aurora.Music.Core.Player
             currentIndex = startIndex;
 
             prepared = false;
+
+            Play();
         }
 
-        public void Next()
+        public async void Next()
         {
             DisconnectFromGraph();
+            if (files.Count > currentIndex + 1)
+            {
+                previousFileNode?.Dispose();
+                previousFileNode = null;
+
+                previousFileNode = fileInputNode;
+                fileInputNode = nextFileNode;
+                nextFileNode = await CreateFileInputNodeAsync(files[currentIndex + 1]);
+
+                //nextFileNode.StartTime = TimeSpan.Zero;
+                //previousFileNode.StartTime = TimeSpan.Zero;
+
+                currentIndex++;
+
+                ConnectIntoGraph();
+                audioGraph.Start();
+
+                StatusChange(Windows.Media.Playback.MediaPlaybackState.Playing, true);
+            }
+            else if (isLoop)
+            {
+
+            }
+        }
+
+        private void ConnectIntoGraph()
+        {
+            fileInputNode.AddOutgoingConnection(limiterNode);
         }
 
         private void DisconnectFromGraph()
@@ -337,8 +362,8 @@ namespace Aurora.Music.Core.Player
             {
                 currentPosition = fileInputNode?.Position;
                 audioGraph.Stop();
-
-                StatusChange();
+                isPlaying = false;
+                StatusChange(Windows.Media.Playback.MediaPlaybackState.Paused, false);
             }
         }
 
@@ -346,44 +371,77 @@ namespace Aurora.Music.Core.Player
         {
             lock (lockable)
             {
-                if (fileInputNode != null)
+                if (prepared)
                 {
-                    fileInputNode.StartTime = currentPosition;
-                    audioGraph.Start();
+                    //fileInputNode.StartTime = currentPosition;
                 }
                 else
                 {
                     PrepareToPlay();
-                    audioGraph.Start();
                 }
+                audioGraph.Start();
                 isPlaying = true;
 
-                StatusChange();
+                StatusChange(Windows.Media.Playback.MediaPlaybackState.Playing, true);
+
+                updateTimer?.Cancel();
+                updateTimer = ThreadPoolTimer.CreatePeriodicTimer(UpdatePosition, TimeSpan.FromMilliseconds(50));
             }
         }
 
-        private void StatusChange()
+        private void UpdatePosition(ThreadPoolTimer timer)
         {
-            StatusChanged?.Invoke(this, new StatusChangedArgs
+            try
             {
-                CurrentIndex = (uint)currentIndex,
-                IsLoop = isLoop,
-                IsShuffle = isShuffle,
-                CurrentSong = currentPlayList[currentIndex],
-                Items = currentPlayList,
-                State = Windows.Media.Playback.MediaPlaybackState.Playing
-            });
+                if (fileInputNode != null)
+                    PositionUpdated?.Invoke(this, new PositionUpdatedArgs()
+                    {
+                        Current = fileInputNode.Position,
+                        Total = fileInputNode.Duration
+                    });
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        private void StatusChange(Windows.Media.Playback.MediaPlaybackState state, bool b)
+        {
+            if (b)
+            {
+                StatusChanged?.Invoke(this, new StatusChangedArgs
+                {
+                    CurrentIndex = (uint)currentIndex,
+                    IsLoop = isLoop,
+                    IsShuffle = isShuffle,
+                    CurrentSong = currentPlayList[currentIndex],
+                    Items = currentPlayList,
+                    State = state
+                });
+            }
+            else
+            {
+                StatusChanged?.Invoke(this, new StatusChangedArgs
+                {
+                    IsLoop = isLoop,
+                    IsShuffle = isShuffle,
+                    State = state
+                });
+            }
         }
 
         private async void PrepareToPlay()
         {
             await PrepareNodes();
 
-            if (currentIndex >= 0 && currentIndex < files.Count && fileInputNode != null && currentPosition is TimeSpan t)
+            //if (currentIndex >= 0 && currentIndex < files.Count && fileInputNode != null && currentPosition is TimeSpan t)
+            //{
+            //    fileInputNode.StartTime = t;
+            //}
+            if (!graphBuilt)
             {
-                fileInputNode.StartTime = t;
+                BuildGraph();
             }
-            PlugInGraph();
         }
 
         private async Task PrepareNodes()
@@ -428,17 +486,15 @@ namespace Aurora.Music.Core.Player
             prepared = true;
         }
 
-        private void ApplyEffects(object audioGraphEffects)
-        {
-            throw new NotImplementedException();
-        }
 
-        private void PlugInGraph()
+
+        private void BuildGraph()
         {
             fileInputNode.AddOutgoingConnection(limiterNode);
             limiterNode.AddOutgoingConnection(eqNode);
             eqNode.AddOutgoingConnection(reverbNode);
             reverbNode.AddOutgoingConnection(deviceOutputNode);
+            graphBuilt = true;
         }
 
         public void Previous()

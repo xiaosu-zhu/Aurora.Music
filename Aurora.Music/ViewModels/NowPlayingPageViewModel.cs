@@ -305,15 +305,14 @@ namespace Aurora.Music.ViewModels
                     {
                         CurrentArtwork = null;
                     }
-                    if (e.Items is IList<MediaPlaybackItem> l)
+                    if (e.Items is IList<Song> l)
                     {
                         NowListPreview = $"{e.CurrentIndex + 1}/{l.Count}";
                         uint i = 1;
                         NowPlayingList.Clear();
                         foreach (var item in l)
                         {
-                            var prop = item.GetDisplayProperties();
-                            NowPlayingList.Add(new SongViewModel(item.Source.CustomProperties[Consts.SONG] as Song)
+                            NowPlayingList.Add(new SongViewModel(item)
                             {
                                 Index = i++
                             });

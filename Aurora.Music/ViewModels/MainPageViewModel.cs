@@ -309,7 +309,6 @@ namespace Aurora.Music.ViewModels
             if (!addedFiles.IsNullorEmpty())
             {
                 var reader = new FileReader();
-                reader.NewSongsAdded += Reader_NewSongsAdded;
                 await reader.ReadFileandSave(addedFiles);
             }
         }
@@ -354,14 +353,13 @@ namespace Aurora.Music.ViewModels
                     {
                         CurrentArtwork = null;
                     }
-                    if (e.Items is IList<MediaPlaybackItem> l)
+                    if (e.Items is IList<Song> l)
                     {
                         NowListPreview = $"{e.CurrentIndex + 1}/{l.Count}";
                         NowPlayingList.Clear();
                         for (int i = 0; i < l.Count; i++)
                         {
-                            var prop = l[i].GetDisplayProperties();
-                            NowPlayingList.Add(new SongViewModel(l[i].Source.CustomProperties[Consts.SONG] as Song)
+                            NowPlayingList.Add(new SongViewModel(l[i])
                             {
                                 Index = (uint)i,
                             });

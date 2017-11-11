@@ -72,7 +72,6 @@ namespace Aurora.Music.ViewModels
             var p = await opr.GetAllAsync<FOLDER>();
             fileReader.ProgressUpdated += FileReader_ProgressUpdated;
             fileReader.Completed += FileReader_Completed;
-            fileReader.NewSongsAdded += Opr_NewSongsAdded;
             foreach (var fo in p)
             {
                 try

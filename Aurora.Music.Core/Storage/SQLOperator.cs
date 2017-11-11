@@ -280,14 +280,21 @@ namespace Aurora.Music.Core.Storage
 
         public async Task<StorageFolder> GetFolderAsync()
         {
-            var f = await Windows.Storage.AccessCache.StorageApplicationPermissions.
-            FutureAccessList.GetFolderAsync(Token);
-            if (f.Path != Path)
+            try
             {
-                Path = f.Path;
-                await SQLOperator.Current().UpdateFolderAsync(this);
+                var f = await Windows.Storage.AccessCache.StorageApplicationPermissions.
+                FutureAccessList.GetFolderAsync(Token);
+                if (f.Path != Path)
+                {
+                    Path = f.Path;
+                    await SQLOperator.Current().UpdateFolderAsync(this);
+                }
+                return f;
             }
-            return f;
+            catch (Exception)
+            {
+                return null;
+            }
         }
     }
 
