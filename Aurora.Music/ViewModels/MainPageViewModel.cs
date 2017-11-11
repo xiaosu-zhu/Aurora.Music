@@ -58,7 +58,7 @@ namespace Aurora.Music.ViewModels
         {
             if (player == null)
             {
-                player = new Player();
+                player = new AudioGraphPlayer();
             }
             return player;
         }
@@ -293,7 +293,7 @@ namespace Aurora.Music.ViewModels
 
         public MainPageViewModel()
         {
-            player = new Player();
+            player = new AudioGraphPlayer();
             Current = this;
             player.StatusChanged += Player_StatusChanged;
             player.PositionUpdated += Player_PositionUpdated;
@@ -335,19 +335,19 @@ namespace Aurora.Music.ViewModels
                 IsPlaying = player.IsPlaying;
                 if (e.CurrentSong != null)
                 {
-                    var p = e.CurrentSong.GetDisplayProperties().MusicProperties;
+                    var p = e.CurrentSong;
                     CurrentTitle = p.Title;
-                    CurrentAlbum = p.AlbumTitle;
-                    if (e.CurrentSong.Source.CustomProperties["Artwork"] is Uri u)
+                    CurrentAlbum = p.Album;
+                    if (!p.PicturePath.IsNullorEmpty())
                     {
-                        if (lastUriPath == u.AbsolutePath)
+                        if (lastUriPath == p.PicturePath)
                         {
 
                         }
                         else
                         {
-                            CurrentArtwork = u;
-                            lastUriPath = u.AbsolutePath;
+                            CurrentArtwork = new Uri(p.PicturePath);
+                            lastUriPath = p.PicturePath;
                         }
                     }
                     else

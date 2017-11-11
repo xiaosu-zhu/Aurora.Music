@@ -8,6 +8,7 @@ using Windows.Media.Audio;
 using Windows.Storage;
 using Aurora.Shared.Extensions;
 using Windows.Devices.Enumeration;
+using Windows.System.Threading;
 
 namespace Aurora.Music.Core.Player
 {
@@ -27,20 +28,38 @@ namespace Aurora.Music.Core.Player
                 if (disposing)
                 {
                     // TODO: 释放托管状态(托管对象)。
+                    audioGraph.Stop();
+                    audioGraph.ResetAllNodes();
+
+                    fileInputNode?.Dispose();
+                    previousFileNode?.Dispose();
+                    nextFileNode?.Dispose();
+                    deviceOutputNode?.Dispose();
+                    reverbNode?.Dispose();
+                    eqNode?.Dispose();
+                    limiterNode?.Dispose();
+
+                    audioGraph?.Dispose();
                 }
 
                 // TODO: 释放未托管的资源(未托管的对象)并在以下内容中替代终结器。
+
                 // TODO: 将大型字段设置为 null。
+                currentPlayList.Clear();
+                files.Clear();
+                currentPlayList = null;
+                files = null;
 
                 disposedValue = true;
             }
         }
 
         // TODO: 仅当以上 Dispose(bool disposing) 拥有用于释放未托管资源的代码时才替代终结器。
-        // ~AudioGraphPlayer() {
-        //   // 请勿更改此代码。将清理代码放入以上 Dispose(bool disposing) 中。
-        //   Dispose(false);
-        // }
+        ~AudioGraphPlayer()
+        {
+            // 请勿更改此代码。将清理代码放入以上 Dispose(bool disposing) 中。
+            Dispose(false);
+        }
 
         // 添加此代码以正确实现可处置模式。
         public void Dispose()
@@ -48,7 +67,7 @@ namespace Aurora.Music.Core.Player
             // 请勿更改此代码。将清理代码放入以上 Dispose(bool disposing) 中。
             Dispose(true);
             // TODO: 如果在以上内容中替代了终结器，则取消注释以下行。
-            // GC.SuppressFinalize(this);
+            GC.SuppressFinalize(this);
         }
         #endregion
 
@@ -57,8 +76,13 @@ namespace Aurora.Music.Core.Player
 
         #region IDisposable
         /*******************IDisposable**************************/
+
+        // use three fileInputNode to cache
         AudioFileInputNode fileInputNode;
-        private StorageFile currentItem;
+        AudioFileInputNode previousFileNode;
+        AudioFileInputNode nextFileNode;
+
+
         AudioGraph audioGraph;
         AudioDeviceOutputNode deviceOutputNode;
         AudioSubmixNode reverbNode;
@@ -67,16 +91,38 @@ namespace Aurora.Music.Core.Player
         /*******************IDisposable**************************/
         #endregion
 
+
+        private int currentIndex;
+        private List<StorageFile> files;
+        private List<Song> currentPlayList;
+
+        private ThreadPoolTimer prepareNextTimer;
+
+        private bool? isPlaying;
+        public bool? IsPlaying
+        {
+            get
+            {
+                return isPlaying;
+            }
+            set
+            {
+                throw new InvalidOperationException();
+            }
+        }
+
         private ReverbEffectDefinition reverbEffect;
         private LimiterEffectDefinition limiterEffect;
         private EqualizerEffectDefinition eqEffect;
 
         private AudioGraphSettings audioSettings;
         private TimeSpan? currentPosition;
+        private bool isLoop;
+        private bool isShuffle;
+        private bool prepared;
 
         public async void Init()
         {
-
             var settings = Settings.Load();
 
             audioSettings = new AudioGraphSettings(Windows.Media.Render.AudioRenderCategory.Media);
@@ -91,19 +137,29 @@ namespace Aurora.Music.Core.Player
 
             audioGraph = result.Graph;
             ChangeVolume(settings.PlayerVolume);
+            audioGraph.UnrecoverableErrorOccurred += AudioGraph_UnrecoverableErrorOccurred;
+        }
 
+        private void AudioGraph_UnrecoverableErrorOccurred(AudioGraph sender, AudioGraphUnrecoverableErrorOccurredEventArgs args)
+        {
+            throw new NotImplementedException();
+        }
+
+        public AudioGraphPlayer()
+        {
+            currentPlayList = new List<Song>();
             files = new List<StorageFile>();
         }
 
-        private async Task CreateFileInputNodeAsync(IStorageFile file)
+        private async Task<AudioFileInputNode> CreateFileInputNodeAsync(IStorageFile file)
         {
             if (audioGraph == null)
-                return;
+                return null;
 
             // File can be null if cancel is hit in the file picker
             if (file == null)
             {
-                return;
+                return null;
             }
             CreateAudioFileInputNodeResult result = await audioGraph.CreateFileInputNodeAsync(file);
 
@@ -112,7 +168,23 @@ namespace Aurora.Music.Core.Player
                 throw new InvalidOperationException("Can't load file");
             }
 
-            fileInputNode = result.FileInputNode;
+            prepareNextTimer?.Cancel();
+            prepareNextTimer = null;
+            prepareNextTimer = ThreadPoolTimer.CreateTimer(FileAlmostComplete, fileInputNode.Duration - TimeSpan.FromSeconds(3));
+
+            return result.FileInputNode;
+        }
+
+        private void FileAlmostComplete(ThreadPoolTimer timer)
+        {
+            if (currentIndex < 0 || currentIndex >= files.Count - 1 || nextFileNode == null)
+            {
+                return;
+            }
+
+            nextFileNode.StartTime = TimeSpan.Zero;
+            // TODO: what's this?
+            // nextFileNode.ConsumeInput
         }
 
         private void InitEffects()
@@ -130,6 +202,7 @@ namespace Aurora.Music.Core.Player
             {
 
             };
+
             reverbNode = audioGraph.CreateSubmixNode();
         }
 
@@ -222,7 +295,14 @@ namespace Aurora.Music.Core.Player
 
         public async Task NewPlayList(IList<Song> songs, int startIndex = 0)
         {
+            if (songs.IsNullorEmpty())
+            {
+                throw new ArgumentException("songs is empty");
+            }
             files.Clear();
+            currentPlayList.Clear();
+            currentPlayList.AddRange(songs);
+
             foreach (var item in songs)
             {
                 files.Add(await StorageFile.GetFileFromPathAsync(item.FilePath));
@@ -231,30 +311,35 @@ namespace Aurora.Music.Core.Player
                 startIndex = 0;
             if (startIndex >= files.Count)
                 startIndex = files.Count - 1;
-            if (files.Count < 1)
+            if (files.IsNullorEmpty())
             {
                 throw new ArgumentException("Files empty");
             }
+            currentIndex = startIndex;
 
-            var result = await audioGraph.CreateFileInputNodeAsync(files[startIndex]);
-            if (result.Status != AudioFileNodeCreationStatus.Success)
-            {
-                throw new InvalidOperationException(result.Status.ToString());
-            }
-            fileInputNode = result.FileInputNode;
-
-            currentItem = files[startIndex];
+            prepared = false;
         }
 
         public void Next()
         {
-            throw new NotImplementedException();
+            DisconnectFromGraph();
+        }
+
+        private void DisconnectFromGraph()
+        {
+            if (fileInputNode != null)
+                fileInputNode.RemoveOutgoingConnection(limiterNode);
         }
 
         public void Pause()
         {
-            currentPosition = fileInputNode?.Position;
-            fileInputNode?.Stop();
+            lock (lockable)
+            {
+                currentPosition = fileInputNode?.Position;
+                audioGraph.Stop();
+
+                StatusChange();
+            }
         }
 
         public void Play()
@@ -264,28 +349,92 @@ namespace Aurora.Music.Core.Player
                 if (fileInputNode != null)
                 {
                     fileInputNode.StartTime = currentPosition;
-                    fileInputNode.Start();
+                    audioGraph.Start();
                 }
                 else
                 {
                     PrepareToPlay();
-                    fileInputNode.Start();
+                    audioGraph.Start();
                 }
+                isPlaying = true;
+
+                StatusChange();
             }
         }
 
-        private void PrepareToPlay()
+        private void StatusChange()
         {
-            if (currentItem != null && fileInputNode != null && currentPosition is TimeSpan t)
+            StatusChanged?.Invoke(this, new StatusChangedArgs
+            {
+                CurrentIndex = (uint)currentIndex,
+                IsLoop = isLoop,
+                IsShuffle = isShuffle,
+                CurrentSong = currentPlayList[currentIndex],
+                Items = currentPlayList,
+                State = Windows.Media.Playback.MediaPlaybackState.Playing
+            });
+        }
+
+        private async void PrepareToPlay()
+        {
+            await PrepareNodes();
+
+            if (currentIndex >= 0 && currentIndex < files.Count && fileInputNode != null && currentPosition is TimeSpan t)
             {
                 fileInputNode.StartTime = t;
             }
             PlugInGraph();
         }
 
+        private async Task PrepareNodes()
+        {
+            if (prepared)
+                return;
+
+            if (deviceOutputNode == null)
+            {
+                await CreateDeviceOutputNodeAsync();
+            }
+
+            fileInputNode?.Dispose();
+            fileInputNode = null;
+            nextFileNode?.Dispose();
+            nextFileNode = null;
+            previousFileNode?.Dispose();
+            previousFileNode = null;
+
+            if (files.IsNullorEmpty() || currentIndex < 0 || currentIndex >= files.Count)
+            {
+                throw new ArgumentException("Files empty");
+            }
+            fileInputNode = await CreateFileInputNodeAsync(files[currentIndex]);
+
+
+            if (currentIndex > 0)
+            {
+                previousFileNode = await CreateFileInputNodeAsync(files[currentIndex - 1]);
+            }
+            if (currentIndex < files.Count - 1)
+            {
+                nextFileNode = await CreateFileInputNodeAsync(files[currentIndex + 1]);
+            }
+
+            if (reverbNode == null)
+            {
+                var settings = Settings.Load();
+                ApplyEffects(settings.AudioGraphEffects);
+            }
+
+            prepared = true;
+        }
+
+        private void ApplyEffects(object audioGraphEffects)
+        {
+            throw new NotImplementedException();
+        }
+
         private void PlugInGraph()
         {
-
             fileInputNode.AddOutgoingConnection(limiterNode);
             limiterNode.AddOutgoingConnection(eqNode);
             eqNode.AddOutgoingConnection(reverbNode);
@@ -319,15 +468,6 @@ namespace Aurora.Music.Core.Player
             throw new NotImplementedException();
         }
 
-
-        private List<StorageFile> files;
-
-        public bool? IsPlaying { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     }
 
-    [Flags]
-    public enum Effects
-    {
-        None = 0, Reverb = 2, Limiter = 4, Equalizer = 8, All = Reverb | Limiter | Equalizer
-    }
 }

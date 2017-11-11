@@ -29,6 +29,7 @@ namespace Aurora.Music.Core.Player
         private object lockable = new object();
         private int _songCountID;
         private IAsyncAction _addPlayListTask;
+        private List<Song> currentList;
 
         public bool? IsPlaying { get; set; }
 
@@ -60,6 +61,8 @@ namespace Aurora.Music.Core.Player
                 AudioCategory = MediaPlayerAudioCategory.Media,
 
             };
+
+            currentList = new List<Song>();
 
             var settings = Settings.Load();
             ChangeAudioEndPoint(settings.OutputDeviceID);
@@ -140,7 +143,7 @@ namespace Aurora.Music.Core.Player
                 State = mediaPlayer.PlaybackSession.PlaybackState,
                 IsShuffle = mediaPlaybackList.ShuffleEnabled,
                 IsLoop = mediaPlaybackList.AutoRepeatEnabled,
-                CurrentSong = mediaPlaybackList.CurrentItem
+                CurrentSong = mediaPlaybackList.CurrentItem.Source.CustomProperties[Consts.SONG] as Song
             });
         }
 
@@ -167,9 +170,9 @@ namespace Aurora.Music.Core.Player
                 State = mediaPlayer.PlaybackSession.PlaybackState,
                 IsShuffle = mediaPlaybackList.ShuffleEnabled,
                 IsLoop = mediaPlaybackList.AutoRepeatEnabled,
-                CurrentSong = mediaPlaybackList.CurrentItem,
+                CurrentSong = mediaPlaybackList.CurrentItem.Source.CustomProperties[Consts.SONG] as Song,
                 CurrentIndex = mediaPlaybackList.CurrentItemIndex,
-                Items = mediaPlaybackList.Items
+                Items = currentList
             });
         }
 
@@ -181,6 +184,8 @@ namespace Aurora.Music.Core.Player
             }
             _addPlayListTask?.Cancel();
 
+            currentList.Clear();
+            currentList.AddRange(items);
 
             mediaPlayer.Pause();
             mediaPlaybackList.Items.Clear();
@@ -542,20 +547,4 @@ namespace Aurora.Music.Core.Player
         }
     }
 
-    public class StatusChangedArgs
-    {
-        public MediaPlaybackItem CurrentSong { get; set; }
-        public MediaPlaybackState State { get; set; }
-        public bool IsLoop { get; set; }
-        public bool IsShuffle { get; set; }
-
-        public uint CurrentIndex { get; set; }
-        public IObservableVector<MediaPlaybackItem> Items { get; internal set; }
-    }
-
-    public class PositionUpdatedArgs
-    {
-        public TimeSpan Current { get; set; }
-        public TimeSpan Total { get; set; }
-    }
 }

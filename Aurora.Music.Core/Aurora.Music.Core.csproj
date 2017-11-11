@@ -121,7 +121,7 @@
     <Compile Include="Storage\FileTracker.cs" />
     <Compile Include="Storage\SQLOperator.cs" />
     <Compile Include="Storage\WebRequester.cs" />
-    <Compile Include="Utils\FormatHelper.cs" />
+    <Compile Include="Tools\FormatHelper.cs" />
     <EmbeddedResource Include="Properties\Aurora.Music.Core.rd.xml" />
   </ItemGroup>
   <ItemGroup>

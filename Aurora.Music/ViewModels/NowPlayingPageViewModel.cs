@@ -288,17 +288,17 @@ namespace Aurora.Music.ViewModels
                 IsPlaying = player.IsPlaying;
                 if (e.CurrentSong != null)
                 {
-                    Song = new SongViewModel(e.CurrentSong.Source.CustomProperties[Consts.SONG] as Song);
-                    if (e.CurrentSong.Source.CustomProperties["Artwork"] is Uri u)
+                    Song = new SongViewModel(e.CurrentSong);
+                    if (!Song.PicturePath.IsNullorEmpty())
                     {
-                        if (lastUriPath == u.AbsolutePath)
+                        if (lastUriPath == Song.PicturePath)
                         {
 
                         }
                         else
                         {
-                            CurrentArtwork = u;
-                            lastUriPath = u.AbsolutePath;
+                            CurrentArtwork = new Uri(Song.PicturePath);
+                            lastUriPath = Song.PicturePath;
                         }
                     }
                     else
@@ -324,14 +324,14 @@ namespace Aurora.Music.ViewModels
             });
             if (e.CurrentSong != null)
             {
-                if (_lastSong != (int)e.CurrentSong.Source.CustomProperties[Consts.ID])
+                if (_lastSong != e.CurrentSong.ID)
                 {
                     await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                     {
                         Lyric.Clear();
                         LyricHint = "Loading lyrics...";
                     });
-                    _lastSong = (int)e.CurrentSong.Source.CustomProperties[Consts.ID];
+                    _lastSong = e.CurrentSong.ID;
                     var substis = await WebRequester.GetSongLrcListAsync(Song.Title, Song.Performers.IsNullorEmpty() ? null : Song.Performers[0]);
                     if (!substis.IsNullorEmpty())
                     {

@@ -22,7 +22,7 @@
     </Page.Resources>
 
     <ScrollViewer MaxHeight="360" HorizontalScrollBarVisibility="Hidden" HorizontalScrollMode="Disabled" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <StackPanel Padding="12,0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <TextBlock Style="{ThemeResource TitleTextBlockStyle}" Margin="8,4" HorizontalAlignment="Left" VerticalAlignment="Center">
             <Run Text="Here's Scanning Folders"/>
             </TextBlock>

@@ -16,7 +16,7 @@ namespace Aurora.Shared.Helpers
      *     Copyright (c) Aimeast.  All rights reserved.
      * ****************************************************
      */
-    public sealed class EncodingHelper : Encoding
+    public sealed class EncodingHelper : Encoding, IDisposable
     {
         private const char LEAD_BYTE_CHAR = '\uFFFE';
         private char[] _dbcsToUnicode = null;

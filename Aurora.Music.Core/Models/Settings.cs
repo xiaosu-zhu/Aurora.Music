@@ -1,10 +1,16 @@
 ﻿using Aurora.Shared.Helpers;
 using System;
-using System.Collections.Generic;
 using Windows.UI.Xaml;
 
 namespace Aurora.Music.Core.Models
 {
+
+    [Flags]
+    public enum Effects
+    {
+        None = 0, Reverb = 2, Limiter = 4, Equalizer = 8, All = Reverb | Limiter | Equalizer
+    }
+
     public class Settings
     {
         private static object lockable = new object();
@@ -18,7 +24,8 @@ namespace Aurora.Music.Core.Models
         public string OutputDeviceID { get; set; }
         private string lyricSource;
         public int LyricSource { get; set; } = 0;
-        public double PlayerVolume { get; set; } = 100d;
+        public double PlayerVolume { get; set; } = 50d;
+        public Effects AudioGraphEffects { get; internal set; } = Effects.None;
 
         public static Settings Load()
         {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Aurora.Music.Core.Utils
+namespace Aurora.Music.Core.Tools
 {
     public static class TimeSpanFormatter
     {

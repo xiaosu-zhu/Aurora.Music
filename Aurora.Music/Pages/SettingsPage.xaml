@@ -8,11 +8,19 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Themes/Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
     <Page.DataContext>
         <vm:SettingsPageViewModel x:Name="Context"/>
     </Page.DataContext>
     <Grid>
-        <ScrollViewer HorizontalScrollBarVisibility="Hidden"
+        <ScrollViewer HorizontalScrollBarVisibility="Hidden" Style="{ThemeResource NarrowScrollViewer}"
                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalScrollMode="Disabled" VerticalScrollMode="Enabled">
             <StackPanel Padding="60,80,60,160" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                 <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">

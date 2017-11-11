@@ -80,7 +80,7 @@ namespace Aurora.Music.Core.Storage
         public static async Task<List<GenericMusicItem>> GetRandomListAsync()
         {
             var opr = SQLOperator.Current();
-            var p = Tools.Random.Next(15);
+            var p = Shared.Helpers.Tools.Random.Next(15);
             var songs = await opr.GetRandomListAsync<SONG>(25 - p);
             var albums = await opr.GetRandomListAsync<ALBUM>(p);
             var list = songs.ConvertAll(x => new GenericMusicItem(x));

@@ -1,7 +1,7 @@
 ﻿using System;
 using Aurora.Music.Core.Storage;
 using Aurora.Shared.Extensions;
-using Aurora.Music.Core.Utils;
+using Aurora.Music.Core.Tools;
 using Aurora.Music.Core;
 using System.Linq;
 using Aurora.Music.Core.Models;

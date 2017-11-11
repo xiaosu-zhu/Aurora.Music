@@ -1,4 +1,4 @@
-﻿using Aurora.Music.Core.Utils;
+﻿using Aurora.Music.Core.Tools;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.MVVM;
 using System;
