@@ -407,6 +407,15 @@ namespace Aurora.Music.ViewModels
             return Symbol.Play;
         }
 
+        public string NullableBoolToString(bool? b)
+        {
+            if (b is bool bb)
+            {
+                return bb ? "Pause" : "Play";
+            }
+            return "Play";
+        }
+
         public double PositionToValue(TimeSpan t1, TimeSpan total)
         {
             if (total == null || total == default(TimeSpan))

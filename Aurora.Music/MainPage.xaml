@@ -711,7 +711,7 @@
                         </Grid.Background>
                     </Grid>
                     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="180" Background="{ThemeResource SystemControlBackgroundBaseLowBrush}"/>
-                    <Button Style="{ThemeResource MainPageHamStyle}" Background="Transparent"
+                    <Button Style="{ThemeResource MainPageHamStyle}" Background="Transparent" ToolTipService.ToolTip="Collapse"
                         HorizontalAlignment="Left" VerticalAlignment="Top" Click="Toggle_PaneOpened"
                         Margin="0,32,0,0" Width="48" Height="48">
                         <Button.Content>
@@ -803,7 +803,7 @@
                             <TextBlock x:Name="Album" Text="{x:Bind Context.CurrentAlbum, Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Margin="4,0,4,4"/>
                         </StackPanel>
                     </StackPanel>
-                    <Button Style="{ThemeResource RevealRectangleButton}" Grid.Row="1" Grid.Column="2" Margin="12,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button Style="{ThemeResource RevealRectangleButton}" ToolTipService.ToolTip="Playing list" Grid.Row="1" Grid.Column="2" Margin="12,0" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Button.Content>
                             <TextBlock Text="{x:Bind Context.NowListPreview,Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" Margin="12,8"/>
                         </Button.Content>
@@ -820,34 +820,34 @@
                     </StackPanel>
                     <StackPanel Grid.Row="1" Orientation="Horizontal" Grid.Column="4" Margin="4,0"
                                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <Button Style="{ThemeResource RevealRoundButton}" Command="{x:Bind Context.GoPrevious}"
+                        <Button Style="{ThemeResource RevealRoundButton}" Command="{x:Bind Context.GoPrevious}" ToolTipService.ToolTip="Previous"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                             <Button.Content>
                                 <SymbolIcon Symbol="Previous"/>
                             </Button.Content>
                         </Button>
-                        <Button Style="{ThemeResource RevealRoundButton}" Command="{x:Bind Context.PlayPause}"
+                        <Button Style="{ThemeResource RevealRoundButton}" Command="{x:Bind Context.PlayPause}" ToolTipService.ToolTip="{x:Bind Context.NullableBoolToString(Context.IsPlaying), Mode=OneWay}"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                             <Button.Content>
                                 <SymbolIcon Symbol="{x:Bind Context.NullableBoolToSymbol(Context.IsPlaying), Mode=OneWay}"/>
                             </Button.Content>
                         </Button>
                         <Button Style="{ThemeResource RevealRoundButton}" Command="{x:Bind Context.GoNext}" IsHoldingEnabled="True"
-                                Holding="FastFoward_Holding"
+                                Holding="FastFoward_Holding" ToolTipService.ToolTip="Next"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                             <Button.Content>
                                 <SymbolIcon Symbol="Next"/>
                             </Button.Content>
                         </Button>
 
-                        <ToggleButton Style="{ThemeResource RevealRoundToggleButton}" IsChecked="{x:Bind Context.IsShuffle, Mode=TwoWay}"
+                        <ToggleButton Style="{ThemeResource RevealRoundToggleButton}" IsChecked="{x:Bind Context.IsShuffle, Mode=TwoWay}" ToolTipService.ToolTip="Shuffle"
                                       Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                             <ToggleButton.Content>
                                 <SymbolIcon Symbol="Shuffle"/>
                             </ToggleButton.Content>
                         </ToggleButton>
 
-                        <ToggleButton Style="{ThemeResource RevealRoundToggleButton}" IsChecked="{x:Bind Context.IsLoop, Mode=TwoWay}"
+                        <ToggleButton Style="{ThemeResource RevealRoundToggleButton}" IsChecked="{x:Bind Context.IsLoop, Mode=TwoWay}" ToolTipService.ToolTip="Loop"
                                       Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                             <ToggleButton.Content>
                                 <SymbolIcon Symbol="Refresh"/>
@@ -859,7 +859,7 @@
                 </Grid>
                 <Frame x:Name="OverlayFrame" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                 <Button Style="{ThemeResource MainPageHamStyle}" Background="Transparent" Foreground="{x:Bind TitleForeground(Context.IsLeftTopForeWhite), Mode=OneWay}"
-                        HorizontalAlignment="Left" VerticalAlignment="Top" Click="Toggle_PaneOpened"
+                        HorizontalAlignment="Left" VerticalAlignment="Top" Click="Toggle_PaneOpened" ToolTipService.ToolTip="Open"
                         Margin="0,32,0,0" Width="48" Height="48">
                     <Button.Content>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE700;" />
