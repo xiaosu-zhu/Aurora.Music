@@ -158,6 +158,7 @@ namespace Aurora.Shared.Helpers
         private static readonly int CALCULATE_BITMAP_MIN_DIMENSION = 50;
 
         static Color[] pixels;
+        private static ColorThiefDotNet.ColorThief colorThief = new ColorThiefDotNet.ColorThief();
 
         private static async Task<Color> GetPixels(WriteableBitmap bitmap, Color[] pixels, Int32 width, Int32 height)
 
@@ -281,8 +282,7 @@ namespace Aurora.Shared.Helpers
                 ////Get the bytes of the 1x1 scaled image
                 //var bytes = pixels.DetachPixelData();
 
-                var colorThief = new ColorThiefDotNet.ColorThief();
-                return FromColorThief((await colorThief.GetColor(decoder)).Color);
+                return FromColorThief((await colorThief.GetColor(decoder, 6, false)).Color);
 
                 //read the color 
                 //return Color.FromArgb(255, bytes[0], bytes[1], bytes[2]);
