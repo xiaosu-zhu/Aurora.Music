@@ -3,24 +3,195 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Aurora.Music.Pages"
+    xmlns:vm="using:Aurora.Music.ViewModels"
+    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:controls="using:Aurora.Music.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Unloaded="Page_Unloaded"
     mc:Ignorable="d">
 
-    <StackPanel Orientation="Vertical" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <StackPanel Orientation="Horizontal">
-            <Grid Width="120" Height="120" Margin="32" HorizontalAlignment="Left"/>
-            <StackPanel Margin="32" Orientation="Vertical" >
-                <Grid Margin="8,4" Background="{ThemeResource SystemControlBackgroundAccentBrush}">
-                    <TextBlock Text="Love" Style="{ThemeResource TitleTextBlockStyle}" Margin="8,4"/>
+    <Page.DataContext>
+        <vm:AlbumsPageViewModel x:Name="Context"/>
+    </Page.DataContext>
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Themes/Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light" Source="../Themes/Light.xaml"/>
+                <ResourceDictionary x:Key="Dark" Source="../Themes/Dark.xaml"/>
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid>
+        <GridView ShowsScrollingPlaceholders="True" ItemClick="AlbumList_ItemClick" IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" 
+              SelectionMode="None" ItemsSource="{x:Bind Context.AlbumList, Mode=OneWay}" Loaded="AlbumList_Loaded"
+              Padding="32,0,32,160" ItemContainerStyle="{StaticResource GeneralGridViewItemStyle}" 
+              Style="{StaticResource GeneralGridViewStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+              x:Name="AlbumList">
+            <GridView.Header>
+                <Grid Height="400"/>
+            </GridView.Header>
+            <GridView.ItemTemplate>
+                <DataTemplate x:DataType="vm:AlbumViewModel">
+                    <Grid PointerEntered="StackPanel_PointerEntered" PointerCanceled="StackPanel_PointerExited"
+                           PointerExited="StackPanel_PointerExited" PointerCaptureLost="StackPanel_PointerExited"
+                           PointerPressed="StackPanel_PointerPressed" 
+                           PointerReleased="StackPanel_PointerReleased">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.Resources>
+                            <Storyboard x:Key="Normal" x:Name="Normal">
+                                <DoubleAnimation Storyboard.TargetName="Shadow" Duration="0:0:0.48"
+                                   Storyboard.TargetProperty="BlurRadius" EnableDependentAnimation="True"
+                                   To="16">
+                                    <DoubleAnimation.EasingFunction>
+                                        <QuinticEase/>
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                                <DoubleAnimation Storyboard.TargetName="FloatPanel" Duration="0:0:0.48"
+                                   Storyboard.TargetProperty="Opacity" EnableDependentAnimation="True"
+                                   To="0">
+                                    <DoubleAnimation.EasingFunction>
+                                        <QuinticEase/>
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                                <DoubleAnimation Storyboard.TargetName="FloatPanel" Duration="0:0:0.48"
+                                   Storyboard.TargetProperty="Height" EnableDependentAnimation="True"
+                                   To="0">
+                                    <DoubleAnimation.EasingFunction>
+                                        <QuinticEase/>
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                            </Storyboard>
+                            <Storyboard x:Key="PointerOver" x:Name="PointerOver">
+                                <DoubleAnimation Storyboard.TargetName="Shadow" Duration="0:0:0.48"
+                                   Storyboard.TargetProperty="BlurRadius" EnableDependentAnimation="True"
+                                   To="24">
+                                    <DoubleAnimation.EasingFunction>
+                                        <QuinticEase/>
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                                <DoubleAnimation Storyboard.TargetName="FloatPanel" Duration="0:0:0.48"
+                                   Storyboard.TargetProperty="Opacity" EnableDependentAnimation="True"
+                                   To="1">
+                                    <DoubleAnimation.EasingFunction>
+                                        <QuinticEase/>
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                                <DoubleAnimation Storyboard.TargetName="FloatPanel" Duration="0:0:0.48"
+                                   Storyboard.TargetProperty="Height" EnableDependentAnimation="True"
+                                   To="36">
+                                    <DoubleAnimation.EasingFunction>
+                                        <QuinticEase/>
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                            </Storyboard>
+                            <Storyboard x:Key="PointerPressed" x:Name="PointerPressed">
+                                <DoubleAnimation Storyboard.TargetName="Shadow" Duration="0:0:0.48"
+                                   Storyboard.TargetProperty="BlurRadius" EnableDependentAnimation="True"
+                                   To="0">
+                                    <DoubleAnimation.EasingFunction>
+                                        <QuinticEase/>
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </Grid.Resources>
+                        <toolkit:DropShadowPanel Margin="8,4" x:Name="Shadow" BlurRadius="16" ShadowOpacity="0.5" OffsetX="0" OffsetY="0"
+                                             Color="{ThemeResource SystemBaseHighColor}">
+                            <Grid Background="{ThemeResource SystemControlAltTranslucentAcrylicWindowBrush}">
+                                <toolkit:ImageEx x:Name="Artwork" Style="{ThemeResource QuickLoadImageEx}" Stretch="UniformToFill" 
+                                             PlaceholderStretch="Uniform" HorizontalAlignment="Center"
+                                             PlaceholderSource="/Assets/Images/placeholder_b.png" VerticalAlignment="Center" 
+                                             Height="160" Width="160">
+                                    <toolkit:ImageEx.Source>
+                                        <BitmapImage UriSource="{x:Bind Artwork,Mode=OneWay, TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png}"/>
+                                    </toolkit:ImageEx.Source>
+                                </toolkit:ImageEx>
+                            </Grid>
+                        </toolkit:DropShadowPanel>
+                        <StackPanel Margin="8,4" Grid.Row="1" Orientation="Vertical">
+                            <TextBlock x:Name="AlbumName" MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{x:Bind Name}" 
+                               Style="{ThemeResource BaseTextBlockStyle}" Padding="4,0" Width="160"/>
+                            <TextBlock MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Width="160" 
+                               Text="{x:Bind AlbumArtists[0], FallbackValue=}" Style="{ThemeResource BodyTextBlockStyle}" 
+                               Padding="4,0"/>
+                        </StackPanel>
+                        <Grid Grid.Row="0" Opacity="0" x:Name="FloatPanel" Height="0" Margin="8,4" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
+                            <Grid.Background>
+                                <LinearGradientBrush EndPoint="0.5,0" StartPoint="0.5,1">
+                                    <GradientStop Color="#80000000"/>
+                                    <GradientStop Color="#00000000" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Grid.Background>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Click="PlayAlbum_Click" Holding="Button_Holding" IsHoldingEnabled="True" Style="{ThemeResource NoBorderButton}" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Background="{ThemeResource SystemControlBackgroundBaseMediumRevealBorderBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                                <Button.Content>
+                                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE102;" />
+                                </Button.Content>
+                            </Button>
+                            <Button Style="{ThemeResource NoBorderButton}" Grid.Column="1" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Background="{ThemeResource SystemControlBackgroundBaseMediumLowRevealBorderBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                                <Button.Content>
+                                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE141;" />
+                                </Button.Content>
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+        </GridView>
+        <Grid Height="360" x:Name="Header" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+            <Grid x:Name="BGBlur" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="360" Background="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}"/>
+            <ParallaxView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="360" VerticalShift="-480" Source="{Binding ElementName=AlbumList}">
+                <controls:ImageGrid x:Name="HeaderBG" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                                        BorderBrush="{x:Null}" BorderThickness="0"  
+                                        ImageSources="{x:Bind Context.HeroImage, Mode=OneWay}"/>
+            </ParallaxView>
+
+            <Grid x:Name="HeaderBGOverlay" HorizontalAlignment="Stretch" Height="360" Background="{ThemeResource ArtistsPageGradient}"/>
+            <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Margin="32">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Grid Canvas.ZIndex="9999" x:Name="TitleShrink" Background="{x:Null}"
+                          HorizontalAlignment="Left" VerticalAlignment="Center" Height="48">
+                    <TextBlock Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" Margin="12,0" Text="Albums" 
+                                   HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"
+                                   TextWrapping="NoWrap" MaxLines="1" Style="{ThemeResource SubheaderTextBlockStyle}" 
+                                   TextTrimming="Clip"/>
                 </Grid>
-                <Grid Margin="8,4" Background="{ThemeResource SystemControlBackgroundAccentBrush}">
-                    <TextBlock Text="Beatles" Style="{ThemeResource BodyTextBlockStyle}" Margin="8,4"/>
+                <Grid Canvas.ZIndex="9999" x:Name="Title" Background="{ThemeResource SystemControlBackgroundAccentBrush}" 
+                          HorizontalAlignment="Left" VerticalAlignment="Center" Height="48">
+                    <TextBlock Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Margin="12,0" Text="Albums" 
+                                   HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"
+                                   TextWrapping="NoWrap" MaxLines="1" Style="{ThemeResource SubheaderTextBlockStyle}" 
+                                   TextTrimming="Clip"/>
                 </Grid>
-                <Grid Margin="8,4" Background="{ThemeResource SystemControlBackgroundAccentBrush}">
-                    <TextBlock Text="13 Tracks" Style="{ThemeResource BodyTextBlockStyle}" Margin="8,4"/>
-                </Grid>
-            </StackPanel>
-        </StackPanel>
-    </StackPanel>
+                <StackPanel Grid.Row="1" x:Name="Details" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,8">
+                    <Grid VerticalAlignment="Bottom" Margin="0,0,4,0" 
+                              Background="{ThemeResource SystemControlBackgroundAccentBrush}">
+                        <TextBlock Style="{ThemeResource BodyTextBlockStyle}" 
+                                       Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" 
+                                       Text="{x:Bind Context.ArtistsCount,Mode=OneWay}" Margin="12,8"/>
+                    </Grid>
+                    <Grid VerticalAlignment="Center" Margin="4,0,4,0" 
+                              Background="{ThemeResource SystemControlBackgroundAccentBrush}">
+                        <TextBlock Style="{ThemeResource BodyTextBlockStyle}" 
+                                       Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" 
+                                       Text="{x:Bind Context.SongsCount,Mode=OneWay}" Margin="12,8"/>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Grid>
 </Page>

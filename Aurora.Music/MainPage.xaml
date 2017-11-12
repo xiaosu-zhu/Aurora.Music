@@ -686,7 +686,9 @@
                     <TextBlock Text="{x:Bind DurationtoString(Duration)}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextTrimming="CharacterEllipsis" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="8,4"/>
                 </Grid>
             </DataTemplate>
-            <controls:SongListTemplateSelector x:Key="SongListTemplateSelector" EvenTemplate="{StaticResource EvenTemplate}" OddTemplate="{StaticResource OddTemplate}"/>
+            <controls:SongListTemplateSelector x:Key="SongListTemplateSelector" 
+                                               EvenTemplate="{StaticResource EvenTemplate}" 
+                                               OddTemplate="{StaticResource OddTemplate}"/>
         </ResourceDictionary>
     </Page.Resources>
 
@@ -713,16 +715,22 @@
                         HorizontalAlignment="Left" VerticalAlignment="Top" Click="Toggle_PaneOpened"
                         Margin="0,32,0,0" Width="48" Height="48">
                         <Button.Content>
-                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE700;" />
+                            <FontIcon Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" FontFamily="Segoe MDL2 Assets" Glyph="&#xE700;" />
                         </Button.Content>
                     </Button>
+                    <TextBlock Visibility="{x:Bind Context.NullableBooltoVisibility(Context.IsPlaying), Mode=OneWay}" 
+                           OpticalMarginAlignment="None" Margin="60,32,0,0" 
+                           Style="{ThemeResource SubheaderTextBlockStyle}"
+                           Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                           FontWeight="Bold" Text="Now"/>
+
                 </Grid>
                 <ListView SelectionChanged="Pane_CurrentChanged" ItemsSource="{x:Bind Context.HamList}" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemContainerStyle="{ThemeResource PaneListItemStyle}">
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="vm:HamPanelItem">
                             <Grid Margin="0,8">
                                 <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Icon}" FontSize="24" Margin="12,8" Foreground="{x:Bind ChangeForeground(IsCurrent), Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                                <TextBlock x:Name="Text" Margin="72,8" Text="{x:Bind Title}" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="{x:Bind ChangeWeight(IsCurrent), Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="Text" Margin="60,8" Text="{x:Bind Title}" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="{x:Bind ChangeWeight(IsCurrent), Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>
@@ -863,11 +871,17 @@
                            Foreground="{x:Bind TitleForeground(Context.IsLeftTopForeWhite), Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Top" 
                            FontWeight="Bold" Text="{x:Bind Context.Title,Mode=OneWay}"/>
 
-                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top" 
-                      Height="32" x:Name="TitleBar" Visibility="{x:Bind Context.BooltoVisibility(Context.NeedShowTitle), Mode=OneWay}" >
-                    <TextBlock Text="Aurora Music" Style="{ThemeResource CaptionTextBlockStyle}" 
+                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top" Background="Transparent" 
+                      Height="32" x:Name="TitleBar" Loaded="TitleBar_Loaded">
+                    <TextBlock Text="Aurora Music" Style="{ThemeResource CaptionTextBlockStyle}" Visibility="{x:Bind Context.BooltoVisibility(Context.NeedShowTitle), Mode=OneWay}"
                                Margin="60,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" 
                                Foreground="{x:Bind TitleForeground(Context.IsLeftTopForeWhite), Mode=OneWay}"/>
+                </Grid>
+                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top" 
+                      Height="32" x:Name="TitleBarOverlay" Visibility="Visible" >
+                    <AutoSuggestBox Style="{ThemeResource BlockAutoSuggestBox}" QuerySubmitted="SearchBox_QuerySubmitted" SuggestionChosen="SearchBox_SuggestionChosen"
+                                    PlaceholderText="Search in your library" QueryIcon="Find" x:Name="SearchBox" TextChanged="SearchBox_TextChanged" ItemsSource="{x:Bind Context.SearchItems, Mode=OneWay}"
+                                    HorizontalAlignment="Right" VerticalAlignment="Stretch" Width="320" Margin="0,0,180,0"/>
                 </Grid>
             </Grid>
         </SplitView.Content>

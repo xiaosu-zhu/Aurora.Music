@@ -10,6 +10,10 @@ using Aurora.Music.Core;
 using Windows.UI.Xaml.Media;
 using Aurora.Shared;
 using Windows.UI.ViewManagement;
+using Windows.ApplicationModel.Core;
+using Windows.System.Threading;
+using Aurora.Shared.Extensions;
+using Aurora.Music.Controls;
 
 // https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
 
@@ -192,6 +196,93 @@ namespace Aurora.Music
                 (s.Resources["PointerPressed"] as Storyboard).Begin();
                 e.Handled = true;
             }
+        }
+
+        private void TitleBar_Loaded(object sender, RoutedEventArgs e)
+        {
+            var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
+            // Get the size of the caption controls area and back button 
+            // (returned in logical pixels), and move your content around as necessary.
+            SearchBox.Margin = new Thickness(0, 0, coreTitleBar.SystemOverlayRightInset, 0);
+
+            // Update title bar control size as needed to account for system size changes.
+            TitleBar.Height = coreTitleBar.Height;
+            TitleBarOverlay.Height = coreTitleBar.Height;
+
+            coreTitleBar.LayoutMetricsChanged += CoreTitleBar_LayoutMetricsChanged;
+            coreTitleBar.IsVisibleChanged += CoreTitleBar_IsVisibleChanged;
+
+            Window.Current.SetTitleBar(TitleBar);
+        }
+
+        private void CoreTitleBar_IsVisibleChanged(CoreApplicationViewTitleBar sender, object args)
+        {
+            if (sender.IsVisible)
+            {
+                TitleBar.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                TitleBar.Visibility = Visibility.Collapsed;
+            }
+
+        }
+
+        private void CoreTitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
+        {
+            // Get the size of the caption controls area and back button 
+            // (returned in logical pixels), and move your content around as necessary.
+            SearchBox.Margin = new Thickness(0, 0, sender.SystemOverlayRightInset, 0);
+
+            // Update title bar control size as needed to account for system size changes.
+            TitleBar.Height = sender.Height;
+            TitleBarOverlay.Height = sender.Height;
+        }
+
+        private async void SearchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            if (args.ChosenSuggestion is GenericMusicItemViewModel g)
+            {
+                var dialog = new SearchResultDialog(g);
+                var result = await dialog.ShowAsync();
+            }
+            else
+            {
+                if (Context.SearchItems.IsNullorEmpty())
+                {
+                    var dialog = new SearchResultDialog();
+                    var result = await dialog.ShowAsync();
+                }
+                else
+                {
+                    var dialog = new SearchResultDialog(Context.SearchItems[0]);
+                    var result = await dialog.ShowAsync();
+                }
+            }
+            sender.Text = string.Empty;
+        }
+
+        private void SearchBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        {
+
+        }
+
+        private void SearchBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            if (args.Reason != AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                return;
+            }
+            if (sender.Text.IsNullorWhiteSpace())
+            {
+                Context.SearchItems.Clear();
+                return;
+            }
+            var text = sender.Text;
+            var t = ThreadPool.RunAsync(async x =>
+            {
+                await Context.Search(text);
+            });
         }
     }
 }

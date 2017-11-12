@@ -11,6 +11,7 @@ using Aurora.Music.Core.Storage;
 using Aurora.Music.Core.Models;
 using Windows.UI;
 using Windows.UI.Xaml.Media;
+using System.Text.RegularExpressions;
 
 namespace Aurora.Music.ViewModels
 {
@@ -34,6 +35,8 @@ namespace Aurora.Music.ViewModels
         public Color MainColor { get; set; }
 
         public int[] IDs { get; set; }
+
+        public int ContextualID { get; set; }
 
         public GenericMusicItemViewModel()
         {
@@ -88,6 +91,7 @@ namespace Aurora.Music.ViewModels
 
         public GenericMusicItemViewModel(Core.Models.Album album)
         {
+            ContextualID = album.ID;
             Title = album.Name;
             Addtional = string.Join(", ", album.AlbumArtists);
             Description = album.Songs.Length + album.Songs.Length == 1 ? " Song" : " Songs";
@@ -97,6 +101,7 @@ namespace Aurora.Music.ViewModels
 
         public GenericMusicItemViewModel(Core.Models.Song song)
         {
+            ContextualID = song.ID;
             Title = song.Title;
             Addtional = string.Join(", ", song.Performers);
             Description = TimeSpanFormatter.GetSongDurationFormat(song.Duration);
@@ -105,6 +110,7 @@ namespace Aurora.Music.ViewModels
         }
         public GenericMusicItemViewModel(Core.Models.GenericMusicItem item)
         {
+            ContextualID = item.ContextualID;
             Title = item.Title;
             Description = item.Description;
             Addtional = item.Addtional;
@@ -116,6 +122,17 @@ namespace Aurora.Music.ViewModels
         {
             var opr = SQLOperator.Current();
             return await opr.GetSongsAsync(IDs);
+        }
+
+        public override string ToString()
+        {
+            var title = Title;
+            if (title.Length > 20)
+            {
+                title = title.Substring(0, 20);
+                title += "…";
+            }
+            return $"{title} - {Description}";
         }
     }
 }

@@ -28,7 +28,7 @@
                     <Grid Background="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     </Grid>
                     <Grid Background="{x:Null}" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="96">
-                        <TextBlock Margin="12" x:Name="Title" Text="{x:Bind Title}" FontWeight="Bold" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{ThemeResource TitleTextBlockStyle}"/>
+                        <TextBlock Margin="12" x:Name="Title" Text="{x:Bind Title}" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{ThemeResource TitleTextBlockStyle}"/>
                     </Grid>
                 </Grid>
             </DataTemplate>

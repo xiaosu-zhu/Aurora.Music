@@ -38,7 +38,7 @@
                             <TextBlock Text="Player Configuration" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12"/>
                             <ComboBox HorizontalAlignment="Left" VerticalAlignment="Center" IsSynchronizedWithCurrentItem="False" SelectedIndex="{x:Bind Context.AudioSelectedIndex,Mode=TwoWay}" Header="Output Endpoint" ItemsSource="{x:Bind Context.DevicList}" Margin="12,12,12,0"/>
                             <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="'System default' will be applied at next launch." HorizontalAlignment="Left" VerticalAlignment="Center" Margin="12,0,12,12"/>
-                            <Slider Value="{x:Bind Context.PlayerVolume,Mode=TwoWay}" HorizontalAlignment="Left" VerticalAlignment="Center" Header="Volume Level" Margin="12,12,12,0" Width="240"/>
+                            <Slider Style="{StaticResource BlockSlider}" Value="{x:Bind Context.PlayerVolume,Mode=TwoWay}" HorizontalAlignment="Left" VerticalAlignment="Center" Header="Volume Level" Margin="12,12,12,0" Width="240"/>
                             <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="We suggest you to control the system volume directly." HorizontalAlignment="Left" VerticalAlignment="Center" Margin="12,0,12,12"/>
                         </StackPanel>
                         <StackPanel Margin="8" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -74,26 +74,32 @@
                                   Grid.ColumnSpan="9" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                                   Background="{ThemeResource SystemControlBackgroundBaseHighRevealBorderBrush}" Height="2"/>
                             <Ellipse Fill="{ThemeResource SystemControlAccentAcrylicWindowAccentMediumHighBrush}" Height="36" Width="36"/>
-                            <Ellipse Grid.Column="2" Fill="{ThemeResource SystemControlAltLowAcrylicWindowBrush}" Height="36" Width="36">
+                            <Ellipse Tag="Threshold" PointerEntered="Ellipse_PointerEntered" PointerPressed="Ellipse_PointerPressed" PointerReleased="Ellipse_PointerReleased"
+                                     PointerCanceled="Ellipse_PointerCanceled" PointerCaptureLost="Ellipse_PointerCanceled" PointerExited="Ellipse_PointerCanceled"
+                                     Grid.Column="2" Fill="{x:Bind GetBrush(Context.ThresholdEnabled),Mode=OneWay}" Height="36" Width="36">
                                 <Ellipse.RenderTransform>
-                                    <TranslateTransform Y="-48"/>
+                                    <TranslateTransform Y="{x:Bind GetPosition(Context.ThresholdEnabled), Mode=OneWay}"/>
                                 </Ellipse.RenderTransform>
                             </Ellipse>
-                            <Ellipse Grid.Column="4" Fill="{ThemeResource SystemControlAltLowAcrylicWindowBrush}"  Height="36" Width="36">
+                            <Ellipse Tag="Equalizer" PointerEntered="Ellipse_PointerEntered" PointerPressed="Ellipse_PointerPressed" PointerReleased="Ellipse_PointerReleased"
+                                     PointerCanceled="Ellipse_PointerCanceled" PointerCaptureLost="Ellipse_PointerCanceled" PointerExited="Ellipse_PointerCanceled"
+                                     Grid.Column="4" Fill="{x:Bind GetBrush(Context.EqualizerEnabled),Mode=OneWay}"  Height="36" Width="36">
                                 <Ellipse.RenderTransform>
-                                    <TranslateTransform Y="-48"/>
+                                    <TranslateTransform Y="{x:Bind GetPosition(Context.EqualizerEnabled), Mode=OneWay}"/>
                                 </Ellipse.RenderTransform>
                             </Ellipse>
-                            <Ellipse Grid.Column="6" Fill="{ThemeResource SystemControlAltLowAcrylicWindowBrush}"  Height="36" Width="36">
+                            <Ellipse Tag="Reverb" PointerEntered="Ellipse_PointerEntered" PointerPressed="Ellipse_PointerPressed" PointerReleased="Ellipse_PointerReleased"
+                                     PointerCanceled="Ellipse_PointerCanceled" PointerCaptureLost="Ellipse_PointerCanceled" PointerExited="Ellipse_PointerCanceled"
+                                Grid.Column="6" Fill="{x:Bind GetBrush(Context.ReverbEnabled),Mode=OneWay}"  Height="36" Width="36">
                                 <Ellipse.RenderTransform>
-                                    <TranslateTransform Y="-48"/>
+                                    <TranslateTransform Y="{x:Bind GetPosition(Context.ReverbEnabled), Mode=OneWay}"/>
                                 </Ellipse.RenderTransform>
                             </Ellipse>
                             <Ellipse Grid.Column="8" Fill="{ThemeResource SystemControlAccentAcrylicWindowAccentMediumHighBrush}" Height="36" Width="36"/>
                             <TextBlock Margin="0,12" Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="1" Grid.Column="0" Text="Input" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            <TextBlock Margin="0,12" Style="{ThemeResource BaseTextBlockStyle}" Foreground="Gray" Grid.Row="1" Grid.Column="2" Text="Threshold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            <TextBlock Margin="0,12" Style="{ThemeResource BaseTextBlockStyle}" Foreground="Gray" Grid.Row="1" Grid.Column="4" Text="Equalizer" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            <TextBlock Margin="0,12" Style="{ThemeResource BaseTextBlockStyle}" Foreground="Gray" Grid.Row="1" Grid.Column="6" Text="Reverb" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <TextBlock Margin="0,12" Style="{ThemeResource BaseTextBlockStyle}" Foreground="{x:Bind GetForeground(Context.ThresholdEnabled),Mode=OneWay}" Grid.Row="1" Grid.Column="2" Text="Threshold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <TextBlock Margin="0,12" Style="{ThemeResource BaseTextBlockStyle}" Foreground="{x:Bind GetForeground(Context.EqualizerEnabled),Mode=OneWay}" Grid.Row="1" Grid.Column="4" Text="Equalizer" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <TextBlock Margin="0,12" Style="{ThemeResource BaseTextBlockStyle}" Foreground="{x:Bind GetForeground(Context.ReverbEnabled),Mode=OneWay}" Grid.Row="1" Grid.Column="6" Text="Reverb" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             <TextBlock Margin="0,12" Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="1" Grid.Column="8" Text="Output" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Grid>
                         <StackPanel Margin="8" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -112,4 +118,4 @@
         </ScrollViewer>
         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="96" Background="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}"/>
     </Grid>
-  </Page>
+</Page>

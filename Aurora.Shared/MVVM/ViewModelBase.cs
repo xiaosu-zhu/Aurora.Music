@@ -48,6 +48,22 @@ namespace Aurora.Shared.MVVM
         {
             return !b ? Visibility.Visible : Visibility.Collapsed;
         }
+        public Visibility NullableBooltoVisibility(bool? b)
+        {
+            if (b is bool a)
+            {
+                return a ? Visibility.Visible : Visibility.Collapsed;
+            }
+            return Visibility.Collapsed;
+        }
+        public Visibility NullableBoolNottoVisibility(bool? b)
+        {
+            if (b is bool a)
+            {
+                return !a ? Visibility.Visible : Visibility.Collapsed;
+            }
+            return Visibility.Visible;
+        }
         public SolidColorBrush AccentForeground(bool isAccentDark)
         {
             return isAccentDark ? new SolidColorBrush(Colors.White) : new SolidColorBrush(Colors.Black);

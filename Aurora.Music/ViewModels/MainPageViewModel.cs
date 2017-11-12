@@ -58,7 +58,7 @@ namespace Aurora.Music.ViewModels
         {
             if (player == null)
             {
-                player = new AudioGraphPlayer();
+                player = new Player();
             }
             return player;
         }
@@ -293,13 +293,29 @@ namespace Aurora.Music.ViewModels
 
         public MainPageViewModel()
         {
-            player = new AudioGraphPlayer();
+            player = new Player();
             Current = this;
             player.StatusChanged += Player_StatusChanged;
             player.PositionUpdated += Player_PositionUpdated;
             var t = ThreadPool.RunAsync(async x =>
             {
                 await FindFileChanges();
+            });
+        }
+
+        public ObservableCollection<GenericMusicItemViewModel> SearchItems { get; set; } = new ObservableCollection<GenericMusicItemViewModel>();
+
+        internal async Task Search(string text)
+        {
+            var result = await FileReader.Search(text);
+
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            {
+                SearchItems.Clear();
+                foreach (var item in result)
+                {
+                    SearchItems.Add(new GenericMusicItemViewModel(item));
+                }
             });
         }
 

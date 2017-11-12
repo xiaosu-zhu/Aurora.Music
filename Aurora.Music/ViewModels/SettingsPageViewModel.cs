@@ -48,6 +48,51 @@ namespace Aurora.Music.ViewModels
             }
         }
 
+        internal void ToggleEffectState(string tag)
+        {
+            switch (tag)
+            {
+                case "Threshold":
+                    settings.AudioGraphEffects ^= Effects.Limiter;
+                    break;
+                case "Equalizer":
+                    settings.AudioGraphEffects ^= Effects.Equalizer;
+                    break;
+                case "Reverb":
+                    settings.AudioGraphEffects ^= Effects.Reverb;
+                    break;
+                default:
+                    break;
+            }
+
+            settings.Save();
+
+            EqualizerEnabled = settings.AudioGraphEffects.HasFlag(Effects.Equalizer);
+            ThresholdEnabled = settings.AudioGraphEffects.HasFlag(Effects.Limiter);
+            ReverbEnabled = settings.AudioGraphEffects.HasFlag(Effects.Reverb);
+        }
+
+        private bool equalizerEnabled;
+        public bool EqualizerEnabled
+        {
+            get { return equalizerEnabled; }
+            set { SetProperty(ref equalizerEnabled, value); }
+        }
+
+        private bool threshold;
+        public bool ThresholdEnabled
+        {
+            get { return threshold; }
+            set { SetProperty(ref threshold, value); }
+        }
+
+        private bool reverb;
+        public bool ReverbEnabled
+        {
+            get { return reverb; }
+            set { SetProperty(ref reverb, value); }
+        }
+
         private int lyricSource;
         public int LyricSource
         {
@@ -63,6 +108,9 @@ namespace Aurora.Music.ViewModels
         {
             settings = Settings.Load();
             PlayerVolume = settings.PlayerVolume;
+            EqualizerEnabled = settings.AudioGraphEffects.HasFlag(Effects.Equalizer);
+            ThresholdEnabled = settings.AudioGraphEffects.HasFlag(Effects.Limiter);
+            ReverbEnabled = settings.AudioGraphEffects.HasFlag(Effects.Reverb);
         }
 
         public ObservableCollection<DeviceInformationViewModel> DevicList = new ObservableCollection<DeviceInformationViewModel>();

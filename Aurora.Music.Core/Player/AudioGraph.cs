@@ -97,8 +97,6 @@ namespace Aurora.Music.Core.Player
         private List<StorageFile> files;
         private List<Song> currentPlayList;
 
-        private ThreadPoolTimer prepareNextTimer;
-
         private bool? isPlaying;
         public bool? IsPlaying
         {
@@ -119,6 +117,7 @@ namespace Aurora.Music.Core.Player
         private bool prepared;
         private ThreadPoolTimer updateTimer;
         private bool graphBuilt;
+        private bool connected;
 
         public async Task Init()
         {
@@ -175,35 +174,41 @@ namespace Aurora.Music.Core.Player
             return result.FileInputNode;
         }
 
-        private void FileAlmostComplete(ThreadPoolTimer timer)
-        {
-            if (currentIndex < 0 || currentIndex >= files.Count - 1 || nextFileNode == null)
-            {
-                return;
-            }
-
-            nextFileNode.StartTime = TimeSpan.Zero;
-            // TODO: what's this?
-            // nextFileNode.ConsumeInput
-        }
-
         private void InitEffects()
         {
             var settings = Settings.Load();
+
             reverbEffect = new ReverbEffectDefinition(audioGraph)
             {
-
+                WetDryMix = 50,
+                ReflectionsDelay = 12,
+                ReverbDelay = 30,
+                RearDelay = 3,
+                DecayTime = 2,
             };
             limiterEffect = new LimiterEffectDefinition(audioGraph)
             {
-
+                Loudness = 1000,
+                Release = 10
             };
-            eqEffect = new EqualizerEffectDefinition(audioGraph)
-            {
+            eqEffect = new EqualizerEffectDefinition(audioGraph);
 
-            };
 
-            reverbNode = audioGraph.CreateSubmixNode();
+            eqEffect.Bands[0].FrequencyCenter = 150.0f;
+            eqEffect.Bands[0].Gain = 4.033f;
+            eqEffect.Bands[0].Bandwidth = 2f;
+
+            eqEffect.Bands[1].FrequencyCenter = 300.0f;
+            eqEffect.Bands[1].Gain = 1.6888f;
+            eqEffect.Bands[1].Bandwidth = 2f;
+
+            eqEffect.Bands[2].FrequencyCenter = 6000.0f;
+            eqEffect.Bands[2].Gain = 2.4702f;
+            eqEffect.Bands[2].Bandwidth = 2f;
+
+            eqEffect.Bands[3].FrequencyCenter = 12000.0f;
+            eqEffect.Bands[3].Gain = 5.5958f;
+            eqEffect.Bands[3].Bandwidth = 2f;
         }
 
         private void ApplyEffects(Effects e)
@@ -222,32 +227,42 @@ namespace Aurora.Music.Core.Player
                 limiterNode = audioGraph.CreateSubmixNode();
             }
 
+            if (eqEffect == null)
+            {
+                InitEffects();
+            }
+
             reverbNode.EffectDefinitions.Clear();
             eqNode.EffectDefinitions.Clear();
             limiterNode.EffectDefinitions.Clear();
 
-            if (e == Effects.Equalizer)
+
+
+            if (e.HasFlag(Effects.Equalizer))
             {
-                reverbNode.EffectDefinitions.Add(eqEffect);
+                eqNode.EffectDefinitions.Add(eqEffect);
+                eqNode.EnableEffectsByDefinition(eqEffect);
             }
-            if (e == Effects.Limiter)
+            if (e.HasFlag(Effects.Limiter))
             {
-                reverbNode.EffectDefinitions.Add(limiterEffect);
+                limiterNode.EffectDefinitions.Add(limiterEffect);
+                limiterNode.EnableEffectsByDefinition(limiterEffect);
             }
-            if (e == Effects.Reverb)
+            if (e.HasFlag(Effects.Reverb))
             {
                 reverbNode.EffectDefinitions.Add(reverbEffect);
+                reverbNode.EnableEffectsByDefinition(reverbEffect);
             }
         }
 
         private void ShutdownEffects()
         {
-            fileInputNode.RemoveOutgoingConnection(limiterNode);
-            limiterNode.RemoveOutgoingConnection(eqNode);
-            eqNode.RemoveOutgoingConnection(reverbNode);
-            reverbNode.RemoveOutgoingConnection(deviceOutputNode);
-
-            fileInputNode.AddOutgoingConnection(deviceOutputNode);
+            eqNode.DisableEffectsByDefinition(eqEffect);
+            limiterNode.DisableEffectsByDefinition(limiterEffect);
+            reverbNode.DisableEffectsByDefinition(reverbEffect);
+            reverbNode.EffectDefinitions.Clear();
+            eqNode.EffectDefinitions.Clear();
+            limiterNode.EffectDefinitions.Clear();
         }
 
         private async Task CreateDeviceOutputNodeAsync()
@@ -282,20 +297,28 @@ namespace Aurora.Music.Core.Player
 
         public void Loop(bool? isOn)
         {
-            if (fileInputNode != null)
+            if (isOn is bool b && b)
             {
-                fileInputNode.LoopCount = int.MaxValue;
+                isLoop = true;
+
             }
+            else
+            {
+                isLoop = false;
+            }
+
+            StatusChange(false);
         }
 
         public async Task NewPlayList(IList<Song> songs, int startIndex = 0)
         {
+            Stop();
+            CleanUp();
+
             if (songs.IsNullorEmpty())
             {
                 throw new ArgumentException("songs is empty");
             }
-            files.Clear();
-            currentPlayList.Clear();
             currentPlayList.AddRange(songs);
 
             foreach (var item in songs)
@@ -317,43 +340,136 @@ namespace Aurora.Music.Core.Player
             Play();
         }
 
+        private void CleanUp()
+        {
+            nextFileNode?.Dispose();
+            nextFileNode = null;
+            fileInputNode?.Dispose();
+            fileInputNode = null;
+            previousFileNode?.Dispose();
+            previousFileNode = null;
+
+            files.Clear();
+            currentPlayList.Clear();
+        }
+
         public async void Next()
         {
-            DisconnectFromGraph();
-            if (files.Count > currentIndex + 1)
+            if (fileInputNode == null)
             {
+                isPlaying = false;
+                return;
+            }
+
+            DisconnectFromGraph();
+            if (files.Count > currentIndex)
+            {
+                currentIndex++;
+
                 previousFileNode?.Dispose();
                 previousFileNode = null;
 
                 previousFileNode = fileInputNode;
                 fileInputNode = nextFileNode;
-                nextFileNode = await CreateFileInputNodeAsync(files[currentIndex + 1]);
+                nextFileNode = files.Count > currentIndex + 1 ? await CreateFileInputNodeAsync(files[currentIndex + 1]) : null;
 
                 //nextFileNode.StartTime = TimeSpan.Zero;
                 //previousFileNode.StartTime = TimeSpan.Zero;
-
-                currentIndex++;
-
-                ConnectIntoGraph();
-                audioGraph.Start();
-
-                StatusChange(Windows.Media.Playback.MediaPlaybackState.Playing, true);
             }
             else if (isLoop)
             {
+                // TODO
+            }
+            else
+            {
+                audioGraph.Stop();
+                currentIndex = -1;
+            }
+            if (isPlaying is bool b && b)
+            {
+                Play();
+            }
+            else
+            {
+                Pause();
+            }
+        }
 
+
+        public async void Previous()
+        {
+            if (fileInputNode == null)
+            {
+                isPlaying = false;
+                return;
+            }
+
+            if (fileInputNode.Position.TotalSeconds > 3)
+            {
+                Seek(TimeSpan.Zero);
+                return;
+            }
+
+            DisconnectFromGraph();
+
+
+            if (currentIndex > 0)
+            {
+                currentIndex--;
+
+                nextFileNode?.Dispose();
+                nextFileNode = null;
+
+                nextFileNode = fileInputNode;
+                fileInputNode = previousFileNode;
+                previousFileNode = currentIndex > 0 ? await CreateFileInputNodeAsync(files[currentIndex - 1]) : null;
+
+                //nextFileNode.StartTime = TimeSpan.Zero;
+                //previousFileNode.StartTime = TimeSpan.Zero;
+            }
+            else if (isLoop)
+            {
+                // TODO
+            }
+            else
+            {
+                audioGraph.Stop();
+                currentIndex = -1;
+            }
+            if (isPlaying is bool b && b)
+            {
+                Play();
+            }
+            else
+            {
+                Pause();
             }
         }
 
         private void ConnectIntoGraph()
         {
+            if (connected)
+            {
+                return;
+            }
             fileInputNode.AddOutgoingConnection(limiterNode);
+            fileInputNode.FileCompleted += FileInputNode_FileCompleted;
+            connected = true;
         }
 
         private void DisconnectFromGraph()
         {
             if (fileInputNode != null)
+            {
+                fileInputNode.FileCompleted -= FileInputNode_FileCompleted;
                 fileInputNode.RemoveOutgoingConnection(limiterNode);
+            }
+            connected = false;
+        }
+
+        private void FileInputNode_FileCompleted(AudioFileInputNode sender, object args)
+        {
+            Next();
         }
 
         public void Pause()
@@ -363,7 +479,7 @@ namespace Aurora.Music.Core.Player
                 currentPosition = fileInputNode?.Position;
                 audioGraph.Stop();
                 isPlaying = false;
-                StatusChange(Windows.Media.Playback.MediaPlaybackState.Paused, false);
+                StatusChange(false);
             }
         }
 
@@ -377,12 +493,14 @@ namespace Aurora.Music.Core.Player
                 }
                 else
                 {
-                    PrepareToPlay();
+                    AsyncHelper.RunSync(async () => await PrepareToPlay());
                 }
+                ConnectIntoGraph();
+
                 audioGraph.Start();
                 isPlaying = true;
 
-                StatusChange(Windows.Media.Playback.MediaPlaybackState.Playing, true);
+                StatusChange(true);
 
                 updateTimer?.Cancel();
                 updateTimer = ThreadPoolTimer.CreatePeriodicTimer(UpdatePosition, TimeSpan.FromMilliseconds(50));
@@ -405,7 +523,7 @@ namespace Aurora.Music.Core.Player
             }
         }
 
-        private void StatusChange(Windows.Media.Playback.MediaPlaybackState state, bool b)
+        private void StatusChange(bool b)
         {
             if (b)
             {
@@ -416,7 +534,6 @@ namespace Aurora.Music.Core.Player
                     IsShuffle = isShuffle,
                     CurrentSong = currentPlayList[currentIndex],
                     Items = currentPlayList,
-                    State = state
                 });
             }
             else
@@ -425,12 +542,11 @@ namespace Aurora.Music.Core.Player
                 {
                     IsLoop = isLoop,
                     IsShuffle = isShuffle,
-                    State = state
                 });
             }
         }
 
-        private async void PrepareToPlay()
+        private async Task PrepareToPlay()
         {
             await PrepareNodes();
 
@@ -490,17 +606,12 @@ namespace Aurora.Music.Core.Player
 
         private void BuildGraph()
         {
-            fileInputNode.AddOutgoingConnection(limiterNode);
             limiterNode.AddOutgoingConnection(eqNode);
             eqNode.AddOutgoingConnection(reverbNode);
             reverbNode.AddOutgoingConnection(deviceOutputNode);
             graphBuilt = true;
         }
 
-        public void Previous()
-        {
-            throw new NotImplementedException();
-        }
 
         public void Seek(TimeSpan position)
         {
@@ -509,21 +620,23 @@ namespace Aurora.Music.Core.Player
 
         public void Shuffle(bool? isOn)
         {
-            throw new NotImplementedException();
+            if (isOn is bool b && b)
+            {
+                isShuffle = true;
+
+            }
+            else
+            {
+                isShuffle = false;
+            }
+
+            StatusChange(false);
         }
 
         public void Stop()
         {
-            UnplugGraph();
-            fileInputNode.Dispose();
-            fileInputNode = null;
+            audioGraph.Stop();
+            DisconnectFromGraph();
         }
-
-        private void UnplugGraph()
-        {
-            throw new NotImplementedException();
-        }
-
     }
-
 }

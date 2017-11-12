@@ -15,6 +15,7 @@ namespace Aurora.Music.Core.Models
 {
     public class GenericMusicItem
     {
+        public int ContextualID { get; }
         public string Title { get; set; }
         public string Description { get; set; }
         public string Addtional { get; set; }
@@ -25,6 +26,7 @@ namespace Aurora.Music.Core.Models
 
         internal GenericMusicItem(SONG s)
         {
+            ContextualID = s.ID;
             Title = s.Title;
             Description = s.Album;
             Addtional = s.AlbumArtists.IsNullorEmpty() ? "Unknown Artists" : string.Join(", ", s.AlbumArtists.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries));
@@ -33,6 +35,7 @@ namespace Aurora.Music.Core.Models
         }
         internal GenericMusicItem(ALBUM s)
         {
+            ContextualID = s.ID;
             Title = s.Name;
             var songs = s.Songs.Split(new string[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
             var ids = Array.ConvertAll(songs, (a) =>
@@ -261,6 +264,7 @@ namespace Aurora.Music.Core.Models
 
         internal Album(Storage.ALBUM album)
         {
+            ID = album.ID;
             var songs = album.Songs.Split(new string[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
             Songs = Array.ConvertAll(songs, (a) =>
             {
@@ -318,5 +322,6 @@ namespace Aurora.Music.Core.Models
         public virtual string[] AlbumArtistsSort { get; set; }
         public virtual double ReplayGainAlbumGain { get; set; }
         public virtual double ReplayGainAlbumPeak { get; set; }
+        public int ID { get; }
     }
 }

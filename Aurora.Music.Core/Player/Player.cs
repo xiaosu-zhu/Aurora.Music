@@ -141,10 +141,9 @@ namespace Aurora.Music.Core.Player
             }
             StatusChanged?.Invoke(this, new StatusChangedArgs
             {
-                State = mediaPlayer.PlaybackSession.PlaybackState,
                 IsShuffle = mediaPlaybackList.ShuffleEnabled,
                 IsLoop = mediaPlaybackList.AutoRepeatEnabled,
-                CurrentSong = mediaPlaybackList.CurrentItem.Source.CustomProperties[Consts.SONG] as Song
+                CurrentSong = mediaPlaybackList.CurrentItem?.Source.CustomProperties[Consts.SONG] as Song
             });
         }
 
@@ -168,10 +167,9 @@ namespace Aurora.Music.Core.Player
             }
             StatusChanged?.Invoke(this, new StatusChangedArgs
             {
-                State = mediaPlayer.PlaybackSession.PlaybackState,
                 IsShuffle = mediaPlaybackList.ShuffleEnabled,
                 IsLoop = mediaPlaybackList.AutoRepeatEnabled,
-                CurrentSong = mediaPlaybackList.CurrentItem.Source.CustomProperties[Consts.SONG] as Song,
+                CurrentSong = mediaPlaybackList.CurrentItem?.Source.CustomProperties[Consts.SONG] as Song,
                 CurrentIndex = mediaPlaybackList.CurrentItemIndex,
                 Items = currentList
             });

@@ -33,7 +33,6 @@ namespace Aurora.Music.Core.Player
     public class StatusChangedArgs
     {
         public Song CurrentSong { get; set; }
-        public MediaPlaybackState State { get; set; }
         public bool IsLoop { get; set; }
         public bool IsShuffle { get; set; }
 

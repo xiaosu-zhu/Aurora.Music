@@ -70,7 +70,7 @@ namespace Aurora.Music.ViewModels
                     })));
                     sum += item.Sum(x => x.Count);
                 }
-                ArtistsCount = ArtistList.Count == 1 ? "1 Artists" : $"{ArtistList.Count} Artists";
+                ArtistsCount = artists.Count == 1 ? "1 Artists" : $"{ArtistList.Count} Artists";
                 SongsCount = sum == 1 ? "1 Song" : $"{sum} Songs";
             });
         }

@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.System.Threading;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Shapes;
 
 namespace Aurora.Music.Pages
 {
@@ -22,6 +24,42 @@ namespace Aurora.Music.Pages
             {
                 await Context.Init();
             });
+        }
+
+        private void Ellipse_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+
+        }
+
+        private void Ellipse_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+
+        }
+
+        private void Ellipse_PointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            var el = sender as Ellipse;
+            Context.ToggleEffectState((string)el.Tag);
+        }
+
+        private void Ellipse_PointerCanceled(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+
+        }
+
+        double GetPosition(bool b)
+        {
+            return b ? 0d : -48d;
+        }
+
+        AcrylicBrush GetBrush(bool b)
+        {
+            return (AcrylicBrush)(b ? Resources["SystemControlAccentAcrylicWindowAccentMediumHighBrush"] : Resources["SystemControlAltLowAcrylicWindowBrush"]);
+        }
+
+        SolidColorBrush GetForeground(bool b)
+        {
+            return (SolidColorBrush)(b ? Resources["SystemControlForegroundBaseHighBrush"] : Resources["SystemControlForegroundChromeGrayBrush"]);
         }
     }
 }

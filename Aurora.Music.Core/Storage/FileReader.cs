@@ -39,7 +39,7 @@ namespace Aurora.Music.Core.Storage
             return files;
         }
 
-        public static async Task<List<Models.Album>> GetAlbumsAsync(string value)
+        public static async Task<List<Album>> GetAlbumsAsync(string value)
         {
             var opr = SQLOperator.Current();
 
@@ -51,17 +51,44 @@ namespace Aurora.Music.Core.Storage
                 // anonymous artists, get their songs
                 var songs = await opr.GetWithQueryAsync<SONG>("ALBUMARTISTS", value);
                 var albumGrouping = from song in songs group song by song.Album;
-                return albumGrouping.ToList().ConvertAll(a => new Models.Album(a));
+                return albumGrouping.ToList().ConvertAll(a => new Album(a));
             }
 
             // get aritst-associated albums
             var albums = await opr.GetWithQueryAsync<ALBUM>("ALBUMARTISTS", value);
-            var res = albums.ConvertAll(a => new Models.Album(a));
+            var res = albums.ConvertAll(a => new Album(a));
 
             var otherSongs = await opr.GetWithQueryAsync<SONG>($"SELECT * FROM SONG WHERE PERFORMERS='{value}' OR ALBUMARTISTS='{value}'");
 
             // remove duplicated (we suppose that artist's all song is just 1000+, this way can find all song and don't take long time)
             otherSongs.RemoveAll(x => !albums.Where(b => b.Name == x.Album).IsNullorEmpty());
+            var otherGrouping = from song in otherSongs group song by song.Album;
+            // otherSongs has item
+            if (!otherGrouping.IsNullorEmpty())
+            {
+                res.AddRange(otherGrouping.ToList().ConvertAll(a => new Album(a)));
+            }
+            return res;
+        }
+
+        public static async Task<int> GetArtistsCountAsync()
+        {
+            var opr = SQLOperator.Current();
+            var artists = await opr.GetArtistsAsync();
+            return artists.Count;
+        }
+
+        public static async Task<List<Album>> GetAllAlbumsAsync()
+        {
+            var opr = SQLOperator.Current();
+
+            // get aritst-associated albums
+            var albums = await opr.GetAllAsync<ALBUM>();
+            var res = albums.ConvertAll(a => new Album(a));
+
+            var otherSongs = await opr.GetWithQueryAsync<SONG>($"SELECT * FROM SONG WHERE ALBUM IS NULL");
+
+            // remove duplicated (we suppose that artist's all song is just 1000+, this way can find all song and don't take long time)
             var otherGrouping = from song in otherSongs group song by song.Album;
             // otherSongs has item
             if (!otherGrouping.IsNullorEmpty())
@@ -238,6 +265,20 @@ namespace Aurora.Music.Core.Storage
                 }
                 Completed?.Invoke(this, EventArgs.Empty);
             });
+        }
+
+        public static async Task<List<GenericMusicItem>> Search(string text)
+        {
+            var opr = SQLOperator.Current();
+            text = SQLOperator.SQLEscaping(text);
+
+            var songs = await opr.SearchAsync<SONG>(text, "TITLE", "PERFORMERS");
+
+            var album = await opr.SearchAsync<ALBUM>(text, "NAME", "AlbumArtists");
+
+            var l = new List<GenericMusicItem>(album.ConvertAll(x => new GenericMusicItem(x)));
+            l.AddRange(songs.ConvertAll(x => new GenericMusicItem(x)));
+            return l;
         }
 
         internal async Task AddToAlbums(IEnumerable<SONG> songs)

@@ -701,7 +701,9 @@ namespace Aurora.Music.Core.Storage
             {
                 list.Add(await conn.FindAsync<SONG>(id));
             }
-            return list.ConvertAll(x => new Song(x));
+            var k = list.ConvertAll(x => new Song(x));
+            var k1 = k.OrderBy(m => m.Disc);
+            return k1.OrderBy(m => m.Track).ToList();
         }
 
         public async Task<List<FOLDER>> GetFolderAsync(string path)
@@ -881,6 +883,19 @@ namespace Aurora.Music.Core.Storage
         internal async Task RemoveSongAsync(string path)
         {
             await conn.QueryAsync<int>("DELETE FROM SONG WHERE FILEPATH=?", path);
+        }
+
+        internal async Task<List<T>> SearchAsync<T>(string text, params string[] parameter) where T : new()
+        {
+            text = $"%{text.Replace(' ', '%')}%";
+            var query = $"SELECT * FROM {typeof(T).Name} WHERE ";
+            foreach (var item in parameter)
+            {
+                query += $"{item} LIKE '{text}' OR ";
+            }
+            query = query.Substring(0, query.Length - 4);
+            query += " COLLATE NOCASE";
+            return await conn.QueryAsync<T>(query);
         }
     }
 
