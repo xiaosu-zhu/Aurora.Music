@@ -54,7 +54,11 @@ namespace Aurora.Music.ViewModels
         {
             var opr = SQLOperator.Current();
             var artists = await opr.GetArtistsAsync();
-            var grouped = GroupedItem<Artist>.CreateGroupsByAlpha(artists);
+            var grouped = GroupedItem<ArtistViewModel>.CreateGroupsByAlpha(artists.ConvertAll(x => new ArtistViewModel
+            {
+                Name = x.AlbumArtists,
+                SongsCount = x.Count
+            }));
 
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
@@ -63,12 +67,8 @@ namespace Aurora.Music.ViewModels
                 long sum = 0;
                 foreach (var item in grouped)
                 {
-                    ArtistList.Add(new GroupedItem<ArtistViewModel>(item.Key, item.Select(i => new ArtistViewModel
-                    {
-                        Name = i.AlbumArtists,
-                        SongsCount = i.Count
-                    })));
-                    sum += item.Sum(x => x.Count);
+                    ArtistList.Add(item);
+                    sum += item.Sum(x => x.SongsCount);
                 }
                 ArtistsCount = artists.Count == 1 ? "1 Artists" : $"{ArtistList.Count} Artists";
                 SongsCount = sum == 1 ? "1 Song" : $"{sum} Songs";

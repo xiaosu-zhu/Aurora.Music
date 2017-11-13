@@ -181,6 +181,11 @@
     <Content Include="Assets\Images\now_placeholder.scale-150.png" />
     <Content Include="Assets\Images\now_placeholder.scale-200.png" />
     <Content Include="Assets\Images\now_placeholder.scale-400.png" />
+    <Content Include="Assets\Images\pane_placeholder.scale-100.png" />
+    <Content Include="Assets\Images\pane_placeholder.scale-125.png" />
+    <Content Include="Assets\Images\pane_placeholder.scale-150.png" />
+    <Content Include="Assets\Images\pane_placeholder.scale-200.png" />
+    <Content Include="Assets\Images\pane_placeholder.scale-400.png" />
     <Content Include="Assets\Images\placeholder_b.scale-100.png" />
     <Content Include="Assets\Images\placeholder_b.scale-125.png" />
     <Content Include="Assets\Images\placeholder_b.scale-150.png" />

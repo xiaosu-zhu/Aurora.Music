@@ -48,6 +48,20 @@ namespace Aurora.Music.ViewModels
             list.AddRange(group);
         }
 
+        public GroupedItem(IGrouping<int, T> group)
+        {
+            Key = group.Key.ToString("#");
+            list = new List<T>();
+            list.AddRange(group);
+        }
+
+        public GroupedItem(IGrouping<uint, T> group)
+        {
+            Key = group.Key.ToString("#");
+            list = new List<T>();
+            list.AddRange(group);
+        }
+
         /// <summary>
         /// Create a list of AlphaGroup<T> with keys set by a SortedLocaleGrouping.
         /// </summary>
@@ -63,6 +77,43 @@ namespace Aurora.Music.ViewModels
             var groups = from i in items group i by RemovePinYin(g.Lookup(i.Key));
             var ordered = groups.OrderBy(z => z.Key, new StringHelper());
             return from p in ordered where !p.IsNullorEmpty() select new GroupedItem<T>(p);
+        }
+
+        public static IEnumerable<GroupedItem<T>> CreateGroups(IEnumerable<T> items, Func<T, string> predicate)
+        {
+            var groups = from i in items group i by predicate(i);
+            var ordered = groups.OrderBy(z => z.Key, new StringHelper());
+            return from p in ordered where !p.IsNullorEmpty() select new GroupedItem<T>(p);
+        }
+
+        public static IEnumerable<GroupedItem<T>> CreateGroups(IEnumerable<T> items, Func<T, int> predicate, bool isDescend = false)
+        {
+            var groups = from i in items group i by predicate(i);
+            if (isDescend)
+            {
+                var ordered = groups.OrderByDescending(z => z.Key);
+                return from p in ordered where !p.IsNullorEmpty() select new GroupedItem<T>(p);
+            }
+            else
+            {
+                var ordered = groups.OrderBy(z => z.Key);
+                return from p in ordered where !p.IsNullorEmpty() select new GroupedItem<T>(p);
+            }
+        }
+
+        public static IEnumerable<GroupedItem<T>> CreateGroups(IEnumerable<T> items, Func<T, uint> predicate, bool isDescend = false)
+        {
+            var groups = from i in items group i by predicate(i);
+            if (isDescend)
+            {
+                var ordered = groups.OrderByDescending(z => z.Key);
+                return from p in ordered where !p.IsNullorEmpty() select new GroupedItem<T>(p);
+            }
+            else
+            {
+                var ordered = groups.OrderBy(z => z.Key);
+                return from p in ordered where !p.IsNullorEmpty() select new GroupedItem<T>(p);
+            }
         }
 
         private static string RemovePinYin(string v)

@@ -709,7 +709,7 @@
                         <Grid.Background>
                             <ImageBrush Stretch="UniformToFill" AlignmentX="Center" AlignmentY="Center">
                                 <ImageBrush.ImageSource>
-                                    <BitmapImage UriSource="{x:Bind Context.CurrentArtwork, Mode=OneWay, TargetNullValue=ms-appx:///Assets/Square150x150Logo.png}"/>
+                                    <BitmapImage UriSource="{x:Bind Context.CurrentArtwork, Mode=OneWay, TargetNullValue=ms-appx:///Assets/Images/pane_placeholder.png}"/>
                                 </ImageBrush.ImageSource>
                             </ImageBrush>
                         </Grid.Background>
@@ -733,9 +733,13 @@
                 <ListView SelectionChanged="Pane_CurrentChanged" ItemsSource="{x:Bind Context.HamList}" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemContainerStyle="{ThemeResource PaneListItemStyle}">
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="vm:HamPanelItem">
-                            <Grid Height="48">
-                                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Icon}" Width="48" Foreground="{x:Bind ChangeForeground(IsCurrent), Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                                <TextBlock x:Name="Text" Margin="60,0" Text="{x:Bind Title}" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="{x:Bind ChangeWeight(IsCurrent), Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            <Grid Height="180">
+                                <Grid.Background>
+                                    <ImageBrush ImageSource="/Assets/Images/1.png" AlignmentX="Center" AlignmentY="Center" Stretch="UniformToFill"/>
+                                </Grid.Background>
+                                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource SystemControlBackgroundBaseMediumBrush}"/>
+                                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Icon}" Width="48" Foreground="{x:Bind ChangeForeground(IsCurrent), Mode=OneWay}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="Text" Margin="60,0" Text="{x:Bind Title}" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="{x:Bind ChangeWeight(IsCurrent), Mode=OneWay}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>
@@ -745,7 +749,7 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
-                    <Button Height="48" Command="{x:Bind Context.GotoSettings}" HorizontalContentAlignment="Left" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{ThemeResource RevealRectangleButton}" BorderThickness="0" >
+                    <Button Height="48" Command="{x:Bind Context.GotoSettings}" HorizontalContentAlignment="Left" Background="{ThemeResource SystemControlBackgroundAltHighRevealBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{ThemeResource RevealRectangleButton}" BorderThickness="0" >
                         <Grid HorizontalAlignment="Left" VerticalAlignment="Center" Height="48">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
@@ -755,7 +759,7 @@
                             <TextBlock Grid.Column="1" Margin="12,8" Text="Settings" Style="{ThemeResource SubtitleTextBlockStyle}" HorizontalAlignment="Left" VerticalAlignment="Stretch"/>
                         </Grid>
                     </Button>
-                    <Button ToolTipService.ToolTip="About" Height="48" Grid.Column="1" Command="{x:Bind Context.GotoAbout}" Background="{ThemeResource SystemControlHighlightAccent3RevealAccent2BackgroundBrush}" 
+                    <Button ToolTipService.ToolTip="About" Height="48" Grid.Column="1" Command="{x:Bind Context.GotoAbout}" Background="{ThemeResource SystemControlBackgroundAltHighRevealBrush}" 
                             HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{ThemeResource RevealRectangleButton}" BorderThickness="0" >
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Height="48">
                             <FontIcon FontFamily="Segoe MDL2 Assets" Width="48" Glyph="&#xED59;" HorizontalAlignment="Left" VerticalAlignment="Stretch"/>

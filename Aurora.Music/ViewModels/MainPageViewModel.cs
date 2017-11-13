@@ -450,7 +450,7 @@ namespace Aurora.Music.ViewModels
 
         public SolidColorBrush ChangeForeground(bool b)
         {
-            return (SolidColorBrush)(b ? MainPage.Current.Resources["SystemControlBackgroundAccentBrush"] : MainPage.Current.Resources["SystemControlForegroundBaseHighBrush"]);
+            return (SolidColorBrush)(b ? MainPage.Current.Resources["SystemControlBackgroundAccentBrush"] : MainPage.Current.Resources["SystemControlForegroundAltHighBrush"]);
         }
     }
 }

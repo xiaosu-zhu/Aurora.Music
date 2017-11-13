@@ -143,7 +143,7 @@ namespace Aurora.Music.ViewModels
         private string picturePath;
         public string PicturePath
         {
-            get { return picturePath.IsNullorEmpty() ? Consts.BlackPlaceholder : picturePath; }
+            get { return picturePath; }
             set { picturePath = value; }
         }
 

@@ -64,6 +64,12 @@ namespace Aurora.Music.ViewModels
         public virtual string[] Genres { get; set; }
         public virtual uint Year { get; set; }
         public virtual string AlbumSort { get; set; }
+
+        internal string GetFormattedArtists()
+        {
+            return AlbumArtists.IsNullorEmpty() ? "Unknown Artists" : string.Join(", ", AlbumArtists);
+        }
+
         public virtual uint TrackCount { get; set; }
         public virtual uint DiscCount { get; set; }
         public virtual string[] AlbumArtists { get; set; }
@@ -75,6 +81,10 @@ namespace Aurora.Music.ViewModels
         {
             get
             {
+                if (Name.IsNullorEmpty())
+                {
+                    return " ";
+                }
                 if (Name.StartsWith("The ", System.StringComparison.CurrentCultureIgnoreCase))
                 {
                     return Name.Substring(4);

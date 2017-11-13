@@ -38,6 +38,10 @@ namespace Aurora.Music.ViewModels
         {
             get
             {
+                if (Name.IsNullorEmpty())
+                {
+                    return " ";
+                }
                 if (Name.StartsWith("The ", System.StringComparison.CurrentCultureIgnoreCase))
                 {
                     return Name.Substring(4);

@@ -76,7 +76,7 @@ namespace Aurora.Shared.Helpers
             {
                 return "Evening";
             }
-            return "Now";
+            return "Midnight";
         }
     }
 }

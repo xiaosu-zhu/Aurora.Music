@@ -223,5 +223,21 @@ namespace Aurora.Music.Pages
                 e.Handled = true;
             }
         }
+
+        private void SemanticZoom_ViewChangeCompleted(object sender, SemanticZoomViewChangedEventArgs e)
+        {
+            var zoom = sender as SemanticZoom;
+            if (zoom.IsZoomedInViewActive)
+            {
+                var scroller = AlbumList.GetScrollViewer();
+                scroller.ChangeView(null, scroller.VerticalOffset - 120, null);
+            }
+        }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var box = sender as ComboBox;
+            Context.ChangeSort(box.SelectedIndex);
+        }
     }
 }

@@ -45,8 +45,8 @@ namespace Aurora.Music.ViewModels
         public void Init(SongViewModel song)
         {
             Song = song;
-            CurrentArtwork = song.PicturePath == Consts.BlackPlaceholder ? null : new Uri(song.PicturePath);
-            lastUriPath = song.PicturePath == Consts.BlackPlaceholder ? null : song.PicturePath;
+            CurrentArtwork = song.PicturePath.IsNullorEmpty() ? null : new Uri(song.PicturePath);
+            lastUriPath = song.PicturePath.IsNullorEmpty() ? null : song.PicturePath;
             IsPlaying = player.IsPlaying;
             var t = ThreadPool.RunAsync(async x =>
             {
@@ -297,13 +297,14 @@ namespace Aurora.Music.ViewModels
                         }
                         else
                         {
-                            CurrentArtwork = new Uri(Song.PicturePath);
-                            lastUriPath = Song.PicturePath;
+                            CurrentArtwork = Song.PicturePath == Consts.BlackPlaceholder ? null : new Uri(Song.PicturePath);
+                            lastUriPath = Song.PicturePath == Consts.BlackPlaceholder ? null : Song.PicturePath;
                         }
                     }
                     else
                     {
                         CurrentArtwork = null;
+                        lastUriPath = null;
                     }
                     if (e.Items is IList<Song> l)
                     {
