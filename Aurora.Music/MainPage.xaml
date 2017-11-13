@@ -707,10 +707,14 @@
                 <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="180">
                         <Grid.Background>
-                            <ImageBrush Stretch="UniformToFill" AlignmentX="Center" AlignmentY="Center"/>
+                            <ImageBrush Stretch="UniformToFill" AlignmentX="Center" AlignmentY="Center">
+                                <ImageBrush.ImageSource>
+                                    <BitmapImage UriSource="{x:Bind Context.CurrentArtwork, Mode=OneWay, TargetNullValue=ms-appx:///Assets/Square150x150Logo.png}"/>
+                                </ImageBrush.ImageSource>
+                            </ImageBrush>
                         </Grid.Background>
                     </Grid>
-                    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="180" Background="{ThemeResource SystemControlBackgroundBaseLowBrush}"/>
+                    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="180" Background="{ThemeResource SystemControlBackgroundBaseLowRevealBackgroundBrush}"/>
                     <Button Style="{ThemeResource MainPageHamStyle}" Background="Transparent" ToolTipService.ToolTip="Collapse"
                         HorizontalAlignment="Left" VerticalAlignment="Top" Click="Toggle_PaneOpened"
                         Margin="0,32,0,0" Width="48" Height="48">
@@ -877,11 +881,12 @@
                                Margin="60,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" 
                                Foreground="{x:Bind TitleForeground(Context.IsLeftTopForeWhite), Mode=OneWay}"/>
                 </Grid>
-                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top" 
+                <Grid HorizontalAlignment="Right" VerticalAlignment="Top" 
                       Height="32" x:Name="TitleBarOverlay" Visibility="Visible" >
+                    <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="1" x:Name="TitlebarBtm" Background="{StaticResource BlockAutoSuggestBoxTextBoxStyleBorderBrush}"/>
                     <AutoSuggestBox Style="{ThemeResource BlockAutoSuggestBox}" QuerySubmitted="SearchBox_QuerySubmitted" SuggestionChosen="SearchBox_SuggestionChosen"
                                     PlaceholderText="Search in your library" QueryIcon="Find" x:Name="SearchBox" TextChanged="SearchBox_TextChanged" ItemsSource="{x:Bind Context.SearchItems, Mode=OneWay}"
-                                    HorizontalAlignment="Right" VerticalAlignment="Stretch" Width="320" Margin="0,0,180,0"/>
+                                    HorizontalAlignment="Right" VerticalAlignment="Stretch" Width="320"/>
                 </Grid>
             </Grid>
         </SplitView.Content>
