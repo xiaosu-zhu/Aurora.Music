@@ -52,6 +52,9 @@ namespace Aurora.Music.ViewModels
         public async Task GetAlbums()
         {
             var albums = await FileReader.GetAllAlbumsAsync();
+
+            //var grouped = GroupedItem<AlbumViewModel>.CreateGroupsByAlpha(list);
+
             var b = ThreadPool.RunAsync(async x =>
             {
                 var aa = albums.ToList();

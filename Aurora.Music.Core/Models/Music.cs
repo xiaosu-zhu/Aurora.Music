@@ -44,7 +44,12 @@ namespace Aurora.Music.Core.Models
             });
             Description = ids.Length.ToString() + (ids.Length == 1 ? " Song" : " Songs");
             Addtional = s.AlbumArtists.IsNullorEmpty() ? "Unknown Artists" : string.Join(", ", s.AlbumArtists.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries));
-            IDs = ids;
+
+            var songIDs = AsyncHelper.RunSync(async () => await SQLOperator.Current().GetSongsAsync(ids));
+            var s1 = songIDs.OrderBy(a => a.Track);
+            s1 = s1.OrderBy(a => a.Disc);
+            IDs = s1.Select(b => b.ID).ToArray();
+
             PicturePath = s.PicturePath;
         }
     }

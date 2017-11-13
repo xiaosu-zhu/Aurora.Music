@@ -21,7 +21,7 @@
                 <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                 <Setter Property="VerticalContentAlignment" Value="Stretch"/>
                 <Setter Property="OpenPaneLength" Value="{ThemeResource SplitViewOpenPaneThemeLength}"/>
-                <Setter Property="PaneBackground" Value="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}"/>
+                <Setter Property="PaneBackground" Value="{ThemeResource SystemControlAltHighAcrylicElementBrush}"/>
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="SplitView">
@@ -714,12 +714,13 @@
                             </ImageBrush>
                         </Grid.Background>
                     </Grid>
-                    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="180" Background="{ThemeResource SystemControlBackgroundBaseLowRevealBackgroundBrush}"/>
+                    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="180" Background="{ThemeResource SystemControlBackgroundBaseMediumBrush}">
+                    </Grid>
                     <Button Style="{ThemeResource MainPageHamStyle}" Background="Transparent" ToolTipService.ToolTip="Collapse"
                         HorizontalAlignment="Left" VerticalAlignment="Top" Click="Toggle_PaneOpened"
                         Margin="0,32,0,0" Width="48" Height="48">
                         <Button.Content>
-                            <FontIcon Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" FontFamily="Segoe MDL2 Assets" Glyph="&#xE700;" />
+                            <FontIcon Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" FontFamily="Segoe MDL2 Assets" Glyph="&#xE112;" />
                         </Button.Content>
                     </Button>
                     <TextBlock Visibility="{x:Bind Context.NullableBooltoVisibility(Context.IsPlaying), Mode=OneWay}" 
@@ -732,9 +733,9 @@
                 <ListView SelectionChanged="Pane_CurrentChanged" ItemsSource="{x:Bind Context.HamList}" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemContainerStyle="{ThemeResource PaneListItemStyle}">
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="vm:HamPanelItem">
-                            <Grid Margin="0,8">
-                                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Icon}" FontSize="24" Margin="12,8" Foreground="{x:Bind ChangeForeground(IsCurrent), Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                                <TextBlock x:Name="Text" Margin="60,8" Text="{x:Bind Title}" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="{x:Bind ChangeWeight(IsCurrent), Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            <Grid Height="48">
+                                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Icon}" Width="48" Foreground="{x:Bind ChangeForeground(IsCurrent), Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="Text" Margin="60,0" Text="{x:Bind Title}" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="{x:Bind ChangeWeight(IsCurrent), Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>
@@ -742,18 +743,22 @@
                 <Grid Grid.Row="2" >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
-                    <Button Height="48" Command="{x:Bind Context.GotoSettings}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{ThemeResource RevealRectangleButton}" BorderThickness="0" >
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
-                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE115;" Margin="8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                            <TextBlock Margin="8" Text="Settings" Style="{ThemeResource SubtitleTextBlockStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                        </StackPanel>
+                    <Button Height="48" Command="{x:Bind Context.GotoSettings}" HorizontalContentAlignment="Left" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{ThemeResource RevealRectangleButton}" BorderThickness="0" >
+                        <Grid HorizontalAlignment="Left" VerticalAlignment="Center" Height="48">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE115;" Width="48" HorizontalAlignment="Left" VerticalAlignment="Stretch"/>
+                            <TextBlock Grid.Column="1" Margin="12,8" Text="Settings" Style="{ThemeResource SubtitleTextBlockStyle}" HorizontalAlignment="Left" VerticalAlignment="Stretch"/>
+                        </Grid>
                     </Button>
-                    <Button Height="48" Grid.Column="1" Command="{x:Bind Context.GotoAbout}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{ThemeResource RevealRectangleButton}" BorderThickness="0" >
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
-                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEB68;" Margin="8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                            <TextBlock Margin="8" Text="About" Style="{ThemeResource SubtitleTextBlockStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                    <Button ToolTipService.ToolTip="About" Height="48" Grid.Column="1" Command="{x:Bind Context.GotoAbout}" Background="{ThemeResource SystemControlHighlightAccent3RevealAccent2BackgroundBrush}" 
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{ThemeResource RevealRectangleButton}" BorderThickness="0" >
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Height="48">
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Width="48" Glyph="&#xED59;" HorizontalAlignment="Left" VerticalAlignment="Stretch"/>
                         </StackPanel>
                     </Button>
                 </Grid>
@@ -773,11 +778,12 @@
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="2"/>
                         <RowDefinition Height="*"/>
+                        <RowDefinition Height="2"/>
                     </Grid.RowDefinitions>
                     <StackPanel Orientation="Horizontal" x:Name="NavigatePanel" PointerEntered="StackPanel_PointerEntered" PointerExited="StackPanel_PointerExited"
-                                PointerReleased="StackPanel_PointerReleased" PointerPressed="NavigatePanel_PointerPressed" PointerCanceled="StackPanel_PointerExited" PointerCaptureLost="StackPanel_PointerExited" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1">
+                                PointerReleased="StackPanel_PointerReleased" PointerPressed="NavigatePanel_PointerPressed" PointerCanceled="StackPanel_PointerExited" 
+                                PointerCaptureLost="StackPanel_PointerExited" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent">
                         <StackPanel.Resources>
                             <Storyboard x:Key="PointerOver">
                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NavigatePanel" Storyboard.TargetProperty="Background">
@@ -807,7 +813,7 @@
                             <TextBlock x:Name="Album" Text="{x:Bind Context.CurrentAlbum, Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Margin="4,0,4,4"/>
                         </StackPanel>
                     </StackPanel>
-                    <Button Style="{ThemeResource RevealRectangleButton}" ToolTipService.ToolTip="Playing list" Grid.Row="1" Grid.Column="2" Margin="12,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button Style="{ThemeResource RevealRectangleButton}" ToolTipService.ToolTip="Playing list" Grid.Column="2" Margin="12,0" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Button.Content>
                             <TextBlock Text="{x:Bind Context.NowListPreview,Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" Margin="12,8"/>
                         </Button.Content>
@@ -818,11 +824,11 @@
                             </Flyout>
                         </Button.Flyout>
                     </Button>
-                    <StackPanel Grid.Row="1" Orientation="Horizontal" Grid.Column="3" Margin="4,0"
+                    <StackPanel Orientation="Horizontal" Grid.Column="3" Margin="4,0"
                                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{x:Bind PositionToString(Context.CurrentPosition, Context.TotalDuration), Mode=OneWay}" Margin="4"/>
                     </StackPanel>
-                    <StackPanel Grid.Row="1" Orientation="Horizontal" Grid.Column="4" Margin="4,0"
+                    <StackPanel Orientation="Horizontal" Grid.Column="4" Margin="4,0"
                                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <Button Style="{ThemeResource RevealRoundButton}" Command="{x:Bind Context.GoPrevious}" ToolTipService.ToolTip="Previous"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
@@ -858,7 +864,7 @@
                             </ToggleButton.Content>
                         </ToggleButton>
                     </StackPanel>
-                    <ProgressBar Background="{x:Null}" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="5" 
+                    <ProgressBar Background="{x:Null}" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="5" 
                                  Value="{x:Bind Context.PositionToValue(Context.CurrentPosition, Context.TotalDuration), Mode=OneWay}"/>
                 </Grid>
                 <Frame x:Name="OverlayFrame" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>

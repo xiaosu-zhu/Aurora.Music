@@ -27,13 +27,17 @@
       </uap:VisualElements>
       <Extensions>
         <uap:Extension Category="windows.fileTypeAssociation">
-          <uap:FileTypeAssociation Name="aurora_music">
+          <uap:FileTypeAssociation Name="aurora_music" DesiredView="default">
             <uap:DisplayName>Aurora Music</uap:DisplayName>
             <uap:Logo>Assets\StoreLogo.png</uap:Logo>
             <uap:InfoTip>Play in Aurora Music</uap:InfoTip>
             <uap:EditFlags OpenIsSafe="true" />
             <uap:SupportedFileTypes>
               <uap:FileType>.mp3</uap:FileType>
+              <uap:FileType>.m4a</uap:FileType>
+              <uap:FileType>.wav</uap:FileType>
+              <uap:FileType>.wma</uap:FileType>
+              <uap:FileType>.flac</uap:FileType>
             </uap:SupportedFileTypes>
           </uap:FileTypeAssociation>
         </uap:Extension>
@@ -43,7 +47,6 @@
   <Capabilities>
     <Capability Name="internetClient" />
     <uap:Capability Name="musicLibrary" />
-    <uap:Capability Name="userAccountInformation" />
     <uap3:Capability Name="backgroundMediaPlayback" />
   </Capabilities>
 </Package>

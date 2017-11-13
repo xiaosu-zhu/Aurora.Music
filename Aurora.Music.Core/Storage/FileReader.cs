@@ -118,14 +118,7 @@ namespace Aurora.Music.Core.Storage
                     return int.Parse(a);
                 });
 
-                var s = await opr.GetSongsAsync(albumSongs);
-                var s1 = s.OrderBy(a => a.Track);
-                s1 = s1.OrderBy(a => a.Disc);
-
-                list.Add(new GenericMusicItem(album)
-                {
-                    IDs = s1.Select(b => b.ID).ToArray()
-                });
+                list.Add(new GenericMusicItem(album));
             }
 
             list.Shuffle();
@@ -137,6 +130,7 @@ namespace Aurora.Music.Core.Storage
             var opr = SQLOperator.Current();
             var songs = await GetRandomListAsync();
             var todaySuggestion = await opr.GetTodayListAsync();
+            var nowSuggestion = await opr.GetNowListAsync();
             var fav = await opr.GetFavListAsync();
             songs.Shuffle();
             todaySuggestion.Shuffle();
@@ -145,7 +139,8 @@ namespace Aurora.Music.Core.Storage
             {
                 new ListWithKey<GenericMusicItem>("Feeling Lucky", songs),
                 new ListWithKey<GenericMusicItem>($"{DateTime.Today.DayOfWeek}'s Suggestion", todaySuggestion),
-                new ListWithKey<GenericMusicItem>("Favorite Picks", fav)
+                new ListWithKey<GenericMusicItem>("Favorite Picks", fav),
+                new ListWithKey<GenericMusicItem>($"{DateTime.Now.GetHourString()} Favorites", nowSuggestion)
             };
             res.Shuffle();
             return res;

@@ -34,7 +34,26 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref albumCount, value); }
         }
 
-        public string Key => Name;
+        public string Key
+        {
+            get
+            {
+                if (Name.StartsWith("The ", System.StringComparison.CurrentCultureIgnoreCase))
+                {
+                    return Name.Substring(4);
+                }
+                if (Name.StartsWith("A ", System.StringComparison.CurrentCultureIgnoreCase))
+                {
+                    return Name.Substring(2);
+                }
+                if (Name.StartsWith("An ", System.StringComparison.CurrentCultureIgnoreCase))
+                {
+                    return Name.Substring(3);
+                }
+                return Name;
+
+            }
+        }
 
         public string CountToString(int count)
         {

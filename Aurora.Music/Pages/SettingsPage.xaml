@@ -76,21 +76,21 @@
                             <Ellipse Fill="{ThemeResource SystemControlAccentAcrylicWindowAccentMediumHighBrush}" Height="36" Width="36"/>
                             <Ellipse Tag="Threshold" PointerEntered="Ellipse_PointerEntered" PointerPressed="Ellipse_PointerPressed" PointerReleased="Ellipse_PointerReleased"
                                      PointerCanceled="Ellipse_PointerCanceled" PointerCaptureLost="Ellipse_PointerCanceled" PointerExited="Ellipse_PointerCanceled"
-                                     Grid.Column="2" Fill="{x:Bind GetBrush(Context.ThresholdEnabled),Mode=OneWay}" Height="36" Width="36">
+                                     Grid.Column="2" Stroke="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" StrokeThickness="1" Fill="{x:Bind GetBrush(Context.ThresholdEnabled),Mode=OneWay}" Height="36" Width="36">
                                 <Ellipse.RenderTransform>
                                     <TranslateTransform Y="{x:Bind GetPosition(Context.ThresholdEnabled), Mode=OneWay}"/>
                                 </Ellipse.RenderTransform>
                             </Ellipse>
                             <Ellipse Tag="Equalizer" PointerEntered="Ellipse_PointerEntered" PointerPressed="Ellipse_PointerPressed" PointerReleased="Ellipse_PointerReleased"
                                      PointerCanceled="Ellipse_PointerCanceled" PointerCaptureLost="Ellipse_PointerCanceled" PointerExited="Ellipse_PointerCanceled"
-                                     Grid.Column="4" Fill="{x:Bind GetBrush(Context.EqualizerEnabled),Mode=OneWay}"  Height="36" Width="36">
+                                     Grid.Column="4" Stroke="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" StrokeThickness="1" Fill="{x:Bind GetBrush(Context.EqualizerEnabled),Mode=OneWay}"  Height="36" Width="36">
                                 <Ellipse.RenderTransform>
                                     <TranslateTransform Y="{x:Bind GetPosition(Context.EqualizerEnabled), Mode=OneWay}"/>
                                 </Ellipse.RenderTransform>
                             </Ellipse>
                             <Ellipse Tag="Reverb" PointerEntered="Ellipse_PointerEntered" PointerPressed="Ellipse_PointerPressed" PointerReleased="Ellipse_PointerReleased"
                                      PointerCanceled="Ellipse_PointerCanceled" PointerCaptureLost="Ellipse_PointerCanceled" PointerExited="Ellipse_PointerCanceled"
-                                Grid.Column="6" Fill="{x:Bind GetBrush(Context.ReverbEnabled),Mode=OneWay}"  Height="36" Width="36">
+                                Grid.Column="6" Stroke="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" StrokeThickness="1" Fill="{x:Bind GetBrush(Context.ReverbEnabled),Mode=OneWay}"  Height="36" Width="36">
                                 <Ellipse.RenderTransform>
                                     <TranslateTransform Y="{x:Bind GetPosition(Context.ReverbEnabled), Mode=OneWay}"/>
                                 </Ellipse.RenderTransform>

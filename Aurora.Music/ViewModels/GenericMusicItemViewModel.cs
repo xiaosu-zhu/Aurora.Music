@@ -80,13 +80,22 @@ namespace Aurora.Music.ViewModels
                 return Color.FromArgb(255, v, p, q);
         }
 
-        public SolidColorBrush GetMainColor(double d)
+        public SolidColorBrush GetMainColorBrush(double d)
         {
             System.Drawing.Color color = System.Drawing.Color.FromArgb(MainColor.R, MainColor.G, MainColor.B);
             ColorToHSV(color, out var h, out var s, out var v);
             v *= d;
 
             return new SolidColorBrush(ColorFromHSV(h, s, v));
+        }
+
+        public Color GetMainColor(double d)
+        {
+            System.Drawing.Color color = System.Drawing.Color.FromArgb(MainColor.R, MainColor.G, MainColor.B);
+            ColorToHSV(color, out var h, out var s, out var v);
+            v *= d;
+
+            return ColorFromHSV(h, s, v);
         }
 
         public GenericMusicItemViewModel(Core.Models.Album album)
@@ -121,7 +130,11 @@ namespace Aurora.Music.ViewModels
         internal async Task<IList<Song>> GetSongsAsync()
         {
             var opr = SQLOperator.Current();
-            return await opr.GetSongsAsync(IDs);
+
+            var s = await opr.GetSongsAsync(IDs);
+            var s1 = s.OrderBy(x => x.Track);
+            s1 = s1.OrderBy(x => x.Disc);
+            return s1.ToList();
         }
 
         public override string ToString()

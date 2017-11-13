@@ -11,7 +11,7 @@ using Aurora.Music.Core.Models;
 
 namespace Aurora.Music.ViewModels
 {
-    class AlbumViewModel : ViewModelBase
+    class AlbumViewModel : ViewModelBase, IKey
     {
         public AlbumViewModel(Core.Models.Album item)
         {
@@ -70,6 +70,27 @@ namespace Aurora.Music.ViewModels
         public virtual string[] AlbumArtistsSort { get; set; }
         public virtual double ReplayGainAlbumGain { get; set; }
         public virtual double ReplayGainAlbumPeak { get; set; }
+
+        public string Key
+        {
+            get
+            {
+                if (Name.StartsWith("The ", System.StringComparison.CurrentCultureIgnoreCase))
+                {
+                    return Name.Substring(4);
+                }
+                if (Name.StartsWith("A ", System.StringComparison.CurrentCultureIgnoreCase))
+                {
+                    return Name.Substring(2);
+                }
+                if (Name.StartsWith("An ", System.StringComparison.CurrentCultureIgnoreCase))
+                {
+                    return Name.Substring(3);
+                }
+                return Name;
+
+            }
+        }
 
         internal async Task<List<Song>> GetSongsAsync()
         {

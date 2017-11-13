@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Aurora.Shared.Helpers
 {
-    public class DateTimeHelper
+    public static class DateTimeHelper
     {
         private static ReadOnlyCollection<TimeZoneInfo> timeZones = TimeZoneInfo.GetSystemTimeZones();
         /// <summary>
@@ -52,6 +52,31 @@ namespace Aurora.Shared.Helpers
         public static DateTime ReviseLoc(DateTime dateTime, TimeSpan UtcOffset)
         {
             return dateTime.ToUniversalTime() + UtcOffset;
+        }
+
+        public static string GetHourString(this DateTime time)
+        {
+            if (time.Hour < 5)
+            {
+                return "Midnight";
+            }
+            else if (time.Hour < 10)
+            {
+                return "Morning";
+            }
+            else if (time.Hour < 14)
+            {
+                return "Noon";
+            }
+            else if (time.Hour < 19)
+            {
+                return "Afternoon";
+            }
+            else if (time.Hour < 23)
+            {
+                return "Evening";
+            }
+            return "Now";
         }
     }
 }

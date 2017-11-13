@@ -776,6 +776,10 @@ namespace Aurora.Music.Core.Storage
                 {
                     resPlay[0].Dusk++;
                 }
+                else
+                {
+                    resPlay[0].Evening++;
+                }
                 await conn.UpdateAsync(resPlay[0]);
             }
             else
@@ -848,13 +852,8 @@ namespace Aurora.Music.Core.Storage
                 {
                     return int.Parse(a);
                 });
-                var s = AsyncHelper.RunSync(async () => await GetSongsAsync(songs));
-                var s1 = s.OrderBy(a => a.Track);
-                s1 = s1.OrderBy(a => a.Disc);
-                return new GenericMusicItem(x)
-                {
-                    IDs = s1.Select(b => b.ID).ToArray()
-                };
+
+                return new GenericMusicItem(x);
             }));
             list.Shuffle();
             return list;
@@ -896,6 +895,48 @@ namespace Aurora.Music.Core.Storage
             query = query.Substring(0, query.Length - 4);
             query += " COLLATE NOCASE";
             return await conn.QueryAsync<T>(query);
+        }
+
+        internal async Task<List<GenericMusicItem>> GetNowListAsync()
+        {
+            var time = DateTime.Now;
+            string day;
+            if (time.Hour < 5)
+            {
+                day = "EVENING";
+            }
+            else if (time.Hour < 10)
+            {
+                day = "Morning";
+            }
+            else if (time.Hour < 14)
+            {
+                day = "Noon";
+            }
+            else if (time.Hour < 19)
+            {
+                day = "Afternoon";
+            }
+            else if (time.Hour < 23)
+            {
+                day = "Dusk";
+            }
+            else
+            {
+                day = "Evening";
+            }
+
+
+            var a = await conn.QueryAsync<PLAYSTATISTIC>($"SELECT * FROM PLAYSTATISTIC WHERE {day}>0 AND TARGETTYPE=0 ORDER BY {day} DESC LIMIT 50");
+            var aRes = await conn.QueryAsync<SONG>($"SELECT * FROM SONG WHERE ID IN ({string.Join(',', a.Select(x => x.TargetID))})");
+
+            var b = await conn.QueryAsync<PLAYSTATISTIC>($"SELECT * FROM PLAYSTATISTIC WHERE {day}>0 AND TARGETTYPE=1 ORDER BY {day} DESC LIMIT 5");
+            var bRes = await conn.QueryAsync<ALBUM>($"SELECT * FROM ALBUM WHERE ID IN ({string.Join(',', b.Select(x => x.TargetID))})");
+
+            var list = new List<GenericMusicItem>(aRes.ConvertAll(x => new GenericMusicItem(x)));
+            list.AddRange(bRes.ConvertAll(x => new GenericMusicItem(x)));
+            list.Shuffle();
+            return list;
         }
     }
 

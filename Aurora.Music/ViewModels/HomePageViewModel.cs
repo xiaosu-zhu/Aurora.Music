@@ -46,12 +46,10 @@ namespace Aurora.Music.ViewModels
 
         public async Task Load()
         {
-            var n = await SystemInfoHelper.GetCurrentUserNameAsync();
             var hero = await FileReader.GetHeroListAsync();
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
             {
-                if (!n.IsNullorWhiteSpace())
-                    WelcomeTitle = $"Hi, {n}.";
+                WelcomeTitle = $"Good {DateTime.Now.GetHourString()}.";
                 HeroList.Clear();
                 foreach (var item in hero)
                 {

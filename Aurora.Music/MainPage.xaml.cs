@@ -79,6 +79,13 @@ namespace Aurora.Music
             {
                 GoBackFromNowPlaying();
             }
+
+            if (((sender as ListView).SelectedItem as HamPanelItem) == Context.HamList.Find(x => x.IsCurrent))
+            {
+                Root.IsPaneOpen = false;
+                return;
+            }
+
             foreach (var item in Context.HamList)
             {
                 item.IsCurrent = false;
@@ -123,7 +130,7 @@ namespace Aurora.Music
             }
             if (sender is Panel s)
             {
-                (s.Resources["Normal"] as Storyboard).Begin();
+                (s.Resources["PointerOver"] as Storyboard).Begin();
                 e.Handled = true;
             }
         }
@@ -186,6 +193,8 @@ namespace Aurora.Music
             {
                 (s.Resources["Normal"] as Storyboard).Begin();
                 e.Handled = true;
+
+                s.SetValue(RevealBrush.StateProperty, RevealBrushState.Normal);
             }
         }
 
@@ -195,6 +204,7 @@ namespace Aurora.Music
             {
                 (s.Resources["PointerPressed"] as Storyboard).Begin();
                 e.Handled = true;
+                s.SetValue(RevealBrush.StateProperty, RevealBrushState.Pressed);
             }
         }
 
