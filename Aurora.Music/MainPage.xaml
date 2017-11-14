@@ -715,7 +715,7 @@
                             </ObjectAnimationUsingKeyFrames>
                         </Storyboard>
                     </Grid.Resources>
-                    
+
                     <TextBlock Text="{x:Bind GetIndex()}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="12,4"/>
                     <TextBlock Text="{x:Bind Title}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextTrimming="CharacterEllipsis" MaxWidth="240" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="4"/>
                     <Button x:Name="PlayBtn" Click="PlayBtn_Click" Style="{ThemeResource NoBorderButton}" Background="Transparent" Grid.Column="2" Width="48" HorizontalAlignment="Center" VerticalAlignment="Stretch" Visibility="Collapsed">
@@ -777,7 +777,6 @@
                                 <Grid.Background>
                                     <ImageBrush ImageSource="/Assets/Images/1.png" AlignmentX="Center" AlignmentY="Center" Stretch="UniformToFill"/>
                                 </Grid.Background>
-                                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource SystemControlBackgroundBaseMediumBrush}"/>
                                 <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Icon}" Width="48" Foreground="{x:Bind ChangeForeground(IsCurrent), Mode=OneWay}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                                 <TextBlock x:Name="Text" Margin="60,0" TextAlignment="Right" Text="{x:Bind Title}" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="{x:Bind ChangeWeight(IsCurrent), Mode=OneWay}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                             </Grid>
@@ -864,6 +863,9 @@
                         <Button.Flyout>
                             <Flyout>
                                 <ListView MaxHeight="360" IsSynchronizedWithCurrentItem="False" ItemTemplateSelector="{StaticResource SongListTemplateSelector}" SelectedIndex="{x:Bind Context.CurrentIndex, Mode=OneWay}" ItemsSource="{x:Bind Context.NowPlayingList}" ItemContainerStyle="{ThemeResource GeneralListViewItemStyle}">
+                                    <ListView.Header>
+                                        <TextBlock Text="Not Playing" Visibility="{x:Bind Context.CollapseIfNotZero(Context.NowPlayingList.Count),Mode=OneWay}" Style="{ThemeResource SubtitleTextBlockStyle}" Margin="36,12" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </ListView.Header>
                                 </ListView>
                             </Flyout>
                         </Button.Flyout>

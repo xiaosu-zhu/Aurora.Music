@@ -32,6 +32,8 @@ namespace Aurora.Music.Core.Player
         private List<Song> currentList;
 
         private bool? isPlaying;
+        private bool newComing;
+
         public bool? IsPlaying { get => isPlaying; }
 
         public event EventHandler<PositionUpdatedArgs> PositionUpdated;
@@ -143,7 +145,9 @@ namespace Aurora.Music.Core.Player
             {
                 IsShuffle = mediaPlaybackList.ShuffleEnabled,
                 IsLoop = mediaPlaybackList.AutoRepeatEnabled,
-                CurrentSong = mediaPlaybackList.CurrentItem?.Source.CustomProperties[Consts.SONG] as Song
+                CurrentSong = mediaPlaybackList.CurrentItem?.Source.CustomProperties[Consts.SONG] as Song,
+                CurrentIndex = mediaPlaybackList.CurrentItemIndex,
+                Items = currentList
             });
         }
 
@@ -181,12 +185,16 @@ namespace Aurora.Music.Core.Player
             {
                 throw new ArgumentNullException("Items empty");
             }
+
+            newComing = true;
             _addPlayListTask?.Cancel();
+
+            mediaPlayer.Pause();
+            mediaPlaybackList.Items.Clear();
 
             currentList.Clear();
             currentList.AddRange(items);
 
-            mediaPlayer.Pause();
             mediaPlaybackList.Items.Clear();
 
             if (startIndex <= 0)
@@ -214,6 +222,8 @@ namespace Aurora.Music.Core.Player
                 mediaPlaybackList.StartingItem = mediaPlaybackItem;
 
                 mediaPlayer.Source = mediaPlaybackList;
+
+                newComing = false;
 
                 _addPlayListTask = ThreadPool.RunAsync(async (x) =>
                 {
@@ -250,6 +260,8 @@ namespace Aurora.Music.Core.Player
                 mediaPlaybackList.Items.Add(mediaPlaybackItem);
                 mediaPlaybackList.StartingItem = mediaPlaybackItem;
 
+                newComing = false;
+
                 _addPlayListTask = ThreadPool.RunAsync(async (x) =>
                 {
                     await AddtoPlayListFirstAsync(listBefore);
@@ -257,7 +269,16 @@ namespace Aurora.Music.Core.Player
                 });
             }
 
-            MediaPlaybackList_CurrentItemChanged(null, null);
+            StatusChanged?.Invoke(this, new StatusChangedArgs
+            {
+                IsShuffle = mediaPlaybackList.ShuffleEnabled,
+                IsLoop = mediaPlaybackList.AutoRepeatEnabled,
+                CurrentSong = mediaPlaybackList.CurrentItem?.Source.CustomProperties[Consts.SONG] as Song,
+                CurrentIndex = mediaPlaybackList.CurrentItemIndex,
+                Items = currentList
+            });
+
+            //StatusChanged?.Invoke(this, null);
 
             PlayWithRestart();
         }
@@ -286,6 +307,9 @@ namespace Aurora.Music.Core.Player
 
                     mediaPlaybackItem.ApplyDisplayProperties(props);
 
+                    if (newComing)
+                        return;
+
                     mediaPlaybackList.Items.Insert(i++, mediaPlaybackItem);
                 }
                 catch (FileNotFoundException)
@@ -293,6 +317,10 @@ namespace Aurora.Music.Core.Player
                     continue;
                 }
             }
+            StatusChanged?.Invoke(this, new StatusChangedArgs
+            {
+                CanJump = true
+            });
         }
 
         private async Task AddtoPlayListAsync(IEnumerable<Song> items)
@@ -317,6 +345,10 @@ namespace Aurora.Music.Core.Player
                     await WriteProperties(item, props, builtin);
 
                     mediaPlaybackItem.ApplyDisplayProperties(props);
+
+                    if (newComing)
+                        return;
+
                     mediaPlaybackList.Items.Add(mediaPlaybackItem);
                 }
                 catch (FileNotFoundException)
@@ -324,6 +356,10 @@ namespace Aurora.Music.Core.Player
                     continue;
                 }
             }
+            StatusChanged?.Invoke(this, new StatusChangedArgs
+            {
+                CanJump = true
+            });
         }
 
         private async Task WriteProperties(Song item, MediaItemDisplayProperties props, string pic)

@@ -128,5 +128,28 @@ namespace Aurora.Music.Pages
             SystemNavigationManager.GetForCurrentView().BackRequested -= AlbumDetailPage_BackRequested;
             Context = null;
         }
+
+
+
+        private void Grid_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            if (sender is Panel s)
+            {
+                (s.Resources["PointerOver"] as Storyboard).Begin();
+            }
+        }
+
+        private void Grid_PointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            if (sender is Panel s)
+            {
+                (s.Resources["Normal"] as Storyboard).Begin();
+            }
+        }
+
+        private async void PlayBtn_Click(object sender, RoutedEventArgs e)
+        {
+            await Context.PlayAt((sender as FrameworkElement).DataContext as SongViewModel);
+        }
     }
 }

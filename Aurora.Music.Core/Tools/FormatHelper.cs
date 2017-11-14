@@ -22,7 +22,7 @@ namespace Aurora.Music.Core.Tools
             {
                 return $"{Math.Floor(t.TotalMinutes)} mins, 1 sec";
             }
-            else return $"{Math.Floor(t.TotalMinutes)} mins, {Math.Floor(t.TotalMinutes)} secs";
+            else return $"{Math.Floor(t.TotalMinutes)} mins, {t.Seconds} secs";
         }
 
         public static string GetAlbumDurationFormat(this TimeSpan t)

@@ -94,6 +94,10 @@ namespace Aurora.Music.ViewModels
 
         private async void FileReader_Completed(object sender, EventArgs e)
         {
+
+            var s = Settings.Load();
+            s.WelcomeFinished = true;
+            s.Save();
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
                 Finish = 1;

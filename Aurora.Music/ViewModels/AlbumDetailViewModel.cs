@@ -84,5 +84,10 @@ namespace Aurora.Music.ViewModels
                 }
             });
         }
+
+        internal async Task PlayAt(SongViewModel songViewModel)
+        {
+            await MainPageViewModel.Current.InstantPlay(await Album.GetSongsAsync(), songList.IndexOf(songViewModel));
+        }
     }
 }

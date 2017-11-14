@@ -369,19 +369,22 @@ namespace Aurora.Music.ViewModels
                     {
                         CurrentArtwork = null;
                     }
-                    if (e.Items is IList<Song> l)
+                }
+                if (e.Items is IList<Song> l)
+                {
+                    NowListPreview = $"{e.CurrentIndex + 1}/{l.Count}";
+                    NowPlayingList.Clear();
+                    for (int i = 0; i < l.Count; i++)
                     {
-                        NowListPreview = $"{e.CurrentIndex + 1}/{l.Count}";
-                        NowPlayingList.Clear();
-                        for (int i = 0; i < l.Count; i++)
+                        NowPlayingList.Add(new SongViewModel(l[i])
                         {
-                            NowPlayingList.Add(new SongViewModel(l[i])
-                            {
-                                Index = (uint)i,
-                            });
-                        }
-                        CurrentIndex = Convert.ToInt32(e.CurrentIndex);
+                            Index = (uint)i,
+                        });
                     }
+                }
+                if (e.CurrentIndex < NowPlayingList.Count)
+                {
+                    CurrentIndex = (int)e.CurrentIndex;
                 }
             });
         }

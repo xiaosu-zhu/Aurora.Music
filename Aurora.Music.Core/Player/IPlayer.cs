@@ -26,7 +26,7 @@ namespace Aurora.Music.Core.Player
 
         event EventHandler<PositionUpdatedArgs> PositionUpdated;
         event EventHandler<StatusChangedArgs> StatusChanged;
-        
+
         void SkiptoItem(int iD);
     }
 
@@ -39,6 +39,7 @@ namespace Aurora.Music.Core.Player
 
         public uint CurrentIndex { get; set; }
         public IReadOnlyList<Song> Items { get; internal set; }
+        public bool CanJump { get; set; } = false;
     }
 
     public class PositionUpdatedArgs
