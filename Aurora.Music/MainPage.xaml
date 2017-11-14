@@ -739,7 +739,7 @@
                                 </Grid.Background>
                                 <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource SystemControlBackgroundBaseMediumBrush}"/>
                                 <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Icon}" Width="48" Foreground="{x:Bind ChangeForeground(IsCurrent), Mode=OneWay}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                                <TextBlock x:Name="Text" Margin="60,0" Text="{x:Bind Title}" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="{x:Bind ChangeWeight(IsCurrent), Mode=OneWay}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="Text" Margin="60,0" TextAlignment="Right" Text="{x:Bind Title}" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="{x:Bind ChangeWeight(IsCurrent), Mode=OneWay}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>
