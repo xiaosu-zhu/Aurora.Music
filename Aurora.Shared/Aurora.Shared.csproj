@@ -110,6 +110,8 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Algorithm\Complex.cs" />
+    <Compile Include="Algorithm\FFT.cs" />
     <Compile Include="Controls\GraphBox.cs" />
     <Compile Include="Controls\IChangeTheme.cs" />
     <Compile Include="Controls\LoadingDot.cs" />

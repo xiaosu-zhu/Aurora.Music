@@ -638,5 +638,10 @@ namespace Aurora.Music.Core.Player
             audioGraph.Stop();
             DisconnectFromGraph();
         }
+
+        public void SkiptoItem(int iD)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

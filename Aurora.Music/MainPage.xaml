@@ -663,27 +663,67 @@
                 </Setter>
             </Style>
             <DataTemplate x:Key="EvenTemplate" x:DataType="vm:SongViewModel">
-                <Grid Background="{ThemeResource SongListEvenBrush}" Height="48" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Grid Width="320" Background="{ThemeResource SongListEvenBrush}" PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited" PointerCanceled="Grid_PointerExited" PointerCaptureLost="Grid_PointerExited" Height="48" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="280"/>
+                        <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="64"/>
                     </Grid.ColumnDefinitions>
+
+                    <Grid.Resources>
+                        <Storyboard x:Name="PointerOver">
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlayBtn" Storyboard.TargetProperty="Visibility">
+                                <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
+                        <Storyboard x:Name="Normal">
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlayBtn" Storyboard.TargetProperty="Visibility">
+                                <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </Grid.Resources>
+
                     <TextBlock Text="{x:Bind GetIndex()}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="12,4"/>
                     <TextBlock Text="{x:Bind Title}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextTrimming="CharacterEllipsis" MaxWidth="240" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="4"/>
-                    <TextBlock Text="{x:Bind DurationtoString(Duration)}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextTrimming="CharacterEllipsis" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="8,4"/>
+                    <Button Click="PlayBtn_Click" x:Name="PlayBtn" Style="{ThemeResource NoBorderButton}" Background="Transparent" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="48" Visibility="Collapsed">
+                        <Button.Content>
+                            <SymbolIcon Symbol="Next"/>
+                        </Button.Content>
+                    </Button>
+                    <TextBlock Text="{x:Bind DurationtoString(Duration)}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextTrimming="CharacterEllipsis" Grid.Column="3" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="8,4"/>
                 </Grid>
             </DataTemplate>
             <DataTemplate x:Key="OddTemplate" x:DataType="vm:SongViewModel">
-                <Grid Background="{ThemeResource SongListOddBrush}" Height="48" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Grid Width="320" Background="{ThemeResource SongListOddBrush}" Height="48" PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited" PointerCanceled="Grid_PointerExited" PointerCaptureLost="Grid_PointerExited" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="280"/>
+                        <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="64"/>
                     </Grid.ColumnDefinitions>
+
+                    <Grid.Resources>
+                        <Storyboard x:Name="PointerOver">
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlayBtn" Storyboard.TargetProperty="Visibility">
+                                <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
+                        <Storyboard x:Name="Normal">
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlayBtn" Storyboard.TargetProperty="Visibility">
+                                <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </Grid.Resources>
+                    
                     <TextBlock Text="{x:Bind GetIndex()}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="12,4"/>
                     <TextBlock Text="{x:Bind Title}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextTrimming="CharacterEllipsis" MaxWidth="240" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="4"/>
-                    <TextBlock Text="{x:Bind DurationtoString(Duration)}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextTrimming="CharacterEllipsis" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="8,4"/>
+                    <Button x:Name="PlayBtn" Click="PlayBtn_Click" Style="{ThemeResource NoBorderButton}" Background="Transparent" Grid.Column="2" Width="48" HorizontalAlignment="Center" VerticalAlignment="Stretch" Visibility="Collapsed">
+                        <Button.Content>
+                            <SymbolIcon Symbol="Next"/>
+                        </Button.Content>
+                    </Button>
+                    <TextBlock Text="{x:Bind DurationtoString(Duration)}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextTrimming="CharacterEllipsis" Grid.Column="3" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="8,4"/>
                 </Grid>
             </DataTemplate>
             <controls:SongListTemplateSelector x:Key="SongListTemplateSelector" 

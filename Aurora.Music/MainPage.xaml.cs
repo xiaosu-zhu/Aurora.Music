@@ -296,5 +296,26 @@ namespace Aurora.Music
                 await Context.Search(text);
             });
         }
+
+        private void Grid_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            if (sender is Panel s)
+            {
+                (s.Resources["PointerOver"] as Storyboard).Begin();
+            }
+        }
+
+        private void Grid_PointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            if (sender is Panel s)
+            {
+                (s.Resources["Normal"] as Storyboard).Begin();
+            }
+        }
+
+        private void PlayBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Context.SkiptoItem((sender as Button).DataContext as SongViewModel);
+        }
     }
 }

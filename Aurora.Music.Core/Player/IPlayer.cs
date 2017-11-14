@@ -26,7 +26,8 @@ namespace Aurora.Music.Core.Player
 
         event EventHandler<PositionUpdatedArgs> PositionUpdated;
         event EventHandler<StatusChangedArgs> StatusChanged;
-
+        
+        void SkiptoItem(int iD);
     }
 
 

@@ -257,7 +257,7 @@ namespace Aurora.Music.Core.Player
                 });
             }
 
-
+            MediaPlaybackList_CurrentItemChanged(null, null);
 
             PlayWithRestart();
         }
@@ -292,7 +292,6 @@ namespace Aurora.Music.Core.Player
                 {
                     continue;
                 }
-                MediaPlaybackList_CurrentItemChanged(null, null);
             }
         }
 
@@ -324,7 +323,6 @@ namespace Aurora.Music.Core.Player
                 {
                     continue;
                 }
-                MediaPlaybackList_CurrentItemChanged(null, null);
             }
         }
 
@@ -543,6 +541,15 @@ namespace Aurora.Music.Core.Player
         public void Dispose()
         {
             mediaPlayer.Dispose();
+        }
+
+        public void SkiptoItem(int iD)
+        {
+            var item = mediaPlaybackList.Items.First(x => ((int)x.Source.CustomProperties[Consts.ID] == iD));
+            if (item != null)
+            {
+                mediaPlaybackList.MoveTo((uint)mediaPlaybackList.Items.IndexOf(item));
+            }
         }
     }
 
