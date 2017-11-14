@@ -52,6 +52,17 @@ namespace Aurora.Music.ViewModels
             return "Various Genres";
         }
 
+        public DelegateCommand PlayAll
+        {
+            get
+            {
+                return new DelegateCommand(async () =>
+                {
+                    await MainPageViewModel.Current.InstantPlay(await Album.GetSongsAsync());
+                });
+            }
+        }
+
         public AlbumDetailViewModel()
         {
             SongList = new ObservableCollection<SongViewModel>();

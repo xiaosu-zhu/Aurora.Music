@@ -134,7 +134,7 @@ namespace Aurora.Music.ViewModels
         private string currentTitle;
         public string CurrentTitle
         {
-            get { return currentTitle; }
+            get { return currentTitle.IsNullorEmpty() ? "Aurora Music" : currentTitle; }
             set { SetProperty(ref currentTitle, value); }
         }
 
@@ -143,7 +143,7 @@ namespace Aurora.Music.ViewModels
 
         public string CurrentAlbum
         {
-            get { return currentAlbum; }
+            get { return currentAlbum.IsNullorEmpty() ? "Not playing" : currentAlbum; }
             set { SetProperty(ref currentAlbum, value); }
         }
 
@@ -352,7 +352,7 @@ namespace Aurora.Music.ViewModels
                 {
                     var p = e.CurrentSong;
                     CurrentTitle = p.Title;
-                    CurrentAlbum = p.Album;
+                    CurrentAlbum = p.Album.IsNullorEmpty() ? (p.Performers.IsNullorEmpty() ? "Unknown Album" : string.Join(", ", p.Performers)) : p.Album;
                     if (!p.PicturePath.IsNullorEmpty())
                     {
                         if (lastUriPath == p.PicturePath)
@@ -414,6 +414,11 @@ namespace Aurora.Music.ViewModels
                 return bb ? "Pause" : "Play";
             }
             return "Play";
+        }
+
+        internal void SkiptoItem(SongViewModel songViewModel)
+        {
+            player.SkiptoItem(songViewModel.ID);
         }
 
         public double PositionToValue(TimeSpan t1, TimeSpan total)
