@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{C26EE98C-CE7C-4819-85BB-56311BC59708}</ProjectGuid>
-    <OutputType>winmdobj</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Aurora.Music.PlaybackEngine</RootNamespace>
     <AssemblyName>Aurora.Music.PlaybackEngine</AssemblyName>
@@ -107,15 +107,38 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AudioGraph.cs" />
+    <Compile Include="IPlayer.cs" />
+    <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.0.1</Version>
     </PackageReference>
+    <PackageReference Include="UWPAudioVisualizer">
+      <Version>0.1.84</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Aurora.Music.Core\Aurora.Music.Core.csproj">
+      <Project>{F0DBB792-F15D-4C3E-A6FE-5B184251C802}</Project>
+      <Name>Aurora.Music.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Aurora.Shared\Aurora.Shared.csproj">
+      <Project>{026d99cf-1c25-4dcf-ad95-1070bba9f8a8}</Project>
+      <Name>Aurora.Shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TagLib.Sharp\TagLib.Sharp.csproj">
+      <Project>{2355f4e1-9225-433b-98cd-f36df22d042b}</Project>
+      <Name>TagLib.Sharp</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

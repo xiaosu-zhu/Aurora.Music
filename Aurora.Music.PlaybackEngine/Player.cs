@@ -1,25 +1,26 @@
-﻿using Aurora.Shared.Helpers;
+﻿using Aurora.Music.Core;
+using Aurora.Music.Core.Models;
+using Aurora.Music.Core.Storage;
+using Aurora.Shared.Extensions;
+using Aurora.Shared.Helpers;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using Aurora.Music.Core;
+using System.Text;
 using System.Threading.Tasks;
+using Windows.Devices.Enumeration;
+using Windows.Foundation;
+using Windows.Foundation.Collections;
 using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.Storage;
-using Windows.Foundation.Collections;
-using Aurora.Shared.Extensions;
 using Windows.Storage.Streams;
-using Aurora.Music.Core.Storage;
 using Windows.System.Threading;
-using System.IO;
-using Aurora.Music.Core.Models;
-using Windows.Devices.Enumeration;
-using Windows.Foundation;
 
-namespace Aurora.Music.Core.Player
+namespace Aurora.Music.PlaybackEngine
 {
-    public class Player : IDisposable, IPlayer
+    public sealed class Player : IDisposable, IPlayer
     {
         private MediaPlayer mediaPlayer;
         private MediaPlaybackList mediaPlaybackList;
@@ -108,7 +109,7 @@ namespace Aurora.Music.Core.Player
                         {
                             _songCountID = id;
                             var opr = SQLOperator.Current();
-                            AsyncHelper.RunSync(() => opr.SongCountAddAsync(id, 1));
+                            AsyncHelper.RunSync(async () => await FileReader.PlayStaticAdd(id, 0, 1));
                         }
                     }
                     catch (NullReferenceException)
@@ -588,5 +589,4 @@ namespace Aurora.Music.Core.Player
             }
         }
     }
-
 }

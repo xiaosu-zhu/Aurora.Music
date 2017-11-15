@@ -4,9 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Windows.Media.Playback;
 
-namespace Aurora.Music.Core.Player
+namespace Aurora.Music.PlaybackEngine
 {
     public interface IPlayer
     {

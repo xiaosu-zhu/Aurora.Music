@@ -345,6 +345,10 @@
       <Project>{F0DBB792-F15D-4C3E-A6FE-5B184251C802}</Project>
       <Name>Aurora.Music.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Aurora.Music.PlaybackEngine\Aurora.Music.PlaybackEngine.csproj">
+      <Project>{C26EE98C-CE7C-4819-85BB-56311BC59708}</Project>
+      <Name>Aurora.Music.PlaybackEngine</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Aurora.Shared\Aurora.Shared.csproj">
       <Project>{026d99cf-1c25-4dcf-ad95-1070bba9f8a8}</Project>
       <Name>Aurora.Shared</Name>

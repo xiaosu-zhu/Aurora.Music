@@ -231,11 +231,13 @@ namespace Aurora.Music
             {
                 TitleBar.Visibility = Visibility.Visible;
                 TitlebarBtm.Visibility = Visibility.Visible;
+                SearchBox.Margin = new Thickness(0, 0, sender.SystemOverlayRightInset, 0);
             }
             else
             {
                 TitleBar.Visibility = Visibility.Collapsed;
                 TitlebarBtm.Visibility = Visibility.Collapsed;
+                SearchBox.Margin = new Thickness(0);
             }
 
         }
@@ -244,9 +246,16 @@ namespace Aurora.Music
         {
             // Get the size of the caption controls area and back button 
             // (returned in logical pixels), and move your content around as necessary.
-            SearchBox.Margin = new Thickness(0, 0, sender.SystemOverlayRightInset, 0);
-            TitlebarBtm.Width = sender.SystemOverlayRightInset;
+            if (sender.IsVisible)
+            {
+                SearchBox.Margin = new Thickness(0, 0, sender.SystemOverlayRightInset, 0);
+            }
+            else
+            {
+                SearchBox.Margin = new Thickness(0);
+            }
             // Update title bar control size as needed to account for system size changes.
+            TitlebarBtm.Width = sender.SystemOverlayRightInset;
             TitleBar.Height = sender.Height;
             TitleBarOverlay.Height = sender.Height;
         }

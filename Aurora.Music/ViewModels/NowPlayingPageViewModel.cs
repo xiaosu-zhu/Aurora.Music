@@ -1,7 +1,7 @@
 ﻿using Aurora.Music.Core;
 using Aurora.Music.Core.Models;
-using Aurora.Music.Core.Player;
 using Aurora.Music.Core.Storage;
+using Aurora.Music.PlaybackEngine;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
 using Aurora.Shared.MVVM;

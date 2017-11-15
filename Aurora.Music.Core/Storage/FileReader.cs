@@ -25,6 +25,14 @@ namespace Aurora.Music.Core.Storage
             return songs.ConvertAll(x => new Song(x));
         }
 
+        public static async Task PlayStaticAdd(int id, int targetType, int addAmount)
+        {
+            var opr = SQLOperator.Current();
+            if (targetType == 0)
+            {
+                await opr.SongCountAddAsync(id, addAmount);
+            }
+        }
 
         /// <summary>
         /// TODO: Only pick files which not in the database, and find deleted files to delete

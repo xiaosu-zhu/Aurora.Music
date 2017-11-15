@@ -8,7 +8,6 @@ using Aurora.Shared.Helpers;
 using Aurora.Shared.MVVM;
 using Windows.Storage;
 using System.Diagnostics;
-using Aurora.Music.Core.Player;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;
 using Aurora.Music.Pages;
@@ -24,6 +23,7 @@ using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml.Controls;
 using Aurora.Music.Core.Models;
+using Aurora.Music.PlaybackEngine;
 
 namespace Aurora.Music.ViewModels
 {

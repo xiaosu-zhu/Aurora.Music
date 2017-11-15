@@ -1,19 +1,19 @@
-﻿using System;
+﻿using Aurora.Music.Core.Models;
+using Aurora.Shared.Extensions;
+using Aurora.Shared.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Aurora.Music.Core.Models;
+using Windows.Devices.Enumeration;
 using Windows.Media.Audio;
 using Windows.Storage;
-using Aurora.Shared.Extensions;
-using Windows.Devices.Enumeration;
 using Windows.System.Threading;
-using Aurora.Shared.Helpers;
 
-namespace Aurora.Music.Core.Player
+namespace Aurora.Music.PlaybackEngine
 {
-    public class AudioGraphPlayer : IPlayer, IDisposable
+    public sealed class AudioGraphPlayer : IPlayer, IDisposable
     {
         private static object lockable = new object();
 
@@ -22,7 +22,7 @@ namespace Aurora.Music.Core.Player
         #region IDisposable Support
         private bool disposedValue = false; // 要检测冗余调用
 
-        protected virtual void Dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
             if (!disposedValue)
             {
