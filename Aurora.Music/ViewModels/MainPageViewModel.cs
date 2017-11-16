@@ -351,7 +351,7 @@ namespace Aurora.Music.ViewModels
                 if (e.CurrentSong != null)
                 {
                     var p = e.CurrentSong;
-                    CurrentTitle = p.Title;
+                    CurrentTitle = p.Title.IsNullorEmpty() ? p.FilePath.Split('\\').LastOrDefault() : p.Title;
                     CurrentAlbum = p.Album.IsNullorEmpty() ? (p.Performers.IsNullorEmpty() ? "Unknown Album" : string.Join(", ", p.Performers)) : p.Album;
                     if (!p.PicturePath.IsNullorEmpty())
                     {

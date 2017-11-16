@@ -336,6 +336,8 @@ namespace Aurora.Music
         {
             e.Handled = true;
 
+            e.DragUIOverride.SetContentFromBitmapImage(new BitmapImage(new Uri(Consts.BlackPlaceholder)));
+
             e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Copy;
             var p = await e.DataView.GetStorageItemsAsync();
             if (p.Count > 0)
@@ -344,13 +346,13 @@ namespace Aurora.Music
                 e.DragUIOverride.Caption = "Drop to Play";
                 e.DragUIOverride.IsCaptionVisible = true;
                 e.DragUIOverride.IsContentVisible = true;
-                e.DragUIOverride.SetContentFromBitmapImage(new BitmapImage(new Uri(Consts.BlackPlaceholder)));
             }
             else
             {
                 e.DragUIOverride.IsGlyphVisible = true;
                 e.DragUIOverride.Caption = "Can't Drop Here";
                 e.DragUIOverride.IsCaptionVisible = true;
+                e.DragUIOverride.IsContentVisible = false;
             }
         }
 
