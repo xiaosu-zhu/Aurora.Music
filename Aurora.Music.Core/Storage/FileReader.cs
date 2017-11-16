@@ -307,6 +307,20 @@ namespace Aurora.Music.Core.Storage
                 Completed?.Invoke(this, EventArgs.Empty);
             });
         }
+
+        public async Task<IList<Song>> ReadFileandSendBack(List<StorageFile> files)
+        {
+            List<Song> tempList = new List<Song>();
+            var total = files.Count;
+            foreach (var file in files)
+            {
+                using (var tagTemp = File.Create(file.Path))
+                {
+                    tempList.Add(await Song.Create(tagTemp.Tag, file.Path, tagTemp.Properties));
+                }
+            }
+            return tempList;
+        }
     }
 
     public class ProgressReport

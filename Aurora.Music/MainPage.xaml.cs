@@ -14,6 +14,10 @@ using Windows.ApplicationModel.Core;
 using Windows.System.Threading;
 using Aurora.Shared.Extensions;
 using Aurora.Music.Controls;
+using Windows.UI.Xaml.Media.Imaging;
+using Windows.Storage;
+using System.Collections.Generic;
+using Aurora.Music.Core.Models;
 
 // https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
 
@@ -325,6 +329,88 @@ namespace Aurora.Music
         private void PlayBtn_Click(object sender, RoutedEventArgs e)
         {
             Context.SkiptoItem((sender as Button).DataContext as SongViewModel);
+        }
+
+        private async void Root_DragOver(object sender, DragEventArgs e)
+        {
+            e.Handled = true;
+
+            e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Copy;
+            var p = await e.DataView.GetStorageItemsAsync();
+            if (p.Count > 0)
+            {
+                e.DragUIOverride.IsGlyphVisible = true;
+                e.DragUIOverride.Caption = "Drop to Play";
+                e.DragUIOverride.IsCaptionVisible = true;
+                e.DragUIOverride.IsContentVisible = true;
+                e.DragUIOverride.SetContentFromBitmapImage(new BitmapImage(new Uri(Consts.BlackPlaceholder)));
+            }
+            else
+            {
+                e.DragUIOverride.IsGlyphVisible = true;
+                e.DragUIOverride.Caption = "Can't Drop Here";
+                e.DragUIOverride.IsCaptionVisible = true;
+            }
+        }
+
+        private async void Root_Drop(object sender, DragEventArgs e)
+        {
+            e.Handled = true;
+            e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Copy;
+            var p = await e.DataView.GetStorageItemsAsync();
+            var list = new List<StorageFile>();
+            if (p.Count > 0)
+            {
+                list.AddRange(await CopyFilesAsync(p));
+            }
+            else
+            {
+                return;
+            }
+            var songs = await Context.ComingNewSongsAsync(list);
+
+            await Context.InstantPlay(songs);
+
+            if (songs.Count > 0)
+            {
+                ShowDropSongsUI(songs);
+            }
+        }
+
+        private void ShowDropSongsUI(IList<Song> songs)
+        {
+
+        }
+
+        private static async System.Threading.Tasks.Task<IReadOnlyList<StorageFile>> CopyFilesAsync(IReadOnlyList<IStorageItem> p)
+        {
+            var list = new List<StorageFile>();
+            foreach (var item in p)
+            {
+                if (item is IStorageFile file)
+                {
+                    foreach (var types in Consts.FileTypes)
+                    {
+                        if (types == file.FileType)
+                        {
+                            list.Add(await file.CopyAsync(await ApplicationData.Current.TemporaryFolder.CreateFolderAsync("Songs", CreationCollisionOption.OpenIfExists)));
+                            break;
+                        }
+                    }
+                }
+                else if (item is StorageFolder folder)
+                {
+                    var options = new Windows.Storage.Search.QueryOptions
+                    {
+                        FileTypeFilter = { ".flac", ".wav", ".m4a", ".aac", ".mp3", ".wma" },
+                        FolderDepth = Windows.Storage.Search.FolderDepth.Deep,
+                        IndexerOption = Windows.Storage.Search.IndexerOption.DoNotUseIndexer,
+                    };
+                    var query = folder.CreateFileQueryWithOptions(options);
+                    list.AddRange(await query.GetFilesAsync());
+                }
+            }
+            return list;
         }
     }
 }

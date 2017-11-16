@@ -69,7 +69,7 @@ namespace Aurora.Music.ViewModels
                 }
             });
 
-            var ran = await FileReader.GetRandomListAsync();
+            var ran = hero.First(x => x.Key == "Feeling Lucky");
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
                 RandomList.Clear();
