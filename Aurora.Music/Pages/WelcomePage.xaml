@@ -322,9 +322,9 @@
                 <TextBlock Style="{ThemeResource HeaderTextBlockStyle}" 
                            HorizontalAlignment="Center" VerticalAlignment="Center" 
                            Margin="8,4" Text="Welcome!"/>
-                <TextBlock Grid.Row="1" Text="Lorem Ipsum" Style="{ThemeResource BodyTextBlockStyle}" 
+                <TextBlock Grid.Row="1" Text="Using Aurora Music to delight your music experience." Style="{ThemeResource BodyTextBlockStyle}" 
                            HorizontalAlignment="Left" VerticalAlignment="Center" Margin="8,4"/>
-                <Button Grid.Row="2" Padding="12" Margin="16" 
+                <Button Grid.Row="2" Padding="12,4" Margin="16" 
                         Click="Button_Click" HorizontalAlignment="Center" VerticalAlignment="Center" 
                         Style="{ThemeResource ButtonRevealStyle}">
                     <Button.Content>
@@ -340,10 +340,10 @@
                 </Grid.RowDefinitions>
                 <TextBlock Style="{ThemeResource HeaderTextBlockStyle}" 
                            HorizontalAlignment="Center" VerticalAlignment="Center" 
-                           Margin="8,4" Text="Immersive Experience"/>
-                <TextBlock Grid.Row="1" Text="Lorem Ipsum" Style="{ThemeResource BodyTextBlockStyle}" 
+                           Margin="8,4" Text="Fluent Feel"/>
+                <TextBlock Grid.Row="1" Text="It is based on Fluent-deisgn System, just check out the stunning UI performance." Style="{ThemeResource BodyTextBlockStyle}" 
                            HorizontalAlignment="Left" VerticalAlignment="Center" Margin="8,4"/>
-                <Button Grid.Row="2" Padding="12" Margin="16" Click="Button_Click" 
+                <Button Grid.Row="2" Padding="12,4" Margin="16" Click="Button_Click" 
                         HorizontalAlignment="Center" VerticalAlignment="Center" 
                         Style="{ThemeResource ButtonRevealStyle}">
                     <Button.Content>
@@ -357,8 +357,11 @@
                     <RowDefinition Height="3*"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
+                <TextBlock Style="{ThemeResource HeaderTextBlockStyle}" 
+                           HorizontalAlignment="Center" VerticalAlignment="Center" 
+                           Margin="8,4" Text="Before You Start"/>
                 <Frame Grid.Row="1" x:Name="AddFolderFrame"/>
-                <Button Grid.Row="2" Padding="12" Margin="16" Click="Button_Click" 
+                <Button Grid.Row="2" Padding="12,4" Margin="16" Click="Button_Click" 
                         HorizontalAlignment="Center" VerticalAlignment="Center" 
                         Style="{ThemeResource ButtonRevealStyle}">
                     <Button.Content>
@@ -374,7 +377,7 @@
                 </Grid.RowDefinitions>
                 <TextBlock Style="{ThemeResource HeaderTextBlockStyle}" 
                            HorizontalAlignment="Center" VerticalAlignment="Center" 
-                           Margin="8,4" Text="Wait for a while"/>
+                           Margin="8,4" Text="Wait for a While"/>
                 <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center" 
                             Orientation="Vertical" Grid.Row="1">
                     <TextBlock Text="{x:Bind Context.Hint, Mode=OneWay}" Style="{ThemeResource SubtitleTextBlockStyle}" 
@@ -399,7 +402,7 @@
                                      Minimum="0" Maximum="100" Grid.Column="3"
                                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                     </Grid>
-                    <Button Grid.Row="2" Padding="12" Margin="16" Click="Finish_Click" Opacity="{x:Bind Context.Finish,Mode=OneWay}"
+                    <Button Grid.Row="2" Padding="12,4" Margin="16" Click="Finish_Click" Opacity="{x:Bind Context.Finish,Mode=OneWay}"
                         HorizontalAlignment="Center" VerticalAlignment="Center" 
                         Style="{ThemeResource ButtonRevealStyle}">
                         <Button.Content>

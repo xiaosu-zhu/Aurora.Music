@@ -930,7 +930,7 @@
         <Setter Property="IsHoldingEnabled" Value="True"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
-        <Setter Property="Margin" Value="12,8"/>
+        <Setter Property="Margin" Value="8"/>
         <Setter Property="Padding" Value="0"/>
         <Setter Property="MinWidth" Value="{ThemeResource GridViewItemMinWidth}"/>
         <Setter Property="MinHeight" Value="{ThemeResource GridViewItemMinHeight}"/>

@@ -433,6 +433,10 @@ namespace Aurora.Music.ViewModels
             return 100 * (t1.TotalMilliseconds / total.TotalMilliseconds);
         }
 
+        internal async Task<IList<Song>> ComingNewSongsAsync(List<StorageFile> list)
+        {
+            return await new FileReader().ReadFileandSendBack(list);
+        }
     }
 
 
