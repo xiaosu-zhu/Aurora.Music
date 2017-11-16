@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Aurora.Music.Core.Models;
+using Aurora.Music.ViewModels;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -19,9 +22,20 @@ namespace Aurora.Music.Controls
 {
     public sealed partial class DropSongsDialog : ContentDialog
     {
+        internal ObservableCollection<SongViewModel> DropList { get; set; } = new ObservableCollection<SongViewModel>();
+
         public DropSongsDialog()
         {
             this.InitializeComponent();
+        }
+
+        public DropSongsDialog(IList<Song> songs)
+        {
+            this.InitializeComponent();
+            foreach (var item in songs)
+            {
+                DropList.Add(new SongViewModel(item));
+            }
         }
 
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)

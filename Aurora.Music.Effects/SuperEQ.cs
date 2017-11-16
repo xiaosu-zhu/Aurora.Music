@@ -41,22 +41,6 @@ namespace Aurora.Music.Effects
 
                     // Process audio data
                     int dataInFloatLength = (int)inputBuffer.Length / sizeof(float);
-
-                    for (int i = 0; i < dataInFloatLength; i++)
-                    {
-                        inputData = inputDataInFloat[i] * (1.0f - this.Mix);
-                        echoData = echoBuffer[currentActiveSampleIndex] * this.Mix;
-                        outputDataInFloat[i] = inputData + echoData;
-                        echoBuffer[currentActiveSampleIndex] = inputDataInFloat[i];
-                        currentActiveSampleIndex++;
-
-                        if (currentActiveSampleIndex == echoBuffer.Length)
-                        {
-                            // Wrap around (after one second of samples)
-                            currentActiveSampleIndex = 0;
-                        }
-                    }
-
                 }
             }
         }

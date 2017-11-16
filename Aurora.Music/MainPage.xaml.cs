@@ -18,6 +18,7 @@ using Windows.UI.Xaml.Media.Imaging;
 using Windows.Storage;
 using System.Collections.Generic;
 using Aurora.Music.Core.Models;
+using System.Threading.Tasks;
 
 // https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
 
@@ -377,9 +378,31 @@ namespace Aurora.Music
             }
         }
 
-        private void ShowDropSongsUI(IList<Song> songs)
+        private async void ShowDropSongsUI(IList<Song> songs)
         {
+            var dialog = new DropSongsDialog(songs);
+            await dialog.ShowAsync();
+        }
 
+        public async Task FileActivated(IReadOnlyList<IStorageItem> p)
+        {
+            var list = new List<StorageFile>();
+            if (p.Count > 0)
+            {
+                list.AddRange(await CopyFilesAsync(p));
+            }
+            else
+            {
+                return;
+            }
+            var songs = await Context.ComingNewSongsAsync(list);
+
+            await Context.InstantPlay(songs);
+
+            if (songs.Count > 0)
+            {
+                ShowDropSongsUI(songs);
+            }
         }
 
         private static async System.Threading.Tasks.Task<IReadOnlyList<StorageFile>> CopyFilesAsync(IReadOnlyList<IStorageItem> p)
@@ -393,7 +416,7 @@ namespace Aurora.Music
                     {
                         if (types == file.FileType)
                         {
-                            list.Add(await file.CopyAsync(await ApplicationData.Current.TemporaryFolder.CreateFolderAsync("Songs", CreationCollisionOption.OpenIfExists)));
+                            list.Add(await file.CopyAsync(await ApplicationData.Current.TemporaryFolder.CreateFolderAsync("Songs", CreationCollisionOption.OpenIfExists), file.Name, NameCollisionOption.ReplaceExisting));
                             break;
                         }
                     }

@@ -5,13 +5,69 @@
     xmlns:local="using:Aurora.Music.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:Aurora.Music.ViewModels"
     mc:Ignorable="d"
-    Title="TITLE"
-    PrimaryButtonText="Button1"
-    SecondaryButtonText="Button2"
+    Title="We find something..."
+    PrimaryButtonText="Save to Database"
+    SecondaryButtonText="Just Play"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
     SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
 
-    <Grid>
-    </Grid>
+    <ContentDialog.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Themes/Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light" Source="../Themes/Light.xaml"/>
+                <ResourceDictionary x:Key="Dark" Source="../Themes/Dark.xaml"/>
+            </ResourceDictionary.ThemeDictionaries>
+            <DataTemplate x:Key="OddTemplate" x:DataType="vm:SongViewModel">
+                <Grid Height="48" Background="{ThemeResource SongListOddBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="{x:Bind Track}" Margin="8,0" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Style="{ThemeResource BodyTextBlockStyle}"/>
+                    <TextBlock MaxLines="1" Grid.Column="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{x:Bind Title}" 
+                               Style="{ThemeResource BodyTextBlockStyle}" Margin="8,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <TextBlock MaxLines="1" Grid.Column="3" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" 
+                               HorizontalAlignment="Right" VerticalAlignment="Center"
+                               Text="{x:Bind FormatDuration(Duration)}" Style="{ThemeResource BodyTextBlockStyle}" 
+                               Margin="8,0"/>
+                </Grid>
+            </DataTemplate>
+            <DataTemplate x:Key="EvenTemplate" x:DataType="vm:SongViewModel">
+                <Grid Height="48" Background="{ThemeResource SongListEvenBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{x:Bind Track}" Margin="8,0" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Style="{ThemeResource BodyTextBlockStyle}"/>
+                    <TextBlock MaxLines="1" Grid.Column="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{x:Bind Title}" 
+                               Style="{ThemeResource BodyTextBlockStyle}" Margin="8,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <TextBlock MaxLines="1" Grid.Column="2" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" 
+                               HorizontalAlignment="Right" VerticalAlignment="Center"
+                               Text="{x:Bind FormatDuration(Duration)}" Style="{ThemeResource BodyTextBlockStyle}" 
+                               Margin="8,0"/>
+                </Grid>
+            </DataTemplate>
+
+            <local:SongListTemplateSelector x:Key="SongListTemplateSelector" EvenTemplate="{StaticResource EvenTemplate}" OddTemplate="{StaticResource OddTemplate}"/>
+
+        </ResourceDictionary>
+    </ContentDialog.Resources>
+    <StackPanel Orientation="Vertical" Padding="8">
+        <ListView Padding="8" ItemsSource="{x:Bind DropList,Mode=OneWay}" IsSynchronizedWithCurrentItem="False" SelectionMode="None" ItemContainerStyle="{ThemeResource GeneralListViewItemStyle}" ItemTemplateSelector="{StaticResource SongListTemplateSelector}">
+            <ListView.Header>
+                <TextBlock Text="You can choose to save them permanently, or just play instantly." Style="{ThemeResource BodyTextBlockStyle}" TextWrapping="WrapWholeWords" MaxWidth="480" Margin="16,8"/>
+            </ListView.Header>
+        </ListView>
+        <CheckBox Content="Don't Show Again, Remember My Choice." Margin="16"/>
+    </StackPanel>
+
 </ContentDialog>

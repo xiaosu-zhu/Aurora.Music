@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Core;
@@ -42,6 +43,25 @@ namespace Aurora.Music
             this.Suspending += OnSuspending;
         }
 
+
+        protected override async void OnFileActivated(FileActivatedEventArgs args)
+        {
+            base.OnFileActivated(args);
+            if (MainPage.Current is MainPage p)
+            {
+                await p.FileActivated(args.Files);
+            }
+            else
+            {
+                OnLaunched(null);
+                while (!(MainPage.Current is MainPage))
+                {
+                    await Task.Delay(100);
+                }
+                await MainPage.Current.FileActivated(args.Files);
+            }
+        }
+
         /// <summary>
         /// 在应用程序由最终用户正常启动时进行调用。
         /// 将在启动应用程序以打开特定文件等情况下使用。
@@ -72,7 +92,7 @@ namespace Aurora.Music
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
-                if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
+                if (e?.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
                     //TODO: 从之前挂起的应用程序加载状态
                 }
@@ -84,7 +104,7 @@ namespace Aurora.Music
             //ApplicationView.GetForCurrentView().SetDesiredBoundsMode(ApplicationViewBoundsMode.UseVisible);
 
 
-            if (e.PrelaunchActivated == false)
+            if (e == null || e.PrelaunchActivated == false)
             {
                 if (rootFrame.Content == null)
                 {
@@ -92,9 +112,9 @@ namespace Aurora.Music
                     // 并通过将所需信息作为导航参数传入来配置
                     // 参数
                     if (Settings.Load().WelcomeFinished)
-                        rootFrame.Navigate(typeof(MainPage), e.Arguments);
+                        rootFrame.Navigate(typeof(MainPage), e?.Arguments);
                     else
-                        rootFrame.Navigate(typeof(WelcomePage), e.Arguments);
+                        rootFrame.Navigate(typeof(WelcomePage), e?.Arguments);
                 }
                 // 确保当前窗口处于活动状态
                 Window.Current.Activate();
