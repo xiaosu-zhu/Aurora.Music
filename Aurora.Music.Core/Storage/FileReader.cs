@@ -18,7 +18,7 @@ namespace Aurora.Music.Core.Storage
         public event EventHandler Completed;
         private ProgressReport report = new ProgressReport();
 
-        public static async Task<IList<Song>> GetAllSongAsync()
+        public static async Task<List<Song>> GetAllSongAsync()
         {
             var opr = SQLOperator.Current();
             var songs = await opr.GetAllAsync<SONG>();

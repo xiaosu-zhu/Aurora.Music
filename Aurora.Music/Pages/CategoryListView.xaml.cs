@@ -32,7 +32,7 @@ namespace Aurora.Music.Pages
         public CategoryListView()
         {
             var settings = Settings.Load();
-            categoryList = new ObservableCollection<CategoryListItem>() { new CategoryListItem { Title = "Songs", Index = new Uri("ms-appx:///Assets/Images/1.png"), NavigatType = typeof(HomePage) }, new CategoryListItem { Title = "Albums", Index = new Uri("ms-appx:///Assets/Images/2.png"), NavigatType = typeof(AlbumsPage) }, new CategoryListItem { Title = "Artists", Index = new Uri("ms-appx:///Assets/Images/3.png"), NavigatType = typeof(ArtistsPage) } };
+            categoryList = new ObservableCollection<CategoryListItem>() { new CategoryListItem { Title = "Songs", Index = new Uri("ms-appx:///Assets/Images/1.png"), NavigatType = typeof(SongsPage) }, new CategoryListItem { Title = "Albums", Index = new Uri("ms-appx:///Assets/Images/2.png"), NavigatType = typeof(AlbumsPage) }, new CategoryListItem { Title = "Artists", Index = new Uri("ms-appx:///Assets/Images/3.png"), NavigatType = typeof(ArtistsPage) } };
 
             var item = categoryList.FirstOrDefault(x => x.Title == settings.CategoryLastClicked);
             if (item != default(CategoryListItem))

@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 namespace Aurora.Music.ViewModels
 {
-    class SongViewModel
+    class SongViewModel : IKey
     {
         public SongViewModel()
         {
@@ -147,6 +147,11 @@ namespace Aurora.Music.ViewModels
             set { picturePath = value; }
         }
 
+        internal string GetFormattedArtists()
+        {
+            return AlbumArtists.IsNullorEmpty() ? "Unknown Artists" : string.Join(", ", AlbumArtists);
+        }
+
         public TimeSpan Duration { get; set; }
         public uint BitRate { get; private set; }
 
@@ -196,7 +201,16 @@ namespace Aurora.Music.ViewModels
         public string[] AlbumArtistsSort { get; set; }
         public string[] Composers { get; set; }
         public string[] ComposersSort { get; set; }
-        public string Album { get; set; }
+
+        private string album;
+
+        public string Album
+        {
+            get { return album.IsNullorEmpty() ? "Unknown Album" : album; }
+            set { album = value; }
+        }
+
+
         public string JoinedGenres { get; }
         public string AlbumSort { get; set; }
         public string[] Genres { get; set; }
@@ -224,5 +238,46 @@ namespace Aurora.Music.ViewModels
         public string Conductor { get; set; }
         public string Copyright { get; set; }
         public string Comment { get; set; }
+
+        public string FormattedAlbum
+        {
+            get
+            {
+                if (Album.StartsWith("The ", System.StringComparison.CurrentCultureIgnoreCase))
+                {
+                    return Album.Substring(4);
+                }
+                if (Album.StartsWith("A ", System.StringComparison.CurrentCultureIgnoreCase))
+                {
+                    return Album.Substring(2);
+                }
+                if (Album.StartsWith("An ", System.StringComparison.CurrentCultureIgnoreCase))
+                {
+                    return Album.Substring(3);
+                }
+                return Album;
+            }
+        }
+
+        public string Key
+        {
+            get
+            {
+                if (Title.StartsWith("The ", System.StringComparison.CurrentCultureIgnoreCase))
+                {
+                    return Title.Substring(4);
+                }
+                if (Title.StartsWith("A ", System.StringComparison.CurrentCultureIgnoreCase))
+                {
+                    return Title.Substring(2);
+                }
+                if (Title.StartsWith("An ", System.StringComparison.CurrentCultureIgnoreCase))
+                {
+                    return Title.Substring(3);
+                }
+                return Title;
+
+            }
+        }
     }
 }

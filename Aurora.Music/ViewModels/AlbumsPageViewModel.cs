@@ -79,7 +79,7 @@ namespace Aurora.Music.ViewModels
                 {
                     AlbumList.Add(item);
                 }
-                SongsCount = AlbumList.Count == 1 ? "1 Album" : $"{AlbumList.Count} Albums";
+                SongsCount = albums.Count == 1 ? "1 Album" : $"{albums.Count} Albums";
                 ArtistsCount = aCount == 1 ? "1 Artist" : $"{aCount} Artists";
             });
 

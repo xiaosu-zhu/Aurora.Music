@@ -224,7 +224,7 @@
                 <ComboBox SelectionChanged="ComboBox_SelectionChanged" Margin="8,0" BorderBrush="{x:Null}" SelectedIndex="0" BorderThickness="0" Style="{StaticResource HorizontalComboBox}" HorizontalAlignment="Left" VerticalAlignment="Center" Header="Sort by:">
                     <ComboBoxItem Tag="Year">Year</ComboBoxItem>
                     <ComboBoxItem Tag="Name">A-Z</ComboBoxItem>
-                    <ComboBoxItem Tag="Genres">Artists</ComboBoxItem>
+                    <ComboBoxItem Tag="Artists">Artists</ComboBoxItem>
                 </ComboBox>
             </StackPanel>
         </Grid>

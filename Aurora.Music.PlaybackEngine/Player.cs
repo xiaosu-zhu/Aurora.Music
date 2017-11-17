@@ -105,7 +105,7 @@ namespace Aurora.Music.PlaybackEngine
                             Total = (TimeSpan)mediaPlaybackList.CurrentItem.Source.CustomProperties[Consts.Duration]
                         };
                         PositionUpdated?.Invoke(this, updatedArgs);
-                        if (_songCountID != id && updatedArgs.Current.TotalSeconds / updatedArgs.Total.TotalSeconds > 0.5)
+                        if (id != default(int) && _songCountID != id && updatedArgs.Current.TotalSeconds / updatedArgs.Total.TotalSeconds > 0.5)
                         {
                             _songCountID = id;
                             var opr = SQLOperator.Current();
