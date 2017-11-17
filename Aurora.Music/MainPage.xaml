@@ -729,6 +729,40 @@
             <controls:SongListTemplateSelector x:Key="SongListTemplateSelector" 
                                                EvenTemplate="{StaticResource EvenTemplate}" 
                                                OddTemplate="{StaticResource OddTemplate}"/>
+
+            <Storyboard x:Name="ModalIn" >
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ModalOverlay" Storyboard.TargetProperty="Visibility">
+                    <DiscreteObjectKeyFrame Value="Visible" KeyTime="0"/>
+                </ObjectAnimationUsingKeyFrames>
+                <DoubleAnimation Storyboard.TargetName="ModalOverlay" To="1" Storyboard.TargetProperty="Opacity" EnableDependentAnimation="False">
+                    <DoubleAnimation.EasingFunction>
+                        <QuinticEase/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ModalRing" Storyboard.TargetProperty="IsActive">
+                    <DiscreteObjectKeyFrame Value="True" KeyTime="0"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ModalRing" Storyboard.TargetProperty="IsEnabled">
+                    <DiscreteObjectKeyFrame Value="True" KeyTime="0"/>
+                </ObjectAnimationUsingKeyFrames>
+            </Storyboard>
+
+            <Storyboard x:Name="ModalOut" >
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ModalOverlay" Storyboard.TargetProperty="Visibility">
+                    <DiscreteObjectKeyFrame Value="Collapsed" KeyTime="0:0:0.96"/>
+                </ObjectAnimationUsingKeyFrames>
+                <DoubleAnimation Storyboard.TargetName="ModalOverlay" To="0" Storyboard.TargetProperty="Opacity" EnableDependentAnimation="False">
+                    <DoubleAnimation.EasingFunction>
+                        <QuinticEase/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ModalRing" Storyboard.TargetProperty="IsActive">
+                    <DiscreteObjectKeyFrame Value="False" KeyTime="0"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ModalRing" Storyboard.TargetProperty="IsEnabled">
+                    <DiscreteObjectKeyFrame Value="False" KeyTime="0"/>
+                </ObjectAnimationUsingKeyFrames>
+            </Storyboard>
         </ResourceDictionary>
     </Page.Resources>
 
@@ -939,6 +973,11 @@
                     <AutoSuggestBox Style="{ThemeResource BlockAutoSuggestBox}" QuerySubmitted="SearchBox_QuerySubmitted" SuggestionChosen="SearchBox_SuggestionChosen"
                                     PlaceholderText="Search in your library" QueryIcon="Find" x:Name="SearchBox" TextChanged="SearchBox_TextChanged" ItemsSource="{x:Bind Context.SearchItems, Mode=OneWay}"
                                     HorizontalAlignment="Right" VerticalAlignment="Stretch" Width="320"/>
+                </Grid>
+
+                <Grid Visibility="Collapsed" Opacity="0" x:Name="ModalOverlay" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource SystemControlBackgroundBaseMediumBrush}">
+                    <ProgressRing Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" x:Name="ModalRing" HorizontalAlignment="Center" VerticalAlignment="Center" Width="48" Height="48" IsActive="False" IsEnabled="False"/>
+                    <TextBlock Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Text="Waiting" x:Name="ModalText" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,80,0,0"/>
                 </Grid>
             </Grid>
         </SplitView.Content>

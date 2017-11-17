@@ -1,9 +1,12 @@
-﻿using Aurora.Shared.MVVM;
+﻿using Aurora.Music.Core.Models;
+using Aurora.Shared.MVVM;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -25,45 +28,72 @@ namespace Aurora.Music.Pages
     /// </summary>
     public sealed partial class CategoryListView : Page
     {
-        private static object clickedItem;
 
         public CategoryListView()
         {
+            var settings = Settings.Load();
+            categoryList = new ObservableCollection<CategoryListItem>() { new CategoryListItem { Title = "Songs", Index = new Uri("ms-appx:///Assets/Images/1.png"), NavigatType = typeof(HomePage) }, new CategoryListItem { Title = "Albums", Index = new Uri("ms-appx:///Assets/Images/2.png"), NavigatType = typeof(AlbumsPage) }, new CategoryListItem { Title = "Artists", Index = new Uri("ms-appx:///Assets/Images/3.png"), NavigatType = typeof(ArtistsPage) } };
+
+            var item = categoryList.FirstOrDefault(x => x.Title == settings.CategoryLastClicked);
+            if (item != default(CategoryListItem))
+            {
+                item.IsCurrent = true;
+                categoryList.Remove(item);
+                categoryList.Insert(0, item);
+            }
+            else
+            {
+                categoryList[0].IsCurrent = true;
+            }
+
+            LibraryPage.Current.Navigate(categoryList[0].NavigatType);
+
             this.InitializeComponent();
         }
+        internal ObservableCollection<CategoryListItem> categoryList;
 
-        CategoryListItem[] categoryList = { new CategoryListItem { Title = "Songs", Index = new Uri("ms-appx:///Assets/Images/1.png"), IsCurrent = true }, new CategoryListItem { Title = "Albums", Index = new Uri("ms-appx:///Assets/Images/2.png") }, new CategoryListItem { Title = "Artists", Index = new Uri("ms-appx:///Assets/Images/3.png") } };
-
-        private void ListView_ItemClick(object sender, ItemClickEventArgs e)
+        private async void ListView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            PrepareAnimationWithItem(e.ClickedItem);
-            clickedItem = e.ClickedItem;
-            LibraryPage.Current.LefPanelNavigate(typeof(CategoryDetailsView), (e.ClickedItem as CategoryListItem).Title);
+            PrepareAnimationWithItem();
+            CompleteAnimationWithItems(e.ClickedItem as CategoryListItem);
+
+            await Task.Delay(100);
+
+            LibraryPage.Current.Navigate((e.ClickedItem as CategoryListItem).NavigatType);
         }
 
-        void PrepareAnimationWithItem(object item)
+        private async void CompleteAnimationWithItems(CategoryListItem item)
         {
-            Category.PrepareConnectedAnimation("CategoryListIn", item, "Panel");
-            Category.PrepareConnectedAnimation("CategoryTitleIn", item, "Title");
-        }
+            categoryList.Remove(item);
+            categoryList.Insert(0, item);
 
-        private void Category_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (clickedItem != null)
+            await Task.Delay(100);
+
+
+            foreach (var cat in categoryList)
             {
-                Category.ScrollIntoView(clickedItem);
-                var animation =
-                    ConnectedAnimationService.GetForCurrentView().GetAnimation("CategoryListOut");
-                var animation1 =
-                   ConnectedAnimationService.GetForCurrentView().GetAnimation("CategoryTitleOut");
-                if (animation != null)
+                var ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(cat.Title);
+                if (ani != null)
                 {
-                    var a = Category.TryStartConnectedAnimationAsync(animation, clickedItem, "Panel");
+                    await Category.TryStartConnectedAnimationAsync(ani, cat, "Panel");
                 }
-                if (animation1 != null)
-                {
-                    var b = Category.TryStartConnectedAnimationAsync(animation1, clickedItem, "Title");
-                }
+            }
+
+            foreach (var cat in categoryList)
+            {
+                cat.IsCurrent = false;
+            }
+
+            item.IsCurrent = true;
+
+        }
+
+        void PrepareAnimationWithItem()
+        {
+            foreach (var cat in categoryList)
+            {
+                Category.PrepareConnectedAnimation(cat.Title, cat, "Panel");
+                cat.IsCurrent = false;
             }
         }
     }
@@ -82,6 +112,8 @@ namespace Aurora.Music.Pages
             get { return isCurrent; }
             set { SetProperty(ref isCurrent, value); }
         }
+
+        public Type NavigatType { get; set; }
 
         public double GetHeight(bool b)
         {

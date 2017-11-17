@@ -201,10 +201,12 @@ namespace Aurora.Music.PlaybackEngine
             if (startIndex <= 0)
             {
                 var item = items[0];
-                var builtin = await GetBuiltInArtworkAsync(item.ID, item.FilePath);
 
                 /// **Local files can only create from <see cref="StorageFile"/>**
                 StorageFile file = await StorageFile.GetFileFromPathAsync(item.FilePath);
+
+
+                var builtin = await GetBuiltInArtworkAsync(file.Name, item.FilePath);
 
                 var mediaSource = MediaSource.CreateFromStorageFile(file);
                 mediaSource.CustomProperties[Consts.ID] = item.ID;
@@ -242,8 +244,9 @@ namespace Aurora.Music.PlaybackEngine
                 var listBefore = items.Take(startIndex);
                 var listAfter = items.TakeLast(items.Count - 1 - startIndex);
 
-                var builtin = await GetBuiltInArtworkAsync(item.ID, item.FilePath);
                 StorageFile file = await StorageFile.GetFileFromPathAsync(item.FilePath);
+
+                var builtin = await GetBuiltInArtworkAsync(file.Name, item.FilePath);
 
                 var mediaSource = MediaSource.CreateFromStorageFile(file);
                 mediaSource.CustomProperties[Consts.ID] = item.ID;
@@ -291,8 +294,9 @@ namespace Aurora.Music.PlaybackEngine
             {
                 try
                 {
-                    var builtin = await GetBuiltInArtworkAsync(item.ID, item.FilePath);
                     StorageFile file = await StorageFile.GetFileFromPathAsync(item.FilePath);
+
+                    var builtin = await GetBuiltInArtworkAsync(file.Name, item.FilePath);
 
                     var mediaSource = MediaSource.CreateFromStorageFile(file);
 
@@ -330,8 +334,9 @@ namespace Aurora.Music.PlaybackEngine
             {
                 try
                 {
-                    var builtin = await GetBuiltInArtworkAsync(item.ID, item.FilePath);
                     StorageFile file = await StorageFile.GetFileFromPathAsync(item.FilePath);
+
+                    var builtin = await GetBuiltInArtworkAsync(file.Name, item.FilePath);
 
                     var mediaSource = MediaSource.CreateFromStorageFile(file);
 
@@ -390,7 +395,7 @@ namespace Aurora.Music.PlaybackEngine
             }
         }
 
-        private async Task<string> GetBuiltInArtworkAsync(int id, string filePath)
+        private async Task<string> GetBuiltInArtworkAsync(string id, string filePath)
         {
             var options = new Windows.Storage.Search.QueryOptions(Windows.Storage.Search.CommonFileQuery.DefaultQuery, new string[] { ".jpg", ".png", ".bmp" })
             {

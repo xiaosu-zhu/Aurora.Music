@@ -41,7 +41,6 @@ namespace Aurora.Music.Pages
 
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
-            base.OnNavigatedTo(e);
             if (!Context.ArtistList.IsNullorEmpty() && _clickedArtist != null)
             {
                 ArtistList.ScrollIntoView(_clickedArtist);

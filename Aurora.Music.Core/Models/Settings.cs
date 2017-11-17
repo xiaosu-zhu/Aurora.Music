@@ -51,6 +51,7 @@ namespace Aurora.Music.Core.Models
         public int LyricSource { get; set; } = 0;
         public double PlayerVolume { get; set; } = 50d;
         public Effects AudioGraphEffects { get; set; } = Effects.None;
+        public string CategoryLastClicked { get; set; }
 
         public static Settings Load()
         {

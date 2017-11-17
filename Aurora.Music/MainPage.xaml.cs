@@ -360,6 +360,7 @@ namespace Aurora.Music
         {
             e.Handled = true;
             e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Copy;
+            ShowModalUI(true, "Loading Files");
             var p = await e.DataView.GetStorageItemsAsync();
             var list = new List<StorageFile>();
             if (p.Count > 0)
@@ -382,6 +383,7 @@ namespace Aurora.Music
 
         private async void ShowDropSongsUI(IList<Song> songs)
         {
+            ShowModalUI(false, string.Empty);
             var dialog = new DropSongsDialog(songs);
             await dialog.ShowAsync();
         }
@@ -397,6 +399,9 @@ namespace Aurora.Music
             {
                 return;
             }
+
+            ShowModalUI(true, "Loading Files");
+
             var songs = await Context.ComingNewSongsAsync(list);
 
             await Context.InstantPlay(songs);
@@ -405,6 +410,19 @@ namespace Aurora.Music
             {
                 ShowDropSongsUI(songs);
             }
+        }
+
+        private void ShowModalUI(bool v1, string v2)
+        {
+            if (v1)
+            {
+                ModalIn.Begin();
+            }
+            else
+            {
+                ModalOut.Begin();
+            }
+            ModalText.Text = v2;
         }
 
         private static async System.Threading.Tasks.Task<IReadOnlyList<StorageFile>> CopyFilesAsync(IReadOnlyList<IStorageItem> p)

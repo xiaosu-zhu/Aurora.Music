@@ -319,7 +319,13 @@ namespace Aurora.Music.Core.Storage
                     tempList.Add(await Song.Create(tagTemp.Tag, file.Path, tagTemp.Properties));
                 }
             }
-            return tempList;
+            var result = from song in tempList orderby song.Track orderby song.Disc group song by song.Album;
+            var list = new List<Song>();
+            foreach (var item in result)
+            {
+                list.AddRange(item);
+            }
+            return list;
         }
     }
 

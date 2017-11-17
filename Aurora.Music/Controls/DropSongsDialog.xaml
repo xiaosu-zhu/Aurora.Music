@@ -61,13 +61,17 @@
 
         </ResourceDictionary>
     </ContentDialog.Resources>
-    <StackPanel Orientation="Vertical" Padding="8">
-        <ListView Padding="8" ItemsSource="{x:Bind DropList,Mode=OneWay}" IsSynchronizedWithCurrentItem="False" SelectionMode="None" ItemContainerStyle="{ThemeResource GeneralListViewItemStyle}" ItemTemplateSelector="{StaticResource SongListTemplateSelector}">
+
+    <Grid Padding="8" MaxHeight="640" VerticalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <ListView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Padding="8" ItemsSource="{x:Bind DropList,Mode=OneWay}" IsSynchronizedWithCurrentItem="False" SelectionMode="None" ItemContainerStyle="{ThemeResource GeneralListViewItemStyle}" ItemTemplateSelector="{StaticResource SongListTemplateSelector}">
             <ListView.Header>
                 <TextBlock Text="You can choose to save them permanently, or just play instantly." Style="{ThemeResource BodyTextBlockStyle}" TextWrapping="WrapWholeWords" MaxWidth="480" Margin="16,8"/>
             </ListView.Header>
         </ListView>
-        <CheckBox Content="Don't Show Again, Remember My Choice." Margin="16"/>
-    </StackPanel>
-
+        <CheckBox Grid.Row="1" VerticalAlignment="Center" Content="Don't Show Again, Remember My Choice." Margin="16"/>
+    </Grid>
 </ContentDialog>

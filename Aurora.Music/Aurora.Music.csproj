@@ -126,9 +126,6 @@
     <Compile Include="Pages\ArtistsPage.xaml.cs">
       <DependentUpon>ArtistsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\CategoryDetailsView.xaml.cs">
-      <DependentUpon>CategoryDetailsView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\CategoryListView.xaml.cs">
       <DependentUpon>CategoryListView.xaml</DependentUpon>
     </Compile>
@@ -284,10 +281,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\ArtistsPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\CategoryDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

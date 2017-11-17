@@ -16,7 +16,7 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <ListView x:Name="Category" Loaded="Category_Loaded" IsItemClickEnabled="True" ItemsSource="{x:Bind categoryList}" SelectionMode="None" ItemClick="ListView_ItemClick" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemContainerStyle="{StaticResource GeneralListViewItemStyle}">
+    <ListView x:Name="Category" IsItemClickEnabled="True" ItemsSource="{x:Bind categoryList}" SelectionMode="None" ItemClick="ListView_ItemClick" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemContainerStyle="{StaticResource GeneralListViewItemStyle}">
         <ListView.ItemTemplate>
             <DataTemplate x:DataType="pg:CategoryListItem">
                 <Grid x:Name="Panel" HorizontalAlignment="Stretch" Height="{x:Bind GetHeight(IsCurrent), Mode=OneWay}">

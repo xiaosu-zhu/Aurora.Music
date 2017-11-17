@@ -30,7 +30,6 @@ namespace Aurora.Music.Pages
             this.InitializeComponent();
             Current = this;
             SubPanelFrame.Navigate(typeof(CategoryListView));
-            MainFrame.Navigate(typeof(AlbumsPage));
             MainPageViewModel.Current.Title = "Library";
             MainPageViewModel.Current.NeedShowTitle = true;
             MainPageViewModel.Current.IsLeftTopForeWhite = true;
