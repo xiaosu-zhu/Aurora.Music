@@ -13,6 +13,12 @@ using Windows.UI;
 
 namespace Aurora.Music.Core.Models
 {
+
+    public enum MediaType
+    {
+        Song, Album, PlayList
+    }
+
     public class GenericMusicItem
     {
         public int ContextualID { get; }
@@ -23,9 +29,11 @@ namespace Aurora.Music.Core.Models
         public string PicturePath { get; set; }
 
         public int[] IDs { get; set; }
+        public MediaType InnerType { get; set; }
 
         internal GenericMusicItem(SONG s)
         {
+            InnerType = MediaType.Song;
             ContextualID = s.ID;
             Title = s.Title;
             Description = s.Album;
@@ -35,6 +43,7 @@ namespace Aurora.Music.Core.Models
         }
         internal GenericMusicItem(ALBUM s)
         {
+            InnerType = MediaType.Album;
             ContextualID = s.ID;
             Title = s.Name;
             var songs = s.Songs.Split(new string[] { "|" }, StringSplitOptions.RemoveEmptyEntries);

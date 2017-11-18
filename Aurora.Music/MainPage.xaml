@@ -763,6 +763,43 @@
                     <DiscreteObjectKeyFrame Value="False" KeyTime="0"/>
                 </ObjectAnimationUsingKeyFrames>
             </Storyboard>
+
+            <DataTemplate x:Key="AlbumTemplate" x:DataType="vm:GenericMusicItemViewModel">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.RowSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="Uniform">
+                        <Image.Source>
+                            <BitmapImage DecodePixelWidth="80" UriSource="{x:Bind Artwork, TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png}"/>
+                        </Image.Source>
+                    </Image>
+                    <TextBlock Text="{x:Bind Title}" Style="{ThemeResource BaseTextBlockStyle}" MaxLines="2" TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis" Margin="12,8" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <TextBlock Style="{ThemeResource BodyTextBlockStyle}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Margin="12,8" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <Run Text="{x:Bind Description}"/><Run Text=" - "/><Run Text="{x:Bind Addtional}"/>
+                    </TextBlock>
+                </Grid>
+            </DataTemplate>
+
+            <DataTemplate x:Key="SongTemplate" x:DataType="vm:GenericMusicItemViewModel">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <SymbolIcon Symbol="Audio" Margin="0,8,8,8"/>
+                    <TextBlock Style="{ThemeResource BodyTextBlockStyle}" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Margin="8" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1">
+                        <Run Text="{x:Bind Title}" FontWeight="Bold"/><Run Text=" - "/><Run Text="{x:Bind Description}"/><Run Text=" - "/><Run Text="{x:Bind Addtional}"/>
+                    </TextBlock>
+                </Grid>
+            </DataTemplate>
+
+            <controls:HomePageTemplateSeletor x:Key="GenericItemSelector" SongTemplate="{StaticResource SongTemplate}" AlbumTemplate="{StaticResource AlbumTemplate}"/>
         </ResourceDictionary>
     </Page.Resources>
 
@@ -882,7 +919,7 @@
                         <Image Grid.Row="1" x:Name="Artwork"
                                      Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Stretch" Stretch="Uniform">
                             <Image.Source>
-                                <BitmapImage UriSource="{x:Bind Context.CurrentArtwork, Mode=OneWay, TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png}"/>
+                                <BitmapImage UriSource="{x:Bind Context.CurrentArtwork, Mode=OneWay, TargetNullValue=ms-appx:///Assets/now_placeholder.png}"/>
                             </Image.Source>
                         </Image>
                         <StackPanel Margin="12,0" Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
@@ -972,7 +1009,8 @@
                     <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="1" x:Name="TitlebarBtm" Background="{StaticResource BlockAutoSuggestBoxTextBoxStyleBorderBrush}"/>
                     <AutoSuggestBox Style="{ThemeResource BlockAutoSuggestBox}" QuerySubmitted="SearchBox_QuerySubmitted" SuggestionChosen="SearchBox_SuggestionChosen"
                                     PlaceholderText="Search in your library" QueryIcon="Find" x:Name="SearchBox" TextChanged="SearchBox_TextChanged" ItemsSource="{x:Bind Context.SearchItems, Mode=OneWay}"
-                                    HorizontalAlignment="Right" VerticalAlignment="Stretch" Width="320"/>
+                                    HorizontalAlignment="Right" VerticalAlignment="Stretch" Width="320" ItemTemplateSelector="{StaticResource GenericItemSelector}">
+                    </AutoSuggestBox>
                 </Grid>
 
                 <Grid Visibility="Collapsed" Opacity="0" x:Name="ModalOverlay" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource SystemControlBackgroundBaseMediumBrush}">

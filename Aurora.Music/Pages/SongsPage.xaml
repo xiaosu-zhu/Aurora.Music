@@ -52,7 +52,7 @@
                                Style="{ThemeResource BodyTextBlockStyle}" Margin="8,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                     <Button Click="PlayBtn_Click" x:Name="PlayBtn" Style="{ThemeResource NoBorderButton}" Background="Transparent" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="48" Visibility="Collapsed">
                         <Button.Content>
-                            <SymbolIcon Symbol="Next"/>
+                            <SymbolIcon Symbol="Play"/>
                         </Button.Content>
                     </Button>
                     <TextBlock MaxLines="1" Grid.Column="3" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" 
@@ -88,7 +88,7 @@
                                Style="{ThemeResource BodyTextBlockStyle}" Margin="8,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                     <Button Click="PlayBtn_Click" x:Name="PlayBtn" Style="{ThemeResource NoBorderButton}" Background="Transparent" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="48" Visibility="Collapsed">
                         <Button.Content>
-                            <SymbolIcon Symbol="Next"/>
+                            <SymbolIcon Symbol="Play"/>
                         </Button.Content>
                     </Button>
                     <TextBlock MaxLines="1" Grid.Column="3" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" 
@@ -124,7 +124,7 @@
             <SemanticZoom.ZoomedInView>
                 <ListView ShowsScrollingPlaceholders="True" ItemClick="AlbumList_ItemClick" IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" 
               SelectionMode="None" ItemsSource="{x:Bind SongsListSource.View, Mode=OneWay}" Loaded="AlbumList_Loaded"
-              Padding="32,0,32,160" ItemContainerStyle="{StaticResource GeneralListViewItemStyle}" 
+              Padding="32,0,32,160" ItemContainerStyle="{StaticResource GeneralListViewItemStyle}" Style="{ThemeResource GeneralListView}"
                           ItemTemplateSelector="{StaticResource SongListTemplateSelector}"
               HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
               x:Name="AlbumList">

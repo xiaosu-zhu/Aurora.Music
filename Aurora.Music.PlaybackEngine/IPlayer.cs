@@ -36,7 +36,7 @@ namespace Aurora.Music.PlaybackEngine
         public bool IsLoop { get; set; }
         public bool IsShuffle { get; set; }
 
-        public uint CurrentIndex { get; set; }
+        public int CurrentIndex { get; set; }
         public IReadOnlyList<Song> Items { get; internal set; }
         public bool CanJump { get; set; } = false;
     }

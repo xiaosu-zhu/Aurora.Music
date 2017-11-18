@@ -43,6 +43,8 @@ namespace Aurora.Music.ViewModels
 
         }
 
+        public MediaType InnerType { get; set; }
+
 
         public static void ColorToHSV(System.Drawing.Color color, out double hue, out double saturation, out double value)
         {
@@ -100,6 +102,7 @@ namespace Aurora.Music.ViewModels
 
         public GenericMusicItemViewModel(Core.Models.Album album)
         {
+            InnerType = MediaType.Album;
             ContextualID = album.ID;
             Title = album.Name;
             Addtional = string.Join(", ", album.AlbumArtists);
@@ -110,6 +113,7 @@ namespace Aurora.Music.ViewModels
 
         public GenericMusicItemViewModel(Core.Models.Song song)
         {
+            InnerType = MediaType.Song;
             ContextualID = song.ID;
             Title = song.Title;
             Addtional = string.Join(", ", song.Performers);
@@ -119,6 +123,7 @@ namespace Aurora.Music.ViewModels
         }
         public GenericMusicItemViewModel(Core.Models.GenericMusicItem item)
         {
+            InnerType = item.InnerType;
             ContextualID = item.ContextualID;
             Title = item.Title;
             Description = item.Description;

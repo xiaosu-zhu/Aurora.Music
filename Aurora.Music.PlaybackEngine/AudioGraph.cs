@@ -529,7 +529,7 @@ namespace Aurora.Music.PlaybackEngine
             {
                 StatusChanged?.Invoke(this, new StatusChangedArgs
                 {
-                    CurrentIndex = (uint)currentIndex,
+                    CurrentIndex = currentIndex,
                     IsLoop = isLoop,
                     IsShuffle = isShuffle,
                     CurrentSong = currentPlayList[currentIndex],

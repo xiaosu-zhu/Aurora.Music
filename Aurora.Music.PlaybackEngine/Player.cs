@@ -147,7 +147,7 @@ namespace Aurora.Music.PlaybackEngine
                 IsShuffle = mediaPlaybackList.ShuffleEnabled,
                 IsLoop = mediaPlaybackList.AutoRepeatEnabled,
                 CurrentSong = mediaPlaybackList.CurrentItem?.Source.CustomProperties[Consts.SONG] as Song,
-                CurrentIndex = mediaPlaybackList.CurrentItemIndex,
+                CurrentIndex = mediaPlaybackList.CurrentItem == null ? -1 : currentList.IndexOf(mediaPlaybackList.CurrentItem?.Source.CustomProperties[Consts.SONG] as Song),
                 Items = currentList
             });
         }
@@ -175,7 +175,7 @@ namespace Aurora.Music.PlaybackEngine
                 IsShuffle = mediaPlaybackList.ShuffleEnabled,
                 IsLoop = mediaPlaybackList.AutoRepeatEnabled,
                 CurrentSong = mediaPlaybackList.CurrentItem?.Source.CustomProperties[Consts.SONG] as Song,
-                CurrentIndex = mediaPlaybackList.CurrentItemIndex,
+                CurrentIndex = mediaPlaybackList.CurrentItem == null ? -1 : currentList.IndexOf(mediaPlaybackList.CurrentItem?.Source.CustomProperties[Consts.SONG] as Song),
                 Items = currentList
             });
         }
@@ -273,15 +273,7 @@ namespace Aurora.Music.PlaybackEngine
                 });
             }
 
-            StatusChanged?.Invoke(this, new StatusChangedArgs
-            {
-                IsShuffle = mediaPlaybackList.ShuffleEnabled,
-                IsLoop = mediaPlaybackList.AutoRepeatEnabled,
-                CurrentSong = mediaPlaybackList.CurrentItem?.Source.CustomProperties[Consts.SONG] as Song,
-                CurrentIndex = mediaPlaybackList.CurrentItemIndex,
-                Items = currentList
-            });
-
+            PlaybackSession_PlaybackStateChanged(null, null);
             //StatusChanged?.Invoke(this, null);
 
             PlayWithRestart();

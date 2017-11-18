@@ -68,10 +68,10 @@ namespace Aurora.Music.ViewModels
                 var aa = albums.ToList();
                 aa.Shuffle();
                 var list = new List<Uri>();
-                for (int j = 0; j < albums.Count && j < 9; j++)
+                for (int j = 0; j < aa.Count && j < 9; j++)
                 {
-                    if (albums[j].PicturePath.IsNullorEmpty()) continue;
-                    list.Add(new Uri(albums[j].PicturePath));
+                    if (aa[j].PicturePath.IsNullorEmpty()) continue;
+                    list.Add(new Uri(aa[j].PicturePath));
                 }
                 list.Shuffle();
                 await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>

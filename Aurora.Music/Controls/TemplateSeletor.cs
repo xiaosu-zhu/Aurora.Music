@@ -1,4 +1,5 @@
-﻿using Aurora.Music.ViewModels;
+﻿using Aurora.Music.Core.Models;
+using Aurora.Music.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,23 +15,44 @@ namespace Aurora.Music.Controls
     {
         public DataTemplate AlbumTemplate { get; set; }
         public DataTemplate SongTemplate { get; set; }
+        public DataTemplate PlayListTemplate { get; set; }
 
         protected override DataTemplate SelectTemplateCore(object item)
         {
-            if (item is AlbumViewModel a)
+            if (item is GenericMusicItemViewModel m)
             {
-                return AlbumTemplate;
+                switch (m.InnerType)
+                {
+                    case MediaType.Song:
+                        return SongTemplate;
+                    case MediaType.Album:
+                        return AlbumTemplate;
+                    case MediaType.PlayList:
+                        return PlayListTemplate;
+                    default:
+                        return SongTemplate;
+                }
             }
-            if (item is SongViewModel s)
-            {
-                return SongTemplate;
-            }
-            return null;
+            return SongTemplate;
         }
 
         protected override DataTemplate SelectTemplateCore(object item, DependencyObject container)
         {
-            return SelectTemplate(item);
+            if (item is GenericMusicItemViewModel m)
+            {
+                switch (m.InnerType)
+                {
+                    case MediaType.Song:
+                        return SongTemplate;
+                    case MediaType.Album:
+                        return AlbumTemplate;
+                    case MediaType.PlayList:
+                        return PlayListTemplate;
+                    default:
+                        return SongTemplate;
+                }
+            }
+            return SongTemplate;
         }
     }
 
