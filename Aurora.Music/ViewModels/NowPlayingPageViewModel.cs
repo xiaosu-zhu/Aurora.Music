@@ -12,6 +12,8 @@ using System.Linq;
 using Windows.ApplicationModel.Core;
 using Windows.Media.Playback;
 using Windows.System.Threading;
+using Windows.UI.ViewManagement;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -266,6 +268,54 @@ namespace Aurora.Music.ViewModels
                 player?.Loop(value);
             }
         }
+
+        public DelegateCommand CompactOverlay
+        {
+            get
+            {
+                return new DelegateCommand(async () =>
+                {
+                    await MainPage.Current.GotoComapctOverlay();
+                });
+            }
+        }
+
+        public DelegateCommand ShowLyricWindow
+        {
+            get
+            {
+                return new DelegateCommand(async () =>
+                {
+                    await MainPage.Current.ShowLyricWindow();
+                });
+            }
+        }
+        public DelegateCommand ReturnNormal
+        {
+            get
+            {
+                return new DelegateCommand(async () =>
+                {
+                    if (await ApplicationView.GetForCurrentView().TryEnterViewModeAsync(ApplicationViewMode.Default))
+                    {
+                        (Window.Current.Content as Frame).Content = null;
+
+                        if (MainPage.Current is MainPage m)
+                        {
+                            (Window.Current.Content as Frame).Content = m;
+                        }
+                        else if (MainPageViewModel.Current is MainPageViewModel v)
+                        {
+                            v.Dispose();
+                            v = null;
+                            (Window.Current.Content as Frame).Navigate(typeof(MainPage));
+                        }
+                    }
+                });
+            }
+        }
+
+
 
         private async void Player_PositionUpdated(object sender, PositionUpdatedArgs e)
         {

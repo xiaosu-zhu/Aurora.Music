@@ -19,6 +19,9 @@ using Windows.Storage;
 using System.Collections.Generic;
 using Aurora.Music.Core.Models;
 using System.Threading.Tasks;
+using Windows.UI.Xaml.Navigation;
+using Windows.UI.Core;
+using Windows.UI;
 
 // https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
 
@@ -34,6 +37,16 @@ namespace Aurora.Music
         public MainPage()
         {
             this.InitializeComponent();
+            if (MainPageViewModel.Current is MainPageViewModel m)
+            {
+                Context = m;
+                DataContext = m;
+            }
+            else
+            {
+                Context = new MainPageViewModel();
+                DataContext = Context;
+            }
             Current = this;
             MainFrame.Navigate(typeof(HomePage));
             GestureRecognizer g = new GestureRecognizer
@@ -43,6 +56,8 @@ namespace Aurora.Music
         }
 
         private Type[] navigateOptions = { typeof(HomePage), typeof(LibraryPage) };
+        private MainPageViewModel Context;
+        private int lyricViewID;
 
         public bool CanGoBack { get => MainFrame.Visibility == Visibility.Visible; }
 
@@ -228,6 +243,37 @@ namespace Aurora.Music
             coreTitleBar.IsVisibleChanged += CoreTitleBar_IsVisibleChanged;
 
             Window.Current.SetTitleBar(TitleBar);
+        }
+
+        internal async Task ShowLyricWindow()
+        {
+            await CoreApplication.CreateNewView().Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                var frame = new Frame();
+                lyricViewID = ApplicationView.GetForCurrentView().Id;
+                frame.Navigate(typeof(LyricView), Context.NowPlayingList[Context.CurrentIndex]);
+                Window.Current.Content = frame;
+                Window.Current.Activate();
+                CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
+                ApplicationViewTitleBar titleBar = ApplicationView.GetForCurrentView().TitleBar;
+                titleBar.ButtonBackgroundColor = Colors.Transparent;
+                titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+                titleBar.ButtonHoverBackgroundColor = Color.FromArgb(0x33, 0x00, 0x00, 0x00);
+                titleBar.ButtonForegroundColor = Colors.Black;
+                titleBar.ButtonHoverForegroundColor = Colors.White;
+                titleBar.ButtonInactiveForegroundColor = Colors.Gray;
+            });
+            bool viewShown = await ApplicationViewSwitcher.TryShowAsViewModeAsync(lyricViewID, ApplicationViewMode.CompactOverlay);
+        }
+
+        internal async Task GotoComapctOverlay()
+        {
+            if (await ApplicationView.GetForCurrentView().TryEnterViewModeAsync(ApplicationViewMode.CompactOverlay))
+            {
+                (Window.Current.Content as Frame).Content = null;
+
+                (Window.Current.Content as Frame).Navigate(typeof(CompactOverlayPanel), Context.NowPlayingList[Context.CurrentIndex]);
+            }
         }
 
         private void CoreTitleBar_IsVisibleChanged(CoreApplicationViewTitleBar sender, object args)

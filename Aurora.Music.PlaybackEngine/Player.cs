@@ -196,8 +196,6 @@ namespace Aurora.Music.PlaybackEngine
             currentList.Clear();
             currentList.AddRange(items);
 
-            mediaPlaybackList.Items.Clear();
-
             if (startIndex <= 0)
             {
                 var item = items[0];
@@ -555,12 +553,18 @@ namespace Aurora.Music.PlaybackEngine
             mediaPlayer.Play();
         }
 
-        public void PlayWithRestart()
+        public async void PlayWithRestart()
         {
-            if (mediaPlaybackList == null || mediaPlaybackList.Items.IsNullorEmpty())
+            if (mediaPlaybackList == null)
             {
                 return;
             }
+
+            while (mediaPlaybackList.CurrentItem == null)
+            {
+                await Task.Delay(100);
+            }
+
             mediaPlayer.Source = mediaPlaybackList;
             mediaPlayer.Play();
         }

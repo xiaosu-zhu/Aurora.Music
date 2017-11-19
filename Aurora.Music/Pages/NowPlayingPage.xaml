@@ -512,23 +512,28 @@
                 </ToggleButton>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="4">
-                <Button Style="{ThemeResource RevealRoundButton}" ToolTipService.ToolTip="Lyric window"
+                <Button Style="{ThemeResource RevealRoundButton}" ToolTipService.ToolTip="Lyric window" Command="{x:Bind Context.ShowLyricWindow}"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <Button.Content>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEA4B;"/>
                     </Button.Content>
                 </Button>
-                <Button Style="{ThemeResource RevealRoundButton}" ToolTipService.ToolTip="Small window"
+                <Button Style="{ThemeResource RevealRoundButton}" Command="{x:Bind Context.CompactOverlay}" ToolTipService.ToolTip="Small window"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <Button.Content>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE143;" />
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE2B4;" />
                     </Button.Content>
                 </Button>
-                <Button Style="{ThemeResource RevealRoundButton}" Command="{x:Bind Context.GoNext}" ToolTipService.ToolTip="More"
+                <Button Style="{ThemeResource RevealRoundButton}" ToolTipService.ToolTip="More"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <Button.Content>
                         <SymbolIcon Symbol="More"/>
                     </Button.Content>
+                    <Button.Flyout>
+                        <MenuFlyout>
+
+                        </MenuFlyout>
+                    </Button.Flyout>
                 </Button>
             </StackPanel>
         </Grid>

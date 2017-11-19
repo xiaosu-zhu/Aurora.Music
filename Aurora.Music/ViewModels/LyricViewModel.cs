@@ -28,6 +28,35 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref hasLryic, value); }
         }
 
+        public string GetCurrent(int p)
+        {
+            if (CurrentIndex < Contents.Count && CurrentIndex > -1)
+            {
+                return Contents[CurrentIndex].Content;
+            }
+            return "No Lyrics.";
+        }
+
+
+        public string GetPrevious(int p)
+        {
+            if (CurrentIndex < Contents.Count && CurrentIndex > 0)
+            {
+                return Contents[CurrentIndex - 1].Content;
+            }
+            return string.Empty;
+        }
+
+
+        public string GetNext(int p)
+        {
+            if (CurrentIndex < Contents.Count - 1 && CurrentIndex > -1)
+            {
+                return Contents[CurrentIndex + 1].Content;
+            }
+            return "End";
+        }
+
         private Lyric lyric;
 
         public LyricViewModel()
