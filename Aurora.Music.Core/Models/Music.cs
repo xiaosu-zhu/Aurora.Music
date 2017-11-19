@@ -125,14 +125,12 @@ namespace Aurora.Music.Core.Models
             AudioChannels = song.AudioChannels;
         }
 
-        public static async Task<Song> Create(Tag tag, string path, Properties music)
+        public static async Task<Song> Create(Tag tag, string path, MusicProperties music)
         {
             var s = new Song
             {
                 Duration = music.Duration,
-                BitRate = Convert.ToUInt32(music.AudioBitrate),
-                SampleRate = music.AudioSampleRate,
-                AudioChannels = music.AudioChannels,
+                BitRate = music.Bitrate,
                 FilePath = path,
                 MusicBrainzArtistId = tag.MusicBrainzArtistId,
                 MusicBrainzDiscId = tag.MusicBrainzDiscId,

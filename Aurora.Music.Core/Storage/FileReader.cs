@@ -204,7 +204,7 @@ namespace Aurora.Music.Core.Storage
             {
                 using (var tagTemp = File.Create(file.Path))
                 {
-                    tempList.Add(await Song.Create(tagTemp.Tag, file.Path, tagTemp.Properties));
+                    tempList.Add(await Song.Create(tagTemp.Tag, file.Path, await file.Properties.GetMusicPropertiesAsync()));
                 }
                 report.Stage = 2;
                 report.Percent = 100 * i / total;
@@ -316,7 +316,7 @@ namespace Aurora.Music.Core.Storage
             {
                 using (var tagTemp = File.Create(file.Path))
                 {
-                    tempList.Add(await Song.Create(tagTemp.Tag, file.Path, tagTemp.Properties));
+                    tempList.Add(await Song.Create(tagTemp.Tag, file.Path, await file.Properties.GetMusicPropertiesAsync()));
                 }
             }
             var result = from song in tempList orderby song.Track orderby song.Disc group song by song.Album;

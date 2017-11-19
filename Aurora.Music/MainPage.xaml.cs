@@ -59,6 +59,11 @@ namespace Aurora.Music
         private MainPageViewModel Context;
         private int lyricViewID;
 
+        internal void GoBack()
+        {
+            throw new NotImplementedException();
+        }
+
         public bool CanGoBack { get => MainFrame.Visibility == Visibility.Visible; }
 
         private void Main_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
@@ -245,6 +250,11 @@ namespace Aurora.Music
             Window.Current.SetTitleBar(TitleBar);
         }
 
+        internal void RestoreContext()
+        {
+            GoBackFromNowPlaying();
+        }
+
         internal async Task ShowLyricWindow()
         {
             await CoreApplication.CreateNewView().Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
@@ -263,7 +273,10 @@ namespace Aurora.Music
                 titleBar.ButtonHoverForegroundColor = Colors.White;
                 titleBar.ButtonInactiveForegroundColor = Colors.Gray;
             });
-            bool viewShown = await ApplicationViewSwitcher.TryShowAsViewModeAsync(lyricViewID, ApplicationViewMode.CompactOverlay);
+            ViewModePreferences compactOptions = ViewModePreferences.CreateDefault(ApplicationViewMode.CompactOverlay);
+            compactOptions.CustomSize = new Windows.Foundation.Size(1000, 100);
+            compactOptions.ViewSizePreference = ViewSizePreference.Custom;
+            bool viewShown = await ApplicationViewSwitcher.TryShowAsViewModeAsync(lyricViewID, ApplicationViewMode.CompactOverlay, compactOptions);
         }
 
         internal async Task GotoComapctOverlay()

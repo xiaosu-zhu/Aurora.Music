@@ -58,7 +58,7 @@ namespace Aurora.Music.ViewModels
         internal async Task RemoveFolder(FolderViewModel folderViewModel)
         {
             var opr = SQLOperator.Current();
-            await opr.RemoveFolderAsync(folderViewModel.Path);
+            await opr.RemoveFolderAsync(folderViewModel.ID);
             Folders.Remove(folderViewModel);
         }
 
@@ -115,6 +115,7 @@ namespace Aurora.Music.ViewModels
     {
         public FolderViewModel(FOLDER item)
         {
+            ID = item.ID;
             Folder = AsyncHelper.RunSync(async () => await item.GetFolderAsync());
             Disk = item.Path.Split(':').FirstOrDefault();
             Path = item.Path;
@@ -139,7 +140,7 @@ namespace Aurora.Music.ViewModels
         public string Path { get; set; }
 
         public int SongsCount { get; set; }
-
+        public int ID { get; }
         public StorageFolder Folder { get; set; }
 
         public string FormatCount(int count)

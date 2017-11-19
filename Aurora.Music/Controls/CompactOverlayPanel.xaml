@@ -135,7 +135,7 @@
                 </Button.Content>
             </Button>
 
-            <Button Style="{ThemeResource RevealRoundButton}" Command="{x:Bind Context.ReturnNormal}" ToolTipService.ToolTip="Next"
+            <Button Style="{ThemeResource RevealRoundButton}" Command="{x:Bind Context.ReturnNormal}" ToolTipService.ToolTip="Go back"
                                 Width="48" Height="48" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                 <Button.Content>
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE2B3;" />

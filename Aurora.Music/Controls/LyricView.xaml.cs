@@ -1,5 +1,8 @@
 ﻿using Aurora.Music.Core.Models;
+using Aurora.Music.Core.Storage;
 using Aurora.Music.ViewModels;
+using Aurora.Shared.Extensions;
+using Aurora.Shared.Helpers;
 using Microsoft.Graphics.Canvas.Effects;
 using System;
 using System.Collections.Generic;
@@ -9,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Composition;
@@ -50,7 +54,7 @@ namespace Aurora.Music.Controls
         public event PropertyChangedEventHandler PropertyChanged;
 
 
-        private void RaisePropertyChanged(string propertyName = null)
+        private async void RaisePropertyChanged(string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
@@ -66,13 +70,29 @@ namespace Aurora.Music.Controls
             return changed;
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
             if (e.Parameter is SongViewModel m)
             {
                 Model = m;
-                return;
+
+                var substis = await WebRequester.GetSongLrcListAsync(Model.Title, Model.Performers.IsNullorEmpty() ? null : Model.Performers[0]);
+                if (!substis.IsNullorEmpty())
+                {
+                    var l = new Lyric(LrcParser.Parser.Parse(await ApiRequestHelper.HttpGet(substis.First().Value), Model.Duration));
+                    await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                    {
+                        Lyric.New(l);
+                    });
+                }
+                else
+                {
+                    await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                    {
+                        Lyric.Clear();
+                    });
+                }
             }
         }
 
@@ -85,6 +105,44 @@ namespace Aurora.Music.Controls
             visual.Brush = brush;
             visual.Size = new System.Numerics.Vector2((float)ActualWidth, (float)ActualHeight);
             ElementCompositionPreview.SetElementChildVisual(BackDrop, visual);
+            MainPageViewModel.Current.GetPlayer().PositionUpdated += LyricView_PositionUpdated;
+            MainPageViewModel.Current.GetPlayer().StatusChanged += LyricView_StatusChanged;
+        }
+
+        private async void LyricView_StatusChanged(object sender, PlaybackEngine.StatusChangedArgs e)
+        {
+            if (e.CurrentSong.ID != Model.ID)
+            {
+                Model = new SongViewModel(e.CurrentSong);
+                var substis = await WebRequester.GetSongLrcListAsync(Model.Title, Model.Performers.IsNullorEmpty() ? null : Model.Performers[0]);
+                if (!substis.IsNullorEmpty())
+                {
+                    var l = new Lyric(LrcParser.Parser.Parse(await ApiRequestHelper.HttpGet(substis.First().Value), Model.Duration));
+                    await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                    {
+
+                        Lyric.New(l);
+                    });
+                }
+                else
+                {
+                    await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                    {
+                        Lyric.Clear();
+                    });
+                }
+            }
+        }
+
+        private async void LyricView_PositionUpdated(object sender, PlaybackEngine.PositionUpdatedArgs e)
+        {
+            if (Lyric != null && e.Current != default(TimeSpan))
+            {
+                await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+              {
+                  Lyric.Update(e.Current);
+              });
+            }
         }
     }
 }

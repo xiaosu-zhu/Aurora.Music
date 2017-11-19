@@ -726,9 +726,9 @@ namespace Aurora.Music.Core.Storage
             return await conn.QueryAsync<Artist>("SELECT COUNT(*) AS COUNT, ALBUMARTISTS FROM SONG GROUP BY ALBUMARTISTS");
         }
 
-        public async Task RemoveFolderAsync(string path)
+        public async Task RemoveFolderAsync(int ID)
         {
-            await conn.QueryAsync<object>("DELETE FROM FOLDER WHERE PATH=?", path);
+            await conn.QueryAsync<object>("DELETE FROM FOLDER WHERE ID=?", ID);
         }
 
         internal async Task SongCountAddAsync(int id, int countToAdd)

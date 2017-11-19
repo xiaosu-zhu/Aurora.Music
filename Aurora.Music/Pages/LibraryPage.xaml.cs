@@ -59,9 +59,14 @@ namespace Aurora.Music.Pages
         {
             if (MainPage.Current.CanGoBack)
             {
-                MainFrame.Content = null;
-                MainFrame.GoBack();
+                MainPage.Current.GoBack();
             }
+        }
+
+        private void Page_Unloaded(object sender, RoutedEventArgs e)
+        {
+            SubPanelFrame.Content = null;
+            MainFrame.Content = null;
         }
     }
 }

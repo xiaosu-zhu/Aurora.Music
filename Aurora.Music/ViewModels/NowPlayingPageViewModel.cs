@@ -303,6 +303,7 @@ namespace Aurora.Music.ViewModels
                         if (MainPage.Current is MainPage m)
                         {
                             (Window.Current.Content as Frame).Content = m;
+                            m.RestoreContext();
                         }
                         else if (MainPageViewModel.Current is MainPageViewModel v)
                         {

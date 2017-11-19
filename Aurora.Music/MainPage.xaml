@@ -915,7 +915,7 @@
                         <Image Grid.Row="1" x:Name="Artwork"
                                      Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Stretch" Stretch="Uniform">
                             <Image.Source>
-                                <BitmapImage UriSource="{x:Bind Context.CurrentArtwork, Mode=OneWay, TargetNullValue=ms-appx:///Assets/now_placeholder.png}"/>
+                                <BitmapImage UriSource="{x:Bind Context.CurrentArtwork, Mode=OneWay, TargetNullValue=ms-appx:///Assets/Images/now_placeholder.png}"/>
                             </Image.Source>
                         </Image>
                         <StackPanel Margin="12,0" Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
