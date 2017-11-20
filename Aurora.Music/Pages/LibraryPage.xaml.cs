@@ -32,7 +32,7 @@ namespace Aurora.Music.Pages
             SubPanelFrame.Navigate(typeof(CategoryListView));
             MainPageViewModel.Current.Title = "Library";
             MainPageViewModel.Current.NeedShowTitle = true;
-            MainPageViewModel.Current.IsLeftTopForeWhite = true;
+            MainPageViewModel.Current.IsLeftTopForeWhite = false;
         }
 
         internal void LefPanelNavigate(Type t)
@@ -57,9 +57,9 @@ namespace Aurora.Music.Pages
 
         internal void GoBack()
         {
-            if (MainPage.Current.CanGoBack)
+            if (MainPage.Current.SubPageCanGoBack)
             {
-                MainPage.Current.GoBack();
+                MainFrame.GoBack();
             }
         }
 

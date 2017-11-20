@@ -842,10 +842,17 @@
                         <DataTemplate x:DataType="vm:HamPanelItem">
                             <Grid Height="180">
                                 <Grid.Background>
-                                    <ImageBrush ImageSource="/Assets/Images/1.png" AlignmentX="Center" AlignmentY="Center" Stretch="UniformToFill"/>
+                                    <ImageBrush AlignmentX="Center" AlignmentY="Center" Stretch="UniformToFill">
+                                        <ImageBrush.ImageSource>
+                                            <BitmapImage UriSource="{x:Bind BG}"/>
+                                        </ImageBrush.ImageSource>
+                                    </ImageBrush>
                                 </Grid.Background>
-                                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Icon}" Width="48" Foreground="{x:Bind ChangeForeground(IsCurrent), Mode=OneWay}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                                <TextBlock x:Name="Text" Margin="60,0" TextAlignment="Right" Text="{x:Bind Title}" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="{x:Bind ChangeWeight(IsCurrent), Mode=OneWay}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                <Grid Background="{ThemeResource SystemControlBackgroundBaseMediumBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{x:Bind BoolNottoVisibility(IsCurrent), Mode=OneWay}"/>
+                                <StackPanel Background="{ThemeResource SystemControlAltMediumLowAcrylicElementMediumBrush}" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                    <TextBlock x:Name="Text" Margin="12" TextAlignment="Right" Text="{x:Bind Title}" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="{x:Bind ChangeWeight(IsCurrent), Mode=OneWay}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Icon}" Width="48" Foreground="{x:Bind ChangeForeground(IsCurrent), Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </StackPanel>
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>

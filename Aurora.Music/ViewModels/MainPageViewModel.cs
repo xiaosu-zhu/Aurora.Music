@@ -38,19 +38,22 @@ namespace Aurora.Music.ViewModels
                 Title = "Home",
                 TargetType = typeof(HomePage),
                 Icon="\uE80F",
-                IsCurrent = true
+                IsCurrent = true,
+                BG = new Uri("ms-appx:///Assets/Images/albums.jpg")
             },
             new HamPanelItem
             {
                 Title = "Library",
                 Icon="\uE2AC",
-                TargetType = typeof(LibraryPage)
+                TargetType = typeof(LibraryPage),
+                BG = new Uri("ms-appx:///Assets/Images/artists.jpg")
             },
             new HamPanelItem
             {
                 Title = "Playlist",
                 Icon="\uE955",
-                TargetType = typeof(HomePage)
+                TargetType = typeof(HomePage),
+                BG = new Uri("ms-appx:///Assets/Images/songs.jpg")
             },
         };
 
@@ -448,6 +451,8 @@ namespace Aurora.Music.ViewModels
 
         public string Icon { get; set; }
 
+        public Uri BG { get; set; }
+
         private bool isCurrent;
         public bool IsCurrent
         {
@@ -462,7 +467,7 @@ namespace Aurora.Music.ViewModels
 
         public SolidColorBrush ChangeForeground(bool b)
         {
-            return (SolidColorBrush)(b ? MainPage.Current.Resources["SystemControlBackgroundAccentBrush"] : MainPage.Current.Resources["SystemControlForegroundAltHighBrush"]);
+            return (SolidColorBrush)(b ? MainPage.Current.Resources["SystemControlBackgroundAccentBrush"] : MainPage.Current.Resources["SystemControlForegroundBaseHighBrush"]);
         }
     }
 }

@@ -64,7 +64,7 @@ namespace Aurora.Music
             throw new NotImplementedException();
         }
 
-        public bool CanGoBack { get => MainFrame.Visibility == Visibility.Visible; }
+        public bool SubPageCanGoBack { get => MainFrame.Visibility == Visibility.Visible; }
 
         private void Main_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
@@ -399,7 +399,7 @@ namespace Aurora.Music
 
             e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Copy;
             var p = await e.DataView.GetStorageItemsAsync();
-            if (p.Count > 0)
+            if (p.Count > 0 && IsSongsFile(p))
             {
                 e.DragUIOverride.IsGlyphVisible = true;
                 e.DragUIOverride.Caption = "Drop to Play";
@@ -409,10 +409,32 @@ namespace Aurora.Music
             else
             {
                 e.DragUIOverride.IsGlyphVisible = true;
-                e.DragUIOverride.Caption = "Can't Drop Here";
+                e.DragUIOverride.Caption = "Not Support";
                 e.DragUIOverride.IsCaptionVisible = true;
                 e.DragUIOverride.IsContentVisible = false;
             }
+        }
+
+        private bool IsSongsFile(IReadOnlyList<IStorageItem> p)
+        {
+            foreach (var item in p)
+            {
+                if (item is IStorageFile file)
+                {
+                    foreach (var types in Consts.FileTypes)
+                    {
+                        if (types == file.FileType)
+                        {
+                            return true;
+                        }
+                    }
+                }
+                else if (item is IStorageFolder f)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private async void Root_Drop(object sender, DragEventArgs e)
@@ -428,6 +450,12 @@ namespace Aurora.Music
             }
             else
             {
+                ShowModalUI(false);
+                return;
+            }
+            if (list.Count < 1)
+            {
+                ShowModalUI(false);
                 return;
             }
             var songs = await Context.ComingNewSongsAsync(list);
@@ -442,7 +470,7 @@ namespace Aurora.Music
 
         private async void ShowDropSongsUI(IList<Song> songs)
         {
-            ShowModalUI(false, string.Empty);
+            ShowModalUI(false);
             var dialog = new DropSongsDialog(songs);
             await dialog.ShowAsync();
         }
@@ -471,7 +499,7 @@ namespace Aurora.Music
             }
         }
 
-        private void ShowModalUI(bool v1, string v2)
+        private void ShowModalUI(bool v1, string v2 = "")
         {
             if (v1)
             {
