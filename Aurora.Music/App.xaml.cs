@@ -9,6 +9,8 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.AppService;
+using Windows.ApplicationModel.Background;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -42,7 +44,6 @@ namespace Aurora.Music
             this.InitializeComponent();
             this.Suspending += OnSuspending;
         }
-
 
         protected override async void OnFileActivated(FileActivatedEventArgs args)
         {

@@ -839,14 +839,25 @@ namespace Aurora.Music.Core.Storage
             var distintedres = res.Distinct();
             var alist = await conn.QueryAsync<SONG>($"SELECT * FROM SONG WHERE ID IN ({string.Join(',', distintedres.Select(x => x.TargetID))})");
 
+            var final = new List<GenericMusicItem>();
+
+            var albumFromaList = from s in alist group s by s.Album;
+            foreach (var item in albumFromaList)
+            {
+                if (item.Count() == 1)
+                {
+                    final.Add(new GenericMusicItem(item.First()));
+                    continue;
+                }
+                final.Add(new GenericMusicItem(new Album(item)));
+            }
+
             var bres = await conn.QueryAsync<STATISTICS>($"SELECT * FROM STATISTICS WHERE TARGETTYPE=0 AND PlayedCount>=(SELECT AVG(PlayedCount) FROM STATISTICS) ORDER BY PlayedCount DESC LIMIT 5");
             bres.AddRange(await conn.QueryAsync<STATISTICS>($"SELECT * FROM STATISTICS WHERE TARGETTYPE=0 AND Favorite=1 ORDER BY RANDOM() LIMIT 5"));
             var bdistintedres = bres.Distinct();
             var blist = await conn.QueryAsync<ALBUM>($"SELECT * FROM ALBUM WHERE ID IN ({string.Join(',', bdistintedres.Select(x => x.TargetID))})");
 
-
-            var list = alist.ConvertAll(x => new GenericMusicItem(x));
-            list.AddRange(blist.ConvertAll(x =>
+            final.AddRange(blist.ConvertAll(x =>
             {
                 var songs = Array.ConvertAll(x.Songs.Split(new string[] { "|" }, StringSplitOptions.RemoveEmptyEntries), (a) =>
                 {
@@ -855,8 +866,8 @@ namespace Aurora.Music.Core.Storage
 
                 return new GenericMusicItem(x);
             }));
-            list.Shuffle();
-            return list;
+            final.Shuffle();
+            return final;
         }
 
         public async Task<List<T>> GetRandomListAsync<T>(int count = 50) where T : new()

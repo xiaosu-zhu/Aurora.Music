@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Aurora.Music.Core.Storage
 {
-    public class WebRequester
+    public class LyricSearcher
     {
         public static async Task<IEnumerable<KeyValuePair<string, string>>> GetSongLrcListAsync(string title, string performer = null)
         {

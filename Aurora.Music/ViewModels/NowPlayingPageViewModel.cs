@@ -53,7 +53,7 @@ namespace Aurora.Music.ViewModels
             var t = ThreadPool.RunAsync(async x =>
             {
                 _lastSong = song.ID;
-                var substis = await WebRequester.GetSongLrcListAsync(Song.Title, Song.Performers.IsNullorEmpty() ? null : Song.Performers[0]);
+                var substis = await LyricSearcher.GetSongLrcListAsync(Song.Title, Song.Performers.IsNullorEmpty() ? null : Song.Performers[0]);
                 if (!substis.IsNullorEmpty())
                 {
                     var l = new Lyric(LrcParser.Parser.Parse(await ApiRequestHelper.HttpGet(substis.First().Value), Song.Duration));
@@ -383,7 +383,7 @@ namespace Aurora.Music.ViewModels
                         LyricHint = "Loading lyrics...";
                     });
                     _lastSong = e.CurrentSong.ID;
-                    var substis = await WebRequester.GetSongLrcListAsync(Song.Title, Song.Performers.IsNullorEmpty() ? null : Song.Performers[0]);
+                    var substis = await LyricSearcher.GetSongLrcListAsync(Song.Title, Song.Performers.IsNullorEmpty() ? null : Song.Performers[0]);
                     if (!substis.IsNullorEmpty())
                     {
                         var l = new Lyric(LrcParser.Parser.Parse(await ApiRequestHelper.HttpGet(substis.First().Value), Song.Duration));

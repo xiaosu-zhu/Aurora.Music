@@ -77,7 +77,7 @@ namespace Aurora.Music.Controls
             {
                 Model = m;
 
-                var substis = await WebRequester.GetSongLrcListAsync(Model.Title, Model.Performers.IsNullorEmpty() ? null : Model.Performers[0]);
+                var substis = await LyricSearcher.GetSongLrcListAsync(Model.Title, Model.Performers.IsNullorEmpty() ? null : Model.Performers[0]);
                 if (!substis.IsNullorEmpty())
                 {
                     var l = new Lyric(LrcParser.Parser.Parse(await ApiRequestHelper.HttpGet(substis.First().Value), Model.Duration));
@@ -114,7 +114,7 @@ namespace Aurora.Music.Controls
             if (e.CurrentSong.ID != Model.ID)
             {
                 Model = new SongViewModel(e.CurrentSong);
-                var substis = await WebRequester.GetSongLrcListAsync(Model.Title, Model.Performers.IsNullorEmpty() ? null : Model.Performers[0]);
+                var substis = await LyricSearcher.GetSongLrcListAsync(Model.Title, Model.Performers.IsNullorEmpty() ? null : Model.Performers[0]);
                 if (!substis.IsNullorEmpty())
                 {
                     var l = new Lyric(LrcParser.Parser.Parse(await ApiRequestHelper.HttpGet(substis.First().Value), Model.Duration));
