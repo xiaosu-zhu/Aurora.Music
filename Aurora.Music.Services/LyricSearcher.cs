@@ -1,12 +1,13 @@
-﻿using Aurora.Music.Core.Models.Json;
+﻿using Aurora.Music.Services.Json;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace Aurora.Music.Core.Storage
+namespace Aurora.Music.Services
 {
     public class LyricSearcher
     {

@@ -1,7 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Aurora.Music.Core.Models.Json
+namespace Aurora.Music.Services.Json
 {
     [DataContract]
     public class ResultItemModel
@@ -60,7 +64,5 @@ namespace Aurora.Music.Core.Models.Json
         /// </summary>
         [DataMember(Name = "result")]
         public List<ResultItemModel> ResultItems { get; set; }
-
-
     }
 }

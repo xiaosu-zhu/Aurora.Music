@@ -39,21 +39,21 @@ namespace Aurora.Music.ViewModels
                 TargetType = typeof(HomePage),
                 Icon="\uE80F",
                 IsCurrent = true,
-                BG = new Uri("ms-appx:///Assets/Images/albums.jpg")
+                BG = new Uri("ms-appx:///Assets/Images/albums.png")
             },
             new HamPanelItem
             {
                 Title = "Library",
                 Icon="\uE2AC",
                 TargetType = typeof(LibraryPage),
-                BG = new Uri("ms-appx:///Assets/Images/artists.jpg")
+                BG = new Uri("ms-appx:///Assets/Images/artists.png")
             },
             new HamPanelItem
             {
                 Title = "Playlist",
                 Icon="\uE955",
                 TargetType = typeof(HomePage),
-                BG = new Uri("ms-appx:///Assets/Images/songs.jpg")
+                BG = new Uri("ms-appx:///Assets/Images/songs.png")
             },
         };
 

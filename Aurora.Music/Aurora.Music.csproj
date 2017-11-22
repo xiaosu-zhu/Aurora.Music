@@ -178,8 +178,8 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\Images\albums.jpg" />
-    <Content Include="Assets\Images\artists.jpg" />
+    <Content Include="Assets\Images\albums.png" />
+    <Content Include="Assets\Images\artists.png" />
     <Content Include="Assets\Images\artists_bg.png" />
     <Content Include="Assets\Images\artist_placeholder.scale-100.png" />
     <Content Include="Assets\Images\artist_placeholder.scale-125.png" />
@@ -201,7 +201,7 @@
     <Content Include="Assets\Images\placeholder_b.scale-150.png" />
     <Content Include="Assets\Images\placeholder_b.scale-200.png" />
     <Content Include="Assets\Images\placeholder_b.scale-400.png" />
-    <Content Include="Assets\Images\songs.jpg" />
+    <Content Include="Assets\Images\songs.png" />
     <Content Include="Assets\Images\welcome_bg.png" />
     <Content Include="Assets\LargeTile.scale-100.png" />
     <Content Include="Assets\LargeTile.scale-125.png" />

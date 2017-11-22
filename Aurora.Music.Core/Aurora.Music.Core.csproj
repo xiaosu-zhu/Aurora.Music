@@ -107,8 +107,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Consts.cs" />
+    <Compile Include="Models\Extension.cs" />
     <Compile Include="Models\ISortable.cs" />
-    <Compile Include="Models\Json\GecimiJson.cs" />
     <Compile Include="Models\Lyric.cs" />
     <Compile Include="Models\Music.cs" />
     <Compile Include="Models\Settings.cs" />
@@ -117,7 +117,6 @@
     <Compile Include="Storage\FileReader.cs" />
     <Compile Include="Storage\FileTracker.cs" />
     <Compile Include="Storage\SQLOperator.cs" />
-    <Compile Include="Storage\WebRequester.cs" />
     <Compile Include="Tools\FormatHelper.cs" />
     <EmbeddedResource Include="Properties\Aurora.Music.Core.rd.xml" />
   </ItemGroup>

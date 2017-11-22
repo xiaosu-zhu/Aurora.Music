@@ -14,7 +14,6 @@ namespace Aurora.Music.Services
 {
     public sealed class LyricService : IBackgroundTask
     {
-        private BackgroundTaskDeferral deferral;
         private BackgroundTaskDeferral backgroundTaskDeferral;
         private AppServiceConnection appServiceconnection;
 
