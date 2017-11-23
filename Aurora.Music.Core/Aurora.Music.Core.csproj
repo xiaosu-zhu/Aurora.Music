@@ -110,6 +110,7 @@
     <Compile Include="Models\Extension.cs" />
     <Compile Include="Models\ISortable.cs" />
     <Compile Include="Models\Lyric.cs" />
+    <Compile Include="Models\LyricExtension.cs" />
     <Compile Include="Models\Music.cs" />
     <Compile Include="Models\Settings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

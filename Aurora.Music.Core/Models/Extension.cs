@@ -8,10 +8,10 @@ namespace Aurora.Music.Core.Models
 {
     public abstract class Extension
     {
-        private PropertySet _properties;
-        private bool _loaded;
-        private string _serviceName;
-        private object lockable = new object();
+        protected PropertySet _properties;
+        protected bool _loaded;
+        protected string _serviceName;
+        protected object lockable = new object();
 
 
         public Extension(AppExtension ext, PropertySet properties)
@@ -41,9 +41,9 @@ namespace Aurora.Music.Core.Models
 
         #region Properties
         public string UniqueId { get; }
-        public bool Enabled { get; private set; }
-        public bool Offline { get; private set; }
-        public AppExtension AppExtension { get; private set; }
+        public bool Enabled { get; protected set; }
+        public bool Offline { get; protected set; }
+        public AppExtension AppExtension { get; protected set; }
         #endregion
 
         public abstract void Execute(string str);
@@ -96,104 +96,6 @@ namespace Aurora.Music.Core.Models
             //    #endregion
             //}
         //}
-
-
-        public async Task Update(AppExtension ext)
-        {
-            // ensure this is the same uid
-            string identifier = ext.AppInfo.AppUserModelId + "$|$" + ext.Id;
-            if (identifier != this.UniqueId)
-            {
-                return;
-            }
-
-            // get extension properties
-            var properties = await ext.GetExtensionPropertiesAsync() as PropertySet;
-
-            // get logo 
-            //var filestream = await (ext.AppInfo.DisplayInfo.GetLogo(new Windows.Foundation.Size(1, 1))).OpenReadAsync();
-
-            // update the extension
-            this.AppExtension = ext;
-            this._properties = properties;
-
-            #region Update Properties
-            // update app service information
-            this._serviceName = null;
-            if (this._properties != null)
-            {
-                if (this._properties.ContainsKey("Service"))
-                {
-                    PropertySet serviceProperty = this._properties["Service"] as PropertySet;
-                    this._serviceName = serviceProperty["#text"].ToString();
-                }
-            }
-            #endregion
-
-            // load it
-            Load();
-        }
-
-        // this controls loading of the extension
-        public void Load()
-        {
-            #region Error Checking
-            // if it's not enabled or already loaded, don't load it
-            if (!Enabled || _loaded)
-            {
-                return;
-            }
-
-            // make sure package is OK to load
-            if (!AppExtension.Package.Status.VerifyIsOK())
-            {
-                return;
-            }
-            #endregion
-
-        }
-
-        // This enables the extension
-        public void Enable()
-        {
-            // indicate desired state is enabled
-            Enabled = true;
-
-            // load the extension
-            Load();
-        }
-
-        // this is different from Disable, example: during updates where we only want to unload -> reload
-        // Enable is user intention. Load respects enable, but unload doesn't care
-        public void Unload()
-        {
-            // unload it
-            lock (lockable)
-            {
-                if (_loaded)
-                {
-                    // see if package is offline
-                    if (!AppExtension.Package.Status.VerifyIsOK() && !AppExtension.Package.Status.PackageOffline)
-                    {
-                        Offline = true;
-                    }
-
-                    _loaded = false;
-                }
-            }
-        }
-
-        // user-facing action to disable the extension
-        public void Disable()
-        {
-            // only disable if it is enabled
-            if (Enabled)
-            {
-                // set desired state to disabled
-                Enabled = false;
-                // unload the app
-                Unload();
-            }
-        }
+        
     }
 }
