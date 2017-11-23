@@ -32,9 +32,10 @@
           </uap3:AppExtensionHost>
         </uap3:Extension>
         <uap3:Extension Category="windows.appExtension">
-          <uap3:AppExtension Name="Aurora.Music.Extensions" Id="LyricProvider" PublicFolder="Public" DisplayName="Lyric" Description="Aurora Music Lyric Provider">
+          <uap3:AppExtension Name="Aurora.Music.Extensions" Id="BuiltIn" PublicFolder="Public" DisplayName="Lyric" Description="Aurora Music Lyric Provider">
             <uap3:Properties>
               <Service>Aurora.Music.Services</Service>
+              <Category>Lyric</Category>
             </uap3:Properties>
           </uap3:AppExtension>
         </uap3:Extension>

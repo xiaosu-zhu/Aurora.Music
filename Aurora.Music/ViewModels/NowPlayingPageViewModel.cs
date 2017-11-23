@@ -50,13 +50,17 @@ namespace Aurora.Music.ViewModels
             CurrentArtwork = song.PicturePath.IsNullorEmpty() ? null : new Uri(song.PicturePath);
             lastUriPath = song.PicturePath.IsNullorEmpty() ? null : song.PicturePath;
             IsPlaying = player.IsPlaying;
+
             var t = ThreadPool.RunAsync(async x =>
             {
                 _lastSong = song.ID;
-                var substis = await LyricSearcher.GetSongLrcListAsync(Song.Title, Song.Performers.IsNullorEmpty() ? null : Song.Performers[0]);
-                if (!substis.IsNullorEmpty())
+
+                var ext = MainPageViewModel.LyricExtension;
+
+                var result = await ext.ExecuteAsync(new KeyValuePair<string, object>("title", Song.Title), new KeyValuePair<string, object>("artist", Song.Performers.IsNullorEmpty() ? null : Song.Performers[0]));
+                if (result != null)
                 {
-                    var l = new Lyric(LrcParser.Parser.Parse(await ApiRequestHelper.HttpGet(substis.First().Value), Song.Duration));
+                    var l = new Lyric(LrcParser.Parser.Parse((string)result, Song.Duration));
                     await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
                     {
                         Lyric.New(l);
@@ -383,10 +387,12 @@ namespace Aurora.Music.ViewModels
                         LyricHint = "Loading lyrics...";
                     });
                     _lastSong = e.CurrentSong.ID;
-                    var substis = await LyricSearcher.GetSongLrcListAsync(Song.Title, Song.Performers.IsNullorEmpty() ? null : Song.Performers[0]);
-                    if (!substis.IsNullorEmpty())
+                    var ext = MainPageViewModel.LyricExtension;
+
+                    var result = await ext.ExecuteAsync(new KeyValuePair<string, object>("title", Song.Title), new KeyValuePair<string, object>("artist", Song.Performers.IsNullorEmpty() ? null : Song.Performers[0]));
+                    if (result != null)
                     {
-                        var l = new Lyric(LrcParser.Parser.Parse(await ApiRequestHelper.HttpGet(substis.First().Value), Song.Duration));
+                        var l = new Lyric(LrcParser.Parser.Parse((string)result, Song.Duration));
                         await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                         {
                             Lyric.New(l);

@@ -1,29 +1,29 @@
-﻿using System;
+﻿using Aurora.Shared.Extensions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppExtensions;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
+using Windows.System;
 
 namespace Aurora.Music.Core.Models
 {
     public abstract class Extension
     {
         protected PropertySet _properties;
-        protected bool _loaded;
         protected string _serviceName;
         protected object lockable = new object();
 
 
-        public Extension(AppExtension ext, PropertySet properties)
+        public Extension(AppExtension ext, IPropertySet properties)
         {
             AppExtension = ext;
-            _properties = properties;
-            Enabled = false;
-            _loaded = false;
-            Offline = false;
+            _properties = properties as PropertySet;
 
             #region Properties
-            _serviceName = null;
             if (_properties != null)
             {
                 if (_properties.ContainsKey("Service"))
@@ -36,66 +36,111 @@ namespace Aurora.Music.Core.Models
 
             //AUMID + Extension ID is the unique identifier for an extension
             UniqueId = ext.AppInfo.AppUserModelId + "$|$" + ext.Id;
-
         }
 
         #region Properties
         public string UniqueId { get; }
-        public bool Enabled { get; protected set; }
-        public bool Offline { get; protected set; }
         public AppExtension AppExtension { get; protected set; }
         #endregion
 
-        public abstract void Execute(string str);
+        public abstract Task<object> ExecuteAsync(params KeyValuePair<string, object>[] parameters);
+
+        public void Unload()
+        {
+
+        }
+
+        public void New(AppExtension ext)
+        {
+            if (UniqueId == ext.AppInfo.AppUserModelId + "$|$" + ext.Id)
+            {
+                AppExtension = ext;
+                #region Properties
+                if (_properties != null)
+                {
+                    if (_properties.ContainsKey("Service"))
+                    {
+                        PropertySet serviceProperty = _properties["Service"] as PropertySet;
+                        _serviceName = serviceProperty["#text"].ToString();
+                    }
+                }
+                #endregion
+            }
+        }
+
+        public static async Task<Extension> Load(string lyricExtensionID)
+        {
+            if (lyricExtensionID.IsNullorEmpty())
+            {
+                lyricExtensionID = Consts.AppUserModelId + "$|$BuiltIn";
+            }
+            var catalog = AppExtensionCatalog.Open(Consts.ExtesionContract);
+            var exttesions = await catalog.FindAllAsync();
+            foreach (var ext in exttesions)
+            {
+                if (lyricExtensionID == ext.AppInfo.AppUserModelId + "$|$" + ext.Id)
+                {
+                    var properties = await ext.GetExtensionPropertiesAsync();
+                    switch (properties["Category"])
+                    {
+                        case "Lyric":
+                            return new LyricExtension(ext, properties);
+                        default:
+                            break;
+                    }
+                }
+            }
+            throw new ArgumentException("Can't find specific Extension");
+        }
         //{
-            //if (_loaded)
-            //{
-            //    #region App Service
-            //    // App services are a better approach!
-            //    try
-            //    {
-            //        // do app service call
-            //        using (var connection = new AppServiceConnection())
-            //        {
-            //            // service name was in properties
-            //            connection.AppServiceName = _serviceName;
+        //if (_loaded)
+        //{
+        //    #region App Service
+        //    // App services are a better approach!
+        //    try
+        //    {
+        //        // do app service call
+        //        using (var connection = new AppServiceConnection())
+        //        {
+        //            // service name was in properties
+        //            connection.AppServiceName = _serviceName;
 
-            //            // package Family Name is in the extension
-            //            connection.PackageFamilyName = AppExtension.Package.Id.FamilyName;
+        //            // package Family Name is in the extension
+        //            connection.PackageFamilyName = AppExtension.Package.Id.FamilyName;
 
-            //            // open connection
-            //            AppServiceConnectionStatus status = await connection.OpenAsync();
-            //            if (status != AppServiceConnectionStatus.Success)
-            //            {
-            //                throw new InvalidOperationException(status.ToString());
-            //            }
-            //            else
-            //            {
-            //                // send request to service
-            //                var request = new ValueSet
-            //                {
-            //                    { "Command", "Load" }
-            //                };
+        //            // open connection
+        //            AppServiceConnectionStatus status = await connection.OpenAsync();
+        //            if (status != AppServiceConnectionStatus.Success)
+        //            {
+        //                throw new InvalidOperationException(status.ToString());
+        //            }
+        //            else
+        //            {
+        //                // send request to service
+        //                var request = new ValueSet
+        //                {
+        //                    { "Command", "Load" }
+        //                };
 
-            //                //TODO: request
+        //                //TODO: request
 
-            //                // get response
-            //                AppServiceResponse response = await connection.SendMessageAsync(request);
-            //                if (response.Status == AppServiceResponseStatus.Success)
-            //                {
-            //                    ValueSet message = response.Message as ValueSet;
-            //                    //TODO: handle response
-            //                }
-            //            }
-            //        }
-            //    }
-            //    catch (Exception e)
-            //    {
-            //        throw e;
-            //    }
-            //    #endregion
-            //}
+        //                // get response
+        //                AppServiceResponse response = await connection.SendMessageAsync(request);
+        //                if (response.Status == AppServiceResponseStatus.Success)
+        //                {
+        //                    ValueSet message = response.Message as ValueSet;
+        //                    //TODO: handle response
+        //                }
+        //            }
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        throw e;
+        //    }
+        //    #endregion
         //}
-        
+        //}
+
     }
 }

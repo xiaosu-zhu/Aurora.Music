@@ -84,6 +84,7 @@ namespace Aurora.Music.ViewModels
             }
         }
 
+        public static Extension LyricExtension = AsyncHelper.RunSync(async () => await Extension.Load(Settings.Load().LyricExtensionID));
 
         private bool needShowPanel = true;
         public bool NeedShowPanel

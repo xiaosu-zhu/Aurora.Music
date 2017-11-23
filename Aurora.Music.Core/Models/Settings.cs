@@ -53,6 +53,8 @@ namespace Aurora.Music.Core.Models
         public Effects AudioGraphEffects { get; set; } = Effects.None;
         public string CategoryLastClicked { get; set; }
 
+        public string LyricExtensionID { get; set; } = string.Empty;
+
         public static Settings Load()
         {
             try

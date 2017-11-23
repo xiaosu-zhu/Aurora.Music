@@ -54,7 +54,7 @@ namespace Aurora.Music.Controls
         public event PropertyChangedEventHandler PropertyChanged;
 
 
-        private async void RaisePropertyChanged(string propertyName = null)
+        private void RaisePropertyChanged(string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
@@ -77,10 +77,12 @@ namespace Aurora.Music.Controls
             {
                 Model = m;
 
-                var substis = await LyricSearcher.GetSongLrcListAsync(Model.Title, Model.Performers.IsNullorEmpty() ? null : Model.Performers[0]);
-                if (!substis.IsNullorEmpty())
+                var ext = await Extension.Load(Settings.Load().LyricExtensionID);
+
+                var result = await ext.ExecuteAsync(new KeyValuePair<string, object>("title", model.Title), new KeyValuePair<string, object>("artist", model.Performers.IsNullorEmpty() ? null : model.Performers[0]));
+                if (result != null)
                 {
-                    var l = new Lyric(LrcParser.Parser.Parse(await ApiRequestHelper.HttpGet(substis.First().Value), Model.Duration));
+                    var l = new Lyric(LrcParser.Parser.Parse((string)result, model.Duration));
                     await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                     {
                         Lyric.New(l);
@@ -114,10 +116,13 @@ namespace Aurora.Music.Controls
             if (e.CurrentSong.ID != Model.ID)
             {
                 Model = new SongViewModel(e.CurrentSong);
-                var substis = await LyricSearcher.GetSongLrcListAsync(Model.Title, Model.Performers.IsNullorEmpty() ? null : Model.Performers[0]);
-                if (!substis.IsNullorEmpty())
+
+                var ext = await Extension.Load(Settings.Load().LyricExtensionID);
+
+                var result = await ext.ExecuteAsync(new KeyValuePair<string, object>("title", model.Title), new KeyValuePair<string, object>("artist", model.Performers.IsNullorEmpty() ? null : model.Performers[0]));
+                if (result != null)
                 {
-                    var l = new Lyric(LrcParser.Parser.Parse(await ApiRequestHelper.HttpGet(substis.First().Value), Model.Duration));
+                    var l = new Lyric(LrcParser.Parser.Parse((string)result, model.Duration));
                     await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                     {
 

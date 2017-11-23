@@ -28,5 +28,8 @@ namespace Aurora.Music.Core
         public const string AlbumDetailPageInAnimation = "ALBUM_DETAIL_IN";
 
         public static readonly string[] FileTypes = { ".flac", ".wav", ".m4a", ".aac", ".mp3", ".wma" };
+
+        public const string ExtesionContract = "Aurora.Music.Extensions";
+        public const string AppUserModelId = "6727Aurora-ZXS.10476770C0EE5_fxqtv0574xgme!App";
     }
 }
