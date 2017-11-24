@@ -1,3 +1,4 @@
+
 # Extension Development
 
 Aurora Music have implemented the support for Extensions (1: [Extend your app with services, extensions, and packages][1], 2: [Create and consume an app service][2]). Here's what extensions in Aurora Music can do:
@@ -26,7 +27,7 @@ To declare your app as an extension, you should add these lines to the `Package.
         xmlns:uap4="http://schemas.microsoft.com/appx/manifest/uap/windows10/4" 
         IgnorableNamespaces="uap mp uap3 uap4">
 
-Then, you should declare you are an appExtension in the Extension Node:
+Then, you should declare this is an appExtension, under the Extension Node:
 
     <Extensions>
         <uap3:Extension Category="windows.appExtension">
@@ -38,6 +39,13 @@ Then, you should declare you are an appExtension in the Extension Node:
           </uap3:AppExtension>
         </uap3:Extension>
     </Extensions>
+
+NOTE: the use of `uap3:Properties` is explained in LINK TO ANOTHER, this is a declaration of your extension's features.
+
+By using AppService, you should also declare it, this time you can add it in the manifest manager:
+
+
+
 
 
   [1]: https://docs.microsoft.com/en-us/windows/uwp/launch-resume/extend-your-app-with-services-extensions-packages
