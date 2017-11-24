@@ -12,6 +12,33 @@ Just as what you see in the link above, Aurora Music uses `Windows.ApplicationMo
  1. Complete the declaration of appxmanifest
  2. Write the code of your core service
  3. Implement Background Task and AppService Handler
+ 
+ # Sample: A Simple Lyric Provider
+Now, it's play time, You can follow these steps to create a basic extension!
+
+## Modify the APPXManifest ##
+To declare your app as an extension, you should add these lines to the `Package.appxmanifest`. First, you should check if it already included such namespaces at the first line:
+
+    <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+        xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
+        xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" 
+        xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3" 
+        xmlns:uap4="http://schemas.microsoft.com/appx/manifest/uap/windows10/4" 
+        IgnorableNamespaces="uap mp uap3 uap4">
+
+Then, you should declare you are an appExtension in the Extension Node:
+
+    <Extensions>
+        <uap3:Extension Category="windows.appExtension">
+          <uap3:AppExtension Name="Aurora.Music.Extensions" Id="BuiltIn" PublicFolder="Public" DisplayName="Lyric" Description="Aurora Music Lyric Provider">
+            <uap3:Properties>
+              <Service>Aurora.Music.Services</Service>
+              <Category>Lyric</Category>
+            </uap3:Properties>
+          </uap3:AppExtension>
+        </uap3:Extension>
+    </Extensions>
+
 
   [1]: https://docs.microsoft.com/en-us/windows/uwp/launch-resume/extend-your-app-with-services-extensions-packages
   [2]: https://docs.microsoft.com/en-us/windows/uwp/launch-resume/how-to-create-and-consume-an-app-service
