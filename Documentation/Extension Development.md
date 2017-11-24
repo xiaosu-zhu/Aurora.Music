@@ -1,6 +1,6 @@
 # Extension Development
 
-Aurora Music have implemented the support for Extensions ([Extend your app with services, extensions, and packages][1], [Create and consume an app service][2]). Here's what extensions in Aurora Music can do:
+Aurora Music have implemented the support for Extensions (1: [Extend your app with services, extensions, and packages][1], 2: [Create and consume an app service][2]). Here's what extensions in Aurora Music can do:
 
  - Performe as a lyric provider
  - Performe as an online music provider
