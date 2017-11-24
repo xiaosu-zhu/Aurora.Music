@@ -107,6 +107,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Consts.cs" />
+    <Compile Include="Extension\Json\GecimiJson.cs" />
+    <Compile Include="Extension\LyricSearcher.cs" />
     <Compile Include="Models\Extension.cs" />
     <Compile Include="Models\ISortable.cs" />
     <Compile Include="Models\Lyric.cs" />
@@ -126,7 +128,7 @@
       <Version>1.1.0.3</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.0.1</Version>
+      <Version>6.0.2</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>10.0.3</Version>

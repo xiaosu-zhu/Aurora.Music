@@ -35,7 +35,6 @@ namespace Aurora.Music.Pages
         private Compositor _compositor;
         private CompositionPropertySet _props;
         //private AlbumViewModel _clickedAlbum;
-        private string _lastParameter;
 
         public SongsPage()
         {
@@ -162,7 +161,7 @@ namespace Aurora.Music.Pages
             SystemNavigationManager.GetForCurrentView().BackRequested -= AlbumsPage_BackRequested;
         }
 
-        private async void PlayAlbum_Click(object sender, RoutedEventArgs e)
+        private void PlayAlbum_Click(object sender, RoutedEventArgs e)
         {
             //await Context.PlayAlbumAsync((sender as Button).DataContext as AlbumViewModel);
         }

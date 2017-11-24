@@ -81,7 +81,10 @@ namespace Aurora.Music.Core.Models
                 if (lyricExtensionID == ext.AppInfo.AppUserModelId + "$|$" + ext.Id)
                 {
                     var properties = await ext.GetExtensionPropertiesAsync();
-                    switch (properties["Category"])
+
+                    var categoryProperty = properties["Category"] as PropertySet;
+
+                    switch (categoryProperty["#text"])
                     {
                         case "Lyric":
                             return new LyricExtension(ext, properties);

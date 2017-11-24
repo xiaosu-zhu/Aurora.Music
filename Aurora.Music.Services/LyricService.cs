@@ -1,4 +1,5 @@
-﻿using Aurora.Music.Core.Storage;
+﻿using Aurora.Music.Core.Extension;
+using Aurora.Music.Core.Storage;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
 using System;

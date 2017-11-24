@@ -9,7 +9,15 @@
     mc:Ignorable="d">
 
     <Page.Resources>
-
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Themes/Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary Source="../Themes/Light.xaml" x:Key="Light"/>
+                <ResourceDictionary Source="../Themes/Dark.xaml" x:Key="Dark"/>
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
     </Page.Resources>
 
 
@@ -19,7 +27,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <ScrollViewer HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Hidden" VerticalScrollMode="Auto" VerticalScrollBarVisibility="Auto" IsVerticalRailEnabled="True">
-            <Grid Background="{ThemeResource SystemControlAcrylicWindowBrush}" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Grid Background="{ThemeResource SystemControlAltTranslucentAcrylicWindowBrush}" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Frame Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="SubPanelFrame"/>
             </Grid>
         </ScrollViewer>

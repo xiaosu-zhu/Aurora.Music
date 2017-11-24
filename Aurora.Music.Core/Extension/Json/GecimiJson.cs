@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Aurora.Music.Services.Json
+namespace Aurora.Music.Core.Extension.Json
 {
     [DataContract]
     public class ResultItemModel

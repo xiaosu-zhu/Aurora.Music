@@ -35,7 +35,6 @@ namespace Aurora.Music.Pages
         private Compositor _compositor;
         private CompositionPropertySet _props;
         private AlbumViewModel _clickedAlbum;
-        private string _lastParameter;
 
         public AlbumsPage()
         {

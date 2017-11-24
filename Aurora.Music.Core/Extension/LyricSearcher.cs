@@ -1,4 +1,4 @@
-﻿using Aurora.Music.Services.Json;
+﻿using Aurora.Music.Core.Extension.Json;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
 using System;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Aurora.Music.Services
+namespace Aurora.Music.Core.Extension
 {
     public class LyricSearcher
     {

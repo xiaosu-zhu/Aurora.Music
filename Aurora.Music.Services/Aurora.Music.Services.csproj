@@ -107,8 +107,6 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Json\GecimiJson.cs" />
-    <Compile Include="LyricSearcher.cs" />
     <Compile Include="LyricService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
