@@ -53,7 +53,9 @@ In this scenario, we add two properties: Service and Category. Service is the na
 
 Before using AppService, you should also declare it, this time you can add it in the manifest manager:
 
+
 ![Modify Appxmanifest](https://i.loli.net/2017/11/26/5a199c3267f59.png "Add the AppService Declaration")
+
 
 In order to deploy the app service, you need a background task, so you can add a `.winmd` runtime component to do it. The full description and tutorial is posted on [Create and consume an app service][2].
 
@@ -137,10 +139,20 @@ The value of `result` is a `string` which contain the raw text of a `.lrc` file,
 
 ## Deploy and Debug ##
 You can get the full example at [Samples/ExtensionSample][4], so how to let the main application know you have added an extension in the computer? Just deploy it in the Visual Studio, and switch the Debug Mode to "On" in Aurora Music->Settings->Advance
+
+
 ![Deploy](https://i.loli.net/2017/11/26/5a199c3267f59.png "Deploy in Visual Studio")
+
+
 ![Modify the Setting](https://i.loli.net/2017/11/26/5a199c3267f59.png "Enable the Debug Mode")
-All done! Feel lucky~
+
+
+All done! Feeling lucky~
+
+
 ![Finish](https://i.loli.net/2017/11/26/5a199c3267f59.png "Works Well")
+
+
 
   [1]: https://docs.microsoft.com/en-us/windows/uwp/launch-resume/extend-your-app-with-services-extensions-packages
   [2]: https://docs.microsoft.com/en-us/windows/uwp/launch-resume/how-to-create-and-consume-an-app-service
