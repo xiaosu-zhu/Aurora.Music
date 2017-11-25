@@ -53,7 +53,7 @@ In this scenario, we add two properties: Service and Category. Service is the na
 
 Before using AppService, you should also declare it, this time you can add it in the manifest manager:
 
-![Modify Appxmanifest](/path/to/img.jpg "Add the AppService Declaration")
+![Modify Appxmanifest](https://i.loli.net/2017/11/26/5a199c3267f59.png "Add the AppService Declaration")
 
 In order to deploy the app service, you need a background task, so you can add a `.winmd` runtime component to do it. The full description and tutorial is posted on [Create and consume an app service][2].
 
@@ -63,9 +63,9 @@ Now, let's see what you will receive when the main app calls your service.
 When we call `SendMessageAsync` in main app, we pass a `ValueSet` which contains necessary parameters. For lyric extensions, we pass these:
 
 
-| Key	| Value	| Description |
-| ------ | ------- | ----------- |
-| q		|"lyric"||
+| Key	 | Value   | Description  |
+| ------ | ------- | ------------ |
+| q  |"lyric"||
 | title	|"lorem ipsum"| The title of the song |
 | artist\* | "a man" | The performer of the song |
 | album\*  | "a album" | The album name of the song |
@@ -126,9 +126,9 @@ Here's an example:
 In the `returnData` above, you shoule provide:
 
 
-| Key	| Value	| Description |
+| Key  | Value  | Description  |
 | ------ | ------- | ----------- |
-| status |1 or 0	| Response is success or failed |
+| status | 1 or 0  | Response is success or failed |
 | result | raw string | The lyric string |
 
 
@@ -137,10 +137,10 @@ The value of `result` is a `string` which contain the raw text of a `.lrc` file,
 
 ## Deploy and Debug ##
 You can get the full example at [Samples/ExtensionSample][4], so how to let the main application know you have added an extension in the computer? Just deploy it in the Visual Studio, and switch the Debug Mode to "On" in Aurora Music->Settings->Advance
-![Deploy](/path/to/img.jpg "Deploy in Visual Studio")
-![Modify the Setting](/path/to/img.jpg "Enable the Debug Mode")
+![Deploy](https://i.loli.net/2017/11/26/5a199c3267f59.png "Deploy in Visual Studio")
+![Modify the Setting](https://i.loli.net/2017/11/26/5a199c3267f59.png "Enable the Debug Mode")
 All done! Feel lucky~
-![Finish](/path/to/img.jpg "Works Well")
+![Finish](https://i.loli.net/2017/11/26/5a199c3267f59.png "Works Well")
 
   [1]: https://docs.microsoft.com/en-us/windows/uwp/launch-resume/extend-your-app-with-services-extensions-packages
   [2]: https://docs.microsoft.com/en-us/windows/uwp/launch-resume/how-to-create-and-consume-an-app-service
