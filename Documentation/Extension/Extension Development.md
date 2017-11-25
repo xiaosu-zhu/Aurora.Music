@@ -21,31 +21,31 @@ Now, it's play time, You can follow these steps to create a basic extension!
 To declare your app as an extension, you should add these lines to the `Package.appxmanifest`. First, you should check if it already included such namespaces at the first line:
 
     <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
-        	 xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
-        	 xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" 
-        	 xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3" 
-        	 xmlns:uap4="http://schemas.microsoft.com/appx/manifest/uap/windows10/4" 
-        	 IgnorableNamespaces="uap mp uap3 uap4">
-			 ...
-			 Properties
-			 ...
+	     xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
+	     xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" 
+	     xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3" 
+	     xmlns:uap4="http://schemas.microsoft.com/appx/manifest/uap/windows10/4" 
+	     IgnorableNamespaces="uap mp uap3 uap4">
+		 ...
+		 Properties
+		 ...
 	</Package>
 
 Then, you should declare this is an appExtension, under the Extension Node:
 
 	<Application ...>
-		...
-		...
-		<Extensions>
-			<uap3:Extension Category="windows.appExtension">
-				<uap3:AppExtension Name="Aurora.Music.Extensions" Id="BuiltIn" PublicFolder="Public" DisplayName="Lyric" Description="Aurora Music Lyric Provider">
-					<uap3:Properties>
-						<Service>Aurora.Music.Services</Service>
-						<Category>Lyric</Category>
-					</uap3:Properties>
-				</uap3:AppExtension>
-			</uap3:Extension>
-		</Extensions>
+	    ...
+	    ...
+	    <Extensions>
+	        <uap3:Extension Category="windows.appExtension">
+		    <uap3:AppExtension Name="Aurora.Music.Extensions" Id="BuiltIn" PublicFolder="Public" DisplayName="Lyric" Description="Aurora Music Lyric Provider">
+			<uap3:Properties>
+			    <Service>Aurora.Music.Services</Service>
+			    <Category>Lyric</Category>
+			</uap3:Properties>
+		    </uap3:AppExtension>
+		</uap3:Extension>
+	    </Extensions>
 	</Application>
 
 NOTE: the use of `uap3:Properties` is explained in [Extension Declaration Intro][3], this is a declaration of your extension's features.
@@ -77,50 +77,50 @@ NOTICE: Because the tag of the song may be corrupt, so the `artist` or `album` k
 Here's an example:
 
 
-        private async void OnRequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
-        {
-			// Get a deferral because we use an awaitable API below to respond to the message
-			// and we don't want this call to get cancelled while we are waiting.
-			var messageDeferral = args.GetDeferral();
+    private async void OnRequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
+    {
+	// Get a deferral because we use an awaitable API below to respond to the message
+	// and we don't want this call to get cancelled while we are waiting.
+	var messageDeferral = args.GetDeferral();
 
-			ValueSet message = args.Request.Message;
-			ValueSet returnData = new ValueSet();
-			string command = message["q"] as string;
+	ValueSet message = args.Request.Message;
+	ValueSet returnData = new ValueSet();
+	string command = message["q"] as string;
 
-			switch (command)
+	switch (command)
+	{
+		case "lyric":
+
+			var title = message["title"] as string;
+			message.TryGetValue("artist", out object art);
+			var artists = art as string;
+			message.TryGetValue("album", out object alb);
+			var album = alb as string;
+
+			// get lyric from somewhere
+			var result = await LyricSearcher.GetLyricAsync(title, artists, album);
+			if (result != null)
 			{
-				case "lyric":
-
-					var title = message["title"] as string;
-					message.TryGetValue("artist", out object art);
-					var artists = art as string;
-					message.TryGetValue("album", out object alb);
-					var album = alb as string;
-
-					// get lyric from somewhere
-					var result = await LyricSearcher.GetLyricAsync(title, artists, album);
-					if (result != null)
-					{
-						returnData.Add("result", result);
-						returnData.Add("status", 1);
-					}
-					else
-					{
-						returnData.Add("result", null);
-						returnData.Add("status", 1);
-					}
-					break;
-					default:
-					returnData.Add("status", 0);
-					break;
+				returnData.Add("result", result);
+				returnData.Add("status", 1);
 			}
+			else
+			{
+				returnData.Add("result", null);
+				returnData.Add("status", 1);
+			}
+			break;
+			default:
+			returnData.Add("status", 0);
+			break;
+	}
 
-			await args.Request.SendResponseAsync(returnData);
-			// Return the data to the caller.
-			// Complete the deferral so that the platform knows that we're done responding to the app service call.
-			// Note for error handling: this must be called even if SendResponseAsync() throws an exception.
-			messageDeferral.Complete();
-		}
+	await args.Request.SendResponseAsync(returnData);
+	// Return the data to the caller.
+	// Complete the deferral so that the platform knows that we're done responding to the app service call.
+	// Note for error handling: this must be called even if SendResponseAsync() throws an exception.
+	messageDeferral.Complete();
+    }
 
 
 In the `returnData` above, you shoule provide:
