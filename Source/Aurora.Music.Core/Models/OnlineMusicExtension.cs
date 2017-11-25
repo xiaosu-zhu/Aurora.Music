@@ -101,7 +101,7 @@ namespace Aurora.Music.Core.Models
                         t = MediaType.Song;
                         break;
                 }
-                res.Add(new OnlineMusicItem(p["title"] as string, p["description"] as string, p["addtional"] as string, p["id"] as string[])
+                res.Add(new OnlineMusicItem(p["title"] as string, p["description"] as string, p["addtional"] as string, (p["id"] as Newtonsoft.Json.Linq.JArray).Select(x => x.ToString()).ToArray())
                 {
                     InnerType = t,
                     PicturePath = p["picture_path"] as string,

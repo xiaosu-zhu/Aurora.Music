@@ -102,7 +102,7 @@ namespace Aurora.Music.Services
                                     ["addtional"] = item.Album.Title,
                                     ["picture_path"] = null,
                                     ["type"] = "song",
-                                    ["id"] = item.Mid
+                                    ["id"] = new string[] { item.Mid }
                                 };
                                 resultList.Add(set);
                             }
