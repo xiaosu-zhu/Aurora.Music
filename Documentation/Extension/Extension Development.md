@@ -61,16 +61,22 @@ In order to deploy the app service, you need a background task, so you can add a
 Now, let's see what you will receive when the main app calls your service.
 
 When we call `SendMessageAsync` in main app, we pass a `ValueSet` which contains necessary parameters. For lyric extensions, we pass these:
- |Key	|Value	|Description|
- |------|-------|-----------|
- |q		|"lyric"|Determine what we need|
- |title	|"lorem ipsum"|The title of the song|
- |artist\*|"a man"|The performer of the song|
- |album\* |"a album"|The album name of the song|
+
+
+| Key	| Value	| Description |
+| ------ | ------- | ----------- |
+| q		|"lyric"||
+| title	|"lorem ipsum"| The title of the song |
+| artist\* | "a man" | The performer of the song |
+| album\*  | "a album" | The album name of the song |
+ 
+ 
 \*:optional
 NOTICE: Because the tag of the song may be corrupt, so the `artist` or `album` key may be null.
 
 Here's an example:
+
+
         private async void OnRequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
         {
 			// Get a deferral because we use an awaitable API below to respond to the message
@@ -116,11 +122,16 @@ Here's an example:
 			messageDeferral.Complete();
 		}
 
+
 In the `returnData` above, you shoule provide:
- |Key	|Value	|Description|
- |------|-------|-----------|
- |status|1 or 0	|Response is success or failed|
- |result|raw string|The lyric string|
+
+
+| Key	| Value	| Description |
+| ------ | ------- | ----------- |
+| status |1 or 0	| Response is success or failed |
+| result | raw string | The lyric string |
+
+
 
 The value of `result` is a `string` which contain the raw text of a `.lrc` file, or just plain text with linebreaks. My `LrcParser` will parse it.
 
@@ -133,5 +144,5 @@ All done! Feel lucky~
 
   [1]: https://docs.microsoft.com/en-us/windows/uwp/launch-resume/extend-your-app-with-services-extensions-packages
   [2]: https://docs.microsoft.com/en-us/windows/uwp/launch-resume/how-to-create-and-consume-an-app-service
-  [3]: 
-  [4]:
+  [3]: /Extension%20Declaration%20Intro.md
+  [4]: ../../Samples/ExtensionSample
