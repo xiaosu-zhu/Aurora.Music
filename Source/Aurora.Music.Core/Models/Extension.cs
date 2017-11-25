@@ -68,15 +68,15 @@ namespace Aurora.Music.Core.Models
             }
         }
 
-        public static async Task<Extension> Load(string lyricExtensionID)
+        public static async Task<List<Extension>> Load(string lyricExtensionID)
         {
             if (lyricExtensionID.IsNullorEmpty())
             {
                 lyricExtensionID = Consts.AppUserModelId + "$|$BuiltIn";
             }
             var catalog = AppExtensionCatalog.Open(Consts.ExtesionContract);
-            var exttesions = await catalog.FindAllAsync();
-            foreach (var ext in exttesions)
+            var extesions = await catalog.FindAllAsync();
+            foreach (var ext in extesions)
             {
                 if (lyricExtensionID == ext.AppInfo.AppUserModelId + "$|$" + ext.Id)
                 {
@@ -84,13 +84,25 @@ namespace Aurora.Music.Core.Models
 
                     var categoryProperty = properties["Category"] as PropertySet;
 
-                    switch (categoryProperty["#text"])
+                    var categories = (categoryProperty["#text"] as string).Split(';');
+
+                    var results = new List<Extension>();
+
+                    foreach (var category in categories)
                     {
-                        case "Lyric":
-                            return new LyricExtension(ext, properties);
-                        default:
-                            break;
+                        switch (category)
+                        {
+                            case "Lyric":
+                                results.Add(new LyricExtension(ext, properties));
+                                break;
+                            case "OnlineMusic":
+                                results.Add(new OnlineMusicExtension(ext, properties));
+                                break;
+                            default:
+                                break;
+                        }
                     }
+                    return results;
                 }
             }
             throw new ArgumentException("Can't find specific Extension");

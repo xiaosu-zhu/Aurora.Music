@@ -55,9 +55,9 @@ namespace Aurora.Music.ViewModels
             {
                 _lastSong = song.ID;
 
-                var ext = MainPageViewModel.LyricExtension;
+                var ext = MainPageViewModel.Current.LyricExtension;
 
-                var result = await ext.ExecuteAsync(new KeyValuePair<string, object>("title", Song.Title), new KeyValuePair<string, object>("artist", Song.Performers.IsNullorEmpty() ? null : Song.Performers[0]));
+                var result = await ext.ExecuteAsync(new KeyValuePair<string, object>("q", "lyric"), new KeyValuePair<string, object>("title", Song.Title), new KeyValuePair<string, object>("album", song.Album), new KeyValuePair<string, object>("artist", Song.Performers.IsNullorEmpty() ? null : Song.Performers[0]));
                 if (result != null)
                 {
                     var l = new Lyric(LrcParser.Parser.Parse((string)result, Song.Duration));
@@ -387,9 +387,9 @@ namespace Aurora.Music.ViewModels
                         LyricHint = "Loading lyrics...";
                     });
                     _lastSong = e.CurrentSong.ID;
-                    var ext = MainPageViewModel.LyricExtension;
+                    var ext = MainPageViewModel.Current.LyricExtension;
 
-                    var result = await ext.ExecuteAsync(new KeyValuePair<string, object>("title", Song.Title), new KeyValuePair<string, object>("artist", Song.Performers.IsNullorEmpty() ? null : Song.Performers[0]));
+                    var result = await ext.ExecuteAsync(new KeyValuePair<string, object>("q", "lyric"), new KeyValuePair<string, object>("title", Song.Title), new KeyValuePair<string, object>("album", song.Album), new KeyValuePair<string, object>("artist", Song.Performers.IsNullorEmpty() ? null : Song.Performers[0]));
                     if (result != null)
                     {
                         var l = new Lyric(LrcParser.Parser.Parse((string)result, Song.Duration));

@@ -47,13 +47,12 @@ namespace Aurora.Music.Core.Models
 
         public bool WelcomeFinished { get; set; } = false;
         public string OutputDeviceID { get; set; }
-        private string lyricSource;
-        public int LyricSource { get; set; } = 0;
         public double PlayerVolume { get; set; } = 50d;
         public Effects AudioGraphEffects { get; set; } = Effects.None;
         public string CategoryLastClicked { get; set; }
 
         public string LyricExtensionID { get; set; } = string.Empty;
+        public string OnlineMusicExtensionID { get; set; } = string.Empty;
 
         public static Settings Load()
         {

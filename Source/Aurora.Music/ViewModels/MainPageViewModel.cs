@@ -84,7 +84,8 @@ namespace Aurora.Music.ViewModels
             }
         }
 
-        public static Extension LyricExtension = AsyncHelper.RunSync(async () => await Extension.Load(Settings.Load().LyricExtensionID));
+        public Extension LyricExtension;
+        public Extension OnlineMusicExtension;
 
         private bool needShowPanel = true;
         public bool NeedShowPanel
@@ -303,6 +304,24 @@ namespace Aurora.Music.ViewModels
             player.PositionUpdated += Player_PositionUpdated;
             var t = ThreadPool.RunAsync(async x =>
             {
+                var exts = await Extension.Load(Settings.Load().LyricExtensionID);
+                foreach (var ext in exts)
+                {
+                    if (ext is LyricExtension)
+                    {
+                        LyricExtension = ext;
+                        break;
+                    }
+                }
+                exts = await Extension.Load(Settings.Load().OnlineMusicExtensionID);
+                foreach (var ext in exts)
+                {
+                    if (ext is OnlineMusicExtension)
+                    {
+                        OnlineMusicExtension = ext;
+                        break;
+                    }
+                }
                 await FindFileChanges();
             });
         }
@@ -321,6 +340,27 @@ namespace Aurora.Music.ViewModels
                     SearchItems.Add(new GenericMusicItemViewModel(item));
                 }
             });
+
+            if (OnlineMusicExtension != null)
+            {
+                var querys = new List<KeyValuePair<string, object>>()
+                {
+                    new KeyValuePair<string,object>("q","online_music"),
+                    new KeyValuePair<string, object>("action","search"),
+                    new KeyValuePair<string, object>("keyword",text)
+                };
+                var webResult = await OnlineMusicExtension.ExecuteAsync(querys.ToArray());
+                if (webResult is IEnumerable<OnlineMusicItem> items)
+                {
+                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                    {
+                        foreach (var item in items)
+                        {
+                            SearchItems.Insert(0, new GenericMusicItemViewModel(item));
+                        }
+                    });
+                }
+            }
         }
 
         private async Task FindFileChanges()

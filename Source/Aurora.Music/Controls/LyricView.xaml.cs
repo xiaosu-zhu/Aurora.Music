@@ -1,28 +1,13 @@
 ﻿using Aurora.Music.Core.Models;
-using Aurora.Music.Core.Storage;
 using Aurora.Music.ViewModels;
 using Aurora.Shared.Extensions;
-using Aurora.Shared.Helpers;
-using Microsoft.Graphics.Canvas.Effects;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
-using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.ApplicationModel.Core;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Hosting;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
@@ -35,6 +20,8 @@ namespace Aurora.Music.Controls
     public sealed partial class LyricView : Page, INotifyPropertyChanged
     {
         private SongViewModel model;
+
+        private Extension extension;
 
         public LyricView()
         {
@@ -77,9 +64,9 @@ namespace Aurora.Music.Controls
             {
                 Model = m;
 
-                var ext = await Extension.Load(Settings.Load().LyricExtensionID);
+                extension = MainPageViewModel.Current.LyricExtension;
 
-                var result = await ext.ExecuteAsync(new KeyValuePair<string, object>("title", model.Title), new KeyValuePair<string, object>("artist", model.Performers.IsNullorEmpty() ? null : model.Performers[0]));
+                var result = await extension.ExecuteAsync(new KeyValuePair<string, object>("q", "lyric"), new KeyValuePair<string, object>("title", model.Title), new KeyValuePair<string, object>("artist", model.Performers.IsNullorEmpty() ? null : model.Performers[0]));
                 if (result != null)
                 {
                     var l = new Lyric(LrcParser.Parser.Parse((string)result, model.Duration));
@@ -117,9 +104,7 @@ namespace Aurora.Music.Controls
             {
                 Model = new SongViewModel(e.CurrentSong);
 
-                var ext = await Extension.Load(Settings.Load().LyricExtensionID);
-
-                var result = await ext.ExecuteAsync(new KeyValuePair<string, object>("title", model.Title), new KeyValuePair<string, object>("artist", model.Performers.IsNullorEmpty() ? null : model.Performers[0]));
+                var result = await extension.ExecuteAsync(new KeyValuePair<string, object>("q", "lyric"), new KeyValuePair<string, object>("title", model.Title), new KeyValuePair<string, object>("artist", model.Performers.IsNullorEmpty() ? null : model.Performers[0]));
                 if (result != null)
                 {
                     var l = new Lyric(LrcParser.Parser.Parse((string)result, model.Duration));

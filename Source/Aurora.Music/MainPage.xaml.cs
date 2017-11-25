@@ -22,6 +22,7 @@ using System.Threading.Tasks;
 using Windows.UI.Xaml.Navigation;
 using Windows.UI.Core;
 using Windows.UI;
+using Windows.Foundation;
 
 // https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
 
@@ -56,8 +57,15 @@ namespace Aurora.Music
         }
 
         private Type[] navigateOptions = { typeof(HomePage), typeof(LibraryPage) };
+
+        internal void ThrowException(Windows.UI.Xaml.UnhandledExceptionEventArgs e)
+        {
+
+        }
+
         private MainPageViewModel Context;
         private int lyricViewID;
+        private IAsyncAction searchTask;
 
         internal void GoBack()
         {
@@ -363,8 +371,9 @@ namespace Aurora.Music
                 Context.SearchItems.Clear();
                 return;
             }
+            searchTask?.Cancel();
             var text = sender.Text;
-            var t = ThreadPool.RunAsync(async x =>
+            searchTask = ThreadPool.RunAsync(async x =>
             {
                 await Context.Search(text);
             });

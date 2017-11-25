@@ -36,9 +36,6 @@ namespace Aurora.Music.Effects
                     float* inputDataInFloat = (float*)inputDataInBytes;
                     float* outputDataInFloat = (float*)outputDataInBytes;
 
-                    float inputData;
-                    float echoData;
-
                     // Process audio data
                     int dataInFloatLength = (int)inputBuffer.Length / sizeof(float);
                 }

@@ -389,7 +389,7 @@ namespace Aurora.Music.PlaybackEngine
         {
             var options = new Windows.Storage.Search.QueryOptions(Windows.Storage.Search.CommonFileQuery.DefaultQuery, new string[] { ".jpg", ".png", ".bmp" })
             {
-                ApplicationSearchFilter = $"filename:{id}"
+                ApplicationSearchFilter = $"System.FileName:{id}.*"
             };
 
             var query = ApplicationData.Current.TemporaryFolder.CreateFileQueryWithOptions(options);

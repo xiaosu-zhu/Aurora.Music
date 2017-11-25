@@ -14,18 +14,21 @@ Just as what you see in the link above, Aurora Music uses `Windows.ApplicationMo
  2. Write the code of your core service
  3. Implement Background Task and AppService Handler
  
- # Sample: A Simple Lyric Provider
+# Sample: A Simple Lyric Provider
 Now, it's play time, You can follow these steps to create a basic extension!
 
 ## Modify the APPXManifest ##
 To declare your app as an extension, you should add these lines to the `Package.appxmanifest`. First, you should check if it already included such namespaces at the first line:
 
     <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
-        xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
-        xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" 
-        xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3" 
-        xmlns:uap4="http://schemas.microsoft.com/appx/manifest/uap/windows10/4" 
-        IgnorableNamespaces="uap mp uap3 uap4">
+        	 xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
+        	 xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" 
+        	 xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3" 
+        	 xmlns:uap4="http://schemas.microsoft.com/appx/manifest/uap/windows10/4" 
+        	 IgnorableNamespaces="uap mp uap3 uap4">
+			 ...
+			 ...
+	</Package>
 
 Then, you should declare this is an appExtension, under the Extension Node:
 
@@ -42,10 +45,12 @@ Then, you should declare this is an appExtension, under the Extension Node:
 
 NOTE: the use of `uap3:Properties` is explained in LINK TO ANOTHER, this is a declaration of your extension's features.
 
-By using AppService, you should also declare it, this time you can add it in the manifest manager:
+Before using AppService, you should also declare it, this time you can add it in the manifest manager:
 
 
+In order to deploy the app service, you need a background task, so you can add a `.winmd` runtime component to do it. The full description and tutorial is posted on [Create and consume an app service][2].
 
+## Handle Request and Send Response ##
 
 
   [1]: https://docs.microsoft.com/en-us/windows/uwp/launch-resume/extend-your-app-with-services-extensions-packages

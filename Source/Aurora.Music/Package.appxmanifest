@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3" xmlns:uap4="http://schemas.microsoft.com/appx/manifest/uap/windows10/4" IgnorableNamespaces="uap mp uap3 uap4">
-  <Identity Name="6727Aurora-ZXS.10476770C0EE5" Publisher="CN=C726CFE3-60F0-4B5C-8D98-3381263565AE" Version="1.1.0.0" />
+  <Identity Name="6727Aurora-ZXS.10476770C0EE5" Publisher="CN=C726CFE3-60F0-4B5C-8D98-3381263565AE" Version="2.0.0.0" />
   <mp:PhoneIdentity PhoneProductId="743dcb49-5f9d-472b-996d-be7602b35973" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
-    <DisplayName>极光音乐</DisplayName>
+    <DisplayName>Aurora Music</DisplayName>
     <PublisherDisplayName>Aurora-Studio</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -26,20 +26,9 @@
         <uap:SplashScreen Image="Assets\SplashScreen.png" BackgroundColor="transparent" />
       </uap:VisualElements>
       <Extensions>
-        <uap3:Extension Category="windows.appExtensionHost">
-          <uap3:AppExtensionHost>
-            <uap3:Name>Aurora.Music.Extensions</uap3:Name>
-          </uap3:AppExtensionHost>
-        </uap3:Extension>
-        <uap3:Extension Category="windows.appExtension">
-          <uap3:AppExtension Name="Aurora.Music.Extensions" Id="BuiltIn" PublicFolder="Public" DisplayName="Lyric" Description="Aurora Music Lyric Provider">
-            <uap3:Properties>
-              <Service>Aurora.Music.Services</Service>
-              <Category>Lyric</Category>
-            </uap3:Properties>
-          </uap3:AppExtension>
-        </uap3:Extension>
-
+        <uap:Extension Category="windows.appService" EntryPoint="Aurora.Music.Services.LyricService">
+          <uap:AppService Name="Aurora.Music.Services" />
+        </uap:Extension>
         <uap:Extension Category="windows.fileTypeAssociation">
           <uap:FileTypeAssociation Name="aurora_music" DesiredView="default">
             <uap:DisplayName>Aurora Music</uap:DisplayName>
@@ -55,9 +44,19 @@
             </uap:SupportedFileTypes>
           </uap:FileTypeAssociation>
         </uap:Extension>
-        <uap:Extension Category="windows.appService" EntryPoint="Aurora.Music.Services.LyricService">
-          <uap:AppService Name="Aurora.Music.Services" />
-        </uap:Extension>
+        <uap3:Extension Category="windows.appExtensionHost">
+          <uap3:AppExtensionHost>
+            <uap3:Name>Aurora.Music.Extensions</uap3:Name>
+          </uap3:AppExtensionHost>
+        </uap3:Extension>
+        <uap3:Extension Category="windows.appExtension">
+          <uap3:AppExtension Name="Aurora.Music.Extensions" Id="BuiltIn" PublicFolder="Public" DisplayName="Lyric" Description="Built-in Lyric Provider">
+            <uap3:Properties>
+              <Service>Aurora.Music.Services</Service>
+              <Category>Lyric;OnlineMusic</Category>
+            </uap3:Properties>
+          </uap3:AppExtension>
+        </uap3:Extension>
       </Extensions>
     </Application>
   </Applications>

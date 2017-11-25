@@ -413,13 +413,13 @@
                 </toolkit:ImageEx.Source>
             </toolkit:ImageEx>
             <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Stretch" Grid.Row="1">
-                <Grid Background="{ThemeResource SystemControlAccentDark2AcrylicWindowAccentDark2MediumHighBrush}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,4">
+                <Grid Background="{ThemeResource SystemControlAccentDark1AcrylicWindowAccentDark1Brush}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,4">
                     <TextBlock Margin="8,4" Foreground="{x:Bind Context.AccentForeground(Context.IsAccentDark), Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Context.ArtistsToString(Context.Song.AlbumArtists),Mode=OneWay}"/>
                 </Grid>
                 <Grid x:Name="Title" Background="{ThemeResource SystemControlBackgroundAccentBrush}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,4">
                     <TextBlock Margin="8,4" Foreground="{x:Bind Context.AccentForeground(Context.IsAccentDark), Mode=OneWay}" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold" Text="{x:Bind Context.Song.Title,Mode=OneWay}"/>
                 </Grid>
-                <Grid x:Name="Album" Background="{ThemeResource SystemControlAccentDark2AcrylicWindowAccentDark2MediumHighBrush}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,4">
+                <Grid x:Name="Album" Background="{ThemeResource SystemControlAccentDark1AcrylicWindowAccentDark1Brush}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,4">
                     <TextBlock Margin="8,4" Foreground="{x:Bind Context.AccentForeground(Context.IsAccentDark), Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Context.Song.Album,Mode=OneWay}"/>
                 </Grid>
                 <toolkit:DropShadowPanel Margin="0,8" HorizontalAlignment="Left" VerticalAlignment="Stretch" Color="White" ShadowOpacity="0.66" BlurRadius="8" OffsetX="0" OffsetY="0">

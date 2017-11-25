@@ -108,12 +108,19 @@
   <ItemGroup>
     <Compile Include="Consts.cs" />
     <Compile Include="Extension\Json\GecimiJson.cs" />
+    <Compile Include="Extension\Json\QQMusic.cs" />
+    <Compile Include="Extension\Json\QQMusicAlbumJson.cs" />
+    <Compile Include="Extension\Json\QQMusicArtistJson.cs" />
+    <Compile Include="Extension\Json\QQMusicSongJson.cs" />
     <Compile Include="Extension\LyricSearcher.cs" />
+    <Compile Include="Extension\OnlineMusicSearcher.cs" />
     <Compile Include="Models\Extension.cs" />
     <Compile Include="Models\ISortable.cs" />
     <Compile Include="Models\Lyric.cs" />
     <Compile Include="Models\LyricExtension.cs" />
     <Compile Include="Models\Music.cs" />
+    <Compile Include="Models\Online.cs" />
+    <Compile Include="Models\OnlineMusicExtension.cs" />
     <Compile Include="Models\Settings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Storage\Events.cs" />

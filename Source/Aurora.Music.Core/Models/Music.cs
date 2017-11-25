@@ -16,7 +16,7 @@ namespace Aurora.Music.Core.Models
 
     public enum MediaType
     {
-        Song, Album, PlayList
+        Song, Album, PlayList, Artist
     }
 
     public class GenericMusicItem
@@ -25,6 +25,8 @@ namespace Aurora.Music.Core.Models
         public string Title { get; set; }
         public string Description { get; set; }
         public string Addtional { get; set; }
+
+        public bool IsOnline { get; set; }
 
         public string PicturePath { get; set; }
 
@@ -61,6 +63,8 @@ namespace Aurora.Music.Core.Models
 
             PicturePath = s.PicturePath;
         }
+
+        public GenericMusicItem() { }
 
 
         internal GenericMusicItem(Album s)
@@ -228,8 +232,7 @@ namespace Aurora.Music.Core.Models
         public TimeSpan Duration { get; set; }
         public uint BitRate { get; set; }
 
-        public string FilePath
-        { get; set; }
+        public string FilePath { get; set; }
         public string PicturePath { get; set; }
 
         public virtual string MusicBrainzReleaseId { get; set; }

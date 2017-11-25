@@ -8,8 +8,10 @@ namespace Aurora.Music.Test
     public class UnitTest1
     {
         [TestMethod]
-        public void TestMethod1()
+        public async void OnlineSearchTest()
         {
+            var result = await Core.Extension.OnlineMusicSearcher.SearchAsync("五月天");
+            Assert.AreEqual(result.Code, 0);
         }
     }
 }

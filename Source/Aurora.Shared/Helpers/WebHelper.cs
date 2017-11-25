@@ -5,6 +5,7 @@
 using Aurora.Shared.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -185,7 +186,7 @@ namespace Aurora.Shared.Helpers
             }
         }
 
-        public static async Task<string> HttpGet(string url, IEnumerable<KeyValuePair<string, string>> getDataStr = null, string encode = "utf-8", CookieCollection cc = null)
+        public static async Task<string> HttpGet(string url, IEnumerable<KeyValuePair<string, string>> getDataStr, string encode = "utf-8", CookieCollection cc = null)
         {
             try
             {
@@ -193,14 +194,71 @@ namespace Aurora.Shared.Helpers
                 {
                     return null;
                 }
-                //Get方式提交数据只需要在网址后面使用？即可，如果多组数据，需要在提交的时候使用&连接
+                //Get方式提交数据只需要在网址后面使用?即可，如果多组数据，需要在提交的时候使用&连接
                 if (getDataStr.IsNullorEmpty())
                 {
                     url = Uri.EscapeUriString(url);
                 }
                 else
                 {
-                    url = Uri.EscapeUriString($"url?{string.Join("&", getDataStr.Select(x => $"{x.Key}={Uri.EscapeDataString(x.Value)}"))}");
+                    url = Uri.EscapeUriString($"url?{string.Join("&", getDataStr.Select(x => $"{x.Key}={x.Value}"))}");
+                }
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                //将Cookie写入
+                request.CookieContainer = new CookieContainer();
+                if (cc != null)
+                {
+                    request.CookieContainer.Add(new Uri(url), cc);
+                }
+
+                //设置request的方式为GET
+                request.Method = "GET";
+                //设置HTTP头的内容类型,如果需要在Http头中加入其他内容，可以直接使用 request.Headers["头名称"]="头内容" 来添加
+                request.ContentType = "text/html;charset=UTF-8";
+                //通过异步方法拿到回应
+                using (HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync())
+                {
+
+                    //写入流
+                    using (Stream myResponseStream = response.GetResponseStream())
+                    {
+                        //注册编码转换器（这里同之前WPF开发中不同，需要事先注册编码转换器才能使用）
+                        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+                        //进行内容编码转换
+                        using (StreamReader myStreamReader = new StreamReader(myResponseStream, Encoding.GetEncoding(encode)))
+                        {
+                            //将转换后的内容转化为字符串并返回
+                            string retString = myStreamReader.ReadToEnd();
+                            return retString;
+                        }
+
+                    }
+
+                }
+            }
+            catch (WebException)
+            {
+                return null;
+            }
+        }
+
+
+        public static async Task<string> HttpGet(string url, NameValueCollection getDataStr = null, string encode = "utf-8", CookieCollection cc = null)
+        {
+            try
+            {
+                if (!WebHelper.IsInternet())
+                {
+                    return null;
+                }
+                //Get方式提交数据只需要在网址后面使用?即可，如果多组数据，需要在提交的时候使用&连接
+                if (getDataStr == null)
+                {
+                    url = Uri.EscapeUriString(url);
+                }
+                else
+                {
+                    url = Uri.EscapeUriString($"{url}?{getDataStr.ToString()}");
                 }
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
                 //将Cookie写入

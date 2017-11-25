@@ -43,6 +43,15 @@ namespace Aurora.Music
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            this.UnhandledException += App_UnhandledException;
+        }
+
+        private void App_UnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
+        {
+            if (Window.Current.Content is Frame f && MainPage.Current is MainPage p)
+            {
+                p.ThrowException(e);
+            }
         }
 
         protected override async void OnFileActivated(FileActivatedEventArgs args)

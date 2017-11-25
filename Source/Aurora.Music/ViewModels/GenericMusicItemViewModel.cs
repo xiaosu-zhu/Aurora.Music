@@ -32,9 +32,24 @@ namespace Aurora.Music.ViewModels
             }
         }
 
+        private bool isOnline;
+        public bool IsOnline
+        {
+            get { return isOnline; }
+            set { SetProperty(ref isOnline, value); }
+        }
+
+        private bool isAvaliable;
+        public bool IsAvaliable
+        {
+            get { return isAvaliable; }
+            set { SetProperty(ref isAvaliable, value); }
+        }
+
         public Color MainColor { get; set; }
 
         public int[] IDs { get; set; }
+        public string[] OnlineIDs { get; set; }
 
         public int ContextualID { get; set; }
 
@@ -100,7 +115,7 @@ namespace Aurora.Music.ViewModels
             return ColorFromHSV(h, s, v);
         }
 
-        public GenericMusicItemViewModel(Core.Models.Album album)
+        public GenericMusicItemViewModel(Album album)
         {
             InnerType = MediaType.Album;
             ContextualID = album.ID;
@@ -111,7 +126,7 @@ namespace Aurora.Music.ViewModels
             IDs = album.Songs;
         }
 
-        public GenericMusicItemViewModel(Core.Models.Song song)
+        public GenericMusicItemViewModel(Song song)
         {
             InnerType = MediaType.Song;
             ContextualID = song.ID;
@@ -121,14 +136,22 @@ namespace Aurora.Music.ViewModels
             Artwork = song.PicturePath.IsNullorEmpty() ? null : new Uri(song.PicturePath);
             IDs = new int[] { song.ID };
         }
-        public GenericMusicItemViewModel(Core.Models.GenericMusicItem item)
+        public GenericMusicItemViewModel(GenericMusicItem item)
         {
+            if (item is OnlineMusicItem o)
+            {
+                IsOnline = true;
+                OnlineIDs = o.OnlineID;
+            }
+            else
+            {
+                ContextualID = item.ContextualID;
+                IDs = item.IDs;
+            }
             InnerType = item.InnerType;
-            ContextualID = item.ContextualID;
             Title = item.Title;
             Description = item.Description;
             Addtional = item.Addtional;
-            IDs = item.IDs;
             Artwork = item.PicturePath.IsNullorEmpty() ? null : new Uri(item.PicturePath);
         }
 

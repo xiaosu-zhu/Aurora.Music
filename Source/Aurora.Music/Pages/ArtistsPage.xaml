@@ -67,7 +67,7 @@
                                     <RowDefinition Height="*"/>
                                     <RowDefinition Height="auto"/>
                                 </Grid.RowDefinitions>
-                                <toolkit:RoundImageEx x:Name="ArtistImage" PlaceholderSource="/Assets/Images/artist_placeholder.png" PlaceholderStretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="8,4" Width="100" Height="100" CornerRadius="999"/>
+                                <toolkit:ImageEx x:Name="ArtistImage" PlaceholderSource="/Assets/Images/artist_placeholder.png" PlaceholderStretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="8,4" Width="100" Height="100" CornerRadius="999"/>
                                 <StackPanel Orientation="Vertical" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Margin="0,4">
                                     <TextBlock x:Name="ArtistName" Text="{x:Bind Name}" HorizontalAlignment="Center" VerticalAlignment="Center" MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Style="{ThemeResource BaseTextBlockStyle}" Margin="0,0"/>
                                     <TextBlock Text="{x:Bind CountToString(SongsCount)}" HorizontalAlignment="Center" VerticalAlignment="Center" MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Style="{ThemeResource BodyTextBlockStyle}" Margin="0,4"/>

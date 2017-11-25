@@ -93,17 +93,6 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref reverb, value); }
         }
 
-        private int lyricSource;
-        public int LyricSource
-        {
-            get { return lyricSource; }
-            set
-            {
-                SetProperty(ref lyricSource, value);
-                settings.LyricSource = value;
-            }
-        }
-
         public SettingsPageViewModel()
         {
             settings = Settings.Load();

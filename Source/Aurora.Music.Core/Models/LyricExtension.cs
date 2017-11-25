@@ -45,7 +45,6 @@ namespace Aurora.Music.Core.Models
                         // send request to service
                         var request = new ValueSet
                         {
-                            { "q", "lyric" },
                         };
 
                         foreach (var item in parameters)

@@ -1,4 +1,5 @@
-﻿using Aurora.Music.ViewModels;
+﻿using Aurora.Music.Core;
+using Aurora.Music.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -35,7 +36,7 @@ namespace Aurora.Music.Controls
         public SearchResultDialog(GenericMusicItemViewModel param)
         {
             this.InitializeComponent();
-            Artwork.Source = new BitmapImage(param.Artwork);
+            Artwork.Source = param.Artwork == null ? new BitmapImage(new Uri(Consts.NowPlaceholder)) : new BitmapImage(param.Artwork);
             TitleText.Text = param.Title;
             Description.Text = param.Description;
             Addtional.Text = param.Addtional;

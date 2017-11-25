@@ -1,14 +1,18 @@
 ﻿using Aurora.Music.Core.Extension;
+using Aurora.Music.Core.Models;
 using Aurora.Music.Core.Storage;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Background;
+using Windows.Foundation;
 using Windows.Foundation.Collections;
 
 namespace Aurora.Music.Services
@@ -43,28 +47,90 @@ namespace Aurora.Music.Services
             switch (command)
             {
                 case "lyric":
+
+                    var title = message["title"] as string;
+                    message.TryGetValue("artist", out object art);
+                    var artists = art as string;
+
+                    var localLrc = await LyricSearcher.SearchLrcLocalAsync(title, artists);
+                    if (!localLrc.IsNullorEmpty())
                     {
-                        var title = message["title"] as string;
-                        var artists = message["artist"] as string;
-                        var substitutes = await LyricSearcher.GetSongLrcListAsync(title, artists);
-                        if (!substitutes.IsNullorEmpty())
-                        {
-                            var result = await ApiRequestHelper.HttpGet(substitutes.First().Value);
-                            returnData.Add("result", result);
-                        }
-                        else
-                        {
-                            returnData.Add("result", null);
-                        }
+                        returnData.Add("result", localLrc);
+
                         returnData.Add("status", 1);
                         break;
                     }
 
-                default:
+                    var substitutes = await LyricSearcher.GetSongLrcListAsync(title, artists);
+                    if (!substitutes.IsNullorEmpty())
                     {
-                        returnData.Add("status", 0);
-                        break;
+                        var result = await ApiRequestHelper.HttpGet(substitutes.First().Value);
+                        if (!result.IsNullorEmpty())
+                        {
+                            await LyricSearcher.SaveLrcLocalAsync(title, artists, result);
+                        }
+                        returnData.Add("result", result);
                     }
+                    else
+                    {
+                        returnData.Add("result", null);
+                    }
+                    returnData.Add("status", 1);
+                    break;
+
+                case "online_music":
+                    var action = message["action"] as string;
+                    message.TryGetValue("page", out object page);
+                    message.TryGetValue("count", out object count);
+                    switch (action)
+                    {
+                        case "search":
+                            var result = await OnlineMusicSearcher.SearchAsync(message["keyword"] as string, page as int?, count as int?);
+                            var resultList = new List<PropertySet>();
+                            if (result == null)
+                            {
+                                returnData.Add("status", 0);
+                                break;
+                            }
+
+                            foreach (var item in result.Data.Song.ListItems)
+                            {
+                                var set = new PropertySet
+                                {
+                                    ["title"] = item.Title,
+                                    ["description"] = item.SingerItems[0]?.Title,
+                                    ["addtional"] = item.Album.Title,
+                                    ["picture_path"] = null,
+                                    ["type"] = "song",
+                                    ["id"] = item.Mid
+                                };
+                                resultList.Add(set);
+                            }
+
+
+                            if (!resultList.IsNullorEmpty())
+                            {
+                                returnData.Add("search_result", JsonConvert.SerializeObject(resultList.ToArray()));
+                                returnData.Add("status", 1);
+                            }
+                            break;
+                        case "song":
+                            var song = await OnlineMusicSearcher.GetSongAsync(message["id"] as string);
+                            break;
+                        case "album":
+                            var album = await OnlineMusicSearcher.GetAlbumAsync(message["id"] as string);
+                            break;
+                        case "artist":
+                            var artist = await OnlineMusicSearcher.GetArtistAsync(message["id"] as string);
+                            break;
+                        default:
+                            break;
+                    }
+
+                    break;
+                default:
+                    returnData.Add("status", 0);
+                    break;
             }
 
 
