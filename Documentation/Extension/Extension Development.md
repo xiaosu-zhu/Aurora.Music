@@ -54,7 +54,7 @@ In this scenario, we add two properties: Service and Category. Service is the na
 Before using AppService, you should also declare it, this time you can add it in the manifest manager:
 
 
-![Modify Appxmanifest](https://i.loli.net/2017/11/26/5a199c3267f59.png "Add the AppService Declaration")
+![Modify Appxmanifest](https://i.loli.net/2017/11/26/5a19a11d60bad.png "Add the AppService Declaration")
 
 
 In order to deploy the app service, you need a background task, so you can add a `.winmd` runtime component to do it. The full description and tutorial is posted on [Create and consume an app service][2].
@@ -144,13 +144,13 @@ You can get the full example at [Samples/ExtensionSample][4], so how to let the 
 ![Deploy](https://i.loli.net/2017/11/26/5a199c3267f59.png "Deploy in Visual Studio")
 
 
-![Modify the Setting](https://i.loli.net/2017/11/26/5a199c3267f59.png "Enable the Debug Mode")
+![Modify the Setting](https://i.loli.net/2017/11/26/5a19a11d5519b.png "Enable the Debug Mode")
 
 
 All done! Feeling lucky~
 
 
-![Finish](https://i.loli.net/2017/11/26/5a199c3267f59.png "Works Well")
+![Finish](https://i.loli.net/2017/11/26/5a19a11e40c01.png "Works Well")
 
 
 
