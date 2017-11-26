@@ -89,16 +89,16 @@ When we call `SendMessageAsync` in main app, we pass a `ValueSet` which contains
 
 | Key	 | Value   | Description  |
 | ------ | ------- | ------------ |
-| q  |"lyric"| The type of request |
-| title	|"lorem ipsum"| The title of the song |
-| artist\* | "a man" | The performer of the song |
-| album\*  | "a album" | The album name of the song |
+| q  |`"lyric"` | The type of request |
+| title	| `"lorem ipsum"` | The title of the song |
+| artist\* | `"a man"` | The performer of the song |
+| album\*  | `"a album"`  | The album name of the song |
  
  
 \*:optional
 
 
-NOTICE: Because the tag of the song may be corrupt, so the `artist` or `album` key may be null.
+NOTICE: Because the tag of the song may be corrupt, so the key:  `artist` or  `album`, may be null or empty.
 
 Here's an example:
 
@@ -149,13 +149,13 @@ Here's an example:
     }
 
 
-In the `returnData` above, you shoule provide:
+In the `returnData` above, you should provide:
 
 
 | Key  | Value  | Description  |
 | ------ | ------- | ----------- |
-| status | 1 or 0  | Response is success or failed |
-| result | raw string | The lyric string |
+| status | `1` or `0`  | Response is success or failed |
+| result | `raw string` | The lyric string |
 
 
 
