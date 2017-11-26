@@ -1,24 +1,36 @@
 
 # Extension Development
 
+
 Aurora Music have implemented the support for Extensions (1: [Extend your app with services, extensions, and packages][1], 2: [Create and consume an app service][2]). Here's what extensions in Aurora Music can do:
 
  - Performe as a lyric provider
  - Performe as an online music provider
  - Performe as an online metadata provider
 
+
 # How It Works
+
+
 Just as what you see in the link above, Aurora Music uses `Windows.ApplicationModel.Extensions` namespace to retrieve installed extensions, and uses `Windows.ApplicationModel.AppService` to call a specific service associated with an extension. In UWP, `AppService` is just like web service, we send query strings to it and wait for a response. So, it is easy to implement an extension in the following steps:
 
- 1. Complete the declaration of appxmanifest
+
+ 1. Complete app declaration in appxmanifest
  2. Write the code of your core service
  3. Implement Background Task and AppService Handler
  
+ 
 # Sample: A Simple Lyric Provider
+
+
 Now, it's play time, You can follow these steps to create a basic extension!
 
+
 ## Modify the APPXManifest ##
+
+
 To declare your app as an extension, you should add these lines to the `Package.appxmanifest`. First, you should check if it already included such namespaces at the first line:
+
 
     <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
 	     xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
@@ -31,7 +43,9 @@ To declare your app as an extension, you should add these lines to the `Package.
 		 ...
 	</Package>
 
+
 Then, you should declare this is an appExtension, under the Extension Node:
+
 
 	<Application ...>
 	    ...
@@ -48,7 +62,11 @@ Then, you should declare this is an appExtension, under the Extension Node:
 	    </Extensions>
 	</Application>
 
+
+
 NOTE: the use of `uap3:Properties` is explained in [Extension Declaration Intro][3], this is a declaration of your extension's features.
+
+
 In this scenario, we add two properties: Service and Category. Service is the name of your app service(added below), Category is what kind of service you would to provide(here is a lyric provider).
 
 Before using AppService, you should also declare it, this time you can add it in the manifest manager:
@@ -57,9 +75,13 @@ Before using AppService, you should also declare it, this time you can add it in
 ![Modify Appxmanifest](https://i.loli.net/2017/11/26/5a19a11d60bad.png "Add the AppService Declaration")
 
 
+
 In order to deploy the app service, you need a background task, so you can add a `.winmd` runtime component to do it. The full description and tutorial is posted on [Create and consume an app service][2].
 
+
 ## Handle Request and Send Response ##
+
+
 Now, let's see what you will receive when the main app calls your service.
 
 When we call `SendMessageAsync` in main app, we pass a `ValueSet` which contains necessary parameters. For lyric extensions, we pass these:
@@ -67,13 +89,15 @@ When we call `SendMessageAsync` in main app, we pass a `ValueSet` which contains
 
 | Key	 | Value   | Description  |
 | ------ | ------- | ------------ |
-| q  |"lyric"||
+| q  |"lyric"| The type of request |
 | title	|"lorem ipsum"| The title of the song |
 | artist\* | "a man" | The performer of the song |
 | album\*  | "a album" | The album name of the song |
  
  
 \*:optional
+
+
 NOTICE: Because the tag of the song may be corrupt, so the `artist` or `album` key may be null.
 
 Here's an example:
