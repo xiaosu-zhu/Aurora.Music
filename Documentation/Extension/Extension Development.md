@@ -67,7 +67,7 @@ Then, you should declare this is an appExtension, under the Extension Node:
 NOTE: the use of `uap3:Properties` is explained in [Extension Declaration Intro](./Extension%20Declaration%20Intro.md), this is a declaration of your extension's features.
 
 
-In this scenario, we add two properties: Service and Category. Service is the name of your app service(added below), Category is what kind of service you would to provide(here is a lyric provider).
+In this scenario, we add two properties: `Service` and `Category`. `Service` is the name of your app service(added below), `Category` is what kind of service you would to provide(here is a lyric provider).
 
 Before using AppService, you should also declare it, this time you can add it in the manifest manager:
 
