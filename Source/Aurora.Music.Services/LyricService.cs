@@ -6,6 +6,7 @@ using Aurora.Shared.Helpers;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
@@ -80,11 +81,11 @@ namespace Aurora.Music.Services
 
                 case "online_music":
                     var action = message["action"] as string;
-                    message.TryGetValue("page", out object page);
-                    message.TryGetValue("count", out object count);
                     switch (action)
                     {
                         case "search":
+                            message.TryGetValue("page", out object page);
+                            message.TryGetValue("count", out object count);
                             var result = await OnlineMusicSearcher.SearchAsync(message["keyword"] as string, page as int?, count as int?);
                             var resultList = new List<PropertySet>();
                             if (result == null)
@@ -116,6 +117,28 @@ namespace Aurora.Music.Services
                             break;
                         case "song":
                             var song = await OnlineMusicSearcher.GetSongAsync(message["id"] as string);
+                            if (song != null && !song.DataItems.IsNullorEmpty())
+                            {
+                                DateTime.TryParseExact(song.DataItems[0].Album.Time_Public, "yyyy-MM-dd", null, DateTimeStyles.None, out DateTime t);
+
+                                // TODO: property
+
+                                var songRes = new PropertySet
+                                {
+                                    ["title"] = song.DataItems[0].Title,
+                                    ["album"] = song.DataItems[0].Album.Name,
+                                    ["performers"] = song.DataItems[0].SingerItems.Select(x => x.Name).ToArray(),
+                                    ["year"] = 0u,
+                                    ["bit_rate"] = 192u
+                                };
+                                songRes["album_artists"] = songRes["performers"];
+                                var picture = OnlineMusicSearcher.GeneratePicturePathByID(song.DataItems[0].Album.Mid);
+                                songRes["picture_path"] = picture;
+                                songRes["file_url"] = await OnlineMusicSearcher.GenerateFileUriByID(message["id"] as string);
+                                returnData.Add("song_result", JsonConvert.SerializeObject(songRes));
+                                returnData.Add("status", 1);
+                            }
+
                             break;
                         case "album":
                             var album = await OnlineMusicSearcher.GetAlbumAsync(message["id"] as string);

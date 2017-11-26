@@ -36,7 +36,7 @@ namespace LrcParser
                 return null;
             }
             var slices = ParsePrefix(lrc);
-            if (slices.Count > 0)
+            if (slices.Count > 0 && !slices[0].Key.IsNullorEmpty())
             {
                 return new Lyric(CreateSlice(slices).OrderBy(x => x.Offset), CreateDescription(slices));
             }

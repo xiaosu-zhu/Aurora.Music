@@ -94,8 +94,8 @@ namespace Aurora.Music.Core.Models
                 PicturePath = set["picture_path"] as string,
                 OnlineUri = new Uri(set["file_url"] as string),
                 IsOnline = true,
-                BitRate = (uint)set["bit_rate"],
-                Year = (uint)set["year"]
+                BitRate = Convert.ToUInt32(set["bit_rate"]),
+                Year = Convert.ToUInt32(set["year"])
             };
 
             // TODO: Optional Properties

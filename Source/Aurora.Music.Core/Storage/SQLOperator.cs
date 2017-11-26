@@ -699,7 +699,12 @@ namespace Aurora.Music.Core.Storage
             var list = new List<SONG>();
             foreach (var id in ids)
             {
-                list.Add(await conn.FindAsync<SONG>(id));
+                var s = await conn.FindAsync<SONG>(id);
+                if (s == null)
+                {
+                    continue;
+                }
+                list.Add(s);
             }
             var k = list.ConvertAll(x => new Song(x));
             var k1 = k.OrderBy(m => m.Disc);

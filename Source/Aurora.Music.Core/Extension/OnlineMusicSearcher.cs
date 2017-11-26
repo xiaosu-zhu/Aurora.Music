@@ -70,11 +70,18 @@ namespace Aurora.Music.Core.Extension
             queryString["platform"] = "yqq";
             queryString["format"] = "json";
             var response = await ApiRequestHelper.HttpGet(songUrl, queryString);
-            if (!response.IsNullorEmpty())
+            if (response.IsNullorEmpty())
             {
                 return null;
             }
-            return JsonConvert.DeserializeObject<QQMusicSongJson>(response);
+            try
+            {
+                return JsonConvert.DeserializeObject<QQMusicSongJson>(response);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         public static Task<QQMusicAlbumJson> GetAlbumAsync(string v)
@@ -92,14 +99,14 @@ namespace Aurora.Music.Core.Extension
 
         private static readonly List<QQMusicFileFormat> fileFormats = new List<QQMusicFileFormat>()
         {
-            new QQMusicFileFormat(320,"M800","mp3"),
-            new QQMusicFileFormat(192,"C600","m4a"),
-            new QQMusicFileFormat(128,"M500","mp3"),
-            new QQMusicFileFormat(96,"C400","mp3"),
-            new QQMusicFileFormat(48,"C200","mp3"),
+            new QQMusicFileFormat(320,"M800",".mp3"),
+            new QQMusicFileFormat(192,"C600",".m4a"),
+            new QQMusicFileFormat(128,"M500",".mp3"),
+            new QQMusicFileFormat(96,"C400",".mp3"),
+            new QQMusicFileFormat(48,"C200",".mp3"),
         };
 
-        public static async Task<Uri> GenerateFileUriByID(string media_ID, int bitrate)
+        public static async Task<string> GenerateFileUriByID(string media_ID, int bitrate = 256)
         {
             var queryString = HttpUtility.ParseQueryString(string.Empty);
             queryString["json"] = "3";
@@ -111,7 +118,7 @@ namespace Aurora.Music.Core.Extension
                 return null;
             }
             var stage = JsonConvert.DeserializeObject<QQMusicFileJson>(result);
-            if (stage.Code == 0)
+            if (stage.Code != 0)
             {
                 return null;
             }
@@ -119,7 +126,7 @@ namespace Aurora.Music.Core.Extension
             var f = fileFormats.First(x => x.BitRate <= bitrate);
 
             var final = streamUrl + f.Prefix + media_ID + f.Format + "?vkey=" + stage.Key + "&guid=" + queryString["guid"] + "&uid=0&fromtag=30";
-            return new Uri(final);
+            return final;
         }
 
         class QQMusicFileFormat
@@ -133,6 +140,13 @@ namespace Aurora.Music.Core.Extension
                 Prefix = prefix;
                 Format = format;
             }
+        }
+
+        private const string picUrl = "https://y.gtimg.cn/music/photo_new/T002R300x300M000{0}.jpg?max_age=2592000";
+
+        public static string GeneratePicturePathByID(string v)
+        {
+            return string.Format(picUrl, v);
         }
     }
 }

@@ -84,6 +84,7 @@ namespace Aurora.Music.PlaybackEngine
 
         private void PlaybackSession_PositionChangedAsync(MediaPlaybackSession sender, object args)
         {
+            // TODO: online music can't fire
             lock (lockable)
             {
                 if (mediaPlaybackList.CurrentItem == null)
@@ -229,6 +230,10 @@ namespace Aurora.Music.PlaybackEngine
                 await WriteProperties(item, props, builtin);
 
                 mediaPlaybackItem.ApplyDisplayProperties(props);
+
+                mediaPlayer.Source = mediaPlaybackItem;
+                mediaPlayer.Play();
+
                 mediaPlaybackList.Items.Add(mediaPlaybackItem);
                 mediaPlaybackList.StartingItem = mediaPlaybackItem;
 
@@ -407,13 +412,27 @@ namespace Aurora.Music.PlaybackEngine
 
         private async Task WriteProperties(Song item, MediaItemDisplayProperties props, string pic)
         {
-            if (pic == string.Empty)
+            if (item.IsOnline)
             {
-                props.Thumbnail = RandomAccessStreamReference.CreateFromUri(new Uri(Consts.BlackPlaceholder));
+                if (pic == string.Empty)
+                {
+                    props.Thumbnail = RandomAccessStreamReference.CreateFromUri(new Uri(Consts.BlackPlaceholder));
+                }
+                else
+                {
+                    props.Thumbnail = RandomAccessStreamReference.CreateFromUri(new Uri(pic));
+                }
             }
             else
             {
-                props.Thumbnail = RandomAccessStreamReference.CreateFromFile(await StorageFile.GetFileFromPathAsync(pic));
+                if (pic == string.Empty)
+                {
+                    props.Thumbnail = RandomAccessStreamReference.CreateFromUri(new Uri(Consts.BlackPlaceholder));
+                }
+                else
+                {
+                    props.Thumbnail = RandomAccessStreamReference.CreateFromFile(await StorageFile.GetFileFromPathAsync(pic));
+                }
             }
 
             props.Type = Windows.Media.MediaPlaybackType.Music;
@@ -606,9 +625,10 @@ namespace Aurora.Music.PlaybackEngine
             {
                 return;
             }
-
+            int i = 0;
             while (mediaPlaybackList.CurrentItem == null)
             {
+                //mediaPlaybackList.MoveNext();
                 await Task.Delay(100);
             }
 
