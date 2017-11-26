@@ -180,5 +180,5 @@ All done! Feeling lucky~
 
   [1]: https://docs.microsoft.com/en-us/windows/uwp/launch-resume/extend-your-app-with-services-extensions-packages
   [2]: https://docs.microsoft.com/en-us/windows/uwp/launch-resume/how-to-create-and-consume-an-app-service
-  [3]: /Extension%20Declaration%20Intro.md
+  [3]: ./Extension%20Declaration%20Intro.md
   [4]: ../../Samples/ExtensionSample
