@@ -12,6 +12,8 @@ using Aurora.Music.Core.Models;
 using Windows.UI;
 using Windows.UI.Xaml.Media;
 using System.Text.RegularExpressions;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml;
 
 namespace Aurora.Music.ViewModels
 {
@@ -56,6 +58,11 @@ namespace Aurora.Music.ViewModels
         public GenericMusicItemViewModel()
         {
 
+        }
+
+        public string OnlineToSymbol(bool b)
+        {
+            return b ? "\uE93E" : "\uEC4F";
         }
 
         public MediaType InnerType { get; set; }
@@ -167,6 +174,10 @@ namespace Aurora.Music.ViewModels
 
         public override string ToString()
         {
+            if (Title.IsNullorEmpty())
+            {
+                return string.Empty;
+            }
             var title = Title;
             if (title.Length > 20)
             {

@@ -1,5 +1,6 @@
 ﻿using Aurora.Music.Core.Models;
 using Aurora.Music.ViewModels;
+using Aurora.Shared.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,11 +17,16 @@ namespace Aurora.Music.Controls
         public DataTemplate AlbumTemplate { get; set; }
         public DataTemplate SongTemplate { get; set; }
         public DataTemplate PlayListTemplate { get; set; }
+        public DataTemplate PlaceholderTemplate { get; set; }
 
         protected override DataTemplate SelectTemplateCore(object item)
         {
             if (item is GenericMusicItemViewModel m)
             {
+                if (m.Title.IsNullorEmpty())
+                {
+                    return PlaceholderTemplate;
+                }
                 switch (m.InnerType)
                 {
                     case MediaType.Song:
@@ -30,16 +36,20 @@ namespace Aurora.Music.Controls
                     case MediaType.PlayList:
                         return PlayListTemplate;
                     default:
-                        return SongTemplate;
+                        return PlaceholderTemplate;
                 }
             }
-            return SongTemplate;
+            return PlaceholderTemplate;
         }
 
         protected override DataTemplate SelectTemplateCore(object item, DependencyObject container)
         {
             if (item is GenericMusicItemViewModel m)
             {
+                if (m.Title.IsNullorEmpty())
+                {
+                    return PlaceholderTemplate;
+                }
                 switch (m.InnerType)
                 {
                     case MediaType.Song:
@@ -49,10 +59,10 @@ namespace Aurora.Music.Controls
                     case MediaType.PlayList:
                         return PlayListTemplate;
                     default:
-                        return SongTemplate;
+                        return PlaceholderTemplate;
                 }
             }
-            return SongTemplate;
+            return PlaceholderTemplate;
         }
     }
 

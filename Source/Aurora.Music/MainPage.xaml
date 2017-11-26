@@ -786,20 +786,41 @@
                 </Grid>
             </DataTemplate>
 
+            <DataTemplate x:Key="PlaceholderTemplate" x:DataType="vm:GenericMusicItemViewModel">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid Width="48" Height="48" Grid.RowSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}" Margin="0,8,8,8"/>
+                    <Grid Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Height="13" Margin="8" Width="200" Background="{ThemeResource SystemControlBackgroundBaseLowBrush}"/>
+                    <Grid Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" Height="9" Width="160" Margin="8,0,8,8" Background="{ThemeResource SystemControlBackgroundBaseLowBrush}"/>
+                </Grid>
+            </DataTemplate>
+
             <DataTemplate x:Key="SongTemplate" x:DataType="vm:GenericMusicItemViewModel">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <SymbolIcon Symbol="Audio" Margin="0,8,8,8"/>
-                    <TextBlock Style="{ThemeResource BodyTextBlockStyle}" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Margin="8" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto" MinHeight="8"/>
+                    </Grid.RowDefinitions>
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind OnlineToSymbol(IsOnline)}" Margin="0,8,4,0"/>
+                    <TextBlock Style="{ThemeResource BodyTextBlockStyle}" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Margin="4,8,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1">
                         <Run Text="{x:Bind Title}" FontWeight="Bold"/><Run Text=" - "/><Run Text="{x:Bind Description}"/><Run Text=" - "/><Run Text="{x:Bind Addtional}"/>
                     </TextBlock>
+                    <TextBlock Text="Online Content" Grid.Row="1" Grid.ColumnSpan="2" Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource SystemControlHighlightAccent2RevealBackgroundBrush}" Margin="4,0,4,8" FontSize="10" Visibility="{x:Bind BooltoVisibility(IsOnline)}"/>
                 </Grid>
             </DataTemplate>
 
-            <controls:HomePageTemplateSeletor x:Key="GenericItemSelector" SongTemplate="{StaticResource SongTemplate}" AlbumTemplate="{StaticResource AlbumTemplate}"/>
+            <controls:HomePageTemplateSeletor x:Key="GenericItemSelector" PlaceholderTemplate="{StaticResource PlaceholderTemplate}" SongTemplate="{StaticResource SongTemplate}" AlbumTemplate="{StaticResource AlbumTemplate}"/>
         </ResourceDictionary>
     </Page.Resources>
 
@@ -1010,7 +1031,7 @@
                 <Grid HorizontalAlignment="Right" VerticalAlignment="Top" 
                       Height="32" x:Name="TitleBarOverlay" Visibility="Visible" >
                     <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="1" x:Name="TitlebarBtm" Background="{StaticResource BlockAutoSuggestBoxTextBoxStyleBorderBrush}"/>
-                    <AutoSuggestBox Style="{ThemeResource BlockAutoSuggestBox}" QuerySubmitted="SearchBox_QuerySubmitted" SuggestionChosen="SearchBox_SuggestionChosen"
+                    <AutoSuggestBox Loaded="SearchBox_Loaded" Style="{ThemeResource BlockAutoSuggestBox}" QuerySubmitted="SearchBox_QuerySubmitted" SuggestionChosen="SearchBox_SuggestionChosen"
                                     PlaceholderText="Search in your library" QueryIcon="Find" x:Name="SearchBox" TextChanged="SearchBox_TextChanged" ItemsSource="{x:Bind Context.SearchItems, Mode=OneWay}"
                                     HorizontalAlignment="Right" VerticalAlignment="Stretch" Width="320" ItemTemplateSelector="{StaticResource GenericItemSelector}">
                     </AutoSuggestBox>

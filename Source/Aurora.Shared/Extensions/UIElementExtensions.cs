@@ -41,5 +41,30 @@ namespace Aurora.Shared.Extensions
             }
             return null;
         }
+
+        public static T GetFirst<T>(this DependencyObject o) where T : FrameworkElement
+        {
+            // Return the DependencyObject if it is a ScrollViewer
+            if (o is T)
+            {
+                return o as T;
+            }
+
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(o); i++)
+            {
+                var child = VisualTreeHelper.GetChild(o, i);
+
+                var result = GetFirst<T>(child);
+                if (result == null)
+                {
+                    continue;
+                }
+                else
+                {
+                    return result;
+                }
+            }
+            return null;
+        }
     }
 }

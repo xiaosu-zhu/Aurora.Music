@@ -23,6 +23,7 @@ using Windows.UI.Xaml.Navigation;
 using Windows.UI.Core;
 using Windows.UI;
 using Windows.Foundation;
+using Windows.UI.Xaml.Controls.Primitives;
 
 // https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
 
@@ -66,6 +67,7 @@ namespace Aurora.Music
         private MainPageViewModel Context;
         private int lyricViewID;
         private IAsyncAction searchTask;
+        private StackPanel autoSuggestPopupPanel;
 
         internal void GoBack()
         {
@@ -282,9 +284,15 @@ namespace Aurora.Music
                 titleBar.ButtonInactiveForegroundColor = Colors.Gray;
             });
             ViewModePreferences compactOptions = ViewModePreferences.CreateDefault(ApplicationViewMode.CompactOverlay);
-            compactOptions.CustomSize = new Windows.Foundation.Size(1000, 100);
+            compactOptions.CustomSize = new Size(1000, 100);
             compactOptions.ViewSizePreference = ViewSizePreference.Custom;
             bool viewShown = await ApplicationViewSwitcher.TryShowAsViewModeAsync(lyricViewID, ApplicationViewMode.CompactOverlay, compactOptions);
+        }
+
+        internal void HideAutoSuggestPopup()
+        {
+            autoSuggestPopupPanel.Children[0].Visibility = Visibility.Collapsed;
+            ((autoSuggestPopupPanel.Children[0] as Panel).Children[0] as ProgressRing).IsActive = false;
         }
 
         internal async Task GotoComapctOverlay()
@@ -336,6 +344,10 @@ namespace Aurora.Music
         {
             if (args.ChosenSuggestion is GenericMusicItemViewModel g)
             {
+                if (g.Title.IsNullorEmpty())
+                {
+                    return;
+                }
                 var dialog = new SearchResultDialog(g);
                 var result = await dialog.ShowAsync();
             }
@@ -357,7 +369,9 @@ namespace Aurora.Music
 
         private void SearchBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
-
+            if ((args.SelectedItem as GenericMusicItemViewModel).Title.IsNullorEmpty())
+            {
+            }
         }
 
         private void SearchBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
@@ -373,6 +387,16 @@ namespace Aurora.Music
             }
             searchTask?.Cancel();
             var text = sender.Text;
+            if (Context.OnlineMusicExtension != null)
+            {
+                autoSuggestPopupPanel.Children[0].Visibility = Visibility.Visible;
+                ((autoSuggestPopupPanel.Children[0] as Panel).Children[0] as ProgressRing).IsActive = true;
+            }
+            Context.SearchItems.Clear();
+            for (int i = 0; i < 5; i++)
+            {
+                Context.SearchItems.Add(new GenericMusicItemViewModel());
+            }
             searchTask = ThreadPool.RunAsync(async x =>
             {
                 await Context.Search(text);
@@ -521,7 +545,7 @@ namespace Aurora.Music
             ModalText.Text = v2;
         }
 
-        private static async System.Threading.Tasks.Task<IReadOnlyList<StorageFile>> CopyFilesAsync(IReadOnlyList<IStorageItem> p)
+        private static async Task<IReadOnlyList<StorageFile>> CopyFilesAsync(IReadOnlyList<IStorageItem> p)
         {
             var list = new List<StorageFile>();
             foreach (var item in p)
@@ -550,6 +574,14 @@ namespace Aurora.Music
                 }
             }
             return list;
+        }
+
+        private void SearchBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            var box = sender as AutoSuggestBox;
+
+            var up = box.GetFirst<Popup>();
+            autoSuggestPopupPanel = up.Child as StackPanel;
         }
     }
 }

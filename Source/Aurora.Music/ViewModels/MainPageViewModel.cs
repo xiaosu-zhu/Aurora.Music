@@ -357,6 +357,7 @@ namespace Aurora.Music.ViewModels
                         foreach (var item in items)
                         {
                             SearchItems.Insert(0, new GenericMusicItemViewModel(item));
+                            MainPage.Current.HideAutoSuggestPopup();
                         }
                     });
                 }

@@ -1946,15 +1946,19 @@
                     Margin="0"
                     DesiredCandidateWindowAlignment="BottomEdge"/>
                         <Popup x:Name="SuggestionsPopup">
-                            <Border x:Name="SuggestionsContainer">
-                                <Border.RenderTransform>
+                            <StackPanel x:Name="SuggestionsContainer" Orientation="Vertical"
+                                        Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
+                BorderThickness="{ThemeResource AutoSuggestListBorderThemeThickness}"
+                BorderBrush="{ThemeResource SystemControlForegroundChromeHighBrush}">
+                                <StackPanel.RenderTransform>
                                     <TranslateTransform x:Name="UpwardTransform"/>
-                                </Border.RenderTransform>
+                                </StackPanel.RenderTransform>
+                                <StackPanel Visibility="Collapsed" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                                    <ProgressRing Margin="8" IsActive="False" VerticalAlignment="Center"/>
+                                    <TextBlock Text="Searching" Margin="8" Style="{ThemeResource SubtitleTextBlockStyle}" VerticalAlignment="Center"/>
+                                </StackPanel>
                                 <ListView
                 x:Name="SuggestionsList"
-                Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
-                BorderThickness="{ThemeResource AutoSuggestListBorderThemeThickness}"
-                BorderBrush="{ThemeResource SystemControlForegroundChromeHighBrush}"
                 DisplayMemberPath="{TemplateBinding DisplayMemberPath}"
                 IsItemClickEnabled="True"
                 ItemTemplate="{TemplateBinding ItemTemplate}"
@@ -1967,7 +1971,7 @@
                                         <TransitionCollection />
                                     </ListView.ItemContainerTransitions>
                                 </ListView>
-                            </Border>
+                            </StackPanel>
                         </Popup>
                     </Grid>
                 </ControlTemplate>
