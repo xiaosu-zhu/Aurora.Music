@@ -145,6 +145,7 @@ namespace Aurora.Music.ViewModels
         }
         public GenericMusicItemViewModel(GenericMusicItem item)
         {
+            // TODO: online pic path
             if (item is OnlineMusicItem o)
             {
                 IsOnline = true;
