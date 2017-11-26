@@ -64,7 +64,7 @@ Then, you should declare this is an appExtension, under the Extension Node:
 
 
 
-NOTE: the use of `uap3:Properties` is explained in [Extension Declaration Intro][3], this is a declaration of your extension's features.
+NOTE: the use of `uap3:Properties` is explained in [Extension Declaration Intro](./Extension%20Declaration%20Intro.md), this is a declaration of your extension's features.
 
 
 In this scenario, we add two properties: Service and Category. Service is the name of your app service(added below), Category is what kind of service you would to provide(here is a lyric provider).
@@ -162,7 +162,7 @@ In the `returnData` above, you shoule provide:
 The value of `result` is a `string` which contain the raw text of a `.lrc` file, or just plain text with linebreaks. My `LrcParser` will parse it.
 
 ## Deploy and Debug ##
-You can get the full example at [Samples/ExtensionSample][4], so how to let the main application know you have added an extension in the computer? Just deploy it in the Visual Studio, and switch the Debug Mode to "On" in Aurora Music->Settings->Advance
+You can get the full example at [Samples/ExtensionSample](../../Samples/ExtensionSample), so how to let the main application know you have added an extension in the computer? Just deploy it in the Visual Studio, and switch the Debug Mode to "On" in Aurora Music->Settings->Advance
 
 
 ![Deploy](https://i.loli.net/2017/11/26/5a199c3267f59.png "Deploy in Visual Studio")
@@ -180,6 +180,6 @@ All done! Feeling lucky~
 
   [1]: https://docs.microsoft.com/en-us/windows/uwp/launch-resume/extend-your-app-with-services-extensions-packages
   [2]: https://docs.microsoft.com/en-us/windows/uwp/launch-resume/how-to-create-and-consume-an-app-service
-  [3]: ./Extension Declaration Intro.md
+
   
-  [4]: ../../Samples/ExtensionSample
+
