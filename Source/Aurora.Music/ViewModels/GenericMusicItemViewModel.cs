@@ -162,14 +162,33 @@ namespace Aurora.Music.ViewModels
             Artwork = item.PicturePath.IsNullorEmpty() ? null : new Uri(item.PicturePath);
         }
 
-        internal async Task<IList<Song>> GetSongsAsync()
+        internal virtual async Task<IList<Song>> GetSongsAsync()
         {
-            var opr = SQLOperator.Current();
+            if (IsOnline)
+            {
+                if (MainPageViewModel.Current.OnlineMusicExtension == null)
+                {
+                    return null;
+                }
+                var list = new List<Song>();
+                foreach (var item in OnlineIDs)
+                {
+                    var s = await MainPageViewModel.Current.GetOnlineSongAsync(item);
+                    if (s == null)
+                        continue;
+                    list.Add(s);
+                }
+                return list;
+            }
+            else
+            {
+                var opr = SQLOperator.Current();
 
-            var s = await opr.GetSongsAsync(IDs);
-            var s1 = s.OrderBy(x => x.Track);
-            s1 = s1.OrderBy(x => x.Disc);
-            return s1.ToList();
+                var s = await opr.GetSongsAsync(IDs);
+                var s1 = s.OrderBy(x => x.Track);
+                s1 = s1.OrderBy(x => x.Disc);
+                return s1.ToList();
+            }
         }
 
         public override string ToString()

@@ -11,6 +11,11 @@ namespace Aurora.Music.Core.Models
         None = 0, Reverb = 2, Limiter = 4, Equalizer = 8, All = Reverb | Limiter | Equalizer
     }
 
+    public enum Bitrate
+    {
+        _128, _192, _256, _320
+    }
+
     public class Band
     {
         //
@@ -53,6 +58,8 @@ namespace Aurora.Music.Core.Models
 
         public string LyricExtensionID { get; set; } = string.Empty;
         public string OnlineMusicExtensionID { get; set; } = string.Empty;
+
+        public Bitrate PreferredBitRate { get; set; } = Bitrate._192;
 
         public static Settings Load()
         {

@@ -196,6 +196,22 @@ namespace Aurora.Music.ViewModels
             }
         }
 
+        internal async Task<Song> GetOnlineSongAsync(string id)
+        {
+            var querys = new List<KeyValuePair<string, object>>()
+                {
+                    new KeyValuePair<string,object>("q", "online_music"),
+                    new KeyValuePair<string, object>("action", "song"),
+                    new KeyValuePair<string, object>("id", id)
+                };
+            var songResult = await OnlineMusicExtension.ExecuteAsync(querys.ToArray());
+            if (songResult is Song s)
+            {
+                return s;
+            }
+            return null;
+        }
+
         public DelegateCommand GoPrevious
         {
             get
@@ -334,10 +350,13 @@ namespace Aurora.Music.ViewModels
 
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
-                SearchItems.Clear();
-                foreach (var item in result)
+                lock (MainPage.Current.Lockable)
                 {
-                    SearchItems.Add(new GenericMusicItemViewModel(item));
+                    SearchItems.Clear();
+                    foreach (var item in result)
+                    {
+                        SearchItems.Add(new GenericMusicItemViewModel(item));
+                    }
                 }
             });
 
@@ -345,19 +364,22 @@ namespace Aurora.Music.ViewModels
             {
                 var querys = new List<KeyValuePair<string, object>>()
                 {
-                    new KeyValuePair<string,object>("q","online_music"),
-                    new KeyValuePair<string, object>("action","search"),
-                    new KeyValuePair<string, object>("keyword",text)
+                    new KeyValuePair<string,object>("q", "online_music"),
+                    new KeyValuePair<string, object>("action", "search"),
+                    new KeyValuePair<string, object>("keyword", text)
                 };
                 var webResult = await OnlineMusicExtension.ExecuteAsync(querys.ToArray());
                 if (webResult is IEnumerable<OnlineMusicItem> items)
                 {
                     await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                     {
-                        foreach (var item in items)
+                        lock (MainPage.Current.Lockable)
                         {
-                            SearchItems.Insert(0, new GenericMusicItemViewModel(item));
-                            MainPage.Current.HideAutoSuggestPopup();
+                            foreach (var item in items)
+                            {
+                                SearchItems.Insert(0, new GenericMusicItemViewModel(item));
+                                MainPage.Current.HideAutoSuggestPopup();
+                            }
                         }
                     });
                 }

@@ -289,6 +289,8 @@ namespace Aurora.Music.Core.Models
         public int ID { get; set; }
         public int SampleRate { get; private set; }
         public int AudioChannels { get; private set; }
+        public bool IsOnline { get; set; }
+        public Uri OnlineUri { get; set; }
     }
 
 

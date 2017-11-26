@@ -36,6 +36,8 @@ namespace Aurora.Music
     {
         public static MainPage Current;
 
+        internal object Lockable = new object();
+
         public MainPage()
         {
             this.InitializeComponent();
@@ -392,10 +394,13 @@ namespace Aurora.Music
                 autoSuggestPopupPanel.Children[0].Visibility = Visibility.Visible;
                 ((autoSuggestPopupPanel.Children[0] as Panel).Children[0] as ProgressRing).IsActive = true;
             }
-            Context.SearchItems.Clear();
-            for (int i = 0; i < 5; i++)
+            lock (Lockable)
             {
-                Context.SearchItems.Add(new GenericMusicItemViewModel());
+                Context.SearchItems.Clear();
+                for (int i = 0; i < 5; i++)
+                {
+                    Context.SearchItems.Add(new GenericMusicItemViewModel());
+                }
             }
             searchTask = ThreadPool.RunAsync(async x =>
             {

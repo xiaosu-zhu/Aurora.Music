@@ -64,6 +64,10 @@ namespace Aurora.Music.Core.Models
                                 {
                                     return GetGenericMusicItem(s);
                                 }
+                                if (message.ContainsKey("song_result") && message["song_result"] is string t)
+                                {
+                                    return GetSong(t);
+                                }
                             }
                         }
                     }
@@ -74,6 +78,30 @@ namespace Aurora.Music.Core.Models
             {
                 throw e;
             }
+        }
+
+        private Song GetSong(string t)
+        {
+            var set = JsonConvert.DeserializeObject<PropertySet>(t);
+
+            // Required Properties
+            var song = new Song
+            {
+                Title = set["title"] as string,
+                Album = set["album"] as string,
+                Performers = (set["performers"] as Newtonsoft.Json.Linq.JArray).Select(x => x.ToString()).ToArray(),
+                AlbumArtists = (set["album_artists"] as Newtonsoft.Json.Linq.JArray).Select(x => x.ToString()).ToArray(),
+                PicturePath = set["picture_path"] as string,
+                OnlineUri = new Uri(set["file_url"] as string),
+                IsOnline = true,
+                BitRate = (uint)set["bit_rate"],
+                Year = (uint)set["year"]
+            };
+
+            // TODO: Optional Properties
+
+
+            return song;
         }
 
         private IEnumerable<OnlineMusicItem> GetGenericMusicItem(string result)

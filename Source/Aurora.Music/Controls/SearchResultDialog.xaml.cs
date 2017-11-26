@@ -40,6 +40,7 @@ namespace Aurora.Music.Controls
             TitleText.Text = param.Title;
             Description.Text = param.Description;
             Addtional.Text = param.Addtional;
+            OnlineIndicator.Visibility = param.IsOnline ? Visibility.Visible : Visibility.Collapsed;
             currentItem = param;
         }
 

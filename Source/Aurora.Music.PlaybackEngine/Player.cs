@@ -199,14 +199,24 @@ namespace Aurora.Music.PlaybackEngine
             if (startIndex <= 0)
             {
                 var item = items[0];
+                MediaSource mediaSource;
+                string builtin;
 
-                /// **Local files can only create from <see cref="StorageFile"/>**
-                StorageFile file = await StorageFile.GetFileFromPathAsync(item.FilePath);
+                if (item.IsOnline)
+                {
+                    mediaSource = MediaSource.CreateFromUri(item.OnlineUri);
+                    builtin = item.PicturePath;
+                }
+                else
+                {
+                    /// **Local files can only create from <see cref="StorageFile"/>**
+                    StorageFile file = await StorageFile.GetFileFromPathAsync(item.FilePath);
 
+                    builtin = await GetBuiltInArtworkAsync(file.Name, item.FilePath);
 
-                var builtin = await GetBuiltInArtworkAsync(file.Name, item.FilePath);
+                    mediaSource = MediaSource.CreateFromStorageFile(file);
+                }
 
-                var mediaSource = MediaSource.CreateFromStorageFile(file);
                 mediaSource.CustomProperties[Consts.ID] = item.ID;
                 mediaSource.CustomProperties[Consts.Duration] = item.Duration;
                 mediaSource.CustomProperties[Consts.Artwork] = builtin.IsNullorEmpty() ? null : new Uri(builtin);
@@ -242,11 +252,24 @@ namespace Aurora.Music.PlaybackEngine
                 var listBefore = items.Take(startIndex);
                 var listAfter = items.TakeLast(items.Count - 1 - startIndex);
 
-                StorageFile file = await StorageFile.GetFileFromPathAsync(item.FilePath);
+                MediaSource mediaSource;
+                string builtin;
 
-                var builtin = await GetBuiltInArtworkAsync(file.Name, item.FilePath);
+                if (item.IsOnline)
+                {
+                    mediaSource = MediaSource.CreateFromUri(item.OnlineUri);
+                    builtin = item.PicturePath;
+                }
+                else
+                {
+                    /// **Local files can only create from <see cref="StorageFile"/>**
+                    StorageFile file = await StorageFile.GetFileFromPathAsync(item.FilePath);
 
-                var mediaSource = MediaSource.CreateFromStorageFile(file);
+                    builtin = await GetBuiltInArtworkAsync(file.Name, item.FilePath);
+
+                    mediaSource = MediaSource.CreateFromStorageFile(file);
+                }
+
                 mediaSource.CustomProperties[Consts.ID] = item.ID;
                 mediaSource.CustomProperties[Consts.Duration] = item.Duration;
                 mediaSource.CustomProperties[Consts.Artwork] = builtin.IsNullorEmpty() ? null : new Uri(builtin);
@@ -284,11 +307,23 @@ namespace Aurora.Music.PlaybackEngine
             {
                 try
                 {
-                    StorageFile file = await StorageFile.GetFileFromPathAsync(item.FilePath);
+                    MediaSource mediaSource;
+                    string builtin;
 
-                    var builtin = await GetBuiltInArtworkAsync(file.Name, item.FilePath);
+                    if (item.IsOnline)
+                    {
+                        mediaSource = MediaSource.CreateFromUri(item.OnlineUri);
+                        builtin = item.PicturePath;
+                    }
+                    else
+                    {
+                        /// **Local files can only create from <see cref="StorageFile"/>**
+                        StorageFile file = await StorageFile.GetFileFromPathAsync(item.FilePath);
 
-                    var mediaSource = MediaSource.CreateFromStorageFile(file);
+                        builtin = await GetBuiltInArtworkAsync(file.Name, item.FilePath);
+
+                        mediaSource = MediaSource.CreateFromStorageFile(file);
+                    }
 
                     mediaSource.CustomProperties[Consts.ID] = item.ID;
                     mediaSource.CustomProperties[Consts.Duration] = item.Duration;
@@ -324,11 +359,23 @@ namespace Aurora.Music.PlaybackEngine
             {
                 try
                 {
-                    StorageFile file = await StorageFile.GetFileFromPathAsync(item.FilePath);
+                    MediaSource mediaSource;
+                    string builtin;
 
-                    var builtin = await GetBuiltInArtworkAsync(file.Name, item.FilePath);
+                    if (item.IsOnline)
+                    {
+                        mediaSource = MediaSource.CreateFromUri(item.OnlineUri);
+                        builtin = item.PicturePath;
+                    }
+                    else
+                    {
+                        /// **Local files can only create from <see cref="StorageFile"/>**
+                        StorageFile file = await StorageFile.GetFileFromPathAsync(item.FilePath);
 
-                    var mediaSource = MediaSource.CreateFromStorageFile(file);
+                        builtin = await GetBuiltInArtworkAsync(file.Name, item.FilePath);
+
+                        mediaSource = MediaSource.CreateFromStorageFile(file);
+                    }
 
                     mediaSource.CustomProperties[Consts.ID] = item.ID;
                     mediaSource.CustomProperties[Consts.Duration] = item.Duration;

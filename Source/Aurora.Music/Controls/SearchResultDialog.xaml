@@ -22,7 +22,10 @@
             <Image MaxHeight="150" MaxWidth="150" x:Name="Artwork" Stretch="Uniform" />
         </toolkit:DropShadowPanel>
         <StackPanel Grid.Column="1" Margin="16" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Center">
-            <TextBlock x:Name="TitleText" Style="{ThemeResource TitleTextBlockStyle}" Margin="4,0,4,4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MaxLines="2" MaxWidth="320"/>
+            <StackPanel Orientation="Horizontal" Margin="4,0,4,4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MaxWidth="320">
+                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE93E;" Margin="0,0,8,0" Foreground="{ThemeResource SystemControlForegroundAccentBrush}" x:Name="OnlineIndicator"/>
+                <TextBlock x:Name="TitleText" Style="{ThemeResource TitleTextBlockStyle}" MaxLines="2" TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis"/>
+            </StackPanel>
             <TextBlock x:Name="Description" Style="{ThemeResource BodyTextBlockStyle}" Margin="4,0,4,4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MaxLines="2" MaxWidth="320"/>
             <TextBlock x:Name="Addtional" Style="{ThemeResource BodyTextBlockStyle}" Margin="4,0,4,4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MaxLines="2" MaxWidth="320"/>
         </StackPanel>
