@@ -54,7 +54,7 @@ namespace Aurora.Music.Core.Extension
                 }
                 return null;
             }
-            catch (Exception)
+            catch (JsonReaderException)
             {
                 return null;
             }
@@ -78,7 +78,7 @@ namespace Aurora.Music.Core.Extension
             {
                 return JsonConvert.DeserializeObject<QQMusicSongJson>(response);
             }
-            catch (Exception)
+            catch (JsonReaderException)
             {
                 return null;
             }

@@ -119,22 +119,24 @@ namespace Aurora.Music.Services
                             var song = await OnlineMusicSearcher.GetSongAsync(message["id"] as string);
                             if (song != null && !song.DataItems.IsNullorEmpty())
                             {
-                                DateTime.TryParseExact(song.DataItems[0].Album.Time_Public, "yyyy-MM-dd", null, DateTimeStyles.None, out DateTime t);
+                                DateTime.TryParseExact(song.DataItems[0].Album.Time_Public, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime t);
 
                                 // TODO: property
+
+                                var setting = Settings.Load();
 
                                 var songRes = new PropertySet
                                 {
                                     ["title"] = song.DataItems[0].Title,
                                     ["album"] = song.DataItems[0].Album.Name,
                                     ["performers"] = song.DataItems[0].SingerItems.Select(x => x.Name).ToArray(),
-                                    ["year"] = 0u,
-                                    ["bit_rate"] = 192u
+                                    ["year"] = t.Year,
+                                    ["bit_rate"] = setting.GetPreferredBitRate()
                                 };
                                 songRes["album_artists"] = songRes["performers"];
                                 var picture = OnlineMusicSearcher.GeneratePicturePathByID(song.DataItems[0].Album.Mid);
                                 songRes["picture_path"] = picture;
-                                songRes["file_url"] = await OnlineMusicSearcher.GenerateFileUriByID(message["id"] as string);
+                                songRes["file_url"] = await OnlineMusicSearcher.GenerateFileUriByID(message["id"] as string, setting.GetPreferredBitRate());
                                 returnData.Add("song_result", JsonConvert.SerializeObject(songRes));
                                 returnData.Add("status", 1);
                             }

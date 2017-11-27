@@ -5,18 +5,20 @@
     xmlns:local="using:Aurora.Music.Controls"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    Unloaded="Page_Unloaded"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Loaded="Root_Loaded" x:Name="Root">
+    <Page.Resources>
+        <AcrylicBrush x:Key="ROOTBG" BackgroundSource="HostBackdrop" TintColor="{ThemeResource SystemChromeAltHighColor}" TintOpacity="0" FallbackColor="{ThemeResource SystemAltLowColor}" />
+    </Page.Resources>
+
+    <Grid Background="{ThemeResource ROOTBG}" x:Name="Root">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid Grid.RowSpan="3" x:Name="BackDrop" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-
-        </Grid>
 
         <toolkit:DropShadowPanel Opacity="0.33333" Color="White" HorizontalAlignment="Center" VerticalAlignment="Center" BlurRadius="8" OffsetX="0" OffsetY="0" Grid.Row="0">
             <TextBlock Text="{x:Bind Lyric.GetPrevious(Lyric.CurrentIndex),Mode=OneWay}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{ThemeResource TitleTextBlockStyle}"/>

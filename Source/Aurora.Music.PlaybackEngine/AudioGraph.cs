@@ -74,6 +74,7 @@ namespace Aurora.Music.PlaybackEngine
 
         public event EventHandler<PositionUpdatedArgs> PositionUpdated;
         public event EventHandler<StatusChangedArgs> StatusChanged;
+        public event EventHandler<DownloadProgressChangedArgs> DownloadProgressChanged;
 
         #region IDisposable
         /*******************IDisposable**************************/

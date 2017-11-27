@@ -954,6 +954,21 @@ namespace Aurora.Music.Core.Storage
             list.Shuffle();
             return list;
         }
+
+        public async Task RemoveAlbumAsync(int iD)
+        {
+            await conn.QueryAsync<ALBUM>("DELETE FROM ALBUM WHERE ID = ?", iD);
+        }
+
+        internal async Task UpdateAlbumAsync(ALBUM s)
+        {
+            await conn.UpdateAsync(s);
+        }
+
+        public async Task UpdateAlbumAsync(Album s)
+        {
+            await conn.UpdateAsync(new ALBUM(s));
+        }
     }
 
     public class Path

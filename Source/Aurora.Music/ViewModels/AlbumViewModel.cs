@@ -8,6 +8,7 @@ using Aurora.Shared.MVVM;
 using Windows.UI.Xaml.Media.Imaging;
 using Aurora.Music.Core.Storage;
 using Aurora.Music.Core.Models;
+using Windows.System.Threading;
 
 namespace Aurora.Music.ViewModels
 {
@@ -30,6 +31,7 @@ namespace Aurora.Music.ViewModels
             AlbumArtistsSort = item.AlbumArtistsSort;
             ReplayGainAlbumGain = item.ReplayGainAlbumGain;
             ReplayGainAlbumPeak = item.ReplayGainAlbumPeak;
+            ID = item.ID;
         }
 
         public AlbumViewModel() { }
@@ -76,6 +78,7 @@ namespace Aurora.Music.ViewModels
         public virtual string[] AlbumArtistsSort { get; set; }
         public virtual double ReplayGainAlbumGain { get; set; }
         public virtual double ReplayGainAlbumPeak { get; set; }
+        public int ID { get; }
 
         public string Key
         {
@@ -114,6 +117,34 @@ namespace Aurora.Music.ViewModels
             var s1 = s.OrderBy(x => x.Track);
             s1 = s1.OrderBy(x => x.Disc);
             Songs.AddRange(s1);
+
+            var t = ThreadPool.RunAsync(async work =>
+            {
+                SongsID = s.Select(x => x.ID).ToArray();
+                if (SongsID.IsNullorEmpty())
+                {
+                    await SQLOperator.Current().RemoveAlbumAsync(ID);
+                }
+                else
+                {
+                    await SQLOperator.Current().UpdateAlbumAsync(new Album(ID)
+                    {
+                        Songs = SongsID,
+                        Name = Name,
+                        Genres = Genres,
+                        Year = Year,
+                        AlbumSort = AlbumSort,
+                        TrackCount = TrackCount,
+                        DiscCount = DiscCount,
+                        AlbumArtists = AlbumArtists,
+                        AlbumArtistsSort = AlbumArtistsSort,
+                        ReplayGainAlbumGain = ReplayGainAlbumGain,
+                        ReplayGainAlbumPeak = ReplayGainAlbumPeak,
+                        PicturePath = Artwork.AbsolutePath,
+                    });
+                }
+            });
+
             return s1.ToList();
         }
     }

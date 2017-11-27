@@ -316,6 +316,7 @@ namespace Aurora.Music.ViewModels
         {
             player = new Player();
             Current = this;
+            player.DownloadProgressChanged += Player_DownloadProgressChanged;
             player.StatusChanged += Player_StatusChanged;
             player.PositionUpdated += Player_PositionUpdated;
             var t = ThreadPool.RunAsync(async x =>
@@ -342,13 +343,28 @@ namespace Aurora.Music.ViewModels
             });
         }
 
+        private double downloadProgress;
+        public double DownloadProgress
+        {
+            get { return downloadProgress; }
+            set { SetProperty(ref downloadProgress, value); }
+        }
+
+        private async void Player_DownloadProgressChanged(object sender, DownloadProgressChangedArgs e)
+        {
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            {
+                DownloadProgress = 100 * e.Progress;
+            });
+        }
+
         public ObservableCollection<GenericMusicItemViewModel> SearchItems { get; set; } = new ObservableCollection<GenericMusicItemViewModel>();
 
         internal async Task Search(string text)
         {
             var result = await FileReader.Search(text);
 
-            if (MainPage.Current.CanAdd)
+            if (MainPage.Current.CanAdd && !result.IsNullorEmpty())
                 await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                 {
                     lock (MainPage.Current.Lockable)
@@ -373,11 +389,17 @@ namespace Aurora.Music.ViewModels
                 var webResult = await OnlineMusicExtension.ExecuteAsync(querys.ToArray());
                 if (webResult is IEnumerable<OnlineMusicItem> items)
                 {
+                    //TODO: use time stamp to remove async old result
+
                     if (MainPage.Current.CanAdd)
                         await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                         {
                             lock (MainPage.Current.Lockable)
                             {
+                                if (SearchItems.FirstOrDefault().Title.IsNullorEmpty())
+                                {
+                                    SearchItems.Clear();
+                                }
                                 foreach (var item in items)
                                 {
                                     SearchItems.Insert(0, new GenericMusicItemViewModel(item));

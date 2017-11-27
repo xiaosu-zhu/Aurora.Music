@@ -99,8 +99,6 @@ namespace Aurora.Music.Core.Models
             };
 
             // TODO: Optional Properties
-
-
             return song;
         }
 

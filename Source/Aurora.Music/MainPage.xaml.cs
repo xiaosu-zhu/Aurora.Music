@@ -24,6 +24,7 @@ using Windows.UI.Core;
 using Windows.UI;
 using Windows.Foundation;
 using Windows.UI.Xaml.Controls.Primitives;
+using System.Linq;
 
 // https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
 
@@ -390,10 +391,14 @@ namespace Aurora.Music
             }
             CanAdd = false;
             searchTask?.Cancel();
+
             var text = sender.Text;
+
+            text = text.Replace('\'', ' ');
+
             autoSuggestPopupPanel.Children[0].Visibility = Visibility.Visible;
             ((autoSuggestPopupPanel.Children[0] as Panel).Children[0] as ProgressRing).IsActive = true;
-            if (!Context.SearchItems.IsNullorEmpty() && !Context.SearchItems[0].Title.IsNullorEmpty())
+            if (Context.SearchItems.IsNullorEmpty() || !Context.SearchItems.FirstOrDefault().Title.IsNullorEmpty())
                 lock (Lockable)
                 {
                     Context.SearchItems.Clear();
@@ -405,6 +410,8 @@ namespace Aurora.Music
             searchTask = ThreadPool.RunAsync(async x =>
             {
                 CanAdd = true;
+
+
                 await Context.Search(text);
             });
         }

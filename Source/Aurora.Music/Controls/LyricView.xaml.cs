@@ -59,6 +59,8 @@ namespace Aurora.Music.Controls
 
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
+            MainPageViewModel.Current.GetPlayer().PositionUpdated += LyricView_PositionUpdated;
+            MainPageViewModel.Current.GetPlayer().StatusChanged += LyricView_StatusChanged;
             base.OnNavigatedTo(e);
             if (e.Parameter is SongViewModel m)
             {
@@ -83,19 +85,6 @@ namespace Aurora.Music.Controls
                     });
                 }
             }
-        }
-
-        private void Root_Loaded(object sender, RoutedEventArgs e)
-        {
-            var rootVisual = ElementCompositionPreview.GetElementVisual(BackDrop);
-            var _compositor = rootVisual.Compositor;
-            var brush = _compositor.CreateHostBackdropBrush();
-            var visual = _compositor.CreateSpriteVisual();
-            visual.Brush = brush;
-            visual.Size = new System.Numerics.Vector2((float)ActualWidth, (float)ActualHeight);
-            ElementCompositionPreview.SetElementChildVisual(BackDrop, visual);
-            MainPageViewModel.Current.GetPlayer().PositionUpdated += LyricView_PositionUpdated;
-            MainPageViewModel.Current.GetPlayer().StatusChanged += LyricView_StatusChanged;
         }
 
         private async void LyricView_StatusChanged(object sender, PlaybackEngine.StatusChangedArgs e)
@@ -133,6 +122,13 @@ namespace Aurora.Music.Controls
                   Lyric.Update(e.Current);
               });
             }
+        }
+
+        private void Page_Unloaded(object sender, RoutedEventArgs e)
+        {
+            MainPageViewModel.Current.GetPlayer().PositionUpdated -= LyricView_PositionUpdated;
+            MainPageViewModel.Current.GetPlayer().StatusChanged -= LyricView_StatusChanged;
+
         }
     }
 }

@@ -5,6 +5,7 @@ using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -58,6 +59,7 @@ namespace Aurora.Music.PlaybackEngine
         }
 
         public event EventHandler<StatusChangedArgs> StatusChanged;
+        public event EventHandler<DownloadProgressChangedArgs> DownloadProgressChanged;
 
         public Player()
         {
@@ -81,7 +83,16 @@ namespace Aurora.Music.PlaybackEngine
             mediaPlaybackList.CurrentItemChanged += MediaPlaybackList_CurrentItemChanged;
             mediaPlayer.PlaybackSession.PlaybackStateChanged += PlaybackSession_PlaybackStateChanged;
             //mediaPlayer.PlaybackSession.PositionChanged += PlaybackSession_PositionChangedAsync;
+            mediaPlayer.PlaybackSession.DownloadProgressChanged += PlaybackSession_DownloadProgressChanged;
             positionUpdateTimer = ThreadPoolTimer.CreatePeriodicTimer(UpdatTimerHandler, TimeSpan.FromMilliseconds(250), UpdateTimerDestoyed);
+        }
+
+        private void PlaybackSession_DownloadProgressChanged(MediaPlaybackSession sender, object args)
+        {
+            DownloadProgressChanged?.Invoke(this, new DownloadProgressChangedArgs()
+            {
+                Progress = sender.DownloadProgress
+            });
         }
 
         private void UpdateTimerDestoyed(ThreadPoolTimer timer)

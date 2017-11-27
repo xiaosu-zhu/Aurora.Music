@@ -44,12 +44,20 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref lyricHint, value); }
         }
 
+        private double downloadProgress;
+        public double DownloadProgress
+        {
+            get { return downloadProgress; }
+            set { SetProperty(ref downloadProgress, value); }
+        }
+
         public void Init(SongViewModel song)
         {
             Song = song;
             CurrentArtwork = song.PicturePath.IsNullorEmpty() ? null : new Uri(song.PicturePath);
             lastUriPath = song.PicturePath.IsNullorEmpty() ? null : song.PicturePath;
             IsPlaying = player.IsPlaying;
+            DownloadProgress = MainPageViewModel.Current.DownloadProgress;
 
             var t = ThreadPool.RunAsync(async x =>
             {
@@ -157,6 +165,15 @@ namespace Aurora.Music.ViewModels
             player = MainPageViewModel.Current.GetPlayer();
             player.StatusChanged += Player_StatusChanged;
             player.PositionUpdated += Player_PositionUpdated;
+            player.DownloadProgressChanged += Player_DownloadProgressChanged;
+        }
+
+        private async void Player_DownloadProgressChanged(object sender, DownloadProgressChangedArgs e)
+        {
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
+            {
+                DownloadProgress = 100 * e.Progress;
+            });
         }
 
         public string TimeSpanFormat(TimeSpan t)

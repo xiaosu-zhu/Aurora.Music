@@ -1005,6 +1005,8 @@
                             </ToggleButton.Content>
                         </ToggleButton>
                     </StackPanel>
+                    <ProgressBar Background="{x:Null}" Foreground="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="5" 
+                                 Value="{x:Bind Context.DownloadProgress, Mode=OneWay}"/>
                     <ProgressBar Background="{x:Null}" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="5" 
                                  Value="{x:Bind Context.PositionToValue(Context.CurrentPosition, Context.TotalDuration), Mode=OneWay}"/>
                 </Grid>

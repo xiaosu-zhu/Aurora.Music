@@ -10,6 +10,7 @@ using Aurora.Shared.Helpers;
 using System.Collections.Generic;
 using Aurora.Music.Core.Storage;
 using Windows.UI;
+using Windows.System.Threading;
 
 namespace Aurora.Music.Core.Models
 {
@@ -43,6 +44,7 @@ namespace Aurora.Music.Core.Models
             IDs = new int[] { s.ID };
             PicturePath = s.PicturePath;
         }
+
         internal GenericMusicItem(ALBUM s)
         {
             InnerType = MediaType.Album;
@@ -60,6 +62,19 @@ namespace Aurora.Music.Core.Models
             var s1 = songIDs.OrderBy(a => a.Track);
             s1 = s1.OrderBy(a => a.Disc);
             IDs = s1.Select(b => b.ID).ToArray();
+
+            var t = ThreadPool.RunAsync(async work =>
+            {
+                s.Songs = string.Join('|', songIDs.Select(x => x.ID.ToString()));
+                if (s.Songs.IsNullorEmpty())
+                {
+                    await SQLOperator.Current().RemoveAlbumAsync(s.ID);
+                }
+                else
+                {
+                    await SQLOperator.Current().UpdateAlbumAsync(s);
+                }
+            });
 
             PicturePath = s.PicturePath;
         }
@@ -80,6 +95,20 @@ namespace Aurora.Music.Core.Models
             var s1 = songIDs.OrderBy(a => a.Track);
             s1 = s1.OrderBy(a => a.Disc);
             IDs = s1.Select(b => b.ID).ToArray();
+
+
+            var t = ThreadPool.RunAsync(async work =>
+            {
+                s.Songs = songIDs.Select(x => x.ID).ToArray();
+                if (s.Songs.IsNullorEmpty())
+                {
+                    await SQLOperator.Current().RemoveAlbumAsync(s.ID);
+                }
+                else
+                {
+                    await SQLOperator.Current().UpdateAlbumAsync(new ALBUM(s));
+                }
+            });
 
             PicturePath = s.PicturePath;
         }
@@ -296,6 +325,11 @@ namespace Aurora.Music.Core.Models
 
     public class Album
     {
+
+        public Album(int iD)
+        {
+            ID = iD;
+        }
 
         internal Album(Storage.ALBUM album)
         {
