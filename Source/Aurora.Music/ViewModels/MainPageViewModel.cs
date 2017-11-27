@@ -348,17 +348,19 @@ namespace Aurora.Music.ViewModels
         {
             var result = await FileReader.Search(text);
 
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
-            {
-                lock (MainPage.Current.Lockable)
+            if (MainPage.Current.CanAdd)
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                 {
-                    SearchItems.Clear();
-                    foreach (var item in result)
+                    lock (MainPage.Current.Lockable)
                     {
-                        SearchItems.Add(new GenericMusicItemViewModel(item));
+                        SearchItems.Clear();
+                        foreach (var item in result)
+                        {
+                            SearchItems.Add(new GenericMusicItemViewModel(item));
+                        }
+                        MainPage.Current.HideAutoSuggestPopup();
                     }
-                }
-            });
+                });
 
             if (OnlineMusicExtension != null)
             {
@@ -371,17 +373,18 @@ namespace Aurora.Music.ViewModels
                 var webResult = await OnlineMusicExtension.ExecuteAsync(querys.ToArray());
                 if (webResult is IEnumerable<OnlineMusicItem> items)
                 {
-                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
-                    {
-                        lock (MainPage.Current.Lockable)
+                    if (MainPage.Current.CanAdd)
+                        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                         {
-                            foreach (var item in items)
+                            lock (MainPage.Current.Lockable)
                             {
-                                SearchItems.Insert(0, new GenericMusicItemViewModel(item));
+                                foreach (var item in items)
+                                {
+                                    SearchItems.Insert(0, new GenericMusicItemViewModel(item));
+                                }
                                 MainPage.Current.HideAutoSuggestPopup();
                             }
-                        }
-                    });
+                        });
                 }
             }
         }

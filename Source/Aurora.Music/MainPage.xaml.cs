@@ -77,6 +77,7 @@ namespace Aurora.Music
         }
 
         public bool SubPageCanGoBack { get => MainFrame.Visibility == Visibility.Visible; }
+        public bool CanAdd { get; private set; }
 
         private void Main_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
@@ -387,23 +388,23 @@ namespace Aurora.Music
                 Context.SearchItems.Clear();
                 return;
             }
+            CanAdd = false;
             searchTask?.Cancel();
             var text = sender.Text;
-            if (Context.OnlineMusicExtension != null)
-            {
-                autoSuggestPopupPanel.Children[0].Visibility = Visibility.Visible;
-                ((autoSuggestPopupPanel.Children[0] as Panel).Children[0] as ProgressRing).IsActive = true;
-            }
-            lock (Lockable)
-            {
-                Context.SearchItems.Clear();
-                for (int i = 0; i < 5; i++)
+            autoSuggestPopupPanel.Children[0].Visibility = Visibility.Visible;
+            ((autoSuggestPopupPanel.Children[0] as Panel).Children[0] as ProgressRing).IsActive = true;
+            if (!Context.SearchItems.IsNullorEmpty() && !Context.SearchItems[0].Title.IsNullorEmpty())
+                lock (Lockable)
                 {
-                    Context.SearchItems.Add(new GenericMusicItemViewModel());
+                    Context.SearchItems.Clear();
+                    for (int i = 0; i < 5; i++)
+                    {
+                        Context.SearchItems.Add(new GenericMusicItemViewModel());
+                    }
                 }
-            }
             searchTask = ThreadPool.RunAsync(async x =>
             {
+                CanAdd = true;
                 await Context.Search(text);
             });
         }

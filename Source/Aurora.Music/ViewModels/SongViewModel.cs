@@ -16,6 +16,8 @@ namespace Aurora.Music.ViewModels
 
         }
 
+        public bool IsOnline { get; set; }
+
         public string GetAddtionalDesc()
         {
             var descs = new List<string>();
@@ -43,6 +45,10 @@ namespace Aurora.Music.ViewModels
 
         private string GetFileType()
         {
+            if (IsOnline)
+            {
+                return "Online Content";
+            }
             var ext = FilePath.Split('.').Last().ToLower();
             switch (ext)
             {
@@ -65,6 +71,11 @@ namespace Aurora.Music.ViewModels
         public SongViewModel(Song song)
         {
             ID = song.ID;
+            IsOnline = song.IsOnline;
+            if (IsOnline)
+            {
+                FilePath = song.OnlineUri.AbsolutePath;
+            }
             Duration = song.Duration;
             BitRate = song.BitRate;
             FilePath = song.FilePath;

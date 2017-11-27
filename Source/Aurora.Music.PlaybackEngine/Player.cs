@@ -34,6 +34,7 @@ namespace Aurora.Music.PlaybackEngine
 
         private bool? isPlaying;
         private bool newComing;
+        private ThreadPoolTimer positionUpdateTimer;
 
         public bool? IsPlaying { get => isPlaying; }
 
@@ -79,7 +80,26 @@ namespace Aurora.Music.PlaybackEngine
             mediaPlaybackList = new MediaPlaybackList();
             mediaPlaybackList.CurrentItemChanged += MediaPlaybackList_CurrentItemChanged;
             mediaPlayer.PlaybackSession.PlaybackStateChanged += PlaybackSession_PlaybackStateChanged;
-            mediaPlayer.PlaybackSession.PositionChanged += PlaybackSession_PositionChangedAsync;
+            //mediaPlayer.PlaybackSession.PositionChanged += PlaybackSession_PositionChangedAsync;
+            positionUpdateTimer = ThreadPoolTimer.CreatePeriodicTimer(UpdatTimerHandler, TimeSpan.FromMilliseconds(250), UpdateTimerDestoyed);
+        }
+
+        private void UpdateTimerDestoyed(ThreadPoolTimer timer)
+        {
+            timer.Cancel();
+            timer = null;
+            positionUpdateTimer?.Cancel();
+            positionUpdateTimer = null;
+            positionUpdateTimer = ThreadPoolTimer.CreatePeriodicTimer(UpdatTimerHandler, TimeSpan.FromMilliseconds(250), UpdateTimerDestoyed);
+        }
+
+        private void UpdatTimerHandler(ThreadPoolTimer timer)
+        {
+            if (mediaPlayer.PlaybackSession.PlaybackState == MediaPlaybackState.Playing)
+            {
+                PlaybackSession_PositionChangedAsync(mediaPlayer.PlaybackSession, null);
+
+            }
         }
 
         private void PlaybackSession_PositionChangedAsync(MediaPlaybackSession sender, object args)
@@ -87,43 +107,26 @@ namespace Aurora.Music.PlaybackEngine
             // TODO: online music can't fire
             lock (lockable)
             {
-                if (mediaPlaybackList.CurrentItem == null)
+                var updatedArgs = new PositionUpdatedArgs
                 {
-                    PositionUpdated?.Invoke(this, new PositionUpdatedArgs
+                    Current = sender.Position,
+                    Total = mediaPlayer.PlaybackSession.NaturalDuration
+                };
+                PositionUpdated?.Invoke(this, updatedArgs);
+                var id = (int)mediaPlaybackList.CurrentItem.Source.CustomProperties[Consts.ID];
+                if (id != default(int) && _songCountID != id && updatedArgs.Current.TotalSeconds / updatedArgs.Total.TotalSeconds > 0.5)
+                {
+                    _songCountID = id;
+                    var t = ThreadPool.RunAsync(async (x) =>
                     {
-                        Current = default(TimeSpan),
-                        Total = default(TimeSpan)
+                        var opr = SQLOperator.Current();
+                        await FileReader.PlayStaticAdd(id, 0, 1);
                     });
-                }
-                else
-                {
-                    try
-                    {
-                        var id = (int)mediaPlaybackList.CurrentItem.Source.CustomProperties[Consts.ID];
-                        var updatedArgs = new PositionUpdatedArgs
-                        {
-                            Current = sender.Position,
-                            Total = (TimeSpan)mediaPlaybackList.CurrentItem.Source.CustomProperties[Consts.Duration]
-                        };
-                        PositionUpdated?.Invoke(this, updatedArgs);
-                        if (id != default(int) && _songCountID != id && updatedArgs.Current.TotalSeconds / updatedArgs.Total.TotalSeconds > 0.5)
-                        {
-                            _songCountID = id;
-                            var opr = SQLOperator.Current();
-                            AsyncHelper.RunSync(async () => await FileReader.PlayStaticAdd(id, 0, 1));
-                        }
-                    }
-                    catch (NullReferenceException)
-                    {
-                        PositionUpdated?.Invoke(this, new PositionUpdatedArgs
-                        {
-                            Current = sender.Position,
-                            Total = default(TimeSpan)
-                        });
-                    }
                 }
             }
         }
+
+
 
         private void PlaybackSession_PlaybackStateChanged(MediaPlaybackSession sender, object args)
         {
@@ -211,15 +214,24 @@ namespace Aurora.Music.PlaybackEngine
                 else
                 {
                     /// **Local files can only create from <see cref="StorageFile"/>**
-                    StorageFile file = await StorageFile.GetFileFromPathAsync(item.FilePath);
 
-                    builtin = await GetBuiltInArtworkAsync(file.Name, item.FilePath);
+                    try
+                    {
+                        StorageFile file = await StorageFile.GetFileFromPathAsync(item.FilePath);
 
-                    mediaSource = MediaSource.CreateFromStorageFile(file);
+                        builtin = await GetBuiltInArtworkAsync(file.Name, item.FilePath);
+
+                        mediaSource = MediaSource.CreateFromStorageFile(file);
+                    }
+                    catch (FileNotFoundException)
+                    {
+                        item.IsEmpty = true;
+                        throw;
+                    }
                 }
 
                 mediaSource.CustomProperties[Consts.ID] = item.ID;
-                mediaSource.CustomProperties[Consts.Duration] = item.Duration;
+                mediaSource.CustomProperties[Consts.Duration] = mediaSource.Duration ?? default(TimeSpan);
                 mediaSource.CustomProperties[Consts.Artwork] = builtin.IsNullorEmpty() ? null : new Uri(builtin);
                 item.PicturePath = builtin.IsNullorEmpty() ? item.PicturePath : builtin;
                 mediaSource.CustomProperties[Consts.SONG] = item;
@@ -276,7 +288,7 @@ namespace Aurora.Music.PlaybackEngine
                 }
 
                 mediaSource.CustomProperties[Consts.ID] = item.ID;
-                mediaSource.CustomProperties[Consts.Duration] = item.Duration;
+                mediaSource.CustomProperties[Consts.Duration] = mediaSource.Duration ?? default(TimeSpan);
                 mediaSource.CustomProperties[Consts.Artwork] = builtin.IsNullorEmpty() ? null : new Uri(builtin);
                 item.PicturePath = builtin.IsNullorEmpty() ? item.PicturePath : builtin;
                 mediaSource.CustomProperties[Consts.SONG] = item;
@@ -322,16 +334,25 @@ namespace Aurora.Music.PlaybackEngine
                     }
                     else
                     {
-                        /// **Local files can only create from <see cref="StorageFile"/>**
-                        StorageFile file = await StorageFile.GetFileFromPathAsync(item.FilePath);
+                        try
+                        {
+                            /// **Local files can only create from <see cref="StorageFile"/>**
+                            StorageFile file = await StorageFile.GetFileFromPathAsync(item.FilePath);
 
-                        builtin = await GetBuiltInArtworkAsync(file.Name, item.FilePath);
+                            builtin = await GetBuiltInArtworkAsync(file.Name, item.FilePath);
 
-                        mediaSource = MediaSource.CreateFromStorageFile(file);
+                            mediaSource = MediaSource.CreateFromStorageFile(file);
+                        }
+
+                        catch (FileNotFoundException)
+                        {
+                            item.IsEmpty = true;
+                            throw;
+                        }
                     }
 
                     mediaSource.CustomProperties[Consts.ID] = item.ID;
-                    mediaSource.CustomProperties[Consts.Duration] = item.Duration;
+                    mediaSource.CustomProperties[Consts.Duration] = mediaSource.Duration ?? default(TimeSpan);
                     mediaSource.CustomProperties[Consts.Artwork] = builtin.IsNullorEmpty() ? null : new Uri(builtin);
                     item.PicturePath = builtin.IsNullorEmpty() ? item.PicturePath : builtin;
                     mediaSource.CustomProperties[Consts.SONG] = item;
@@ -374,16 +395,25 @@ namespace Aurora.Music.PlaybackEngine
                     }
                     else
                     {
-                        /// **Local files can only create from <see cref="StorageFile"/>**
-                        StorageFile file = await StorageFile.GetFileFromPathAsync(item.FilePath);
+                        try
+                        {
+                            /// **Local files can only create from <see cref="StorageFile"/>**
+                            StorageFile file = await StorageFile.GetFileFromPathAsync(item.FilePath);
 
-                        builtin = await GetBuiltInArtworkAsync(file.Name, item.FilePath);
+                            builtin = await GetBuiltInArtworkAsync(file.Name, item.FilePath);
 
-                        mediaSource = MediaSource.CreateFromStorageFile(file);
+                            mediaSource = MediaSource.CreateFromStorageFile(file);
+                        }
+
+                        catch (FileNotFoundException)
+                        {
+                            item.IsEmpty = true;
+                            throw;
+                        }
                     }
 
                     mediaSource.CustomProperties[Consts.ID] = item.ID;
-                    mediaSource.CustomProperties[Consts.Duration] = item.Duration;
+                    mediaSource.CustomProperties[Consts.Duration] = mediaSource.Duration ?? default(TimeSpan);
                     mediaSource.CustomProperties[Consts.Artwork] = builtin.IsNullorEmpty() ? null : new Uri(builtin);
                     item.PicturePath = builtin.IsNullorEmpty() ? item.PicturePath : builtin;
                     mediaSource.CustomProperties[Consts.SONG] = item;
@@ -629,7 +659,10 @@ namespace Aurora.Music.PlaybackEngine
             while (mediaPlaybackList.CurrentItem == null)
             {
                 //mediaPlaybackList.MoveNext();
-                await Task.Delay(100);
+                i++;
+                if (i > 10)
+                    throw new TimeoutException("Media player received null source");
+                await Task.Delay(500);
             }
 
             mediaPlayer.Source = mediaPlaybackList;
