@@ -58,7 +58,14 @@ namespace Aurora.Shared.Helpers
             return null;
         }
 
-        public async static Task ScrollToIndex(this ListViewBase listViewBase, int index)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="listViewBase"></param>
+        /// <param name="index"></param>
+        /// <param name="offset">positivie down, negative up</param>
+        /// <returns></returns>
+        public async static Task ScrollToIndex(this ListViewBase listViewBase, int index, double offset)
         {
             try
             {
@@ -87,7 +94,7 @@ namespace Aurora.Shared.Helpers
 
                 // calculate the position object in order to know how much to scroll to
                 var transform = selectorItem.TransformToVisual((UIElement)scrollViewer.Content);
-                var position = transform.TransformPoint(new Point(0, 0 - listViewBase.ActualHeight / 2));
+                var position = transform.TransformPoint(new Point(0, 0 - offset));
 
                 // when virtualized, scroll back to previous position without animation
                 if (isVirtualizing)

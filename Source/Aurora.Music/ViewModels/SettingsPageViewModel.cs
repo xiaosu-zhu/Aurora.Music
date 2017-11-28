@@ -1,4 +1,5 @@
 ﻿using Aurora.Music.Core.Models;
+using Aurora.Music.PlaybackEngine;
 using Aurora.Shared.Helpers;
 using Aurora.Shared.MVVM;
 using System;
@@ -27,7 +28,7 @@ namespace Aurora.Music.ViewModels
 
                 settings.OutputDeviceID = DevicList[value].ID;
                 settings.Save();
-                MainPageViewModel.Current.GetPlayer().ChangeAudioEndPoint(settings.OutputDeviceID);
+                Player.Current.ChangeAudioEndPoint(settings.OutputDeviceID);
             }
         }
 
@@ -39,7 +40,7 @@ namespace Aurora.Music.ViewModels
             {
                 if (!value.AlmostEqualTo(playerVolume))
                 {
-                    MainPageViewModel.Current.GetPlayer().ChangeVolume(value);
+                    Player.Current.ChangeVolume(value);
                     settings.PlayerVolume = value;
                     settings.Save();
                 }

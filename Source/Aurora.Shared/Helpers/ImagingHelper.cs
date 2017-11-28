@@ -9,6 +9,7 @@ using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.System.UserProfile;
 using Windows.UI;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace Aurora.Shared.Helpers
@@ -246,47 +247,72 @@ namespace Aurora.Shared.Helpers
 
         }
 
-        public static async Task<Color> GetMainColor(Uri urisource)
-
+        public static async Task<Color> GetMainColor(Uri path)
         {
-
-            WriteableBitmap buffer = await BitmapFactory.FromContent(urisource);
-
-            WriteableBitmap scaledbmp = ScaleBitmapDown(buffer);
-
-            return await FromBitmap(scaledbmp);
-
-        }
-
-        public static async Task<Color> GetMainColor(string path)
-        {
-            //get the file
-            var file = await StorageFile.GetFileFromPathAsync(path);
-
-            using (var stream = await file.OpenAsync(FileAccessMode.Read))
+            if (path == null)
             {
-                //Create a decoder for the image
-                var decoder = await BitmapDecoder.CreateAsync(stream);
-
-                ////Create a transform to get a 1x1 image
-                //var myTransform = new BitmapTransform { ScaledHeight = 1, ScaledWidth = 1 };
-
-                ////Get the pixel provider
-                //var pixels = await decoder.GetPixelDataAsync(
-                //    BitmapPixelFormat.Rgba8,
-                //    BitmapAlphaMode.Ignore,
-                //    myTransform,
-                //    ExifOrientationMode.IgnoreExifOrientation,
-                //    ColorManagementMode.DoNotColorManage);
-
-                ////Get the bytes of the 1x1 scaled image
-                //var bytes = pixels.DetachPixelData();
-
-                return FromColorThief((await colorThief.GetColor(decoder, 6, false)).Color);
-
-                //read the color 
-                //return Color.FromArgb(255, bytes[0], bytes[1], bytes[2]);
+                return new UISettings().GetColorValue(UIColorType.Accent);
             }
+            //get the file
+            if (path.IsFile)
+            {
+                var file = await StorageFile.GetFileFromPathAsync(path.LocalPath);
+                using (IRandomAccessStream stream = await file.OpenReadAsync())
+                {
+                    //Create a decoder for the image
+                    var decoder = await BitmapDecoder.CreateAsync(stream);
+
+                    ////Create a transform to get a 1x1 image
+                    //var myTransform = new BitmapTransform { ScaledHeight = 1, ScaledWidth = 1 };
+
+                    ////Get the pixel provider
+                    //var pixels = await decoder.GetPixelDataAsync(
+                    //    BitmapPixelFormat.Rgba8,
+                    //    BitmapAlphaMode.Ignore,
+                    //    myTransform,
+                    //    ExifOrientationMode.IgnoreExifOrientation,
+                    //    ColorManagementMode.DoNotColorManage);
+
+                    ////Get the bytes of the 1x1 scaled image
+                    //var bytes = pixels.DetachPixelData();
+
+                    return FromColorThief((await colorThief.GetColor(decoder, 4)).Color);
+
+                    //read the color 
+                    //return Color.FromArgb(255, bytes[0], bytes[1], bytes[2]);
+                }
+            }
+            else
+            {
+                RandomAccessStreamReference random = RandomAccessStreamReference.CreateFromUri(path);
+                using (IRandomAccessStream stream = await random.OpenReadAsync())
+                {
+                    //Create a decoder for the image
+                    var decoder = await BitmapDecoder.CreateAsync(stream);
+
+                    ////Create a transform to get a 1x1 image
+                    //var myTransform = new BitmapTransform { ScaledHeight = 1, ScaledWidth = 1 };
+
+                    ////Get the pixel provider
+                    //var pixels = await decoder.GetPixelDataAsync(
+                    //    BitmapPixelFormat.Rgba8,
+                    //    BitmapAlphaMode.Ignore,
+                    //    myTransform,
+                    //    ExifOrientationMode.IgnoreExifOrientation,
+                    //    ColorManagementMode.DoNotColorManage);
+
+                    ////Get the bytes of the 1x1 scaled image
+                    //var bytes = pixels.DetachPixelData();
+
+                    return FromColorThief((await colorThief.GetColor(decoder, 4)).Color);
+
+                    //read the color 
+                    //return Color.FromArgb(255, bytes[0], bytes[1], bytes[2]);
+                }
+            }
+
+
+
         }
 
         public static Color FromColorThief(ColorThiefDotNet.Color d)

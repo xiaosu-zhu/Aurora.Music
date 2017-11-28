@@ -12,15 +12,19 @@ using System.Linq;
 using Windows.ApplicationModel.Core;
 using Windows.Media.Playback;
 using Windows.System.Threading;
+using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace Aurora.Music.ViewModels
 {
     class NowPlayingPageViewModel : ViewModelBase, IDisposable
     {
+        internal event EventHandler SongChanged;
+
         private Uri artwork;
         public Uri CurrentArtwork
         {
@@ -51,6 +55,13 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref downloadProgress, value); }
         }
 
+        private SolidColorBrush currentColorBrush;
+        public SolidColorBrush CurrentColorBrush
+        {
+            get { return currentColorBrush; }
+            set { SetProperty(ref currentColorBrush, value); }
+        }
+
         public void Init(SongViewModel song)
         {
             Song = song;
@@ -58,6 +69,12 @@ namespace Aurora.Music.ViewModels
             lastUriPath = song.PicturePath.IsNullorEmpty() ? null : song.PicturePath;
             IsPlaying = player.IsPlaying;
             DownloadProgress = MainPageViewModel.Current.DownloadProgress;
+            SongChanged?.Invoke(song, EventArgs.Empty);
+
+            var dispa = CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, async () =>
+            {
+                CurrentColorBrush = new SolidColorBrush(await ImagingHelper.GetMainColor(CurrentArtwork));
+            });
 
             var t = ThreadPool.RunAsync(async x =>
             {
@@ -83,6 +100,57 @@ namespace Aurora.Music.ViewModels
                     });
                 }
             });
+        }
+
+
+
+        public static void ColorToHSV(System.Drawing.Color color, out double hue, out double saturation, out double value)
+        {
+            int max = Math.Max(color.R, Math.Max(color.G, color.B));
+            int min = Math.Min(color.R, Math.Min(color.G, color.B));
+
+            hue = color.GetHue();
+            saturation = (max == 0) ? 0 : 1d - (1d * min / max);
+            value = max / 255d;
+        }
+
+
+        public static Color ColorFromHSV(double hue, double saturation, double value)
+        {
+            int hi = Convert.ToInt32(Math.Floor(hue / 60)) % 6;
+            double f = hue / 60 - Math.Floor(hue / 60);
+
+            value = value * 255;
+            var v = Convert.ToByte(value);
+            var p = Convert.ToByte(value * (1 - saturation));
+            var q = Convert.ToByte(value * (1 - f * saturation));
+            var t = Convert.ToByte(value * (1 - (1 - f) * saturation));
+
+            if (hi == 0)
+                return Color.FromArgb(255, v, t, p);
+            else if (hi == 1)
+                return Color.FromArgb(255, q, v, p);
+            else if (hi == 2)
+                return Color.FromArgb(255, p, v, t);
+            else if (hi == 3)
+                return Color.FromArgb(255, p, q, v);
+            else if (hi == 4)
+                return Color.FromArgb(255, t, p, v);
+            else
+                return Color.FromArgb(255, v, p, q);
+        }
+
+        public SolidColorBrush AdjustBrightness(SolidColorBrush b, double d)
+        {
+            if (b == null)
+            {
+                return new SolidColorBrush();
+            }
+            System.Drawing.Color color = System.Drawing.Color.FromArgb(b.Color.R, b.Color.G, b.Color.B);
+            ColorToHSV(color, out var h, out var s, out var v);
+            v *= d;
+
+            return new SolidColorBrush(ColorFromHSV(h, s, v));
         }
 
         private Uri placeHolder = new Uri(Consts.NowPlaceholder);
@@ -162,7 +230,7 @@ namespace Aurora.Music.ViewModels
 
         public NowPlayingPageViewModel()
         {
-            player = MainPageViewModel.Current.GetPlayer();
+            player = Player.Current;
             player.StatusChanged += Player_StatusChanged;
             player.PositionUpdated += Player_PositionUpdated;
             player.DownloadProgressChanged += Player_DownloadProgressChanged;
@@ -355,12 +423,14 @@ namespace Aurora.Music.ViewModels
 
         private async void Player_StatusChanged(object sender, StatusChangedArgs e)
         {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
             {
                 IsPlaying = player.IsPlaying;
                 if (e.CurrentSong != null)
                 {
                     Song = new SongViewModel(e.CurrentSong);
+                    SongChanged?.Invoke(Song, EventArgs.Empty);
+
                     if (!Song.PicturePath.IsNullorEmpty())
                     {
                         if (lastUriPath == Song.PicturePath)
@@ -370,12 +440,14 @@ namespace Aurora.Music.ViewModels
                         else
                         {
                             CurrentArtwork = Song.PicturePath == Consts.BlackPlaceholder ? null : new Uri(Song.PicturePath);
+                            CurrentColorBrush = new SolidColorBrush(await ImagingHelper.GetMainColor(CurrentArtwork));
                             lastUriPath = Song.PicturePath == Consts.BlackPlaceholder ? null : Song.PicturePath;
                         }
                     }
                     else
                     {
                         CurrentArtwork = null;
+                        CurrentColorBrush = new SolidColorBrush(new UISettings().GetColorValue(UIColorType.Accent));
                         lastUriPath = null;
                     }
                     if (e.Items is IList<Song> l)

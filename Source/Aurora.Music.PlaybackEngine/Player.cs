@@ -39,6 +39,25 @@ namespace Aurora.Music.PlaybackEngine
 
         public bool? IsPlaying { get => isPlaying; }
 
+
+        static Player current;
+        public static IPlayer Current
+        {
+            get
+            {
+                if (current != null && current.mediaPlayer != null)
+                {
+                    return current;
+                }
+                else
+                {
+                    var p = new Player();
+                    current = p;
+                    return p;
+                }
+            }
+        }
+
         public event EventHandler<PositionUpdatedArgs> PositionUpdated;
 
         public async void ChangeAudioEndPoint(string outputDeviceID)
@@ -124,15 +143,22 @@ namespace Aurora.Music.PlaybackEngine
                     Total = mediaPlayer.PlaybackSession.NaturalDuration
                 };
                 PositionUpdated?.Invoke(this, updatedArgs);
-                var id = (int)mediaPlaybackList.CurrentItem.Source.CustomProperties[Consts.ID];
-                if (id != default(int) && _songCountID != id && updatedArgs.Current.TotalSeconds / updatedArgs.Total.TotalSeconds > 0.5)
+                try
                 {
-                    _songCountID = id;
-                    var t = ThreadPool.RunAsync(async (x) =>
+                    var id = (int)mediaPlaybackList.CurrentItem?.Source.CustomProperties[Consts.ID];
+                    if (id != default(int) && _songCountID != id && updatedArgs.Current.TotalSeconds / updatedArgs.Total.TotalSeconds > 0.5)
                     {
-                        var opr = SQLOperator.Current();
-                        await FileReader.PlayStaticAdd(id, 0, 1);
-                    });
+                        _songCountID = id;
+                        var t = ThreadPool.RunAsync(async (x) =>
+                        {
+                            var opr = SQLOperator.Current();
+                            await FileReader.PlayStaticAdd(id, 0, 1);
+                        });
+                    }
+                }
+                catch (Exception)
+                {
+
                 }
             }
         }

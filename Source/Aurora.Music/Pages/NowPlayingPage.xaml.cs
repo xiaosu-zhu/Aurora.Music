@@ -1,5 +1,7 @@
 ﻿using Aurora.Music.Core;
+using Aurora.Music.Core.Models;
 using Aurora.Music.ViewModels;
+using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
 using System;
 using System.Collections.Generic;
@@ -32,6 +34,68 @@ namespace Aurora.Music.Pages
         public NowPlayingPage()
         {
             this.InitializeComponent();
+            Context.SongChanged += Context_SongChanged;
+        }
+
+        private async void Context_SongChanged(object sender, EventArgs e)
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+            {
+                foreach (var item in MoreMenu.Items)
+                {
+                    if (item is MenuFlyoutSeparator)
+                    {
+                        break;
+                    }
+                    MoreMenu.Items.Remove(item);
+                }
+                var s = sender as SongViewModel;
+                if (!s.Performers.IsNullorEmpty())
+                {
+                    if (s.Performers.Length == 1)
+                    {
+                        MoreMenu.Items.Insert(0, new MenuFlyoutItem()
+                        {
+                            Text = $"{s.Performers[0]}",
+                            Icon = new FontIcon()
+                            {
+                                Glyph = "\uE136"
+                            }
+                        });
+                    }
+                    else
+                    {
+                        var sub = new MenuFlyoutSubItem()
+                        {
+                            Text = $"Performers:",
+                            Icon = new FontIcon()
+                            {
+                                Glyph = "\uE136"
+                            }
+                        };
+                        foreach (var item in s.Performers)
+                        {
+                            sub.Items.Add(new MenuFlyoutItem()
+                            {
+                                Text = item
+                            });
+                        }
+                        MoreMenu.Items.Insert(0, sub);
+                    }
+                }
+
+                if (!s.Album.IsNullorEmpty())
+                {
+                    MoreMenu.Items.Insert(0, new MenuFlyoutItem()
+                    {
+                        Text = $"{s.Album}",
+                        Icon = new FontIcon()
+                        {
+                            Glyph = "\uE93C"
+                        }
+                    });
+                }
+            });
         }
 
         private void NowPlayingPage_BackRequested(object sender, BackRequestedEventArgs e)
@@ -94,7 +158,7 @@ namespace Aurora.Music.Pages
             if (Context.Lyric.Contents.Count > 0 && (sender as ListView).SelectedIndex >= 0)
                 try
                 {
-                    await (sender as ListView).ScrollToIndex((sender as ListView).SelectedIndex);
+                    await (sender as ListView).ScrollToIndex((sender as ListView).SelectedIndex, (sender as ListView).ActualHeight / 2 - 48);
                 }
                 catch (Exception)
                 {

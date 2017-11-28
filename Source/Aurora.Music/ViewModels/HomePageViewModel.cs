@@ -64,7 +64,7 @@ namespace Aurora.Music.ViewModels
                         }),
                         Title = item.Key,
                         Artwork = pic.IsNullorEmpty() ? null : new Uri(pic),
-                        MainColor = pic.IsNullorEmpty() ? Palette.Blue : await ImagingHelper.GetMainColor(pic)
+                        MainColor = pic.IsNullorEmpty() ? Palette.Blue : await ImagingHelper.GetMainColor(pic.IsNullorEmpty() ? null : new Uri(pic))
                     });
                 }
             });

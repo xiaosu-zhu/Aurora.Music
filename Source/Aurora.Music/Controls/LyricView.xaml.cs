@@ -1,4 +1,5 @@
 ﻿using Aurora.Music.Core.Models;
+using Aurora.Music.PlaybackEngine;
 using Aurora.Music.ViewModels;
 using Aurora.Shared.Extensions;
 using System;
@@ -59,8 +60,8 @@ namespace Aurora.Music.Controls
 
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
-            MainPageViewModel.Current.GetPlayer().PositionUpdated += LyricView_PositionUpdated;
-            MainPageViewModel.Current.GetPlayer().StatusChanged += LyricView_StatusChanged;
+            Player.Current.PositionUpdated += LyricView_PositionUpdated;
+            Player.Current.StatusChanged += LyricView_StatusChanged;
             base.OnNavigatedTo(e);
             if (e.Parameter is SongViewModel m)
             {
@@ -126,9 +127,8 @@ namespace Aurora.Music.Controls
 
         private void Page_Unloaded(object sender, RoutedEventArgs e)
         {
-            MainPageViewModel.Current.GetPlayer().PositionUpdated -= LyricView_PositionUpdated;
-            MainPageViewModel.Current.GetPlayer().StatusChanged -= LyricView_StatusChanged;
-
+            Player.Current.PositionUpdated -= LyricView_PositionUpdated;
+            Player.Current.StatusChanged -= LyricView_StatusChanged;
         }
     }
 }

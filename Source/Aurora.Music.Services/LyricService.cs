@@ -131,7 +131,7 @@ namespace Aurora.Music.Services
                                     ["album"] = song.DataItems[0].Album.Name,
                                     ["performers"] = song.DataItems[0].SingerItems.Select(x => x.Name).ToArray(),
                                     ["year"] = t.Year,
-                                    ["bit_rate"] = setting.GetPreferredBitRate()
+                                    ["bit_rate"] = setting.GetPreferredBitRate() * 1000
                                 };
                                 songRes["album_artists"] = songRes["performers"];
                                 var picture = OnlineMusicSearcher.GeneratePicturePathByID(song.DataItems[0].Album.Mid);

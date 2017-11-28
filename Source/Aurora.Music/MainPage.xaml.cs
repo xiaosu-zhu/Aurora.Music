@@ -596,5 +596,13 @@ namespace Aurora.Music
             var up = box.GetFirst<Popup>();
             autoSuggestPopupPanel = up.Child as StackPanel;
         }
+
+        private void Page_Unloaded(object sender, RoutedEventArgs e)
+        {
+            var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
+            coreTitleBar.LayoutMetricsChanged -= CoreTitleBar_LayoutMetricsChanged;
+            coreTitleBar.IsVisibleChanged -= CoreTitleBar_IsVisibleChanged;
+            GC.Collect();
+        }
     }
 }

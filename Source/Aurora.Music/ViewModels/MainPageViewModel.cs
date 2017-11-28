@@ -57,15 +57,6 @@ namespace Aurora.Music.ViewModels
             },
         };
 
-        internal IPlayer GetPlayer()
-        {
-            if (player == null)
-            {
-                player = new Player();
-            }
-            return player;
-        }
-
         public ObservableCollection<SongViewModel> NowPlayingList { get; set; } = new ObservableCollection<SongViewModel>();
 
         private IPlayer player;
@@ -314,7 +305,7 @@ namespace Aurora.Music.ViewModels
 
         public MainPageViewModel()
         {
-            player = new Player();
+            player = Player.Current;
             Current = this;
             player.DownloadProgressChanged += Player_DownloadProgressChanged;
             player.StatusChanged += Player_StatusChanged;
@@ -483,9 +474,8 @@ namespace Aurora.Music.ViewModels
 
         public void Dispose()
         {
-            player.StatusChanged -= Player_StatusChanged;
-            player.PositionUpdated -= Player_PositionUpdated;
-            ((IDisposable)player).Dispose();
+            //player.StatusChanged -= Player_StatusChanged;
+            //player.PositionUpdated -= Player_PositionUpdated;
         }
 
         internal async Task InstantPlay(IList<Song> songs, int startIndex = 0)
