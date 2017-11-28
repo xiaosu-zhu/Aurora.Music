@@ -41,59 +41,50 @@ namespace Aurora.Music.Pages
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
             {
-                foreach (var item in MoreMenu.Items)
+                lock (this)
                 {
-                    if (item is MenuFlyoutSeparator)
+                    var s = sender as SongViewModel;
+                    if (!s.Performers.IsNullorEmpty())
                     {
-                        break;
-                    }
-                    MoreMenu.Items.Remove(item);
-                }
-                var s = sender as SongViewModel;
-                if (!s.Performers.IsNullorEmpty())
-                {
-                    if (s.Performers.Length == 1)
-                    {
-                        MoreMenu.Items.Insert(0, new MenuFlyoutItem()
+                        if (MoreMenu.Items[1] is MenuFlyoutSeparator)
                         {
-                            Text = $"{s.Performers[0]}",
-                            Icon = new FontIcon()
-                            {
-                                Glyph = "\uE136"
-                            }
-                        });
-                    }
-                    else
-                    {
-                        var sub = new MenuFlyoutSubItem()
+
+                        }
+                        else
                         {
-                            Text = $"Performers:",
-                            Icon = new FontIcon()
-                            {
-                                Glyph = "\uE136"
-                            }
-                        };
-                        foreach (var item in s.Performers)
+                            MoreMenu.Items.RemoveAt(1);
+                        }
+                        if (s.Performers.Length == 1)
                         {
-                            sub.Items.Add(new MenuFlyoutItem()
+                            MoreMenu.Items.Insert(1, new MenuFlyoutItem()
                             {
-                                Text = item
+                                Text = $"{s.Performers[0]}",
+                                Icon = new FontIcon()
+                                {
+                                    Glyph = "\uE136"
+                                }
                             });
                         }
-                        MoreMenu.Items.Insert(0, sub);
-                    }
-                }
-
-                if (!s.Album.IsNullorEmpty())
-                {
-                    MoreMenu.Items.Insert(0, new MenuFlyoutItem()
-                    {
-                        Text = $"{s.Album}",
-                        Icon = new FontIcon()
+                        else
                         {
-                            Glyph = "\uE93C"
+                            var sub = new MenuFlyoutSubItem()
+                            {
+                                Text = $"Performers:",
+                                Icon = new FontIcon()
+                                {
+                                    Glyph = "\uE136"
+                                }
+                            };
+                            foreach (var item in s.Performers)
+                            {
+                                sub.Items.Add(new MenuFlyoutItem()
+                                {
+                                    Text = item
+                                });
+                            }
+                            MoreMenu.Items.Insert(1, sub);
                         }
-                    });
+                    }
                 }
             });
         }

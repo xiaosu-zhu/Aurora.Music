@@ -27,7 +27,10 @@ namespace Aurora.Music.ViewModels
 
         public Uri Artwork
         {
-            get { return artwork; }
+            get
+            {
+                return artwork;
+            }
             set
             {
                 artwork = value;
@@ -143,6 +146,7 @@ namespace Aurora.Music.ViewModels
             Artwork = song.PicturePath.IsNullorEmpty() ? null : new Uri(song.PicturePath);
             IDs = new int[] { song.ID };
         }
+
         public GenericMusicItemViewModel(GenericMusicItem item)
         {
             // TODO: online pic path

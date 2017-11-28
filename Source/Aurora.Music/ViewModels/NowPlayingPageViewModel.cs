@@ -405,7 +405,8 @@ namespace Aurora.Music.ViewModels
             }
         }
 
-
+        public string DownloadOrModify(bool b) => b ? "Download" : "Modify Tag";
+        public string DownloadOrModifyIcon(bool b) => b ? "\uE896" : "\uE929";
 
         private async void Player_PositionUpdated(object sender, PositionUpdatedArgs e)
         {

@@ -1,0 +1,36 @@
+﻿<ContentDialog
+    x:Class="Aurora.Music.Controls.AlbumViewDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Aurora.Music.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="TITLE"
+    PrimaryButtonText="Button1"
+    SecondaryButtonText="Button2"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
+
+    <ListView>
+        <ListView.Header>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Image Source="/Assets/Images/albums.png" Grid.RowSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Top" Width="200" Margin="8" Stretch="Uniform"/>
+                <StackPanel Grid.Column="1" Margin="8">
+                    <TextBlock Text="THIS IS ALBUM NAME" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,4"/>
+                    <TextBlock Text="Artists · 2010 · Rock · 15 Songs" Style="{ThemeResource BodyTextBlockStyle}" Margin="0,4"/>
+                </StackPanel>
+                <TextBlock Grid.Column="1" Margin="8" Text="123" Grid.Row="1" Style="{ThemeResource BodyRichTextBlockStyle}">
+                </TextBlock>
+            </Grid>
+        </ListView.Header>
+    </ListView>
+</ContentDialog>

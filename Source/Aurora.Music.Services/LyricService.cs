@@ -101,7 +101,7 @@ namespace Aurora.Music.Services
                                     ["title"] = item.Title,
                                     ["description"] = item.SingerItems[0]?.Title,
                                     ["addtional"] = item.Album.Title,
-                                    ["picture_path"] = null,
+                                    ["picture_path"] = OnlineMusicSearcher.GeneratePicturePathByID(item.Album.Mid),
                                     ["type"] = "song",
                                     ["id"] = new string[] { item.Mid }
                                 };

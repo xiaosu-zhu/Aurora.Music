@@ -706,7 +706,7 @@
                                Text="{x:Bind Context.Song.Title,Mode=OneWay}"/>
                     <FontIcon Visibility="{x:Bind Context.BooltoVisibility(Context.Song.IsOnline),Mode=OneWay}"
                               FontSize="24" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush,0.8),Mode=OneWay}"
-                              VerticalAlignment="Center" Margin="0,2,0,0" FontFamily="Segoe MDL2 Assets" Glyph="&#xE93E;" />
+                              VerticalAlignment="Center" Margin="8,2,0,0" FontFamily="Segoe MDL2 Assets" Glyph="&#xE93E;" />
                 </StackPanel>
                 <TextBlock Margin="0,4,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" x:Name="Album"
                             TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" MaxLines="1" ToolTipService.ToolTip="{x:Bind Context.Song.Album,Mode=OneWay}"
@@ -834,6 +834,11 @@
                     <Button.Flyout>
                         <MenuFlyout x:Name="MoreMenu">
                             <MenuFlyout.Items>
+                                <MenuFlyoutItem Text="{x:Bind Context.Song.Album, Mode=OneWay}">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE93C;" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
                                 <MenuFlyoutSeparator/>
                                 <MenuFlyoutItem Text="Share">
                                     <MenuFlyoutItem.Icon>
@@ -846,12 +851,12 @@
                                     </MenuFlyoutSubItem.Icon>
                                 </MenuFlyoutSubItem>
                                 <MenuFlyoutSeparator/>
-                                <MenuFlyoutItem Text="Modify Tag" >
+                                <MenuFlyoutItem Text="{x:Bind Context.DownloadOrModify(Context.Song.IsOnline),Mode=OneWay}" >
                                     <MenuFlyoutItem.Icon>
-                                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE929;" />
+                                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Context.DownloadOrModifyIcon(Context.Song.IsOnline),Mode=OneWay}" />
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
-                                <MenuFlyoutItem Text="Find File">
+                                <MenuFlyoutItem Visibility="{x:Bind Context.BoolNottoVisibility(Context.Song.IsOnline),Mode=OneWay}" Text="Find File">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE7F6;" />
                                     </MenuFlyoutItem.Icon>

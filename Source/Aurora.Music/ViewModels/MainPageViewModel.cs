@@ -335,6 +335,8 @@ namespace Aurora.Music.ViewModels
         }
 
         private double downloadProgress;
+        private DateTime stamp;
+
         public double DownloadProgress
         {
             get { return downloadProgress; }
@@ -371,6 +373,10 @@ namespace Aurora.Music.ViewModels
 
             if (OnlineMusicExtension != null)
             {
+                stamp = DateTime.Now;
+
+                var k = stamp.Ticks;
+
                 var querys = new List<KeyValuePair<string, object>>()
                 {
                     new KeyValuePair<string,object>("q", "online_music"),
@@ -380,9 +386,7 @@ namespace Aurora.Music.ViewModels
                 var webResult = await OnlineMusicExtension.ExecuteAsync(querys.ToArray());
                 if (webResult is IEnumerable<OnlineMusicItem> items)
                 {
-                    //TODO: use time stamp to remove async old result
-
-                    if (MainPage.Current.CanAdd)
+                    if (MainPage.Current.CanAdd && k == stamp.Ticks)
                         await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                         {
                             lock (MainPage.Current.Lockable)
