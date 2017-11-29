@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using Aurora.Music.Core.Storage;
 using Windows.UI;
 using Windows.System.Threading;
+using System.Runtime.CompilerServices;
 
 namespace Aurora.Music.Core.Models
 {
@@ -127,6 +128,23 @@ namespace Aurora.Music.Core.Models
 
     public class Song
     {
+        public bool IsIDEqual(Song s)
+        {
+            if (s == null)
+            {
+                return false;
+            }
+            if (s.IsOnline != this.IsOnline)
+            {
+                return false;
+            }
+            if (IsOnline)
+            {
+                return s.OnlineUri.Equals(OnlineUri);
+            }
+            return ID == s.ID;
+        }
+
         public Song() { }
 
         internal Song(Storage.SONG song)

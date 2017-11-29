@@ -309,6 +309,12 @@ namespace Aurora.Music
             }
         }
 
+        internal void ShowAutoSuggestPopup()
+        {
+            autoSuggestPopupPanel.Children[0].Visibility = Visibility.Visible;
+            ((autoSuggestPopupPanel.Children[0] as Panel).Children[0] as ProgressRing).IsActive = true;
+        }
+
         private void CoreTitleBar_IsVisibleChanged(CoreApplicationViewTitleBar sender, object args)
         {
             if (sender.IsVisible)
@@ -398,7 +404,7 @@ namespace Aurora.Music
 
             autoSuggestPopupPanel.Children[0].Visibility = Visibility.Visible;
             ((autoSuggestPopupPanel.Children[0] as Panel).Children[0] as ProgressRing).IsActive = true;
-            if (Context.SearchItems.IsNullorEmpty() || !Context.SearchItems.FirstOrDefault().Title.IsNullorEmpty())
+            if (!Context.SearchItems.IsNullorEmpty() && !Context.SearchItems[0].Title.IsNullorEmpty())
                 lock (Lockable)
                 {
                     Context.SearchItems.Clear();

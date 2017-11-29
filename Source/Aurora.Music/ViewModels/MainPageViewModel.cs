@@ -355,34 +355,45 @@ namespace Aurora.Music.ViewModels
 
         internal async Task Search(string text)
         {
+            stamp = DateTime.Now;
+
+            var k = stamp.Ticks;
+
             var result = await FileReader.Search(text);
 
             if (MainPage.Current.CanAdd && !result.IsNullorEmpty())
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
                 {
                     lock (MainPage.Current.Lockable)
                     {
-                        SearchItems.Clear();
+                        if (SearchItems.Count > 0 && SearchItems[0].Title.IsNullorEmpty())
+                        {
+                            SearchItems.Clear();
+                        }
                         foreach (var item in result)
                         {
                             SearchItems.Add(new GenericMusicItemViewModel(item));
                         }
-                        MainPage.Current.HideAutoSuggestPopup();
                     }
+                    MainPage.Current.HideAutoSuggestPopup();
                 });
 
             if (OnlineMusicExtension != null)
             {
-                stamp = DateTime.Now;
-
-                var k = stamp.Ticks;
-
+                if (!(k == stamp.Ticks))
+                {
+                    return;
+                }
                 var querys = new List<KeyValuePair<string, object>>()
                 {
                     new KeyValuePair<string,object>("q", "online_music"),
                     new KeyValuePair<string, object>("action", "search"),
                     new KeyValuePair<string, object>("keyword", text)
                 };
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                {
+                    MainPage.Current.ShowAutoSuggestPopup();
+                });
                 var webResult = await OnlineMusicExtension.ExecuteAsync(querys.ToArray());
                 if (webResult is IEnumerable<OnlineMusicItem> items)
                 {
@@ -391,7 +402,7 @@ namespace Aurora.Music.ViewModels
                         {
                             lock (MainPage.Current.Lockable)
                             {
-                                if (SearchItems.FirstOrDefault().Title.IsNullorEmpty())
+                                if (SearchItems.Count > 0 && SearchItems[0].Title.IsNullorEmpty())
                                 {
                                     SearchItems.Clear();
                                 }

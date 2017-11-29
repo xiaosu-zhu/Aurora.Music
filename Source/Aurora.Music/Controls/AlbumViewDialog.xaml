@@ -28,11 +28,11 @@
                     <TextBlock Text="THIS IS ALBUM NAME" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,4"/>
                     <TextBlock Text="Artists · 2010 · Rock · 15 Songs" Style="{ThemeResource BodyTextBlockStyle}" Margin="0,4"/>
                 </StackPanel>
-                <Grid Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" BorderBrush="{ThemeResource SystemControlBackgroundBaseMediumLowRevealBorderBrush}" BorderThickness="1" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Padding="8">
-                    <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MaxLines="5" TextTrimming="CharacterEllipsis" Text="1231231231 23123212312312 3123123123123123123123 12312312312312312 3123123123123 123123123 123123123123 12312 3123123123123123123123 12 33 33 33 33 3" TextWrapping="WrapWholeWords">
+                <StackPanel Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" BorderBrush="{ThemeResource SystemControlBackgroundBaseMediumLowRevealBorderBrush}" BorderThickness="1" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Padding="8">
+                    <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MaxLines="5" TextTrimming="CharacterEllipsis" Text="Lorem Ipsum" TextWrapping="WrapWholeWords">
                     </TextBlock>
-                    <SymbolIcon Symbol="DockBottom" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
-                </Grid>
+                    <FontIcon FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="10" Glyph="&#xE09D;" />
+                </StackPanel>
             </Grid>
         </ListView.Header>
     </ListView>

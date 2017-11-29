@@ -78,7 +78,12 @@ namespace Aurora.Music.ViewModels
 
             var t = ThreadPool.RunAsync(async x =>
             {
-                _lastSong = song.ID;
+                _lastSong = new Song()
+                {
+                    ID = song.ID,
+                    IsOnline = song.IsOnline,
+                    OnlineUri = new Uri(song.FilePath),
+                };
 
                 var ext = MainPageViewModel.Current.LyricExtension;
 
@@ -345,7 +350,7 @@ namespace Aurora.Music.ViewModels
         }
 
         private bool? isLoop = false;
-        private int _lastSong;
+        private Song _lastSong;
 
         public bool? IsLoop
         {
@@ -469,14 +474,14 @@ namespace Aurora.Music.ViewModels
             });
             if (e.CurrentSong != null)
             {
-                if (_lastSong != e.CurrentSong.ID)
+                if (!_lastSong.IsIDEqual(e.CurrentSong))
                 {
                     await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                     {
                         Lyric.Clear();
                         LyricHint = "Loading lyrics...";
                     });
-                    _lastSong = e.CurrentSong.ID;
+                    _lastSong = e.CurrentSong;
                     var ext = MainPageViewModel.Current.LyricExtension;
 
                     var result = await ext.ExecuteAsync(new KeyValuePair<string, object>("q", "lyric"), new KeyValuePair<string, object>("title", Song.Title), new KeyValuePair<string, object>("album", song.Album), new KeyValuePair<string, object>("artist", Song.Performers.IsNullorEmpty() ? null : Song.Performers[0]));

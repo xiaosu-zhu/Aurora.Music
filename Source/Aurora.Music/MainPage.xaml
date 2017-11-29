@@ -811,13 +811,17 @@
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto" MinHeight="8"/>
                     </Grid.RowDefinitions>
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind OnlineToSymbol(IsOnline)}" Margin="0,8,4,0"/>
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Grid.RowSpan="3" VerticalAlignment="Center" Glyph="{x:Bind OnlineToSymbol(IsOnline)}" Margin="0,0,4,0"/>
                     <TextBlock Style="{ThemeResource BodyTextBlockStyle}" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Margin="4,8,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1">
-                        <Run Text="{x:Bind Title}" FontWeight="Bold"/><Run Text=" - "/><Run Text="{x:Bind Description}"/><Run Text=" - "/><Run Text="{x:Bind Addtional}"/>
+                        <Run Text="{x:Bind Title}" FontWeight="Bold"/>
                     </TextBlock>
-                    <TextBlock Text="Online Content" Grid.Row="1" Grid.ColumnSpan="2" Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource SystemControlHighlightAccent2RevealBackgroundBrush}" Margin="4,0,4,8" FontSize="10" Visibility="{x:Bind BooltoVisibility(IsOnline)}"/>
+                    <TextBlock Style="{ThemeResource BodyTextBlockStyle}" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Margin="4,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Grid.Row="1">
+                        <Run Text="{x:Bind Description}"/><Run Text=" - "/><Run Text="{x:Bind Addtional}"/>
+                    </TextBlock>
+                    <TextBlock Text="Online Content" Grid.Row="2" Grid.Column="1"  Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource SystemControlHighlightAccent2RevealBackgroundBrush}" Margin="4,0,4,8" FontSize="10" Visibility="{x:Bind BooltoVisibility(IsOnline)}"/>
                 </Grid>
             </DataTemplate>
 
