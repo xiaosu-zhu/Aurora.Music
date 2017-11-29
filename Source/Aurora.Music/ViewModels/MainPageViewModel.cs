@@ -362,7 +362,7 @@ namespace Aurora.Music.ViewModels
             var result = await FileReader.Search(text);
 
             if (MainPage.Current.CanAdd && !result.IsNullorEmpty())
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                 {
                     lock (MainPage.Current.Lockable)
                     {
@@ -390,9 +390,10 @@ namespace Aurora.Music.ViewModels
                     new KeyValuePair<string, object>("action", "search"),
                     new KeyValuePair<string, object>("keyword", text)
                 };
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                var dd = CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
                 {
-                    MainPage.Current.ShowAutoSuggestPopup();
+                    await Task.Delay(200);
+                     MainPage.Current.ShowAutoSuggestPopup();
                 });
                 var webResult = await OnlineMusicExtension.ExecuteAsync(querys.ToArray());
                 if (webResult is IEnumerable<OnlineMusicItem> items)
