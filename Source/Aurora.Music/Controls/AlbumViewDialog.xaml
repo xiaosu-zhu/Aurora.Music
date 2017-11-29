@@ -23,13 +23,16 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-                <Image Source="/Assets/Images/albums.png" Grid.RowSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Top" Width="200" Margin="8" Stretch="Uniform"/>
-                <StackPanel Grid.Column="1" Margin="8">
+                <Image Source="/Assets/Images/albums.png" Grid.RowSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="200" Height="200" Margin="8" Stretch="Uniform"/>
+                <StackPanel Grid.Column="1" Margin="8" VerticalAlignment="Center">
                     <TextBlock Text="THIS IS ALBUM NAME" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,4"/>
                     <TextBlock Text="Artists · 2010 · Rock · 15 Songs" Style="{ThemeResource BodyTextBlockStyle}" Margin="0,4"/>
                 </StackPanel>
-                <TextBlock Grid.Column="1" Margin="8" Text="123" Grid.Row="1" Style="{ThemeResource BodyRichTextBlockStyle}">
-                </TextBlock>
+                <Grid Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" BorderBrush="{ThemeResource SystemControlBackgroundBaseMediumLowRevealBorderBrush}" BorderThickness="1" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Padding="8">
+                    <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MaxLines="5" TextTrimming="CharacterEllipsis" Text="1231231231 23123212312312 3123123123123123123123 12312312312312312 3123123123123 123123123 123123123123 12312 3123123123123123123123 12 33 33 33 33 3" TextWrapping="WrapWholeWords">
+                    </TextBlock>
+                    <SymbolIcon Symbol="DockBottom" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+                </Grid>
             </Grid>
         </ListView.Header>
     </ListView>
