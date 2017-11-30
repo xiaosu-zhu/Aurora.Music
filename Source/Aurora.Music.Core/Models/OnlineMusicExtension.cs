@@ -67,7 +67,7 @@ namespace Aurora.Music.Core.Models
                                 }
                                 if (message.ContainsKey("song_result") && message["song_result"] is string t)
                                 {
-                                    return GetSong(t);
+                                    return GetOnlineSong(t);
                                 }
                                 if (message.ContainsKey("album_result") && message["album_result"] is string r)
                                 {
@@ -113,19 +113,24 @@ namespace Aurora.Music.Core.Models
                     Performers = (item["performers"] as Newtonsoft.Json.Linq.JArray).Select(x => x.ToString()).ToArray(),
                     AlbumArtists = (item["album_artists"] as Newtonsoft.Json.Linq.JArray).Select(x => x.ToString()).ToArray(),
                     PicturePath = item["picture_path"] as string,
-                    OnlineUri = new Uri(item["file_url"] as string),
+                    OnlineID = item["id"] as string,
                     IsOnline = true,
                     BitRate = Convert.ToUInt32(item["bit_rate"]),
-                    Year = Convert.ToUInt32(item["year"])
+                    Year = Convert.ToUInt32(item["year"]),
+                    OnlineUri = new Uri(item["file_url"] as string),
+                    Track = Convert.ToUInt32(item["track"]),
+                    Duration = TimeSpan.Parse(item["duration"] as string)
                 });
             }
+
+            a.OnlineArtistIDs = artists.Select(x => x["id"] as string).ToArray();
 
             // TODO: Optional Properties
 
             return a;
         }
 
-        private Song GetSong(string t)
+        private Song GetOnlineSong(string t)
         {
             var set = JsonConvert.DeserializeObject<PropertySet>(t);
 
@@ -140,7 +145,10 @@ namespace Aurora.Music.Core.Models
                 OnlineUri = new Uri(set["file_url"] as string),
                 IsOnline = true,
                 BitRate = Convert.ToUInt32(set["bit_rate"]),
-                Year = Convert.ToUInt32(set["year"])
+                Year = Convert.ToUInt32(set["year"]),
+                OnlineID = set["id"] as string,
+                Track = Convert.ToUInt32(set["track"]),
+                Duration = TimeSpan.Parse(set["duration"] as string)
             };
 
             // TODO: Optional Properties

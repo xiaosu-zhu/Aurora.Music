@@ -126,26 +126,36 @@ namespace Aurora.Music.Core.Extension
             new QQMusicFileFormat(48,"C200",".mp3"),
         };
 
+        private static DateTime stamp = DateTime.MinValue;
+        private static long guid;
+        private static string key;
+
         public static async Task<string> GenerateFileUriByID(string media_ID, int bitrate = 256)
         {
-            var queryString = HttpUtility.ParseQueryString(string.Empty);
-            queryString["json"] = "3";
-            queryString["guid"] = (Shared.Helpers.Tools.Random.Next() % 10000000000).ToString();
-            queryString["format"] = "json";
-            var result = await ApiRequestHelper.HttpGet(fileUrl, queryString);
-            if (result.IsNullorEmpty())
+            if ((DateTime.Now - stamp).TotalMinutes > 1 || !key.IsNullorEmpty())
             {
-                return null;
-            }
-            var stage = JsonConvert.DeserializeObject<QQMusicFileJson>(result);
-            if (stage.Code != 0)
-            {
-                return null;
+                guid = (Shared.Helpers.Tools.Random.Next() % 10000000000);
+                stamp = DateTime.Now;
+                var queryString = HttpUtility.ParseQueryString(string.Empty);
+                queryString["json"] = "3";
+                queryString["guid"] = guid.ToString();
+                queryString["format"] = "json";
+                var result = await ApiRequestHelper.HttpGet(fileUrl, queryString);
+                if (result.IsNullorEmpty())
+                {
+                    return null;
+                }
+                var stage = JsonConvert.DeserializeObject<QQMusicFileJson>(result);
+                if (stage.Code != 0)
+                {
+                    return null;
+                }
+                key = stage.Key;
             }
 
             var f = fileFormats.First(x => x.BitRate <= bitrate);
 
-            var final = streamUrl + f.Prefix + media_ID + f.Format + "?vkey=" + stage.Key + "&guid=" + queryString["guid"] + "&uid=0&fromtag=30";
+            var final = streamUrl + f.Prefix + media_ID + f.Format + "?vkey=" + key + "&guid=" + guid.ToString() + "&uid=0&fromtag=30";
             return final;
         }
 
@@ -162,7 +172,7 @@ namespace Aurora.Music.Core.Extension
             }
         }
 
-        private const string picUrl = "https://y.gtimg.cn/music/photo_new/T002R300x300M000{0}.jpg?max_age=2592000";
+        private const string picUrl = "https://y.gtimg.cn/music/photo_new/T002R500x500M000{0}.jpg?max_age=2592000";
 
         public static string GeneratePicturePathByID(string v)
         {

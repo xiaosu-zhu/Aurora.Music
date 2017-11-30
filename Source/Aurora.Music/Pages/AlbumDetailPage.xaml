@@ -28,7 +28,7 @@
             <DataTemplate x:Key="OddTemplate" x:DataType="vm:SongViewModel">
                 <Grid Height="48" Background="{ThemeResource SongListOddBrush}" PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited" PointerCanceled="Grid_PointerExited" PointerCaptureLost="Grid_PointerExited"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="96"/>
+                        <ColumnDefinition MinWidth="48" Width="auto"/>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="*"/>
@@ -64,7 +64,7 @@
             <DataTemplate x:Key="EvenTemplate" x:DataType="vm:SongViewModel">
                 <Grid Height="48" Background="{ThemeResource SongListEvenBrush}" PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited" PointerCanceled="Grid_PointerExited" PointerCaptureLost="Grid_PointerExited"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="96"/>
+                        <ColumnDefinition MinWidth="48" Width="auto"/>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="*"/>

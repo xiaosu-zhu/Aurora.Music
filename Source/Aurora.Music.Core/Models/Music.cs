@@ -338,6 +338,7 @@ namespace Aurora.Music.Core.Models
         public int AudioChannels { get; private set; }
         public bool IsOnline { get; set; }
         public Uri OnlineUri { get; set; }
+        public string OnlineID { get; internal set; }
     }
 
 
@@ -417,5 +418,6 @@ namespace Aurora.Music.Core.Models
         public bool IsOnline { get; internal set; }
         public string[] OnlineIDs { get; internal set; }
         public List<Song> SongItems { get; internal set; }
+        public string[] OnlineArtistIDs { get; internal set; }
     }
 }

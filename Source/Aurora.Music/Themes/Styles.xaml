@@ -1953,9 +1953,9 @@
                                 <StackPanel.RenderTransform>
                                     <TranslateTransform x:Name="UpwardTransform"/>
                                 </StackPanel.RenderTransform>
-                                <StackPanel Visibility="Collapsed" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Stretch">
-                                    <ProgressRing Margin="8" IsActive="False" VerticalAlignment="Center"/>
-                                    <TextBlock Text="Searching" Margin="8" Style="{ThemeResource SubtitleTextBlockStyle}" VerticalAlignment="Center"/>
+                                <StackPanel Visibility="Collapsed" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                    <ProgressRing HorizontalAlignment="Left" Margin="12,8" Width="48" Height="24" IsActive="False" VerticalAlignment="Center"/>
+                                    <TextBlock Text="Searching" HorizontalAlignment="Stretch" Margin="8" Style="{ThemeResource SubtitleTextBlockStyle}" VerticalAlignment="Center"/>
                                 </StackPanel>
                                 <ListView
                 x:Name="SuggestionsList"

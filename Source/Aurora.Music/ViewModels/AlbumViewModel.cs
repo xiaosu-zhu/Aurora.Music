@@ -20,8 +20,7 @@ namespace Aurora.Music.ViewModels
             if (album.IsOnline)
             {
                 OnlieIDs = album.OnlineIDs;
-                Songs = album.SongItems.ToList();
-
+                Songs = album.SongItems?.ToList();
             }
 
             Description = album.Desription;
@@ -75,7 +74,14 @@ namespace Aurora.Music.ViewModels
                     b += item;
                     b += splitter;
                 }
-            b += SongsID.Length != 1 ? $"{SongsID} Songs" : "1 Song";
+            if (!Songs.IsNullorEmpty())
+            {
+                b += Songs.Count != 1 ? $"{Songs.Count} Songs" : "1 Song";
+            }
+            else if (SongsID != null)
+            {
+                b += SongsID.Length != 1 ? $"{SongsID.Length} Songs" : "1 Song";
+            }
             return b;
         }
 
@@ -154,6 +160,10 @@ namespace Aurora.Music.ViewModels
 
         internal async Task<List<Song>> GetSongsAsync()
         {
+            if (IsOnline && Songs != null && Songs.Count > 0)
+            {
+                return Songs;
+            }
             if (Songs.Count == SongsID.Length)
             {
                 return Songs;
