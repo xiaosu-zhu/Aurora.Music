@@ -969,6 +969,26 @@ namespace Aurora.Music.Core.Storage
         {
             await conn.UpdateAsync(new ALBUM(s));
         }
+
+        public async Task<Album> GetAlbumByNameAsync(string description)
+        {
+            var res = await conn.QueryAsync<ALBUM>("SELECT * FROM ALBUM WHERE NAME=?", description);
+            if (res.Count > 0)
+            {
+                return new Album(res[0]);
+            }
+            return null;
+        }
+
+        public async Task<Album> GetAlbumByIDAsync(int contextualID)
+        {
+            var res = await conn.QueryAsync<ALBUM>("SELECT * FROM ALBUM WHERE ID=?", contextualID);
+            if (res.Count > 0)
+            {
+                return new Album(res[0]);
+            }
+            return null;
+        }
     }
 
     public class Path

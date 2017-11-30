@@ -201,6 +201,22 @@ namespace Aurora.Music.ViewModels
                 return s;
             }
             return null;
+        }        
+
+        internal async Task<Album> GetOnlineAlbumAsync(string id)
+        {
+            var querys = new List<KeyValuePair<string, object>>()
+                {
+                    new KeyValuePair<string,object>("q", "online_music"),
+                    new KeyValuePair<string, object>("action", "album"),
+                    new KeyValuePair<string, object>("id", id)
+                };
+            var songResult = await OnlineMusicExtension.ExecuteAsync(querys.ToArray());
+            if (songResult is Album s)
+            {
+                return s;
+            }
+            return null;
         }
 
         public DelegateCommand GoPrevious

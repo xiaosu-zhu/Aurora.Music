@@ -41,6 +41,27 @@ namespace Aurora.Music.ViewModels
         public List<Song> Songs { get; set; } = new List<Song>();
 
         private Uri artworkUri;
+
+
+        private const string splitter = " · ";
+        internal string GetBrief()
+        {
+            string b = "";
+            if (Year != default(uint))
+            {
+                b += Year;
+                b += splitter;
+            }
+            if (!Genres.IsNullorEmpty())
+                foreach (var item in Genres)
+                {
+                    b += item;
+                    b += splitter;
+                }
+            b += SongsID.Length != 1 ? $"{SongsID} Songs" : "1 Song";
+            return b;
+        }
+
         public Uri Artwork
         {
             get
@@ -88,21 +109,28 @@ namespace Aurora.Music.ViewModels
                 {
                     return " ";
                 }
-                if (Name.StartsWith("The ", System.StringComparison.CurrentCultureIgnoreCase))
+                if (Name.StartsWith("The ", StringComparison.CurrentCultureIgnoreCase))
                 {
                     return Name.Substring(4);
                 }
-                if (Name.StartsWith("A ", System.StringComparison.CurrentCultureIgnoreCase))
+                if (Name.StartsWith("A ", StringComparison.CurrentCultureIgnoreCase))
                 {
                     return Name.Substring(2);
                 }
-                if (Name.StartsWith("An ", System.StringComparison.CurrentCultureIgnoreCase))
+                if (Name.StartsWith("An ", StringComparison.CurrentCultureIgnoreCase))
                 {
                     return Name.Substring(3);
                 }
                 return Name;
 
             }
+        }
+
+        private string description;
+        public string Description
+        {
+            get { return description; }
+            set { SetProperty(ref description, value); }
         }
 
         internal async Task<List<Song>> GetSongsAsync()

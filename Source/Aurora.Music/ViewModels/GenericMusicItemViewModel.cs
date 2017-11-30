@@ -141,8 +141,8 @@ namespace Aurora.Music.ViewModels
             InnerType = MediaType.Song;
             ContextualID = song.ID;
             Title = song.Title;
-            Addtional = string.Join(", ", song.Performers);
-            Description = TimeSpanFormatter.GetSongDurationFormat(song.Duration);
+            Addtional = song.Performers.IsNullorEmpty() ? "Unknown Artists" : string.Join(", ", song.Performers);
+            Description = song.Album;
             Artwork = song.PicturePath.IsNullorEmpty() ? null : new Uri(song.PicturePath);
             IDs = new int[] { song.ID };
         }
@@ -209,6 +209,32 @@ namespace Aurora.Music.ViewModels
                 title += "…";
             }
             return $"{title} - {Description}";
+        }
+
+        internal async Task<AlbumViewModel> FindAssociatedAlbumAsync()
+        {
+            var opr = SQLOperator.Current();
+            switch (InnerType)
+            {
+                case MediaType.Song:
+                    if (Description.IsNullorEmpty())
+                    {
+                        return null;
+                    }
+                    if (IsOnline)
+                    {
+                        return new AlbumViewModel(await MainPageViewModel.Current.GetOnlineAlbumAsync(OnlineIDs[0]));
+                    }
+                    return new AlbumViewModel(await opr.GetAlbumByNameAsync(Description));
+                case MediaType.Album:
+                    return new AlbumViewModel(await opr.GetAlbumByIDAsync(ContextualID));
+                case MediaType.PlayList:
+                    throw new NotImplementedException();
+                case MediaType.Artist:
+                    throw new InvalidCastException("This GenericMusicItemViewModel is artist");
+                default:
+                    return null;
+            }
         }
     }
 }

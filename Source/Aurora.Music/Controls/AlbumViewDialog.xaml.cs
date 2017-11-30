@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Aurora.Music.ViewModels;
+using Aurora.Shared.Helpers;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -11,6 +14,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“内容对话框”项模板
@@ -19,17 +23,65 @@ namespace Aurora.Music.Controls
 {
     public sealed partial class AlbumViewDialog : ContentDialog
     {
+        internal ObservableCollection<SongViewModel> SongList = new ObservableCollection<SongViewModel>();
+        private AlbumViewModel album;
+
         public AlbumViewDialog()
         {
             this.InitializeComponent();
         }
 
-        private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        internal AlbumViewDialog(AlbumViewModel album)
         {
+            if (album == null)
+            {
+                Title = "Oops!";
+                IsPrimaryButtonEnabled = false;
+                Album.Text = "Cant't find it";
+                Artist.Visibility = Visibility.Collapsed;
+                Brief.Visibility = Visibility.Collapsed;
+                Descriptions.Visibility = Visibility.Collapsed;
+            }
+            this.album = album;
+            var songs = AsyncHelper.RunSync(async () => { return await album.GetSongsAsync(); });
+            foreach (var item in songs)
+            {
+                SongList.Add(new SongViewModel(item));
+            }
+            Album.Text = album.Name;
+            Artist.Text = album.GetFormattedArtists();
+            Brief.Text = album.GetBrief();
+            Descriptions.Text = album.Description;
+        }
+
+        private async void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+            await MainPageViewModel.Current.InstantPlay(await album.GetSongsAsync());
         }
 
         private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
+        }
+
+        private void Grid_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            if (sender is Panel s)
+            {
+                (s.Resources["PointerOver"] as Storyboard).Begin();
+            }
+        }
+
+        private void Grid_PointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            if (sender is Panel s)
+            {
+                (s.Resources["Normal"] as Storyboard).Begin();
+            }
+        }
+
+        private void PlayBtn_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

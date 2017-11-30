@@ -360,6 +360,11 @@ namespace Aurora.Music
                 }
                 var dialog = new SearchResultDialog(g);
                 var result = await dialog.ShowAsync();
+                if (result == ContentDialogResult.Secondary)
+                {
+                    var view = new AlbumViewDialog(await g.FindAssociatedAlbumAsync());
+                    result = await view.ShowAsync();
+                }
             }
             else
             {
@@ -372,6 +377,11 @@ namespace Aurora.Music
                 {
                     var dialog = new SearchResultDialog(Context.SearchItems[0]);
                     var result = await dialog.ShowAsync();
+                    if (result == ContentDialogResult.Secondary)
+                    {
+                        var view = new AlbumViewDialog(await Context.SearchItems[0].FindAssociatedAlbumAsync());
+                        result = await view.ShowAsync();
+                    }
                 }
             }
             sender.Text = string.Empty;

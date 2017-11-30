@@ -151,5 +151,10 @@ namespace Aurora.Music.Pages
         {
             await Context.PlayAt((sender as FrameworkElement).DataContext as SongViewModel);
         }
+
+        private void PlayBtn_Click_1(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

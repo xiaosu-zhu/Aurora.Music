@@ -41,7 +41,7 @@ namespace Aurora.Music.Core.Models
             ContextualID = s.ID;
             Title = s.Title;
             Description = s.Album;
-            Addtional = s.AlbumArtists.IsNullorEmpty() ? "Unknown Artists" : string.Join(", ", s.AlbumArtists.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries));
+            Addtional = s.Performers.IsNullorEmpty() ? "Unknown Artists" : string.Join(", ", s.Performers.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries));
             IDs = new int[] { s.ID };
             PicturePath = s.PicturePath;
         }
