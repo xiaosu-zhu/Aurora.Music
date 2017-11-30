@@ -414,7 +414,7 @@ namespace Aurora.Music
 
             autoSuggestPopupPanel.Children[0].Visibility = Visibility.Visible;
             ((autoSuggestPopupPanel.Children[0] as Panel).Children[0] as ProgressRing).IsActive = true;
-            if (!Context.SearchItems.IsNullorEmpty() && !Context.SearchItems[0].Title.IsNullorEmpty())
+            if ((Context.SearchItems != null && Context.SearchItems.Count < 1) || (!Context.SearchItems.IsNullorEmpty() && !Context.SearchItems[0].Title.IsNullorEmpty()))
                 lock (Lockable)
                 {
                     Context.SearchItems.Clear();

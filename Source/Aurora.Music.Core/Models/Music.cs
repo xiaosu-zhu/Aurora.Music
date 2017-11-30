@@ -343,6 +343,9 @@ namespace Aurora.Music.Core.Models
 
     public class Album
     {
+        public Album()
+        {
+        }
 
         public Album(int iD)
         {
@@ -410,5 +413,9 @@ namespace Aurora.Music.Core.Models
         public virtual double ReplayGainAlbumGain { get; set; }
         public virtual double ReplayGainAlbumPeak { get; set; }
         public int ID { get; }
+        public string Desription { get; internal set; }
+        public bool IsOnline { get; internal set; }
+        public string[] OnlineIDs { get; internal set; }
+        public List<Song> SongItems { get; internal set; }
     }
 }

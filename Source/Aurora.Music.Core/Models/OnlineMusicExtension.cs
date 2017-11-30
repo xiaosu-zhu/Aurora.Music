@@ -1,4 +1,5 @@
-﻿using Aurora.Shared.Extensions;
+﻿using Aurora.Music.Core.Extension.Json.QQMusicAlbum;
+using Aurora.Shared.Extensions;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -68,6 +69,10 @@ namespace Aurora.Music.Core.Models
                                 {
                                     return GetSong(t);
                                 }
+                                if (message.ContainsKey("album_result") && message["album_result"] is string r)
+                                {
+                                    return GetAlbum(r, message["songs"] as string, message["album_artists"] as string);
+                                }
                             }
                         }
                     }
@@ -78,6 +83,46 @@ namespace Aurora.Music.Core.Models
             {
                 throw e;
             }
+        }
+
+        private Album GetAlbum(string r, string s, string art)
+        {
+            var set = JsonConvert.DeserializeObject<PropertySet>(r);
+            var songs = JsonConvert.DeserializeObject<PropertySet[]>(s);
+            var artists = JsonConvert.DeserializeObject<PropertySet[]>(art);
+            var a = new Album
+            {
+                Name = set["name"] as string,
+                Desription = set["desription"] as string,
+                Year = Convert.ToUInt32(set["year"]),
+                IsOnline = true,
+                OnlineIDs = songs.Select(x => x["id"] as string).ToArray(),
+                AlbumArtists = artists.Select(x => x["name"] as string).ToArray(),
+                DiscCount = Convert.ToUInt32(set["disc_count"]),
+                TrackCount = Convert.ToUInt32(set["track_count"]),
+                PicturePath = set["picture_path"] as string,
+                Genres = (set["genres"] as Newtonsoft.Json.Linq.JArray).Select(x => x.ToString()).ToArray(),
+            };
+            a.SongItems = new List<Song>();
+            foreach (var item in songs)
+            {
+                a.SongItems.Add(new Song()
+                {
+                    Title = item["title"] as string,
+                    Album = item["album"] as string,
+                    Performers = (item["performers"] as Newtonsoft.Json.Linq.JArray).Select(x => x.ToString()).ToArray(),
+                    AlbumArtists = (item["album_artists"] as Newtonsoft.Json.Linq.JArray).Select(x => x.ToString()).ToArray(),
+                    PicturePath = item["picture_path"] as string,
+                    OnlineUri = new Uri(item["file_url"] as string),
+                    IsOnline = true,
+                    BitRate = Convert.ToUInt32(item["bit_rate"]),
+                    Year = Convert.ToUInt32(item["year"])
+                });
+            }
+
+            // TODO: Optional Properties
+
+            return a;
         }
 
         private Song GetSong(string t)
@@ -127,7 +172,7 @@ namespace Aurora.Music.Core.Models
                         t = MediaType.Song;
                         break;
                 }
-                res.Add(new OnlineMusicItem(p["title"] as string, p["description"] as string, p["addtional"] as string, (p["id"] as Newtonsoft.Json.Linq.JArray).Select(x => x.ToString()).ToArray())
+                res.Add(new OnlineMusicItem(p["title"] as string, p["description"] as string, p["addtional"] as string, (p["id"] as Newtonsoft.Json.Linq.JArray).Select(x => x.ToString()).ToArray(), p["album_id"] as string)
                 {
                     InnerType = t,
                     PicturePath = p["picture_path"] as string,

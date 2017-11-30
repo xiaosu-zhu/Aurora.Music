@@ -84,9 +84,29 @@ namespace Aurora.Music.Core.Extension
             }
         }
 
-        public static Task<QQMusicAlbumJson> GetAlbumAsync(string v)
+        private const string albumUrl = "https://c.y.qq.com/v8/fcg-bin/fcg_v8_album_detail_cp.fcg";
+
+        public static async Task<QQMusicAlbumJson> GetAlbumAsync(string mid)
         {
-            throw new NotImplementedException();
+            var queryString = HttpUtility.ParseQueryString(string.Empty);
+
+            queryString["albummid"] = mid;
+            queryString["platform"] = "mac";
+            queryString["format"] = "json";
+            queryString["newsong"] = "1";
+            var response = await ApiRequestHelper.HttpGet(albumUrl, queryString);
+            if (response.IsNullorEmpty())
+            {
+                return null;
+            }
+            try
+            {
+                return JsonConvert.DeserializeObject<QQMusicAlbumJson>(response);
+            }
+            catch (JsonReaderException)
+            {
+                return null;
+            }
         }
 
         public static Task<QQMusicArtistJson> GetArtistAsync(string v)

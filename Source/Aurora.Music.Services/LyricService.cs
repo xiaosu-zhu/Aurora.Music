@@ -39,6 +39,7 @@ namespace Aurora.Music.Services
             // Get a deferral because we use an awaitable API below to respond to the message
             // and we don't want this call to get cancelled while we are waiting.
             var messageDeferral = args.GetDeferral();
+            var setting = Settings.Load();
 
             ValueSet message = args.Request.Message;
             ValueSet returnData = new ValueSet();
@@ -88,7 +89,7 @@ namespace Aurora.Music.Services
                             message.TryGetValue("count", out object count);
                             var result = await OnlineMusicSearcher.SearchAsync(message["keyword"] as string, page as int?, count as int?);
                             var resultList = new List<PropertySet>();
-                            if (result == null)
+                            if (result == null && result.Data != null)
                             {
                                 returnData.Add("status", 0);
                                 break;
@@ -103,7 +104,8 @@ namespace Aurora.Music.Services
                                     ["addtional"] = item.Album.Title,
                                     ["picture_path"] = OnlineMusicSearcher.GeneratePicturePathByID(item.Album.Mid),
                                     ["type"] = "song",
-                                    ["id"] = new string[] { item.Mid }
+                                    ["id"] = new string[] { item.Mid },
+                                    ["album_id"] = item.Album.Mid
                                 };
                                 resultList.Add(set);
                             }
@@ -123,15 +125,16 @@ namespace Aurora.Music.Services
 
                                 // TODO: property
 
-                                var setting = Settings.Load();
 
                                 var songRes = new PropertySet
                                 {
                                     ["title"] = song.DataItems[0].Title,
+                                    ["id"] = song.DataItems[0].Mid,
                                     ["album"] = song.DataItems[0].Album.Name,
+                                    ["album_id"] = song.DataItems[0].Album.Mid,
                                     ["performers"] = song.DataItems[0].SingerItems.Select(x => x.Name).ToArray(),
                                     ["year"] = t.Year,
-                                    ["bit_rate"] = setting.GetPreferredBitRate() * 1000
+                                    ["bit_rate"] = setting.GetPreferredBitRate() * 1024
                                 };
                                 songRes["album_artists"] = songRes["performers"];
                                 var picture = OnlineMusicSearcher.GeneratePicturePathByID(song.DataItems[0].Album.Mid);
@@ -144,6 +147,46 @@ namespace Aurora.Music.Services
                             break;
                         case "album":
                             var album = await OnlineMusicSearcher.GetAlbumAsync(message["id"] as string);
+                            if (album != null && album.Data != null)
+                            {
+                                DateTime.TryParseExact(album.Data.GetAlbumInfo.Fpublic_Time, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime t);
+                                var albumRes = new PropertySet
+                                {
+                                    ["name"] = album.Data.GetAlbumInfo.Falbum_Name,
+                                    ["desription"] = album.Data.GetAlbumDesc.Falbum_Desc,
+                                    ["year"] = t.Year,
+                                    ["track_count"] = album.Data.GetSongInfoItems.Max(x => x.Index_Album),
+                                    ["disc_count"] = album.Data.GetSongInfoItems.Max(x => x.Index_Cd) + 1,
+                                    ["picture_path"] = OnlineMusicSearcher.GeneratePicturePathByID(message["id"] as string),
+                                    ["genres"] = new string[] { album.Data.Genre },
+                                };
+                                returnData.Add("album_result", JsonConvert.SerializeObject(albumRes));
+                                returnData.Add("songs", JsonConvert.SerializeObject(album.Data.GetSongInfoItems.Select(x =>
+                                {
+                                    var p = new PropertySet()
+                                    {
+                                        ["id"] = x.Mid,
+                                        ["title"] = x.Name,
+                                        ["album"] = x.Album.Name,
+                                        ["album_id"] = x.Album.Mid,
+                                        ["performers"] = x.SingerItems.Select(y => y.Name).ToArray(),
+                                        ["year"] = t.Year,
+                                        ["bit_rate"] = setting.GetPreferredBitRate() * 1024,
+                                        ["picture_path"] = OnlineMusicSearcher.GeneratePicturePathByID(x.Album.Mid)
+                                    };
+                                    p["album_artists"] = p["performers"];
+                                    return p;
+                                })));
+                                returnData.Add("album_artists", JsonConvert.SerializeObject(album.Data.SingerInfoItems.Select(x =>
+                                {
+                                    var p = new PropertySet()
+                                    {
+                                        ["name"] = x.Fsinger_Name,
+                                        ["id"] = x.Fsinger_Mid,
+                                    };
+                                })));
+                                returnData.Add("status", 1);
+                            }
                             break;
                         case "artist":
                             var artist = await OnlineMusicSearcher.GetArtistAsync(message["id"] as string);

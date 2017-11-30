@@ -14,24 +14,41 @@ namespace Aurora.Music.ViewModels
 {
     class AlbumViewModel : ViewModelBase, IKey
     {
-        public AlbumViewModel(Core.Models.Album item)
+        public AlbumViewModel(Album album)
         {
-            SongsID = item.Songs;
-            Name = item.Name;
-            if (!item.PicturePath.IsNullorEmpty())
+            IsOnline = album.IsOnline;
+            if (album.IsOnline)
             {
-                artworkUri = new Uri(item.PicturePath);
+                OnlieIDs = album.OnlineIDs;
+                Songs = album.SongItems.ToList();
+
             }
-            Genres = item.Genres;
-            Year = item.Year;
-            AlbumSort = item.AlbumSort;
-            TrackCount = item.TrackCount;
-            DiscCount = item.DiscCount;
-            AlbumArtists = item.AlbumArtists;
-            AlbumArtistsSort = item.AlbumArtistsSort;
-            ReplayGainAlbumGain = item.ReplayGainAlbumGain;
-            ReplayGainAlbumPeak = item.ReplayGainAlbumPeak;
-            ID = item.ID;
+
+            Description = album.Desription;
+
+            SongsID = album.Songs;
+            Name = album.Name;
+            if (!album.PicturePath.IsNullorEmpty())
+            {
+                artworkUri = new Uri(album.PicturePath);
+            }
+            Genres = album.Genres;
+            Year = album.Year;
+            AlbumSort = album.AlbumSort;
+            TrackCount = album.TrackCount;
+            DiscCount = album.DiscCount;
+            AlbumArtists = album.AlbumArtists;
+            AlbumArtistsSort = album.AlbumArtistsSort;
+            ReplayGainAlbumGain = album.ReplayGainAlbumGain;
+            ReplayGainAlbumPeak = album.ReplayGainAlbumPeak;
+            ID = album.ID;
+        }
+
+        private bool isOnline;
+        public bool IsOnline
+        {
+            get { return isOnline; }
+            set { SetProperty(ref isOnline, value); }
         }
 
         public AlbumViewModel() { }
@@ -132,6 +149,8 @@ namespace Aurora.Music.ViewModels
             get { return description; }
             set { SetProperty(ref description, value); }
         }
+
+        public string[] OnlieIDs { get; }
 
         internal async Task<List<Song>> GetSongsAsync()
         {

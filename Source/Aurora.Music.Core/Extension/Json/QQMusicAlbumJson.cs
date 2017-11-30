@@ -955,7 +955,7 @@ namespace Aurora.Music.Core.Extension.Json.QQMusicAlbum
         /// 
         /// </summary>
         [DataMember(Name = "peak")]
-        public int Peak { get; set; }
+        public double Peak { get; set; }
 
     }
 

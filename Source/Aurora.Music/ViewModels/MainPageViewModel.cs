@@ -201,7 +201,7 @@ namespace Aurora.Music.ViewModels
                 return s;
             }
             return null;
-        }        
+        }
 
         internal async Task<Album> GetOnlineAlbumAsync(string id)
         {
@@ -409,7 +409,7 @@ namespace Aurora.Music.ViewModels
                 var dd = CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
                 {
                     await Task.Delay(200);
-                     MainPage.Current.ShowAutoSuggestPopup();
+                    MainPage.Current.ShowAutoSuggestPopup();
                 });
                 var webResult = await OnlineMusicExtension.ExecuteAsync(querys.ToArray());
                 if (webResult is IEnumerable<OnlineMusicItem> items)

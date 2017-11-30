@@ -55,7 +55,7 @@ namespace Aurora.Music.ViewModels
 
         public int[] IDs { get; set; }
         public string[] OnlineIDs { get; set; }
-
+        public string OnlineAlbumID { get; }
         public int ContextualID { get; set; }
 
         public GenericMusicItemViewModel()
@@ -154,6 +154,7 @@ namespace Aurora.Music.ViewModels
             {
                 IsOnline = true;
                 OnlineIDs = o.OnlineID;
+                OnlineAlbumID = o.OnlineAlbumId;
             }
             else
             {
@@ -223,7 +224,9 @@ namespace Aurora.Music.ViewModels
                     }
                     if (IsOnline)
                     {
-                        return new AlbumViewModel(await MainPageViewModel.Current.GetOnlineAlbumAsync(OnlineIDs[0]));
+                        if (OnlineAlbumID.IsNullorEmpty())
+                            return null;
+                        return new AlbumViewModel(await MainPageViewModel.Current.GetOnlineAlbumAsync(OnlineAlbumID));
                     }
                     return new AlbumViewModel(await opr.GetAlbumByNameAsync(Description));
                 case MediaType.Album:
