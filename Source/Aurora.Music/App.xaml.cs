@@ -230,6 +230,7 @@ namespace Aurora.Music
         {
             if (Window.Current.Content is Frame f && MainPage.Current is MainPage p)
             {
+                e.Handled = true;
                 p.ThrowException(e);
             }
         }
