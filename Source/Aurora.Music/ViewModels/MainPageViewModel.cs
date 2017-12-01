@@ -423,7 +423,7 @@ namespace Aurora.Music.ViewModels
                                 {
                                     SearchItems.Clear();
                                 }
-                                foreach (var item in items)
+                                foreach (var item in items.Reverse())
                                 {
                                     SearchItems.Insert(0, new GenericMusicItemViewModel(item));
                                 }
