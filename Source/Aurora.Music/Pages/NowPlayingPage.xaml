@@ -680,7 +680,7 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-        <Grid Margin="12,12,12,0" HorizontalAlignment="Left" VerticalAlignment="Stretch">
+        <Grid Margin="12,0" HorizontalAlignment="Left" VerticalAlignment="Stretch">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="auto"/>
@@ -696,16 +696,16 @@
             </toolkit:ImageEx>
             <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Stretch" Grid.Row="1">
                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" MaxLines="1"
-                               Margin="0,4,0,0" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush,0.8), Mode=OneWay}" 
+                               Margin="0,4,0,0" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 0.8), Mode=OneWay}" 
                            ToolTipService.ToolTip="{x:Bind Context.ArtistsToString(Context.Song.AlbumArtists),Mode=OneWay}"
                                Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Context.ArtistsToString(Context.Song.AlbumArtists),Mode=OneWay}"/>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
                     <TextBlock x:Name="Title" Margin="0,2,0,0" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" MaxLines="1"
-                               Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush,0.8), Mode=OneWay}" 
+                               Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 0.8), Mode=OneWay}" 
                                Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold" ToolTipService.ToolTip="{x:Bind Context.Song.Title,Mode=OneWay}"
                                Text="{x:Bind Context.Song.Title,Mode=OneWay}"/>
                     <FontIcon Visibility="{x:Bind Context.BooltoVisibility(Context.Song.IsOnline),Mode=OneWay}"
-                              FontSize="24" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush,0.8),Mode=OneWay}"
+                              FontSize="24" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 0.8),Mode=OneWay}"
                               VerticalAlignment="Center" Margin="8,2,0,0" FontFamily="Segoe MDL2 Assets" Glyph="&#xE93E;" />
                 </StackPanel>
                 <TextBlock Margin="0,4,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" x:Name="Album"
@@ -730,7 +730,7 @@
                 <StackPanel Margin="0,12,0,0" Orientation="Horizontal">
                     <RatingControl Value="{x:Bind Context.CurrentRating,Mode=TwoWay}" IsClearEnabled="True" IsReadOnly="False" Background="Red" BorderBrush="Green" Foreground="Blue"/>
                     <Button Command="{x:Bind Context.ToggleFavorite}" Margin="8,0" Style="{ThemeResource TextBlockButtonStyle}">
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Context.FavGlyph(Context.IsCurrentFavorite),Mode=OneWay}" Foreground="Red"/>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Context.FavGlyph(Context.IsCurrentFavorite),Mode=OneWay}" Foreground="#EF6950"/>
                     </Button>
                 </StackPanel>
             </StackPanel>
@@ -785,32 +785,32 @@
                 <TextBlock Text="{x:Bind Context.TimeSpanFormat(Context.TotalDuration),Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource SystemControlBackgroundBaseHighRevealBorderBrush}"/>
             </toolkit:DropShadowPanel>
             <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="4" HorizontalAlignment="Left" VerticalAlignment="Stretch" Grid.ColumnSpan="2">
-                <Button Style="{ThemeResource RevealRoundButton}" Command="{x:Bind Context.GoPrevious}" ToolTipService.ToolTip="Previous"
+                <Button Style="{ThemeResource RevealRoundButton}" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 0.8),Mode=OneWay}" Command="{x:Bind Context.GoPrevious}" ToolTipService.ToolTip="Previous"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <Button.Content>
                         <SymbolIcon Symbol="Previous"/>
                     </Button.Content>
                 </Button>
-                <Button Style="{ThemeResource RevealRoundButton}" Command="{x:Bind Context.PlayPause}" ToolTipService.ToolTip="{x:Bind Context.NullableBoolToString(Context.IsPlaying), Mode=OneWay}"
+                <Button Style="{ThemeResource RevealRoundButton}" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 0.8),Mode=OneWay}" Command="{x:Bind Context.PlayPause}" ToolTipService.ToolTip="{x:Bind Context.NullableBoolToString(Context.IsPlaying), Mode=OneWay}"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <Button.Content>
                         <SymbolIcon Symbol="{x:Bind Context.NullableBoolToSymbol(Context.IsPlaying), Mode=OneWay}"/>
                     </Button.Content>
                 </Button>
-                <Button Style="{ThemeResource RevealRoundButton}" Command="{x:Bind Context.GoNext}" ToolTipService.ToolTip="Next"
+                <Button Style="{ThemeResource RevealRoundButton}" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 0.8),Mode=OneWay}" Command="{x:Bind Context.GoNext}" ToolTipService.ToolTip="Next"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <Button.Content>
                         <SymbolIcon Symbol="Next"/>
                     </Button.Content>
                 </Button>
-                <ToggleButton Style="{ThemeResource RevealRoundToggleButton}" IsChecked="{x:Bind Context.IsShuffle, Mode=TwoWay}"
+                <ToggleButton Style="{ThemeResource RevealRoundToggleButton}" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 0.8),Mode=OneWay}" IsChecked="{x:Bind Context.IsShuffle, Mode=TwoWay}"
                               ToolTipService.ToolTip="Shuffle" Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <ToggleButton.Content>
                         <SymbolIcon Symbol="Shuffle"/>
                     </ToggleButton.Content>
                 </ToggleButton>
 
-                <ToggleButton Style="{ThemeResource RevealRoundToggleButton}" IsChecked="{x:Bind Context.IsLoop, Mode=TwoWay}"
+                <ToggleButton Style="{ThemeResource RevealRoundToggleButton}" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 0.8),Mode=OneWay}" IsChecked="{x:Bind Context.IsLoop, Mode=TwoWay}"
                               ToolTipService.ToolTip="Loop" Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <ToggleButton.Content>
                         <SymbolIcon Symbol="Refresh"/>
@@ -818,19 +818,19 @@
                 </ToggleButton>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="4">
-                <Button Style="{ThemeResource RevealRoundButton}" ToolTipService.ToolTip="Lyric window" Command="{x:Bind Context.ShowLyricWindow}"
+                <Button Style="{ThemeResource RevealRoundButton}" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 0.8),Mode=OneWay}" ToolTipService.ToolTip="Lyric window" Command="{x:Bind Context.ShowLyricWindow}"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <Button.Content>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEA4B;"/>
                     </Button.Content>
                 </Button>
-                <Button Style="{ThemeResource RevealRoundButton}" Command="{x:Bind Context.CompactOverlay}" ToolTipService.ToolTip="Small window"
+                <Button Style="{ThemeResource RevealRoundButton}" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 0.8),Mode=OneWay}" Command="{x:Bind Context.CompactOverlay}" ToolTipService.ToolTip="Small window"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <Button.Content>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE2B4;" />
                     </Button.Content>
                 </Button>
-                <Button Style="{ThemeResource RevealRoundButton}" ToolTipService.ToolTip="More"
+                <Button Style="{ThemeResource RevealRoundButton}" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 0.8),Mode=OneWay}" ToolTipService.ToolTip="More"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <Button.Content>
                         <SymbolIcon Symbol="More"/>

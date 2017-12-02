@@ -32,7 +32,7 @@ namespace Aurora.Music.Pages
             SubPanelFrame.Navigate(typeof(CategoryListView));
             MainPageViewModel.Current.Title = "Library";
             MainPageViewModel.Current.NeedShowTitle = true;
-            MainPageViewModel.Current.IsLeftTopForeWhite = false;
+            MainPageViewModel.Current.LeftTopColor = Resources["SystemControlForegroundBaseHighBrush"] as SolidColorBrush;
         }
 
         internal void LefPanelNavigate(Type t)

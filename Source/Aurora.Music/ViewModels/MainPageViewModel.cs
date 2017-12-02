@@ -62,17 +62,18 @@ namespace Aurora.Music.ViewModels
         private Settings settings;
         private IPlayer player;
 
-        private bool _lastLeftTop;
-        private bool isLeftTopDark;
-        public bool IsLeftTopForeWhite
+        private SolidColorBrush _lastLeftTop;
+        private SolidColorBrush leftTopColor;
+        public SolidColorBrush LeftTopColor
         {
-            get { return isLeftTopDark; }
+            get { return leftTopColor; }
             set
             {
-                _lastLeftTop = isLeftTopDark;
-                SetProperty(ref isLeftTopDark, value);
+                _lastLeftTop = leftTopColor;
+                SetProperty(ref leftTopColor, value);
                 ApplicationViewTitleBar titleBar = ApplicationView.GetForCurrentView().TitleBar;
-                titleBar.ForegroundColor = value ? Colors.Black : Colors.White;
+                titleBar.ButtonForegroundColor = leftTopColor.Color;
+                titleBar.ForegroundColor = leftTopColor.Color;
             }
         }
 
@@ -111,7 +112,7 @@ namespace Aurora.Music.ViewModels
         {
             NeedShowTitle = _lastneedshow;
             Title = _lasttitle;
-            IsLeftTopForeWhite = _lastLeftTop;
+            LeftTopColor = _lastLeftTop;
         }
 
         private TimeSpan currentPosition;
@@ -396,7 +397,7 @@ namespace Aurora.Music.ViewModels
                     var webResult = await OnlineMusicExtension.ExecuteAsync(querys.ToArray());
                     if (webResult is IEnumerable<OnlineMusicItem> items)
                     {
-                        if (MainPage.Current.CanAdd && s == _lastQuery)
+                        if (MainPage.Current.CanAdd && s.Equals(_lastQuery, StringComparison.Ordinal))
                             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                             {
                                 lock (MainPage.Current.Lockable)

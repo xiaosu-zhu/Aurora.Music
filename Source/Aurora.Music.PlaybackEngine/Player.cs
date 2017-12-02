@@ -104,7 +104,7 @@ namespace Aurora.Music.PlaybackEngine
             //mediaPlayer.PlaybackSession.PositionChanged += PlaybackSession_PositionChangedAsync;
             positionUpdateTimer = ThreadPoolTimer.CreatePeriodicTimer(UpdatTimerHandler, TimeSpan.FromMilliseconds(250), UpdateTimerDestoyed);
         }
-        
+
         private void UpdateTimerDestoyed(ThreadPoolTimer timer)
         {
             timer.Cancel();
@@ -140,15 +140,23 @@ namespace Aurora.Music.PlaybackEngine
                 });
                 try
                 {
-                    var id = (int)mediaPlaybackList.CurrentItem?.Source.CustomProperties[Consts.ID];
-                    if (id != default(int) && _songCountID != id && updatedArgs.Current.TotalSeconds / updatedArgs.Total.TotalSeconds > 0.5)
+                    var song = mediaPlaybackList.CurrentItem?.Source.CustomProperties[Consts.SONG] as Song;
+                    if (song.IsOnline)
                     {
-                        _songCountID = id;
-                        var t = ThreadPool.RunAsync(async (x) =>
+                        throw new NotImplementedException("Play Statistic online");
+                    }
+                    else
+                    {
+                        var id = song.ID;
+                        if (id != default(int) && _songCountID != id && updatedArgs.Current.TotalSeconds / updatedArgs.Total.TotalSeconds > 0.5)
                         {
-                            var opr = SQLOperator.Current();
-                            await FileReader.PlayStaticAdd(id, 0, 1);
-                        });
+                            _songCountID = id;
+                            var t = ThreadPool.RunAsync(async (x) =>
+                            {
+                                var opr = SQLOperator.Current();
+                                await FileReader.PlayStaticAdd(id, 0, 1);
+                            });
+                        }
                     }
                 }
                 catch (Exception)

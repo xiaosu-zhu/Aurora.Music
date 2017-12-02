@@ -87,6 +87,7 @@ namespace Aurora.Music.ViewModels
             var dispa = CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, async () =>
             {
                 CurrentColorBrush = new SolidColorBrush(await ImagingHelper.GetMainColor(CurrentArtwork));
+                MainPageViewModel.Current.LeftTopColor = AdjustBrightness(CurrentColorBrush, 0.8);
                 IsCurrentFavorite = await _lastSong.GetFavoriteAsync();
             });
 
@@ -161,7 +162,7 @@ namespace Aurora.Music.ViewModels
             System.Drawing.Color color = System.Drawing.Color.FromArgb(b.Color.R, b.Color.G, b.Color.B);
             ColorToHSV(color, out var h, out var s, out var v);
             v *= d;
-
+            b.Color = ColorFromHSV(h, s, v);
             return new SolidColorBrush(ColorFromHSV(h, s, v));
         }
 
@@ -522,6 +523,7 @@ namespace Aurora.Music.ViewModels
                         {
                             CurrentArtwork = Song.PicturePath == Consts.BlackPlaceholder ? null : new Uri(Song.PicturePath);
                             CurrentColorBrush = new SolidColorBrush(await ImagingHelper.GetMainColor(CurrentArtwork));
+                            MainPageViewModel.Current.LeftTopColor = AdjustBrightness(CurrentColorBrush, 0.8);
                             lastUriPath = Song.PicturePath == Consts.BlackPlaceholder ? null : Song.PicturePath;
                         }
                     }
@@ -529,6 +531,7 @@ namespace Aurora.Music.ViewModels
                     {
                         CurrentArtwork = null;
                         CurrentColorBrush = new SolidColorBrush(new UISettings().GetColorValue(UIColorType.Accent));
+                        MainPageViewModel.Current.LeftTopColor = AdjustBrightness(CurrentColorBrush, 0.8);
                         lastUriPath = null;
                     }
                     if (e.Items is IList<Song> l)

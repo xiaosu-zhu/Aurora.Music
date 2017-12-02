@@ -106,7 +106,7 @@ namespace Aurora.Music.Pages
 
             MainPageViewModel.Current.Title = "Now Playing";
             MainPageViewModel.Current.NeedShowTitle = true;
-            MainPageViewModel.Current.IsLeftTopForeWhite = false;
+            MainPageViewModel.Current.LeftTopColor = Resources["SystemControlForegroundBaseHighBrush"] as SolidColorBrush;
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
             AppViewBackButtonVisibility.Visible;
             SystemNavigationManager.GetForCurrentView().BackRequested += NowPlayingPage_BackRequested;
