@@ -104,6 +104,32 @@
     </ContentDialog.Resources>
 
     <ListView Padding="16,0" ItemContainerStyle="{ThemeResource GeneralListViewItemStyle}" ItemsSource="{x:Bind SongList}" ItemTemplateSelector="{StaticResource SongListTemplateSelector}">
+        <ListView.Resources>
+            <Storyboard x:Name="PointerOver">
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="DetailPanel" Storyboard.TargetProperty="Background">
+                    <DiscreteObjectKeyFrame Value="{ThemeResource SystemControlChromeHighAcrylicWindowMediumBrush}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="DetailPanel" Storyboard.TargetProperty="BorderBrush">
+                    <DiscreteObjectKeyFrame Value="{ThemeResource SystemControlBaseHighAcrylicWindowBrush}"/>
+                </ObjectAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Name="Normal">
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="DetailPanel" Storyboard.TargetProperty="Background">
+                    <DiscreteObjectKeyFrame Value="{ThemeResource SystemControlPageBackgroundChromeLowBrush}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="DetailPanel" Storyboard.TargetProperty="BorderBrush">
+                    <DiscreteObjectKeyFrame Value="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}"/>
+                </ObjectAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Name="Pressed">
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="DetailPanel" Storyboard.TargetProperty="Background">
+                    <DiscreteObjectKeyFrame Value="{ThemeResource SystemControlHighlightChromeHighBrush}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="DetailPanel" Storyboard.TargetProperty="BorderBrush">
+                    <DiscreteObjectKeyFrame Value="{ThemeResource SystemControlHighlightChromeHighBrush}"/>
+                </ObjectAnimationUsingKeyFrames>
+            </Storyboard>
+        </ListView.Resources>
         <ListView.Header>
             <Grid Margin="0,0,0,24">
                 <Grid.ColumnDefinitions>
@@ -122,14 +148,14 @@
                     <TextBlock Margin="0,4" x:Name="Artist" Text="" Style="{ThemeResource SubtitleTextBlockStyle}"/>
                     <TextBlock Margin="0,4,0,8" x:Name="Brief" Text="" Style="{ThemeResource BodyTextBlockStyle}"/>
                 </StackPanel>
-                <StackPanel PointerEntered="StackPanel_PointerEntered" PointerExited="StackPanel_PointerExited"
+                <StackPanel PointerEntered="StackPanel_PointerEntered" PointerExited="StackPanel_PointerExited" x:Name="DetailPanel"
                             PointerCanceled="Grid_PointerExited" PointerCaptureLost="Grid_PointerExited" PointerReleased="StackPanel_PointerReleased"
-                            Background="{ThemeResource SystemControlChromeLowAcrylicWindowBrush}" 
+                            Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}" PointerPressed="StackPanel_PointerPressed"
                             BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" 
                             BorderThickness="1" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Padding="8">
                     <TextBlock Style="{ThemeResource BodyTextBlockStyle}" x:Name="Descriptions" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MaxLines="4" TextTrimming="CharacterEllipsis" Text="" TextWrapping="WrapWholeWords">
                     </TextBlock>
-                    <FontIcon FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="10" Glyph="&#xE09D;" />
+                    <FontIcon x:Name="DescriIndicator" FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="10" Glyph="&#xE09D;" />
                 </StackPanel>
             </Grid>
         </ListView.Header>

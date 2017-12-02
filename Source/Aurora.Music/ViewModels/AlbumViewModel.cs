@@ -187,17 +187,17 @@ namespace Aurora.Music.ViewModels
                     await SQLOperator.Current().UpdateAlbumAsync(new Album(ID)
                     {
                         Songs = SongsID,
-                        Name = Name,
-                        Genres = Genres,
+                        Name = Name ?? string.Empty,
+                        Genres = Genres ?? new string[] { },
                         Year = Year,
-                        AlbumSort = AlbumSort,
+                        AlbumSort = AlbumSort ?? string.Empty,
                         TrackCount = TrackCount,
                         DiscCount = DiscCount,
-                        AlbumArtists = AlbumArtists,
-                        AlbumArtistsSort = AlbumArtistsSort,
+                        AlbumArtists = AlbumArtists ?? new string[] { },
+                        AlbumArtistsSort = AlbumArtistsSort ?? new string[] { },
                         ReplayGainAlbumGain = ReplayGainAlbumGain,
                         ReplayGainAlbumPeak = ReplayGainAlbumPeak,
-                        PicturePath = Artwork.AbsolutePath,
+                        PicturePath = Artwork.AbsolutePath ?? string.Empty,
                     });
                 }
             });

@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Aurora.Music.Pages" SizeChanged="Page_SizeChanged"
     xmlns:vm="using:Aurora.Music.ViewModels"
+    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:ctrls="using:Aurora.Music.Controls"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -460,7 +461,7 @@
                       IsVerticalScrollChainingEnabled="True">
             <StackPanel Margin="0,144,0,160" Orientation="Vertical" x:Name="ContentPanel"
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <GridView SelectionMode="None" IsItemClickEnabled="True" ItemsSource="{x:Bind Context.HeroList}"
+                <GridView animations:ReorderGridAnimation.Duration="360" SelectionMode="None" IsItemClickEnabled="True" ItemsSource="{x:Bind Context.HeroList}"
                           ItemContainerStyle="{ThemeResource HeroGridViewItemStyle}"
                           HorizontalAlignment="Center" VerticalAlignment="Stretch" Padding="64"
                           Margin="0" Style="{ThemeResource HeroGridViewStyle}" x:Name="HeroGrid">

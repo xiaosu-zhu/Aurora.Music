@@ -861,6 +861,10 @@
                            Style="{ThemeResource SubheaderTextBlockStyle}"
                            Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" HorizontalAlignment="Left" VerticalAlignment="Top" 
                            FontWeight="Bold" Text="Now"/>
+                    <StackPanel Visibility="{x:Bind Context.NullableBooltoVisibility(Context.IsPlaying), Mode=OneWay}" Background="{ThemeResource SystemControlAltMediumLowAcrylicElementMediumBrush}" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                        <TextBlock x:Name="Text" Margin="12" TextAlignment="Right" Text="Now Playing" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" Style="{ThemeResource TitleTextBlockStyle}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE189;" Width="48" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </StackPanel>
 
                 </Grid>
                 <ListView SelectionChanged="Pane_CurrentChanged" ItemsSource="{x:Bind Context.HamList}" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemContainerStyle="{ThemeResource PaneListItemStyle}">
@@ -875,7 +879,7 @@
                                     </ImageBrush>
                                 </Grid.Background>
                                 <Grid Background="{ThemeResource SystemControlBackgroundBaseMediumBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{x:Bind BoolNottoVisibility(IsCurrent), Mode=OneWay}"/>
-                                <StackPanel Background="{ThemeResource SystemControlAltMediumLowAcrylicElementMediumBrush}" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                <StackPanel Background="{ThemeResource SystemControlAltMediumLowAcrylicElementMediumBrush}" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
                                     <TextBlock x:Name="Text" Margin="12" TextAlignment="Right" Text="{x:Bind Title}" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="{x:Bind ChangeWeight(IsCurrent), Mode=OneWay}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Icon}" Width="48" Foreground="{x:Bind ChangeForeground(IsCurrent), Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </StackPanel>
@@ -1048,6 +1052,12 @@
                     <ProgressRing Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" x:Name="ModalRing" HorizontalAlignment="Center" VerticalAlignment="Center" Width="48" Height="48" IsActive="False" IsEnabled="False"/>
                     <TextBlock Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Text="Waiting" x:Name="ModalText" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,80,0,0"/>
                 </Grid>
+
+                <toolkit:InAppNotification x:Name="InAppNotify" Style="{ThemeResource CustomInAppNotificationStyle}" Content="This is a test message."
+                                    ShowDismissButton="True"
+                                    AnimationDuration="00:00:00.96"
+                                    VerticalOffset="240"
+                                    HorizontalOffset="0"/>
             </Grid>
         </SplitView.Content>
     </SplitView>

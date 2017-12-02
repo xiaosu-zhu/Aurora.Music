@@ -56,10 +56,10 @@ namespace Aurora.Music.Controls
                 });
             }
             Album.Text = album.Name;
-            Artwork.Source = new BitmapImage(album.Artwork == null ? new Uri(Consts.NowPlaceholder) : album.Artwork);
+            Artwork.Source = new BitmapImage(album.Artwork ?? new Uri(Consts.NowPlaceholder));
             Artist.Text = album.GetFormattedArtists();
             Brief.Text = album.GetBrief();
-            Descriptions.Text = album.Description;
+            Descriptions.Text = album.Description ?? "Local Album";
         }
 
         private async void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
@@ -87,24 +87,43 @@ namespace Aurora.Music.Controls
             }
         }
 
-        private void PlayBtn_Click(object sender, RoutedEventArgs e)
+        private async void PlayBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            await MainPageViewModel.Current.InstantPlay(await album.GetSongsAsync(), (int)((sender as FrameworkElement).DataContext as SongViewModel).Index);
         }
 
         private void StackPanel_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
-
+            PointerOver.Begin();
         }
 
         private void StackPanel_PointerExited(object sender, PointerRoutedEventArgs e)
         {
-
+            Normal.Begin();
         }
 
         private void StackPanel_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
+            PointerOver.Begin();
+            if (DescriIndicator.Glyph == "\uE018")
+            {
+                DetailPanel.SetValue(Grid.ColumnProperty, 1);
+                DetailPanel.SetValue(Grid.ColumnSpanProperty, 1);
+                DescriIndicator.Glyph = "\uE09D";
+                Descriptions.MaxLines = 4;
+            }
+            else
+            {
+                DetailPanel.SetValue(Grid.ColumnProperty, 0);
+                DetailPanel.SetValue(Grid.ColumnSpanProperty, 2);
+                DescriIndicator.Glyph = "\uE018";
+                Descriptions.MaxLines = int.MaxValue;
+            }
+        }
 
+        private void StackPanel_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            Pressed.Begin();
         }
     }
 }

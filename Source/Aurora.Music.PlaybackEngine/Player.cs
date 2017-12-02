@@ -102,18 +102,9 @@ namespace Aurora.Music.PlaybackEngine
             mediaPlaybackList.CurrentItemChanged += MediaPlaybackList_CurrentItemChanged;
             mediaPlayer.PlaybackSession.PlaybackStateChanged += PlaybackSession_PlaybackStateChanged;
             //mediaPlayer.PlaybackSession.PositionChanged += PlaybackSession_PositionChangedAsync;
-            mediaPlayer.PlaybackSession.DownloadProgressChanged += PlaybackSession_DownloadProgressChanged;
             positionUpdateTimer = ThreadPoolTimer.CreatePeriodicTimer(UpdatTimerHandler, TimeSpan.FromMilliseconds(250), UpdateTimerDestoyed);
         }
-
-        private void PlaybackSession_DownloadProgressChanged(MediaPlaybackSession sender, object args)
-        {
-            DownloadProgressChanged?.Invoke(this, new DownloadProgressChangedArgs()
-            {
-                Progress = sender.DownloadProgress
-            });
-        }
-
+        
         private void UpdateTimerDestoyed(ThreadPoolTimer timer)
         {
             timer.Cancel();
@@ -143,6 +134,10 @@ namespace Aurora.Music.PlaybackEngine
                     Total = mediaPlayer.PlaybackSession.NaturalDuration
                 };
                 PositionUpdated?.Invoke(this, updatedArgs);
+                DownloadProgressChanged?.Invoke(this, new DownloadProgressChangedArgs()
+                {
+                    Progress = sender.DownloadProgress
+                });
                 try
                 {
                     var id = (int)mediaPlaybackList.CurrentItem?.Source.CustomProperties[Consts.ID];
@@ -279,10 +274,6 @@ namespace Aurora.Music.PlaybackEngine
                 await WriteProperties(item, props, builtin);
 
                 mediaPlaybackItem.ApplyDisplayProperties(props);
-
-                mediaPlayer.Source = mediaPlaybackItem;
-                mediaPlayer.Play();
-
                 mediaPlaybackList.Items.Add(mediaPlaybackItem);
                 mediaPlaybackList.StartingItem = mediaPlaybackItem;
 
@@ -339,6 +330,8 @@ namespace Aurora.Music.PlaybackEngine
                 mediaPlaybackList.Items.Add(mediaPlaybackItem);
                 mediaPlaybackList.StartingItem = mediaPlaybackItem;
 
+                mediaPlayer.Source = mediaPlaybackList;
+
                 newComing = false;
 
                 _addPlayListTask = ThreadPool.RunAsync(async (x) =>
@@ -356,8 +349,7 @@ namespace Aurora.Music.PlaybackEngine
 
         private async Task AddtoPlayListFirstAsync(IEnumerable<Song> items)
         {
-            int i = 0;
-            foreach (var item in items)
+            foreach (var item in items.Reverse())
             {
                 try
                 {
@@ -403,17 +395,13 @@ namespace Aurora.Music.PlaybackEngine
                     if (newComing)
                         return;
 
-                    mediaPlaybackList.Items.Insert(i++, mediaPlaybackItem);
+                    mediaPlaybackList.Items.Insert(0, mediaPlaybackItem);
                 }
                 catch (FileNotFoundException)
                 {
                     continue;
                 }
             }
-            StatusChanged?.Invoke(this, new StatusChangedArgs
-            {
-                CanJump = true
-            });
         }
 
         private async Task AddtoPlayListAsync(IEnumerable<Song> items)
@@ -471,10 +459,6 @@ namespace Aurora.Music.PlaybackEngine
                     continue;
                 }
             }
-            StatusChanged?.Invoke(this, new StatusChangedArgs
-            {
-                CanJump = true
-            });
         }
 
         private async Task WriteProperties(Song item, MediaItemDisplayProperties props, string pic)
@@ -718,12 +702,11 @@ namespace Aurora.Music.PlaybackEngine
             mediaPlayer.Dispose();
         }
 
-        public void SkiptoItem(int iD)
+        public void SkiptoItem(uint index)
         {
-            var item = mediaPlaybackList.Items.First(x => ((int)x.Source.CustomProperties[Consts.ID] == iD));
-            if (item != null)
+            if (index >= 0 && index < mediaPlaybackList.Items.Count)
             {
-                mediaPlaybackList.MoveTo((uint)mediaPlaybackList.Items.IndexOf(item));
+                mediaPlaybackList.MoveTo(index);
             }
         }
     }

@@ -119,18 +119,18 @@ namespace Aurora.Music.Core.Extension
 
         private static readonly List<QQMusicFileFormat> fileFormats = new List<QQMusicFileFormat>()
         {
-            new QQMusicFileFormat(320,"M800",".mp3"),
-            new QQMusicFileFormat(192,"C600",".m4a"),
-            new QQMusicFileFormat(128,"M500",".mp3"),
-            new QQMusicFileFormat(96,"C400",".mp3"),
-            new QQMusicFileFormat(48,"C200",".mp3"),
+            new QQMusicFileFormat(320u, "M800", ".mp3"),
+            new QQMusicFileFormat(192u, "C600", ".m4a"),
+            new QQMusicFileFormat(128u, "M500", ".mp3"),
+            new QQMusicFileFormat(96u, "C400", ".mp3"),
+            new QQMusicFileFormat(48u, "C200", ".mp3"),
         };
 
         private static DateTime stamp = DateTime.MinValue;
         private static long guid;
         private static string key;
 
-        public static async Task<string> GenerateFileUriByID(string media_ID, int bitrate = 256)
+        public static async Task<string> GenerateFileUriByID(string media_ID, uint bitrate = 256)
         {
             if ((DateTime.Now - stamp).TotalMinutes > 1 || !key.IsNullorEmpty())
             {
@@ -161,10 +161,10 @@ namespace Aurora.Music.Core.Extension
 
         class QQMusicFileFormat
         {
-            public int BitRate { get; }
+            public uint BitRate { get; }
             public string Prefix { get; }
             public string Format { get; }
-            public QQMusicFileFormat(int bitrate, string prefix, string format)
+            public QQMusicFileFormat(uint bitrate, string prefix, string format)
             {
                 BitRate = bitrate;
                 Prefix = prefix;

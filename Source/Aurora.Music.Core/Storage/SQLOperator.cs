@@ -75,6 +75,7 @@ namespace Aurora.Music.Core.Storage
             FilePath = song.FilePath;
             Duration = song.Duration;
             BitRate = song.BitRate;
+            Rating = song.Rating;
             SampleRate = song.SampleRate;
             AudioChannels = song.AudioChannels;
             MusicBrainzArtistId = song.MusicBrainzArtistId;
@@ -115,6 +116,8 @@ namespace Aurora.Music.Core.Storage
             Year = song.Year;
             PicturePath = song.PicturePath;
         }
+
+        public double Rating { get; set; }
 
         public TimeSpan Duration { get; set; }
         public uint BitRate { get; set; }
@@ -323,6 +326,39 @@ namespace Aurora.Music.Core.Storage
             }
         }
 
+        internal async Task WriteFavoriteAsync(int id, bool isCurrentFavorite)
+        {
+            var res = await conn.QueryAsync<STATISTICS>("SELECT * FROM STATISTICS WHERE TARGETID=? AND TARGETTYPE=0", id);
+            if (res.Count > 0)
+            {
+                res[0].Favorite = isCurrentFavorite;
+                await conn.UpdateAsync(res[0]);
+            }
+            else
+            {
+                await conn.InsertAsync(new STATISTICS
+                {
+                    TargetID = id,
+                    TargetType = 0,
+                    Favorite = isCurrentFavorite,
+                });
+            }
+        }
+
+        internal async Task UpdateSongRatingAsync(int id, double rat)
+        {
+            var result = await conn.QueryAsync<SONG>("SELECT * FROM SONG WHERE ID = ?", id);
+            if (result.Count > 0)
+            {
+                result[0].Rating = rat;
+                await conn.UpdateAsync(result[0]);
+            }
+            else
+            {
+                return;
+            }
+        }
+
         // TODO: 仅当以上 Dispose(bool disposing) 拥有用于释放未托管资源的代码时才替代终结器。
         // ~SQLOperator() {
         //   // 请勿更改此代码。将清理代码放入以上 Dispose(bool disposing) 中。
@@ -405,6 +441,19 @@ namespace Aurora.Music.Core.Storage
             {
                 var f = new FOLDER(folder);
                 await conn.InsertAsync(f);
+            }
+        }
+
+        internal async Task<bool> GetFavoriteAsync(int id)
+        {
+            var res = await conn.QueryAsync<STATISTICS>("SELECT * FROM STATISTICS WHERE TARGETID=? AND TARGETTYPE=0", id);
+            if (res.Count > 0)
+            {
+                return res[0].Favorite;
+            }
+            else
+            {
+                return false;
             }
         }
 
@@ -839,7 +888,7 @@ namespace Aurora.Music.Core.Storage
 
         public async Task<List<GenericMusicItem>> GetFavListAsync()
         {
-            var res = await conn.QueryAsync<STATISTICS>($"SELECT * FROM STATISTICS WHERE TARGETTYPE=0 AND PlayedCount>=(SELECT AVG(PlayedCount) FROM STATISTICS) ORDER BY PlayedCount DESC LIMIT 25");
+            var res = await conn.QueryAsync<STATISTICS>($"SELECT * FROM STATISTICS WHERE TARGETTYPE=0 ORDER BY PlayedCount DESC LIMIT 25");
             res.AddRange(await conn.QueryAsync<STATISTICS>($"SELECT * FROM STATISTICS WHERE TARGETTYPE=0 AND Favorite=1 ORDER BY RANDOM() LIMIT 25"));
             var distintedres = res.Distinct();
             var alist = await conn.QueryAsync<SONG>($"SELECT * FROM SONG WHERE ID IN ({string.Join(',', distintedres.Select(x => x.TargetID))})");
@@ -857,7 +906,7 @@ namespace Aurora.Music.Core.Storage
                 final.Add(new GenericMusicItem(new Album(item)));
             }
 
-            var bres = await conn.QueryAsync<STATISTICS>($"SELECT * FROM STATISTICS WHERE TARGETTYPE=0 AND PlayedCount>=(SELECT AVG(PlayedCount) FROM STATISTICS) ORDER BY PlayedCount DESC LIMIT 5");
+            var bres = await conn.QueryAsync<STATISTICS>($"SELECT * FROM STATISTICS WHERE TARGETTYPE=0 ORDER BY PlayedCount DESC LIMIT 5");
             bres.AddRange(await conn.QueryAsync<STATISTICS>($"SELECT * FROM STATISTICS WHERE TARGETTYPE=0 AND Favorite=1 ORDER BY RANDOM() LIMIT 5"));
             var bdistintedres = bres.Distinct();
             var blist = await conn.QueryAsync<ALBUM>($"SELECT * FROM ALBUM WHERE ID IN ({string.Join(',', bdistintedres.Select(x => x.TargetID))})");
@@ -970,12 +1019,19 @@ namespace Aurora.Music.Core.Storage
             await conn.UpdateAsync(new ALBUM(s));
         }
 
-        public async Task<Album> GetAlbumByNameAsync(string description)
+        public async Task<Album> GetAlbumByNameAsync(string album)
         {
-            var res = await conn.QueryAsync<ALBUM>("SELECT * FROM ALBUM WHERE NAME=?", description);
-            if (res.Count > 0)
+            if (album.IsNullorEmpty())
             {
-                return new Album(res[0]);
+                return null;
+            }
+            else
+            {
+                var res = await conn.QueryAsync<ALBUM>("SELECT * FROM ALBUM WHERE NAME=?", album);
+                if (res.Count > 0)
+                {
+                    return new Album(res[0]);
+                }
             }
             return null;
         }

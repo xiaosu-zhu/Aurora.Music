@@ -88,20 +88,20 @@ namespace Aurora.Music.Core.Models
             }
         }
 
-        public int GetPreferredBitRate()
+        public uint GetPreferredBitRate()
         {
             switch (PreferredBitRate)
             {
                 case Bitrate._128:
-                    return 128;
+                    return 128u;
                 case Bitrate._192:
-                    return 192;
+                    return 192u;
                 case Bitrate._256:
-                    return 256;
+                    return 256u;
                 case Bitrate._320:
-                    return 320;
+                    return 320u;
                 default:
-                    return 256;
+                    return 256u;
             }
         }
     }

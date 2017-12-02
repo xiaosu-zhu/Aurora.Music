@@ -114,10 +114,12 @@ namespace Aurora.Music.Core.Models
                     AlbumArtists = (item["album_artists"] as Newtonsoft.Json.Linq.JArray).Select(x => x.ToString()).ToArray(),
                     PicturePath = item["picture_path"] as string,
                     OnlineID = item["id"] as string,
+                    OnlineAlbumID = item["album_id"] as string,
                     IsOnline = true,
                     BitRate = Convert.ToUInt32(item["bit_rate"]),
                     Year = Convert.ToUInt32(item["year"]),
                     OnlineUri = new Uri(item["file_url"] as string),
+                    FilePath = item["file_url"] as string,
                     Track = Convert.ToUInt32(item["track"]),
                     Duration = TimeSpan.Parse(item["duration"] as string)
                 });
@@ -138,11 +140,13 @@ namespace Aurora.Music.Core.Models
             var song = new Song
             {
                 Title = set["title"] as string,
+                OnlineAlbumID = set["album_id"] as string,
                 Album = set["album"] as string,
                 Performers = (set["performers"] as Newtonsoft.Json.Linq.JArray).Select(x => x.ToString()).ToArray(),
                 AlbumArtists = (set["album_artists"] as Newtonsoft.Json.Linq.JArray).Select(x => x.ToString()).ToArray(),
                 PicturePath = set["picture_path"] as string,
                 OnlineUri = new Uri(set["file_url"] as string),
+                FilePath = set["file_url"] as string,
                 IsOnline = true,
                 BitRate = Convert.ToUInt32(set["bit_rate"]),
                 Year = Convert.ToUInt32(set["year"]),

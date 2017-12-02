@@ -18,6 +18,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
+using System.Threading.Tasks;
 
 namespace Aurora.Music.ViewModels
 {
@@ -65,26 +66,32 @@ namespace Aurora.Music.ViewModels
         public void Init(SongViewModel song)
         {
             Song = song;
+            _lastSong = new Song()
+            {
+                ID = song.ID,
+                IsOnline = song.IsOnline,
+                OnlineUri = new Uri(song.FilePath),
+                FilePath = song.FilePath,
+                Duration = song.Duration,
+                Album = song.Album,
+                OnlineAlbumID = song.OnlineAlbumID,
+                OnlineID = song.OnlineID
+            };
             CurrentArtwork = song.PicturePath.IsNullorEmpty() ? null : new Uri(song.PicturePath);
             lastUriPath = song.PicturePath.IsNullorEmpty() ? null : song.PicturePath;
             IsPlaying = player.IsPlaying;
             DownloadProgress = MainPageViewModel.Current.DownloadProgress;
             SongChanged?.Invoke(song, EventArgs.Empty);
+            CurrentRating = song.Rating;
 
             var dispa = CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, async () =>
             {
                 CurrentColorBrush = new SolidColorBrush(await ImagingHelper.GetMainColor(CurrentArtwork));
+                IsCurrentFavorite = await _lastSong.GetFavoriteAsync();
             });
 
             var t = ThreadPool.RunAsync(async x =>
             {
-                _lastSong = new Song()
-                {
-                    ID = song.ID,
-                    IsOnline = song.IsOnline,
-                    OnlineUri = new Uri(song.FilePath),
-                };
-
                 var ext = MainPageViewModel.Current.LyricExtension;
 
                 var result = await ext.ExecuteAsync(new KeyValuePair<string, object>("q", "lyric"), new KeyValuePair<string, object>("title", Song.Title), new KeyValuePair<string, object>("album", song.Album), new KeyValuePair<string, object>("artist", Song.Performers.IsNullorEmpty() ? null : Song.Performers[0]));
@@ -177,6 +184,17 @@ namespace Aurora.Music.ViewModels
         {
             get { return currentDuration; }
             set { SetProperty(ref currentDuration, value); }
+        }
+
+        internal async Task<AlbumViewModel> GetAlbumAsync()
+        {
+            if (_lastSong.IsOnline)
+            {
+                if (_lastSong.OnlineAlbumID.IsNullorEmpty())
+                    return null;
+                return new AlbumViewModel(await MainPageViewModel.Current.GetOnlineAlbumAsync(_lastSong.OnlineAlbumID));
+            }
+            return new AlbumViewModel(await SQLOperator.Current().GetAlbumByNameAsync(_lastSong.Album));
         }
 
         private LyricViewModel lyric = new LyricViewModel();
@@ -279,6 +297,59 @@ namespace Aurora.Music.ViewModels
                 return 0;
             }
             return 100 * (t1.TotalMilliseconds / total.TotalMilliseconds);
+        }
+
+        private double currentRating;
+        public double CurrentRating
+        {
+            get
+            {
+                if (currentRating == 0)
+                {
+                    return -1;
+                }
+                return currentRating;
+            }
+            set
+            {
+                var rat = value;
+                if (rat < 0)
+                {
+                    rat = 0;
+                }
+                if (currentRating == (uint)rat)
+                    return;
+                var t = ThreadPool.RunAsync(async work =>
+                {
+                    await _lastSong.WriteRatingAsync(rat);
+                });
+                Song.Rating = (uint)rat;
+                SetProperty(ref currentRating, (uint)rat);
+            }
+        }
+
+        public string FavGlyph(bool b)
+        {
+            return b ? "\uE00B" : "\uE006";
+        }
+
+        private bool isCurrentFac;
+        public bool IsCurrentFavorite
+        {
+            get { return isCurrentFac; }
+            set { SetProperty(ref isCurrentFac, value); }
+        }
+
+        public DelegateCommand ToggleFavorite
+        {
+            get
+            {
+                return new DelegateCommand(() =>
+                {
+                    IsCurrentFavorite = !IsCurrentFavorite;
+                    _lastSong.WriteFav(IsCurrentFavorite);
+                });
+            }
         }
 
         public DelegateCommand GoPrevious
@@ -435,6 +506,10 @@ namespace Aurora.Music.ViewModels
                 if (e.CurrentSong != null)
                 {
                     Song = new SongViewModel(e.CurrentSong);
+
+                    CurrentRating = Song.Rating;
+                    IsCurrentFavorite = await e.CurrentSong.GetFavoriteAsync();
+
                     SongChanged?.Invoke(Song, EventArgs.Empty);
 
                     if (!Song.PicturePath.IsNullorEmpty())

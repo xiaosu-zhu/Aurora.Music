@@ -117,10 +117,26 @@ namespace Aurora.Music.ViewModels
         {
             ID = item.ID;
             Folder = AsyncHelper.RunSync(async () => await item.GetFolderAsync());
+            if (Folder == null)
+            {
+                NotAvaliable = true;
+                Disk = "N/A";
+                Path = item.Path;
+                FolderName = "Not Avaliable";
+                SongsCount = 0;
+                return;
+            }
             Disk = item.Path.Split(':').FirstOrDefault();
             Path = item.Path;
             FolderName = Folder.DisplayName;
             SongsCount = item.SongsCount;
+        }
+
+        private bool notAva;
+        public bool NotAvaliable
+        {
+            get { return notAva; }
+            set { SetProperty(ref notAva, value); }
         }
 
         private bool isOpened;

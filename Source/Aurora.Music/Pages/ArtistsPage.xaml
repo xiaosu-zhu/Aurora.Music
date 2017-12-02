@@ -6,6 +6,7 @@
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:vm="using:Aurora.Music.ViewModels"
     Unloaded="Page_Unloaded"
+    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
@@ -43,7 +44,7 @@
                 </GridView>
             </SemanticZoom.ZoomedOutView>
             <SemanticZoom.ZoomedInView>
-                <GridView ItemClick="ArtistList_ItemClick" IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" 
+                <GridView animations:ReorderGridAnimation.Duration="360" ItemClick="ArtistList_ItemClick" IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" 
               SelectionMode="None" ItemsSource="{x:Bind ArtistListSource.View, Mode=OneWay}" Loaded="ArtistList_Loaded"
               Padding="32,0" ItemContainerStyle="{StaticResource GeneralGridViewItemStyle}" 
               Style="{StaticResource GeneralGridViewStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
