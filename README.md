@@ -1,2 +1,1 @@
-# Aurora.Music
-## Reborn of Aurora Music@2017/10/15
+﻿# Aurora.MusicA small, lightweight UWP music player.
