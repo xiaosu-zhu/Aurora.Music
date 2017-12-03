@@ -7,7 +7,7 @@ Aurora Music have implemented the support for Extensions (1: [Extend your app wi
  - Perform as an online music provider
  - ~~Perform as an online metadata provider~~ (not complete)
  
- You can get the full sample [here](../../Samples/ExtensionSample)
+ You can get the full sample [here](../../Samples/ExtensionSample/)
 
 
 # How It Works
@@ -164,7 +164,7 @@ In the `returnData` above, you should provide:
 The value of `result` is a `string` which contain the raw text of a `.lrc` file, or just plain text with linebreaks. My `LrcParser` will parse it.
 
 ## Deploy and Debug ##
-You can get the full example at [Samples/ExtensionSample](../../Samples/ExtensionSample), so how to let the main application know you have added an extension in the computer? Just deploy it in the Visual Studio, and switch the Debug Mode to "On" in Aurora Music->Settings->Advance
+You can get the full example at [Samples/ExtensionSample](../../Samples/ExtensionSample/), so how to let the main application know you have added an extension in the computer? Just deploy it in the Visual Studio, and switch the Debug Mode to "On" in Aurora Music->Settings->Advance
 
 
 ![Deploy](https://i.loli.net/2017/11/26/5a199c3267f59.png "Deploy in Visual Studio")
