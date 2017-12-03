@@ -835,6 +835,10 @@
         </ResourceDictionary>
     </Page.Resources>
 
+    <Page.DataContext>
+        <vm:MainPageViewModel x:Name="Context"/>
+    </Page.DataContext>
+
     <SplitView AllowDrop="True" DragOver="Root_DragOver" Drop="Root_Drop" OpenPaneLength="320" x:Name="Root" Background="{x:Null}" Style="{StaticResource MainPageSplitViewStyle}" DisplayMode="Overlay" >
         <SplitView.Pane>
             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">

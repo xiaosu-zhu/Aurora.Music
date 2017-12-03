@@ -78,7 +78,7 @@ namespace Aurora.Music.ViewModels
                 OnlineID = song.Song.OnlineID
             };
             CurrentArtwork = song.Artwork;
-            lastUriPath = song.Artwork.AbsolutePath;
+            lastUriPath = song.Artwork?.AbsolutePath;
             IsPlaying = player.IsPlaying;
             DownloadProgress = MainPageViewModel.Current.DownloadProgress;
             SongChanged?.Invoke(song, EventArgs.Empty);
@@ -87,7 +87,7 @@ namespace Aurora.Music.ViewModels
             var dispa = CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, async () =>
             {
                 CurrentColorBrush = new SolidColorBrush(await ImagingHelper.GetMainColor(CurrentArtwork));
-                MainPageViewModel.Current.LeftTopColor = AdjustBrightness(CurrentColorBrush, 0.8);
+                MainPageViewModel.Current.LeftTopColor = AdjustBrightness(CurrentColorBrush, 1);
                 IsCurrentFavorite = await _lastSong.GetFavoriteAsync();
             });
 
@@ -506,47 +506,51 @@ namespace Aurora.Music.ViewModels
                 IsPlaying = player.IsPlaying;
                 if (e.CurrentSong != null)
                 {
-                    Song = new SongViewModel(e.CurrentSong);
-
-                    CurrentRating = Song.Rating;
-                    IsCurrentFavorite = await e.CurrentSong.GetFavoriteAsync();
-
-                    SongChanged?.Invoke(Song, EventArgs.Empty);
-
-                    if (!Song.Song.PicturePath.IsNullorEmpty())
+                    if (!_lastSong.IsIDEqual(e.CurrentSong))
                     {
-                        if (lastUriPath == Song.Song.PicturePath)
-                        {
+                        Song = new SongViewModel(e.CurrentSong);
 
+                        CurrentRating = Song.Rating;
+
+                        SongChanged?.Invoke(Song, EventArgs.Empty);
+
+                        if (Song.Artwork != null)
+                        {
+                            if (lastUriPath == Song.Artwork.AbsolutePath)
+                            {
+
+                            }
+                            else
+                            {
+                                CurrentArtwork = Song.Artwork;
+                                CurrentColorBrush = new SolidColorBrush(await ImagingHelper.GetMainColor(CurrentArtwork));
+                                MainPageViewModel.Current.LeftTopColor = AdjustBrightness(CurrentColorBrush, 1);
+                                lastUriPath = Song.Artwork.AbsolutePath;
+                            }
                         }
                         else
                         {
-                            CurrentArtwork = Song.Artwork;
-                            CurrentColorBrush = new SolidColorBrush(await ImagingHelper.GetMainColor(CurrentArtwork));
-                            MainPageViewModel.Current.LeftTopColor = AdjustBrightness(CurrentColorBrush, 0.8);
-                            lastUriPath = Song.Artwork.AbsolutePath;
+                            CurrentArtwork = null;
+                            CurrentColorBrush = new SolidColorBrush(new UISettings().GetColorValue(UIColorType.Accent));
+                            MainPageViewModel.Current.LeftTopColor = AdjustBrightness(CurrentColorBrush, 1);
+                            lastUriPath = null;
                         }
-                    }
-                    else
-                    {
-                        CurrentArtwork = null;
-                        CurrentColorBrush = new SolidColorBrush(new UISettings().GetColorValue(UIColorType.Accent));
-                        MainPageViewModel.Current.LeftTopColor = AdjustBrightness(CurrentColorBrush, 0.8);
-                        lastUriPath = null;
-                    }
-                    if (e.Items is IList<Song> l)
-                    {
-                        NowListPreview = $"{e.CurrentIndex + 1}/{l.Count}";
-                        uint i = 1;
-                        NowPlayingList.Clear();
-                        foreach (var item in l)
+                        if (e.Items is IList<Song> l)
                         {
-                            NowPlayingList.Add(new SongViewModel(item)
+                            NowListPreview = $"{e.CurrentIndex + 1}/{l.Count}";
+                            uint i = 1;
+                            NowPlayingList.Clear();
+                            foreach (var item in l)
                             {
-                                Index = i++
-                            });
+                                NowPlayingList.Add(new SongViewModel(item)
+                                {
+                                    Index = i++
+                                });
+                            }
+                            CurrentIndex = Convert.ToInt32(e.CurrentIndex);
                         }
-                        CurrentIndex = Convert.ToInt32(e.CurrentIndex);
+
+                        IsCurrentFavorite = await e.CurrentSong.GetFavoriteAsync();
                     }
                 }
             });

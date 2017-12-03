@@ -57,7 +57,6 @@ namespace Aurora.Music
             });
         }
 
-        private MainPageViewModel Context;
         private int lyricViewID;
         private IAsyncAction searchTask;
         private StackPanel autoSuggestPopupPanel;
@@ -595,15 +594,16 @@ namespace Aurora.Music
             return list;
         }
 
-        private void SearchBox_Loaded(object sender, RoutedEventArgs e)
+        private async void SearchBox_Loaded(object sender, RoutedEventArgs e)
         {
             var box = sender as AutoSuggestBox;
 
             var up = box.GetFirst<Popup>();
             autoSuggestPopupPanel = up.Child as StackPanel;
+            await Task.Delay(400);
             if (Context.OnlineMusicExtension != null)
             {
-                SearchBox.PlaceholderText="Search in library and web"
+                SearchBox.PlaceholderText = "Search in library and web";
             }
         }
 
