@@ -6,6 +6,8 @@ Aurora Music have implemented the support for Extensions (1: [Extend your app wi
  - Perform as a lyric provider
  - Perform as an online music provider
  - ~~Perform as an online metadata provider~~ (not complete)
+ 
+ You can get the full sample [here](../../Samples/ExtensionSample)
 
 
 # How It Works
