@@ -59,19 +59,21 @@ namespace Aurora.Music.ViewModels
 
         public ObservableCollection<SongViewModel> NowPlayingList { get; set; } = new ObservableCollection<SongViewModel>();
 
+        private Settings settings;
         private IPlayer player;
 
-        private bool _lastLeftTop;
-        private bool isLeftTopDark;
-        public bool IsLeftTopForeWhite
+        private SolidColorBrush _lastLeftTop;
+        private SolidColorBrush leftTopColor;
+        public SolidColorBrush LeftTopColor
         {
-            get { return isLeftTopDark; }
+            get { return leftTopColor; }
             set
             {
-                _lastLeftTop = isLeftTopDark;
-                SetProperty(ref isLeftTopDark, value);
+                _lastLeftTop = leftTopColor;
+                SetProperty(ref leftTopColor, value);
                 ApplicationViewTitleBar titleBar = ApplicationView.GetForCurrentView().TitleBar;
-                titleBar.ForegroundColor = value ? Colors.Black : Colors.White;
+                titleBar.ButtonForegroundColor = leftTopColor.Color;
+                titleBar.ForegroundColor = leftTopColor.Color;
             }
         }
 
@@ -110,7 +112,7 @@ namespace Aurora.Music.ViewModels
         {
             NeedShowTitle = _lastneedshow;
             Title = _lasttitle;
-            IsLeftTopForeWhite = _lastLeftTop;
+            LeftTopColor = _lastLeftTop;
         }
 
         private TimeSpan currentPosition;
@@ -193,7 +195,8 @@ namespace Aurora.Music.ViewModels
                 {
                     new KeyValuePair<string,object>("q", "online_music"),
                     new KeyValuePair<string, object>("action", "song"),
-                    new KeyValuePair<string, object>("id", id)
+                    new KeyValuePair<string, object>("id", id),
+                    new KeyValuePair<string, object>("bit_rate", settings.GetPreferredBitRate())
                 };
             var songResult = await OnlineMusicExtension.ExecuteAsync(querys.ToArray());
             if (songResult is Song s)
@@ -209,7 +212,8 @@ namespace Aurora.Music.ViewModels
                 {
                     new KeyValuePair<string,object>("q", "online_music"),
                     new KeyValuePair<string, object>("action", "album"),
-                    new KeyValuePair<string, object>("id", id)
+                    new KeyValuePair<string, object>("id", id),
+                    new KeyValuePair<string, object>("bit_rate", settings.GetPreferredBitRate())
                 };
             var songResult = await OnlineMusicExtension.ExecuteAsync(querys.ToArray());
             if (songResult is Album s)
@@ -321,6 +325,7 @@ namespace Aurora.Music.ViewModels
 
         public MainPageViewModel()
         {
+            settings = Settings.Load();
             player = Player.Current;
             Current = this;
             player.DownloadProgressChanged += Player_DownloadProgressChanged;
@@ -351,7 +356,7 @@ namespace Aurora.Music.ViewModels
         }
 
         private double downloadProgress;
-        private DateTime stamp;
+        private string _lastQuery;
 
         public double DownloadProgress
         {
@@ -371,9 +376,46 @@ namespace Aurora.Music.ViewModels
 
         internal async Task Search(string text)
         {
-            stamp = DateTime.Now;
+            if (OnlineMusicExtension != null)
+            {
+                _lastQuery = string.Copy(text);
+                var s = string.Copy(_lastQuery);
 
-            var k = stamp.Ticks;
+                var job = ThreadPool.RunAsync(async work =>
+                {
+                    var querys = new List<KeyValuePair<string, object>>()
+                    {
+                        new KeyValuePair<string,object>("q", "online_music"),
+                        new KeyValuePair<string, object>("action", "search"),
+                        new KeyValuePair<string, object>("keyword", text)
+                    };
+                    var dd = CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
+                    {
+                        await Task.Delay(200);
+                        MainPage.Current.ShowAutoSuggestPopup();
+                    });
+                    var webResult = await OnlineMusicExtension.ExecuteAsync(querys.ToArray());
+                    if (webResult is IEnumerable<OnlineMusicItem> items)
+                    {
+                        if (MainPage.Current.CanAdd && s.Equals(_lastQuery, StringComparison.Ordinal))
+                            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                            {
+                                lock (MainPage.Current.Lockable)
+                                {
+                                    if (SearchItems.Count > 0 && SearchItems[0].Title.IsNullorEmpty())
+                                    {
+                                        SearchItems.Clear();
+                                    }
+                                    foreach (var item in items.Reverse())
+                                    {
+                                        SearchItems.Insert(0, new GenericMusicItemViewModel(item));
+                                    }
+                                    MainPage.Current.HideAutoSuggestPopup();
+                                }
+                            });
+                    }
+                });
+            }
 
             var result = await FileReader.Search(text);
 
@@ -393,45 +435,6 @@ namespace Aurora.Music.ViewModels
                     }
                     MainPage.Current.HideAutoSuggestPopup();
                 });
-
-            if (OnlineMusicExtension != null)
-            {
-                if (!(k == stamp.Ticks))
-                {
-                    return;
-                }
-                var querys = new List<KeyValuePair<string, object>>()
-                {
-                    new KeyValuePair<string,object>("q", "online_music"),
-                    new KeyValuePair<string, object>("action", "search"),
-                    new KeyValuePair<string, object>("keyword", text)
-                };
-                var dd = CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
-                {
-                    await Task.Delay(200);
-                    MainPage.Current.ShowAutoSuggestPopup();
-                });
-                var webResult = await OnlineMusicExtension.ExecuteAsync(querys.ToArray());
-                if (webResult is IEnumerable<OnlineMusicItem> items)
-                {
-                    if (MainPage.Current.CanAdd && k == stamp.Ticks)
-                        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
-                        {
-                            lock (MainPage.Current.Lockable)
-                            {
-                                if (SearchItems.Count > 0 && SearchItems[0].Title.IsNullorEmpty())
-                                {
-                                    SearchItems.Clear();
-                                }
-                                foreach (var item in items)
-                                {
-                                    SearchItems.Insert(0, new GenericMusicItemViewModel(item));
-                                }
-                                MainPage.Current.HideAutoSuggestPopup();
-                            }
-                        });
-                }
-            }
         }
 
         private async Task FindFileChanges()
@@ -499,7 +502,7 @@ namespace Aurora.Music.ViewModels
                 }
                 if (e.CurrentIndex < NowPlayingList.Count)
                 {
-                    CurrentIndex = (int)e.CurrentIndex;
+                    CurrentIndex = e.CurrentIndex;
                 }
             });
         }
@@ -535,7 +538,7 @@ namespace Aurora.Music.ViewModels
 
         internal void SkiptoItem(SongViewModel songViewModel)
         {
-            player.SkiptoItem(songViewModel.ID);
+            player.SkiptoItem(songViewModel.Index);
         }
 
         public double PositionToValue(TimeSpan t1, TimeSpan total)

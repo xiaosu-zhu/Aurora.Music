@@ -29,7 +29,7 @@
             <DataTemplate x:Key="OddTemplate" x:DataType="vm:SongViewModel">
                 <Grid Height="48" Background="{ThemeResource SongListOddBrush}" PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited" PointerCanceled="Grid_PointerExited" PointerCaptureLost="Grid_PointerExited"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="96"/>
+                        <ColumnDefinition MinWidth="48" Width="auto"/>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="*"/>
@@ -65,7 +65,7 @@
             <DataTemplate x:Key="EvenTemplate" x:DataType="vm:SongViewModel">
                 <Grid Height="48" Background="{ThemeResource SongListEvenBrush}" PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited" PointerCanceled="Grid_PointerExited" PointerCaptureLost="Grid_PointerExited"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="96"/>
+                        <ColumnDefinition MinWidth="48" Width="auto"/>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="*"/>
@@ -103,9 +103,35 @@
         </ResourceDictionary>
     </ContentDialog.Resources>
 
-    <ListView ItemsSource="{x:Bind SongList}" ItemTemplateSelector="{StaticResource SongListTemplateSelector}">
+    <ListView Padding="16,0" ItemContainerStyle="{ThemeResource GeneralListViewItemStyle}" ItemsSource="{x:Bind SongList}" ItemTemplateSelector="{StaticResource SongListTemplateSelector}">
+        <ListView.Resources>
+            <Storyboard x:Name="PointerOver">
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="DetailPanel" Storyboard.TargetProperty="Background">
+                    <DiscreteObjectKeyFrame Value="{ThemeResource SystemControlChromeHighAcrylicWindowMediumBrush}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="DetailPanel" Storyboard.TargetProperty="BorderBrush">
+                    <DiscreteObjectKeyFrame Value="{ThemeResource SystemControlBaseHighAcrylicWindowBrush}"/>
+                </ObjectAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Name="Normal">
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="DetailPanel" Storyboard.TargetProperty="Background">
+                    <DiscreteObjectKeyFrame Value="{ThemeResource SystemControlPageBackgroundChromeLowBrush}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="DetailPanel" Storyboard.TargetProperty="BorderBrush">
+                    <DiscreteObjectKeyFrame Value="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}"/>
+                </ObjectAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Name="Pressed">
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="DetailPanel" Storyboard.TargetProperty="Background">
+                    <DiscreteObjectKeyFrame Value="{ThemeResource SystemControlHighlightChromeHighBrush}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="DetailPanel" Storyboard.TargetProperty="BorderBrush">
+                    <DiscreteObjectKeyFrame Value="{ThemeResource SystemControlHighlightChromeHighBrush}"/>
+                </ObjectAnimationUsingKeyFrames>
+            </Storyboard>
+        </ListView.Resources>
         <ListView.Header>
-            <Grid>
+            <Grid Margin="0,0,0,24">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="*"/>
@@ -114,16 +140,22 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-                <Image Source="/Assets/Images/albums.png" Grid.RowSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="200" Height="200" Margin="8" Stretch="Uniform"/>
-                <StackPanel Grid.Column="1" Margin="8" VerticalAlignment="Center">
-                    <TextBlock x:Name="Album" Text="" Style="{ThemeResource TitleTextBlockStyle}"/>
-                    <TextBlock x:Name="Artist" Text="" Style="{ThemeResource SubtitleTextBlockStyle}"/>
-                    <TextBlock x:Name="Brief" Text="" Style="{ThemeResource BodyTextBlockStyle}"/>
+                <toolkit:DropShadowPanel HorizontalAlignment="Stretch" VerticalAlignment="Center" OffsetX="0" OffsetY="0" BlurRadius="16" ShadowOpacity="0.666" Grid.RowSpan="2" Margin="16,16,32,16">
+                    <Image x:Name="Artwork" Width="150" Height="150" Stretch="Uniform"/>
+                </toolkit:DropShadowPanel>
+                <StackPanel Grid.Column="1" Margin="0" VerticalAlignment="Center">
+                    <TextBlock Margin="0,4" x:Name="Album" Text="" Style="{ThemeResource TitleTextBlockStyle}"/>
+                    <TextBlock Margin="0,4" x:Name="Artist" Text="" Style="{ThemeResource SubtitleTextBlockStyle}"/>
+                    <TextBlock Margin="0,4,0,8" x:Name="Brief" Text="" Style="{ThemeResource BodyTextBlockStyle}"/>
                 </StackPanel>
-                <StackPanel Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" BorderBrush="{ThemeResource SystemControlBackgroundBaseMediumLowRevealBorderBrush}" BorderThickness="1" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Padding="8">
-                    <TextBlock x:Name="Descriptions" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MaxLines="5" TextTrimming="CharacterEllipsis" Text="" TextWrapping="WrapWholeWords">
+                <StackPanel PointerEntered="StackPanel_PointerEntered" PointerExited="StackPanel_PointerExited" x:Name="DetailPanel"
+                            PointerCanceled="Grid_PointerExited" PointerCaptureLost="Grid_PointerExited" PointerReleased="StackPanel_PointerReleased"
+                            Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}" PointerPressed="StackPanel_PointerPressed"
+                            BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" 
+                            BorderThickness="1" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Padding="8">
+                    <TextBlock Style="{ThemeResource BodyTextBlockStyle}" x:Name="Descriptions" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MaxLines="4" TextTrimming="CharacterEllipsis" Text="" TextWrapping="WrapWholeWords">
                     </TextBlock>
-                    <FontIcon FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="10" Glyph="&#xE09D;" />
+                    <FontIcon x:Name="DescriIndicator" FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="10" Glyph="&#xE09D;" />
                 </StackPanel>
             </Grid>
         </ListView.Header>

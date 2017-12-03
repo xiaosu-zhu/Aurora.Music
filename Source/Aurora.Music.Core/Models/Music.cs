@@ -147,11 +147,12 @@ namespace Aurora.Music.Core.Models
 
         public Song() { }
 
-        internal Song(Storage.SONG song)
+        internal Song(SONG song)
         {
             ID = song.ID;
             Duration = song.Duration;
             BitRate = song.BitRate;
+            Rating = song.Rating;
             FilePath = song.FilePath;
             MusicBrainzArtistId = song.MusicBrainzArtistId;
             MusicBrainzDiscId = song.MusicBrainzDiscId;
@@ -201,6 +202,7 @@ namespace Aurora.Music.Core.Models
                 Duration = music.Duration,
                 BitRate = music.Bitrate,
                 FilePath = path,
+                Rating = (uint)Math.Round((double)music.Rating / 25.0) + 1,
                 MusicBrainzArtistId = tag.MusicBrainzArtistId,
                 MusicBrainzDiscId = tag.MusicBrainzDiscId,
                 MusicBrainzReleaseArtistId = tag.MusicBrainzReleaseArtistId,
@@ -276,6 +278,48 @@ namespace Aurora.Music.Core.Models
             }
         }
 
+        public async Task WriteRatingAsync(double rat)
+        {
+            if (IsOnline)
+            {
+                throw new NotImplementedException("WriteRatingAsync on online");
+            }
+            else
+            {
+                var s= string.Copy(FilePath);
+                ThreadPoolTimer.CreateTimer(async x =>
+                {
+                    var file = await StorageFile.GetFileFromPathAsync(s);
+                    var prop = await file.Properties.GetMusicPropertiesAsync();
+                    uint r;
+                    if (rat < 0)
+                    {
+                        r = 0;
+                    }
+                    else
+                    {
+                        r = (uint)Math.Round((rat + 1) * 25) - 1;
+                    }
+                    prop.Rating = r;
+                    await prop.SavePropertiesAsync();
+                    Rating = (rat < 0 ? 0 : rat);
+                }, Duration);
+                await SQLOperator.Current().UpdateSongRatingAsync(ID, Rating);
+            }
+        }
+
+        public async void WriteFav(bool isCurrentFavorite)
+        {
+            if (IsOnline)
+            {
+                throw new NotImplementedException("WriteFav on online");
+            }
+            else
+            {
+                await SQLOperator.Current().WriteFavoriteAsync(ID, isCurrentFavorite);
+            }
+        }
+
         public TimeSpan Duration { get; set; }
         public uint BitRate { get; set; }
 
@@ -334,10 +378,25 @@ namespace Aurora.Music.Core.Models
         public virtual string Copyright { get; set; }
         public virtual string Comment { get; set; }
         public int ID { get; set; }
-        public int SampleRate { get; private set; }
+        public int SampleRate { get; set; }
         public int AudioChannels { get; private set; }
         public bool IsOnline { get; set; }
         public Uri OnlineUri { get; set; }
+        public string OnlineID { get; set; }
+        public double Rating { get; set; }
+        public string OnlineAlbumID { get; set; }
+
+        public async Task<bool> GetFavoriteAsync()
+        {
+            if (IsOnline)
+            {
+                throw new NotImplementedException("GetFavoriteAsync on online");
+            }
+            else
+            {
+                return await SQLOperator.Current().GetFavoriteAsync(ID);
+            }
+        }
     }
 
 
@@ -417,5 +476,6 @@ namespace Aurora.Music.Core.Models
         public bool IsOnline { get; internal set; }
         public string[] OnlineIDs { get; internal set; }
         public List<Song> SongItems { get; internal set; }
+        public string[] OnlineArtistIDs { get; internal set; }
     }
 }

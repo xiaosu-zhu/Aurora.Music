@@ -124,8 +124,6 @@ namespace Aurora.Music.Services
                                 DateTime.TryParseExact(song.DataItems[0].Album.Time_Public, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime t);
 
                                 // TODO: property
-
-
                                 var songRes = new PropertySet
                                 {
                                     ["title"] = song.DataItems[0].Title,
@@ -134,12 +132,14 @@ namespace Aurora.Music.Services
                                     ["album_id"] = song.DataItems[0].Album.Mid,
                                     ["performers"] = song.DataItems[0].SingerItems.Select(x => x.Name).ToArray(),
                                     ["year"] = t.Year,
-                                    ["bit_rate"] = setting.GetPreferredBitRate() * 1024
+                                    ["bit_rate"] = (uint)message["bit_rate"] * 1024,
+                                    ["track"] = song.DataItems[0].Index_Album,
+                                    ["duration"] = TimeSpan.Zero.ToString()
                                 };
                                 songRes["album_artists"] = songRes["performers"];
                                 var picture = OnlineMusicSearcher.GeneratePicturePathByID(song.DataItems[0].Album.Mid);
                                 songRes["picture_path"] = picture;
-                                songRes["file_url"] = await OnlineMusicSearcher.GenerateFileUriByID(message["id"] as string, setting.GetPreferredBitRate());
+                                songRes["file_url"] = await OnlineMusicSearcher.GenerateFileUriByID(message["id"] as string, (uint)message["bit_rate"]);
                                 returnData.Add("song_result", JsonConvert.SerializeObject(songRes));
                                 returnData.Add("status", 1);
                             }
@@ -155,10 +155,10 @@ namespace Aurora.Music.Services
                                     ["name"] = album.Data.GetAlbumInfo.Falbum_Name,
                                     ["desription"] = album.Data.GetAlbumDesc.Falbum_Desc,
                                     ["year"] = t.Year,
-                                    ["track_count"] = album.Data.GetSongInfoItems.Max(x => x.Index_Album),
+                                    ["track_count"] = album.Data.GetSongInfoItems.Count,
                                     ["disc_count"] = album.Data.GetSongInfoItems.Max(x => x.Index_Cd) + 1,
                                     ["picture_path"] = OnlineMusicSearcher.GeneratePicturePathByID(message["id"] as string),
-                                    ["genres"] = new string[] { album.Data.Genre },
+                                    ["genres"] = new string[] { album.Data.Genre }
                                 };
                                 returnData.Add("album_result", JsonConvert.SerializeObject(albumRes));
                                 returnData.Add("songs", JsonConvert.SerializeObject(album.Data.GetSongInfoItems.Select(x =>
@@ -172,14 +172,17 @@ namespace Aurora.Music.Services
                                         ["performers"] = x.SingerItems.Select(y => y.Name).ToArray(),
                                         ["year"] = t.Year,
                                         ["bit_rate"] = setting.GetPreferredBitRate() * 1024,
-                                        ["picture_path"] = OnlineMusicSearcher.GeneratePicturePathByID(x.Album.Mid)
+                                        ["picture_path"] = OnlineMusicSearcher.GeneratePicturePathByID(x.Album.Mid),
+                                        ["track"] = x.Index_Album,
+                                        ["duration"] = TimeSpan.Zero.ToString(),
+                                        ["file_url"] = AsyncHelper.RunSync(async () => await OnlineMusicSearcher.GenerateFileUriByID(x.Mid, (uint)message["bit_rate"]))
                                     };
                                     p["album_artists"] = p["performers"];
                                     return p;
                                 })));
                                 returnData.Add("album_artists", JsonConvert.SerializeObject(album.Data.SingerInfoItems.Select(x =>
                                 {
-                                    var p = new PropertySet()
+                                    return new PropertySet()
                                     {
                                         ["name"] = x.Fsinger_Name,
                                         ["id"] = x.Fsinger_Mid,

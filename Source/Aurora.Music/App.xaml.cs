@@ -24,6 +24,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.System;
+using Windows.UI.Core;
 
 namespace Aurora.Music
 {
@@ -228,8 +229,9 @@ namespace Aurora.Music
 
         private void App_UnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
         {
-            if (Window.Current.Content is Frame f && MainPage.Current is MainPage p)
+            if (MainPage.Current is MainPage p)
             {
+                e.Handled = true;
                 p.ThrowException(e);
             }
         }

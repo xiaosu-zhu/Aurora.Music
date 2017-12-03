@@ -1,4 +1,5 @@
-﻿using Aurora.Music.ViewModels;
+﻿using Aurora.Music.Core;
+using Aurora.Music.ViewModels;
 using Aurora.Shared.Helpers;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“内容对话框”项模板
@@ -33,6 +35,7 @@ namespace Aurora.Music.Controls
 
         internal AlbumViewDialog(AlbumViewModel album)
         {
+            this.InitializeComponent();
             if (album == null)
             {
                 Title = "Oops!";
@@ -44,14 +47,19 @@ namespace Aurora.Music.Controls
             }
             this.album = album;
             var songs = AsyncHelper.RunSync(async () => { return await album.GetSongsAsync(); });
+            uint i = 0;
             foreach (var item in songs)
             {
-                SongList.Add(new SongViewModel(item));
+                SongList.Add(new SongViewModel(item)
+                {
+                    Index = i++,
+                });
             }
             Album.Text = album.Name;
+            Artwork.Source = new BitmapImage(album.Artwork ?? new Uri(Consts.NowPlaceholder));
             Artist.Text = album.GetFormattedArtists();
             Brief.Text = album.GetBrief();
-            Descriptions.Text = album.Description;
+            Descriptions.Text = album.Description ?? "Local Album";
         }
 
         private async void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
@@ -79,9 +87,43 @@ namespace Aurora.Music.Controls
             }
         }
 
-        private void PlayBtn_Click(object sender, RoutedEventArgs e)
+        private async void PlayBtn_Click(object sender, RoutedEventArgs e)
         {
+            await MainPageViewModel.Current.InstantPlay(await album.GetSongsAsync(), (int)((sender as FrameworkElement).DataContext as SongViewModel).Index);
+        }
 
+        private void StackPanel_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            PointerOver.Begin();
+        }
+
+        private void StackPanel_PointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            Normal.Begin();
+        }
+
+        private void StackPanel_PointerReleased(object sender, PointerRoutedEventArgs e)
+        {
+            PointerOver.Begin();
+            if (DescriIndicator.Glyph == "\uE018")
+            {
+                DetailPanel.SetValue(Grid.ColumnProperty, 1);
+                DetailPanel.SetValue(Grid.ColumnSpanProperty, 1);
+                DescriIndicator.Glyph = "\uE09D";
+                Descriptions.MaxLines = 4;
+            }
+            else
+            {
+                DetailPanel.SetValue(Grid.ColumnProperty, 0);
+                DetailPanel.SetValue(Grid.ColumnSpanProperty, 2);
+                DescriIndicator.Glyph = "\uE018";
+                Descriptions.MaxLines = int.MaxValue;
+            }
+        }
+
+        private void StackPanel_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            Pressed.Begin();
         }
     }
 }

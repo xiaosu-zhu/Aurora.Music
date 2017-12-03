@@ -19,7 +19,7 @@ namespace Aurora.Music.Pages
             LoactionFrame.Navigate(typeof(AddFoldersView));
             MainPageViewModel.Current.Title = "Settings";
             MainPageViewModel.Current.NeedShowTitle = true;
-            MainPageViewModel.Current.IsLeftTopForeWhite = false;
+            MainPageViewModel.Current.LeftTopColor = Resources["SystemControlForegroundBaseHighBrush"] as SolidColorBrush;
             var t = ThreadPool.RunAsync(async x =>
             {
                 await Context.Init();

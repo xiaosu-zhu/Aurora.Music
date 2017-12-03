@@ -62,9 +62,13 @@ namespace Aurora.Music
 
         private Type[] navigateOptions = { typeof(HomePage), typeof(LibraryPage) };
 
-        internal void ThrowException(Windows.UI.Xaml.UnhandledExceptionEventArgs e)
+        internal async void ThrowException(Windows.UI.Xaml.UnhandledExceptionEventArgs e)
         {
-
+            await Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+            {
+                InAppNotify.Content = "  Error occured: " + e.Message + "\r\n- " + e.Exception.GetType().ToString();
+                InAppNotify.Show();
+            });
         }
 
         private MainPageViewModel Context;

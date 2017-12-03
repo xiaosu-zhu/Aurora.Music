@@ -6,10 +6,11 @@ using Aurora.Music.Core;
 using System.Linq;
 using Aurora.Music.Core.Models;
 using System.Collections.Generic;
+using Aurora.Shared.MVVM;
 
 namespace Aurora.Music.ViewModels
 {
-    class SongViewModel : IKey
+    class SongViewModel : ViewModelBase, IKey
     {
         public SongViewModel()
         {
@@ -68,6 +69,8 @@ namespace Aurora.Music.ViewModels
             }
         }
 
+        public double Rating { get; set; }
+
         public SongViewModel(Song song)
         {
             ID = song.ID;
@@ -75,7 +78,10 @@ namespace Aurora.Music.ViewModels
             if (IsOnline)
             {
                 FilePath = song.OnlineUri.AbsolutePath;
+                OnlineAlbumID = song.OnlineAlbumID;
+                OnlineID = song.OnlineID;
             }
+            Rating = song.Rating;
             Duration = song.Duration;
             BitRate = song.BitRate;
             FilePath = song.FilePath;
@@ -254,15 +260,15 @@ namespace Aurora.Music.ViewModels
         {
             get
             {
-                if (Album.StartsWith("The ", System.StringComparison.CurrentCultureIgnoreCase))
+                if (Album.StartsWith("The ", StringComparison.CurrentCultureIgnoreCase))
                 {
                     return Album.Substring(4);
                 }
-                if (Album.StartsWith("A ", System.StringComparison.CurrentCultureIgnoreCase))
+                if (Album.StartsWith("A ", StringComparison.CurrentCultureIgnoreCase))
                 {
                     return Album.Substring(2);
                 }
-                if (Album.StartsWith("An ", System.StringComparison.CurrentCultureIgnoreCase))
+                if (Album.StartsWith("An ", StringComparison.CurrentCultureIgnoreCase))
                 {
                     return Album.Substring(3);
                 }
@@ -274,15 +280,15 @@ namespace Aurora.Music.ViewModels
         {
             get
             {
-                if (Title.StartsWith("The ", System.StringComparison.CurrentCultureIgnoreCase))
+                if (Title.StartsWith("The ", StringComparison.CurrentCultureIgnoreCase))
                 {
                     return Title.Substring(4);
                 }
-                if (Title.StartsWith("A ", System.StringComparison.CurrentCultureIgnoreCase))
+                if (Title.StartsWith("A ", StringComparison.CurrentCultureIgnoreCase))
                 {
                     return Title.Substring(2);
                 }
-                if (Title.StartsWith("An ", System.StringComparison.CurrentCultureIgnoreCase))
+                if (Title.StartsWith("An ", StringComparison.CurrentCultureIgnoreCase))
                 {
                     return Title.Substring(3);
                 }
@@ -290,5 +296,8 @@ namespace Aurora.Music.ViewModels
 
             }
         }
+
+        public string OnlineAlbumID { get; internal set; }
+        public string OnlineID { get; }
     }
 }

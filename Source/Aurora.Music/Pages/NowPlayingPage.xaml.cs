@@ -1,4 +1,5 @@
-﻿using Aurora.Music.Core;
+﻿using Aurora.Music.Controls;
+using Aurora.Music.Core;
 using Aurora.Music.Core.Models;
 using Aurora.Music.ViewModels;
 using Aurora.Shared.Extensions;
@@ -105,7 +106,7 @@ namespace Aurora.Music.Pages
 
             MainPageViewModel.Current.Title = "Now Playing";
             MainPageViewModel.Current.NeedShowTitle = true;
-            MainPageViewModel.Current.IsLeftTopForeWhite = false;
+            MainPageViewModel.Current.LeftTopColor = Resources["SystemControlForegroundBaseHighBrush"] as SolidColorBrush;
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
             AppViewBackButtonVisibility.Visible;
             SystemNavigationManager.GetForCurrentView().BackRequested += NowPlayingPage_BackRequested;
@@ -166,6 +167,12 @@ namespace Aurora.Music.Pages
         private void Slider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
             Context.PositionChange(Context.TotalDuration * (e.NewValue / 100d));
+        }
+
+        private async void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new AlbumViewDialog(await Context.GetAlbumAsync());
+            await dialog.ShowAsync();
         }
     }
 }

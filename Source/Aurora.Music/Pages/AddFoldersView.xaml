@@ -43,7 +43,7 @@
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="auto"/>
                             </Grid.RowDefinitions>
-                            <PersonPicture x:Name="Symbol" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" DisplayName="{x:Bind Disk}" Width="36" Height="36" Margin="8,4"/>
+                            <PersonPicture x:Name="Symbol" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" DisplayName="{x:Bind Disk}" Width="36" Height="36" Margin="8"/>
                             <StackPanel HorizontalAlignment="Stretch" Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
                                 <TextBlock Text="{x:Bind FolderName}" Style="{ThemeResource BaseTextBlockStyle}" Margin="8,4,8,0"/>
                                 <TextBlock Text="{x:Bind FormatCount(SongsCount)}" Style="{ThemeResource BodyTextBlockStyle}" FontSize="10" Margin="8,0,8,4"/>

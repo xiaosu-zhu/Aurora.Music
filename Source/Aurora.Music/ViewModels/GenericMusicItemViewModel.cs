@@ -1,19 +1,13 @@
-﻿using Aurora.Music.Core.Tools;
-using Aurora.Shared.Extensions;
+﻿using Aurora.Shared.Extensions;
 using Aurora.Shared.MVVM;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Windows.UI.Xaml.Media.Imaging;
 using Aurora.Music.Core.Storage;
 using Aurora.Music.Core.Models;
 using Windows.UI;
 using Windows.UI.Xaml.Media;
-using System.Text.RegularExpressions;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml;
 
 namespace Aurora.Music.ViewModels
 {
