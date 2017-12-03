@@ -42,22 +42,8 @@ namespace Aurora.Music
         public MainPage()
         {
             this.InitializeComponent();
-            if (MainPageViewModel.Current is MainPageViewModel m)
-            {
-                Context = m;
-                DataContext = m;
-            }
-            else
-            {
-                Context = new MainPageViewModel();
-                DataContext = Context;
-            }
             Current = this;
             MainFrame.Navigate(typeof(HomePage));
-            GestureRecognizer g = new GestureRecognizer
-            {
-                GestureSettings = GestureSettings.HoldWithMouse
-            };
         }
 
         private Type[] navigateOptions = { typeof(HomePage), typeof(LibraryPage) };
@@ -615,6 +601,10 @@ namespace Aurora.Music
 
             var up = box.GetFirst<Popup>();
             autoSuggestPopupPanel = up.Child as StackPanel;
+            if (Context.OnlineMusicExtension != null)
+            {
+                SearchBox.PlaceholderText="Search in library and web"
+            }
         }
 
         private void Page_Unloaded(object sender, RoutedEventArgs e)
