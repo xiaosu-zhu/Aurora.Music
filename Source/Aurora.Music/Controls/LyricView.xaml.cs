@@ -69,10 +69,10 @@ namespace Aurora.Music.Controls
 
                 extension = MainPageViewModel.Current.LyricExtension;
 
-                var result = await extension.ExecuteAsync(new KeyValuePair<string, object>("q", "lyric"), new KeyValuePair<string, object>("title", model.Title), new KeyValuePair<string, object>("artist", model.Performers.IsNullorEmpty() ? null : model.Performers[0]));
+                var result = await extension.ExecuteAsync(new KeyValuePair<string, object>("q", "lyric"), new KeyValuePair<string, object>("title", model.Title), new KeyValuePair<string, object>("artist", model.Song.Performers.IsNullorEmpty() ? null : model.Song.Performers[0]), new KeyValuePair<string, object>("ID", model.IsOnline ? model.Song.OnlineID : null));
                 if (result != null)
                 {
-                    var l = new Lyric(LrcParser.Parser.Parse((string)result, model.Duration));
+                    var l = new Lyric(LrcParser.Parser.Parse((string)result, model.Song.Duration));
                     await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                     {
                         Lyric.New(l);
@@ -90,14 +90,14 @@ namespace Aurora.Music.Controls
 
         private async void LyricView_StatusChanged(object sender, PlaybackEngine.StatusChangedArgs e)
         {
-            if (e.CurrentSong.ID != Model.ID)
+            if (e.CurrentSong.IsIDEqual(Model.Song))
             {
                 Model = new SongViewModel(e.CurrentSong);
 
-                var result = await extension.ExecuteAsync(new KeyValuePair<string, object>("q", "lyric"), new KeyValuePair<string, object>("title", model.Title), new KeyValuePair<string, object>("artist", model.Performers.IsNullorEmpty() ? null : model.Performers[0]));
+                var result = await extension.ExecuteAsync(new KeyValuePair<string, object>("q", "lyric"), new KeyValuePair<string, object>("title", model.Title), new KeyValuePair<string, object>("artist", model.Song.Performers.IsNullorEmpty() ? null : model.Song.Performers[0]), new KeyValuePair<string, object>("ID", model.IsOnline ? model.Song.OnlineID : null));
                 if (result != null)
                 {
-                    var l = new Lyric(LrcParser.Parser.Parse((string)result, model.Duration));
+                    var l = new Lyric(LrcParser.Parser.Parse((string)result, model.Song.Duration));
                     await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                     {
 

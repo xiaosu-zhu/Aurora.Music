@@ -85,7 +85,6 @@ namespace Aurora.Music.PlaybackEngine
             mediaPlayer = new MediaPlayer
             {
                 AudioCategory = MediaPlayerAudioCategory.Media,
-
             };
 
             currentList = new List<Song>();
@@ -119,7 +118,6 @@ namespace Aurora.Music.PlaybackEngine
             if (mediaPlayer.PlaybackSession.PlaybackState == MediaPlaybackState.Playing)
             {
                 PlaybackSession_PositionChangedAsync(mediaPlayer.PlaybackSession, null);
-
             }
         }
 
@@ -143,7 +141,8 @@ namespace Aurora.Music.PlaybackEngine
                     var song = mediaPlaybackList.CurrentItem?.Source.CustomProperties[Consts.SONG] as Song;
                     if (song.IsOnline)
                     {
-                        throw new NotImplementedException("Play Statistic online");
+                        // TODO: Online Music Statistic
+                        //throw new NotImplementedException("Play Statistic online");
                     }
                     else
                     {
@@ -170,6 +169,8 @@ namespace Aurora.Music.PlaybackEngine
 
         private void PlaybackSession_PlaybackStateChanged(MediaPlaybackSession sender, object args)
         {
+            // TODO: When error, restore
+
             switch (mediaPlayer.PlaybackSession.PlaybackState)
             {
                 case MediaPlaybackState.None:
@@ -214,6 +215,7 @@ namespace Aurora.Music.PlaybackEngine
                 default:
                     break;
             }
+
             StatusChanged?.Invoke(this, new StatusChangedArgs
             {
                 IsShuffle = mediaPlaybackList.ShuffleEnabled,
@@ -222,6 +224,12 @@ namespace Aurora.Music.PlaybackEngine
                 CurrentIndex = mediaPlaybackList.CurrentItem == null ? -1 : currentList.IndexOf(mediaPlaybackList.CurrentItem?.Source.CustomProperties[Consts.SONG] as Song),
                 Items = currentList
             });
+
+            // TODO: restore when error
+            if (args.Reason == MediaPlaybackItemChangedReason.Error)
+            {
+                throw new IOException("Play back error.");
+            }
         }
 
         public async Task NewPlayList(IList<Song> items, int startIndex = 0)

@@ -720,7 +720,7 @@ namespace Aurora.Music.Core.Extension.Json
         /// 
         /// </summary>
         [DataMember(Name = "nt")]
-        public int Nt { get; set; }
+        public long Nt { get; set; }
 
         ///<summary>
         /// 

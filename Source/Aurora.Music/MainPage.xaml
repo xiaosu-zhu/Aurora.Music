@@ -664,7 +664,10 @@
                 </Setter>
             </Style>
             <DataTemplate x:Key="EvenTemplate" x:DataType="vm:SongViewModel">
-                <Grid Width="320" Background="{ThemeResource SongListEvenBrush}" PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited" PointerCanceled="Grid_PointerExited" PointerCaptureLost="Grid_PointerExited" Height="48" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Grid Width="320" Background="{ThemeResource SongListEvenBrush}" 
+                      PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited" 
+                      PointerCanceled="Grid_PointerExited" PointerCaptureLost="Grid_PointerExited" 
+                      Height="48" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="*"/>
@@ -696,7 +699,10 @@
                 </Grid>
             </DataTemplate>
             <DataTemplate x:Key="OddTemplate" x:DataType="vm:SongViewModel">
-                <Grid Width="320" Background="{ThemeResource SongListOddBrush}" Height="48" PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited" PointerCanceled="Grid_PointerExited" PointerCaptureLost="Grid_PointerExited" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Grid Width="320" Background="{ThemeResource SongListOddBrush}" 
+                      Height="48" PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited" 
+                      PointerCanceled="Grid_PointerExited" PointerCaptureLost="Grid_PointerExited" 
+                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="*"/>

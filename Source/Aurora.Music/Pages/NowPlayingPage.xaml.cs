@@ -45,7 +45,7 @@ namespace Aurora.Music.Pages
                 lock (this)
                 {
                     var s = sender as SongViewModel;
-                    if (!s.Performers.IsNullorEmpty())
+                    if (!s.Song.Performers.IsNullorEmpty())
                     {
                         if (MoreMenu.Items[1] is MenuFlyoutSeparator)
                         {
@@ -55,11 +55,11 @@ namespace Aurora.Music.Pages
                         {
                             MoreMenu.Items.RemoveAt(1);
                         }
-                        if (s.Performers.Length == 1)
+                        if (s.Song.Performers.Length == 1)
                         {
                             MoreMenu.Items.Insert(1, new MenuFlyoutItem()
                             {
-                                Text = $"{s.Performers[0]}",
+                                Text = $"{s.Song.Performers[0]}",
                                 Icon = new FontIcon()
                                 {
                                     Glyph = "\uE136"
@@ -76,7 +76,7 @@ namespace Aurora.Music.Pages
                                     Glyph = "\uE136"
                                 }
                             };
-                            foreach (var item in s.Performers)
+                            foreach (var item in s.Song.Performers)
                             {
                                 sub.Items.Add(new MenuFlyoutItem()
                                 {

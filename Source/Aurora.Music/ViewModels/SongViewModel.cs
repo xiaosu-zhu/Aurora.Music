@@ -22,21 +22,21 @@ namespace Aurora.Music.ViewModels
         public string GetAddtionalDesc()
         {
             var descs = new List<string>();
-            if (Year != default(uint))
+            if (Song.Year != default(uint))
             {
-                descs.Add(Year.ToString());
+                descs.Add(Song.Year.ToString());
             }
-            if (!Genres.IsNullorEmpty())
+            if (!Song.Genres.IsNullorEmpty())
             {
-                descs.AddRange(Genres);
+                descs.AddRange(Song.Genres);
             }
-            if (BitRate != default(uint) && BitRate != 0u)
+            if (Song.BitRate != default(uint) && Song.BitRate != 0u)
             {
-                descs.Add($"{BitRate / 1024} Kbps");
+                descs.Add($"{Song.BitRate / 1024} Kbps");
             }
-            if (SampleRate != default(uint))
+            if (Song.SampleRate != default(uint))
             {
-                descs.Add($"{SampleRate / 1000} KHz");
+                descs.Add($"{Song.SampleRate / 1000} KHz");
             }
             var type = GetFileType();
             if (!type.IsNullorEmpty())
@@ -56,7 +56,7 @@ namespace Aurora.Music.ViewModels
                 case "mp3": return "MPEG-Layer 3";
                 case "flac": return "Free Loseless";
                 case "m4a":
-                    if (BitRate > 400 * 1024)
+                    if (Song.BitRate > 400 * 1024)
                     {
                         return "Apple Loseless";
                     }
@@ -73,57 +73,27 @@ namespace Aurora.Music.ViewModels
 
         public SongViewModel(Song song)
         {
+            Song = song;
             ID = song.ID;
             IsOnline = song.IsOnline;
             if (IsOnline)
             {
                 FilePath = song.OnlineUri.AbsolutePath;
-                OnlineAlbumID = song.OnlineAlbumID;
-                OnlineID = song.OnlineID;
             }
             Rating = song.Rating;
-            Duration = song.Duration;
-            BitRate = song.BitRate;
             FilePath = song.FilePath;
-            MusicBrainzArtistId = song.MusicBrainzArtistId;
-            MusicBrainzDiscId = song.MusicBrainzDiscId;
-            MusicBrainzReleaseArtistId = song.MusicBrainzReleaseArtistId;
-            MusicBrainzReleaseCountry = song.MusicBrainzReleaseCountry;
-            MusicBrainzReleaseId = song.MusicBrainzReleaseId;
-            MusicBrainzReleaseStatus = song.MusicBrainzReleaseStatus;
-            MusicBrainzReleaseType = song.MusicBrainzReleaseType;
-            MusicBrainzTrackId = song.MusicBrainzTrackId;
-            MusicIpId = song.MusicIpId;
-            BeatsPerMinute = song.BeatsPerMinute;
             Album = song.Album;
-            AlbumArtists = song.AlbumArtists;
-            AlbumArtistsSort = song.AlbumArtistsSort;
-            AlbumSort = song.AlbumSort;
-            AmazonId = song.AmazonId;
             Title = song.Title;
-            TitleSort = song.TitleSort;
             Track = song.Track;
-            TrackCount = song.TrackCount;
-            ReplayGainTrackGain = song.ReplayGainTrackGain;
-            ReplayGainTrackPeak = song.ReplayGainTrackPeak;
-            ReplayGainAlbumGain = song.ReplayGainAlbumGain;
-            ReplayGainAlbumPeak = song.ReplayGainAlbumPeak;
-            Comment = song.Comment;
-            Disc = song.Disc;
-            Composers = song.Composers;
-            ComposersSort = song.ComposersSort;
-            Conductor = song.Conductor;
-            DiscCount = song.DiscCount;
-            Copyright = song.Copyright;
-            Genres = song.PerformersSort;
-            Grouping = song.Grouping;
-            Lyrics = song.Lyrics;
-            Performers = song.Performers;
-            PerformersSort = song.PerformersSort;
-            Year = song.Year;
-            PicturePath = song.PicturePath;
-            SampleRate = song.SampleRate;
-            AudioChannels = song.AudioChannels;
+            Artwork = new Uri(song.PicturePath.IsNullorEmpty() ? Consts.NowPlaceholder : song.PicturePath);
+            Duration = song.Duration;
+        }
+
+        private TimeSpan duration;
+        public TimeSpan Duration
+        {
+            get { return duration; }
+            set { SetProperty(ref duration, value); }
         }
 
         public string StrArrtoDisplay(string[] arr)
@@ -157,52 +127,19 @@ namespace Aurora.Music.ViewModels
         public uint Index { get; set; }
         public string FilePath { get; set; }
 
-        private string picturePath;
-        public string PicturePath
+        public Uri Artwork { get; set; }
+
+        private Song song;
+        public Song Song
         {
-            get { return picturePath; }
-            set { picturePath = value; }
+            get { return song; }
+            set { SetProperty(ref song, value); }
         }
 
         internal string GetFormattedArtists()
         {
-            return AlbumArtists.IsNullorEmpty() ? "Unknown Artists" : string.Join(", ", AlbumArtists);
+            return Song.AlbumArtists.IsNullorEmpty() ? "Unknown Artists" : string.Join(", ", Song.AlbumArtists);
         }
-
-        public TimeSpan Duration { get; set; }
-        public uint BitRate { get; private set; }
-
-
-        public int SampleRate { get; private set; }
-        public int AudioChannels { get; private set; }
-
-        public string MusicBrainzReleaseId { get; set; }
-        public string MusicBrainzDiscId { get; set; }
-        public string MusicIpId { get; set; }
-        public string AmazonId { get; set; }
-        public string MusicBrainzReleaseStatus { get; set; }
-        public string MusicBrainzReleaseType { get; set; }
-        public string MusicBrainzReleaseCountry { get; set; }
-        public double ReplayGainTrackGain { get; set; }
-        public double ReplayGainTrackPeak { get; set; }
-        public double ReplayGainAlbumGain { get; set; }
-        public double ReplayGainAlbumPeak { get; set; }
-        //public IPicture[] Pictures { get; set; }
-        public string FirstAlbumArtist { get; }
-        public string FirstAlbumArtistSort { get; }
-        public string FirstPerformer { get; }
-        public string FirstPerformerSort { get; }
-        public string FirstComposerSort { get; }
-        public string FirstComposer { get; }
-        public string FirstGenre { get; }
-        public string JoinedAlbumArtists { get; }
-        public string JoinedPerformers { get; }
-        public string JoinedPerformersSort { get; }
-        public string JoinedComposers { get; }
-        public string MusicBrainzTrackId { get; set; }
-        public string MusicBrainzReleaseArtistId { get; set; }
-        public bool IsEmpty { get; }
-        public string MusicBrainzArtistId { get; set; }
 
         private string title;
         public string Title
@@ -211,14 +148,6 @@ namespace Aurora.Music.ViewModels
             set { title = value; }
         }
 
-        public string TitleSort { get; set; }
-        public string[] Performers { get; set; }
-        public string[] PerformersSort { get; set; }
-        public string[] AlbumArtists { get; set; }
-        public string[] AlbumArtistsSort { get; set; }
-        public string[] Composers { get; set; }
-        public string[] ComposersSort { get; set; }
-
         private string album;
 
         public string Album
@@ -226,12 +155,6 @@ namespace Aurora.Music.ViewModels
             get { return album.IsNullorEmpty() ? "Unknown Album" : album; }
             set { album = value; }
         }
-
-
-        public string JoinedGenres { get; }
-        public string AlbumSort { get; set; }
-        public string[] Genres { get; set; }
-        public uint Year { get; set; }
 
         private uint track;
         public uint Track
@@ -244,17 +167,6 @@ namespace Aurora.Music.ViewModels
             }
             set { track = value; }
         }
-
-
-        public uint TrackCount { get; set; }
-        public uint Disc { get; set; }
-        public uint DiscCount { get; set; }
-        public string Lyrics { get; set; }
-        public string Grouping { get; set; }
-        public uint BeatsPerMinute { get; set; }
-        public string Conductor { get; set; }
-        public string Copyright { get; set; }
-        public string Comment { get; set; }
 
         public string FormattedAlbum
         {
@@ -296,8 +208,5 @@ namespace Aurora.Music.ViewModels
 
             }
         }
-
-        public string OnlineAlbumID { get; internal set; }
-        public string OnlineID { get; }
     }
 }

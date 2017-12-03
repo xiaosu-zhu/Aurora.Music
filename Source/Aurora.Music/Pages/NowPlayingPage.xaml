@@ -697,8 +697,8 @@
             <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Stretch" Grid.Row="1">
                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" MaxLines="1"
                                Margin="0,4,0,0" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 0.8), Mode=OneWay}" 
-                           ToolTipService.ToolTip="{x:Bind Context.ArtistsToString(Context.Song.AlbumArtists),Mode=OneWay}"
-                               Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Context.ArtistsToString(Context.Song.AlbumArtists),Mode=OneWay}"/>
+                           ToolTipService.ToolTip="{x:Bind Context.Song.GetFormattedArtists(),Mode=OneWay}"
+                               Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Context.Song.GetFormattedArtists(),Mode=OneWay}"/>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
                     <TextBlock x:Name="Title" Margin="0,2,0,0" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" MaxLines="1"
                                Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 0.8), Mode=OneWay}" 

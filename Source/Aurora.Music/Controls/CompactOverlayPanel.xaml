@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Aurora.Music.Controls"
+    xmlns:model="using:Aurora.Music.Core.Models"
     xmlns:vm="using:Aurora.Music.ViewModels"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     Unloaded="Page_Unloaded"
@@ -113,7 +114,7 @@
         <StackPanel x:Name="ContentPanel" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
             <TextBlock x:Name="Title" Text="{x:Bind Context.Song.Title, Mode=OneWay}" Foreground="{x:Bind Context.AccentForeground(Context.IsAccentDark), Mode=OneWay}" Style="{ThemeResource SubtitleTextBlockStyle}" MaxLines="2" TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis" HorizontalAlignment="Left" VerticalAlignment="Center"/>
             <TextBlock x:Name="Description" Visibility="Collapsed" Foreground="{x:Bind Context.AccentForeground(Context.IsAccentDark), Mode=OneWay}" Text="{x:Bind Context.Song.Album,Mode=OneWay}" Style="{ThemeResource BaseTextBlockStyle}" Margin="0,4" MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-            <TextBlock x:Name="Addtional" Visibility="Collapsed" Foreground="{x:Bind Context.AccentForeground(Context.IsAccentDark), Mode=OneWay}" Text="{x:Bind Context.ArtistsToString(Context.Song.AlbumArtists),Mode=OneWay}" Style="{ThemeResource BaseTextBlockStyle}" MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <TextBlock x:Name="Addtional" Visibility="Collapsed" Foreground="{x:Bind Context.AccentForeground(Context.IsAccentDark), Mode=OneWay}" Text="{x:Bind Context.Song.GetFormattedArtists(),Mode=OneWay}" Style="{ThemeResource BaseTextBlockStyle}" MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" HorizontalAlignment="Left" VerticalAlignment="Center"/>
         </StackPanel>
         <StackPanel x:Name="ButtonPanel" Orientation="Horizontal" Grid.Column="1" Grid.Row="1">
             <Button x:Name="Previous" Style="{ThemeResource RevealRoundButton}" Command="{x:Bind Context.GoPrevious}" ToolTipService.ToolTip="Previous"

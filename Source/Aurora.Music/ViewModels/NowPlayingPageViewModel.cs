@@ -72,13 +72,13 @@ namespace Aurora.Music.ViewModels
                 IsOnline = song.IsOnline,
                 OnlineUri = new Uri(song.FilePath),
                 FilePath = song.FilePath,
-                Duration = song.Duration,
+                Duration = song.Song.Duration,
                 Album = song.Album,
-                OnlineAlbumID = song.OnlineAlbumID,
-                OnlineID = song.OnlineID
+                OnlineAlbumID = song.Song.OnlineAlbumID,
+                OnlineID = song.Song.OnlineID
             };
-            CurrentArtwork = song.PicturePath.IsNullorEmpty() ? null : new Uri(song.PicturePath);
-            lastUriPath = song.PicturePath.IsNullorEmpty() ? null : song.PicturePath;
+            CurrentArtwork = song.Artwork;
+            lastUriPath = song.Artwork.AbsolutePath;
             IsPlaying = player.IsPlaying;
             DownloadProgress = MainPageViewModel.Current.DownloadProgress;
             SongChanged?.Invoke(song, EventArgs.Empty);
@@ -95,10 +95,10 @@ namespace Aurora.Music.ViewModels
             {
                 var ext = MainPageViewModel.Current.LyricExtension;
 
-                var result = await ext.ExecuteAsync(new KeyValuePair<string, object>("q", "lyric"), new KeyValuePair<string, object>("title", Song.Title), new KeyValuePair<string, object>("album", song.Album), new KeyValuePair<string, object>("artist", Song.Performers.IsNullorEmpty() ? null : Song.Performers[0]));
+                var result = await ext.ExecuteAsync(new KeyValuePair<string, object>("q", "lyric"), new KeyValuePair<string, object>("title", Song.Title), new KeyValuePair<string, object>("album", song.Album), new KeyValuePair<string, object>("artist", Song.Song.Performers.IsNullorEmpty() ? null : Song.Song.Performers[0]), new KeyValuePair<string, object>("ID", song.IsOnline ? song.Song.OnlineID : null));
                 if (result != null)
                 {
-                    var l = new Lyric(LrcParser.Parser.Parse((string)result, Song.Duration));
+                    var l = new Lyric(LrcParser.Parser.Parse((string)result, Song.Song.Duration));
                     await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
                     {
                         Lyric.New(l);
@@ -513,18 +513,18 @@ namespace Aurora.Music.ViewModels
 
                     SongChanged?.Invoke(Song, EventArgs.Empty);
 
-                    if (!Song.PicturePath.IsNullorEmpty())
+                    if (!Song.Song.PicturePath.IsNullorEmpty())
                     {
-                        if (lastUriPath == Song.PicturePath)
+                        if (lastUriPath == Song.Song.PicturePath)
                         {
 
                         }
                         else
                         {
-                            CurrentArtwork = Song.PicturePath == Consts.BlackPlaceholder ? null : new Uri(Song.PicturePath);
+                            CurrentArtwork = Song.Artwork;
                             CurrentColorBrush = new SolidColorBrush(await ImagingHelper.GetMainColor(CurrentArtwork));
                             MainPageViewModel.Current.LeftTopColor = AdjustBrightness(CurrentColorBrush, 0.8);
-                            lastUriPath = Song.PicturePath == Consts.BlackPlaceholder ? null : Song.PicturePath;
+                            lastUriPath = Song.Artwork.AbsolutePath;
                         }
                     }
                     else
@@ -562,10 +562,10 @@ namespace Aurora.Music.ViewModels
                     _lastSong = e.CurrentSong;
                     var ext = MainPageViewModel.Current.LyricExtension;
 
-                    var result = await ext.ExecuteAsync(new KeyValuePair<string, object>("q", "lyric"), new KeyValuePair<string, object>("title", Song.Title), new KeyValuePair<string, object>("album", song.Album), new KeyValuePair<string, object>("artist", Song.Performers.IsNullorEmpty() ? null : Song.Performers[0]));
+                    var result = await ext.ExecuteAsync(new KeyValuePair<string, object>("q", "lyric"), new KeyValuePair<string, object>("title", Song.Title), new KeyValuePair<string, object>("album", song.Album), new KeyValuePair<string, object>("artist", Song.Song.Performers.IsNullorEmpty() ? null : Song.Song.Performers[0]), new KeyValuePair<string, object>("ID", song.IsOnline ? song.Song.OnlineID : null));
                     if (result != null)
                     {
-                        var l = new Lyric(LrcParser.Parser.Parse((string)result, Song.Duration));
+                        var l = new Lyric(LrcParser.Parser.Parse((string)result, Song.Song.Duration));
                         await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                         {
                             Lyric.New(l);
