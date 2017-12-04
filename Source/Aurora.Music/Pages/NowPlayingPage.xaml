@@ -712,7 +712,7 @@
                             TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" MaxLines="1" ToolTipService.ToolTip="{x:Bind Context.Song.Album,Mode=OneWay}"
                                Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 1), Mode=OneWay}" 
                                Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Context.Song.Album,Mode=OneWay}"/>
-                <toolkit:DropShadowPanel Margin="0,8,0,0" HorizontalAlignment="Left" VerticalAlignment="Stretch" Color="White" ShadowOpacity="0.66" BlurRadius="8" OffsetX="0" OffsetY="0">
+                <toolkit:DropShadowPanel Margin="0,8,0,0" HorizontalAlignment="Left" VerticalAlignment="Stretch" Color="{ThemeResource SystemAltHighColor}" ShadowOpacity="0.66" BlurRadius="8" OffsetX="0" OffsetY="0">
                     <TextBlock Style="{ThemeResource BodyTextBlockStyle}" ToolTipService.ToolTip="{x:Bind Context.Song.GetAddtionalDesc(),Mode=OneWay}"
                                Text="{x:Bind Context.Song.GetAddtionalDesc(),Mode=OneWay}" Foreground="{ThemeResource SystemControlBackgroundBaseHighRevealBorderBrush}" 
                                TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" MaxLines="1">
@@ -742,7 +742,7 @@
                   ItemContainerStyle="{ThemeResource LyricListItem}" ItemsSource="{Binding Source={StaticResource LyricSource}}">
             <ListView.Header>
                 <Grid Height="160" Width="320">
-                    <toolkit:DropShadowPanel Visibility="{x:Bind Context.BoolNottoVisibility(Context.Lyric.HasLyric),Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="12,0" Color="White" ShadowOpacity="0.66" BlurRadius="8" OffsetX="0" OffsetY="0">
+                    <toolkit:DropShadowPanel Visibility="{x:Bind Context.BoolNottoVisibility(Context.Lyric.HasLyric),Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="12,0" Color="{ThemeResource SystemAltHighColor}" ShadowOpacity="0.66" BlurRadius="8" OffsetX="0" OffsetY="0">
                         <TextBlock Text="{x:Bind Context.LyricHint,Mode=OneWay}" 
                                Style="{ThemeResource SubtitleTextBlockStyle}"/>
                     </toolkit:DropShadowPanel>
@@ -754,7 +754,7 @@
             </ListView.Footer>
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="vm:LrcContent">
-                    <toolkit:DropShadowPanel Margin="0,20" HorizontalAlignment="Center" VerticalAlignment="Stretch" Color="White" ShadowOpacity="0.66" BlurRadius="8" OffsetX="0" OffsetY="0">
+                    <toolkit:DropShadowPanel Margin="0,20" HorizontalAlignment="Center" VerticalAlignment="Stretch" Color="{ThemeResource SystemAltHighColor}" ShadowOpacity="0.66" BlurRadius="8" OffsetX="0" OffsetY="0">
                         <TextBlock Opacity="{x:Bind CurrentOpacity(IsCurrent),Mode=OneWay}" MaxWidth="320" TextAlignment="Center" TextTrimming="None" TextWrapping="WrapWholeWords" FontSize="16" Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Content}"/>
                     </toolkit:DropShadowPanel>
                 </DataTemplate>
@@ -778,10 +778,10 @@
                     Value="{x:Bind Context.PositionToValue(Context.CurrentPosition, Context.TotalDuration), Mode=OneWay}" 
                     ValueChanged="Slider_ValueChanged" HorizontalAlignment="Stretch" Margin="4,8,4,0" VerticalAlignment="Center" 
                     Style="{ThemeResource RoundSlider}"/>
-            <toolkit:DropShadowPanel HorizontalAlignment="Center" VerticalAlignment="Center" Color="White" BlurRadius="8" OffsetX="0" OffsetY="0" ShadowOpacity="0.66">
+            <toolkit:DropShadowPanel HorizontalAlignment="Center" VerticalAlignment="Center" Color="{ThemeResource SystemAltHighColor}" BlurRadius="8" OffsetX="0" OffsetY="0" ShadowOpacity="0.66">
                 <TextBlock Text="{x:Bind Context.TimeSpanFormat(Context.CurrentPosition),Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource SystemControlBackgroundBaseHighRevealBorderBrush}"/>
             </toolkit:DropShadowPanel>
-            <toolkit:DropShadowPanel Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Color="White" BlurRadius="8" OffsetX="0" OffsetY="0" ShadowOpacity="0.66">
+            <toolkit:DropShadowPanel Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Color="{ThemeResource SystemAltHighColor}" BlurRadius="8" OffsetX="0" OffsetY="0" ShadowOpacity="0.66">
                 <TextBlock Text="{x:Bind Context.TimeSpanFormat(Context.TotalDuration),Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource SystemControlBackgroundBaseHighRevealBorderBrush}"/>
             </toolkit:DropShadowPanel>
             <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="4" HorizontalAlignment="Left" VerticalAlignment="Stretch" Grid.ColumnSpan="2">

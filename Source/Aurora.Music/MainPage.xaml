@@ -1063,10 +1063,9 @@
                     <TextBlock Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Text="Waiting" x:Name="ModalText" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,80,0,0"/>
                 </Grid>
 
-                <toolkit:InAppNotification x:Name="InAppNotify" Style="{ThemeResource CustomInAppNotificationStyle}" Content="This is a test message."
-                                    ShowDismissButton="True"
+                <toolkit:InAppNotification x:Name="InAppNotify" Style="{ThemeResource ToastNotificationStyle}" Content="This is a test message."
                                     AnimationDuration="00:00:00.96"
-                                    VerticalOffset="240"
+                                    VerticalOffset="300"
                                     HorizontalOffset="0"/>
             </Grid>
         </SplitView.Content>

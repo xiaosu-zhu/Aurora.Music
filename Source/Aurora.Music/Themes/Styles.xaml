@@ -194,6 +194,115 @@
         </Grid>
     </ControlTemplate>
 
+    <ControlTemplate x:Key="ToastNotification" 
+                     TargetType="toolkit:InAppNotification">
+        <Grid>
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="State">
+                    <VisualState x:Name="Collapsed">
+                        <Storyboard>
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" 
+                                                           Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)">
+                                <EasingDoubleKeyFrame KeyTime="0" Value="0">
+                                    <EasingDoubleKeyFrame.EasingFunction>
+                                        <QuinticEase/>
+                                    </EasingDoubleKeyFrame.EasingFunction>
+                                </EasingDoubleKeyFrame>
+                                <EasingDoubleKeyFrame toolkit:InAppNotification.KeyFrameDuration="{Binding AnimationDuration, RelativeSource={RelativeSource TemplatedParent}}"
+                                                      Value="{Binding HorizontalOffset, RelativeSource={RelativeSource TemplatedParent}}">
+                                    <EasingDoubleKeyFrame.EasingFunction>
+                                        <QuinticEase/>
+                                    </EasingDoubleKeyFrame.EasingFunction>
+                                </EasingDoubleKeyFrame>
+                            </DoubleAnimationUsingKeyFrames>
+
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" 
+                                                           Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)">
+                                <EasingDoubleKeyFrame KeyTime="0" Value="0" >
+                                    <EasingDoubleKeyFrame.EasingFunction>
+                                        <QuinticEase/>
+                                    </EasingDoubleKeyFrame.EasingFunction>
+                                </EasingDoubleKeyFrame>
+                                <EasingDoubleKeyFrame toolkit:InAppNotification.KeyFrameDuration="{Binding AnimationDuration, RelativeSource={RelativeSource TemplatedParent}}" 
+                                                      Value="{Binding VerticalOffset, RelativeSource={RelativeSource TemplatedParent}}">
+                                    <EasingDoubleKeyFrame.EasingFunction>
+                                        <QuinticEase/>
+                                    </EasingDoubleKeyFrame.EasingFunction>
+                                </EasingDoubleKeyFrame>
+                            </DoubleAnimationUsingKeyFrames>
+
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
+                                                           Storyboard.TargetProperty="(UIElement.Visibility)">
+                                <DiscreteObjectKeyFrame KeyTime="0">
+                                    <DiscreteObjectKeyFrame.Value>
+                                        <Visibility>Visible</Visibility>
+                                    </DiscreteObjectKeyFrame.Value>
+                                </DiscreteObjectKeyFrame>
+                                <DiscreteObjectKeyFrame toolkit:InAppNotification.KeyFrameDuration="{Binding AnimationDuration, RelativeSource={RelativeSource TemplatedParent}}">
+                                    <DiscreteObjectKeyFrame.Value>
+                                        <Visibility>Collapsed</Visibility>
+                                    </DiscreteObjectKeyFrame.Value>
+                                </DiscreteObjectKeyFrame>
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </VisualState>
+
+                    <VisualState x:Name="Visible">
+                        <Storyboard>
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" 
+                                                           Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)">
+                                <EasingDoubleKeyFrame KeyTime="0" Value="{Binding HorizontalOffset, RelativeSource={RelativeSource TemplatedParent}}" >
+                                    <EasingDoubleKeyFrame.EasingFunction>
+                                        <QuinticEase/>
+                                    </EasingDoubleKeyFrame.EasingFunction>
+                                </EasingDoubleKeyFrame>
+                                <EasingDoubleKeyFrame toolkit:InAppNotification.KeyFrameDuration="{Binding AnimationDuration, RelativeSource={RelativeSource TemplatedParent}}" Value="0" >
+                                    <EasingDoubleKeyFrame.EasingFunction>
+                                        <QuinticEase/>
+                                    </EasingDoubleKeyFrame.EasingFunction>
+                                </EasingDoubleKeyFrame>
+                            </DoubleAnimationUsingKeyFrames>
+
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" 
+                                                           Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)">
+                                <EasingDoubleKeyFrame KeyTime="0" Value="{Binding VerticalOffset, RelativeSource={RelativeSource TemplatedParent}}" >
+                                    <EasingDoubleKeyFrame.EasingFunction>
+                                        <QuinticEase/>
+                                    </EasingDoubleKeyFrame.EasingFunction>
+                                </EasingDoubleKeyFrame>
+                                <EasingDoubleKeyFrame toolkit:InAppNotification.KeyFrameDuration="{Binding AnimationDuration, RelativeSource={RelativeSource TemplatedParent}}" Value="0" >
+                                    <EasingDoubleKeyFrame.EasingFunction>
+                                        <QuinticEase/>
+                                    </EasingDoubleKeyFrame.EasingFunction>
+                                </EasingDoubleKeyFrame>
+                            </DoubleAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+            <Grid x:Name="RootGrid" 
+                  RenderTransformOrigin="{TemplateBinding RenderTransformOrigin}"
+                  Margin="{TemplateBinding Margin}"
+                  Padding="{TemplateBinding Padding}"
+                  MaxWidth="{TemplateBinding MaxWidth}"
+                  MinWidth="{TemplateBinding MinWidth}"
+                  HorizontalAlignment="Center"
+                  Visibility="{TemplateBinding Visibility}"
+                  Background="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}" CornerRadius="12"
+                  BorderThickness="0">
+                <Grid.RenderTransform>
+                    <CompositeTransform />
+                </Grid.RenderTransform>
+                <ContentPresenter HorizontalAlignment="Center"
+                                      Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"
+                                  HorizontalContentAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  VerticalContentAlignment="Center"
+                                  TextWrapping="WrapWholeWords" />
+            </Grid>
+        </Grid>
+    </ControlTemplate>
+
     <Style x:Key="CustomInAppNotificationStyle" TargetType="toolkit:InAppNotification">
         <Setter Property="Background" Value="{ThemeResource SystemControlAltMediumLowAcrylicElementMediumBrush}" />
         <Setter Property="Foreground" Value="{ThemeResource ApplicationForegroundThemeBrush}" />
@@ -209,6 +318,20 @@
         <Setter Property="MaxWidth" Value="720" />
         <Setter Property="MinWidth" Value="480"/>
         <Setter Property="Template" Value="{StaticResource CustomInAppNotification}" />
+    </Style>
+    
+    <Style x:Key="ToastNotificationStyle" TargetType="toolkit:InAppNotification">
+        <Setter Property="Background" Value="{ThemeResource SystemControlBaseMediumLowAcrylicElementMediumBrush}" />
+        <Setter Property="Foreground" Value="{ThemeResource ApplicationForegroundThemeBrush}" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+        <Setter Property="MinHeight" Value="55" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="RenderTransformOrigin" Value="0.5,1" />
+        <Setter Property="Margin" Value="120,0,120,80" />
+        <Setter Property="Padding" Value="12" />
+        <Setter Property="MinWidth" Value="24"/>
+        <Setter Property="Template" Value="{StaticResource ToastNotification}" />
     </Style>
 
 

@@ -55,11 +55,20 @@ namespace Aurora.Music
                 InAppNotify.Content = "  Error occured: " + e.Message + "\r\n- " + e.Exception.GetType().ToString();
                 InAppNotify.Show();
             });
+            dismissTimer?.Cancel();
+            dismissTimer = ThreadPoolTimer.CreateTimer(async (x) =>
+            {
+                await Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+                {
+                    InAppNotify.Dismiss();
+                });
+            }, TimeSpan.FromMilliseconds(1200));
         }
 
         private int lyricViewID;
         private IAsyncAction searchTask;
         private StackPanel autoSuggestPopupPanel;
+        private ThreadPoolTimer dismissTimer;
 
         internal void GoBack()
         {
