@@ -728,8 +728,8 @@
                     </TextBlock>
                 </toolkit:DropShadowPanel>
                 <StackPanel Margin="0,12,0,0" Orientation="Horizontal">
-                    <RatingControl Value="{x:Bind Context.CurrentRating,Mode=TwoWay}" IsClearEnabled="True" IsReadOnly="False" Background="Red" BorderBrush="Green" Foreground="Blue"/>
-                    <Button Command="{x:Bind Context.ToggleFavorite}" Margin="8,0" Style="{ThemeResource TextBlockButtonStyle}">
+                    <RatingControl Value="{x:Bind Context.CurrentRating,Mode=TwoWay}" IsClearEnabled="True" VerticalAlignment="Center" IsReadOnly="False" Background="Red" BorderBrush="Green" Foreground="Blue"/>
+                    <Button VerticalAlignment="Center" Command="{x:Bind Context.ToggleFavorite}" Margin="8,0" Style="{ThemeResource TextBlockButtonStyle}">
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Context.FavGlyph(Context.IsCurrentFavorite),Mode=OneWay}" Foreground="#EF6950"/>
                     </Button>
                 </StackPanel>
