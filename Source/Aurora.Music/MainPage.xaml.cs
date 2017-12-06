@@ -634,6 +634,9 @@ namespace Aurora.Music
         {
             SearchBoxShow.Begin();
             SearchBox.Focus(FocusState.Programmatic);
+            SearchBox.MaxSuggestionListHeight = double.MaxValue;
+            SearchBox.IsSuggestionListOpen = true;
+            SearchBox.AutoMaximizeSuggestionArea = true;
         }
 
         private void SearchBox_LosingFocus(UIElement sender, Windows.UI.Xaml.Input.LosingFocusEventArgs args)
