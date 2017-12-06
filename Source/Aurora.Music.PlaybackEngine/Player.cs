@@ -615,6 +615,7 @@ namespace Aurora.Music.PlaybackEngine
 
         public void Next()
         {
+            var settings = Settings.Load();
             if (mediaPlaybackList.CurrentItem == null || mediaPlaybackList.Items.Count < 1)
             {
                 return;
@@ -622,6 +623,8 @@ namespace Aurora.Music.PlaybackEngine
             if (mediaPlaybackList.AutoRepeatEnabled)
             {
                 mediaPlaybackList.MoveNext();
+
+                ChangeVolume(settings.PlayerVolume);
                 return;
             }
 
@@ -632,6 +635,7 @@ namespace Aurora.Music.PlaybackEngine
             }
 
             mediaPlaybackList.MoveNext();
+            ChangeVolume(settings.PlayerVolume);
         }
 
         public void Stop()
@@ -655,6 +659,7 @@ namespace Aurora.Music.PlaybackEngine
 
         public void Previous()
         {
+            var settings = Settings.Load();
             if (mediaPlaybackList.CurrentItem == null || mediaPlaybackList.Items.Count < 1)
             {
                 return;
@@ -667,6 +672,7 @@ namespace Aurora.Music.PlaybackEngine
             if (mediaPlaybackList.AutoRepeatEnabled)
             {
                 mediaPlaybackList.MovePrevious();
+                ChangeVolume(settings.PlayerVolume);
                 return;
             }
             if (mediaPlaybackList.CurrentItemIndex == 0)
@@ -675,19 +681,23 @@ namespace Aurora.Music.PlaybackEngine
                 return;
             }
             mediaPlaybackList.MovePrevious();
+            ChangeVolume(settings.PlayerVolume);
         }
 
         public void Play()
         {
+            var settings = Settings.Load();
             if (mediaPlaybackList == null || mediaPlaybackList.Items.IsNullorEmpty())
             {
                 return;
             }
             mediaPlayer.Play();
+            ChangeVolume(settings.PlayerVolume);
         }
 
         public async void PlayWithRestart()
         {
+            var settings = Settings.Load();
             if (mediaPlaybackList == null)
             {
                 return;
@@ -704,6 +714,7 @@ namespace Aurora.Music.PlaybackEngine
 
             mediaPlayer.Source = mediaPlaybackList;
             mediaPlayer.Play();
+            ChangeVolume(settings.PlayerVolume);
         }
 
         public void Pause()

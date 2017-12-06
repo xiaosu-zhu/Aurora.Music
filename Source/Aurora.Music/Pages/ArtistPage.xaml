@@ -106,7 +106,7 @@
                         </Grid.Resources>
                         <toolkit:DropShadowPanel Margin="8,4" x:Name="Shadow" BlurRadius="16" ShadowOpacity="0.5" OffsetX="0" OffsetY="0"
                                              Color="{ThemeResource SystemBaseHighColor}">
-                            <Grid Background="{ThemeResource SystemControlAltTranslucentAcrylicWindowBrush}">
+                            <Grid Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
                                 <toolkit:ImageEx x:Name="Artwork" Style="{ThemeResource QuickLoadImageEx}" Stretch="UniformToFill" 
                                              PlaceholderStretch="Uniform" HorizontalAlignment="Center"
                                              PlaceholderSource="/Assets/Images/placeholder_b.png" VerticalAlignment="Center" 

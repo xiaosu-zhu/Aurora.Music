@@ -19,6 +19,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using System.Threading.Tasks;
+using Aurora.Music.Pages;
 
 namespace Aurora.Music.ViewModels
 {
@@ -181,6 +182,14 @@ namespace Aurora.Music.ViewModels
         }
 
         private TimeSpan currentDuration;
+
+        internal void Unload()
+        {
+            player.DownloadProgressChanged -= Player_DownloadProgressChanged;
+            player.PositionUpdated -= Player_PositionUpdated;
+            player.StatusChanged -= Player_StatusChanged;
+        }
+
         public TimeSpan TotalDuration
         {
             get { return currentDuration; }
@@ -332,6 +341,11 @@ namespace Aurora.Music.ViewModels
         public string FavGlyph(bool b)
         {
             return b ? "\uE00B" : "\uE006";
+        }
+
+        public SolidColorBrush FavForeground(bool b)
+        {
+            return b ? new SolidColorBrush(Color.FromArgb(0xff, 0xef, 0x69, 0x50)) : NowPlayingPage.Current.Resources["SystemControlForegroundBaseLowBrush"] as SolidColorBrush;
         }
 
         private bool isCurrentFac;
@@ -591,7 +605,6 @@ namespace Aurora.Music.ViewModels
         {
             player.PositionUpdated -= Player_PositionUpdated;
             player.StatusChanged -= Player_StatusChanged;
-
         }
     }
 }

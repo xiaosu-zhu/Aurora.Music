@@ -32,7 +32,7 @@ namespace Aurora.Music.ViewModels
             }
             if (Song.BitRate != default(uint) && Song.BitRate != 0u)
             {
-                descs.Add($"{Song.BitRate / 1024} Kbps");
+                descs.Add($"{Song.BitRate / 1000} Kbps");
             }
             if (Song.SampleRate != default(uint))
             {
@@ -56,7 +56,7 @@ namespace Aurora.Music.ViewModels
                 case "mp3": return "MPEG-Layer 3";
                 case "flac": return "Free Loseless";
                 case "m4a":
-                    if (Song.BitRate > 400 * 1024)
+                    if (Song.BitRate > 400 * 1000)
                     {
                         return "Apple Loseless";
                     }

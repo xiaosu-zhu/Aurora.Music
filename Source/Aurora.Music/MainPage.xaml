@@ -923,6 +923,34 @@
         </SplitView.Pane>
         <SplitView.Content>
             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Grid.Resources>
+                    <Storyboard x:Name="SearchBoxShow">
+                        <DoubleAnimation Duration="0:0:0.64" Storyboard.TargetName="SearchBox" EnableDependentAnimation="True" Storyboard.TargetProperty="Width" To="320">
+                            <DoubleAnimation.EasingFunction>
+                                <QuinticEase/>
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SearchBox" Storyboard.TargetProperty="Opacity">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="1"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SearchButton" Storyboard.TargetProperty="Visibility">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                    <Storyboard x:Name="SearchBoxCollapse">
+                        <DoubleAnimation Duration="0:0:0.64" Storyboard.TargetName="SearchBox" EnableDependentAnimation="True" Storyboard.TargetProperty="Width" To="48">
+                            <DoubleAnimation.EasingFunction>
+                                <QuinticEase/>
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SearchBox" Storyboard.TargetProperty="Opacity">
+                            <DiscreteObjectKeyFrame KeyTime="0:0:0.5" Value="0"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SearchButton" Storyboard.TargetProperty="Visibility">
+                            <DiscreteObjectKeyFrame KeyTime="0:0:0.5" Value="Visible"/>
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                </Grid.Resources>
                 <Frame Visibility="Visible" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="MainFrame"/>
                 <Grid Visibility="{x:Bind Context.BooltoVisibility(Context.NeedShowPanel), Mode=OneWay}" 
                       HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="74" x:Name="NowPanel"
@@ -1050,11 +1078,14 @@
                 </Grid>
                 <Grid HorizontalAlignment="Right" VerticalAlignment="Top" 
                       Height="32" x:Name="TitleBarOverlay" Visibility="Visible" >
-                    <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="1" x:Name="TitlebarBtm" Background="{StaticResource BlockAutoSuggestBoxTextBoxStyleBorderBrush}"/>
-                    <AutoSuggestBox Loaded="SearchBox_Loaded" Style="{ThemeResource BlockAutoSuggestBox}" QuerySubmitted="SearchBox_QuerySubmitted" SuggestionChosen="SearchBox_SuggestionChosen"
+                    <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="1" BorderThickness="0" BorderBrush="{x:Null}" x:Name="TitlebarBtm" Background="{StaticResource BlockAutoSuggestBoxTextBoxStyleBorderBrush}"/>
+                    <AutoSuggestBox Loaded="SearchBox_Loaded" LosingFocus="SearchBox_LosingFocus" Style="{ThemeResource BlockAutoSuggestBox}" QuerySubmitted="SearchBox_QuerySubmitted" SuggestionChosen="SearchBox_SuggestionChosen"
                                     PlaceholderText="Search in your library" QueryIcon="Find" x:Name="SearchBox" TextChanged="SearchBox_TextChanged" ItemsSource="{x:Bind Context.SearchItems, Mode=OneWay}"
-                                    HorizontalAlignment="Right" VerticalAlignment="Stretch" Width="320" ItemTemplateSelector="{StaticResource GenericItemSelector}">
+                                    HorizontalAlignment="Right" Opacity="0" VerticalAlignment="Stretch" Width="48" ItemTemplateSelector="{StaticResource GenericItemSelector}">
                     </AutoSuggestBox>
+                    <Button x:Name="SearchButton" Click="SearchButton_Click" Background="Transparent" Style="{ThemeResource NoBorderButton}" Width="48" HorizontalAlignment="Right" VerticalAlignment="Stretch" BorderThickness="1,0,0,1" BorderBrush="{StaticResource BlockAutoSuggestBoxTextBoxStyleBorderBrush}">
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE11A;" FontSize="13"/>
+                    </Button>
                 </Grid>
 
                 <Grid Visibility="Collapsed" Opacity="0" x:Name="ModalOverlay" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource SystemControlBackgroundBaseMediumBrush}">

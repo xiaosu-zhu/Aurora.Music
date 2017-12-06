@@ -32,9 +32,12 @@ namespace Aurora.Music.Pages
     /// </summary>
     public sealed partial class NowPlayingPage : Page
     {
+        internal static NowPlayingPage Current;
+
         public NowPlayingPage()
         {
             this.InitializeComponent();
+            Current = this;
             Context.SongChanged += Context_SongChanged;
         }
 
@@ -161,7 +164,8 @@ namespace Aurora.Music.Pages
         {
             SystemNavigationManager.GetForCurrentView().BackRequested -= NowPlayingPage_BackRequested;
             MainPageViewModel.Current.RestoreLastTitle();
-            Context.Dispose();
+            Context?.Dispose();
+            Unload();
         }
 
         private void Slider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
@@ -173,6 +177,12 @@ namespace Aurora.Music.Pages
         {
             var dialog = new AlbumViewDialog(await Context.GetAlbumAsync());
             await dialog.ShowAsync();
+        }
+
+        internal void Unload()
+        {
+            Context?.Unload();
+            Context = null;
         }
     }
 }

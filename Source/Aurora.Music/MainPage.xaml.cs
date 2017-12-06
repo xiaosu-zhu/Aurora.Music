@@ -184,6 +184,7 @@ namespace Aurora.Music
             {
                 NowPanel.Visibility = Visibility.Visible;
                 MainFrame.Visibility = Visibility.Visible;
+                (OverlayFrame.Content as NowPlayingPage).Unload();
                 OverlayFrame.Content = null;
                 var ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.NowPlayingPageInAnimation);
                 if (ani != null)
@@ -251,6 +252,7 @@ namespace Aurora.Music
             // Get the size of the caption controls area and back button 
             // (returned in logical pixels), and move your content around as necessary.
             SearchBox.Margin = new Thickness(0, 0, coreTitleBar.SystemOverlayRightInset, 0);
+            SearchButton.Margin = new Thickness(0, 0, coreTitleBar.SystemOverlayRightInset, 0);
             TitlebarBtm.Width = coreTitleBar.SystemOverlayRightInset;
             // Update title bar control size as needed to account for system size changes.
             TitleBar.Height = coreTitleBar.Height;
@@ -320,12 +322,14 @@ namespace Aurora.Music
                 TitleBar.Visibility = Visibility.Visible;
                 TitlebarBtm.Visibility = Visibility.Visible;
                 SearchBox.Margin = new Thickness(0, 0, sender.SystemOverlayRightInset, 0);
+                SearchButton.Margin = new Thickness(0, 0, sender.SystemOverlayRightInset, 0);
             }
             else
             {
                 TitleBar.Visibility = Visibility.Collapsed;
                 TitlebarBtm.Visibility = Visibility.Collapsed;
                 SearchBox.Margin = new Thickness(0);
+                SearchButton.Margin = new Thickness(0);
             }
 
         }
@@ -337,10 +341,12 @@ namespace Aurora.Music
             if (sender.IsVisible)
             {
                 SearchBox.Margin = new Thickness(0, 0, sender.SystemOverlayRightInset, 0);
+                SearchButton.Margin = new Thickness(0, 0, sender.SystemOverlayRightInset, 0);
             }
             else
             {
                 SearchBox.Margin = new Thickness(0);
+                SearchButton.Margin = new Thickness(0);
             }
             // Update title bar control size as needed to account for system size changes.
             TitlebarBtm.Width = sender.SystemOverlayRightInset;
@@ -622,6 +628,17 @@ namespace Aurora.Music
             coreTitleBar.LayoutMetricsChanged -= CoreTitleBar_LayoutMetricsChanged;
             coreTitleBar.IsVisibleChanged -= CoreTitleBar_IsVisibleChanged;
             GC.Collect();
+        }
+
+        private void SearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            SearchBoxShow.Begin();
+            SearchBox.Focus(FocusState.Programmatic);
+        }
+
+        private void SearchBox_LosingFocus(UIElement sender, Windows.UI.Xaml.Input.LosingFocusEventArgs args)
+        {
+            SearchBoxCollapse.Begin();
         }
     }
 }

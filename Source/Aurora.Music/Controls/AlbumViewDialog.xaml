@@ -155,7 +155,7 @@
                     <TextBlock Margin="0,4,0,8" x:Name="Brief" Text="" Style="{ThemeResource BodyTextBlockStyle}"/>
                 </StackPanel>
                 <StackPanel PointerEntered="StackPanel_PointerEntered" PointerExited="StackPanel_PointerExited" x:Name="DetailPanel"
-                            PointerCanceled="Grid_PointerExited" PointerCaptureLost="Grid_PointerExited" PointerReleased="StackPanel_PointerReleased"
+                            PointerCanceled="StackPanel_PointerEntered" PointerCaptureLost="StackPanel_PointerEntered" PointerReleased="StackPanel_PointerReleased"
                             Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}" PointerPressed="StackPanel_PointerPressed"
                             BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" 
                             BorderThickness="1" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Padding="8">
