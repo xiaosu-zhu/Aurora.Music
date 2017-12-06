@@ -204,14 +204,11 @@
                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" 
                                                            Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)">
                                 <EasingDoubleKeyFrame KeyTime="0" Value="0">
-                                    <EasingDoubleKeyFrame.EasingFunction>
-                                        <QuinticEase/>
-                                    </EasingDoubleKeyFrame.EasingFunction>
                                 </EasingDoubleKeyFrame>
                                 <EasingDoubleKeyFrame toolkit:InAppNotification.KeyFrameDuration="{Binding AnimationDuration, RelativeSource={RelativeSource TemplatedParent}}"
                                                       Value="{Binding HorizontalOffset, RelativeSource={RelativeSource TemplatedParent}}">
                                     <EasingDoubleKeyFrame.EasingFunction>
-                                        <QuinticEase/>
+                                        <QuinticEase EasingMode="EaseIn"/>
                                     </EasingDoubleKeyFrame.EasingFunction>
                                 </EasingDoubleKeyFrame>
                             </DoubleAnimationUsingKeyFrames>
@@ -219,14 +216,22 @@
                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" 
                                                            Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)">
                                 <EasingDoubleKeyFrame KeyTime="0" Value="0" >
-                                    <EasingDoubleKeyFrame.EasingFunction>
-                                        <QuinticEase/>
-                                    </EasingDoubleKeyFrame.EasingFunction>
                                 </EasingDoubleKeyFrame>
                                 <EasingDoubleKeyFrame toolkit:InAppNotification.KeyFrameDuration="{Binding AnimationDuration, RelativeSource={RelativeSource TemplatedParent}}" 
                                                       Value="{Binding VerticalOffset, RelativeSource={RelativeSource TemplatedParent}}">
                                     <EasingDoubleKeyFrame.EasingFunction>
-                                        <QuinticEase/>
+                                        <QuinticEase EasingMode="EaseIn"/>
+                                    </EasingDoubleKeyFrame.EasingFunction>
+                                </EasingDoubleKeyFrame>
+                            </DoubleAnimationUsingKeyFrames>
+
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Opacity">
+                                <EasingDoubleKeyFrame KeyTime="0" Value="1" >
+                                </EasingDoubleKeyFrame>
+                                <EasingDoubleKeyFrame toolkit:InAppNotification.KeyFrameDuration="{Binding AnimationDuration, RelativeSource={RelativeSource TemplatedParent}}" 
+                                                      Value="0">
+                                    <EasingDoubleKeyFrame.EasingFunction>
+                                        <QuinticEase EasingMode="EaseIn"/>
                                     </EasingDoubleKeyFrame.EasingFunction>
                                 </EasingDoubleKeyFrame>
                             </DoubleAnimationUsingKeyFrames>
@@ -252,13 +257,10 @@
                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" 
                                                            Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)">
                                 <EasingDoubleKeyFrame KeyTime="0" Value="{Binding HorizontalOffset, RelativeSource={RelativeSource TemplatedParent}}" >
-                                    <EasingDoubleKeyFrame.EasingFunction>
-                                        <QuinticEase/>
-                                    </EasingDoubleKeyFrame.EasingFunction>
                                 </EasingDoubleKeyFrame>
                                 <EasingDoubleKeyFrame toolkit:InAppNotification.KeyFrameDuration="{Binding AnimationDuration, RelativeSource={RelativeSource TemplatedParent}}" Value="0" >
                                     <EasingDoubleKeyFrame.EasingFunction>
-                                        <QuinticEase/>
+                                        <QuinticEase EasingMode="EaseOut"/>
                                     </EasingDoubleKeyFrame.EasingFunction>
                                 </EasingDoubleKeyFrame>
                             </DoubleAnimationUsingKeyFrames>
@@ -266,13 +268,20 @@
                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" 
                                                            Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)">
                                 <EasingDoubleKeyFrame KeyTime="0" Value="{Binding VerticalOffset, RelativeSource={RelativeSource TemplatedParent}}" >
-                                    <EasingDoubleKeyFrame.EasingFunction>
-                                        <QuinticEase/>
-                                    </EasingDoubleKeyFrame.EasingFunction>
                                 </EasingDoubleKeyFrame>
                                 <EasingDoubleKeyFrame toolkit:InAppNotification.KeyFrameDuration="{Binding AnimationDuration, RelativeSource={RelativeSource TemplatedParent}}" Value="0" >
                                     <EasingDoubleKeyFrame.EasingFunction>
-                                        <QuinticEase/>
+                                        <QuinticEase EasingMode="EaseOut"/>
+                                    </EasingDoubleKeyFrame.EasingFunction>
+                                </EasingDoubleKeyFrame>
+                            </DoubleAnimationUsingKeyFrames>
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Opacity">
+                                <EasingDoubleKeyFrame KeyTime="0" Value="0" >
+                                </EasingDoubleKeyFrame>
+                                <EasingDoubleKeyFrame toolkit:InAppNotification.KeyFrameDuration="{Binding AnimationDuration, RelativeSource={RelativeSource TemplatedParent}}" 
+                                                      Value="1">
+                                    <EasingDoubleKeyFrame.EasingFunction>
+                                        <QuinticEase EasingMode="EaseOut"/>
                                     </EasingDoubleKeyFrame.EasingFunction>
                                 </EasingDoubleKeyFrame>
                             </DoubleAnimationUsingKeyFrames>
@@ -334,9 +343,8 @@
         <Setter Property="Template" Value="{StaticResource ToastNotification}" />
     </Style>
 
-
     <Style TargetType="Button" x:Key="RevealRoundButton">
-        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAltLowRevealBrush}" />
+        <Setter Property="Background" Value="{ThemeResource SystemControlAltMediumLowAcrylicWindowMediumBrush}" />
         <Setter Property="Foreground" Value="{ThemeResource ButtonForeground}" />
         <Setter Property="BorderBrush" Value="{ThemeResource ButtonRevealBorderBrush}" />
         <Setter Property="BorderThickness" Value="{ThemeResource ButtonRevealBorderThemeThickness}" />
@@ -351,12 +359,14 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Grid x:Name="RootGrid" Background="{x:Null}">
-
+                    <Grid x:Name="RootGrid" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                          BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="9999">
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal">
-
+                                    <VisualState.Setters>
+                                        <Setter Target="RootGrid.(RevealBrush.State)" Value="Normal" />
+                                    </VisualState.Setters>
                                     <Storyboard>
                                         <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
                                     </Storyboard>
@@ -364,9 +374,9 @@
 
                                 <VisualState x:Name="PointerOver">
                                     <VisualState.Setters>
-                                        <Setter Target="BG.(RevealBrush.State)" Value="PointerOver" />
-                                        <Setter Target="BG.Fill" Value="{ThemeResource ButtonRevealBackgroundPointerOver}" />
-                                        <Setter Target="BG.Stroke" Value="{ThemeResource ButtonRevealBorderBrushPointerOver}" />
+                                        <Setter Target="RootGrid.(RevealBrush.State)" Value="PointerOver" />
+                                        <Setter Target="RootGrid.Background" Value="{ThemeResource ButtonRevealBackgroundPointerOver}" />
+                                        <Setter Target="RootGrid.BorderBrush" Value="{ThemeResource ButtonRevealBorderBrushPointerOver}" />
                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightAltAltMediumHighBrush}" />
                                     </VisualState.Setters>
 
@@ -377,9 +387,9 @@
 
                                 <VisualState x:Name="Pressed">
                                     <VisualState.Setters>
-                                        <Setter Target="BG.(RevealBrush.State)" Value="Pressed" />
-                                        <Setter Target="BG.Fill" Value="{ThemeResource ButtonRevealBackgroundPressed}" />
-                                        <Setter Target="BG.Stroke" Value="{ThemeResource ButtonRevealBorderBrushPressed}" />
+                                        <Setter Target="RootGrid.(RevealBrush.State)" Value="Pressed" />
+                                        <Setter Target="RootGrid.Background" Value="{ThemeResource ButtonRevealBackgroundPressed}" />
+                                        <Setter Target="RootGrid.BorderBrush" Value="{ThemeResource ButtonRevealBorderBrushPressed}" />
                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightAltAltHighBrush}" />
                                     </VisualState.Setters>
 
@@ -390,17 +400,14 @@
 
                                 <VisualState x:Name="Disabled">
                                     <VisualState.Setters>
-                                        <Setter Target="BG.Fill" Value="{ThemeResource ButtonRevealBackgroundDisabled}" />
-                                        <Setter Target="BG.Stroke" Value="{ThemeResource ButtonRevealBorderBrushDisabled}" />
+                                        <Setter Target="RootGrid.Background" Value="{ThemeResource ButtonRevealBackgroundDisabled}" />
+                                        <Setter Target="RootGrid.BorderBrush" Value="{ThemeResource ButtonRevealBorderBrushDisabled}" />
                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ButtonForegroundDisabled}" />
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
 
                         </VisualStateManager.VisualStateGroups>
-                        <Ellipse x:Name="BG" Fill="{TemplateBinding Background}" Stroke="{TemplateBinding BorderBrush}"
-                                         StrokeThickness="{TemplateBinding BorderThickness}" 
-                                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                         <ContentPresenter x:Name="ContentPresenter"
                             BorderBrush="{x:Null}"
                             BorderThickness="0"
@@ -417,7 +424,7 @@
         </Setter>
     </Style>
     <Style TargetType="Button" x:Key="RevealRectangleButton">
-        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAltLowRevealBrush}" />
+        <Setter Property="Background" Value="{ThemeResource SystemControlAltMediumLowAcrylicWindowMediumBrush}" />
         <Setter Property="Foreground" Value="{ThemeResource ButtonForeground}" />
         <Setter Property="BorderBrush" Value="{ThemeResource ButtonRevealBorderBrush}" />
         <Setter Property="BorderThickness" Value="{ThemeResource ButtonRevealBorderThemeThickness}" />
@@ -488,7 +495,7 @@
     </Style>
 
     <Style TargetType="ToggleButton" x:Key="RevealRoundToggleButton">
-        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAltLowRevealBrush}" />
+        <Setter Property="Background" Value="{ThemeResource SystemControlAltMediumLowAcrylicWindowMediumBrush}" />
         <Setter Property="Foreground" Value="{ThemeResource ButtonForeground}" />
         <Setter Property="BorderBrush" Value="{ThemeResource ButtonRevealBorderBrush}" />
         <Setter Property="BorderThickness" Value="{ThemeResource ButtonRevealBorderThemeThickness}" />
@@ -503,12 +510,15 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ToggleButton">
-                    <Grid x:Name="RootGrid" Background="{x:Null}">
+                    <Grid x:Name="RootGrid" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                          BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="9999">
 
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal">
-
+                                    <VisualState.Setters>
+                                        <Setter Target="RootGrid.(RevealBrush.State)" Value="Normal" />
+                                    </VisualState.Setters>
                                     <Storyboard>
                                         <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
                                     </Storyboard>
@@ -516,9 +526,9 @@
 
                                 <VisualState x:Name="PointerOver">
                                     <VisualState.Setters>
-                                        <Setter Target="BG.(RevealBrush.State)" Value="PointerOver" />
-                                        <Setter Target="BG.Fill" Value="{ThemeResource ToggleButtonRevealBackgroundPointerOver}" />
-                                        <Setter Target="BG.Stroke" Value="{ThemeResource ToggleButtonRevealBorderBrushPointerOver}" />
+                                        <Setter Target="RootGrid.(RevealBrush.State)" Value="PointerOver" />
+                                        <Setter Target="RootGrid.Background" Value="{ThemeResource ToggleButtonRevealBackgroundPointerOver}" />
+                                        <Setter Target="RootGrid.BorderBrush" Value="{ThemeResource ToggleButtonRevealBorderBrushPointerOver}" />
                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightAltAltMediumHighBrush}" />
                                     </VisualState.Setters>
 
@@ -529,9 +539,9 @@
 
                                 <VisualState x:Name="Pressed">
                                     <VisualState.Setters>
-                                        <Setter Target="BG.(RevealBrush.State)" Value="Pressed" />
-                                        <Setter Target="BG.Fill" Value="{ThemeResource ToggleButtonRevealBackgroundPressed}" />
-                                        <Setter Target="BG.Stroke" Value="{ThemeResource ToggleButtonRevealBorderBrushPressed}" />
+                                        <Setter Target="RootGrid.(RevealBrush.State)" Value="Pressed" />
+                                        <Setter Target="RootGrid.Background" Value="{ThemeResource ToggleButtonRevealBackgroundPressed}" />
+                                        <Setter Target="RootGrid.BorderBrush" Value="{ThemeResource ToggleButtonRevealBorderBrushPressed}" />
                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightAltAltHighBrush}" />
                                     </VisualState.Setters>
 
@@ -542,15 +552,16 @@
 
                                 <VisualState x:Name="Disabled">
                                     <VisualState.Setters>
-                                        <Setter Target="BG.Fill" Value="{ThemeResource ToggleButtonRevealBackgroundDisabled}" />
-                                        <Setter Target="BG.Stroke" Value="{ThemeResource ToggleButtonRevealBorderBrushDisabled}" />
+                                        <Setter Target="RootGrid.Background" Value="{ThemeResource ToggleButtonRevealBackgroundDisabled}" />
+                                        <Setter Target="RootGrid.BorderBrush" Value="{ThemeResource ToggleButtonRevealBorderBrushDisabled}" />
                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ToggleButtonForegroundDisabled}" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="Checked">
                                     <VisualState.Setters>
-                                        <Setter Target="BG.Fill" Value="{ThemeResource ToggleButtonRevealBackgroundChecked}" />
-                                        <Setter Target="BG.Stroke" Value="{ThemeResource ToggleButtonRevealBorderBrushChecked}" />
+                                        <Setter Target="RootGrid.(RevealBrush.State)" Value="Normal" />
+                                        <Setter Target="RootGrid.Background" Value="{ThemeResource ToggleButtonRevealBackgroundChecked}" />
+                                        <Setter Target="RootGrid.BorderBrush" Value="{ThemeResource ToggleButtonRevealBorderBrushChecked}" />
                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightAltChromeWhiteBrush}" />
                                     </VisualState.Setters>
 
@@ -560,9 +571,9 @@
                                 </VisualState>
                                 <VisualState x:Name="CheckedPointerOver">
                                     <VisualState.Setters>
-                                        <Setter Target="BG.(RevealBrush.State)" Value="PointerOver" />
-                                        <Setter Target="BG.Fill" Value="{ThemeResource ToggleButtonRevealBackgroundCheckedPointerOver}" />
-                                        <Setter Target="BG.Stroke" Value="{ThemeResource ToggleButtonRevealBorderBrushCheckedPointerOver}" />
+                                        <Setter Target="RootGrid.(RevealBrush.State)" Value="PointerOver" />
+                                        <Setter Target="RootGrid.Background" Value="{ThemeResource ToggleButtonRevealBackgroundCheckedPointerOver}" />
+                                        <Setter Target="RootGrid.BorderBrush" Value="{ThemeResource ToggleButtonRevealBorderBrushCheckedPointerOver}" />
                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ToggleButtonForegroundCheckedPointerOver}" />
                                     </VisualState.Setters>
 
@@ -572,9 +583,9 @@
                                 </VisualState>
                                 <VisualState x:Name="CheckedPressed">
                                     <VisualState.Setters>
-                                        <Setter Target="BG.(RevealBrush.State)" Value="Pressed" />
-                                        <Setter Target="BG.Fill" Value="{ThemeResource ToggleButtonRevealBackgroundCheckedPressed}" />
-                                        <Setter Target="BG.Stroke" Value="{ThemeResource ToggleButtonRevealBorderBrushCheckedPressed}" />
+                                        <Setter Target="RootGrid.(RevealBrush.State)" Value="Pressed" />
+                                        <Setter Target="RootGrid.Background" Value="{ThemeResource ToggleButtonRevealBackgroundCheckedPressed}" />
+                                        <Setter Target="RootGrid.BorderBrush" Value="{ThemeResource ToggleButtonRevealBorderBrushCheckedPressed}" />
                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ToggleButtonForegroundCheckedPressed}" />
                                     </VisualState.Setters>
 
@@ -584,15 +595,16 @@
                                 </VisualState>
                                 <VisualState x:Name="CheckedDisabled">
                                     <VisualState.Setters>
-                                        <Setter Target="BG.Fill" Value="{ThemeResource ToggleButtonRevealBackgroundCheckedDisabled}" />
-                                        <Setter Target="BG.Stroke" Value="{ThemeResource ToggleButtonRevealBorderBrushCheckedDisabled}" />
+                                        <Setter Target="RootGrid.Background" Value="{ThemeResource ToggleButtonRevealBackgroundCheckedDisabled}" />
+                                        <Setter Target="RootGrid.BorderBrush" Value="{ThemeResource ToggleButtonRevealBorderBrushCheckedDisabled}" />
                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ToggleButtonForegroundCheckedDisabled}" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="Indeterminate">
                                     <VisualState.Setters>
-                                        <Setter Target="BG.Fill" Value="{ThemeResource ToggleButtonRevealBackgroundIndeterminate}" />
-                                        <Setter Target="BG.Stroke" Value="{ThemeResource ToggleButtonRevealBorderBrushIndeterminate}" />
+                                        <Setter Target="RootGrid.(RevealBrush.State)" Value="Normal" />
+                                        <Setter Target="RootGrid.Background" Value="{ThemeResource ToggleButtonRevealBackgroundIndeterminate}" />
+                                        <Setter Target="RootGrid.BorderBrush" Value="{ThemeResource ToggleButtonRevealBorderBrushIndeterminate}" />
                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlForegroundAltMediumHighBrush}" />
                                     </VisualState.Setters>
 
@@ -602,9 +614,9 @@
                                 </VisualState>
                                 <VisualState x:Name="IndeterminatePointerOver">
                                     <VisualState.Setters>
-                                        <Setter Target="BG.(RevealBrush.State)" Value="PointerOver" />
-                                        <Setter Target="BG.Fill" Value="{ThemeResource ToggleButtonRevealBackgroundIndeterminatePointerOver}" />
-                                        <Setter Target="BG.Stroke" Value="{ThemeResource ToggleButtonRevealBorderBrushIndeterminatePointerOver}" />
+                                        <Setter Target="RootGrid.(RevealBrush.State)" Value="PointerOver" />
+                                        <Setter Target="RootGrid.Background" Value="{ThemeResource ToggleButtonRevealBackgroundIndeterminatePointerOver}" />
+                                        <Setter Target="RootGrid.BorderBrush" Value="{ThemeResource ToggleButtonRevealBorderBrushIndeterminatePointerOver}" />
                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlForegroundAltHighBrush}" />
                                     </VisualState.Setters>
 
@@ -614,9 +626,9 @@
                                 </VisualState>
                                 <VisualState x:Name="IndeterminatePressed">
                                     <VisualState.Setters>
-                                        <Setter Target="BG.(RevealBrush.State)" Value="Pressed" />
-                                        <Setter Target="BG.Fill" Value="{ThemeResource ToggleButtonRevealBackgroundIndeterminatePressed}" />
-                                        <Setter Target="BG.Stroke" Value="{ThemeResource ToggleButtonRevealBorderBrushIndeterminatePressed}" />
+                                        <Setter Target="RootGrid.(RevealBrush.State)" Value="Pressed" />
+                                        <Setter Target="RootGrid.Background" Value="{ThemeResource ToggleButtonRevealBackgroundIndeterminatePressed}" />
+                                        <Setter Target="RootGrid.BorderBrush" Value="{ThemeResource ToggleButtonRevealBorderBrushIndeterminatePressed}" />
                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlForegroundBaseMediumLowBrush}" />
                                     </VisualState.Setters>
 
@@ -626,16 +638,14 @@
                                 </VisualState>
                                 <VisualState x:Name="IndeterminateDisabled">
                                     <VisualState.Setters>
-                                        <Setter Target="BG.Fill" Value="{ThemeResource ToggleButtonRevealBackgroundIndeterminateDisabled}" />
-                                        <Setter Target="BG.Stroke" Value="{ThemeResource ToggleButtonRevealBorderBrushIndeterminateDisabled}" />
+                                        <Setter Target="RootGrid.Background" Value="{ThemeResource ToggleButtonRevealBackgroundIndeterminateDisabled}" />
+                                        <Setter Target="RootGrid.BorderBrush" Value="{ThemeResource ToggleButtonRevealBorderBrushIndeterminateDisabled}" />
                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ToggleButtonForegroundIndeterminateDisabled}" />
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
 
                         </VisualStateManager.VisualStateGroups>
-                        <Ellipse x:Name="BG" Fill="{TemplateBinding Background}" Stroke="{TemplateBinding BorderBrush}"
-                                         StrokeThickness="{TemplateBinding BorderThickness}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                         <ContentPresenter x:Name="ContentPresenter"
                             BorderBrush="{x:Null}"
                             BorderThickness="0"

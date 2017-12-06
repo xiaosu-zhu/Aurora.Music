@@ -1065,7 +1065,7 @@
 
                 <toolkit:InAppNotification x:Name="InAppNotify" Style="{ThemeResource ToastNotificationStyle}" Content="This is a test message."
                                     AnimationDuration="00:00:00.96"
-                                    VerticalOffset="300"
+                                    VerticalOffset="32"
                                     HorizontalOffset="0"/>
             </Grid>
         </SplitView.Content>

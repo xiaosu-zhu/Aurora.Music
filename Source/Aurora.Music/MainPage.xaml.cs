@@ -62,7 +62,7 @@ namespace Aurora.Music
                 {
                     InAppNotify.Dismiss();
                 });
-            }, TimeSpan.FromMilliseconds(1500));
+            }, TimeSpan.FromMilliseconds(3000));
         }
 
         private int lyricViewID;
