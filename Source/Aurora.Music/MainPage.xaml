@@ -935,10 +935,10 @@
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
                         <RowDefinition Height="2"/>
+                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <StackPanel Orientation="Horizontal" x:Name="NavigatePanel" PointerEntered="StackPanel_PointerEntered" PointerExited="StackPanel_PointerExited"
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" x:Name="NavigatePanel" PointerEntered="StackPanel_PointerEntered" PointerExited="StackPanel_PointerExited"
                                 PointerReleased="StackPanel_PointerReleased" PointerPressed="NavigatePanel_PointerPressed" PointerCanceled="StackPanel_PointerExited" 
                                 PointerCaptureLost="StackPanel_PointerExited" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent">
                         <StackPanel.Resources>
@@ -959,8 +959,7 @@
                                 </ObjectAnimationUsingKeyFrames>
                             </Storyboard>
                         </StackPanel.Resources>
-                        <Image Grid.Row="1" x:Name="Artwork"
-                                     Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Stretch" Stretch="Uniform">
+                        <Image Grid.Row="1" x:Name="Artwork" HorizontalAlignment="Left" VerticalAlignment="Stretch" Stretch="Uniform">
                             <Image.Source>
                                 <BitmapImage DecodePixelHeight="72" DecodePixelType="Logical" UriSource="{x:Bind Context.CurrentArtwork, Mode=OneWay, TargetNullValue=ms-appx:///Assets/Images/now_placeholder.png}"/>
                             </Image.Source>
@@ -970,7 +969,7 @@
                             <TextBlock x:Name="Album" Text="{x:Bind Context.CurrentAlbum, Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Margin="4,0,4,4"/>
                         </StackPanel>
                     </StackPanel>
-                    <Button Style="{ThemeResource RevealRectangleButton}" ToolTipService.ToolTip="Playing list" Grid.Column="2" Margin="12,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button Grid.Row="1" Style="{ThemeResource RevealRectangleButton}" ToolTipService.ToolTip="Playing list" Grid.Column="2" Margin="12,0" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Button.Content>
                             <TextBlock Text="{x:Bind Context.NowListPreview,Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" Margin="12,8"/>
                         </Button.Content>
@@ -984,11 +983,11 @@
                             </Flyout>
                         </Button.Flyout>
                     </Button>
-                    <StackPanel Orientation="Horizontal" Grid.Column="3" Margin="4,0"
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" Grid.Column="3" Margin="4,0"
                                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{x:Bind PositionToString(Context.CurrentPosition, Context.TotalDuration), Mode=OneWay}" Margin="4"/>
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal" Grid.Column="4" Margin="4,0"
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" Grid.Column="4" Margin="4,0"
                                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <Button Style="{ThemeResource RevealRoundButton}" Command="{x:Bind Context.GoPrevious}" ToolTipService.ToolTip="Previous"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
@@ -1024,9 +1023,9 @@
                             </ToggleButton.Content>
                         </ToggleButton>
                     </StackPanel>
-                    <ProgressBar Background="{x:Null}" Foreground="{ThemeResource SystemControlBackgroundBaseLowBrush}" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="5" 
+                    <ProgressBar Background="{x:Null}" Foreground="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="5" 
                                  Value="{x:Bind Context.DownloadProgress, Mode=OneWay}"/>
-                    <ProgressBar Background="{x:Null}" Foreground="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="5" 
+                    <ProgressBar Background="{x:Null}" Foreground="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="5" 
                                  Value="{x:Bind Context.PositionToValue(Context.CurrentPosition, Context.TotalDuration), Mode=OneWay}"/>
                 </Grid>
                 <Frame x:Name="OverlayFrame" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
@@ -1064,8 +1063,8 @@
                 </Grid>
 
                 <toolkit:InAppNotification x:Name="InAppNotify" Style="{ThemeResource ToastNotificationStyle}" Content="This is a test message."
-                                    AnimationDuration="00:00:00.96"
-                                    VerticalOffset="32"
+                                    AnimationDuration="00:00:00.5"
+                                    VerticalOffset="16"
                                     HorizontalOffset="0"/>
             </Grid>
         </SplitView.Content>
