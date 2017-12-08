@@ -12,6 +12,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Foundation;
+using Windows.Networking.BackgroundTransfer;
 using Windows.Networking.Connectivity;
 using Windows.Storage;
 using Windows.Web.Http;
@@ -437,6 +438,16 @@ namespace Aurora.Shared.Helpers
                     return response;
                 }
             }
+        }
+
+        public static async Task<IAsyncOperationWithProgress<DownloadOperation, DownloadOperation>> DownloadFileIntoLocalAsync(string name, Uri uri)
+        {
+            var downloader = new Windows.Networking.BackgroundTransfer.BackgroundDownloader();
+            var file = await ApplicationData.Current.LocalFolder.CreateFileAsync(name, CreationCollisionOption.OpenIfExists);
+            // Create a new download operation.
+            var download = downloader.CreateDownload(uri, file);
+
+            return download.StartAsync();
         }
 
 
