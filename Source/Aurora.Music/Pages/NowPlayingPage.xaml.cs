@@ -48,16 +48,17 @@ namespace Aurora.Music.Pages
                 lock (this)
                 {
                     var s = sender as SongViewModel;
+                    if (MoreMenu.Items[1] is MenuFlyoutSeparator)
+                    {
+
+                    }
+                    else
+                    {
+                        MoreMenu.Items.RemoveAt(1);
+                    }
                     if (!s.Song.Performers.IsNullorEmpty())
                     {
-                        if (MoreMenu.Items[1] is MenuFlyoutSeparator)
-                        {
 
-                        }
-                        else
-                        {
-                            MoreMenu.Items.RemoveAt(1);
-                        }
                         if (s.Song.Performers.Length == 1)
                         {
                             MoreMenu.Items.Insert(1, new MenuFlyoutItem()
@@ -183,6 +184,11 @@ namespace Aurora.Music.Pages
         {
             Context?.Unload();
             Context = null;
+        }
+
+        private async void FindFileClick(object sender, RoutedEventArgs e)
+        {
+            await Context.FindFileAsync();
         }
     }
 }

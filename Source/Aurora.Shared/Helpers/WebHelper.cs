@@ -440,9 +440,13 @@ namespace Aurora.Shared.Helpers
             }
         }
 
-        public static async Task<IAsyncOperationWithProgress<DownloadOperation, DownloadOperation>> DownloadFileIntoLocalAsync(string name, Uri uri)
+        public static async Task<IAsyncOperationWithProgress<DownloadOperation, DownloadOperation>> DownloadFileAsync(string name, Uri uri, StorageFolder folder = null)
         {
             var downloader = new Windows.Networking.BackgroundTransfer.BackgroundDownloader();
+            if (folder == null)
+            {
+                folder = ApplicationData.Current.LocalFolder;
+            }
             var file = await ApplicationData.Current.LocalFolder.CreateFileAsync(name, CreationCollisionOption.OpenIfExists);
             // Create a new download operation.
             var download = downloader.CreateDownload(uri, file);

@@ -860,7 +860,7 @@
                                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Context.DownloadOrModifyIcon(Context.Song.IsOnline),Mode=OneWay}" />
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
-                                <MenuFlyoutItem Visibility="{x:Bind Context.BoolNottoVisibility(Context.Song.IsOnline),Mode=OneWay}" Text="Find File">
+                                <MenuFlyoutItem Click="FindFileClick" Visibility="{x:Bind Context.BoolNottoVisibility(Context.Song.IsOnline),Mode=OneWay}" Text="Open in Explorer">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE7F6;" />
                                     </MenuFlyoutItem.Icon>
@@ -871,6 +871,9 @@
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
                                 <MenuFlyoutItem Text="Q &amp; A">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE11B;" />
+                                    </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
                             </MenuFlyout.Items>
                         </MenuFlyout>

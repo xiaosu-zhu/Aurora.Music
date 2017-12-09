@@ -20,6 +20,8 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using System.Threading.Tasks;
 using Aurora.Music.Pages;
+using Windows.System;
+using Windows.Storage;
 
 namespace Aurora.Music.ViewModels
 {
@@ -188,6 +190,18 @@ namespace Aurora.Music.ViewModels
             player.DownloadProgressChanged -= Player_DownloadProgressChanged;
             player.PositionUpdated -= Player_PositionUpdated;
             player.StatusChanged -= Player_StatusChanged;
+        }
+
+        internal async Task FindFileAsync()
+        {
+            if (Song.IsOnline)
+            {
+                throw new InvalidOperationException("Can't open an online file");
+            }
+            var file = await StorageFile.GetFileFromPathAsync(Song.Song.FilePath);
+            var option = new FolderLauncherOptions();
+            option.ItemsToSelect.Add(file);
+            await Launcher.LaunchFolderAsync(await file.GetParentAsync(), option);
         }
 
         public TimeSpan TotalDuration

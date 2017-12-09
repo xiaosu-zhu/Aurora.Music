@@ -85,7 +85,7 @@ namespace Aurora.Music.Core.Storage
             if (song.IsOnline && song.OnlineUri?.AbsolutePath != null)
             {
                 var fileName = Shared.Utils.InvalidFileNameChars.Aggregate(song.Title, (current, c) => current.Replace(c + "", "_"));
-                return await WebHelper.DownloadFileIntoLocalAsync(fileName, song.OnlineUri);
+                return await WebHelper.DownloadFileAsync(fileName, song.OnlineUri);
             }
             throw new InvalidOperationException("Can't download a local file");
         }
