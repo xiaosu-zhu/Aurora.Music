@@ -1,9 +1,12 @@
-﻿using Aurora.Shared.Helpers;
+﻿using Aurora.Music.Core.Models;
+using Aurora.Shared.Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.Foundation;
+using Windows.Networking.BackgroundTransfer;
 using Windows.Storage;
 
 namespace Aurora.Music.Core.Storage
@@ -75,6 +78,16 @@ namespace Aurora.Music.Core.Storage
                 }
             }
             return list;
+        }
+
+        public static async Task<IAsyncOperationWithProgress<DownloadOperation, DownloadOperation>> DownloadMusic(Song song)
+        {
+            if (song.IsOnline && song.OnlineUri?.AbsolutePath != null)
+            {
+                var fileName = Shared.Utils.InvalidFileNameChars.Aggregate(song.Title, (current, c) => current.Replace(c + "", "_"));
+                return await WebHelper.DownloadFileIntoLocalAsync(fileName, song.OnlineUri);
+            }
+            throw new InvalidOperationException("Can't download a local file");
         }
 
         void QueryContentsChanged(Windows.Storage.Search.IStorageQueryResultBase sender, object args)
