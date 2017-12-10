@@ -190,5 +190,10 @@ namespace Aurora.Music.Pages
         {
             await Context.FindFileAsync();
         }
+
+        private async void DowmloadOrModify(object sender, RoutedEventArgs e)
+        {
+            await Context.DowmloadOrModifyAsync();
+        }
     }
 }

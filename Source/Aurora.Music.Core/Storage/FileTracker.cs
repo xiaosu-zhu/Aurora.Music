@@ -80,12 +80,17 @@ namespace Aurora.Music.Core.Storage
             return list;
         }
 
-        public static async Task<IAsyncOperationWithProgress<DownloadOperation, DownloadOperation>> DownloadMusic(Song song)
+        public static async Task<IAsyncOperationWithProgress<DownloadOperation, DownloadOperation>> DownloadMusic(Song song, StorageFolder folder = null)
         {
             if (song.IsOnline && song.OnlineUri?.AbsolutePath != null)
             {
                 var fileName = Shared.Utils.InvalidFileNameChars.Aggregate(song.Title, (current, c) => current.Replace(c + "", "_"));
-                return await WebHelper.DownloadFileAsync(fileName, song.OnlineUri);
+                fileName += song.FileType;
+                if (folder == null)
+                {
+                    folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Download", CreationCollisionOption.OpenIfExists);
+                }
+                return await WebHelper.DownloadFileAsync(fileName, song.OnlineUri, folder);
             }
             throw new InvalidOperationException("Can't download a local file");
         }

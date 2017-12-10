@@ -385,6 +385,7 @@ namespace Aurora.Music.Core.Models
         public string OnlineID { get; set; }
         public double Rating { get; set; }
         public string OnlineAlbumID { get; set; }
+        public string FileType { get; internal set; }
 
         public async Task<bool> GetFavoriteAsync()
         {

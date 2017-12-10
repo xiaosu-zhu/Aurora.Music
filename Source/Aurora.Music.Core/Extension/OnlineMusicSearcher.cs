@@ -130,6 +130,12 @@ namespace Aurora.Music.Core.Extension
         private static long guid;
         private static string key;
 
+        public static string GenerateFileTypeByID(string media_ID, uint bitrate = 256)
+        {
+            var f = fileFormats.First(x => x.BitRate <= bitrate);
+            return f.Format;
+        }
+
         public static async Task<string> GenerateFileUriByID(string media_ID, uint bitrate = 256)
         {
             if ((DateTime.Now - stamp).TotalMinutes > 1 || !key.IsNullorEmpty())

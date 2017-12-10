@@ -225,6 +225,23 @@ namespace Aurora.Music
             }
         }
 
+        internal async void PopMessage(string msg)
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+            {
+                InAppNotify.Content = msg;
+                InAppNotify.Show();
+            });
+            dismissTimer?.Cancel();
+            dismissTimer = ThreadPoolTimer.CreateTimer(async (x) =>
+            {
+                await Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+                {
+                    InAppNotify.Dismiss();
+                });
+            }, TimeSpan.FromMilliseconds(3000));
+        }
+
         private void StackPanel_PointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             if (sender is Panel s)

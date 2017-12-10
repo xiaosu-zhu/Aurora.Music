@@ -855,7 +855,7 @@
                                     </MenuFlyoutSubItem.Icon>
                                 </MenuFlyoutSubItem>
                                 <MenuFlyoutSeparator/>
-                                <MenuFlyoutItem Text="{x:Bind Context.DownloadOrModify(Context.Song.IsOnline),Mode=OneWay}" >
+                                <MenuFlyoutItem Click="DowmloadOrModify" Text="{x:Bind Context.DownloadOrModify(Context.Song.IsOnline),Mode=OneWay}" >
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Context.DownloadOrModifyIcon(Context.Song.IsOnline),Mode=OneWay}" />
                                     </MenuFlyoutItem.Icon>

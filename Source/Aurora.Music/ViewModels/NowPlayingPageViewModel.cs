@@ -22,6 +22,8 @@ using System.Threading.Tasks;
 using Aurora.Music.Pages;
 using Windows.System;
 using Windows.Storage;
+using Windows.Foundation;
+using Windows.Networking.BackgroundTransfer;
 
 namespace Aurora.Music.ViewModels
 {
@@ -202,6 +204,29 @@ namespace Aurora.Music.ViewModels
             var option = new FolderLauncherOptions();
             option.ItemsToSelect.Add(file);
             await Launcher.LaunchFolderAsync(await file.GetParentAsync(), option);
+        }
+
+        internal async Task DowmloadOrModifyAsync()
+        {
+            if (Song.IsOnline)
+            {
+                var progress = await FileTracker.DownloadMusic(this.Song.Song);
+                progress.Progress = DownloadProgressChanged;
+                progress.Completed = DownloadCompleted;
+            }
+            else
+            {
+
+            }
+        }
+
+        private void DownloadCompleted(IAsyncOperationWithProgress<DownloadOperation, DownloadOperation> asyncInfo, AsyncStatus asyncStatus)
+        {
+            MainPage.Current.PopMessage("Download Completed");
+        }
+
+        private void DownloadProgressChanged(IAsyncOperationWithProgress<DownloadOperation, DownloadOperation> asyncInfo, DownloadOperation progressInfo)
+        {
         }
 
         public TimeSpan TotalDuration

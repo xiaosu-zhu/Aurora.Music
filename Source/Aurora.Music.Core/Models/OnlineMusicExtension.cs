@@ -121,7 +121,8 @@ namespace Aurora.Music.Core.Models
                     OnlineUri = new Uri(item["file_url"] as string),
                     FilePath = item["file_url"] as string,
                     Track = Convert.ToUInt32(item["track"]),
-                    Duration = TimeSpan.Parse(item["duration"] as string)
+                    Duration = TimeSpan.Parse(item["duration"] as string),
+                    FileType = item["file_type"] as string
                 });
             }
 
@@ -152,7 +153,8 @@ namespace Aurora.Music.Core.Models
                 Year = Convert.ToUInt32(set["year"]),
                 OnlineID = set["id"] as string,
                 Track = Convert.ToUInt32(set["track"]),
-                Duration = TimeSpan.Parse(set["duration"] as string)
+                Duration = TimeSpan.Parse(set["duration"] as string),
+                FileType = set["file_type"] as string
             };
 
             // TODO: Optional Properties
