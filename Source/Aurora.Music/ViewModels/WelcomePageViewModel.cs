@@ -62,13 +62,7 @@ namespace Aurora.Music.ViewModels
 
         public async Task StartSearch()
         {
-            var set = Settings.Load();
-            var list = new List<StorageFolder>();
-            if (set.IncludeMusicLibrary)
-            {
-                // TODO: music library don't have path
-                list.Add(KnownFolders.MusicLibrary);
-            }
+            List<StorageFolder> list = FileReader.InitFolderList();
             var p = await opr.GetAllAsync<FOLDER>();
             fileReader.ProgressUpdated += FileReader_ProgressUpdated;
             fileReader.Completed += FileReader_Completed;

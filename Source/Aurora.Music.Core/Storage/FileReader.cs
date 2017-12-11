@@ -161,6 +161,20 @@ namespace Aurora.Music.Core.Storage
             return albums.ConvertAll(a => new Album(a));
         }
 
+
+        public static List<StorageFolder> InitFolderList()
+        {
+            var set = Settings.Load();
+            var list = new List<StorageFolder>();
+            if (set.IncludeMusicLibrary)
+            {
+                // TODO: music library don't have path
+                list.Add(KnownFolders.MusicLibrary);
+            }
+            list.Add(ApplicationData.Current.LocalFolder);
+            return list;
+        }
+
         public async Task Read(IList<StorageFolder> folder)
         {
             var list = new List<StorageFile>();

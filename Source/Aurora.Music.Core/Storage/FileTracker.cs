@@ -42,7 +42,7 @@ namespace Aurora.Music.Core.Storage
             var opr = SQLOperator.Current();
             var filePaths = await opr.GetFilePathsAsync();
             var foldersDB = await opr.GetAllAsync<FOLDER>();
-            var folders = new List<StorageFolder>();
+            var folders = FileReader.InitFolderList();
             foreach (var f in foldersDB)
             {
                 folders.Add(await f.GetFolderAsync());

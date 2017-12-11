@@ -297,7 +297,7 @@
                   MinWidth="{TemplateBinding MinWidth}"
                   HorizontalAlignment="Center"
                   Visibility="{TemplateBinding Visibility}"
-                  Background="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}" CornerRadius="12"
+                  Background="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}"
                   BorderThickness="0">
                 <Grid.RenderTransform>
                     <CompositeTransform />
