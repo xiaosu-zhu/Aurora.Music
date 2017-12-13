@@ -136,18 +136,14 @@ namespace Aurora.Music.Core.Storage
         public static async Task<IEnumerable<ListWithKey<GenericMusicItem>>> GetHeroListAsync()
         {
             var opr = SQLOperator.Current();
-            var songs = await GetRandomListAsync();
             var todaySuggestion = await opr.GetTodayListAsync();
             var nowSuggestion = await opr.GetNowListAsync();
-            var fav = await opr.GetFavListAsync();
-            songs.Shuffle();
-            todaySuggestion.Shuffle();
-            fav.Shuffle();
+            var fav = await opr.GetRecentListAsync();
+
             var res = new List<ListWithKey<GenericMusicItem>>
             {
-                new ListWithKey<GenericMusicItem>("Feeling Lucky", songs),
                 new ListWithKey<GenericMusicItem>($"{DateTime.Today.DayOfWeek}'s Suggestion", todaySuggestion),
-                new ListWithKey<GenericMusicItem>("Favorite Picks", fav),
+                new ListWithKey<GenericMusicItem>("Rencently Played", fav),
                 new ListWithKey<GenericMusicItem>($"{DateTime.Now.GetHourString()} Favorites", nowSuggestion)
             };
             res.Shuffle();

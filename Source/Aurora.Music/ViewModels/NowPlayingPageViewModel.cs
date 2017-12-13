@@ -243,7 +243,7 @@ namespace Aurora.Music.ViewModels
                     return null;
                 return new AlbumViewModel(await MainPageViewModel.Current.GetOnlineAlbumAsync(_lastSong.OnlineAlbumID));
             }
-            return new AlbumViewModel(await SQLOperator.Current().GetAlbumByNameAsync(_lastSong.Album));
+            return new AlbumViewModel(await SQLOperator.Current().GetAlbumByNameAsync(_lastSong.Album, _lastSong.ID));
         }
 
         private LyricViewModel lyric = new LyricViewModel();

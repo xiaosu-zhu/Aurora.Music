@@ -886,6 +886,22 @@ namespace Aurora.Music.Core.Storage
             return list;
         }
 
+
+        internal async Task<List<GenericMusicItem>> GetRecentListAsync(int count = 50)
+        {
+            var res = await conn.QueryAsync<STATISTICS>("SELECT * FROM STATISTICS WHERE TARGETTYPE=0 ORDER BY LASTPLAY DESC LIMIT ?", count);
+            var alist = await conn.QueryAsync<SONG>($"SELECT * FROM SONG WHERE ID IN ({string.Join(',', res.Select(x => x.TargetID))})");
+
+            var final = new List<GenericMusicItem>();
+
+            foreach (var item in alist)
+            {
+                final.Add(new GenericMusicItem(item));
+            }
+            final.Shuffle();
+            return final;
+        }
+
         public async Task<List<GenericMusicItem>> GetFavListAsync()
         {
             var res = await conn.QueryAsync<STATISTICS>($"SELECT * FROM STATISTICS WHERE TARGETTYPE=0 ORDER BY PlayedCount DESC LIMIT 25");
@@ -1019,7 +1035,7 @@ namespace Aurora.Music.Core.Storage
             await conn.UpdateAsync(new ALBUM(s));
         }
 
-        public async Task<Album> GetAlbumByNameAsync(string album)
+        public async Task<Album> GetAlbumByNameAsync(string album, int songID)
         {
             if (album.IsNullorEmpty())
             {
@@ -1030,7 +1046,13 @@ namespace Aurora.Music.Core.Storage
                 var res = await conn.QueryAsync<ALBUM>("SELECT * FROM ALBUM WHERE NAME=?", album);
                 if (res.Count > 0)
                 {
-                    return new Album(res[0]);
+                    foreach (var item in res)
+                    {
+                        if (item.Songs.Contains(songID.ToString()))
+                        {
+                            return new Album(item);
+                        }
+                    }
                 }
             }
             return null;

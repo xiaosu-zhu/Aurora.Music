@@ -222,7 +222,7 @@ namespace Aurora.Music.ViewModels
                             return null;
                         return new AlbumViewModel(await MainPageViewModel.Current.GetOnlineAlbumAsync(OnlineAlbumID));
                     }
-                    return new AlbumViewModel(await opr.GetAlbumByNameAsync(Description));
+                    return new AlbumViewModel(await opr.GetAlbumByNameAsync(Description, ContextualID));
                 case MediaType.Album:
                     return new AlbumViewModel(await opr.GetAlbumByIDAsync(ContextualID));
                 case MediaType.PlayList:
