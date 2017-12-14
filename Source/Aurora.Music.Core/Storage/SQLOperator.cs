@@ -879,7 +879,6 @@ namespace Aurora.Music.Core.Storage
             var b = await conn.QueryAsync<PLAYSTATISTIC>($"SELECT * FROM PLAYSTATISTIC WHERE {day}>0 AND TARGETTYPE=1 ORDER BY {day} DESC LIMIT 5");
             var bRes = await conn.QueryAsync<ALBUM>($"SELECT * FROM ALBUM WHERE ID IN ({string.Join(',', b.Select(x => x.TargetID))})");
 
-
             var list = aRes.ConvertAll(x => new GenericMusicItem(x));
             list.AddRange(bRes.ConvertAll(x => new GenericMusicItem(x)));
             list.Shuffle();

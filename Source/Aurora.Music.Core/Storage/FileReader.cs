@@ -138,12 +138,12 @@ namespace Aurora.Music.Core.Storage
             var opr = SQLOperator.Current();
             var todaySuggestion = await opr.GetTodayListAsync();
             var nowSuggestion = await opr.GetNowListAsync();
-            var fav = await opr.GetRecentListAsync();
+            var recent = await opr.GetRecentListAsync();
 
             var res = new List<ListWithKey<GenericMusicItem>>
             {
                 new ListWithKey<GenericMusicItem>($"{DateTime.Today.DayOfWeek}'s Suggestion", todaySuggestion),
-                new ListWithKey<GenericMusicItem>("Rencently Played", fav),
+                new ListWithKey<GenericMusicItem>("Rencently Played", recent),
                 new ListWithKey<GenericMusicItem>($"{DateTime.Now.GetHourString()} Favorites", nowSuggestion)
             };
             res.Shuffle();
