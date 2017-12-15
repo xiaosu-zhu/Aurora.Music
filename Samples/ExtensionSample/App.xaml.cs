@@ -15,7 +15,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-namespace Aurora.Music.OnlineExtension
+namespace ExtensionSample
 {
     /// <summary>
     /// 提供特定于应用程序的行为，以补充默认的应用程序类。
@@ -53,7 +53,6 @@ namespace Aurora.Music.OnlineExtension
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
                     //TODO: 从之前挂起的应用程序加载状态
-                    //TODO: restore last playing
                 }
 
                 // 将框架放在当前窗口中

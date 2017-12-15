@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3" xmlns:uap4="http://schemas.microsoft.com/appx/manifest/uap/windows10/4" IgnorableNamespaces="uap mp uap3 uap4">
-  <Identity Name="21fe6d28-dc06-4a80-aa4d-87414dd72449" Publisher="CN=Xiaos" Version="1.0.0.0" />
-  <mp:PhoneIdentity PhoneProductId="21fe6d28-dc06-4a80-aa4d-87414dd72449" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
+  <Identity Name="704b53af-61df-4fa0-bef8-dbafc6f79384" Publisher="CN=sample" Version="1.0.0.0" />
+  <mp:PhoneIdentity PhoneProductId="704b53af-61df-4fa0-bef8-dbafc6f79384" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
-    <DisplayName>Aurora.Music.OnlineExtension</DisplayName>
+    <DisplayName>ExtensionSample</DisplayName>
     <PublisherDisplayName>Xiaos</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -14,9 +14,9 @@
     <Resource Language="x-generate" />
   </Resources>
   <Applications>
-    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="Aurora.Music.OnlineExtension.App">
-      <uap:VisualElements DisplayName="Aurora.Music.OnlineExtension" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="Aurora.Music.OnlineExtension" BackgroundColor="transparent">
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" Square310x310Logo="Assets\LargeTile.png" Square71x71Logo="Assets\SmallTile.png">
+    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="ExtensionSample.App">
+      <uap:VisualElements DisplayName="ExtensionSample" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="ExtensionSample" BackgroundColor="transparent">
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png">
         </uap:DefaultTile>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
@@ -25,14 +25,13 @@
           <uap:AppService Name="Aurora.Music.Services" />
         </uap:Extension>
         <uap3:Extension Category="windows.appExtension">
-          <uap3:AppExtension Name="Aurora.Music.Extensions" Id="BuiltIn" PublicFolder="Public" DisplayName="Lyric" Description="Built-in Lyric Provider">
+          <uap3:AppExtension Name="ExtensionSample" Id="Sample" PublicFolder="Public" DisplayName="Sample" Description="Aurora Music Extensibility Sample">
             <uap3:Properties>
-              <Service>Aurora.Music.Services</Service>
+              <Service>Aurora.Music.Sample</Service>
               <Category>Lyric;OnlineMusic</Category>
             </uap3:Properties>
           </uap3:AppExtension>
         </uap3:Extension>
-
       </Extensions>
     </Application>
   </Applications>
