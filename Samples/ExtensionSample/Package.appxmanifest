@@ -21,9 +21,6 @@
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
       <Extensions>
-        <uap:Extension Category="windows.appService">
-          <uap:AppService Name="Aurora.Music.Services" />
-        </uap:Extension>
         <uap3:Extension Category="windows.appExtension">
           <uap3:AppExtension Name="ExtensionSample" Id="Sample" PublicFolder="Public" DisplayName="Sample" Description="Aurora Music Extensibility Sample">
             <uap3:Properties>
@@ -32,6 +29,9 @@
             </uap3:Properties>
           </uap3:AppExtension>
         </uap3:Extension>
+        <uap:Extension Category="windows.appService">
+          <uap:AppService Name="Aurora.Music.Sample" />
+        </uap:Extension>
       </Extensions>
     </Application>
   </Applications>
