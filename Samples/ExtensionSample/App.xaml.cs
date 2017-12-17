@@ -54,16 +54,70 @@ namespace ExtensionSample
         {
             AppServiceDeferral messageDeferral = args.GetDeferral();
             ValueSet message = args.Request.Message;
-            string text = message["Request"] as string;
 
-            if ("Value" == text)
+            message.TryGetValue("q", out var obj);
+
+            if (obj is string command)
             {
-                ValueSet returnMessage = new ValueSet
+                ValueSet returnData = new ValueSet();
+
+                switch (command)
                 {
-                    { "Response", "True" }
-                };
-                await args.Request.SendResponseAsync(returnMessage);
+                    case "lyric":
+
+                        var title = message["title"] as string;
+                        message.TryGetValue("artist", out object art);
+                        var artists = art as string;
+
+                        returnData.Add("result", "My Lyric Extension Works Well!");
+                        returnData.Add("status", 1);
+                        break;
+
+                    case "online_music":
+                        var action = message["action"] as string;
+                        switch (action)
+                        {
+                            case "search":
+                                message.TryGetValue("page", out object page);
+                                message.TryGetValue("count", out object count);
+                                var key = message["keyword"] as string;
+
+                                break;
+                            case "song":
+                                var song = message["id"] as string;
+
+                                break;
+                            case "album":
+                                var album = message["id"] as string;
+
+                                break;
+                            case "artist":
+                                var artist = message["id"] as string;
+                                break;
+                            default:
+                                break;
+                        }
+
+                        break;
+                    default:
+                        returnData.Add("status", 0);
+                        break;
+                }
+
+
+                await args.Request.SendResponseAsync(returnData);
+                // Return the data to the caller.
+                // Complete the deferral so that the platform knows that we're done responding to the app service call.
+                // Note for error handling: this must be called even if SendResponseAsync() throws an exception.
             }
+            else
+            {
+                await args.Request.SendResponseAsync(new ValueSet()
+                {
+                    ["status"] = 0
+                });
+            }
+
             messageDeferral.Complete();
         }
 
