@@ -328,7 +328,7 @@
         <Setter Property="MinWidth" Value="480"/>
         <Setter Property="Template" Value="{StaticResource CustomInAppNotification}" />
     </Style>
-    
+
     <Style x:Key="ToastNotificationStyle" TargetType="toolkit:InAppNotification">
         <Setter Property="Background" Value="{ThemeResource SystemControlBaseMediumLowAcrylicElementMediumBrush}" />
         <Setter Property="Foreground" Value="{ThemeResource ApplicationForegroundThemeBrush}" />
