@@ -24,6 +24,8 @@ using Windows.System;
 using Windows.Storage;
 using Windows.Foundation;
 using Windows.Networking.BackgroundTransfer;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.Storage.Streams;
 
 namespace Aurora.Music.ViewModels
 {
@@ -192,6 +194,8 @@ namespace Aurora.Music.ViewModels
             player.DownloadProgressChanged -= Player_DownloadProgressChanged;
             player.PositionUpdated -= Player_PositionUpdated;
             player.StatusChanged -= Player_StatusChanged;
+
+            dataTransferManager.DataRequested -= DataTransferManager_DataRequested;
         }
 
         internal async Task FindFileAsync()
@@ -204,6 +208,11 @@ namespace Aurora.Music.ViewModels
             var option = new FolderLauncherOptions();
             option.ItemsToSelect.Add(file);
             await Launcher.LaunchFolderAsync(await file.GetParentAsync(), option);
+        }
+
+        internal void ShareCurrentAsync()
+        {
+            DataTransferManager.ShowShareUI();
         }
 
         internal async Task DowmloadOrModifyAsync()
@@ -306,6 +315,51 @@ namespace Aurora.Music.ViewModels
             player.StatusChanged += Player_StatusChanged;
             player.PositionUpdated += Player_PositionUpdated;
             player.DownloadProgressChanged += Player_DownloadProgressChanged;
+
+            dataTransferManager = DataTransferManager.GetForCurrentView();
+            dataTransferManager.DataRequested += DataTransferManager_DataRequested;
+        }
+
+        private async void DataTransferManager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
+        {
+            var request = args.Request;
+            try
+            {
+                if (Song.IsOnline)
+                {
+                    request.Data.SetWebLink(Song.Song.OnlineUri);
+                    if (Song.Song.PicturePath.IsNullorEmpty())
+                    {
+                        request.Data.Properties.Thumbnail = RandomAccessStreamReference.CreateFromUri(new Uri(Consts.BlackPlaceholder));
+                    }
+                    else
+                    {
+                        request.Data.Properties.Thumbnail = RandomAccessStreamReference.CreateFromUri(new Uri(Song.Song.PicturePath));
+                    }
+                    request.Data.Properties.Title = $"Share \"{Song.Title}\"";
+                    request.Data.Properties.Description = "Share this web song";
+                }
+                else
+                {
+                    request.Data.SetStorageItems(new IStorageItem[] { await StorageFile.GetFileFromPathAsync(Song.Song.FilePath) });
+                    if (Song.Song.PicturePath.IsNullorEmpty())
+                    {
+                        request.Data.Properties.Thumbnail = RandomAccessStreamReference.CreateFromUri(new Uri(Consts.BlackPlaceholder));
+                    }
+                    else
+                    {
+                        request.Data.Properties.Thumbnail = RandomAccessStreamReference.CreateFromFile(await StorageFile.GetFileFromPathAsync(Song.Song.PicturePath));
+                    }
+
+                    request.Data.Properties.Title = $"Share \"{Song.Title}\"";
+                    request.Data.Properties.Description = "Share this file";
+                }
+            }
+            catch (Exception e)
+            {
+                request.FailWithDisplayText(e.Message);
+            }
+
         }
 
         private async void Player_DownloadProgressChanged(object sender, DownloadProgressChangedArgs e)
@@ -476,6 +530,7 @@ namespace Aurora.Music.ViewModels
 
         private bool? isLoop = false;
         private Song _lastSong;
+        private DataTransferManager dataTransferManager;
 
         public bool? IsLoop
         {
@@ -644,6 +699,8 @@ namespace Aurora.Music.ViewModels
         {
             player.PositionUpdated -= Player_PositionUpdated;
             player.StatusChanged -= Player_StatusChanged;
+
+            dataTransferManager.DataRequested -= DataTransferManager_DataRequested;
         }
     }
 }

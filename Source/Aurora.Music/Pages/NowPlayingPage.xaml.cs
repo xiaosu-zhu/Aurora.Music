@@ -195,5 +195,10 @@ namespace Aurora.Music.Pages
         {
             await Context.DowmloadOrModifyAsync();
         }
+
+        private void Share_Click(object sender, RoutedEventArgs e)
+        {
+            Context.ShareCurrentAsync();
+        }
     }
 }

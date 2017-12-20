@@ -844,7 +844,7 @@
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
                                 <MenuFlyoutSeparator/>
-                                <MenuFlyoutItem Text="Share">
+                                <MenuFlyoutItem Click="Share_Click" Text="Share">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE72D;" />
                                     </MenuFlyoutItem.Icon>

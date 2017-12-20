@@ -26,11 +26,23 @@
         <uap:SplashScreen Image="Assets\SplashScreen.png" BackgroundColor="transparent" />
       </uap:VisualElements>
       <Extensions>
-        <uap3:Extension Category="windows.appExtensionHost">
-          <uap3:AppExtensionHost>
-            <uap3:Name>Aurora.Music.Extensions</uap3:Name>
-          </uap3:AppExtensionHost>
-        </uap3:Extension>
+        <uap:Extension Category="windows.shareTarget">
+          <uap:ShareTarget Description="Play with Aurora Music">
+            <uap:SupportedFileTypes>
+              <uap:FileType>.mp3</uap:FileType>
+              <uap:FileType>.m4a</uap:FileType>
+              <uap:FileType>.wav</uap:FileType>
+              <uap:FileType>.wma</uap:FileType>
+              <uap:FileType>.aac</uap:FileType>
+              <uap:FileType>.flac</uap:FileType>
+            </uap:SupportedFileTypes>
+            <uap:DataFormat>StorageItems</uap:DataFormat>
+            <uap:DataFormat>URI</uap:DataFormat>
+          </uap:ShareTarget>
+        </uap:Extension>
+        <uap:Extension Category="windows.appService" EntryPoint="Aurora.Music.Services.LyricService">
+          <uap:AppService Name="Aurora.Music.Services" />
+        </uap:Extension>
         <uap:Extension Category="windows.fileTypeAssociation">
           <uap:FileTypeAssociation Name="aurora_music" DesiredView="default">
             <uap:DisplayName>Aurora Music</uap:DisplayName>
@@ -47,9 +59,11 @@
             </uap:SupportedFileTypes>
           </uap:FileTypeAssociation>
         </uap:Extension>
-        <uap:Extension Category="windows.appService" EntryPoint="Aurora.Music.Services.LyricService">
-          <uap:AppService Name="Aurora.Music.Services" />
-        </uap:Extension>
+        <uap3:Extension Category="windows.appExtensionHost">
+          <uap3:AppExtensionHost>
+            <uap3:Name>Aurora.Music.Extensions</uap3:Name>
+          </uap3:AppExtensionHost>
+        </uap3:Extension>
         <uap3:Extension Category="windows.appExtension">
           <uap3:AppExtension Name="Aurora.Music.Extensions" Id="BuiltIn" PublicFolder="Public" DisplayName="Lyric" Description="Built-in Lyric Provider">
             <uap3:Properties>
