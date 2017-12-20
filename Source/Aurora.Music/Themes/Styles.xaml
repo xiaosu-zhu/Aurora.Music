@@ -1969,13 +1969,12 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <RevealBorderBrush x:Key="BlockAutoSuggestBoxTextBoxStyleBorderBrush" Color="{ThemeResource SystemAccentColor}" FallbackColor="{ThemeResource SystemAccentColor}" Opacity="0.2"/>
     <Style TargetType="TextBox" x:Key="BlockAutoSuggestBoxTextBoxStyle">
         <Setter Property="MinWidth" Value="{ThemeResource TextControlThemeMinWidth}" />
         <Setter Property="MinHeight" Value="{ThemeResource TextControlThemeMinHeight}" />
         <Setter Property="Foreground" Value="{ThemeResource TextControlForeground}" />
         <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundTransparentRevealBorderBrush}" />
-        <Setter Property="BorderBrush" Value="{StaticResource BlockAutoSuggestBoxTextBoxStyleBorderBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundTransparentRevealBorderBrush}" />
         <Setter Property="SelectionHighlightColor" Value="{ThemeResource TextControlSelectionHighlightColor}" />
         <Setter Property="BorderThickness" Value="1,0,0,1" />
         <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
