@@ -236,5 +236,18 @@ namespace Aurora.Music.Pages
             var box = sender as ComboBox;
             Context.ChangeSort(box.SelectedIndex);
         }
+
+        private void SemanticZoom_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
+        {
+            //if (e.Cumulative.Expansion > 20)
+            //{
+            //    Root.IsZoomedInViewActive = true;
+
+            //}
+            //else if (e.Cumulative.Expansion < -20)
+            //{
+            //    Root.IsZoomedInViewActive = false;
+            //}
+        }
     }
 }

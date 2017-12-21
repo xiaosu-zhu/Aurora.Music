@@ -46,7 +46,7 @@
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="Thumb">
                                                     <Ellipse HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                                                        Fill="{TemplateBinding Background}" StrokeThickness="2" Stroke="{TemplateBinding Foreground}"/>
+                                                        Fill="{TemplateBinding Foreground}" StrokeThickness="2" Stroke="{TemplateBinding Background}"/>
                                                 </ControlTemplate>
                                             </Setter.Value>
                                         </Setter>
