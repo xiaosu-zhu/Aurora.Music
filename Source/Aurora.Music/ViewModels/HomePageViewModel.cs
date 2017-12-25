@@ -18,14 +18,14 @@ namespace Aurora.Music.ViewModels
 {
     class HomePageViewModel : ViewModelBase
     {
-        private Color leftGradient = Shared.Palette.GetRandom();
+        private Color leftGradient;
         public Color LeftGradient
         {
             get { return leftGradient; }
             set { SetProperty(ref leftGradient, value); }
         }
 
-        private Color rightGradient = Shared.Palette.GetRandom();
+        private Color rightGradient;
         public Color RightGradient
         {
             get { return rightGradient; }
@@ -39,6 +39,44 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref welcomeTitle, value); }
         }
 
+        public HomePageViewModel()
+        {
+            var fes = Tools.IsFestival(DateTime.Today);
+            switch (fes)
+            {
+                case Festival.None:
+                    RightGradient = Palette.GetRandom();
+                    LeftGradient = Palette.GetRandom();
+                    WelcomeTitle = $"Good {DateTime.Now.GetHourString()}";
+                    break;
+                case Festival.Valentine:
+                    RightGradient = Palette.Pink;
+                    LeftGradient = Palette.PinkRed;
+                    WelcomeTitle = $"Happy Valentine's Day";
+                    break;
+                case Festival.Halloween:
+                    RightGradient = Palette.DarkBlueGray;
+                    LeftGradient = Palette.PurpleGray;
+                    WelcomeTitle = $"Trick or Treat?";
+                    break;
+                case Festival.Xmas:
+                    RightGradient = Palette.VibrantRed;
+                    LeftGradient = Palette.Green;
+                    WelcomeTitle = $"Merry Christmas!";
+                    break;
+                case Festival.Fool:
+                    RightGradient = Palette.GetRandom();
+                    LeftGradient = Palette.GetRandom();
+                    WelcomeTitle = $"Good {DateTime.Now.GetHourString()}";
+                    break;
+                default:
+                    RightGradient = Palette.GetRandom();
+                    LeftGradient = Palette.GetRandom();
+                    WelcomeTitle = $"Good {DateTime.Now.GetHourString()}";
+                    break;
+            }
+        }
+
         public ObservableCollection<GenericMusicItemViewModel> FavList { get; set; } = new ObservableCollection<GenericMusicItemViewModel>();
         public ObservableCollection<GenericMusicItemViewModel> RandomList { get; set; } = new ObservableCollection<GenericMusicItemViewModel>();
 
@@ -49,7 +87,6 @@ namespace Aurora.Music.ViewModels
             var hero = await FileReader.GetHeroListAsync();
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
             {
-                WelcomeTitle = $"Good {DateTime.Now.GetHourString()}.";
                 HeroList.Clear();
                 foreach (var item in hero)
                 {

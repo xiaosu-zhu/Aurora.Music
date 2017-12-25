@@ -48,13 +48,13 @@ namespace Aurora.Music.ViewModels
                 TargetType = typeof(LibraryPage),
                 BG = new Uri("ms-appx:///Assets/Images/artists.png")
             },
-            new HamPanelItem
-            {
-                Title = "Playlist",
-                Icon="\uE955",
-                TargetType = typeof(HomePage),
-                BG = new Uri("ms-appx:///Assets/Images/songs.png")
-            },
+            //new HamPanelItem
+            //{
+            //    Title = "Playlist",
+            //    Icon="\uE955",
+            //    TargetType = typeof(HomePage),
+            //    BG = new Uri("ms-appx:///Assets/Images/songs.png")
+            //},
         };
 
         public ObservableCollection<SongViewModel> NowPlayingList { get; set; } = new ObservableCollection<SongViewModel>();

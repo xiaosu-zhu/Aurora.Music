@@ -8,6 +8,11 @@ using System.Linq;
 
 namespace Aurora.Shared.Helpers
 {
+    public enum Festival
+    {
+        None, Valentine, Halloween, Xmas, Fool
+    }
+
     /// <summary>
     /// 包含各种常用静态方法的封装
     /// </summary>
@@ -36,6 +41,27 @@ namespace Aurora.Shared.Helpers
         public static float DegreesToRadians(float angle)
         {
             return angle * (float)Math.PI / 180;
+        }
+
+        public static Festival IsFestival(DateTime date)
+        {
+            if (date.Month == 2 && date.Day == 14)
+            {
+                return Festival.Valentine;
+            }
+            if (date.Month == 12 && date.Day == 25)
+            {
+                return Festival.Xmas;
+            }
+            if (date.Month == 4 && date.Day == 1)
+            {
+                return Festival.Fool;
+            }
+            if (date.Month == 10 && date.Day == 31)
+            {
+                return Festival.Halloween;
+            }
+            return Festival.None;
         }
 
         /// <summary>

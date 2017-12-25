@@ -25,6 +25,7 @@ using Windows.UI;
 using Windows.Foundation;
 using Windows.UI.Xaml.Controls.Primitives;
 using System.Linq;
+using Windows.ApplicationModel.DataTransfer;
 
 // https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
 
@@ -417,7 +418,7 @@ namespace Aurora.Music
 
         private void SearchBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            if (args.Reason != AutoSuggestionBoxTextChangeReason.UserInput)
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.SuggestionChosen)
             {
                 return;
             }
@@ -447,8 +448,6 @@ namespace Aurora.Music
             searchTask = ThreadPool.RunAsync(async x =>
             {
                 CanAdd = true;
-
-
                 await Context.Search(text);
             });
         }
@@ -647,13 +646,29 @@ namespace Aurora.Music
             GC.Collect();
         }
 
-        private void SearchButton_Click(object sender, RoutedEventArgs e)
+        private async void SearchButton_Click(object sender, RoutedEventArgs e)
         {
             SearchBoxShow.Begin();
             SearchBox.Focus(FocusState.Programmatic);
-            SearchBox.MaxSuggestionListHeight = double.MaxValue;
-            SearchBox.IsSuggestionListOpen = true;
-            SearchBox.AutoMaximizeSuggestionArea = true;
+
+            if (SearchBox.Text.IsNullorEmpty())
+            {
+                DataPackageView dataPackageView = Clipboard.GetContent();
+                if (dataPackageView.Contains(StandardDataFormats.Text))
+                {
+                    string text = await dataPackageView.GetTextAsync();
+
+                    SearchBox.Text = text;
+                }
+            }
+            if (!SearchBox.Items.IsNullorEmpty())
+            {
+                SearchBox.IsSuggestionListOpen = true;
+            }
+            else
+            {
+                SearchBox.IsSuggestionListOpen = false;
+            }
         }
 
         private void SearchBox_LosingFocus(UIElement sender, Windows.UI.Xaml.Input.LosingFocusEventArgs args)

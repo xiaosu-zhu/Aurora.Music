@@ -882,7 +882,6 @@
                         <TextBlock x:Name="Text" Margin="12" TextAlignment="Right" Text="Now Playing" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" Style="{ThemeResource TitleTextBlockStyle}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE189;" Width="48" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </StackPanel>
-
                 </Grid>
                 <ListView SelectionChanged="Pane_CurrentChanged" ItemsSource="{x:Bind Context.HamList}" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemContainerStyle="{ThemeResource PaneListItemStyle}">
                     <ListView.ItemTemplate>
@@ -1060,7 +1059,7 @@
                     </StackPanel>
                     <ProgressBar Background="{x:Null}" Foreground="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="5" 
                                  Value="{x:Bind Context.DownloadProgress, Mode=OneWay}"/>
-                    <ProgressBar Background="{x:Null}" Foreground="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="5" 
+                    <ProgressBar Background="{x:Null}" Foreground="{ThemeResource SystemControlBackgroundBaseHighRevealBorderBrush}" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="5" 
                                  Value="{x:Bind Context.PositionToValue(Context.CurrentPosition, Context.TotalDuration), Mode=OneWay}"/>
                 </Grid>
                 <Frame x:Name="OverlayFrame" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
@@ -1086,7 +1085,7 @@
                 <Grid HorizontalAlignment="Right" VerticalAlignment="Top" 
                       Height="32" x:Name="TitleBarOverlay" Visibility="Visible" >
                     <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="1" BorderThickness="0" BorderBrush="{x:Null}" x:Name="TitlebarBtm" Background="{StaticResource SystemControlBackgroundTransparentRevealBorderBrush}"/>
-                    <AutoSuggestBox Loaded="SearchBox_Loaded" LosingFocus="SearchBox_LosingFocus" Style="{ThemeResource BlockAutoSuggestBox}" QuerySubmitted="SearchBox_QuerySubmitted" SuggestionChosen="SearchBox_SuggestionChosen"
+                    <AutoSuggestBox AutoMaximizeSuggestionArea="True" Loaded="SearchBox_Loaded" LosingFocus="SearchBox_LosingFocus" Style="{ThemeResource BlockAutoSuggestBox}" QuerySubmitted="SearchBox_QuerySubmitted" SuggestionChosen="SearchBox_SuggestionChosen"
                                     PlaceholderText="Search in your library" QueryIcon="Find" x:Name="SearchBox" TextChanged="SearchBox_TextChanged" ItemsSource="{x:Bind Context.SearchItems, Mode=OneWay}"
                                     HorizontalAlignment="Right" Opacity="0" VerticalAlignment="Stretch" Width="48" ItemTemplateSelector="{StaticResource GenericItemSelector}">
                     </AutoSuggestBox>
