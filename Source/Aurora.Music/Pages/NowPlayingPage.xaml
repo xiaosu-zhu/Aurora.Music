@@ -25,7 +25,7 @@
             <CollectionViewSource Source="{x:Bind Context.Lyric.Contents,Mode=OneWay}" x:Key="LyricSource"/>
 
             <Style x:Key="RoundSlider" TargetType="Slider">
-                <Setter Property="Background" Value="{ThemeResource SystemControlForegroundChromeHighBrush}"/>
+                <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAltHighRevealBrush}"/>
                 <Setter Property="BorderThickness" Value="{ThemeResource SliderBorderThemeThickness}"/>
                 <Setter Property="Foreground" Value="{ThemeResource SliderTrackValueFill}"/>
                 <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
@@ -41,7 +41,7 @@
                                 <Grid.Resources>
                                     <Style x:Key="SliderThumbStyle" TargetType="Thumb">
                                         <Setter Property="BorderThickness" Value="2"/>
-                                        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeWhiteBrush}"/>
+                                        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAltHighRevealBrush}"/>
                                         <Setter Property="Template">
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="Thumb">
@@ -742,7 +742,7 @@
                   ItemContainerStyle="{ThemeResource LyricListItem}" ItemsSource="{Binding Source={StaticResource LyricSource}}">
             <ListView.Header>
                 <Grid Height="160" Width="320">
-                    <toolkit:DropShadowPanel Visibility="{x:Bind Context.BoolNottoVisibility(Context.Lyric.HasLyric),Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="12,0" Color="{ThemeResource SystemAltHighColor}" ShadowOpacity="0.66" BlurRadius="8" OffsetX="0" OffsetY="0">
+                    <toolkit:DropShadowPanel Visibility="{x:Bind Context.BoolNottoVisibility(Context.Lyric.HasLyric),Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="12,0" Color="{ThemeResource SystemAltHighColor}" ShadowOpacity="0.66" BlurRadius="4" OffsetX="0" OffsetY="0">
                         <TextBlock Text="{x:Bind Context.LyricHint,Mode=OneWay}" 
                                Style="{ThemeResource SubtitleTextBlockStyle}"/>
                     </toolkit:DropShadowPanel>
@@ -865,7 +865,7 @@
                                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE7F6;" />
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
-                                <MenuFlyoutItem Foreground="#E81123" Visibility="{x:Bind Context.BoolNottoVisibility(Context.Song.IsOnline),Mode=OneWay}" Text="Delete">
+                                <MenuFlyoutItem Click="Delete_Click" Foreground="#E81123" Visibility="{x:Bind Context.BoolNottoVisibility(Context.Song.IsOnline),Mode=OneWay}" Text="Delete">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE107;" />
                                     </MenuFlyoutItem.Icon>

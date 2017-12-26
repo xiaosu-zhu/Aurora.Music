@@ -28,6 +28,8 @@ namespace Aurora.Music.PlaybackEngine
         event EventHandler<DownloadProgressChangedArgs> DownloadProgressChanged;
 
         void SkiptoItem(uint index);
+        Task ReloadCurrent();
+        void DetachCurrentSource();
     }
 
     public class DownloadProgressChangedArgs

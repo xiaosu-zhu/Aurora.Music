@@ -18,13 +18,12 @@ namespace Aurora.Music.ViewModels
     {
         private AppExtensionCatalog _catalog;
 
-        public ExtensionManager(string contract)
+        public ExtensionManager()
         {
             // extensions list   
             Extensions = new ObservableCollection<ExtensionViewModel>();
 
-            // catalog & contract
-            Contract = contract;
+
             _catalog = AppExtensionCatalog.Open(Contract);
             // set up extension management events
             _catalog.PackageInstalled += Catalog_PackageInstalled;
@@ -127,7 +126,7 @@ namespace Aurora.Music.ViewModels
                     // Below is an example of how you'd ensure that you only load store-signed extensions :)
 
 #if !DEBUG
-                    && ext.Package.SignatureKind == PackageSignatureKind.Store
+                    //&& ext.Package.SignatureKind == PackageSignatureKind.Store
 #endif
 
                     ))
@@ -145,12 +144,14 @@ namespace Aurora.Music.ViewModels
             {
                 // get extension properties
                 var properties = await ext.GetExtensionPropertiesAsync() as PropertySet;
+
+                Extensions.Add(new ExtensionViewModel(ext, properties));
             }
             // update
             else
             {
                 // update the extension
-                existingExt.Update(ext);
+                await existingExt.Update(ext);
             }
         }
 
@@ -193,11 +194,12 @@ namespace Aurora.Music.ViewModels
         #endregion
     }
 
+    [Flags]
+    public enum ExtType { NotSpecific = 1, Lyric = 2, OnlineMusic = 4, OnlieMetaData = 8 }
+
     class ExtensionViewModel : ViewModelBase
     {
-        private Extension extension;
-
-        public AppExtension AppExtension { get => extension.AppExtension; }
+        public AppExtension AppExtension { get; private set; }
 
         private string uniqueId;
         public string UniqueId
@@ -220,24 +222,73 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref logo, value); }
         }
 
+        private string name;
+        public string Name
+        {
+            get { return name; }
+            set { SetProperty(ref name, value); }
+        }
+
+        private string service;
+        public string Service
+        {
+            get { return service; }
+            set { SetProperty(ref service, value); }
+        }
+
+        private string descri;
+        public string Description
+        {
+            get { return descri; }
+            set { SetProperty(ref descri, value); }
+        }
+
+        private ExtType type;
+        public ExtType ExtType
+        {
+            get { return type; }
+            set { SetProperty(ref type, value); }
+        }
+
         public ExtensionViewModel(AppExtension ext, PropertySet properties)
         {
             UniqueId = ext.AppInfo.AppUserModelId + "$|$" + ext.Id;
-            switch (properties["Category"])
+
+            AppExtension = ext;
+            Avaliable = !ext.Package.Status.NotAvailable;
+
+            var cates = (properties["Category"] as string).Split(';');
+            if (cates != null && cates.Length > 0)
             {
-                case "Lyric":
-                    // create new extension
-                    extension = new LyricExtension(ext, properties);
-                    break;
-                default:
-                    break;
+                foreach (var item in cates)
+                {
+                    switch (item)
+                    {
+                        case "Lyric":
+                            ExtType |= ExtType.Lyric; break;
+                        case "OnlineMusic":
+                            ExtType |= ExtType.OnlineMusic; break;
+                        case "OnlineMeta":
+                            ExtType |= ExtType.OnlieMetaData; break;
+                        default:
+                            break;
+                    }
+                }
             }
+            else
+            {
+                ExtType = ExtType.NotSpecific;
+            }
+
+            Name = ext.DisplayName;
+            Description = ext.Description;
+            Service = properties["Service"] as string;
         }
 
         internal async Task Load()
         {
             // get logo 
-            var filestream = await(AppExtension.AppInfo.DisplayInfo.GetLogo(new Windows.Foundation.Size(1, 1))).OpenReadAsync();
+            var filestream = await (AppExtension.AppInfo.DisplayInfo.GetLogo(new Windows.Foundation.Size(1, 1))).OpenReadAsync();
             Logo = new BitmapImage();
             logo.SetSource(filestream);
         }
@@ -247,10 +298,41 @@ namespace Aurora.Music.ViewModels
             Avaliable = false;
         }
 
-        internal void Update(AppExtension ext)
+        internal async Task Update(AppExtension ext)
         {
-            extension.Unload();
-            extension.New(ext);
+
+            var properties = await ext.GetExtensionPropertiesAsync() as PropertySet;
+            UniqueId = ext.AppInfo.AppUserModelId + "$|$" + ext.Id;
+
+            AppExtension = ext;
+            Avaliable = !ext.Package.Status.NotAvailable;
+
+            var cates = (properties["Category"] as string).Split(';');
+            if (cates != null && cates.Length > 0)
+            {
+                foreach (var item in cates)
+                {
+                    switch (item)
+                    {
+                        case "Lyric":
+                            ExtType |= ExtType.Lyric; break;
+                        case "OnlineMusic":
+                            ExtType |= ExtType.OnlineMusic; break;
+                        case "OnlineMeta":
+                            ExtType |= ExtType.OnlieMetaData; break;
+                        default:
+                            break;
+                    }
+                }
+            }
+            else
+            {
+                ExtType = ExtType.NotSpecific;
+            }
+
+            Name = ext.DisplayName;
+            Description = ext.Description;
+            Service = properties["Service"] as string;
         }
     }
 }

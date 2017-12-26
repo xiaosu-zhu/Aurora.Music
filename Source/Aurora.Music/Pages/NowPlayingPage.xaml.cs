@@ -200,5 +200,10 @@ namespace Aurora.Music.Pages
         {
             Context.ShareCurrentAsync();
         }
+
+        private async void Delete_Click(object sender, RoutedEventArgs e)
+        {
+            await Context.DeleteCurrentAsync();
+        }
     }
 }

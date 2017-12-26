@@ -736,5 +736,86 @@ namespace Aurora.Music.PlaybackEngine
                 mediaPlaybackList.MoveTo(index);
             }
         }
+
+        public async Task ReloadCurrent()
+        {
+            var state = mediaPlayer.PlaybackSession.PlaybackState;
+            var position = mediaPlayer.PlaybackSession.Position;
+
+            var index = mediaPlaybackList.CurrentItemIndex;
+
+            mediaPlayer.Source = null;
+            mediaPlaybackList.Items.Remove(mediaPlaybackList.CurrentItem);
+            if (index > currentList.Count)
+            {
+
+            }
+            else
+            {
+                var item = currentList[(int)index];
+                MediaSource mediaSource;
+                string builtin;
+
+                if (item.IsOnline)
+                {
+                    mediaSource = MediaSource.CreateFromUri(item.OnlineUri);
+                    builtin = item.PicturePath;
+                }
+                else
+                {
+                    /// **Local files can only create from <see cref="StorageFile"/>**
+
+                    try
+                    {
+                        StorageFile file = await StorageFile.GetFileFromPathAsync(item.FilePath);
+
+                        builtin = await GetBuiltInArtworkAsync(file.Name, item.FilePath);
+
+                        mediaSource = MediaSource.CreateFromStorageFile(file);
+                    }
+                    catch (FileNotFoundException)
+                    {
+                        item.IsEmpty = true;
+                        throw;
+                    }
+                }
+
+                mediaSource.CustomProperties[Consts.ID] = item.ID;
+                mediaSource.CustomProperties[Consts.Duration] = mediaSource.Duration ?? default(TimeSpan);
+                mediaSource.CustomProperties[Consts.Artwork] = builtin.IsNullorEmpty() ? null : new Uri(builtin);
+                item.PicturePath = builtin.IsNullorEmpty() ? item.PicturePath : builtin;
+                mediaSource.CustomProperties[Consts.SONG] = item;
+
+                var mediaPlaybackItem = new MediaPlaybackItem(mediaSource);
+                var props = mediaPlaybackItem.GetDisplayProperties();
+
+                await WriteProperties(item, props, builtin);
+
+                mediaPlaybackItem.ApplyDisplayProperties(props);
+                mediaPlaybackList.Items.Insert((int)index, mediaPlaybackItem);
+                mediaPlaybackList.StartingItem = mediaPlaybackItem;
+            }
+            mediaPlayer.Source = mediaPlaybackList;
+            mediaPlayer.PlaybackSession.Position = position;
+            if (state == MediaPlaybackState.Playing)
+            {
+                mediaPlayer.Play();
+            }
+        }
+
+        public void DetachCurrentSource()
+        {
+            var state = mediaPlayer.PlaybackSession.PlaybackState;
+            mediaPlayer.Pause();
+            mediaPlayer.Source = null;
+            var cure = mediaPlaybackList.CurrentItem;
+            mediaPlaybackList.MoveNext();
+            mediaPlaybackList.Items.Remove(cure);
+            mediaPlayer.Source = mediaPlaybackList;
+            if (state == MediaPlaybackState.Playing)
+            {
+                mediaPlayer.Play();
+            }
+        }
     }
 }

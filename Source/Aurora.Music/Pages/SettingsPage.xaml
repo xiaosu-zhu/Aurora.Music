@@ -47,7 +47,11 @@
                         <StackPanel Margin="8" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <TextBlock Text="Extensions" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,8"/>
 
-                            <ListView Header="Audio effect plugins" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="12"/>
+                            <ListView HorizontalAlignment="Left" VerticalAlignment="Center" Margin="12">
+                                <ListView.ItemTemplate>
+                                    
+                                </ListView.ItemTemplate>
+                            </ListView>
                         </StackPanel>
                         <StackPanel Background="Gray" Margin="8" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <TextBlock Text="Audio Graph" TextDecorations="Strikethrough" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,8"/>
@@ -114,7 +118,7 @@
                         <Button Content="Report a Bug" Style="{ThemeResource TextBlockButtonStyle}" Margin="12,4"/>
                         <Button Content="Get Extensions" Style="{ThemeResource TextBlockButtonStyle}" Margin="12,4"/>
                         <Button Content="About" Style="{ThemeResource TextBlockButtonStyle}" Margin="12,4"/>
-                        <Button Content="Privacy Policy" Style="{ThemeResource TextBlockButtonStyle}" Margin="12,4"/>
+                        <HyperlinkButton Content="Privacy Policy" NavigateUri="http://198.181.41.120/privacypolicy.htm" Margin="12,4"/>
                     </StackPanel>
                 </Grid>
             </StackPanel>

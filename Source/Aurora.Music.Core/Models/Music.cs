@@ -286,24 +286,21 @@ namespace Aurora.Music.Core.Models
             }
             else
             {
-                var s= string.Copy(FilePath);
-                ThreadPoolTimer.CreateTimer(async x =>
+                var s = string.Copy(FilePath);
+                var file = await StorageFile.GetFileFromPathAsync(s);
+                var prop = await file.Properties.GetMusicPropertiesAsync();
+                uint r;
+                if (rat < 0)
                 {
-                    var file = await StorageFile.GetFileFromPathAsync(s);
-                    var prop = await file.Properties.GetMusicPropertiesAsync();
-                    uint r;
-                    if (rat < 0)
-                    {
-                        r = 0;
-                    }
-                    else
-                    {
-                        r = (uint)Math.Round((rat + 1) * 25) - 1;
-                    }
-                    prop.Rating = r;
-                    await prop.SavePropertiesAsync();
-                    Rating = (rat < 0 ? 0 : rat);
-                }, Duration);
+                    r = 0;
+                }
+                else
+                {
+                    r = (uint)Math.Round((rat + 1) * 25) - 1;
+                }
+                prop.Rating = r;
+                await prop.SavePropertiesAsync();
+                Rating = (rat < 0 ? 0 : rat);
                 await SQLOperator.Current().UpdateSongRatingAsync(ID, Rating);
             }
         }

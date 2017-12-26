@@ -210,6 +210,19 @@ namespace Aurora.Music.ViewModels
             await Launcher.LaunchFolderAsync(await file.GetParentAsync(), option);
         }
 
+        internal async Task DeleteCurrentAsync()
+        {
+            if (Song.IsOnline)
+            {
+                throw new InvalidOperationException("Online item can't delete");
+            }
+            var s = Song.Song.FilePath;
+            player.DetachCurrentSource();
+
+            var file = await StorageFile.GetFileFromPathAsync(s);
+            await file.DeleteAsync();
+        }
+
         internal void ShareCurrentAsync()
         {
             DataTransferManager.ShowShareUI();
@@ -219,7 +232,7 @@ namespace Aurora.Music.ViewModels
         {
             if (Song.IsOnline)
             {
-                var progress = await FileTracker.DownloadMusic(this.Song.Song);
+                var progress = await FileTracker.DownloadMusic(Song.Song);
                 progress.Progress = DownloadProgressChanged;
                 progress.Completed = DownloadCompleted;
             }
@@ -425,6 +438,7 @@ namespace Aurora.Music.ViewModels
                 var t = ThreadPool.RunAsync(async work =>
                 {
                     await _lastSong.WriteRatingAsync(rat);
+                    await player.ReloadCurrent();
                 });
                 Song.Rating = (uint)rat;
                 SetProperty(ref currentRating, (uint)rat);
