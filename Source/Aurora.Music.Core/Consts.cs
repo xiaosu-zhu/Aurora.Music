@@ -29,7 +29,11 @@ namespace Aurora.Music.Core
 
         public static readonly string[] FileTypes = { ".flac", ".wav", ".m4a", ".aac", ".mp3", ".wma" };
 
-        public const string ExtesionContract = "Aurora.Music.Extensions";
+        public const string ExtensionContract = "Aurora.Music.Extensions";
         public const string AppUserModelId = "6727Aurora-ZXS.10476770C0EE5_fxqtv0574xgme!App";
+
+        public const string OnlineAddOnStoreID = "9N8LMDXLQQ8V";
+
+        public const string ProductID = "9NBLGGH6JVDT";
     }
 }

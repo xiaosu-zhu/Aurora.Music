@@ -581,9 +581,9 @@ namespace Aurora.Music
             }
         }
 
-        private void ShowModalUI(bool v1, string v2 = "")
+        public void ShowModalUI(bool show, string title = "")
         {
-            if (v1)
+            if (show)
             {
                 ModalIn.Begin();
             }
@@ -591,7 +591,7 @@ namespace Aurora.Music
             {
                 ModalOut.Begin();
             }
-            ModalText.Text = v2;
+            ModalText.Text = title;
         }
 
         private static async Task<IReadOnlyList<StorageFile>> CopyFilesAsync(IReadOnlyList<IStorageItem> p)

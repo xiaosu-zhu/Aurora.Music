@@ -116,9 +116,6 @@
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.0.5</Version>
     </PackageReference>
-    <PackageReference Include="UWPAudioVisualizer">
-      <Version>0.1.84</Version>
-    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Aurora.Music.Core\Aurora.Music.Core.csproj">

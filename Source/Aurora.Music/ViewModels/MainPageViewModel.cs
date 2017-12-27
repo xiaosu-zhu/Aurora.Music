@@ -1,25 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Aurora.Music.Core.Storage;
-using Aurora.Shared.Helpers;
 using Aurora.Shared.MVVM;
 using Windows.Storage;
-using System.Diagnostics;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media.Imaging;
 using Aurora.Music.Pages;
 using Windows.UI.Text;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Xaml.Media;
-using Windows.Media.Playback;
 using System.Collections.ObjectModel;
-using Aurora.Music.Core;
 using Windows.System.Threading;
 using Aurora.Shared.Extensions;
-using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml.Controls;
 using Aurora.Music.Core.Models;
@@ -342,13 +334,18 @@ namespace Aurora.Music.ViewModels
                         break;
                     }
                 }
-                exts = await Extension.Load(Settings.Load().OnlineMusicExtensionID);
-                foreach (var ext in exts)
+#if !DEBUG
+                if (settings.OnlinePurchase)
+#endif
                 {
-                    if (ext is OnlineMusicExtension)
+                    exts = await Extension.Load(Settings.Load().OnlineMusicExtensionID);
+                    foreach (var ext in exts)
                     {
-                        OnlineMusicExtension = ext;
-                        break;
+                        if (ext is OnlineMusicExtension)
+                        {
+                            OnlineMusicExtension = ext;
+                            break;
+                        }
                     }
                 }
                 await FindFileChanges();

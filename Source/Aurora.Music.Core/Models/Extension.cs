@@ -74,7 +74,7 @@ namespace Aurora.Music.Core.Models
             {
                 lyricExtensionID = Consts.AppUserModelId + "$|$BuiltIn";
             }
-            var catalog = AppExtensionCatalog.Open(Consts.ExtesionContract);
+            var catalog = AppExtensionCatalog.Open(Consts.ExtensionContract);
             var extesions = await catalog.FindAllAsync();
             foreach (var ext in extesions)
             {

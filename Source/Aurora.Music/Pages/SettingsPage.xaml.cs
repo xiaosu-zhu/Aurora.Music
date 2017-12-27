@@ -61,5 +61,20 @@ namespace Aurora.Music.Pages
         {
             return (SolidColorBrush)(b ? Resources["SystemControlForegroundBaseHighBrush"] : Resources["SystemControlForegroundChromeGrayBrush"]);
         }
+
+        private async void Hyperlink_Click(Windows.UI.Xaml.Documents.Hyperlink sender, Windows.UI.Xaml.Documents.HyperlinkClickEventArgs args)
+        {
+            await Context.PurchaseOnlineExtension();
+        }
+
+        private void OnlineCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Context.ChangeOnlineExt((sender as ComboBox).SelectedItem);
+        }
+
+        private void LyricCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Context.ChangeLyricExt((sender as ComboBox).SelectedItem);
+        }
     }
 }

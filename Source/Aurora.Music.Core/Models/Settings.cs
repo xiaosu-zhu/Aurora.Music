@@ -60,6 +60,8 @@ namespace Aurora.Music.Core.Models
         public string OnlineMusicExtensionID { get; set; } = string.Empty;
 
         public Bitrate PreferredBitRate { get; set; } = Bitrate._256;
+        public bool OnlinePurchase { get; set; } = false;
+        public bool DebugModeEnabled { get; set; } = false;
 
         public static Settings Load()
         {

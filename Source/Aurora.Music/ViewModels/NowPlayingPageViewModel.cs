@@ -101,15 +101,25 @@ namespace Aurora.Music.ViewModels
             var t = ThreadPool.RunAsync(async x =>
             {
                 var ext = MainPageViewModel.Current.LyricExtension;
-
-                var result = await ext.ExecuteAsync(new KeyValuePair<string, object>("q", "lyric"), new KeyValuePair<string, object>("title", Song.Title), new KeyValuePair<string, object>("album", song.Album), new KeyValuePair<string, object>("artist", Song.Song.Performers.IsNullorEmpty() ? null : Song.Song.Performers[0]), new KeyValuePair<string, object>("ID", song.IsOnline ? song.Song.OnlineID : null));
-                if (result != null)
+                if (ext != null)
                 {
-                    var l = new Lyric(LrcParser.Parser.Parse((string)result, Song.Song.Duration));
-                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
+                    var result = await ext.ExecuteAsync(new KeyValuePair<string, object>("q", "lyric"), new KeyValuePair<string, object>("title", Song.Title), new KeyValuePair<string, object>("album", song.Album), new KeyValuePair<string, object>("artist", Song.Song.Performers.IsNullorEmpty() ? null : Song.Song.Performers[0]), new KeyValuePair<string, object>("ID", song.IsOnline ? song.Song.OnlineID : null));
+                    if (result != null)
                     {
-                        Lyric.New(l);
-                    });
+                        var l = new Lyric(LrcParser.Parser.Parse((string)result, Song.Song.Duration));
+                        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
+                        {
+                            Lyric.New(l);
+                        });
+                    }
+                    else
+                    {
+                        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
+                        {
+                            Lyric.Clear();
+                            LyricHint = "Can't find lyrics.";
+                        });
+                    }
                 }
                 else
                 {
@@ -208,6 +218,13 @@ namespace Aurora.Music.ViewModels
             var option = new FolderLauncherOptions();
             option.ItemsToSelect.Add(file);
             await Launcher.LaunchFolderAsync(await file.GetParentAsync(), option);
+        }
+
+        internal async Task WriteRatingValue(double value)
+        {
+            await _lastSong.WriteRatingAsync(value);
+            await player.ReloadCurrent();
+            CurrentRating = value;
         }
 
         internal async Task DeleteCurrentAsync()
@@ -433,13 +450,7 @@ namespace Aurora.Music.ViewModels
                 {
                     rat = 0;
                 }
-                if (currentRating == (uint)rat)
-                    return;
-                var t = ThreadPool.RunAsync(async work =>
-                {
-                    await _lastSong.WriteRatingAsync(rat);
-                    await player.ReloadCurrent();
-                });
+
                 Song.Rating = (uint)rat;
                 SetProperty(ref currentRating, (uint)rat);
             }
@@ -687,15 +698,25 @@ namespace Aurora.Music.ViewModels
                     });
                     _lastSong = e.CurrentSong;
                     var ext = MainPageViewModel.Current.LyricExtension;
-
-                    var result = await ext.ExecuteAsync(new KeyValuePair<string, object>("q", "lyric"), new KeyValuePair<string, object>("title", Song.Title), new KeyValuePair<string, object>("album", song.Album), new KeyValuePair<string, object>("artist", Song.Song.Performers.IsNullorEmpty() ? null : Song.Song.Performers[0]), new KeyValuePair<string, object>("ID", song.IsOnline ? song.Song.OnlineID : null));
-                    if (result != null)
+                    if (ext != null)
                     {
-                        var l = new Lyric(LrcParser.Parser.Parse((string)result, Song.Song.Duration));
-                        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                        var result = await ext.ExecuteAsync(new KeyValuePair<string, object>("q", "lyric"), new KeyValuePair<string, object>("title", Song.Title), new KeyValuePair<string, object>("album", song.Album), new KeyValuePair<string, object>("artist", Song.Song.Performers.IsNullorEmpty() ? null : Song.Song.Performers[0]), new KeyValuePair<string, object>("ID", song.IsOnline ? song.Song.OnlineID : null));
+                        if (result != null)
                         {
-                            Lyric.New(l);
-                        });
+                            var l = new Lyric(LrcParser.Parser.Parse((string)result, Song.Song.Duration));
+                            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                            {
+                                Lyric.New(l);
+                            });
+                        }
+                        else
+                        {
+                            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                            {
+                                Lyric.Clear();
+                                LyricHint = "Can't find lyrics.";
+                            });
+                        }
                     }
                     else
                     {

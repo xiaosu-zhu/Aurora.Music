@@ -205,5 +205,10 @@ namespace Aurora.Music.Pages
         {
             await Context.DeleteCurrentAsync();
         }
+
+        private async void RatingControl_ValueChanged(RatingControl sender, object args)
+        {
+            await Context.WriteRatingValue(sender.Value);
+        }
     }
 }

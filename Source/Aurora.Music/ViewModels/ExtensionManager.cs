@@ -197,7 +197,7 @@ namespace Aurora.Music.ViewModels
     [Flags]
     public enum ExtType { NotSpecific = 1, Lyric = 2, OnlineMusic = 4, OnlieMetaData = 8 }
 
-    class ExtensionViewModel : ViewModelBase
+    public class ExtensionViewModel : ViewModelBase
     {
         public AppExtension AppExtension { get; private set; }
 
@@ -250,14 +250,19 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref type, value); }
         }
 
+        public override string ToString()
+        {
+            return $"{Name} - {Description}";
+        }
+
         public ExtensionViewModel(AppExtension ext, PropertySet properties)
         {
             UniqueId = ext.AppInfo.AppUserModelId + "$|$" + ext.Id;
 
             AppExtension = ext;
-            Avaliable = !ext.Package.Status.NotAvailable;
+            Avaliable = ext.Package.Status.VerifyIsOK();
 
-            var cates = (properties["Category"] as string).Split(';');
+            var cates = ((properties["Category"] as PropertySet)["#text"] as string).Split(';');
             if (cates != null && cates.Length > 0)
             {
                 foreach (var item in cates)
@@ -290,6 +295,8 @@ namespace Aurora.Music.ViewModels
             // get logo 
             var filestream = await (AppExtension.AppInfo.DisplayInfo.GetLogo(new Windows.Foundation.Size(1, 1))).OpenReadAsync();
             Logo = new BitmapImage();
+            logo.DecodePixelHeight = 48;
+            logo.DecodePixelType = DecodePixelType.Logical;
             logo.SetSource(filestream);
         }
 
@@ -305,9 +312,9 @@ namespace Aurora.Music.ViewModels
             UniqueId = ext.AppInfo.AppUserModelId + "$|$" + ext.Id;
 
             AppExtension = ext;
-            Avaliable = !ext.Package.Status.NotAvailable;
+            Avaliable = ext.Package.Status.VerifyIsOK();
 
-            var cates = (properties["Category"] as string).Split(';');
+            var cates = ((properties["Category"] as PropertySet)["#text"] as string).Split(';');
             if (cates != null && cates.Length > 0)
             {
                 foreach (var item in cates)

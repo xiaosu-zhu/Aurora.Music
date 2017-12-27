@@ -45,12 +45,13 @@ namespace Aurora.Music.Pages
             {
                 item.IsOpened = false;
             }
-            ((sender as ListView).SelectedItem as FolderViewModel).IsOpened = true;
+            if ((sender as ListView).SelectedItem != null)
+                ((sender as ListView).SelectedItem as FolderViewModel).IsOpened = true;
         }
 
         private async void DeleteFolderBtn_Click(object sender, RoutedEventArgs e)
         {
-            await Context.RemoveFolder(sender as FolderViewModel);
+            await Context.RemoveFolder((sender as Button).DataContext as FolderViewModel);
         }
     }
 }

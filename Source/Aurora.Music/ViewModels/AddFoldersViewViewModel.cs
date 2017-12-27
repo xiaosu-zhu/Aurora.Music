@@ -104,6 +104,10 @@ namespace Aurora.Music.ViewModels
             {
                 foreach (var item in folders)
                 {
+                    if (item.Path == KnownFolders.MusicLibrary.Path || item.Path == ApplicationData.Current.LocalFolder.Path)
+                    {
+                        continue;
+                    }
                     if (!item.Path.IsNullorEmpty())
                         Folders.Add(new FolderViewModel(item));
                 }

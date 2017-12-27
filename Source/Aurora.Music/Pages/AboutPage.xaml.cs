@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Aurora.Music.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -25,6 +26,9 @@ namespace Aurora.Music.Pages
         public AboutPage()
         {
             this.InitializeComponent();
+            MainPageViewModel.Current.Title = "About";
+            MainPageViewModel.Current.NeedShowTitle = true;
+            MainPageViewModel.Current.LeftTopColor = Resources["SystemControlForegroundBaseHighBrush"] as SolidColorBrush;
         }
     }
 }

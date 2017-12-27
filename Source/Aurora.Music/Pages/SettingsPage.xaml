@@ -13,6 +13,22 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../Themes/Styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+
+            <DataTemplate x:Key="ExtensionTemplate" x:DataType="vm:ExtensionViewModel">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Column="1" VerticalAlignment="Center" Style="{ThemeResource BaseTextBlockStyle}" Margin="8,0" Text="{x:Bind Name}"/>
+                    <TextBlock Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}" Margin="8,0" Text="{x:Bind Description}"/>
+                    <Image MaxHeight="48" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Source="{x:Bind Logo}" Margin="4" Stretch="Uniform"/>
+                </Grid>
+            </DataTemplate>
         </ResourceDictionary>
     </Page.Resources>
 
@@ -33,27 +49,36 @@
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
                     <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <Frame x:Name="LoactionFrame" Height="360" HorizontalAlignment="Left" MaxWidth="720"/>
-                        <StackPanel Margin="8" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <StackPanel BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" BorderThickness="0,0,0,1" Margin="8,0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <Frame x:Name="LoactionFrame" Height="360" HorizontalAlignment="Left" VerticalAlignment="Stretch" MaxWidth="720"/>
+                        </StackPanel>
+                        <StackPanel BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" BorderThickness="0,0,0,1" Margin="8,0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <TextBlock Text="Player Configuration" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12"/>
                             <ComboBox HorizontalAlignment="Left" VerticalAlignment="Center" IsSynchronizedWithCurrentItem="False" SelectedIndex="{x:Bind Context.AudioSelectedIndex,Mode=TwoWay}" Header="Output Endpoint" ItemsSource="{x:Bind Context.DevicList}" Margin="12,12,12,0"/>
                             <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="'System default' will be applied at next launch." HorizontalAlignment="Left" VerticalAlignment="Center" Margin="12,8,12,36"/>
                             <Slider Style="{StaticResource BlockSlider}" Foreground="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" Background="{ThemeResource SystemControlAltTranslucentAcrylicWindowBrush}" Value="{x:Bind Context.PlayerVolume,Mode=TwoWay}" HorizontalAlignment="Left" VerticalAlignment="Center" Header="Volume Level" Margin="12,12,12,0" Width="240"/>
                             <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="We suggest you to control the system volume directly." HorizontalAlignment="Left" VerticalAlignment="Center" Margin="12,0,12,36"/>
-
-                            <ComboBox HorizontalAlignment="Left" VerticalAlignment="Center" IsSynchronizedWithCurrentItem="False" Header="Lyric Source" Margin="12">
-                            </ComboBox>
                         </StackPanel>
-                        <StackPanel Margin="8" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <StackPanel BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" BorderThickness="0,0,0,1" Margin="8,0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <TextBlock Text="Extensions" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,8"/>
 
-                            <ListView HorizontalAlignment="Left" VerticalAlignment="Center" Margin="12">
-                                <ListView.ItemTemplate>
-                                    
-                                </ListView.ItemTemplate>
-                            </ListView>
+                            <ComboBox ItemTemplate="{StaticResource ExtensionTemplate}" SelectedIndex="{x:Bind Context.CurrentLyricIndex,Mode=OneWay}" SelectionChanged="LyricCombo_SelectionChanged" ItemsSource="{x:Bind Context.LyricExts}" Header="Lyric Extension" Margin="12,4">
+                            </ComboBox>
+
+                            <RichTextBlock Visibility="{x:Bind Context.BoolNottoVisibility(Context.OnlinePurchase),Mode=OneWay}" Style="{ThemeResource BodyRichTextBlockStyle}" IsTextSelectionEnabled="False" Margin="12,8">
+                                <Paragraph >
+                                    <Run Text="You can enable or restore online extensibility from"/>
+                                    <Hyperlink Click="Hyperlink_Click">
+                                        <Run Text="here"/>
+                                    </Hyperlink>
+                                </Paragraph>
+                            </RichTextBlock>
+
+                            <ComboBox ItemTemplate="{StaticResource ExtensionTemplate}" SelectedIndex="{x:Bind Context.CurrentOnlineIndex,Mode=OneWay}" SelectionChanged="OnlineCombo_SelectionChanged" IsEnabled="{x:Bind Context.OnlinePurchase,Mode=OneWay}" ItemsSource="{x:Bind Context.OnlineExts}" Header="Online Extension" Margin="12,4">
+
+                            </ComboBox>
                         </StackPanel>
-                        <StackPanel Background="Gray" Margin="8" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <StackPanel BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" BorderThickness="0,0,0,1" Background="Gray" Margin="8,0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <TextBlock Text="Audio Graph" TextDecorations="Strikethrough" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,8"/>
                             <TextBlock Text="Coming Soon" Foreground="Red" Margin="0,8"/>
                             <TextBlock Text="PLEASE NOTE: When audio graph are enabled, you can not use built-in mediaplayer's features." Margin="12,0" Style="{ThemeResource BodyTextBlockStyle}"/>
@@ -107,18 +132,18 @@
                                 <TextBlock Margin="0,12" Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="1" Grid.Column="8" Text="Output" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Grid>
                         </StackPanel>
-                        <StackPanel Margin="8" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <StackPanel BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" BorderThickness="0,0,0,1" Margin="8,0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <TextBlock Text="Advance" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12"/>
-                            <ToggleSwitch Header="Debug Mode" Margin="8,12" />
+                            <ToggleSwitch Header="Debug Mode" IsOn="{x:Bind Context.DebugModeEnabled,Mode=TwoWay}" Margin="8,12" />
                         </StackPanel>
                     </StackPanel>
                     <StackPanel Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <TextBlock Text="Other Information" Style="{ThemeResource SubtitleTextBlockStyle}" Margin="12"/>
-                        <Button Content="Comment in Store" Style="{ThemeResource TextBlockButtonStyle}" Margin="12,4"/>
-                        <Button Content="Report a Bug" Style="{ThemeResource TextBlockButtonStyle}" Margin="12,4"/>
-                        <Button Content="Get Extensions" Style="{ThemeResource TextBlockButtonStyle}" Margin="12,4"/>
-                        <Button Content="About" Style="{ThemeResource TextBlockButtonStyle}" Margin="12,4"/>
-                        <HyperlinkButton Content="Privacy Policy" NavigateUri="http://198.181.41.120/privacypolicy.htm" Margin="12,4"/>
+                        <Button Content="Comment in Store" Command="{x:Bind Context.CommentInStore}" Style="{ThemeResource TextBlockButtonStyle}" Margin="12,4"/>
+                        <Button Content="Report a Bug" Command="{x:Bind Context.ReportABug}" Style="{ThemeResource TextBlockButtonStyle}" Margin="12,4"/>
+                        <Button Content="Get Extensions" Command="{x:Bind Context.GetExtensions}" Style="{ThemeResource TextBlockButtonStyle}" Margin="12,4"/>
+                        <Button Content="About" Command="{x:Bind Context.About}" Style="{ThemeResource TextBlockButtonStyle}" Margin="12,4"/>
+                        <Button Content="Privacy Policy" Command="{x:Bind Context.NavigateToPrivacy}" Style="{ThemeResource TextBlockButtonStyle}" Margin="12,4"/>
                     </StackPanel>
                 </Grid>
             </StackPanel>

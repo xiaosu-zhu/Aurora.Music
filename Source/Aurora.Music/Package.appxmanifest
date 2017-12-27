@@ -65,7 +65,7 @@
           </uap3:AppExtensionHost>
         </uap3:Extension>
         <uap3:Extension Category="windows.appExtension">
-          <uap3:AppExtension Name="Aurora.Music.Extensions" Id="BuiltIn" PublicFolder="Public" DisplayName="Lyric" Description="Built-in Lyric Provider">
+          <uap3:AppExtension Name="Aurora.Music.Extensions" Id="BuiltIn" PublicFolder="Public" DisplayName="Native" Description="Built-in Data Provider">
             <uap3:Properties>
               <Service>Aurora.Music.Services</Service>
               <Category>Lyric;OnlineMusic</Category>
