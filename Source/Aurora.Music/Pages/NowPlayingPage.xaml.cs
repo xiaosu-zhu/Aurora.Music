@@ -210,5 +210,15 @@ namespace Aurora.Music.Pages
         {
             await Context.WriteRatingValue(sender.Value);
         }
+
+        private void Cast_Click(object sender, RoutedEventArgs e)
+        {
+            //Retrieve the location of the casting button
+            GeneralTransform transform = (sender as MenuFlyoutItem).TransformToVisual(Window.Current.Content as UIElement);
+            Point pt = transform.TransformPoint(new Point(0, 0));
+
+            Context.ShowCastingUI(new Rect(pt.X, pt.Y, (sender as MenuFlyoutItem).ActualWidth, (sender as MenuFlyoutItem).ActualHeight));
+
+        }
     }
 }

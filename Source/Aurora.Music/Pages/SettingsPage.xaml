@@ -49,17 +49,17 @@
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
                     <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <StackPanel BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" BorderThickness="0,0,0,1" Margin="8,0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <StackPanel BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" BorderThickness="0,0,0,1" Padding="8,0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <Frame x:Name="LoactionFrame" Height="360" HorizontalAlignment="Left" VerticalAlignment="Stretch" MaxWidth="720"/>
                         </StackPanel>
-                        <StackPanel BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" BorderThickness="0,0,0,1" Margin="8,0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <StackPanel BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" BorderThickness="0,0,0,1" Padding="8,0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <TextBlock Text="Player Configuration" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12"/>
                             <ComboBox HorizontalAlignment="Left" VerticalAlignment="Center" IsSynchronizedWithCurrentItem="False" SelectedIndex="{x:Bind Context.AudioSelectedIndex,Mode=TwoWay}" Header="Output Endpoint" ItemsSource="{x:Bind Context.DevicList}" Margin="12,12,12,0"/>
                             <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="'System default' will be applied at next launch." HorizontalAlignment="Left" VerticalAlignment="Center" Margin="12,8,12,36"/>
                             <Slider Style="{StaticResource BlockSlider}" Foreground="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" Background="{ThemeResource SystemControlAltTranslucentAcrylicWindowBrush}" Value="{x:Bind Context.PlayerVolume,Mode=TwoWay}" HorizontalAlignment="Left" VerticalAlignment="Center" Header="Volume Level" Margin="12,12,12,0" Width="240"/>
                             <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="We suggest you to control the system volume directly." HorizontalAlignment="Left" VerticalAlignment="Center" Margin="12,0,12,36"/>
                         </StackPanel>
-                        <StackPanel BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" BorderThickness="0,0,0,1" Margin="8,0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <StackPanel BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" BorderThickness="0,0,0,1" Padding="8,0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <TextBlock Text="Extensions" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,8"/>
 
                             <ComboBox ItemTemplate="{StaticResource ExtensionTemplate}" SelectedIndex="{x:Bind Context.CurrentLyricIndex,Mode=OneWay}" SelectionChanged="LyricCombo_SelectionChanged" ItemsSource="{x:Bind Context.LyricExts}" Header="Lyric Extension" Margin="12,4">
@@ -78,7 +78,7 @@
 
                             </ComboBox>
                         </StackPanel>
-                        <StackPanel BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" BorderThickness="0,0,0,1" Background="Gray" Margin="8,0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <StackPanel BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" BorderThickness="0,0,0,1" Background="Gray" Padding="8,0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <TextBlock Text="Audio Graph" TextDecorations="Strikethrough" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,8"/>
                             <TextBlock Text="Coming Soon" Foreground="Red" Margin="0,8"/>
                             <TextBlock Text="PLEASE NOTE: When audio graph are enabled, you can not use built-in mediaplayer's features." Margin="12,0" Style="{ThemeResource BodyTextBlockStyle}"/>
@@ -132,7 +132,7 @@
                                 <TextBlock Margin="0,12" Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="1" Grid.Column="8" Text="Output" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Grid>
                         </StackPanel>
-                        <StackPanel BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" BorderThickness="0,0,0,1" Margin="8,0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <StackPanel BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" BorderThickness="0,0,0,1" Padding="8,0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <TextBlock Text="Advance" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12"/>
                             <ToggleSwitch Header="Debug Mode" IsOn="{x:Bind Context.DebugModeEnabled,Mode=TwoWay}" Margin="8,12" />
                         </StackPanel>

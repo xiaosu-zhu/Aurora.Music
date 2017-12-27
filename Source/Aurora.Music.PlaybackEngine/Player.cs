@@ -58,6 +58,8 @@ namespace Aurora.Music.PlaybackEngine
             }
         }
 
+        public MediaPlayer MediaPlayer { get => mediaPlayer; }
+
         public event EventHandler<PositionUpdatedArgs> PositionUpdated;
 
         public async void ChangeAudioEndPoint(string outputDeviceID)

@@ -26,6 +26,7 @@ using Windows.Foundation;
 using Windows.Networking.BackgroundTransfer;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage.Streams;
+using Windows.Media.Casting;
 
 namespace Aurora.Music.ViewModels
 {
@@ -72,6 +73,15 @@ namespace Aurora.Music.ViewModels
 
         public void Init(SongViewModel song)
         {
+            //Initialize our picker object
+            castingPicker = new CastingDevicePicker();
+
+            //Set the picker to filter to video capable casting devices
+            castingPicker.Filter.SupportsAudio = true;
+
+            //Hook up device selected event
+            castingPicker.CastingDeviceSelected += CastingPicker_CastingDeviceSelected;
+
             Song = song;
             _lastSong = new Song()
             {
@@ -132,7 +142,37 @@ namespace Aurora.Music.ViewModels
             });
         }
 
+        public void ShowCastingUI(Rect rect)
+        {
+            castingPicker.Show(rect, Windows.UI.Popups.Placement.Above);
+        }
 
+        private async void CastingPicker_CastingDeviceSelected(CastingDevicePicker sender, CastingDeviceSelectedEventArgs args)
+        {
+            //Casting must occur from the UI thread.  This dispatches the casting calls to the UI thread.
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, async () =>
+            {
+                //Create a casting conneciton from our selected casting device
+                CastingConnection connection = args.SelectedCastingDevice.CreateCastingConnection();
+
+                //Hook up the casting events
+                connection.ErrorOccurred += Connection_ErrorOccurred;
+                connection.StateChanged += Connection_StateChanged;
+
+                //Cast the content loaded in the media element to the selected casting device
+                await connection.RequestStartCastingAsync((player as Player).MediaPlayer.GetAsCastingSource());
+            });
+
+        }
+
+        private void Connection_StateChanged(CastingConnection sender, object args)
+        {
+        }
+
+        private void Connection_ErrorOccurred(CastingConnection sender, CastingConnectionErrorOccurredEventArgs args)
+        {
+            MainPage.Current.PopMessage($"Casting Error: {args.ErrorStatus.ToString()}\r\n{args.Message}");
+        }
 
         public static void ColorToHSV(System.Drawing.Color color, out double hue, out double saturation, out double value)
         {
@@ -556,6 +596,7 @@ namespace Aurora.Music.ViewModels
         private bool? isLoop = false;
         private Song _lastSong;
         private DataTransferManager dataTransferManager;
+        private CastingDevicePicker castingPicker;
 
         public bool? IsLoop
         {
@@ -736,6 +777,8 @@ namespace Aurora.Music.ViewModels
             player.StatusChanged -= Player_StatusChanged;
 
             dataTransferManager.DataRequested -= DataTransferManager_DataRequested;
+            castingPicker.CastingDeviceSelected -= CastingPicker_CastingDeviceSelected;
+            castingPicker = null;
         }
     }
 }

@@ -849,11 +849,11 @@
                                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE72D;" />
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
-                                <MenuFlyoutSubItem Text="Play To:">
-                                    <MenuFlyoutSubItem.Icon>
+                                <MenuFlyoutItem Click="Cast_Click" Text="Cast">
+                                    <MenuFlyoutItem.Icon>
                                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE969;" />
-                                    </MenuFlyoutSubItem.Icon>
-                                </MenuFlyoutSubItem>
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
                                 <MenuFlyoutSeparator/>
                                 <MenuFlyoutItem Click="DowmloadOrModify" Text="{x:Bind Context.DownloadOrModify(Context.Song.IsOnline),Mode=OneWay}" >
                                     <MenuFlyoutItem.Icon>

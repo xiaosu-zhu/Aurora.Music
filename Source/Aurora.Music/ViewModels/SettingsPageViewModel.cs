@@ -443,7 +443,7 @@ namespace Aurora.Music.ViewModels
 
             });
 
-
+            await Task.Delay(200);
             if (settings.OutputDeviceID.IsNullorEmpty())
             {
                 await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>

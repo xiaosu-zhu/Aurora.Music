@@ -34,7 +34,7 @@
     </Page.Resources>
 
     <Grid>
-        <SemanticZoom x:Name="Root" ManipulationMode="Scale" ManipulationDelta="SemanticZoom_ManipulationDelta" ViewChangeCompleted="SemanticZoom_ViewChangeCompleted">
+        <SemanticZoom x:Name="Root">
             <SemanticZoom.ZoomedOutView>
                 <GridView Padding="64,128,64,0" FontSize="20" ItemsSource="{x:Bind AlbumListSource.View.CollectionGroups, Mode=OneWay}">
                     <GridView.Header>
