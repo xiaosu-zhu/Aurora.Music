@@ -102,27 +102,7 @@ namespace Aurora.Music.ViewModels
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
-                switch (e.Stage)
-                {
-                    case 1:
-                        Progress1 = Math.Round(e.Percent);
-                        Hint = "Retrieving Files";
-                        break;
-                    case 2:
-                        Progress2 = Math.Round(e.Percent);
-                        Hint = $"Reading Tags: {Progress2}%";
-                        break;
-                    case 3:
-                        Progress3 = Math.Round(e.Percent);
-                        Hint = $"Updating Database: {Progress3}%";
-                        break;
-                    case 4:
-                        Progress4 = Math.Round(e.Percent);
-                        Hint = $"Sorting Albums: {Progress4}%";
-                        break;
-                    default:
-                        break;
-                }
+                Hint = e.Description;
             });
         }
     }

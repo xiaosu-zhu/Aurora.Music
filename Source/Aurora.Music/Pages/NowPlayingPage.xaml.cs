@@ -2,6 +2,7 @@
 using Aurora.Music.Core;
 using Aurora.Music.Core.Models;
 using Aurora.Music.ViewModels;
+using Aurora.Shared;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
 using System;
@@ -191,7 +192,7 @@ namespace Aurora.Music.Pages
             await Context.FindFileAsync();
         }
 
-        private async void DowmloadOrModify(object sender, RoutedEventArgs e)
+        private async void DownloadOrModify(object sender, RoutedEventArgs e)
         {
             await Context.DowmloadOrModifyAsync();
         }
@@ -203,7 +204,12 @@ namespace Aurora.Music.Pages
 
         private async void Delete_Click(object sender, RoutedEventArgs e)
         {
-            await Context.DeleteCurrentAsync();
+            await Context.DeleteCurrentAsync(Windows.Storage.StorageDeleteOption.Default);
+        }
+
+        private async void Delete_Click_1(object sender, RoutedEventArgs e)
+        {
+            await Context.DeleteCurrentAsync(Windows.Storage.StorageDeleteOption.Default);
         }
 
         private async void RatingControl_ValueChanged(RatingControl sender, object args)
@@ -219,6 +225,11 @@ namespace Aurora.Music.Pages
 
             Context.ShowCastingUI(new Rect(pt.X, pt.Y, (sender as MenuFlyoutItem).ActualWidth, (sender as MenuFlyoutItem).ActualHeight));
 
+        }
+
+        internal bool IsDarkTheme()
+        {
+            return Palette.IsDarkColor((Resources["SystemControlBackgroundAltHighBrush"] as SolidColorBrush).Color);
         }
     }
 }

@@ -809,11 +809,10 @@ namespace Aurora.Music.PlaybackEngine
         {
             var state = mediaPlayer.PlaybackSession.PlaybackState;
             mediaPlayer.Pause();
-            mediaPlayer.Source = null;
             var cure = mediaPlaybackList.CurrentItem;
             mediaPlaybackList.MoveNext();
             mediaPlaybackList.Items.Remove(cure);
-            mediaPlayer.Source = mediaPlaybackList;
+            cure = null;
             if (state == MediaPlaybackState.Playing)
             {
                 mediaPlayer.Play();

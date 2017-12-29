@@ -191,6 +191,8 @@ namespace Aurora.Music.ViewModels
             double f = hue / 60 - Math.Floor(hue / 60);
 
             value = value * 255;
+            if (value > 255)
+                value = 255;
             var v = Convert.ToByte(value);
             var p = Convert.ToByte(value * (1 - saturation));
             var q = Convert.ToByte(value * (1 - f * saturation));
@@ -208,6 +210,23 @@ namespace Aurora.Music.ViewModels
                 return Color.FromArgb(255, t, p, v);
             else
                 return Color.FromArgb(255, v, p, q);
+        }
+
+        public SolidColorBrush AdjustColorbyTheme(SolidColorBrush b)
+        {
+            if (b == null)
+            {
+                return new SolidColorBrush();
+            }
+
+            if (NowPlayingPage.Current.IsDarkTheme())
+            {
+                return AdjustBrightness(b, 1);
+            }
+            else
+            {
+                return AdjustBrightness(b, 0.5);
+            }
         }
 
         public SolidColorBrush AdjustBrightness(SolidColorBrush b, double d)
@@ -267,7 +286,7 @@ namespace Aurora.Music.ViewModels
             CurrentRating = value;
         }
 
-        internal async Task DeleteCurrentAsync()
+        internal async Task DeleteCurrentAsync(StorageDeleteOption op)
         {
             if (Song.IsOnline)
             {
@@ -277,7 +296,7 @@ namespace Aurora.Music.ViewModels
             player.DetachCurrentSource();
 
             var file = await StorageFile.GetFileFromPathAsync(s);
-            await file.DeleteAsync();
+            await file.DeleteAsync(op);
         }
 
         internal void ShareCurrentAsync()
@@ -411,6 +430,7 @@ namespace Aurora.Music.ViewModels
                 }
                 else
                 {
+                    request.Data.RequestedOperation = DataPackageOperation.Copy;
                     request.Data.SetStorageItems(new IStorageItem[] { await StorageFile.GetFileFromPathAsync(Song.Song.FilePath) });
                     if (Song.Song.PicturePath.IsNullorEmpty())
                     {

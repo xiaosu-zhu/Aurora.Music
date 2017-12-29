@@ -174,10 +174,8 @@ namespace Aurora.Music.Core.Storage
         public async Task Read(IList<StorageFolder> folder)
         {
             var list = new List<StorageFile>();
-            double i = 1;
-            report.Stage = 1;
-            report.StageTotal = 3;
-            report.Percent = 0;
+            int i = 1;
+
             foreach (var item in folder)
             {
                 var files = await GetFilesAsync(item);
@@ -193,14 +191,11 @@ namespace Aurora.Music.Core.Storage
                 }
 
                 list.AddRange(files);
-                report.Stage = 1;
-                report.Percent = 100 * i / folder.Count;
+
                 i++;
-                ProgressUpdated?.Invoke(this, report);
+                ProgressUpdated?.Invoke(this, new ProgressReport() { Description = string.Format($"{i} of {folder.Count} {0} scanned", folder.Count == 1 ? "folder" : "folders"), Current = i, Total = folder.Count });
             }
-            report.Stage = 1;
-            report.Percent = 100;
-            ProgressUpdated?.Invoke(this, report);
+            ProgressUpdated?.Invoke(this, new ProgressReport() { Description = "Folder scanning completed", Current = i + 1, Total = folder.Count });
             await ReadFileandSave(from a in list group a by a.Path into b select b.First());
         }
 
@@ -208,7 +203,7 @@ namespace Aurora.Music.Core.Storage
         {
             var opr = SQLOperator.Current();
             List<Song> tempList = new List<Song>();
-            double i = 1;
+            int i = 1;
             var total = files.Count();
             foreach (var file in files)
             {
@@ -216,16 +211,11 @@ namespace Aurora.Music.Core.Storage
                 {
                     tempList.Add(await Song.Create(tagTemp.Tag, file.Path, await file.Properties.GetMusicPropertiesAsync()));
                 }
-                report.Stage = 2;
-                report.Percent = 100 * i / total;
                 i++;
-                ProgressUpdated?.Invoke(this, report);
+                ProgressUpdated?.Invoke(this, new ProgressReport() { Description = $"{i} of {total} files readed", Current = i, Total = total });
             }
-
-            report.Stage = 3;
-            report.Percent = 0;
             i = 1;
-            ProgressUpdated?.Invoke(this, report);
+            ProgressUpdated?.Invoke(this, new ProgressReport() { Description = $"{i} of {tempList.Count} record stored in database", Current = i, Total = tempList.Count });
             var newlist = new List<SONG>();
             foreach (var song in tempList)
             {
@@ -234,8 +224,7 @@ namespace Aurora.Music.Core.Storage
                 {
                     newlist.Add(t);
                 }
-                report.Stage = 3;
-                report.Percent = 100 * i / tempList.Count;
+                ProgressUpdated?.Invoke(this, new ProgressReport() { Description = $"{i} of {tempList.Count} records stored in database", Current = i, Total = tempList.Count });
                 i++;
                 ProgressUpdated?.Invoke(this, report);
             }
@@ -260,21 +249,18 @@ namespace Aurora.Music.Core.Storage
         {
             await Task.Run(async () =>
             {
-                report.Stage = 4;
-                report.Percent = 0;
-                ProgressUpdated?.Invoke(this, report);
-                double i = 1;
-
                 var albums = from song in songs group song by song.Album into album select album;
                 var opr = SQLOperator.Current();
-
                 var count = albums.Count();
+
+                int i = 1;
+
+
+                ProgressUpdated?.Invoke(this, new ProgressReport() { Description = $"{i} of {count} albums sorted", Current = i, Total = count });
                 foreach (var item in albums)
                 {
                     await opr.AddAlbumAsync(item);
-                    report.Stage = 4;
-                    report.Percent = 100 * (i++) / count;
-                    ProgressUpdated?.Invoke(this, report);
+                    ProgressUpdated?.Invoke(this, new ProgressReport() { Description = $"{i} of {count} albums sorted", Current = i, Total = count });
                 }
                 Completed?.Invoke(this, EventArgs.Empty);
             });
@@ -298,21 +284,18 @@ namespace Aurora.Music.Core.Storage
         {
             await Task.Run(async () =>
             {
-                report.Stage = 4;
-                report.Percent = 0;
-                ProgressUpdated?.Invoke(this, report);
-                double i = 1;
-
                 var albums = from song in songs group song by song.Album into album select album;
                 var opr = SQLOperator.Current();
-
                 var count = albums.Count();
+
+                int i = 1;
+
+
+                ProgressUpdated?.Invoke(this, new ProgressReport() { Description = $"{i} of {count} albums sorted", Current = i, Total = count });
                 foreach (var item in albums)
                 {
                     await opr.AddAlbumAsync(item);
-                    report.Stage = 4;
-                    report.Percent = 100 * (i++) / count;
-                    ProgressUpdated?.Invoke(this, report);
+                    ProgressUpdated?.Invoke(this, new ProgressReport() { Description = $"{i} of {count} albums sorted", Current = i, Total = count });
                 }
                 Completed?.Invoke(this, EventArgs.Empty);
             });
@@ -341,22 +324,10 @@ namespace Aurora.Music.Core.Storage
 
     public class ProgressReport
     {
-        public int Stage { get; set; }
-        public int StageTotal { get; set; }
+        public string Description { get; set; }
 
-        private double progress;
+        public int Current { get; set; }
 
-        public double Percent
-        {
-            get { return progress; }
-            set
-            {
-                if (value > 100)
-                    progress = 100;
-                else
-                    progress = value;
-            }
-        }
-
+        public int Total { get; set; }
     }
 }

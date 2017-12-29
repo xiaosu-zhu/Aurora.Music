@@ -25,7 +25,7 @@
             <CollectionViewSource Source="{x:Bind Context.Lyric.Contents,Mode=OneWay}" x:Key="LyricSource"/>
 
             <Style x:Key="RoundSlider" TargetType="Slider">
-                <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAltHighRevealBrush}"/>
+                <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAltLowRevealBrush}"/>
                 <Setter Property="BorderThickness" Value="{ThemeResource SliderBorderThemeThickness}"/>
                 <Setter Property="Foreground" Value="{ThemeResource SliderTrackValueFill}"/>
                 <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
@@ -41,7 +41,7 @@
                                 <Grid.Resources>
                                     <Style x:Key="SliderThumbStyle" TargetType="Thumb">
                                         <Setter Property="BorderThickness" Value="2"/>
-                                        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAltHighRevealBrush}"/>
+                                        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAltLowRevealBrush}"/>
                                         <Setter Property="Template">
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="Thumb">
@@ -672,8 +672,8 @@
 
     <Grid x:Name="Root" Padding="48,80,48,0" Background="{ThemeResource SystemControlAltTranslucentAcrylicWindowBrush}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" MinWidth="240"/>
-            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*" MinWidth="120"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -696,21 +696,21 @@
             </toolkit:ImageEx>
             <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Stretch" Grid.Row="1">
                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" MaxLines="1"
-                               Margin="0,4,0,0" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 0.5), Mode=OneWay}" 
+                               Margin="0,4,0,0" Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush), Mode=OneWay}" 
                            ToolTipService.ToolTip="{x:Bind Context.Song.GetFormattedArtists(),Mode=OneWay}"
                                Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Context.Song.GetFormattedArtists(),Mode=OneWay}"/>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
                     <TextBlock x:Name="Title" Margin="0,2,0,0" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" MaxLines="1"
-                               Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 0.5), Mode=OneWay}" 
+                               Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush), Mode=OneWay}" 
                                Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold" ToolTipService.ToolTip="{x:Bind Context.Song.Title,Mode=OneWay}"
                                Text="{x:Bind Context.Song.Title,Mode=OneWay}"/>
                     <FontIcon Visibility="{x:Bind Context.BooltoVisibility(Context.Song.IsOnline),Mode=OneWay}"
-                              FontSize="24" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 0.5),Mode=OneWay}"
+                              FontSize="24" Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush),Mode=OneWay}"
                               VerticalAlignment="Center" Margin="8,4,0,0" FontFamily="Segoe MDL2 Assets" Glyph="&#xE93E;" />
                 </StackPanel>
                 <TextBlock Margin="0,4,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" x:Name="Album"
                             TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" MaxLines="1" ToolTipService.ToolTip="{x:Bind Context.Song.Album,Mode=OneWay}"
-                               Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 0.5), Mode=OneWay}" 
+                               Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush), Mode=OneWay}" 
                                Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Context.Song.Album,Mode=OneWay}"/>
                 <toolkit:DropShadowPanel Margin="0,8,0,0" HorizontalAlignment="Left" VerticalAlignment="Stretch" Color="{ThemeResource SystemAltHighColor}" ShadowOpacity="0.66" BlurRadius="8" OffsetX="0" OffsetY="0">
                     <TextBlock Style="{ThemeResource BodyTextBlockStyle}" ToolTipService.ToolTip="{x:Bind Context.Song.GetAddtionalDesc(),Mode=OneWay}"
@@ -735,32 +735,32 @@
                 </StackPanel>
             </StackPanel>
         </Grid>
-        <ListView Style="{ThemeResource LyricListView}" Grid.Column="1" Margin="60,100,60,0" IsItemClickEnabled="False"
-                  Width="320" HorizontalAlignment="Stretch" VerticalAlignment="Top" MaxHeight="320" 
+        <ListView Style="{ThemeResource LyricListView}" Grid.Column="1" IsItemClickEnabled="False"
+                  HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="32,32,32,64"
                   IsSynchronizedWithCurrentItem="False" SelectionChanged="ListView_SelectionChanged"
                   SelectedIndex="{x:Bind Context.Lyric.CurrentIndex,Mode=OneWay}"
                   ItemContainerStyle="{ThemeResource LyricListItem}" ItemsSource="{Binding Source={StaticResource LyricSource}}">
             <ListView.Header>
-                <Grid Height="160" Width="320">
+                <Grid Height="320">
                     <toolkit:DropShadowPanel Visibility="{x:Bind Context.BoolNottoVisibility(Context.Lyric.HasLyric),Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="12,0" Color="{ThemeResource SystemAltHighColor}" ShadowOpacity="0.66" BlurRadius="4" OffsetX="0" OffsetY="0">
-                        <TextBlock Text="{x:Bind Context.LyricHint,Mode=OneWay}" 
+                        <TextBlock Text="{x:Bind Context.LyricHint,Mode=OneWay}"
                                Style="{ThemeResource SubtitleTextBlockStyle}"/>
                     </toolkit:DropShadowPanel>
                 </Grid>
             </ListView.Header>
             <ListView.Footer>
-                <Grid Height="160" Width="320">
+                <Grid Height="1600">
                 </Grid>
             </ListView.Footer>
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="vm:LrcContent">
                     <toolkit:DropShadowPanel Margin="0,20" HorizontalAlignment="Center" VerticalAlignment="Stretch" Color="{ThemeResource SystemAltHighColor}" ShadowOpacity="0.66" BlurRadius="8" OffsetX="0" OffsetY="0">
-                        <TextBlock Opacity="{x:Bind CurrentOpacity(IsCurrent),Mode=OneWay}" MaxWidth="320" TextAlignment="Center" TextTrimming="None" TextWrapping="WrapWholeWords" FontSize="16" Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Content}"/>
+                        <TextBlock Opacity="{x:Bind CurrentOpacity(IsCurrent),Mode=OneWay}" TextAlignment="Center" TextTrimming="None" TextWrapping="WrapWholeWords" FontSize="20" Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Content}"/>
                     </toolkit:DropShadowPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Grid Background="Transparent" Grid.Column="1" Margin="60,100,60,0" Width="320" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="320" />
+        <Grid Background="Transparent" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="32,32,32,64"/>
         <Grid Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" Margin="12,0,12,12" VerticalAlignment="Stretch">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
@@ -771,7 +771,7 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <ProgressBar Grid.Column="1" Style="{ThemeResource SlimProgressBar}" Height="2" Foreground="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}" Background="{x:Null}" Value="{x:Bind Context.DownloadProgress, Mode=OneWay}" HorizontalAlignment="Stretch" Margin="16,2,16,0"/>
+            <ProgressBar Grid.Column="1" Style="{ThemeResource SlimProgressBar}" Height="2" Foreground="{ThemeResource SystemControlBackgroundAltLowRevealBrush}" Background="{x:Null}" Value="{x:Bind Context.DownloadProgress, Mode=OneWay}" HorizontalAlignment="Stretch" Margin="16,2,16,0"/>
             <Slider Grid.Column="1" Minimum="0" Maximum="100" 
                     Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 1),Mode=OneWay}" 
                     ThumbToolTipValueConverter="{StaticResource SliderToolTipConverter}" 
@@ -855,7 +855,7 @@
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
                                 <MenuFlyoutSeparator/>
-                                <MenuFlyoutItem Click="DowmloadOrModify" Text="{x:Bind Context.DownloadOrModify(Context.Song.IsOnline),Mode=OneWay}" >
+                                <MenuFlyoutItem Click="DownloadOrModify" Text="{x:Bind Context.DownloadOrModify(Context.Song.IsOnline),Mode=OneWay}" >
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Context.DownloadOrModifyIcon(Context.Song.IsOnline),Mode=OneWay}" />
                                     </MenuFlyoutItem.Icon>
@@ -865,11 +865,17 @@
                                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE7F6;" />
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
-                                <MenuFlyoutItem Click="Delete_Click" Foreground="#E81123" Visibility="{x:Bind Context.BoolNottoVisibility(Context.Song.IsOnline),Mode=OneWay}" Text="Delete">
-                                    <MenuFlyoutItem.Icon>
+                                <MenuFlyoutSubItem Foreground="#E81123" Visibility="{x:Bind Context.BoolNottoVisibility(Context.Song.IsOnline),Mode=OneWay}" Text="Delete">
+                                    <MenuFlyoutSubItem.Icon>
                                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE107;" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
+                                    </MenuFlyoutSubItem.Icon>
+                                    <MenuFlyoutItem Text="Move to Trash" Click="Delete_Click">
+                                        
+                                    </MenuFlyoutItem>
+                                    <MenuFlyoutItem Text="Permanent Delete" Click="Delete_Click_1">
+
+                                    </MenuFlyoutItem>
+                                </MenuFlyoutSubItem>
                                 <MenuFlyoutItem Text="Q &amp; A">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE11B;" />

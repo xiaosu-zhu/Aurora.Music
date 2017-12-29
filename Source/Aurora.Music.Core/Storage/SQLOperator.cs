@@ -235,7 +235,7 @@ namespace Aurora.Music.Core.Storage
             TrackCount = album.TrackCount;
             DiscCount = album.DiscCount;
             AlbumArtists = string.Join("$|$", album.AlbumArtists);
-            AlbumArtistsSort = string.Join("$|$", album.AlbumArtistsSort);
+            AlbumArtistsSort = string.Join("$|$", album.AlbumArtistsSort ?? new string[] { });
             ReplayGainAlbumGain = album.ReplayGainAlbumGain;
             ReplayGainAlbumPeak = album.ReplayGainAlbumPeak;
             PicturePath = album.PicturePath;

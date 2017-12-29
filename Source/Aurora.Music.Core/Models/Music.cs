@@ -12,6 +12,7 @@ using Aurora.Music.Core.Storage;
 using Windows.UI;
 using Windows.System.Threading;
 using System.Runtime.CompilerServices;
+using System.Diagnostics;
 
 namespace Aurora.Music.Core.Models
 {
@@ -202,7 +203,7 @@ namespace Aurora.Music.Core.Models
                 Duration = music.Duration,
                 BitRate = music.Bitrate,
                 FilePath = path,
-                Rating = (uint)Math.Round((double)music.Rating / 25.0) + 1,
+                Rating = (uint)Math.Round(music.Rating / 25.0) + 1,
                 MusicBrainzArtistId = tag.MusicBrainzArtistId,
                 MusicBrainzDiscId = tag.MusicBrainzDiscId,
                 MusicBrainzReleaseArtistId = tag.MusicBrainzReleaseArtistId,
@@ -296,7 +297,30 @@ namespace Aurora.Music.Core.Models
                 }
                 else
                 {
-                    r = (uint)Math.Round((rat + 1) * 25) - 1;
+                    if (rat < 1)
+                    {
+                        r = 0;
+                    }
+                    else if (rat < 1.5)
+                    {
+                        r = 19;
+                    }
+                    else if (rat < 2.5)
+                    {
+                        r = 39;
+                    }
+                    else if (rat < 3.5)
+                    {
+                        r = 59;
+                    }
+                    else if (rat < 4.5)
+                    {
+                        r = 79;
+                    }
+                    else
+                    {
+                        r = 99;
+                    }
                 }
                 prop.Rating = r;
                 await prop.SavePropertiesAsync();

@@ -1057,7 +1057,7 @@
                             </ToggleButton.Content>
                         </ToggleButton>
                     </StackPanel>
-                    <ProgressBar Background="{x:Null}" Foreground="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="5" 
+                    <ProgressBar Background="{x:Null}" Foreground="{ThemeResource SystemControlBackgroundAltLowRevealBrush}" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="5" 
                                  Value="{x:Bind Context.DownloadProgress, Mode=OneWay}"/>
                     <ProgressBar Background="{x:Null}" Foreground="{ThemeResource SystemControlBackgroundBaseHighRevealBorderBrush}" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="5" 
                                  Value="{x:Bind Context.PositionToValue(Context.CurrentPosition, Context.TotalDuration), Mode=OneWay}"/>

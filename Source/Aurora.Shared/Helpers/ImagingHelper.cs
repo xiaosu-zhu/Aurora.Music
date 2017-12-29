@@ -310,9 +310,6 @@ namespace Aurora.Shared.Helpers
                     //return Color.FromArgb(255, bytes[0], bytes[1], bytes[2]);
                 }
             }
-
-
-
         }
 
         public static Color FromColorThief(ColorThiefDotNet.Color d)
