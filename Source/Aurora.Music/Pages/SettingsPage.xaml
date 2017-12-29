@@ -139,6 +139,7 @@
                     </StackPanel>
                     <StackPanel Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <TextBlock Text="Other Information" Style="{ThemeResource SubtitleTextBlockStyle}" Margin="12"/>
+                        <Button Content="Open Source" Command="{x:Bind Context.Github}" Style="{ThemeResource TextBlockButtonStyle}" Margin="12,4"/>
                         <Button Content="Comment in Store" Command="{x:Bind Context.CommentInStore}" Style="{ThemeResource TextBlockButtonStyle}" Margin="12,4"/>
                         <Button Content="Report a Bug" Command="{x:Bind Context.ReportABug}" Style="{ThemeResource TextBlockButtonStyle}" Margin="12,4"/>
                         <Button Content="Get Extensions" Command="{x:Bind Context.GetExtensions}" Style="{ThemeResource TextBlockButtonStyle}" Margin="12,4"/>

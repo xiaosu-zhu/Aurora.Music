@@ -56,6 +56,14 @@ namespace Aurora.Music.ViewModels
             });
         }
 
+        public DelegateCommand Github
+        {
+            get => new DelegateCommand(async () =>
+            {
+                await Launcher.LaunchUriAsync(new Uri(Consts.Github));
+            });
+        }
+
         public DelegateCommand ReportABug
         {
             get => new DelegateCommand(async () =>

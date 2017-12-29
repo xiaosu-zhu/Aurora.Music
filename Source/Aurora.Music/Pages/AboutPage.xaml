@@ -6,7 +6,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-    <ScrollViewer HorizontalScrollMode="Disabled">
+
+    <Page.Resources>
+        <ResourceDictionary Source="../Themes/Styles.xaml"/>
+    </Page.Resources>
+    
+    <ScrollViewer Style="{ThemeResource NarrowScrollViewer}" HorizontalScrollMode="Disabled">
         <StackPanel Orientation="Vertical" Margin="64,80,64,160" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
             <Viewbox Margin="12,0" MaxHeight="120" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Image Stretch="Uniform">
@@ -15,10 +20,20 @@
                     </Image.Source>
                 </Image>
             </Viewbox>
-            <TextBlock Text="Aurora Studio" Style="{ThemeResource SubheaderTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12,0">
+            <TextBlock MaxLines="2" TextWrapping="WrapWholeWords" Style="{ThemeResource SubheaderTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12,0">
+                <Run Text="Aurora Studio's Aurora Music"/>
             </TextBlock>
-            <TextBlock Text="and Supported by:" Style="{ThemeResource BodyTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12,0,12,12"/>
+            <TextBlock Style="{ThemeResource BodyTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12,0,12,12">
+                <Run x:Name="BuildText"/>
+                <Run Text="and Supported by:"/>
+            </TextBlock>
             <TextBlock TextAlignment="Center" Style="{ThemeResource SubtitleTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12" Text="Microsoft.Toolkit.Uwp&#xD;&#xA;Newtonsoft.Json&#xD;&#xA;ksemenenko.ColorThief&#xD;&#xA;WriteableBitmapEx&#xD;&#xA;Win2D.uwp&#xD;&#xA;ExpressionBuilder&#xD;&#xA;Taglib.Sharp&#xD;&#xA;LrcParser"/>
+            <TextBlock Style="{ThemeResource BodyTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12">
+                <Run Text="Follow and get instructions of developing extensions on"/>
+                <Hyperlink NavigateUri="https://github.com/pkzxs/Aurora.Music">
+                    <Run Text="Github"/>
+                </Hyperlink>
+            </TextBlock>
         </StackPanel>
     </ScrollViewer>
 </Page>

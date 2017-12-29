@@ -1,5 +1,6 @@
 ﻿using Aurora.Shared.Helpers;
 using System;
+using System.Runtime.Serialization;
 using Windows.Storage;
 
 namespace Aurora.Music.Core
@@ -35,5 +36,7 @@ namespace Aurora.Music.Core
         public const string OnlineAddOnStoreID = "9N8LMDXLQQ8V";
 
         public const string ProductID = "9NBLGGH6JVDT";
+
+        public const string Github = "https://github.com/pkzxs/Aurora.Music";
     }
 }

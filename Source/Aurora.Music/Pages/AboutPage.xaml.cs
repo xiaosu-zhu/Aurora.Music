@@ -29,6 +29,8 @@ namespace Aurora.Music.Pages
             MainPageViewModel.Current.Title = "About";
             MainPageViewModel.Current.NeedShowTitle = true;
             MainPageViewModel.Current.LeftTopColor = Resources["SystemControlForegroundBaseHighBrush"] as SolidColorBrush;
+
+            BuildText.Text = $"Build {Shared.Helpers.SystemInfoHelper.GetPackageVer()}";
         }
     }
 }
