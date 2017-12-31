@@ -497,7 +497,7 @@ namespace Aurora.Music.ViewModels
         {
             get
             {
-                if (currentRating == 0)
+                if (currentRating <0.5)
                 {
                     return -1;
                 }
@@ -506,7 +506,7 @@ namespace Aurora.Music.ViewModels
             set
             {
                 var rat = value;
-                if (rat < 0)
+                if (rat < 0.5)
                 {
                     rat = 0;
                 }

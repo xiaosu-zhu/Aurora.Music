@@ -972,37 +972,23 @@
                         <RowDefinition Height="2"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <StackPanel Grid.Row="1" Orientation="Horizontal" x:Name="NavigatePanel" PointerEntered="StackPanel_PointerEntered" PointerExited="StackPanel_PointerExited"
-                                PointerReleased="StackPanel_PointerReleased" PointerPressed="NavigatePanel_PointerPressed" PointerCanceled="StackPanel_PointerExited" 
-                                PointerCaptureLost="StackPanel_PointerExited" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent">
-                        <StackPanel.Resources>
-                            <Storyboard x:Key="PointerOver">
-                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NavigatePanel" Storyboard.TargetProperty="Background">
-                                    <DiscreteObjectKeyFrame Value="{ThemeResource SystemControlBackgroundBaseLowRevealBackgroundBrush}"/>
-                                </ObjectAnimationUsingKeyFrames>
-                            </Storyboard>
-                            <Storyboard x:Key="PointerPressed">
-                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NavigatePanel" Storyboard.TargetProperty="Background">
-                                    <DiscreteObjectKeyFrame Value="{ThemeResource SystemControlBackgroundBaseMediumLowRevealBorderBrush}"/>
-                                </ObjectAnimationUsingKeyFrames>
-                            </Storyboard>
-                            <Storyboard x:Key="Normal">
-                                <PointerUpThemeAnimation Storyboard.TargetName="NavigatePanel"/>
-                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NavigatePanel" Storyboard.TargetProperty="Background">
-                                    <DiscreteObjectKeyFrame Value="Transparent"/>
-                                </ObjectAnimationUsingKeyFrames>
-                            </Storyboard>
-                        </StackPanel.Resources>
-                        <Image Grid.Row="1" x:Name="Artwork" HorizontalAlignment="Left" VerticalAlignment="Stretch" Stretch="Uniform">
-                            <Image.Source>
-                                <BitmapImage DecodePixelHeight="72" DecodePixelType="Logical" UriSource="{x:Bind Context.CurrentArtwork, Mode=OneWay, TargetNullValue=ms-appx:///Assets/Images/now_placeholder.png}"/>
-                            </Image.Source>
-                        </Image>
-                        <StackPanel Margin="12,0" Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
-                            <TextBlock x:Name="Title" Text="{x:Bind Context.CurrentTitle, Mode=OneWay}" Style="{ThemeResource BaseTextBlockStyle}" MaxLines="2" TextTrimming="CharacterEllipsis" Margin="4"/>
-                            <TextBlock x:Name="Album" Text="{x:Bind Context.CurrentAlbum, Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Margin="4,0,4,4"/>
-                        </StackPanel>
-                    </StackPanel>
+                    <Button Style="{ThemeResource RevealRectangleButton}" BorderThickness="0" Background="Transparent" Grid.Row="1" HorizontalContentAlignment="Left"
+                            Click="NowPanel_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <Button.Content>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Stretch">
+                                <Image Grid.Row="1" x:Name="Artwork" HorizontalAlignment="Left" VerticalAlignment="Stretch" Stretch="Uniform">
+                                    <Image.Source>
+                                        <BitmapImage DecodePixelHeight="72" DecodePixelType="Logical" UriSource="{x:Bind Context.CurrentArtwork, Mode=OneWay, TargetNullValue=ms-appx:///Assets/Images/now_placeholder.png}"/>
+                                    </Image.Source>
+                                </Image>
+                                <StackPanel Margin="12,0" Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                    <TextBlock x:Name="Title" Text="{x:Bind Context.CurrentTitle, Mode=OneWay}" Style="{ThemeResource BaseTextBlockStyle}" MaxLines="2" TextTrimming="CharacterEllipsis" Margin="4"/>
+                                    <TextBlock x:Name="Album" Text="{x:Bind Context.CurrentAlbum, Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Margin="4,0,4,4"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Button.Content>
+                        
+                    </Button>
                     <Button Grid.Row="1" Style="{ThemeResource RevealRectangleButton}" ToolTipService.ToolTip="Playing list" Grid.Column="2" Margin="12,0" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Button.Content>
                             <TextBlock Text="{x:Bind Context.NowListPreview,Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" Margin="12,8"/>

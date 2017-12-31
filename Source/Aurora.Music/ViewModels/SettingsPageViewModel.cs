@@ -413,7 +413,10 @@ namespace Aurora.Music.ViewModels
                 {
                     // Access the Store info for the product.
                     StoreProduct product = item.Value;
-                    OnlinePurchase = product.IsInUserCollection;
+                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                    {
+                        OnlinePurchase = product.IsInUserCollection;
+                    });
                     settings.OnlinePurchase = product.IsInUserCollection;
                     settings.Save();
                 }

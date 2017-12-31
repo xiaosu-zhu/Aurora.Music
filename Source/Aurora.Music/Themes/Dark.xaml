@@ -20,6 +20,7 @@
     <RevealBorderBrush x:Key="SystemControlBackgroundAltMediumHighBrush" TargetTheme="Dark" Color="{StaticResource SystemRevealAltMediumHighColor}" FallbackColor="{StaticResource SystemAltHighColor}" />
 
     <SolidColorBrush x:Key="SystemControlAltLowBrush" Color="{StaticResource SystemAltLowColor}"/>
+    <SolidColorBrush x:Key="RevealRoundBackground" Color="{StaticResource SystemChromeMediumColor}" Opacity="0.33"/>
 
     <SolidColorBrush x:Key="SongListEvenBrush" Color="{StaticResource SystemChromeMediumColor}" Opacity="0.3333"/>
     <SolidColorBrush x:Key="SongListOddBrush" Color="{StaticResource SystemAltHighColor}" Opacity="0.3333"/>

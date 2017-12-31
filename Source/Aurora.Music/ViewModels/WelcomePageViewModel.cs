@@ -15,32 +15,11 @@ namespace Aurora.Music.ViewModels
 {
     class WelcomePageViewModel : ViewModelBase
     {
-        private double progress1;
-        public double Progress1
+        private double progress;
+        public double Progress
         {
-            get { return progress1; }
-            set { SetProperty(ref progress1, value); }
-        }
-
-        private double progress2;
-        public double Progress2
-        {
-            get { return progress2; }
-            set { SetProperty(ref progress2, value); }
-        }
-
-        private double progress3;
-        public double Progress3
-        {
-            get { return progress3; }
-            set { SetProperty(ref progress3, value); }
-        }
-
-        private double progress4;
-        public double Progress4
-        {
-            get { return progress4; }
-            set { SetProperty(ref progress4, value); }
+            get { return progress; }
+            set { SetProperty(ref progress, value); }
         }
 
         private int finish = 0;
@@ -103,6 +82,15 @@ namespace Aurora.Music.ViewModels
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
                 Hint = e.Description;
+                var t = (double)e.Total;
+                if (e.Total == 0 || t == double.NaN)
+                {
+                    Progress = 0;
+                }
+                else
+                {
+                    Progress = ((100 * e.Current) / t);
+                }
             });
         }
     }

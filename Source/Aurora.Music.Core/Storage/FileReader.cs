@@ -16,7 +16,6 @@ namespace Aurora.Music.Core.Storage
 
         public event EventHandler<ProgressReport> ProgressUpdated;
         public event EventHandler Completed;
-        private ProgressReport report = new ProgressReport();
 
         public static async Task<List<Song>> GetAllSongAsync()
         {
@@ -192,10 +191,12 @@ namespace Aurora.Music.Core.Storage
 
                 list.AddRange(files);
 
+                ProgressUpdated?.Invoke(this, new ProgressReport() { Description = $"{i} of {folder.Count} folders scanned", Current = i, Total = folder.Count });
                 i++;
-                ProgressUpdated?.Invoke(this, new ProgressReport() { Description = string.Format($"{i} of {folder.Count} {0} scanned", folder.Count == 1 ? "folder" : "folders"), Current = i, Total = folder.Count });
             }
-            ProgressUpdated?.Invoke(this, new ProgressReport() { Description = "Folder scanning completed", Current = i + 1, Total = folder.Count });
+            await Task.Delay(200);
+            ProgressUpdated?.Invoke(this, new ProgressReport() { Description = "Folder scanning completed", Current = i, Total = folder.Count });
+            await Task.Delay(200);
             await ReadFileandSave(from a in list group a by a.Path into b select b.First());
         }
 
@@ -211,11 +212,15 @@ namespace Aurora.Music.Core.Storage
                 {
                     tempList.Add(await Song.Create(tagTemp.Tag, file.Path, await file.Properties.GetMusicPropertiesAsync()));
                 }
-                i++;
                 ProgressUpdated?.Invoke(this, new ProgressReport() { Description = $"{i} of {total} files readed", Current = i, Total = total });
+
+                i++;
             }
             i = 1;
-            ProgressUpdated?.Invoke(this, new ProgressReport() { Description = $"{i} of {tempList.Count} record stored in database", Current = i, Total = tempList.Count });
+
+            await Task.Delay(200);
+
+            ProgressUpdated?.Invoke(this, new ProgressReport() { Description = $"0 of {tempList.Count} records stored in database", Current = 0, Total = tempList.Count });
             var newlist = new List<SONG>();
             foreach (var song in tempList)
             {
@@ -226,7 +231,6 @@ namespace Aurora.Music.Core.Storage
                 }
                 ProgressUpdated?.Invoke(this, new ProgressReport() { Description = $"{i} of {tempList.Count} records stored in database", Current = i, Total = tempList.Count });
                 i++;
-                ProgressUpdated?.Invoke(this, report);
             }
             if (newlist.Count > 0)
             {
@@ -256,11 +260,13 @@ namespace Aurora.Music.Core.Storage
                 int i = 1;
 
 
-                ProgressUpdated?.Invoke(this, new ProgressReport() { Description = $"{i} of {count} albums sorted", Current = i, Total = count });
+                ProgressUpdated?.Invoke(this, new ProgressReport() { Description = $"0 of {count} albums sorted", Current = 0, Total = count });
                 foreach (var item in albums)
                 {
                     await opr.AddAlbumAsync(item);
                     ProgressUpdated?.Invoke(this, new ProgressReport() { Description = $"{i} of {count} albums sorted", Current = i, Total = count });
+
+                    i++;
                 }
                 Completed?.Invoke(this, EventArgs.Empty);
             });
@@ -288,14 +294,22 @@ namespace Aurora.Music.Core.Storage
                 var opr = SQLOperator.Current();
                 var count = albums.Count();
 
+                if (count == 0)
+                {
+                    Completed?.Invoke(this, EventArgs.Empty);
+                    return;
+                }
+
                 int i = 1;
 
+                await Task.Delay(200);
 
-                ProgressUpdated?.Invoke(this, new ProgressReport() { Description = $"{i} of {count} albums sorted", Current = i, Total = count });
+                ProgressUpdated?.Invoke(this, new ProgressReport() { Description = $"0 of {count} albums sorted", Current = 0, Total = count });
                 foreach (var item in albums)
                 {
                     await opr.AddAlbumAsync(item);
                     ProgressUpdated?.Invoke(this, new ProgressReport() { Description = $"{i} of {count} albums sorted", Current = i, Total = count });
+                    i++;
                 }
                 Completed?.Invoke(this, EventArgs.Empty);
             });

@@ -203,7 +203,7 @@ namespace Aurora.Music.Core.Models
                 Duration = music.Duration,
                 BitRate = music.Bitrate,
                 FilePath = path,
-                Rating = (uint)Math.Round(music.Rating / 25.0) + 1,
+                Rating = (uint)Math.Round(music.Rating / 20.0),
                 MusicBrainzArtistId = tag.MusicBrainzArtistId,
                 MusicBrainzDiscId = tag.MusicBrainzDiscId,
                 MusicBrainzReleaseArtistId = tag.MusicBrainzReleaseArtistId,

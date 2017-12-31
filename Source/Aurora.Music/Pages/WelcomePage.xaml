@@ -383,24 +383,9 @@
                     <TextBlock Text="{x:Bind Context.Hint, Mode=OneWay}" Style="{ThemeResource SubtitleTextBlockStyle}" 
                                HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4"/>
                     <Grid Margin="12" Height="4" MaxWidth="640" HorizontalAlignment="Stretch" VerticalAlignment="Center">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <ProgressBar Background="#33FFFFFF" Value="{x:Bind Context.Progress1, Mode=OneWay}"
+                        <ProgressBar Background="#33FFFFFF" Value="{x:Bind Context.Progress, Mode=OneWay}"
                                      Minimum="0" Maximum="100"
                             HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                        <ProgressBar Background="#33FFFFFF" Value="{x:Bind Context.Progress2, Mode=OneWay}"
-                                     Minimum="0" Maximum="100" Grid.Column="1"
-                                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                        <ProgressBar Background="#33FFFFFF" Value="{x:Bind Context.Progress3, Mode=OneWay}"
-                                     Minimum="0" Maximum="100" Grid.Column="2"
-                                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                        <ProgressBar Background="#33FFFFFF" Value="{x:Bind Context.Progress4, Mode=OneWay}"
-                                     Minimum="0" Maximum="100" Grid.Column="3"
-                                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                     </Grid>
                     <Button Grid.Row="2" Padding="12,4" Margin="16" Click="Finish_Click" Opacity="{x:Bind Context.Finish,Mode=OneWay}"
                         HorizontalAlignment="Center" VerticalAlignment="Center" 

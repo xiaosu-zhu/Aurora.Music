@@ -344,7 +344,7 @@
     </Style>
 
     <Style TargetType="Button" x:Key="RevealRoundButton">
-        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAltMediumLowBrush}" />
+        <Setter Property="Background" Value="{ThemeResource RevealRoundBackground}" />
         <Setter Property="Foreground" Value="{ThemeResource ButtonForeground}" />
         <Setter Property="BorderBrush" Value="{ThemeResource ButtonRevealBorderBrush}" />
         <Setter Property="BorderThickness" Value="{ThemeResource ButtonRevealBorderThemeThickness}" />
@@ -424,7 +424,7 @@
         </Setter>
     </Style>
     <Style TargetType="Button" x:Key="RevealRectangleButton">
-        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAltMediumLowBrush}" />
+        <Setter Property="Background" Value="{ThemeResource RevealRoundBackground}" />
         <Setter Property="Foreground" Value="{ThemeResource ButtonForeground}" />
         <Setter Property="BorderBrush" Value="{ThemeResource ButtonRevealBorderBrush}" />
         <Setter Property="BorderThickness" Value="{ThemeResource ButtonRevealBorderThemeThickness}" />
@@ -494,7 +494,7 @@
         </Setter>
     </Style>
     <Style TargetType="ToggleButton" x:Key="RevealRoundToggleButton">
-        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAltMediumLowBrush}" />
+        <Setter Property="Background" Value="{ThemeResource RevealRoundBackground}" />
         <Setter Property="Foreground" Value="{ThemeResource ButtonForeground}" />
         <Setter Property="BorderBrush" Value="{ThemeResource ButtonRevealBorderBrush}" />
         <Setter Property="BorderThickness" Value="{ThemeResource ButtonRevealBorderThemeThickness}" />

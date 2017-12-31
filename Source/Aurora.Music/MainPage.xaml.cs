@@ -675,5 +675,18 @@ namespace Aurora.Music
         {
             SearchBoxCollapse.Begin();
         }
+
+        private void NowPanel_Click(object sender, RoutedEventArgs e)
+        {
+            if (Context.NowPlayingList.Count > 0 && Context.CurrentIndex >= 0)
+            {
+                OverlayFrame.Visibility = Visibility.Visible;
+                MainFrame.Visibility = Visibility.Collapsed;
+                ConnectedAnimationService.GetForCurrentView().PrepareToAnimate(Consts.NowPlayingPageInAnimation, Artwork);
+                ConnectedAnimationService.GetForCurrentView().PrepareToAnimate($"{Consts.NowPlayingPageInAnimation}_1", Title);
+                ConnectedAnimationService.GetForCurrentView().PrepareToAnimate($"{Consts.NowPlayingPageInAnimation}_2", Album).Completed += MainPage_Completed; ;
+                OverlayFrame.Navigate(typeof(NowPlayingPage), Context.NowPlayingList[Context.CurrentIndex]);
+            }
+        }
     }
 }
