@@ -139,9 +139,6 @@
     <Compile Include="Pages\ArtistsPage.xaml.cs">
       <DependentUpon>ArtistsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\CategoryListView.xaml.cs">
-      <DependentUpon>CategoryListView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>
@@ -168,6 +165,7 @@
     <Compile Include="ViewModels\AlbumViewModel.cs" />
     <Compile Include="ViewModels\ArtistsPageViewModel.cs" />
     <Compile Include="ViewModels\ArtistViewModel.cs" />
+    <Compile Include="ViewModels\CategoryList.cs" />
     <Compile Include="ViewModels\ExtensionManager.cs" />
     <Compile Include="ViewModels\GenericMusicItemViewModel.cs" />
     <Compile Include="ViewModels\GroupedItem.cs" />
@@ -311,10 +309,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\ArtistsPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\CategoryListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

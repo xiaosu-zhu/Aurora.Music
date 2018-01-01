@@ -663,6 +663,23 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+
+            <DataTemplate x:Key="NormalLrc" x:DataType="vm:LrcContent">
+                <toolkit:DropShadowPanel Margin="0,20" HorizontalAlignment="Center" VerticalAlignment="Stretch" Color="{ThemeResource SystemAltHighColor}" ShadowOpacity="0.66" BlurRadius="8" OffsetX="0" OffsetY="0">
+                    <TextBlock Opacity="{x:Bind CurrentOpacity(IsCurrent),Mode=OneWay}" TextAlignment="Center" TextTrimming="None" TextWrapping="WrapWholeWords" FontSize="17" Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Content}"/>
+                </toolkit:DropShadowPanel>
+            </DataTemplate>
+            <DataTemplate x:Key="NarrowLrc" x:DataType="vm:LrcContent">
+                <toolkit:DropShadowPanel Margin="0,16" HorizontalAlignment="Center" VerticalAlignment="Stretch" Color="{ThemeResource SystemAltHighColor}" ShadowOpacity="0.66" BlurRadius="8" OffsetX="0" OffsetY="0">
+                    <TextBlock Opacity="{x:Bind CurrentOpacity(IsCurrent),Mode=OneWay}" TextAlignment="Center" TextTrimming="None" TextWrapping="WrapWholeWords" FontSize="15" Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Content}"/>
+                </toolkit:DropShadowPanel>
+            </DataTemplate>
+            <DataTemplate x:Key="FullLrc" x:DataType="vm:LrcContent">
+                <toolkit:DropShadowPanel Margin="0,24" HorizontalAlignment="Center" VerticalAlignment="Stretch" Color="{ThemeResource SystemAltHighColor}" ShadowOpacity="0.66" BlurRadius="8" OffsetX="0" OffsetY="0">
+                    <TextBlock Opacity="{x:Bind CurrentOpacity(IsCurrent),Mode=OneWay}" TextAlignment="Center" TextTrimming="None" TextWrapping="WrapWholeWords" FontSize="19" Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Content}"/>
+                </toolkit:DropShadowPanel>
+            </DataTemplate>
+
         </ResourceDictionary>
     </Page.Resources>
 
@@ -671,22 +688,123 @@
     </Page.DataContext>
 
     <Grid x:Name="Root" Padding="48,80,48,0" Background="{ThemeResource SystemControlAltTranslucentAcrylicWindowBrush}">
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup CurrentStateChanged="VisualStateGroup_CurrentStateChanged">
+                <VisualState x:Name="Narrow">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="LrcView.ItemTemplate" Value="{StaticResource NarrowLrc}"/>
+                        <Setter Target="LrcHeader.FontSize" Value="16"/>
+                        
+                        <Setter Target="Previous.Margin" Value="2,4"/>
+                        <Setter Target="PlayPause.Margin" Value="2,4"/>
+                        <Setter Target="Next.Margin" Value="2,4"/>
+                        <Setter Target="Shuffle.Margin" Value="2,4"/>
+                        <Setter Target="Refresh.Margin" Value="2,4"/>
+                        <Setter Target="LrcBtn.Margin" Value="2,4"/>
+                        <Setter Target="SmallWindow.Margin" Value="2,4"/>
+                        <Setter Target="More.Margin" Value="2,4"/>
+                        <Setter Target="Root.Padding" Value="12,80,12,0"/>
+
+                        <Setter Target="SongPanel.(Grid.ColumnSpan)" Value="2"/>
+                        <Setter Target="LrcView.(Grid.ColumnSpan)" Value="2"/>
+                        <Setter Target="LrcView.(Grid.Column)" Value="0"/>
+                        <Setter Target="LrcView.(Grid.Row)" Value="1"/>
+                        <Setter Target="LrcViewOverlay.(Grid.ColumnSpan)" Value="2"/>
+                        <Setter Target="LrcViewOverlay.(Grid.Column)" Value="0"/>
+                        <Setter Target="LrcViewOverlay.(Grid.Row)" Value="1"/>
+
+
+                        <Setter Target="LrcView.Margin" Value="12"/>
+                        <Setter Target="LrcViewOverlay.Margin" Value="12"/>
+                        <Setter Target="RowOne.Height" Value="72"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Medium">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="641"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="LrcView.ItemTemplate" Value="{StaticResource NormalLrc}"/>
+                        <Setter Target="LrcHeader.FontSize" Value="18"/>
+
+                        <Setter Target="Previous.Margin" Value="4"/>
+                        <Setter Target="PlayPause.Margin" Value="4"/>
+                        <Setter Target="Next.Margin" Value="4"/>
+                        <Setter Target="Shuffle.Margin" Value="4"/>
+                        <Setter Target="Refresh.Margin" Value="4"/>
+                        <Setter Target="LrcBtn.Margin" Value="4"/>
+                        <Setter Target="SmallWindow.Margin" Value="4"/>
+                        <Setter Target="More.Margin" Value="4"/>
+                        <Setter Target="Root.Padding" Value="48,80,48,0"/>
+
+                        <Setter Target="SongPanel.(Grid.ColumnSpan)" Value="1"/>
+                        <Setter Target="LrcView.(Grid.ColumnSpan)" Value="1"/>
+                        <Setter Target="LrcView.(Grid.Column)" Value="1"/>
+                        <Setter Target="LrcView.(Grid.Row)" Value="0"/>
+                        <Setter Target="LrcViewOverlay.(Grid.ColumnSpan)" Value="1"/>
+                        <Setter Target="LrcViewOverlay.(Grid.Column)" Value="1"/>
+                        <Setter Target="LrcViewOverlay.(Grid.Row)" Value="0"/>
+
+                        <Setter Target="LrcView.Margin" Value="16,16,16,64"/>
+                        <Setter Target="LrcViewOverlay.Margin" Value="16,16,16,64"/>
+                        <Setter Target="RowOne.Height" Value="0"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Full">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1008"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="LrcView.ItemTemplate" Value="{StaticResource FullLrc}"/>
+                        <Setter Target="LrcHeader.FontSize" Value="20"/>
+
+                        <Setter Target="Previous.Margin" Value="4"/>
+                        <Setter Target="PlayPause.Margin" Value="4"/>
+                        <Setter Target="Next.Margin" Value="4"/>
+                        <Setter Target="Shuffle.Margin" Value="4"/>
+                        <Setter Target="Refresh.Margin" Value="4"/>
+                        <Setter Target="LrcBtn.Margin" Value="4"/>
+                        <Setter Target="SmallWindow.Margin" Value="4"/>
+                        <Setter Target="More.Margin" Value="4"/>
+                        <Setter Target="Root.Padding" Value="48,80,48,0"/>
+
+                        <Setter Target="SongPanel.(Grid.ColumnSpan)" Value="1"/>
+                        <Setter Target="LrcView.(Grid.ColumnSpan)" Value="1"/>
+                        <Setter Target="LrcView.(Grid.Column)" Value="1"/>
+                        <Setter Target="LrcView.(Grid.Row)" Value="0"/>
+                        <Setter Target="LrcViewOverlay.(Grid.ColumnSpan)" Value="1"/>
+                        <Setter Target="LrcViewOverlay.(Grid.Column)" Value="1"/>
+                        <Setter Target="LrcViewOverlay.(Grid.Row)" Value="0"/>
+
+                        <Setter Target="LrcView.Margin" Value="32,32,32,64"/>
+                        <Setter Target="LrcViewOverlay.Margin" Value="32,32,32,64"/>
+                        <Setter Target="RowOne.Height" Value="0"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" MinWidth="120"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
+            <RowDefinition x:Name="RowOne" Height="60"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-        <Grid Margin="12,0" HorizontalAlignment="Left" VerticalAlignment="Stretch">
+        <Grid x:Name="SongPanel" Margin="12,0" HorizontalAlignment="Left" VerticalAlignment="Stretch">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
             <toolkit:ImageEx Margin="0,12" x:Name="Artwork" Style="{ThemeResource QuickLoadImageEx}"
-                             PlaceholderStretch="Uniform" Stretch="Uniform" HorizontalAlignment="Left" VerticalAlignment="Stretch">
+                             PlaceholderStretch="Uniform" Stretch="Uniform" HorizontalAlignment="Left" VerticalAlignment="Bottom">
                 <toolkit:ImageEx.PlaceholderSource>
                     <BitmapImage UriSource="{x:Bind Context.PlaceHolder,Mode=OneWay, TargetNullValue=ms-appx:///Assets/Images/now_placeholder.png}"/>
                 </toolkit:ImageEx.PlaceholderSource>
@@ -735,15 +853,15 @@
                 </StackPanel>
             </StackPanel>
         </Grid>
-        <ListView Style="{ThemeResource LyricListView}" Grid.Column="1" IsItemClickEnabled="False"
+        <ListView x:Name="LrcView" Style="{ThemeResource LyricListView}" Grid.Row="1" Grid.ColumnSpan="2" IsItemClickEnabled="False"
                   HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="32,32,32,64"
                   IsSynchronizedWithCurrentItem="False" SelectionChanged="ListView_SelectionChanged"
-                  SelectedIndex="{x:Bind Context.Lyric.CurrentIndex,Mode=OneWay}"
+                  SelectedIndex="{x:Bind Context.Lyric.CurrentIndex,Mode=OneWay}" ItemTemplate="{StaticResource NormalLrc}"
                   ItemContainerStyle="{ThemeResource LyricListItem}" ItemsSource="{Binding Source={StaticResource LyricSource}}">
             <ListView.Header>
                 <Grid Height="320">
                     <toolkit:DropShadowPanel Visibility="{x:Bind Context.BoolNottoVisibility(Context.Lyric.HasLyric),Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="12,0" Color="{ThemeResource SystemAltHighColor}" ShadowOpacity="0.66" BlurRadius="4" OffsetX="0" OffsetY="0">
-                        <TextBlock Text="{x:Bind Context.LyricHint,Mode=OneWay}"
+                        <TextBlock x:Name="LrcHeader" Text="{x:Bind Context.LyricHint,Mode=OneWay}"
                                Style="{ThemeResource SubtitleTextBlockStyle}"/>
                     </toolkit:DropShadowPanel>
                 </Grid>
@@ -752,16 +870,9 @@
                 <Grid Height="1600">
                 </Grid>
             </ListView.Footer>
-            <ListView.ItemTemplate>
-                <DataTemplate x:DataType="vm:LrcContent">
-                    <toolkit:DropShadowPanel Margin="0,20" HorizontalAlignment="Center" VerticalAlignment="Stretch" Color="{ThemeResource SystemAltHighColor}" ShadowOpacity="0.66" BlurRadius="8" OffsetX="0" OffsetY="0">
-                        <TextBlock Opacity="{x:Bind CurrentOpacity(IsCurrent),Mode=OneWay}" TextAlignment="Center" TextTrimming="None" TextWrapping="WrapWholeWords" FontSize="20" Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Content}"/>
-                    </toolkit:DropShadowPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
         </ListView>
-        <Grid Background="Transparent" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="32,32,32,64"/>
-        <Grid Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" Margin="12,0,12,12" VerticalAlignment="Stretch">
+        <Grid x:Name="LrcViewOverlay" Background="Transparent" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="32,32,32,64"/>
+        <Grid Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" Margin="12,0,12,12" VerticalAlignment="Stretch">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="*"/>
@@ -785,32 +896,32 @@
                 <TextBlock Text="{x:Bind Context.TimeSpanFormat(Context.TotalDuration),Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource SystemControlBackgroundBaseHighRevealBorderBrush}"/>
             </toolkit:DropShadowPanel>
             <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="4" HorizontalAlignment="Left" VerticalAlignment="Stretch" Grid.ColumnSpan="2">
-                <Button Style="{ThemeResource RevealRoundButton}" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 1),Mode=OneWay}" Command="{x:Bind Context.GoPrevious}" ToolTipService.ToolTip="Previous"
+                <Button x:Name="Previous" Style="{ThemeResource RevealRoundButton}" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 1),Mode=OneWay}" Command="{x:Bind Context.GoPrevious}" ToolTipService.ToolTip="Previous"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <Button.Content>
                         <SymbolIcon Symbol="Previous"/>
                     </Button.Content>
                 </Button>
-                <Button Style="{ThemeResource RevealRoundButton}" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 1),Mode=OneWay}" Command="{x:Bind Context.PlayPause}" ToolTipService.ToolTip="{x:Bind Context.NullableBoolToString(Context.IsPlaying), Mode=OneWay}"
+                <Button x:Name="PlayPause" Style="{ThemeResource RevealRoundButton}" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 1),Mode=OneWay}" Command="{x:Bind Context.PlayPause}" ToolTipService.ToolTip="{x:Bind Context.NullableBoolToString(Context.IsPlaying), Mode=OneWay}"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <Button.Content>
                         <SymbolIcon Symbol="{x:Bind Context.NullableBoolToSymbol(Context.IsPlaying), Mode=OneWay}"/>
                     </Button.Content>
                 </Button>
-                <Button Style="{ThemeResource RevealRoundButton}" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 1),Mode=OneWay}" Command="{x:Bind Context.GoNext}" ToolTipService.ToolTip="Next"
+                <Button x:Name="Next" Style="{ThemeResource RevealRoundButton}" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 1),Mode=OneWay}" Command="{x:Bind Context.GoNext}" ToolTipService.ToolTip="Next"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <Button.Content>
                         <SymbolIcon Symbol="Next"/>
                     </Button.Content>
                 </Button>
-                <ToggleButton Style="{ThemeResource RevealRoundToggleButton}" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 1),Mode=OneWay}" IsChecked="{x:Bind Context.IsShuffle, Mode=TwoWay}"
+                <ToggleButton x:Name="Shuffle" Style="{ThemeResource RevealRoundToggleButton}" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 1),Mode=OneWay}" IsChecked="{x:Bind Context.IsShuffle, Mode=TwoWay}"
                               ToolTipService.ToolTip="Shuffle" Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <ToggleButton.Content>
                         <SymbolIcon Symbol="Shuffle"/>
                     </ToggleButton.Content>
                 </ToggleButton>
 
-                <ToggleButton Style="{ThemeResource RevealRoundToggleButton}" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 1),Mode=OneWay}" IsChecked="{x:Bind Context.IsLoop, Mode=TwoWay}"
+                <ToggleButton x:Name="Refresh" Style="{ThemeResource RevealRoundToggleButton}" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 1),Mode=OneWay}" IsChecked="{x:Bind Context.IsLoop, Mode=TwoWay}"
                               ToolTipService.ToolTip="Loop" Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <ToggleButton.Content>
                         <SymbolIcon Symbol="Refresh"/>
@@ -818,19 +929,19 @@
                 </ToggleButton>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="4">
-                <Button Style="{ThemeResource RevealRoundButton}" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 1),Mode=OneWay}" ToolTipService.ToolTip="Lyric window" Command="{x:Bind Context.ShowLyricWindow}"
+                <Button x:Name="LrcBtn" Style="{ThemeResource RevealRoundButton}" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 1),Mode=OneWay}" ToolTipService.ToolTip="Lyric window" Command="{x:Bind Context.ShowLyricWindow}"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <Button.Content>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEA4B;"/>
                     </Button.Content>
                 </Button>
-                <Button Style="{ThemeResource RevealRoundButton}" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 1),Mode=OneWay}" Command="{x:Bind Context.CompactOverlay}" ToolTipService.ToolTip="Small window"
+                <Button x:Name="SmallWindow" Style="{ThemeResource RevealRoundButton}" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 1),Mode=OneWay}" Command="{x:Bind Context.CompactOverlay}" ToolTipService.ToolTip="Small window"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <Button.Content>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE2B4;" />
                     </Button.Content>
                 </Button>
-                <Button Style="{ThemeResource RevealRoundButton}" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 1),Mode=OneWay}" ToolTipService.ToolTip="More"
+                <Button x:Name="More" Style="{ThemeResource RevealRoundButton}" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 1),Mode=OneWay}" ToolTipService.ToolTip="More"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <Button.Content>
                         <SymbolIcon Symbol="More"/>

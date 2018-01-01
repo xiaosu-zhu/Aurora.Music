@@ -847,6 +847,86 @@
     </Page.DataContext>
 
     <SplitView AllowDrop="True" DragOver="Root_DragOver" Drop="Root_Drop" OpenPaneLength="320" x:Name="Root" Background="{x:Null}" Style="{StaticResource MainPageSplitViewStyle}" DisplayMode="Overlay" >
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="Narrow">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="Artwork.Visibility" Value="Collapsed"/>
+                        <Setter Target="PositionNarrow.Visibility" Value="Visible"/>
+                        <Setter Target="PositionFull.Visibility" Value="Collapsed"/>
+                        <Setter Target="PlayListNarrow.Visibility" Value="Visible"/>
+                        <Setter Target="PlayListFull.Visibility" Value="Collapsed"/>
+                        <Setter Target="PlayListBtn.Margin" Value="4,0"/>
+                        <Setter Target="NowPanelTexts.Margin" Value="4,0"/>
+                        
+                        
+                        <Setter Target="Previous.Margin" Value="2"/>
+                        <Setter Target="PlayPause.Margin" Value="2"/>
+                        <Setter Target="Next.Margin" Value="2"/>
+                        <Setter Target="Stop.Margin" Value="2"/>
+                        <Setter Target="Shuffle.Margin" Value="2"/>
+                        <Setter Target="Refresh.Margin" Value="2"/>
+                        <Setter Target="Stop.Visibility" Value="Collapsed"/>
+                        <Setter Target="Shuffle.Visibility" Value="Collapsed"/>
+                        <Setter Target="Refresh.Visibility" Value="Collapsed"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Medium">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="641"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="Artwork.Visibility" Value="Visible"/>
+                        <Setter Target="PositionNarrow.Visibility" Value="Visible"/>
+                        <Setter Target="PositionFull.Visibility" Value="Collapsed"/>
+                        <Setter Target="PlayListNarrow.Visibility" Value="Collapsed"/>
+                        <Setter Target="PlayListFull.Visibility" Value="Visible"/>
+                        <Setter Target="PlayListBtn.Margin" Value="8,0"/>
+                        <Setter Target="NowPanelTexts.Margin" Value="8,0"/>
+                        
+                        
+                        <Setter Target="Previous.Margin" Value="4"/>
+                        <Setter Target="PlayPause.Margin" Value="4"/>
+                        <Setter Target="Next.Margin" Value="4"/>
+                        <Setter Target="Stop.Margin" Value="4"/>
+                        <Setter Target="Shuffle.Margin" Value="4"/>
+                        <Setter Target="Refresh.Margin" Value="4"/>
+                        <Setter Target="Stop.Visibility" Value="Collapsed"/>
+                        <Setter Target="Shuffle.Visibility" Value="Visible"/>
+                        <Setter Target="Refresh.Visibility" Value="Visible"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Full">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1008"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="Artwork.Visibility" Value="Visible"/>
+                        <Setter Target="PositionNarrow.Visibility" Value="Collapsed"/>
+                        <Setter Target="PositionFull.Visibility" Value="Visible"/>
+                        <Setter Target="PlayListNarrow.Visibility" Value="Collapsed"/>
+                        <Setter Target="PlayListFull.Visibility" Value="Visible"/>
+                        <Setter Target="PlayListBtn.Margin" Value="12,0"/>
+                        <Setter Target="NowPanelTexts.Margin" Value="12,0"/>
+
+                        <Setter Target="Previous.Margin" Value="4"/>
+                        <Setter Target="PlayPause.Margin" Value="4"/>
+                        <Setter Target="Next.Margin" Value="4"/>
+                        <Setter Target="Stop.Margin" Value="4"/>
+                        <Setter Target="Shuffle.Margin" Value="4"/>
+                        <Setter Target="Refresh.Margin" Value="4"/>
+                        <Setter Target="Stop.Visibility" Value="Visible"/>
+                        <Setter Target="Shuffle.Visibility" Value="Visible"/>
+                        <Setter Target="Refresh.Visibility" Value="Visible"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        
         <SplitView.Pane>
             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Grid.RowDefinitions>
@@ -981,7 +1061,7 @@
                                         <BitmapImage DecodePixelHeight="72" DecodePixelType="Logical" UriSource="{x:Bind Context.CurrentArtwork, Mode=OneWay, TargetNullValue=ms-appx:///Assets/Images/now_placeholder.png}"/>
                                     </Image.Source>
                                 </Image>
-                                <StackPanel Margin="12,0" Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <StackPanel x:Name="NowPanelTexts" Margin="12,0" Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
                                     <TextBlock x:Name="Title" Text="{x:Bind Context.CurrentTitle, Mode=OneWay}" Style="{ThemeResource BaseTextBlockStyle}" MaxLines="2" TextTrimming="CharacterEllipsis" Margin="4"/>
                                     <TextBlock x:Name="Album" Text="{x:Bind Context.CurrentAlbum, Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Margin="4,0,4,4"/>
                                 </StackPanel>
@@ -989,9 +1069,12 @@
                         </Button.Content>
                         
                     </Button>
-                    <Button Grid.Row="1" Style="{ThemeResource RevealRectangleButton}" ToolTipService.ToolTip="Playing list" Grid.Column="2" Margin="12,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button x:Name="PlayListBtn" Grid.Row="1" Style="{ThemeResource RevealRectangleButton}" ToolTipService.ToolTip="Playing list" Grid.Column="2" Margin="12,0" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Button.Content>
-                            <TextBlock Text="{x:Bind Context.NowListPreview,Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" Margin="12,8"/>
+                            <Grid>
+                                <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="PlayListFull" Text="{x:Bind Context.NowListPreview,Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" Margin="12,8"/>
+                                <FontIcon x:Name="PlayListNarrow" Visibility="Collapsed" FontSize="15" Margin="8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FontFamily="Segoe MDL2 Assets" Glyph="&#xE12F;" />
+                            </Grid>
                         </Button.Content>
                         <Button.Flyout>
                             <Flyout>
@@ -1003,40 +1086,47 @@
                             </Flyout>
                         </Button.Flyout>
                     </Button>
-                    <StackPanel Grid.Row="1" Orientation="Horizontal" Grid.Column="3" Margin="4,0"
+                    <Grid Grid.Row="1" Grid.Column="3" Margin="4,0"
                                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{x:Bind PositionToString(Context.CurrentPosition, Context.TotalDuration), Mode=OneWay}" Margin="4"/>
-                    </StackPanel>
+                        <TextBlock x:Name="PositionNarrow" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{x:Bind PositionNarrowToString(Context.CurrentPosition), Mode=OneWay}" Margin="4"/>
+                        <TextBlock x:Name="PositionFull" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{x:Bind PositionToString(Context.CurrentPosition, Context.TotalDuration), Mode=OneWay}" Margin="4"/>
+                    </Grid>
                     <StackPanel Grid.Row="1" Orientation="Horizontal" Grid.Column="4" Margin="4,0"
                                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <Button Style="{ThemeResource RevealRoundButton}" Command="{x:Bind Context.GoPrevious}" ToolTipService.ToolTip="Previous"
+                        <Button x:Name="Previous" Style="{ThemeResource RevealRoundButton}" Command="{x:Bind Context.GoPrevious}" ToolTipService.ToolTip="Previous"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                             <Button.Content>
                                 <SymbolIcon Symbol="Previous"/>
                             </Button.Content>
                         </Button>
-                        <Button Style="{ThemeResource RevealRoundButton}" Command="{x:Bind Context.PlayPause}" ToolTipService.ToolTip="{x:Bind Context.NullableBoolToString(Context.IsPlaying), Mode=OneWay}"
+                        <Button x:Name="PlayPause" Style="{ThemeResource RevealRoundButton}" Command="{x:Bind Context.PlayPause}" ToolTipService.ToolTip="{x:Bind Context.NullableBoolToString(Context.IsPlaying), Mode=OneWay}"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                             <Button.Content>
                                 <SymbolIcon Symbol="{x:Bind Context.NullableBoolToSymbol(Context.IsPlaying), Mode=OneWay}"/>
                             </Button.Content>
                         </Button>
-                        <Button Style="{ThemeResource RevealRoundButton}" Command="{x:Bind Context.GoNext}" IsHoldingEnabled="True"
-                                Holding="FastFoward_Holding" ToolTipService.ToolTip="Next"
+                        <Button x:Name="Next" Style="{ThemeResource RevealRoundButton}" Command="{x:Bind Context.GoNext}" ToolTipService.ToolTip="Next"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                             <Button.Content>
                                 <SymbolIcon Symbol="Next"/>
                             </Button.Content>
                         </Button>
+                        
+                        <Button x:Name="Stop" Style="{ThemeResource RevealRoundButton}" Command="{x:Bind Context.Stop}" ToolTipService.ToolTip="Stop"
+                                Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                            <Button.Content>
+                                <SymbolIcon Symbol="Stop"/>
+                            </Button.Content>
+                        </Button>
 
-                        <ToggleButton Style="{ThemeResource RevealRoundToggleButton}" IsChecked="{x:Bind Context.IsShuffle, Mode=TwoWay}" ToolTipService.ToolTip="Shuffle"
+                        <ToggleButton x:Name="Shuffle" Style="{ThemeResource RevealRoundToggleButton}" IsChecked="{x:Bind Context.IsShuffle, Mode=TwoWay}" ToolTipService.ToolTip="Shuffle"
                                       Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                             <ToggleButton.Content>
                                 <SymbolIcon Symbol="Shuffle"/>
                             </ToggleButton.Content>
                         </ToggleButton>
 
-                        <ToggleButton Style="{ThemeResource RevealRoundToggleButton}" IsChecked="{x:Bind Context.IsLoop, Mode=TwoWay}" ToolTipService.ToolTip="Loop"
+                        <ToggleButton x:Name="Refresh" Style="{ThemeResource RevealRoundToggleButton}" IsChecked="{x:Bind Context.IsLoop, Mode=TwoWay}" ToolTipService.ToolTip="Loop"
                                       Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                             <ToggleButton.Content>
                                 <SymbolIcon Symbol="Refresh"/>

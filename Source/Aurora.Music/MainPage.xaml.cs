@@ -90,7 +90,12 @@ namespace Aurora.Music
             {
                 return "0:00/0:00";
             }
-            return (t1.ToString(@"m\:ss") + '/' + total.ToString(@"m\:ss"));
+            return $"{t1.ToString(@"m\:ss")}/{total.ToString(@"m\:ss")}";
+        }
+
+        string PositionNarrowToString(TimeSpan t1)
+        {
+            return t1.ToString(@"m\:ss");
         }
 
         public void Navigate(Type type)

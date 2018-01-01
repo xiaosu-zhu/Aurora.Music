@@ -649,6 +649,7 @@ namespace Aurora.Music.PlaybackEngine
             if (mediaPlayer.PlaybackSession.CanPause)
                 mediaPlayer.Pause();
             mediaPlayer.Source = null;
+            StatusChanged?.Invoke(this, new StatusChangedArgs() { CurrentSong = null, CurrentIndex = -1, Items = null });
         }
 
         public void Seek(TimeSpan position)
@@ -693,6 +694,13 @@ namespace Aurora.Music.PlaybackEngine
             {
                 return;
             }
+
+            if (mediaPlayer.Source == null)
+            {
+                mediaPlayer.Source = mediaPlaybackList;
+                mediaPlaybackList.StartingItem = mediaPlaybackList.Items.First();
+            }
+
             mediaPlayer.Play();
             ChangeVolume(settings.PlayerVolume);
         }

@@ -229,7 +229,7 @@ namespace Aurora.Music.Core.Storage
         {
             Songs = string.Join('|', album.Songs);
             Name = album.Name;
-            Genres = string.Join("$|$", album.Genres);
+            Genres = string.Join("$|$", album.Genres ?? new string[] { });
             Year = album.Year;
             AlbumSort = album.AlbumSort;
             TrackCount = album.TrackCount;

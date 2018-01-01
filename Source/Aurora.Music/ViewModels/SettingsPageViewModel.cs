@@ -19,6 +19,7 @@ using Windows.Foundation.Collections;
 using Windows.Media.Devices;
 using Windows.Services.Store;
 using Windows.System;
+using Windows.System.Threading;
 
 namespace Aurora.Music.ViewModels
 {
@@ -385,42 +386,45 @@ namespace Aurora.Music.ViewModels
 
         public async Task Init()
         {
-            if (!OnlinePurchase)
+            var t = ThreadPool.RunAsync(async x =>
             {
-                if (context == null)
+                if (!OnlinePurchase)
                 {
-                    context = StoreContext.GetDefault();
-                }
-
-                // Specify the kinds of add-ons to retrieve.
-                string[] productKinds = { "Durable" };
-                List<String> filterList = new List<string>(productKinds);
-
-                // Specify the Store IDs of the products to retrieve.
-                string[] storeIds = new string[] { Consts.OnlineAddOnStoreID };
-
-                StoreProductQueryResult queryResult =
-                    await context.GetStoreProductsAsync(filterList, storeIds);
-
-                if (queryResult.ExtendedError != null)
-                {
-                    // The user may be offline or there might be some other server failure.
-                    MainPage.Current.PopMessage($"ExtendedError: {queryResult.ExtendedError.Message}");
-                    return;
-                }
-
-                foreach (KeyValuePair<string, StoreProduct> item in queryResult.Products)
-                {
-                    // Access the Store info for the product.
-                    StoreProduct product = item.Value;
-                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                    if (context == null)
                     {
-                        OnlinePurchase = product.IsInUserCollection;
-                    });
-                    settings.OnlinePurchase = product.IsInUserCollection;
-                    settings.Save();
+                        context = StoreContext.GetDefault();
+                    }
+
+                    // Specify the kinds of add-ons to retrieve.
+                    string[] productKinds = { "Durable" };
+                    List<String> filterList = new List<string>(productKinds);
+
+                    // Specify the Store IDs of the products to retrieve.
+                    string[] storeIds = new string[] { Consts.OnlineAddOnStoreID };
+
+                    StoreProductQueryResult queryResult =
+                        await context.GetStoreProductsAsync(filterList, storeIds);
+
+                    if (queryResult.ExtendedError != null)
+                    {
+                        // The user may be offline or there might be some other server failure.
+                        MainPage.Current.PopMessage($"ExtendedError: {queryResult.ExtendedError.Message}");
+                        return;
+                    }
+
+                    foreach (KeyValuePair<string, StoreProduct> item in queryResult.Products)
+                    {
+                        // Access the Store info for the product.
+                        StoreProduct product = item.Value;
+                        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                        {
+                            OnlinePurchase = product.IsInUserCollection;
+                        });
+                        settings.OnlinePurchase = product.IsInUserCollection;
+                        settings.Save();
+                    }
                 }
-            }
+            });
 
             _catalog = AppExtensionCatalog.Open(Consts.ExtensionContract);
             // set up extension management events

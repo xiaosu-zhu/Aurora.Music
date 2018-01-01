@@ -13,6 +13,11 @@ using Windows.UI.Xaml.Media;
 
 namespace Aurora.Shared.Helpers
 {
+    public enum ScrollPosition
+    {
+        Top, Center, Bottom
+    }
+
     public static class UIHelper
     {
         public static void Change_Row_Column(FrameworkElement d, int row, int column)
@@ -63,15 +68,14 @@ namespace Aurora.Shared.Helpers
         /// </summary>
         /// <param name="listViewBase"></param>
         /// <param name="index"></param>
-        /// <param name="offset">positivie down, negative up</param>
+        /// <param name="offset"></param>
         /// <returns></returns>
-        public async static Task ScrollToIndex(this ListViewBase listViewBase, int index, double offset)
+        public async static Task ScrollToIndex(this ListViewBase listViewBase, int index, ScrollPosition s)
         {
             try
             {
                 bool isVirtualizing = default(bool);
                 double previousHorizontalOffset = default(double), previousVerticalOffset = default(double);
-
                 // get the ScrollViewer withtin the ListView/GridView
                 var scrollViewer = listViewBase.GetScrollViewer();
                 // get the SelectorItem to scroll to
@@ -94,7 +98,25 @@ namespace Aurora.Shared.Helpers
 
                 // calculate the position object in order to know how much to scroll to
                 var transform = selectorItem.TransformToVisual((UIElement)scrollViewer.Content);
-                var position = transform.TransformPoint(new Point(0, 0 - offset));
+
+                // offset : positivie down, negative up
+                Point position;
+                switch (s)
+                {
+                    case ScrollPosition.Top:
+                        position = transform.TransformPoint(new Point(0, 0));
+                        break;
+                    case ScrollPosition.Center:
+                        position = transform.TransformPoint(new Point(0, 0 - (listViewBase.ActualHeight - (selectorItem as ListViewItem).ActualHeight) / 2));
+                        break;
+                    case ScrollPosition.Bottom:
+                        position = transform.TransformPoint(new Point(0, 0 - listViewBase.ActualHeight + (selectorItem as ListViewItem).ActualHeight));
+                        break;
+                    default:
+                        position = transform.TransformPoint(new Point(0, 0));
+                        break;
+                }
+
 
                 // when virtualized, scroll back to previous position without animation
                 if (isVirtualizing)

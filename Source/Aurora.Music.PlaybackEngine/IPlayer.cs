@@ -48,7 +48,6 @@ namespace Aurora.Music.PlaybackEngine
 
         public int CurrentIndex { get; set; }
         public IReadOnlyList<Song> Items { get; internal set; }
-        public bool CanJump { get; set; } = false;
     }
 
     public class PositionUpdatedArgs

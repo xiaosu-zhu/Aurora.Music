@@ -1,4 +1,5 @@
 ﻿using Aurora.Music.Core;
+using Aurora.Music.Core.Models;
 using Aurora.Music.Core.Storage;
 using Aurora.Shared;
 using Aurora.Shared.Extensions;
@@ -37,6 +38,32 @@ namespace Aurora.Music.ViewModels
         {
             get { return welcomeTitle; }
             set { SetProperty(ref welcomeTitle, value); }
+        }
+
+        public DelegateCommand PlayRandom
+        {
+            get => new DelegateCommand(async () =>
+            {
+                var list = new List<Song>();
+                foreach (var item in RandomList)
+                {
+                    list.AddRange(await item.GetSongsAsync());
+                }
+                await MainPageViewModel.Current.InstantPlay(list);
+            });
+        }
+
+        public DelegateCommand ReRandom
+        {
+            get => new DelegateCommand(async () =>
+            {
+                var ran = await FileReader.GetRandomListAsync();
+                RandomList.Clear();
+                foreach (var item in ran)
+                {
+                    RandomList.Add(new GenericMusicItemViewModel(item));
+                }
+            });
         }
 
         public HomePageViewModel()

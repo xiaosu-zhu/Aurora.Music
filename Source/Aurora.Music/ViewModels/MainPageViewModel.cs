@@ -237,6 +237,17 @@ namespace Aurora.Music.ViewModels
             }
         }
 
+        public DelegateCommand Stop
+        {
+            get
+            {
+                return new DelegateCommand(() =>
+                {
+                    player?.Stop();
+                });
+            }
+        }
+
         public DelegateCommand PlayPause
         {
             get
@@ -463,6 +474,19 @@ namespace Aurora.Music.ViewModels
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
                 IsPlaying = player.IsPlaying;
+
+                if (e.CurrentIndex == -1 && e.Items == null)
+                {
+                    NowPlayingList.Clear();
+                    NowListPreview = "-/-";
+                    CurrentTitle = null;
+                    CurrentAlbum = null;
+                    CurrentArtwork = null;
+                    lastUriPath = null;
+                    CurrentIndex = -1;
+                    return;
+                }
+                
                 if (e.CurrentSong != null)
                 {
                     var p = e.CurrentSong;

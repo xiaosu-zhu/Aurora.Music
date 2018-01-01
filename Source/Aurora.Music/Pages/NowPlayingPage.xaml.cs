@@ -155,7 +155,7 @@ namespace Aurora.Music.Pages
             if (Context.Lyric.Contents.Count > 0 && (sender as ListView).SelectedIndex >= 0)
                 try
                 {
-                    await (sender as ListView).ScrollToIndex((sender as ListView).SelectedIndex, (sender as ListView).ActualHeight / 2 - 48);
+                    await (sender as ListView).ScrollToIndex((sender as ListView).SelectedIndex, ScrollPosition.Center);
                 }
                 catch (Exception)
                 {
@@ -230,6 +230,11 @@ namespace Aurora.Music.Pages
         internal bool IsDarkTheme()
         {
             return Palette.IsDarkColor((Resources["SystemControlBackgroundAltHighBrush"] as SolidColorBrush).Color);
+        }
+
+        private void VisualStateGroup_CurrentStateChanged(object sender, VisualStateChangedEventArgs e)
+        {
+            ListView_SelectionChanged(LrcView, null);
         }
     }
 }
