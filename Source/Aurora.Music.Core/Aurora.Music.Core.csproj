@@ -120,6 +120,7 @@
     <Compile Include="Models\LyricExtension.cs" />
     <Compile Include="Models\Music.cs" />
     <Compile Include="Models\Online.cs" />
+    <Compile Include="Models\OnlineMetaExtension.cs" />
     <Compile Include="Models\OnlineMusicExtension.cs" />
     <Compile Include="Models\Settings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

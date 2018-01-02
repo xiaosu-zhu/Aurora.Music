@@ -8,6 +8,14 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Unloaded="Page_Unloaded"
     mc:Ignorable="d">
+    
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition>
+            </NavigationThemeTransition>
+            <EntranceThemeTransition />
+        </TransitionCollection>
+    </Page.Transitions>
 
     <Page.Resources>
         <ResourceDictionary>

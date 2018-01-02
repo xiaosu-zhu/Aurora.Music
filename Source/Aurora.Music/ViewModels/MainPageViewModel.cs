@@ -69,8 +69,9 @@ namespace Aurora.Music.ViewModels
             }
         }
 
-        public Extension LyricExtension;
-        public Extension OnlineMusicExtension;
+        public Extension LyricExtension { get; private set; }
+        public Extension OnlineMusicExtension { get; private set; }
+        public Extension OnlineMetaExtension { get; private set; }
 
         private bool needShowPanel = true;
         public bool NeedShowPanel
@@ -342,21 +343,20 @@ namespace Aurora.Music.ViewModels
                     if (ext is LyricExtension)
                     {
                         LyricExtension = ext;
-                        break;
                     }
-                }
-#if !DEBUG
-                if (settings.OnlinePurchase)
-#endif
-                {
-                    exts = await Extension.Load(Settings.Load().OnlineMusicExtensionID);
-                    foreach (var ext in exts)
+
+                    if (ext is OnlineMetaExtension)
                     {
-                        if (ext is OnlineMusicExtension)
-                        {
-                            OnlineMusicExtension = ext;
-                            break;
-                        }
+                        OnlineMetaExtension = ext;
+                    }
+
+                    if (ext is OnlineMusicExtension
+#if !DEBUG
+                    && settings.OnlinePurchase
+#endif
+                    )
+                    {
+                        OnlineMusicExtension = ext;
                     }
                 }
                 await FindFileChanges();
@@ -486,7 +486,7 @@ namespace Aurora.Music.ViewModels
                     CurrentIndex = -1;
                     return;
                 }
-                
+
                 if (e.CurrentSong != null)
                 {
                     var p = e.CurrentSong;

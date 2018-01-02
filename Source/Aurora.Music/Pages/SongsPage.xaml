@@ -11,6 +11,14 @@
     Unloaded="Page_Unloaded"
     mc:Ignorable="d">
 
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition>
+            </NavigationThemeTransition>
+            <EntranceThemeTransition />
+        </TransitionCollection>
+    </Page.Transitions>
+
     <Page.DataContext>
         <vm:SongsPageViewModel x:Name="Context"/>
     </Page.DataContext>

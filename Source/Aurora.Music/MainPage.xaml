@@ -846,6 +846,17 @@
         <vm:MainPageViewModel x:Name="Context"/>
     </Page.DataContext>
 
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition>
+                <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                    <DrillInNavigationTransitionInfo/>
+                </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+            </NavigationThemeTransition>
+            <EntranceThemeTransition />
+        </TransitionCollection>
+    </Page.Transitions>
+
     <SplitView AllowDrop="True" DragOver="Root_DragOver" Drop="Root_Drop" OpenPaneLength="320" x:Name="Root" Background="{x:Null}" Style="{StaticResource MainPageSplitViewStyle}" DisplayMode="Overlay" >
 
         <VisualStateManager.VisualStateGroups>
@@ -862,8 +873,7 @@
                         <Setter Target="PlayListFull.Visibility" Value="Collapsed"/>
                         <Setter Target="PlayListBtn.Margin" Value="4,0"/>
                         <Setter Target="NowPanelTexts.Margin" Value="4,0"/>
-                        
-                        
+
                         <Setter Target="Previous.Margin" Value="2"/>
                         <Setter Target="PlayPause.Margin" Value="2"/>
                         <Setter Target="Next.Margin" Value="2"/>
@@ -887,8 +897,8 @@
                         <Setter Target="PlayListFull.Visibility" Value="Visible"/>
                         <Setter Target="PlayListBtn.Margin" Value="8,0"/>
                         <Setter Target="NowPanelTexts.Margin" Value="8,0"/>
-                        
-                        
+
+
                         <Setter Target="Previous.Margin" Value="4"/>
                         <Setter Target="PlayPause.Margin" Value="4"/>
                         <Setter Target="Next.Margin" Value="4"/>
@@ -926,7 +936,7 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        
+
         <SplitView.Pane>
             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Grid.RowDefinitions>
@@ -1067,7 +1077,7 @@
                                 </StackPanel>
                             </StackPanel>
                         </Button.Content>
-                        
+
                     </Button>
                     <Button x:Name="PlayListBtn" Grid.Row="1" Style="{ThemeResource RevealRectangleButton}" ToolTipService.ToolTip="Playing list" Grid.Column="2" Margin="12,0" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Button.Content>
@@ -1111,7 +1121,7 @@
                                 <SymbolIcon Symbol="Next"/>
                             </Button.Content>
                         </Button>
-                        
+
                         <Button x:Name="Stop" Style="{ThemeResource RevealRoundButton}" Command="{x:Bind Context.Stop}" ToolTipService.ToolTip="Stop"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                             <Button.Content>
@@ -1180,10 +1190,27 @@
                     <TextBlock Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" Text="Waiting" x:Name="ModalText" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,80,0,0"/>
                 </Grid>
 
-                <toolkit:InAppNotification x:Name="InAppNotify" Style="{ThemeResource ToastNotificationStyle}" Content="This is a test message."
-                                    AnimationDuration="00:00:00.5"
+                <toolkit:InAppNotification x:Name="InAppNotify" Style="{ThemeResource ToastNotificationStyle}" Content=""
+                                    AnimationDuration="00:00:00.72"
                                     VerticalOffset="16"
                                     HorizontalOffset="0"/>
+
+                <toolkit:InAppNotification x:Name="ProgressUpdateNotify" Style="{ThemeResource ProgressNotificationStyle}"
+                                    AnimationDuration="00:00:00.72" VerticalOffset="0" HorizontalOffset="344" ShowDismissButton="True">
+                    <toolkit:InAppNotification.Content>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <toolkit:RadialProgressBar x:Name="ProgressUpdateProgress" HorizontalAlignment="Left" VerticalAlignment="Center"
+                                                       Margin="8"
+                                                       Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                                                       Thickness="4" Minimum="0" Maximum="100" Width="36" Height="36"
+                                                       Outline="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}"/>
+                            <StackPanel Margin="8" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                                <TextBlock FontFamily="Consolas" x:Name="ProgressUpdateTitle" FontSize="18" FontWeight="Bold" Style="{ThemeResource SubtitleTextBlockStyle}"/>
+                                <TextBlock x:Name="ProgressUpdateContent" Style="{ThemeResource BodyTextBlockStyle}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </toolkit:InAppNotification.Content>
+                </toolkit:InAppNotification>
             </Grid>
         </SplitView.Content>
     </SplitView>

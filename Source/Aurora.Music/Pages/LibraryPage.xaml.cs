@@ -75,7 +75,9 @@ namespace Aurora.Music.Pages
         private async void ListView_ItemClick(object sender, ItemClickEventArgs e)
         {
             Navigate((e.ClickedItem as CategoryListItem).NavigatType);
-
+            var s = Settings.Load();
+            s.CategoryLastClicked = (e.ClickedItem as CategoryListItem).Title;
+            s.Save();
             await Task.Delay(100);
             PrepareAnimationWithItem();
             CompleteAnimationWithItems(e.ClickedItem as CategoryListItem);

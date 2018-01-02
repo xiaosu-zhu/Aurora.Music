@@ -76,5 +76,15 @@ namespace Aurora.Music.Pages
         {
             Context.ChangeLyricExt((sender as ComboBox).SelectedItem);
         }
+
+        private void Page_SizeChanged(object sender, Windows.UI.Xaml.SizeChangedEventArgs e)
+        {
+            Main.Width = ActualWidth;
+        }
+
+        private void Main_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            SizeChanged += Page_SizeChanged;
+        }
     }
 }

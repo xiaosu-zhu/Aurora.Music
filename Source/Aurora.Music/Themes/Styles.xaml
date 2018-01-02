@@ -173,7 +173,7 @@
                   MaxWidth="{TemplateBinding MaxWidth}"
                   MinWidth="{TemplateBinding MinWidth}"
                   Visibility="{TemplateBinding Visibility}"
-                  Background="{TemplateBinding Background}" CornerRadius="4"
+                  Background="{TemplateBinding Background}"
                   BorderBrush="{TemplateBinding BorderBrush}" 
                   BorderThickness="{TemplateBinding BorderThickness}">
                 <Grid.RenderTransform>
@@ -193,9 +193,9 @@
 
                 <Button x:Name="PART_DismissButton"
                         Grid.Column="1" 
-                        Margin="10 0 -10 0"
+                        Margin="10 0 0 0"
                         FontSize="12"
-                        Style="{StaticResource DismissTextBlockButtonStyle}"
+                        Style="{StaticResource NavigationBackButtonNormalStyle}"
                         Content="&#xE894;" FontFamily="Segoe MDL2 Assets" 
                         AutomationProperties.Name="Dismiss" />
             </Grid>
@@ -320,23 +320,6 @@
         </Grid>
     </ControlTemplate>
 
-    <Style x:Key="CustomInAppNotificationStyle" TargetType="toolkit:InAppNotification">
-        <Setter Property="Background" Value="{ThemeResource SystemControlAltMediumLowAcrylicElementMediumBrush}" />
-        <Setter Property="Foreground" Value="{ThemeResource ApplicationForegroundThemeBrush}" />
-        <Setter Property="BorderBrush" Value="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" />
-        <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="HorizontalAlignment" Value="Stretch" />
-        <Setter Property="VerticalAlignment" Value="Bottom" />
-        <Setter Property="MinHeight" Value="55" />
-        <Setter Property="FontSize" Value="15" />
-        <Setter Property="RenderTransformOrigin" Value="0.5,1" />
-        <Setter Property="Margin" Value="120,0,120,80" />
-        <Setter Property="Padding" Value="24,12" />
-        <Setter Property="MaxWidth" Value="720" />
-        <Setter Property="MinWidth" Value="480"/>
-        <Setter Property="Template" Value="{StaticResource CustomInAppNotification}" />
-    </Style>
-
     <Style x:Key="ToastNotificationStyle" TargetType="toolkit:InAppNotification">
         <Setter Property="Background" Value="{ThemeResource SystemControlBaseMediumLowAcrylicElementMediumBrush}" />
         <Setter Property="Foreground" Value="{ThemeResource ApplicationForegroundThemeBrush}" />
@@ -350,6 +333,21 @@
         <Setter Property="MinWidth" Value="24"/>
         <Setter Property="MaxWidth" Value="320"/>
         <Setter Property="Template" Value="{StaticResource ToastNotification}" />
+    </Style>
+
+    <Style x:Key="ProgressNotificationStyle" TargetType="toolkit:InAppNotification">
+        <Setter Property="Background" Value="{ThemeResource SystemControlBaseMediumLowAcrylicElementMediumBrush}" />
+        <Setter Property="Foreground" Value="{ThemeResource ApplicationForegroundThemeBrush}" />
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="MinHeight" Value="55" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="RenderTransformOrigin" Value="0,0.5" />
+        <Setter Property="Margin" Value="12,48" />
+        <Setter Property="Padding" Value="12" />
+        <Setter Property="MinWidth" Value="24"/>
+        <Setter Property="MaxWidth" Value="320"/>
+        <Setter Property="Template" Value="{StaticResource CustomInAppNotification}" />
     </Style>
 
     <Style TargetType="Button" x:Key="RevealRoundButton">

@@ -98,6 +98,9 @@ namespace Aurora.Music.Core.Models
                             case "OnlineMusic":
                                 results.Add(new OnlineMusicExtension(ext, properties));
                                 break;
+                            case "OnlineMeta":
+                                results.Add(new OnlineMetaExtension(ext, properties));
+                                break;
                             default:
                                 break;
                         }

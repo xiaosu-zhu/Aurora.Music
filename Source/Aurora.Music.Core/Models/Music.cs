@@ -22,6 +22,22 @@ namespace Aurora.Music.Core.Models
         Song, Album, PlayList, Artist
     }
 
+    public class Artist
+    {
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public Uri AvatarUri { get; set; }
+    }
+
+    public class AlbumInfo
+    {
+        public Uri AltArtwork { get; set; }
+        public string Name { get; set; }
+        public string Artist { get; set; }
+        public uint Year { get; set; }
+        public string Description { get; set; }
+    }
+
     public class GenericMusicItem
     {
         public int ContextualID { get; }

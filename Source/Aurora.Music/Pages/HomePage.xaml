@@ -18,9 +18,6 @@
     <Page.Transitions>
         <TransitionCollection>
             <NavigationThemeTransition>
-                <NavigationThemeTransition.DefaultNavigationTransitionInfo>
-                    <DrillInNavigationTransitionInfo/>
-                </NavigationThemeTransition.DefaultNavigationTransitionInfo>
             </NavigationThemeTransition>
             <EntranceThemeTransition />
         </TransitionCollection>

@@ -23,15 +23,17 @@
 
     <ScrollViewer MaxHeight="360" HorizontalScrollBarVisibility="Hidden" HorizontalScrollMode="Disabled" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <StackPanel Padding="12,0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <TextBlock Style="{ThemeResource TitleTextBlockStyle}" Margin="8,4" HorizontalAlignment="Left" VerticalAlignment="Center">
-            <Run Text="Here's Scanning Folders"/>
+            <TextBlock Style="{ThemeResource TitleTextBlockStyle}" Margin="0,4" HorizontalAlignment="Left" VerticalAlignment="Center">
+                <Run Text="Here's Scanning Folders"/>
             </TextBlock>
-            <StackPanel Orientation="Horizontal" Margin="16,4">
+            <StackPanel Orientation="Horizontal" Margin="8,4">
                 <TextBlock Text="Including Music Library" VerticalAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}"/>
                 <ToggleSwitch Style="{StaticResource ColoredToggleSwitch}" IsOn="{x:Bind Context.IncludeMusicLibrary, Mode=TwoWay}" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" Margin="16,0"/>
             </StackPanel>
-            <Button Command="{x:Bind Context.AddFolderCommand}" HorizontalAlignment="Right" Margin="16,4" Style="{ThemeResource ButtonRevealStyle}" Content="Add"/>
-            <ListView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="ListView_SelectionChanged" Margin="16,4" ItemContainerStyle="{ThemeResource GeneralListViewItemStyle}" ItemsSource="{x:Bind Context.Folders}">
+            <Button Command="{x:Bind Context.AddFolderCommand}" 
+                    Padding="0,8" Background="{ThemeResource SystemControlBackgroundBaseLowRevealBackgroundBrush}" 
+                    HorizontalAlignment="Stretch" Margin="8,4" Style="{ThemeResource RevealRectangleButton}" Content="Add a new folder to scan"/>
+            <ListView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="ListView_SelectionChanged" Margin="8,4" ItemContainerStyle="{ThemeResource GeneralListViewItemStyle}" ItemsSource="{x:Bind Context.Folders}">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="vm:FolderViewModel">
                         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">

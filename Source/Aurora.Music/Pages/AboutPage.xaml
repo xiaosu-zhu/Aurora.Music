@@ -7,6 +7,14 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition>
+            </NavigationThemeTransition>
+            <EntranceThemeTransition />
+        </TransitionCollection>
+    </Page.Transitions>
+
     <Page.Resources>
         <ResourceDictionary Source="../Themes/Styles.xaml"/>
     </Page.Resources>
@@ -20,8 +28,9 @@
                     </Image.Source>
                 </Image>
             </Viewbox>
-            <TextBlock MaxLines="2" TextWrapping="WrapWholeWords" Style="{ThemeResource SubheaderTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12,0">
-                <Run Text="Aurora Studio's Aurora Music"/>
+            <TextBlock MaxLines="2" FontWeight="Normal" TextAlignment="Center" TextWrapping="WrapWholeWords" Style="{ThemeResource SubheaderTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12,0">
+                <Run FontSize="24" FontWeight="Bold" Text="Aurora Studio's"/><LineBreak/>
+                <Run Text="Aurora Music"/>
             </TextBlock>
             <TextBlock Style="{ThemeResource BodyTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12,0,12,12">
                 <Run x:Name="BuildText"/>

@@ -47,6 +47,29 @@ namespace Aurora.Music
             MainFrame.Navigate(typeof(HomePage));
         }
 
+        public void ProgressUpdate(string title, string content)
+        {
+            ProgressUpdateTitle.Text = title;
+            ProgressUpdateContent.Text = content;
+        }
+
+        public void ProgressUpdate(bool show = true)
+        {
+            if (show)
+            {
+                ProgressUpdateNotify.Show();
+            }
+            else
+            {
+                ProgressUpdateNotify.Dismiss();
+            }
+        }
+
+        public void ProgressUpdate(double progress)
+        {
+            ProgressUpdateProgress.Value = progress;
+        }
+
         private Type[] navigateOptions = { typeof(HomePage), typeof(LibraryPage) };
 
         internal async void ThrowException(Windows.UI.Xaml.UnhandledExceptionEventArgs e)
@@ -385,12 +408,20 @@ namespace Aurora.Music
                 {
                     return;
                 }
-                var dialog = new SearchResultDialog(g);
-                var result = await dialog.ShowAsync();
-                if (result == ContentDialogResult.Secondary)
+                if (g.InnerType == MediaType.Album)
                 {
                     var view = new AlbumViewDialog(await g.FindAssociatedAlbumAsync());
-                    result = await view.ShowAsync();
+                    var result = await view.ShowAsync();
+                }
+                else
+                {
+                    var dialog = new SearchResultDialog(g);
+                    var result = await dialog.ShowAsync();
+                    if (result == ContentDialogResult.Secondary)
+                    {
+                        var view = new AlbumViewDialog(await g.FindAssociatedAlbumAsync());
+                        result = await view.ShowAsync();
+                    }
                 }
             }
             else
@@ -402,12 +433,20 @@ namespace Aurora.Music
                 }
                 else
                 {
-                    var dialog = new SearchResultDialog(Context.SearchItems[0]);
-                    var result = await dialog.ShowAsync();
-                    if (result == ContentDialogResult.Secondary)
+                    if (Context.SearchItems[0].InnerType == MediaType.Album)
                     {
                         var view = new AlbumViewDialog(await Context.SearchItems[0].FindAssociatedAlbumAsync());
-                        result = await view.ShowAsync();
+                        var result = await view.ShowAsync();
+                    }
+                    else
+                    {
+                        var dialog = new SearchResultDialog(Context.SearchItems[0]);
+                        var result = await dialog.ShowAsync();
+                        if (result == ContentDialogResult.Secondary)
+                        {
+                            var view = new AlbumViewDialog(await Context.SearchItems[0].FindAssociatedAlbumAsync());
+                            result = await view.ShowAsync();
+                        }
                     }
                 }
             }
