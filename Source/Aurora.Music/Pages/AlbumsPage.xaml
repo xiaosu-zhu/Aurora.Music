@@ -25,15 +25,273 @@
                 <ResourceDictionary x:Key="Light" Source="../Themes/Light.xaml"/>
                 <ResourceDictionary x:Key="Dark" Source="../Themes/Dark.xaml"/>
             </ResourceDictionary.ThemeDictionaries>
-            <DataTemplate x:Key="ArtistGroupHeader">
-                <TextBlock Text="{Binding Key}" Foreground="{ThemeResource ApplicationForegroundThemeBrush}"/>
+            
+            <CollectionViewSource Source="{x:Bind Context.AlbumList, Mode=OneWay}" IsSourceGrouped="True" x:Key="AlbumListSource" x:Name="AlbumListSource"/>
+
+            <DataTemplate x:Key="NormalAlbumItem" x:DataType="vm:AlbumViewModel">
+                <Grid PointerEntered="StackPanel_PointerEntered" PointerCanceled="StackPanel_PointerExited"
+                           PointerExited="StackPanel_PointerExited" PointerCaptureLost="StackPanel_PointerExited"
+                           PointerPressed="StackPanel_PointerPressed" 
+                           PointerReleased="StackPanel_PointerReleased">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.Resources>
+                        <Storyboard x:Key="Normal" x:Name="Normal">
+                            <DoubleAnimation Storyboard.TargetName="Shadow" Duration="0:0:0.48"
+                                   Storyboard.TargetProperty="BlurRadius" EnableDependentAnimation="True"
+                                   To="16">
+                                <DoubleAnimation.EasingFunction>
+                                    <QuinticEase/>
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetName="FloatPanel" Duration="0:0:0.48"
+                                   Storyboard.TargetProperty="Opacity" EnableDependentAnimation="True"
+                                   To="0">
+                                <DoubleAnimation.EasingFunction>
+                                    <QuinticEase/>
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetName="FloatPanel" Duration="0:0:0.48"
+                                   Storyboard.TargetProperty="Height" EnableDependentAnimation="True"
+                                   To="0">
+                                <DoubleAnimation.EasingFunction>
+                                    <QuinticEase/>
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                        <Storyboard x:Key="PointerOver" x:Name="PointerOver">
+                            <DoubleAnimation Storyboard.TargetName="Shadow" Duration="0:0:0.48"
+                                   Storyboard.TargetProperty="BlurRadius" EnableDependentAnimation="True"
+                                   To="24">
+                                <DoubleAnimation.EasingFunction>
+                                    <QuinticEase/>
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetName="FloatPanel" Duration="0:0:0.48"
+                                   Storyboard.TargetProperty="Opacity" EnableDependentAnimation="True"
+                                   To="1">
+                                <DoubleAnimation.EasingFunction>
+                                    <QuinticEase/>
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetName="FloatPanel" Duration="0:0:0.48"
+                                   Storyboard.TargetProperty="Height" EnableDependentAnimation="True"
+                                   To="36">
+                                <DoubleAnimation.EasingFunction>
+                                    <QuinticEase/>
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                        <Storyboard x:Key="PointerPressed" x:Name="PointerPressed">
+                            <DoubleAnimation Storyboard.TargetName="Shadow" Duration="0:0:0.48"
+                                   Storyboard.TargetProperty="BlurRadius" EnableDependentAnimation="True"
+                                   To="0">
+                                <DoubleAnimation.EasingFunction>
+                                    <QuinticEase/>
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </Grid.Resources>
+                    <toolkit:DropShadowPanel Margin="8,4" x:Name="Shadow" BlurRadius="16" ShadowOpacity="0.5" OffsetX="0" OffsetY="0"
+                                             Color="{ThemeResource SystemBaseHighColor}">
+                        <Grid Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+                            <toolkit:ImageEx x:Name="Artwork" Style="{ThemeResource QuickLoadImageEx}" Stretch="UniformToFill" 
+                                             PlaceholderStretch="Uniform" HorizontalAlignment="Center"
+                                             PlaceholderSource="/Assets/Images/placeholder_b.png" VerticalAlignment="Center" 
+                                             Height="160" Width="160">
+                                <toolkit:ImageEx.Source>
+                                    <BitmapImage UriSource="{x:Bind Artwork,Mode=OneWay, TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png}"/>
+                                </toolkit:ImageEx.Source>
+                            </toolkit:ImageEx>
+                        </Grid>
+                    </toolkit:DropShadowPanel>
+                    <StackPanel Margin="8,4" Grid.Row="1" Orientation="Vertical">
+                        <TextBlock x:Name="AlbumName" MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{x:Bind Name}" 
+                               Style="{ThemeResource BaseTextBlockStyle}" Padding="4,0" Width="160"/>
+                        <TextBlock MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Width="160" 
+                               Text="{x:Bind AlbumArtists[0], FallbackValue=}" Style="{ThemeResource BodyTextBlockStyle}" 
+                               Padding="4,0"/>
+                    </StackPanel>
+                    <Grid Grid.Row="0" Opacity="0" x:Name="FloatPanel" Height="0" Margin="8,4" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
+                        <Grid.Background>
+                            <LinearGradientBrush EndPoint="0.5,0" StartPoint="0.5,1">
+                                <GradientStop Color="#80000000"/>
+                                <GradientStop Color="#00000000" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Grid.Background>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Click="PlayAlbum_Click" Holding="Button_Holding" IsHoldingEnabled="True" Style="{ThemeResource NoBorderButton}" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Background="{ThemeResource SystemControlBackgroundBaseMediumRevealBorderBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                            <Button.Content>
+                                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE102;" />
+                            </Button.Content>
+                        </Button>
+                        <Button Style="{ThemeResource NoBorderButton}" Grid.Column="1" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Background="{ThemeResource SystemControlBackgroundBaseMediumLowRevealBorderBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                            <Button.Content>
+                                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE710;" />
+                            </Button.Content>
+                        </Button>
+                    </Grid>
+                </Grid>
             </DataTemplate>
 
-            <CollectionViewSource Source="{x:Bind Context.AlbumList, Mode=OneWay}" IsSourceGrouped="True" x:Key="AlbumListSource" x:Name="AlbumListSource"/>
+            <DataTemplate x:Key="NarrowAlbumItem" x:DataType="vm:AlbumViewModel">
+                <Grid PointerEntered="StackPanel_PointerEntered" PointerCanceled="StackPanel_PointerExited"
+                           PointerExited="StackPanel_PointerExited" PointerCaptureLost="StackPanel_PointerExited"
+                           PointerPressed="StackPanel_PointerPressed" 
+                           PointerReleased="StackPanel_PointerReleased">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.Resources>
+                        <Storyboard x:Key="Normal" x:Name="Normal">
+                            <DoubleAnimation Storyboard.TargetName="Shadow" Duration="0:0:0.48"
+                                   Storyboard.TargetProperty="BlurRadius" EnableDependentAnimation="True"
+                                   To="8">
+                                <DoubleAnimation.EasingFunction>
+                                    <QuinticEase/>
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetName="FloatPanel" Duration="0:0:0.48"
+                                   Storyboard.TargetProperty="Opacity" EnableDependentAnimation="True"
+                                   To="0">
+                                <DoubleAnimation.EasingFunction>
+                                    <QuinticEase/>
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetName="FloatPanel" Duration="0:0:0.48"
+                                   Storyboard.TargetProperty="Height" EnableDependentAnimation="True"
+                                   To="0">
+                                <DoubleAnimation.EasingFunction>
+                                    <QuinticEase/>
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                        <Storyboard x:Key="PointerOver" x:Name="PointerOver">
+                            <DoubleAnimation Storyboard.TargetName="Shadow" Duration="0:0:0.48"
+                                   Storyboard.TargetProperty="BlurRadius" EnableDependentAnimation="True"
+                                   To="16">
+                                <DoubleAnimation.EasingFunction>
+                                    <QuinticEase/>
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetName="FloatPanel" Duration="0:0:0.48"
+                                   Storyboard.TargetProperty="Opacity" EnableDependentAnimation="True"
+                                   To="1">
+                                <DoubleAnimation.EasingFunction>
+                                    <QuinticEase/>
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetName="FloatPanel" Duration="0:0:0.48"
+                                   Storyboard.TargetProperty="Height" EnableDependentAnimation="True"
+                                   To="24">
+                                <DoubleAnimation.EasingFunction>
+                                    <QuinticEase/>
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                        <Storyboard x:Key="PointerPressed" x:Name="PointerPressed">
+                            <DoubleAnimation Storyboard.TargetName="Shadow" Duration="0:0:0.48"
+                                   Storyboard.TargetProperty="BlurRadius" EnableDependentAnimation="True"
+                                   To="0">
+                                <DoubleAnimation.EasingFunction>
+                                    <QuinticEase/>
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </Grid.Resources>
+                    <toolkit:DropShadowPanel Margin="4,4" x:Name="Shadow" BlurRadius="8" ShadowOpacity="0.5" OffsetX="0" OffsetY="0"
+                                             Color="{ThemeResource SystemBaseHighColor}">
+                        <Grid Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+                            <toolkit:ImageEx x:Name="Artwork" Style="{ThemeResource QuickLoadImageEx}" Stretch="UniformToFill" 
+                                             PlaceholderStretch="Uniform" HorizontalAlignment="Center"
+                                             PlaceholderSource="/Assets/Images/placeholder_b.png" VerticalAlignment="Center" 
+                                             Height="120" Width="120">
+                                <toolkit:ImageEx.Source>
+                                    <BitmapImage UriSource="{x:Bind Artwork,Mode=OneWay, TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png}"/>
+                                </toolkit:ImageEx.Source>
+                            </toolkit:ImageEx>
+                        </Grid>
+                    </toolkit:DropShadowPanel>
+                    <StackPanel Margin="4,4" Grid.Row="1" Orientation="Vertical">
+                        <TextBlock x:Name="AlbumName" MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{x:Bind Name}" 
+                               Style="{ThemeResource BaseTextBlockStyle}" Padding="4,0" Width="120"/>
+                        <TextBlock MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Width="120" 
+                               Text="{x:Bind AlbumArtists[0], FallbackValue=}" Style="{ThemeResource BodyTextBlockStyle}" 
+                               Padding="4,0"/>
+                    </StackPanel>
+                    <Grid Grid.Row="0" Opacity="0" x:Name="FloatPanel" Height="0" Margin="4,4" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
+                        <Grid.Background>
+                            <LinearGradientBrush EndPoint="0.5,0" StartPoint="0.5,1">
+                                <GradientStop Color="#80000000"/>
+                                <GradientStop Color="#00000000" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Grid.Background>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Click="PlayAlbum_Click" Holding="Button_Holding" IsHoldingEnabled="True" Style="{ThemeResource NoBorderButton}" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Background="{ThemeResource SystemControlBackgroundBaseMediumRevealBorderBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                            <Button.Content>
+                                <FontIcon FontSize="15" FontFamily="Segoe MDL2 Assets" Glyph="&#xE102;" />
+                            </Button.Content>
+                        </Button>
+                        <Button Style="{ThemeResource NoBorderButton}" Grid.Column="1" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Background="{ThemeResource SystemControlBackgroundBaseMediumLowRevealBorderBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                            <Button.Content>
+                                <FontIcon FontSize="15" FontFamily="Segoe MDL2 Assets" Glyph="&#xE710;" />
+                            </Button.Content>
+                        </Button>
+                    </Grid>
+                </Grid>
+            </DataTemplate>
         </ResourceDictionary>
     </Page.Resources>
 
     <Grid>
+        
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="Narrow">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="HeaderGroup.Margin" Value="48,32"/>
+                        <Setter Target="AlbumList.Padding" Value="0,0,0,160"/>
+                        <Setter Target="AlbumList.ItemTemplate" Value="{StaticResource NarrowAlbumItem}"/>
+                        <Setter Target="GroupStyle.HeaderTemplate" Value="{StaticResource NarrowGroupHeader}"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Medium">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="641"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="HeaderGroup.Margin" Value="32"/>
+                        <Setter Target="AlbumList.Padding" Value="16,0,16,160"/>
+                        <Setter Target="AlbumList.ItemTemplate" Value="{StaticResource NormalAlbumItem}"/>
+                        <Setter Target="GroupStyle.HeaderTemplate" Value="{StaticResource NormalGroupHeader}"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Full">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1008"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="HeaderGroup.Margin" Value="32"/>
+                        <Setter Target="AlbumList.Padding" Value="32,0,32,160"/>
+                        <Setter Target="GroupStyle.HeaderTemplate" Value="{StaticResource NormalGroupHeader}"/>
+                        <Setter Target="GroupStyle.HeaderTemplate" Value="{StaticResource NormalGroupHeader}"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
         <SemanticZoom x:Name="Root">
             <SemanticZoom.ZoomedOutView>
                 <GridView Padding="64,128,64,0" FontSize="20" ItemsSource="{x:Bind AlbumListSource.View.CollectionGroups, Mode=OneWay}">
@@ -49,127 +307,15 @@
             <SemanticZoom.ZoomedInView>
                 <GridView animations:ReorderGridAnimation.Duration="360" ShowsScrollingPlaceholders="True" ItemClick="AlbumList_ItemClick" IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" 
               SelectionMode="None" ItemsSource="{x:Bind AlbumListSource.View, Mode=OneWay}" Loaded="AlbumList_Loaded"
-              Padding="32,0,32,160" ItemContainerStyle="{StaticResource GeneralGridViewItemStyle}" 
+              Padding="32,0,32,160" ItemContainerStyle="{StaticResource GeneralGridViewItemStyle}" ItemTemplate="{StaticResource NormalAlbumItem}"
               Style="{StaticResource GeneralGridViewStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
               x:Name="AlbumList">
                     <GridView.GroupStyle>
-                        <GroupStyle HeaderTemplate="{StaticResource ArtistGroupHeader}"/>
+                        <GroupStyle x:Name="GroupStyle" HeaderTemplate="{StaticResource NormalGroupHeader}"/>
                     </GridView.GroupStyle>
                     <GridView.Header>
                         <Grid Height="400"/>
                     </GridView.Header>
-                    <GridView.ItemTemplate>
-                        <DataTemplate x:DataType="vm:AlbumViewModel">
-                            <Grid PointerEntered="StackPanel_PointerEntered" PointerCanceled="StackPanel_PointerExited"
-                           PointerExited="StackPanel_PointerExited" PointerCaptureLost="StackPanel_PointerExited"
-                           PointerPressed="StackPanel_PointerPressed" 
-                           PointerReleased="StackPanel_PointerReleased">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="auto"/>
-                                    <RowDefinition Height="auto"/>
-                                </Grid.RowDefinitions>
-                                <Grid.Resources>
-                                    <Storyboard x:Key="Normal" x:Name="Normal">
-                                        <DoubleAnimation Storyboard.TargetName="Shadow" Duration="0:0:0.48"
-                                   Storyboard.TargetProperty="BlurRadius" EnableDependentAnimation="True"
-                                   To="16">
-                                            <DoubleAnimation.EasingFunction>
-                                                <QuinticEase/>
-                                            </DoubleAnimation.EasingFunction>
-                                        </DoubleAnimation>
-                                        <DoubleAnimation Storyboard.TargetName="FloatPanel" Duration="0:0:0.48"
-                                   Storyboard.TargetProperty="Opacity" EnableDependentAnimation="True"
-                                   To="0">
-                                            <DoubleAnimation.EasingFunction>
-                                                <QuinticEase/>
-                                            </DoubleAnimation.EasingFunction>
-                                        </DoubleAnimation>
-                                        <DoubleAnimation Storyboard.TargetName="FloatPanel" Duration="0:0:0.48"
-                                   Storyboard.TargetProperty="Height" EnableDependentAnimation="True"
-                                   To="0">
-                                            <DoubleAnimation.EasingFunction>
-                                                <QuinticEase/>
-                                            </DoubleAnimation.EasingFunction>
-                                        </DoubleAnimation>
-                                    </Storyboard>
-                                    <Storyboard x:Key="PointerOver" x:Name="PointerOver">
-                                        <DoubleAnimation Storyboard.TargetName="Shadow" Duration="0:0:0.48"
-                                   Storyboard.TargetProperty="BlurRadius" EnableDependentAnimation="True"
-                                   To="24">
-                                            <DoubleAnimation.EasingFunction>
-                                                <QuinticEase/>
-                                            </DoubleAnimation.EasingFunction>
-                                        </DoubleAnimation>
-                                        <DoubleAnimation Storyboard.TargetName="FloatPanel" Duration="0:0:0.48"
-                                   Storyboard.TargetProperty="Opacity" EnableDependentAnimation="True"
-                                   To="1">
-                                            <DoubleAnimation.EasingFunction>
-                                                <QuinticEase/>
-                                            </DoubleAnimation.EasingFunction>
-                                        </DoubleAnimation>
-                                        <DoubleAnimation Storyboard.TargetName="FloatPanel" Duration="0:0:0.48"
-                                   Storyboard.TargetProperty="Height" EnableDependentAnimation="True"
-                                   To="36">
-                                            <DoubleAnimation.EasingFunction>
-                                                <QuinticEase/>
-                                            </DoubleAnimation.EasingFunction>
-                                        </DoubleAnimation>
-                                    </Storyboard>
-                                    <Storyboard x:Key="PointerPressed" x:Name="PointerPressed">
-                                        <DoubleAnimation Storyboard.TargetName="Shadow" Duration="0:0:0.48"
-                                   Storyboard.TargetProperty="BlurRadius" EnableDependentAnimation="True"
-                                   To="0">
-                                            <DoubleAnimation.EasingFunction>
-                                                <QuinticEase/>
-                                            </DoubleAnimation.EasingFunction>
-                                        </DoubleAnimation>
-                                    </Storyboard>
-                                </Grid.Resources>
-                                <toolkit:DropShadowPanel Margin="8,4" x:Name="Shadow" BlurRadius="16" ShadowOpacity="0.5" OffsetX="0" OffsetY="0"
-                                             Color="{ThemeResource SystemBaseHighColor}">
-                                    <Grid Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
-                                        <toolkit:ImageEx x:Name="Artwork" Style="{ThemeResource QuickLoadImageEx}" Stretch="UniformToFill" 
-                                             PlaceholderStretch="Uniform" HorizontalAlignment="Center"
-                                             PlaceholderSource="/Assets/Images/placeholder_b.png" VerticalAlignment="Center" 
-                                             Height="160" Width="160">
-                                            <toolkit:ImageEx.Source>
-                                                <BitmapImage UriSource="{x:Bind Artwork,Mode=OneWay, TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png}"/>
-                                            </toolkit:ImageEx.Source>
-                                        </toolkit:ImageEx>
-                                    </Grid>
-                                </toolkit:DropShadowPanel>
-                                <StackPanel Margin="8,4" Grid.Row="1" Orientation="Vertical">
-                                    <TextBlock x:Name="AlbumName" MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{x:Bind Name}" 
-                               Style="{ThemeResource BaseTextBlockStyle}" Padding="4,0" Width="160"/>
-                                    <TextBlock MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Width="160" 
-                               Text="{x:Bind AlbumArtists[0], FallbackValue=}" Style="{ThemeResource BodyTextBlockStyle}" 
-                               Padding="4,0"/>
-                                </StackPanel>
-                                <Grid Grid.Row="0" Opacity="0" x:Name="FloatPanel" Height="0" Margin="8,4" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
-                                    <Grid.Background>
-                                        <LinearGradientBrush EndPoint="0.5,0" StartPoint="0.5,1">
-                                            <GradientStop Color="#80000000"/>
-                                            <GradientStop Color="#00000000" Offset="1"/>
-                                        </LinearGradientBrush>
-                                    </Grid.Background>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Button Click="PlayAlbum_Click" Holding="Button_Holding" IsHoldingEnabled="True" Style="{ThemeResource NoBorderButton}" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Background="{ThemeResource SystemControlBackgroundBaseMediumRevealBorderBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
-                                        <Button.Content>
-                                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE102;" />
-                                        </Button.Content>
-                                    </Button>
-                                    <Button Style="{ThemeResource NoBorderButton}" Grid.Column="1" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Background="{ThemeResource SystemControlBackgroundBaseMediumLowRevealBorderBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
-                                        <Button.Content>
-                                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE141;" />
-                                        </Button.Content>
-                                    </Button>
-                                </Grid>
-                            </Grid>
-                        </DataTemplate>
-                    </GridView.ItemTemplate>
                 </GridView>
             </SemanticZoom.ZoomedInView>
         </SemanticZoom>
@@ -182,7 +328,7 @@
             </ParallaxView>
 
             <Grid x:Name="HeaderBGOverlay" HorizontalAlignment="Stretch" Height="360" Background="{ThemeResource ArtistsPageGradient}"/>
-            <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Margin="32">
+            <Grid x:Name="HeaderGroup" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="32">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>

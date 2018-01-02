@@ -106,7 +106,7 @@ namespace Aurora.Music.Pages
 
             _props = _compositor.CreatePropertySet();
             _props.InsertScalar("progress", 0);
-            _props.InsertScalar("clampSize", (float)Title.ActualHeight + 40);
+            _props.InsertScalar("clampSize", (float)Title.ActualHeight + 64);
             _props.InsertScalar("scaleFactor", 0.5f);
 
             // Get references to our property sets for use with ExpressionNodes
@@ -124,7 +124,7 @@ namespace Aurora.Music.Pages
             Visual headerVisual = ElementCompositionPreview.GetElementVisual(Header);
 
             // Create and start an ExpressionAnimation to clamp the header's offset to keep it onscreen
-            ExpressionNode headerTranslationAnimation = EF.Conditional(progressNode < 1, scrollingProperties.Translation.Y, -(float)Header.Height + (float)Title.ActualHeight + 40);
+            ExpressionNode headerTranslationAnimation = EF.Conditional(progressNode < 1, scrollingProperties.Translation.Y, -(float)Header.Height + (float)Title.ActualHeight + 64);
             headerVisual.StartAnimation("Offset.Y", headerTranslationAnimation);
 
             //// Create and start an ExpressionAnimation to scale the header during overpan
@@ -137,7 +137,7 @@ namespace Aurora.Music.Pages
 
             var titleVisual = ElementCompositionPreview.GetElementVisual(Title);
             var titleshrinkVisual = ElementCompositionPreview.GetElementVisual(TitleShrink);
-            var fixAnimation = EF.Conditional(progressNode < 1, -scrollingProperties.Translation.Y, (float)Header.Height - ((float)Title.ActualHeight + 40));
+            var fixAnimation = EF.Conditional(progressNode < 1, -scrollingProperties.Translation.Y, (float)Header.Height - ((float)Title.ActualHeight + 64));
             titleVisual.StartAnimation("Offset.Y", fixAnimation);
             titleshrinkVisual.StartAnimation("Offset.Y", fixAnimation);
             var detailsVisual = ElementCompositionPreview.GetElementVisual(Details);

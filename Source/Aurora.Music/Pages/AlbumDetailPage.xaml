@@ -6,6 +6,9 @@
     xmlns:vm="using:Aurora.Music.ViewModels"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:controls="using:Aurora.Music.Controls"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
+    
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Unloaded="Page_Unloaded"
@@ -109,6 +112,42 @@
         </ResourceDictionary>
     </Page.Resources>
     <Grid>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="Narrow">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="HeaderGroup.Margin" Value="48,32"/>
+                        <Setter Target="SongList.Padding" Value="0,384,0,160"/>
+                        <Setter Target="HeaderBG.Visibility" Value="Collapsed"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Medium">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="641"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="HeaderGroup.Margin" Value="32"/>
+                        <Setter Target="SongList.Padding" Value="16,384,16,160"/>
+                        <Setter Target="HeaderBG.Visibility" Value="Visible"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Full">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1008"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="HeaderGroup.Margin" Value="32"/>
+                        <Setter Target="SongList.Padding" Value="32,384,32,160"/>
+                        <Setter Target="HeaderBG.Visibility" Value="Visible"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
         <ListView Loaded="SongList_Loaded" IsSynchronizedWithCurrentItem="False" ItemsSource="{x:Bind Context.SongList, Mode=OneWay}"
                   ItemTemplateSelector="{StaticResource SongListTemplateSelector}" Style="{ThemeResource GeneralListView}"
               Padding="32,384,32,160" ItemContainerStyle="{StaticResource GeneralListViewItemStyle}" 
@@ -116,16 +155,34 @@
               x:Name="SongList">
         </ListView>
         <Grid Height="360" x:Name="Header" HorizontalAlignment="Stretch" VerticalAlignment="Top">
-            <Grid x:Name="BGBlur" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="360" Background="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}"/>
+            <Grid x:Name="BGBlur" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="360" Background="Transparent"/>
+            <Grid Height="360" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+
+                <interactivity:Interaction.Behaviors>
+                    <behaviors:Blur x:Name="BlurBehavior"
+                        Value="64"
+                        Duration="0"
+                        Delay="0"
+                        AutomaticallyStart="True"/>
+                </interactivity:Interaction.Behaviors>
+
+                <Grid.Background>
+                    <ImageBrush AlignmentX="Center" AlignmentY="Center" Stretch="UniformToFill">
+                        <ImageBrush.ImageSource>
+                            <BitmapImage DecodePixelHeight="160" DecodePixelType="Logical" UriSource="{x:Bind Context.HeroImage,Mode=OneWay,FallbackValue=ms-appx:///Assets/Images/welcom_bg.png}"/>
+                        </ImageBrush.ImageSource>
+                    </ImageBrush>
+                </Grid.Background>
+            </Grid>
             <toolkit:DropShadowPanel x:Name="HeaderBG" BlurRadius="16" ShadowOpacity="0.5" OffsetX="0" OffsetY="0" HorizontalAlignment="Right" Margin="64" VerticalAlignment="Center" 
                                              Color="{ThemeResource SystemBaseHighColor}">
-                <Image Stretch="Uniform" Height="160" x:Name="HeaderGBImg">
+                <Image Stretch="Uniform" Height="160" x:Name="HeaderBGImg">
                     <Image.Source>
-                        <BitmapImage DecodePixelHeight="160" DecodePixelType="Logical" UriSource="{x:Bind Context.HeroImage,Mode=OneWay,TargetNullValue=ms-appx:///Assets/Images/welcom_bg.png}"/>
+                        <BitmapImage DecodePixelHeight="160" DecodePixelType="Logical" UriSource="{x:Bind Context.HeroImage,Mode=OneWay,FallbackValue=ms-appx:///Assets/Images/welcom_bg.png}"/>
                     </Image.Source>
                 </Image>
             </toolkit:DropShadowPanel>
-            <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Margin="32">
+            <Grid x:Name="HeaderGroup" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="32">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>

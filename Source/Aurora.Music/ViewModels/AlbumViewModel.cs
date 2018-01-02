@@ -197,7 +197,7 @@ namespace Aurora.Music.ViewModels
                         AlbumArtistsSort = AlbumArtistsSort ?? new string[] { },
                         ReplayGainAlbumGain = ReplayGainAlbumGain,
                         ReplayGainAlbumPeak = ReplayGainAlbumPeak,
-                        PicturePath = Artwork.AbsolutePath ?? string.Empty,
+                        PicturePath = Artwork == null ? string.Empty : Artwork.AbsolutePath ?? string.Empty,
                     });
                 }
             });

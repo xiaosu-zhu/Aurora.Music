@@ -548,7 +548,7 @@
                 <Grid Background="{x:Null}" BorderThickness="0" BorderBrush="{x:Null}" PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited" 
                                   PointerPressed="Grid_PointerPressed" PointerReleased="Grid_PointerReleased" PointerCanceled="Grid_PointerExited"
                                   PointerCaptureLost="Grid_PointerExited"
-                                  Height="120" Width="120">
+                                  Height="144" Width="144">
                     <Grid.Resources>
                         <Storyboard x:Key="PointerOver">
                             <DoubleAnimation Storyboard.TargetName="Title" Storyboard.TargetProperty="Opacity"
@@ -564,7 +564,7 @@
                                 </DoubleAnimation.EasingFunction>
                             </DoubleAnimation>
                             <DoubleAnimation Storyboard.TargetName="Shadow" Storyboard.TargetProperty="BlurRadius"
-                                                         EnableDependentAnimation="True" To="32" Duration="0:0:0.48">
+                                                         EnableDependentAnimation="True" To="16" Duration="0:0:0.48">
                                 <DoubleAnimation.EasingFunction>
                                     <QuinticEase/>
                                 </DoubleAnimation.EasingFunction>
@@ -592,7 +592,7 @@
                                 </DoubleAnimation.EasingFunction>
                             </DoubleAnimation>
                             <DoubleAnimation Storyboard.TargetName="Shadow" Storyboard.TargetProperty="BlurRadius"
-                                                         EnableDependentAnimation="True" To="16" Duration="0:0:0.48">
+                                                         EnableDependentAnimation="True" To="8" Duration="0:0:0.48">
                                 <DoubleAnimation.EasingFunction>
                                     <QuinticEase/>
                                 </DoubleAnimation.EasingFunction>
@@ -600,8 +600,8 @@
                         </Storyboard>
                     </Grid.Resources>
                     <toolkit:DropShadowPanel x:Name="Shadow" HorizontalAlignment="Center" VerticalAlignment="Center"
-                                    OffsetX="0" OffsetY="4" BlurRadius="16" ShadowOpacity="1" Color="{x:Bind GetMainColor(1)}">
-                        <Rectangle Stroke="{ThemeResource SystemControlHighlightAltTransparentRevealBorderBrush}" StrokeThickness="1" Height="120" Width="120">
+                                    OffsetX="0" OffsetY="4" BlurRadius="8" ShadowOpacity="1" Color="{x:Bind GetMainColor(1)}">
+                        <Rectangle Stroke="{ThemeResource SystemControlHighlightAltTransparentRevealBorderBrush}" StrokeThickness="1" Height="144" Width="144">
                             <Rectangle.Fill>
                                 <ImageBrush AlignmentX="Center" AlignmentY="Center" Stretch="UniformToFill">
                                     <ImageBrush.ImageSource>
@@ -611,7 +611,7 @@
                             </Rectangle.Fill>
                         </Rectangle>
                     </toolkit:DropShadowPanel>
-                    <Rectangle Height="120" Width="120" Fill="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}">
+                    <Rectangle Height="144" Width="144" Fill="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}">
                     </Rectangle>
                     <TextBlock x:Name="Title" Text="{x:Bind Title}" Style="{ThemeResource SubtitleTextBlockStyle}"
                                            Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" FontSize="16"
@@ -689,6 +689,11 @@
                         <Setter Target="HeroGrid.ItemTemplate" Value="{StaticResource NarrowHeroItem}"/>
                         <Setter Target="FavList.ItemTemplate" Value="{StaticResource NarrowListItem}"/>
                         <Setter Target="LuckyList.ItemTemplate" Value="{StaticResource NarrowListItem}"/>
+                        <Setter Target="RandomPanel.Margin" Value="16,16,16,8"/>
+                        <Setter Target="FavoriteTitle.Margin" Value="16,16,16,8"/>
+                        <Setter Target="RandomHeader.Width" Value="20"/>
+                        <Setter Target="FavHeader.MinWidth" Value="20"/>
+                        <Setter Target="FavHeader.Padding" Value="20,0,0,0"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Medium">
@@ -696,13 +701,34 @@
                         <AdaptiveTrigger MinWindowWidth="641"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
+                        <Setter Target="HeroGrid.Padding" Value="32"/>
+                        <Setter Target="HeroGrid.ItemTemplate" Value="{StaticResource NormalHeroItem}"/>
+                        <Setter Target="FavList.ItemTemplate" Value="{StaticResource NormalListItem}"/>
+                        <Setter Target="LuckyList.ItemTemplate" Value="{StaticResource NormalListItem}"/>
+                        <Setter Target="RandomPanel.Margin" Value="48,16,16,8"/>
+                        <Setter Target="FavoriteTitle.Margin" Value="48,16,16,8"/>
+                        <Setter Target="RandomHeader.Width" Value="52"/>
+                        <Setter Target="FavHeader.MinWidth" Value="20"/>
+                        <Setter Target="FavHeader.Padding" Value="52,0,0,0"/>
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState x:Name="Full">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1008"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
                         <Setter Target="HeroGrid.Padding" Value="64"/>
                         <Setter Target="HeroGrid.ItemTemplate" Value="{StaticResource NormalHeroItem}"/>
                         <Setter Target="FavList.ItemTemplate" Value="{StaticResource NormalListItem}"/>
                         <Setter Target="LuckyList.ItemTemplate" Value="{StaticResource NormalListItem}"/>
+                        <Setter Target="RandomPanel.Margin" Value="60,16,16,8"/>
+                        <Setter Target="FavoriteTitle.Margin" Value="60,16,16,8"/>
+                        <Setter Target="RandomHeader.Width" Value="64"/>
+                        <Setter Target="FavHeader.MinWidth" Value="20"/>
+                        <Setter Target="FavHeader.Padding" Value="64,0,0,0"/>
                     </VisualState.Setters>
                 </VisualState>
-
             </VisualStateGroup>
             <VisualStateGroup>
                 <VisualState x:Name="Tall">
@@ -776,7 +802,7 @@
                       ItemContainerStyle="{ThemeResource HomeListViewItemStyle}" ItemTemplate="{StaticResource NormalListItem}"
                       Style="{StaticResource HorizontalListView}" x:Name="FavList">
                     <ListView.Header>
-                        <Grid VerticalAlignment="Stretch" Padding="64,0,0,0" MinWidth="64">
+                        <Grid x:Name="FavHeader" VerticalAlignment="Stretch" Padding="64,0,0,0" MinWidth="64">
                             <TextBlock Visibility="{x:Bind Context.CollapseIfNotZero(Context.FavList.Count),Mode=OneWay,FallbackValue=Collapsed}" Text="No enough statistics" Style="{ThemeResource SubtitleTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Grid>
                     </ListView.Header>
@@ -784,7 +810,7 @@
                         <Grid VerticalAlignment="Stretch" Width="64"/>
                     </ListView.Footer>
                 </ListView>
-                <StackPanel Orientation="Horizontal" Margin="60,16,16,8">
+                <StackPanel x:Name="RandomPanel" Orientation="Horizontal" Margin="60,16,16,8">
                     <TextBlock Text="Feeling Lucky" x:Name="RandomTitle" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold"/>
                     <Button Style="{ThemeResource TextBlockButtonStyle}" Command="{x:Bind Context.PlayRandom}" FontSize="15" Content="Play All" Margin="4,4,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     <Button Style="{ThemeResource TextBlockButtonStyle}" Command="{x:Bind Context.ReRandom}" HorizontalAlignment="Center" Margin="0,4,4,0" VerticalAlignment="Center">
@@ -802,10 +828,10 @@
                           Style="{StaticResource HorizontalListView}" 
                           x:Name="LuckyList">
                     <ListView.Header>
-                        <Grid VerticalAlignment="Stretch" Width="64"/>
+                        <Grid x:Name="RandomHeader" VerticalAlignment="Stretch" Width="64"/>
                     </ListView.Header>
                     <ListView.Footer>
-                        <Grid VerticalAlignment="Stretch" Width="32"/>
+                        <Grid VerticalAlignment="Stretch" Width="64"/>
                     </ListView.Footer>
                 </ListView>
             </StackPanel>

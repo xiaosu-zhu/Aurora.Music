@@ -1,22 +1,13 @@
 ﻿using Aurora.Music.Core.Models;
 using Aurora.Music.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
-using Windows.UI.Xaml.Navigation;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -56,6 +47,11 @@ namespace Aurora.Music.Pages
             }
 
             Navigate(CategoryList[0].NavigatType);
+
+            if (Window.Current.Bounds.Width <= 640)
+            {
+                MainPageViewModel.Current.NeedShowTitle = false;
+            }
         }
 
         internal void Navigate(Type type, object parameter)
@@ -78,12 +74,11 @@ namespace Aurora.Music.Pages
 
         private async void ListView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            PrepareAnimationWithItem();
-            CompleteAnimationWithItems(e.ClickedItem as CategoryListItem);
+            Navigate((e.ClickedItem as CategoryListItem).NavigatType);
 
             await Task.Delay(100);
-
-            Navigate((e.ClickedItem as CategoryListItem).NavigatType);
+            PrepareAnimationWithItem();
+            CompleteAnimationWithItems(e.ClickedItem as CategoryListItem);
         }
 
 
@@ -94,16 +89,20 @@ namespace Aurora.Music.Pages
 
             await Task.Delay(100);
 
-
             foreach (var cat in CategoryList)
             {
-                var ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(cat.Title);
-                if (ani != null)
+                try
                 {
-                    await Category.TryStartConnectedAnimationAsync(ani, cat, "Panel");
+                    var ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(cat.Title);
+                    if (ani != null)
+                    {
+                        await Category.TryStartConnectedAnimationAsync(ani, cat, "Panel");
+                    }
+                }
+                catch (Exception)
+                {
                 }
             }
-
             foreach (var cat in CategoryList)
             {
                 cat.IsCurrent = false;
@@ -117,7 +116,13 @@ namespace Aurora.Music.Pages
         {
             foreach (var cat in CategoryList)
             {
-                Category.PrepareConnectedAnimation(cat.Title, cat, "Panel");
+                try
+                {
+                    Category.PrepareConnectedAnimation(cat.Title, cat, "Panel");
+                }
+                catch (Exception)
+                {
+                }
                 cat.IsCurrent = false;
             }
         }

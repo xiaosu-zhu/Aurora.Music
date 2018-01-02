@@ -104,7 +104,7 @@ namespace Aurora.Music.ViewModels
             var dispa = CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, async () =>
             {
                 CurrentColorBrush = new SolidColorBrush(await ImagingHelper.GetMainColor(CurrentArtwork));
-                MainPageViewModel.Current.LeftTopColor = AdjustBrightness(CurrentColorBrush, 1);
+                MainPageViewModel.Current.LeftTopColor = AdjustColorbyTheme(CurrentColorBrush);
                 IsCurrentFavorite = await _lastSong.GetFavoriteAsync();
             });
 
@@ -497,7 +497,7 @@ namespace Aurora.Music.ViewModels
         {
             get
             {
-                if (currentRating <0.5)
+                if (currentRating < 0.5)
                 {
                     return -1;
                 }
@@ -718,7 +718,7 @@ namespace Aurora.Music.ViewModels
                             {
                                 CurrentArtwork = Song.Artwork;
                                 CurrentColorBrush = new SolidColorBrush(await ImagingHelper.GetMainColor(CurrentArtwork));
-                                MainPageViewModel.Current.LeftTopColor = AdjustBrightness(CurrentColorBrush, 1);
+                                MainPageViewModel.Current.LeftTopColor = AdjustColorbyTheme(CurrentColorBrush);
                                 lastUriPath = Song.Artwork.AbsolutePath;
                             }
                         }
@@ -726,7 +726,7 @@ namespace Aurora.Music.ViewModels
                         {
                             CurrentArtwork = null;
                             CurrentColorBrush = new SolidColorBrush(new UISettings().GetColorValue(UIColorType.Accent));
-                            MainPageViewModel.Current.LeftTopColor = AdjustBrightness(CurrentColorBrush, 1);
+                            MainPageViewModel.Current.LeftTopColor = AdjustColorbyTheme(CurrentColorBrush);
                             lastUriPath = null;
                         }
                         if (e.Items is IList<Song> l)

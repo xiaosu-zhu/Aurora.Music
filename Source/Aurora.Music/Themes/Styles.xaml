@@ -7,6 +7,14 @@
         <ResourceDictionary Source="./Dark.xaml" x:Key="Dark"/>
     </ResourceDictionary.ThemeDictionaries>
 
+    <DataTemplate x:Key="NormalGroupHeader">
+        <TextBlock Text="{Binding Key}" Foreground="{ThemeResource SystemControlForegroundAccentBrush}"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="NarrowGroupHeader">
+        <TextBlock FontSize="15" Text="{Binding Key}" Foreground="{ThemeResource SystemControlForegroundAccentBrush}"/>
+    </DataTemplate>
+
     <Style x:Key="DismissTextBlockButtonStyle" TargetType="ButtonBase">
         <Setter Property="Background" Value="{ThemeResource HyperlinkButtonBackground}" />
         <Setter Property="Foreground" Value="{ThemeResource ApplicationForegroundThemeBrush}" />
@@ -337,9 +345,10 @@
         <Setter Property="MinHeight" Value="55" />
         <Setter Property="FontSize" Value="15" />
         <Setter Property="RenderTransformOrigin" Value="0.5,1" />
-        <Setter Property="Margin" Value="120,0,120,80" />
+        <Setter Property="Margin" Value="12,0,12,80" />
         <Setter Property="Padding" Value="12" />
         <Setter Property="MinWidth" Value="24"/>
+        <Setter Property="MaxWidth" Value="320"/>
         <Setter Property="Template" Value="{StaticResource ToastNotification}" />
     </Style>
 

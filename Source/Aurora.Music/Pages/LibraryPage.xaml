@@ -32,6 +32,8 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="LeftCol.Width" Value="0"/>
+                        <Setter Target="Category.Visibility" Value="Collapsed"/>
+                        <Setter Target="CategoryBtn.Visibility" Value="Visible"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Medium">
@@ -40,6 +42,8 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="LeftCol.Width" Value="240"/>
+                        <Setter Target="Category.Visibility" Value="Visible"/>
+                        <Setter Target="CategoryBtn.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Full">
@@ -48,39 +52,54 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="LeftCol.Width" Value="320"/>
+                        <Setter Target="Category.Visibility" Value="Visible"/>
+                        <Setter Target="CategoryBtn.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition x:Name="LeftCol" Width="320"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <ScrollViewer Background="{ThemeResource SystemControlAltTranslucentAcrylicWindowBrush}" HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Hidden" VerticalScrollMode="Auto" VerticalScrollBarVisibility="Auto" IsVerticalRailEnabled="True">
-            <Grid Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <ListView x:Name="Category" IsItemClickEnabled="True" ItemsSource="{x:Bind CategoryList}" SelectionMode="None" ItemClick="ListView_ItemClick" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemContainerStyle="{StaticResource GeneralListViewItemStyle}">
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="vm:CategoryListItem">
-                            <Grid x:Name="Panel" HorizontalAlignment="Stretch" Height="{x:Bind GetHeight(IsCurrent), Mode=OneWay}">
-                                <Image x:Name="CategoryBG" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="UniformToFill">
-                                    <Image.Source>
-                                        <BitmapImage UriSource="{x:Bind Index, TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png}" DecodePixelWidth="200" DecodePixelType="Logical"/>
-                                    </Image.Source>
-                                </Image>
-                                <Grid Background="{ThemeResource SystemControlBackgroundBaseMediumHighBrush}" Visibility="{x:Bind BoolNottoVisibility(IsCurrent),Mode=OneWay}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                                <Grid Background="{ThemeResource SystemControlAltMediumLowAcrylicElementMediumBrush}" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                                    <TextBlock Margin="12" x:Name="Title" Text="{x:Bind Title}" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{ThemeResource TitleTextBlockStyle}"/>
-                                </Grid>
-                            </Grid>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </Grid>
-        </ScrollViewer>
+        <ListView Background="{ThemeResource SystemControlAltTranslucentAcrylicWindowBrush}" Grid.Column="0" x:Name="Category" IsItemClickEnabled="True" ItemsSource="{x:Bind CategoryList}" SelectionMode="None" ItemClick="ListView_ItemClick" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemContainerStyle="{StaticResource GeneralListViewItemStyle}">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="vm:CategoryListItem">
+                    <Grid x:Name="Panel" HorizontalAlignment="Stretch" Height="{x:Bind GetHeight(IsCurrent), Mode=OneWay}">
+                        <Image x:Name="CategoryBG" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="UniformToFill">
+                            <Image.Source>
+                                <BitmapImage UriSource="{x:Bind Index, TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png}" DecodePixelType="Logical"/>
+                            </Image.Source>
+                        </Image>
+                        <Grid Background="{ThemeResource SystemControlBackgroundBaseMediumHighBrush}" Visibility="{x:Bind BoolNottoVisibility(IsCurrent),Mode=OneWay}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        <Grid Background="{ThemeResource SystemControlAltMediumLowAcrylicElementMediumBrush}" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                            <TextBlock Margin="12" x:Name="Title" Text="{x:Bind Title}" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{ThemeResource TitleTextBlockStyle}"/>
+                        </Grid>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
 
         <Frame x:Name="MainFrame" Background="{ThemeResource SystemControlBackgroundAltHighBrush}" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
         </Frame>
+
+        <Button x:Name="CategoryBtn" Style="{ThemeResource RevealRectangleButton}" Grid.Column="1" HorizontalAlignment="Left" Width="48" Height="32" VerticalAlignment="Top" Margin="0,80,0,0" Background="Transparent" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}">
+            <Button.Content>
+                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE712;" />
+            </Button.Content>
+            <Button.Flyout>
+                <Flyout>
+                    <ListView Grid.Column="0" x:Name="CategoryFlyout" IsItemClickEnabled="True" ItemsSource="{x:Bind CategoryList}" SelectionMode="None" ItemClick="ListView_ItemClick" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemContainerStyle="{StaticResource GeneralListViewItemStyle}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="vm:CategoryListItem">
+                                <TextBlock Margin="4" x:Name="Panel" Text="{x:Bind Title}" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}"/>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Flyout>
+            </Button.Flyout>
+        </Button>
     </Grid>
 </Page>

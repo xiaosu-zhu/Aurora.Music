@@ -95,10 +95,14 @@ namespace Aurora.Music.ViewModels
             }
         }
 
+        private int lastIndex = -1;
+
         public void Update(TimeSpan current)
         {
             lock (Contents)
             {
+                var currentIndex = lastIndex;
+
                 if (lyric == null || Contents.Count == 0)
                 {
                     return;
@@ -106,26 +110,42 @@ namespace Aurora.Music.ViewModels
                 bool b = false;
                 for (int i = 0; i < lyric.Count; i++)
                 {
-                    Contents[i].IsCurrent = false;
                     if (!b && current < (lyric[i].Key + lyric.Offset))
                     {
                         if (i == 0)
                         {
-                            CurrentIndex = 0;
-                            Contents[0].IsCurrent = true;
+                            currentIndex = 0;
                         }
                         else
                         {
-                            CurrentIndex = i - 1;
-                            Contents[i - 1].IsCurrent = true;
+                            currentIndex = i - 1;
                         }
                         b = true;
                     }
                 }
                 if (!b)
                 {
-                    CurrentIndex = lyric.Count - 1;
-                    Contents[lyric.Count - 1].IsCurrent = true;
+                    currentIndex = lyric.Count - 1;
+                }
+
+
+                if (currentIndex == lastIndex)
+                {
+
+                }
+                else
+                {
+                    CurrentIndex = currentIndex;
+                    lastIndex = currentIndex;
+
+                    for (int i = 0; i < lyric.Count; i++)
+                    {
+                        Contents[i].IsCurrent = false;
+                        if (i == currentIndex)
+                        {
+                            Contents[i].IsCurrent = true;
+                        }
+                    }
                 }
             }
         }

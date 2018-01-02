@@ -26,5 +26,6 @@ namespace Aurora.Music.ViewModels
         {
             return b ? 192d : 96d;
         }
+
     }
 }

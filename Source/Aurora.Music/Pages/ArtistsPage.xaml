@@ -22,16 +22,50 @@
             </ResourceDictionary.ThemeDictionaries>
             <CollectionViewSource x:Name="ArtistListSource" x:Key="ArtistListSource" IsSourceGrouped="True" Source="{x:Bind Context.ArtistList,Mode=OneWay}"/>
 
-            <DataTemplate x:Key="ArtistGroupHeader">
-                <TextBlock Text="{Binding Key}" Foreground="{ThemeResource ApplicationForegroundThemeBrush}"/>
-            </DataTemplate>
         </ResourceDictionary>
     </Page.Resources>
 
     <Page.DataContext>
         <vm:ArtistsPageViewModel x:Name="Context"/>
     </Page.DataContext>
+    
     <Grid>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="Narrow">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="HeaderGroup.Margin" Value="48,32"/>
+                        <Setter Target="ArtistList.Padding" Value="0,0,0,160"/>
+                        <Setter Target="GroupStyle.HeaderTemplate" Value="{StaticResource NarrowGroupHeader}"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Medium">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="641"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="HeaderGroup.Margin" Value="32"/>
+                        <Setter Target="ArtistList.Padding" Value="16,0,16,160"/>
+                        <Setter Target="GroupStyle.HeaderTemplate" Value="{StaticResource NormalGroupHeader}"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Full">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1008"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="HeaderGroup.Margin" Value="32"/>
+                        <Setter Target="ArtistList.Padding" Value="32,0,32,160"/>
+                        <Setter Target="GroupStyle.HeaderTemplate" Value="{StaticResource NormalGroupHeader}"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
         <SemanticZoom ViewChangeCompleted="SemanticZoom_ViewChangeCompleted">
             <SemanticZoom.ZoomedOutView>
                 <GridView Padding="64,128,64,0" FontSize="20" ItemsSource="{x:Bind ArtistListSource.View.CollectionGroups, Mode=OneWay}">
@@ -50,7 +84,7 @@
               Style="{StaticResource GeneralGridViewStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
               x:Name="ArtistList">
                     <GridView.GroupStyle>
-                        <GroupStyle HeaderTemplate="{StaticResource ArtistGroupHeader}"/>
+                        <GroupStyle x:Name="GroupStyle" HeaderTemplate="{StaticResource NormalGroupHeader}"/>
                     </GridView.GroupStyle>
                     <GridView.Header>
                         <Grid Height="400"/>
@@ -90,7 +124,7 @@
             </Image>
             <Grid x:Name="HeaderBGOverlay" HorizontalAlignment="Stretch" Height="360" Background="{ThemeResource ArtistsPageGradient}">
             </Grid>
-            <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Margin="32,32,32,32">
+            <Grid x:Name="HeaderGroup" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="32">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
