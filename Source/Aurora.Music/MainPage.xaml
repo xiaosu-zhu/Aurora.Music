@@ -751,7 +751,7 @@
                     <DiscreteObjectKeyFrame Value="True" KeyTime="0"/>
                 </ObjectAnimationUsingKeyFrames>
                 <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BlurBehavior" Storyboard.TargetProperty="Value">
-                    <DiscreteObjectKeyFrame Value="16" KeyTime="0"/>
+                    <DiscreteObjectKeyFrame Value="32" KeyTime="0"/>
                 </ObjectAnimationUsingKeyFrames>
                 <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ModalRing" Storyboard.TargetProperty="IsEnabled">
                     <DiscreteObjectKeyFrame Value="True" KeyTime="0"/>

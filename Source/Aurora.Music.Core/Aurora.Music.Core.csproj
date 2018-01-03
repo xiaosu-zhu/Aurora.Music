@@ -112,6 +112,8 @@
     <Compile Include="Extension\Json\QQMusicAlbumJson.cs" />
     <Compile Include="Extension\Json\QQMusicArtistJson.cs" />
     <Compile Include="Extension\Json\QQMusicSongJson.cs" />
+    <Compile Include="Extension\KEY.cs" />
+    <Compile Include="Extension\LastfmSearcher.cs" />
     <Compile Include="Extension\LyricSearcher.cs" />
     <Compile Include="Extension\OnlineMusicSearcher.cs" />
     <Compile Include="Models\Extension.cs" />

@@ -246,10 +246,9 @@ namespace Aurora.Music
             else
             {
                 OnLaunched(null);
-                while (!(MainPage.Current is MainPage))
-                {
-                    await Task.Delay(100);
-                }
+
+                while (!(MainPage.Current is MainPage)) await Task.Delay(10);
+
                 await MainPage.Current.FileActivated(args.Files);
             }
         }

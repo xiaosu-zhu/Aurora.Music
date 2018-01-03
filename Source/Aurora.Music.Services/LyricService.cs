@@ -154,7 +154,7 @@ namespace Aurora.Music.Services
                                 var albumRes = new PropertySet
                                 {
                                     ["name"] = album.Data.GetAlbumInfo.Falbum_Name,
-                                    ["desription"] = album.Data.GetAlbumDesc.Falbum_Desc,
+                                    ["desription"] = album.Data.GetAlbumDesc.Falbum_Desc.Replace("\n", "\r\n\r\n"),
                                     ["year"] = t.Year,
                                     ["track_count"] = album.Data.GetSongInfoItems.Count,
                                     ["disc_count"] = album.Data.GetSongInfoItems.Max(x => x.Index_Cd) + 1,
@@ -178,7 +178,7 @@ namespace Aurora.Music.Services
                                         ["duration"] = TimeSpan.Zero.ToString(),
                                         ["file_url"] = AsyncHelper.RunSync(async () => await OnlineMusicSearcher.GenerateFileUriByID(x.Mid, (uint)message["bit_rate"])),
                                         ["file_type"] = OnlineMusicSearcher.GenerateFileTypeByID(x.Mid, (uint)message["bit_rate"])
-                                };
+                                    };
                                     p["album_artists"] = p["performers"];
                                     return p;
                                 })));
@@ -199,7 +199,21 @@ namespace Aurora.Music.Services
                         default:
                             break;
                     }
-
+                    break;
+                case "online_meta":
+                    var meta_album = await LastfmSearcher.GetAlbumInfo(message["album"] as string, message["artist"] as string);
+                    if (meta_album != null)
+                    {
+                        returnData.Add("status", 1);
+                        returnData.Add("album_result", JsonConvert.SerializeObject(new PropertySet()
+                        {
+                            ["name"] = meta_album.Name,
+                            ["artwork"] = meta_album.AltArtwork?.OriginalString,
+                            ["desc"] = meta_album.Description,
+                            ["artist"] = meta_album.Artist,
+                            ["year"] = meta_album.Year
+                        }));
+                    }
                     break;
                 default:
                     returnData.Add("status", 0);

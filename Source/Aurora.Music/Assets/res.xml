@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<lfm status="ok">
+  <album>
+    <name>第二人生</name>
+    <artist>五月天</artist>
+    <mbid>d9303e7d-fb6c-49c1-9f94-e8dde920df1f</mbid>
+    <url>https://www.last.fm/music/%E4%BA%94%E6%9C%88%E5%A4%A9/%E7%AC%AC%E4%BA%8C%E4%BA%BA%E7%94%9F</url>
+    <image size="small">https://lastfm-img2.akamaized.net/i/u/34s/5594f033d8ab4216a669c6e1e092d224.png</image>
+    <image size="medium">https://lastfm-img2.akamaized.net/i/u/64s/5594f033d8ab4216a669c6e1e092d224.png</image>
+    <image size="large">https://lastfm-img2.akamaized.net/i/u/174s/5594f033d8ab4216a669c6e1e092d224.png</image>
+    <image size="extralarge">https://lastfm-img2.akamaized.net/i/u/300x300/5594f033d8ab4216a669c6e1e092d224.png</image>
+    <image size="mega">https://lastfm-img2.akamaized.net/i/u/300x300/5594f033d8ab4216a669c6e1e092d224.png</image>
+    <image size="">https://lastfm-img2.akamaized.net/i/u/300x300/5594f033d8ab4216a669c6e1e092d224.png</image>
+    <listeners>3873</listeners>
+    <playcount>138491</playcount>
+    <tracks>
+      <track rank="1">
+        <name>有些事現在不做一輩子都不會做了</name>
+        <url>https://www.last.fm/music/%E4%BA%94%E6%9C%88%E5%A4%A9/_/%E6%9C%89%E4%BA%9B%E4%BA%8B%E7%8F%BE%E5%9C%A8%E4%B8%8D%E5%81%9A%E4%B8%80%E8%BC%A9%E5%AD%90%E9%83%BD%E4%B8%8D%E6%9C%83%E5%81%9A%E4%BA%86</url>
+        <duration>228</duration>
+        <streamable fulltrack="0">0</streamable>
+        <artist>
+          <name>五月天</name>
+          <mbid>e73ed332-bbde-4d69-87a9-250627ae0e29</mbid>
+          <url>https://www.last.fm/music/%E4%BA%94%E6%9C%88%E5%A4%A9</url>
+        </artist>
+      </track>
+      <track rank="2">
+        <name>我不願讓你一個人</name>
+        <url>https://www.last.fm/music/%E4%BA%94%E6%9C%88%E5%A4%A9/_/%E6%88%91%E4%B8%8D%E9%A1%98%E8%AE%93%E4%BD%A0%E4%B8%80%E5%80%8B%E4%BA%BA</url>
+        <duration>268</duration>
+        <streamable fulltrack="0">0</streamable>
+        <artist>
+          <name>五月天</name>
+          <mbid>e73ed332-bbde-4d69-87a9-250627ae0e29</mbid>
+          <url>https://www.last.fm/music/%E4%BA%94%E6%9C%88%E5%A4%A9</url>
+        </artist>
+      </track>
+      <track rank="3">
+        <name>星空</name>
+        <url>https://www.last.fm/music/%E4%BA%94%E6%9C%88%E5%A4%A9/_/%E6%98%9F%E7%A9%BA</url>
+        <duration>282</duration>
+        <streamable fulltrack="0">0</streamable>
+        <artist>
+          <name>五月天</name>
+          <mbid>e73ed332-bbde-4d69-87a9-250627ae0e29</mbid>
+          <url>https://www.last.fm/music/%E4%BA%94%E6%9C%88%E5%A4%A9</url>
+        </artist>
+      </track>
+      <track rank="4">
+        <name>洗衣機</name>
+        <url>https://www.last.fm/music/%E4%BA%94%E6%9C%88%E5%A4%A9/_/%E6%B4%97%E8%A1%A3%E6%A9%9F</url>
+        <duration>243</duration>
+        <streamable fulltrack="0">0</streamable>
+        <artist>
+          <name>五月天</name>
+          <mbid>e73ed332-bbde-4d69-87a9-250627ae0e29</mbid>
+          <url>https://www.last.fm/music/%E4%BA%94%E6%9C%88%E5%A4%A9</url>
+        </artist>
+      </track>
+      <track rank="5">
+        <name>三個傻瓜</name>
+        <url>https://www.last.fm/music/%E4%BA%94%E6%9C%88%E5%A4%A9/_/%E4%B8%89%E5%80%8B%E5%82%BB%E7%93%9C</url>
+        <duration>254</duration>
+        <streamable fulltrack="0">0</streamable>
+        <artist>
+          <name>五月天</name>
+          <mbid>e73ed332-bbde-4d69-87a9-250627ae0e29</mbid>
+          <url>https://www.last.fm/music/%E4%BA%94%E6%9C%88%E5%A4%A9</url>
+        </artist>
+      </track>
+      <track rank="6">
+        <name>歪腰</name>
+        <url>https://www.last.fm/music/%E4%BA%94%E6%9C%88%E5%A4%A9/_/%E6%AD%AA%E8%85%B0</url>
+        <duration>189</duration>
+        <streamable fulltrack="0">0</streamable>
+        <artist>
+          <name>五月天</name>
+          <mbid>e73ed332-bbde-4d69-87a9-250627ae0e29</mbid>
+          <url>https://www.last.fm/music/%E4%BA%94%E6%9C%88%E5%A4%A9</url>
+        </artist>
+      </track>
+      <track rank="7">
+        <name>乾杯</name>
+        <url>https://www.last.fm/music/%E4%BA%94%E6%9C%88%E5%A4%A9/_/%E4%B9%BE%E6%9D%AF</url>
+        <duration>289</duration>
+        <streamable fulltrack="0">0</streamable>
+        <artist>
+          <name>五月天</name>
+          <mbid>e73ed332-bbde-4d69-87a9-250627ae0e29</mbid>
+          <url>https://www.last.fm/music/%E4%BA%94%E6%9C%88%E5%A4%A9</url>
+        </artist>
+      </track>
+      <track rank="8">
+        <name>倉頡</name>
+        <url>https://www.last.fm/music/%E4%BA%94%E6%9C%88%E5%A4%A9/_/%E5%80%89%E9%A0%A1</url>
+        <duration>301</duration>
+        <streamable fulltrack="0">0</streamable>
+        <artist>
+          <name>五月天</name>
+          <mbid>e73ed332-bbde-4d69-87a9-250627ae0e29</mbid>
+          <url>https://www.last.fm/music/%E4%BA%94%E6%9C%88%E5%A4%A9</url>
+        </artist>
+      </track>
+      <track rank="9">
+        <name>2012</name>
+        <url>https://www.last.fm/music/%E4%BA%94%E6%9C%88%E5%A4%A9/_/2012</url>
+        <duration>287</duration>
+        <streamable fulltrack="0">0</streamable>
+        <artist>
+          <name>五月天</name>
+          <mbid>e73ed332-bbde-4d69-87a9-250627ae0e29</mbid>
+          <url>https://www.last.fm/music/%E4%BA%94%E6%9C%88%E5%A4%A9</url>
+        </artist>
+      </track>
+      <track rank="10">
+        <name>第二人生</name>
+        <url>https://www.last.fm/music/%E4%BA%94%E6%9C%88%E5%A4%A9/_/%E7%AC%AC%E4%BA%8C%E4%BA%BA%E7%94%9F</url>
+        <duration>268</duration>
+        <streamable fulltrack="0">0</streamable>
+        <artist>
+          <name>五月天</name>
+          <mbid>e73ed332-bbde-4d69-87a9-250627ae0e29</mbid>
+          <url>https://www.last.fm/music/%E4%BA%94%E6%9C%88%E5%A4%A9</url>
+        </artist>
+      </track>
+      <track rank="11">
+        <name>諾亞方舟</name>
+        <url>https://www.last.fm/music/%E4%BA%94%E6%9C%88%E5%A4%A9/_/%E8%AB%BE%E4%BA%9E%E6%96%B9%E8%88%9F</url>
+        <duration>340</duration>
+        <streamable fulltrack="0">0</streamable>
+        <artist>
+          <name>五月天</name>
+          <mbid>e73ed332-bbde-4d69-87a9-250627ae0e29</mbid>
+          <url>https://www.last.fm/music/%E4%BA%94%E6%9C%88%E5%A4%A9</url>
+        </artist>
+      </track>
+      <track rank="12">
+        <name>明日</name>
+        <url>https://www.last.fm/music/%E4%BA%94%E6%9C%88%E5%A4%A9/_/%E6%98%8E%E6%97%A5</url>
+        <duration>38</duration>
+        <streamable fulltrack="0">0</streamable>
+        <artist>
+          <name>五月天</name>
+          <mbid>e73ed332-bbde-4d69-87a9-250627ae0e29</mbid>
+          <url>https://www.last.fm/music/%E4%BA%94%E6%9C%88%E5%A4%A9</url>
+        </artist>
+      </track>
+      <track rank="13">
+        <name>OAOA (現在就是永遠)</name>
+        <url>https://www.last.fm/music/%E4%BA%94%E6%9C%88%E5%A4%A9/_/OAOA+(%E7%8F%BE%E5%9C%A8%E5%B0%B1%E6%98%AF%E6%B0%B8%E9%81%A0)</url>
+        <duration>282</duration>
+        <streamable fulltrack="0">0</streamable>
+        <artist>
+          <name>五月天</name>
+          <mbid>e73ed332-bbde-4d69-87a9-250627ae0e29</mbid>
+          <url>https://www.last.fm/music/%E4%BA%94%E6%9C%88%E5%A4%A9</url>
+        </artist>
+      </track>
+      <track rank="14">
+        <name>[silence]</name>
+        <url>https://www.last.fm/music/%E4%BA%94%E6%9C%88%E5%A4%A9/_/%5Bsilence%5D</url>
+        <duration>20</duration>
+        <streamable fulltrack="0">0</streamable>
+        <artist>
+          <name>五月天</name>
+          <mbid>e73ed332-bbde-4d69-87a9-250627ae0e29</mbid>
+          <url>https://www.last.fm/music/%E4%BA%94%E6%9C%88%E5%A4%A9</url>
+        </artist>
+      </track>
+      <track rank="15">
+        <name>[silence]</name>
+        <url>https://www.last.fm/music/%E4%BA%94%E6%9C%88%E5%A4%A9/_/%5Bsilence%5D</url>
+        <duration>20</duration>
+        <streamable fulltrack="0">0</streamable>
+        <artist>
+          <name>五月天</name>
+          <mbid>e73ed332-bbde-4d69-87a9-250627ae0e29</mbid>
+          <url>https://www.last.fm/music/%E4%BA%94%E6%9C%88%E5%A4%A9</url>
+        </artist>
+      </track>
+      <track rank="16">
+        <name>T1213121</name>
+        <url>https://www.last.fm/music/%E4%BA%94%E6%9C%88%E5%A4%A9/_/T1213121</url>
+        <duration>130</duration>
+        <streamable fulltrack="0">0</streamable>
+        <artist>
+          <name>五月天</name>
+          <mbid>e73ed332-bbde-4d69-87a9-250627ae0e29</mbid>
+          <url>https://www.last.fm/music/%E4%BA%94%E6%9C%88%E5%A4%A9</url>
+        </artist>
+      </track>
+    </tracks>
+    <tags>
+      <tag>
+        <name>Second Round</name>
+        <url>https://www.last.fm/tag/Second+Round</url>
+      </tag>
+    </tags>
+  </album>
+</lfm>

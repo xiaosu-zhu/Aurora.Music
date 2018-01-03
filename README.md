@@ -1,4 +1,4 @@
-# Aurora.Music
+# Aurora Music
 
 
 <img height="320" src="https://i.loli.net/2017/12/30/5a479416604d9.png" alt="Logo" />

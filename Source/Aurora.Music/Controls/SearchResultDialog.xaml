@@ -8,6 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d" SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
     Title="Search Result" SecondaryButtonText="View"
+    MinWidth="240"
     PrimaryButtonText="Play"
     DefaultButton="Primary"
     CloseButtonText="Close"

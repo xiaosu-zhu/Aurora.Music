@@ -10,6 +10,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Title="Album"
+    MinWidth="240"
     PrimaryButtonText="Play"
     DefaultButton="Primary"
     CloseButtonText="Close"
@@ -110,32 +111,6 @@
     </ContentDialog.Resources>
 
     <ListView Padding="16,0" ItemContainerStyle="{ThemeResource GeneralListViewItemStyle}" ItemsSource="{x:Bind SongList}" ItemTemplateSelector="{StaticResource SongListTemplateSelector}">
-        <ListView.Resources>
-            <Storyboard x:Name="PointerOver">
-                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="DetailPanel" Storyboard.TargetProperty="Background">
-                    <DiscreteObjectKeyFrame Value="{ThemeResource SystemControlChromeHighAcrylicWindowMediumBrush}"/>
-                </ObjectAnimationUsingKeyFrames>
-                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="DetailPanel" Storyboard.TargetProperty="BorderBrush">
-                    <DiscreteObjectKeyFrame Value="{ThemeResource SystemControlBaseHighAcrylicWindowBrush}"/>
-                </ObjectAnimationUsingKeyFrames>
-            </Storyboard>
-            <Storyboard x:Name="Normal">
-                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="DetailPanel" Storyboard.TargetProperty="Background">
-                    <DiscreteObjectKeyFrame Value="{ThemeResource SystemControlPageBackgroundChromeLowBrush}"/>
-                </ObjectAnimationUsingKeyFrames>
-                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="DetailPanel" Storyboard.TargetProperty="BorderBrush">
-                    <DiscreteObjectKeyFrame Value="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}"/>
-                </ObjectAnimationUsingKeyFrames>
-            </Storyboard>
-            <Storyboard x:Name="Pressed">
-                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="DetailPanel" Storyboard.TargetProperty="Background">
-                    <DiscreteObjectKeyFrame Value="{ThemeResource SystemControlHighlightChromeHighBrush}"/>
-                </ObjectAnimationUsingKeyFrames>
-                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="DetailPanel" Storyboard.TargetProperty="BorderBrush">
-                    <DiscreteObjectKeyFrame Value="{ThemeResource SystemControlHighlightChromeHighBrush}"/>
-                </ObjectAnimationUsingKeyFrames>
-            </Storyboard>
-        </ListView.Resources>
         <ListView.Header>
             <Grid Margin="0,0,0,24">
                 <Grid.ColumnDefinitions>
@@ -147,22 +122,20 @@
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
                 <toolkit:DropShadowPanel HorizontalAlignment="Stretch" VerticalAlignment="Center" OffsetX="0" OffsetY="0" BlurRadius="16" ShadowOpacity="0.666" Grid.RowSpan="2" Margin="16,16,32,16">
-                    <Image x:Name="Artwork" Width="150" Height="150" Stretch="Uniform"/>
+                    <Image x:Name="Artwork" Width="150" HorizontalAlignment="Stretch" VerticalAlignment="Center" Stretch="Uniform"/>
                 </toolkit:DropShadowPanel>
                 <StackPanel Grid.Column="1" Margin="0" VerticalAlignment="Center">
                     <TextBlock Margin="0,4" x:Name="Album" Text="" Style="{ThemeResource TitleTextBlockStyle}"/>
                     <TextBlock Margin="0,4" x:Name="Artist" Text="" Style="{ThemeResource SubtitleTextBlockStyle}"/>
                     <TextBlock Margin="0,4,0,8" x:Name="Brief" Text="" Style="{ThemeResource BodyTextBlockStyle}"/>
                 </StackPanel>
-                <StackPanel PointerEntered="StackPanel_PointerEntered" PointerExited="StackPanel_PointerExited" x:Name="DetailPanel"
-                            PointerCanceled="StackPanel_PointerEntered" PointerCaptureLost="StackPanel_PointerEntered" PointerReleased="StackPanel_PointerReleased"
-                            Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}" PointerPressed="StackPanel_PointerPressed"
-                            BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" 
-                            BorderThickness="1" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Padding="8">
-                    <TextBlock Style="{ThemeResource BodyTextBlockStyle}" x:Name="Descriptions" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MaxLines="4" TextTrimming="CharacterEllipsis" Text="" TextWrapping="WrapWholeWords">
-                    </TextBlock>
-                    <FontIcon x:Name="DescriIndicator" FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="10" Glyph="&#xE09D;" />
-                </StackPanel>
+                <Button BorderThickness="1" Background="{x:Null}" BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" x:Name="DetailPanel" Click="DetailPanel_Click" Grid.Column="1" Grid.Row="1" VerticalAlignment="Stretch" Padding="0">
+                    <StackPanel Padding="8" Background="{ThemeResource SystemControlAcrylicWindowBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <toolkit:MarkdownTextBlock LinkClicked="Descriptions_LinkClicked" Text="# Loading..." IsTextSelectionEnabled="False" x:Name="Descriptions" Height="75" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="WrapWholeWords">
+                        </toolkit:MarkdownTextBlock>
+                        <FontIcon x:Name="DescriIndicator" FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="10" Glyph="&#xE09D;" />
+                    </StackPanel>
+                </Button>
             </Grid>
         </ListView.Header>
     </ListView>
