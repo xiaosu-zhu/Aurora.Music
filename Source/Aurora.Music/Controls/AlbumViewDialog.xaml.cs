@@ -1,5 +1,6 @@
 ﻿using Aurora.Music.Core;
 using Aurora.Music.ViewModels;
+using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
 using System;
 using System.Collections.Generic;
@@ -7,8 +8,11 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.System;
+using Windows.System.Threading;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -59,7 +63,32 @@ namespace Aurora.Music.Controls
             Artwork.Source = new BitmapImage(album.Artwork ?? new Uri(Consts.NowPlaceholder));
             Artist.Text = album.GetFormattedArtists();
             Brief.Text = album.GetBrief();
-            Descriptions.Text = album.Description ?? "Local Album";
+            if (album.Description.IsNullorEmpty())
+            {
+                var t = ThreadPool.RunAsync(async x =>
+                {
+                    var info = await MainPageViewModel.Current.GetAlbumInfoAsync(album.Name, album.AlbumArtists.FirstOrDefault());
+                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                    {
+                        if (info != null)
+                        {
+                            if (album.Artwork == null && info.AltArtwork != null)
+                            {
+                                Artwork.Source = new BitmapImage(info.AltArtwork);
+                            }
+                            Descriptions.Text = info.Description;
+                        }
+                        else
+                        {
+                            Descriptions.Text = "# Local Album";
+                        }
+                    });
+                });
+            }
+            else
+            {
+                Descriptions.Text = album.Description;
+            }
         }
 
         private async void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
@@ -92,38 +121,27 @@ namespace Aurora.Music.Controls
             await MainPageViewModel.Current.InstantPlay(await album.GetSongsAsync(), (int)((sender as FrameworkElement).DataContext as SongViewModel).Index);
         }
 
-        private void StackPanel_PointerEntered(object sender, PointerRoutedEventArgs e)
+        private void DetailPanel_Click(object sender, RoutedEventArgs e)
         {
-            PointerOver.Begin();
-        }
-
-        private void StackPanel_PointerExited(object sender, PointerRoutedEventArgs e)
-        {
-            Normal.Begin();
-        }
-
-        private void StackPanel_PointerReleased(object sender, PointerRoutedEventArgs e)
-        {
-            PointerOver.Begin();
             if (DescriIndicator.Glyph == "\uE018")
             {
                 DetailPanel.SetValue(Grid.ColumnProperty, 1);
                 DetailPanel.SetValue(Grid.ColumnSpanProperty, 1);
                 DescriIndicator.Glyph = "\uE09D";
-                Descriptions.MaxLines = 4;
+                Descriptions.Height = 75;
             }
             else
             {
                 DetailPanel.SetValue(Grid.ColumnProperty, 0);
                 DetailPanel.SetValue(Grid.ColumnSpanProperty, 2);
                 DescriIndicator.Glyph = "\uE018";
-                Descriptions.MaxLines = int.MaxValue;
+                Descriptions.Height = double.NaN;
             }
         }
 
-        private void StackPanel_PointerPressed(object sender, PointerRoutedEventArgs e)
+        private async void Descriptions_LinkClicked(object sender, Microsoft.Toolkit.Uwp.UI.Controls.LinkClickedEventArgs e)
         {
-            Pressed.Begin();
+            await Launcher.LaunchUriAsync(new Uri(e.Link));
         }
     }
 }

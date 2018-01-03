@@ -216,6 +216,22 @@ namespace Aurora.Music.ViewModels
             return null;
         }
 
+        internal async Task<AlbumInfo> GetAlbumInfoAsync(string album, string artist)
+        {
+            var querys = new List<KeyValuePair<string, object>>()
+            {
+                    new KeyValuePair<string,object>("album", album),
+                    new KeyValuePair<string, object>("artist", artist),
+                    new KeyValuePair<string, object>("q", "online_meta"),
+            };
+            var result = await OnlineMetaExtension.ExecuteAsync(querys.ToArray());
+            if (result is AlbumInfo s)
+            {
+                return s;
+            }
+            return null;
+        }
+
         public DelegateCommand GoPrevious
         {
             get

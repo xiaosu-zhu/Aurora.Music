@@ -85,10 +85,10 @@ namespace Aurora.Music.Core.Models
             return new AlbumInfo()
             {
                 Name = set["name"] as string,
-                AltArtwork = new Uri(set["artwork"] as string),
+                AltArtwork = (set["artwork"] as string).IsNullorEmpty() ? null : new Uri(set["artwork"] as string),
                 Description = set["desc"] as string,
                 Artist = set["artist"] as string,
-                Year = (uint)set["year"],
+                Year = Convert.ToUInt32(set["year"]),
             };
         }
 

@@ -26,6 +26,7 @@ using Windows.Foundation;
 using Windows.UI.Xaml.Controls.Primitives;
 using System.Linq;
 using Windows.ApplicationModel.DataTransfer;
+using Aurora.Music.Core.Extension;
 
 // https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
 
@@ -45,6 +46,13 @@ namespace Aurora.Music
             this.InitializeComponent();
             Current = this;
             MainFrame.Navigate(typeof(HomePage));
+            var r = ThreadPool.RunAsync(async x =>
+            {
+                var assets = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync("Assets");
+                var file = await assets.GetFileAsync("res.xml");
+                var res = await FileIO.ReadTextAsync(file);
+                LastfmSearcher.ReadXml(res);
+            });
         }
 
         public void ProgressUpdate(string title, string content)
@@ -566,7 +574,7 @@ namespace Aurora.Music
         private async void Root_Drop(object sender, DragEventArgs e)
         {
             e.Handled = true;
-            e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Copy;
+            e.AcceptedOperation = DataPackageOperation.Copy;
             ShowModalUI(true, "Loading Files");
             var p = await e.DataView.GetStorageItemsAsync();
             var list = new List<StorageFile>();
@@ -603,6 +611,8 @@ namespace Aurora.Music
 
         public async Task FileActivated(IReadOnlyList<IStorageItem> p)
         {
+            ShowModalUI(true, "Loading Files");
+
             var list = new List<StorageFile>();
             if (p.Count > 0)
             {
@@ -610,10 +620,9 @@ namespace Aurora.Music
             }
             else
             {
+                ShowModalUI(false);
                 return;
             }
-
-            ShowModalUI(true, "Loading Files");
 
             var songs = await Context.ComingNewSongsAsync(list);
 
@@ -649,7 +658,7 @@ namespace Aurora.Music
                     {
                         if (types == file.FileType)
                         {
-                            list.Add(await file.CopyAsync(await ApplicationData.Current.TemporaryFolder.CreateFolderAsync("Songs", CreationCollisionOption.OpenIfExists), file.Name, NameCollisionOption.ReplaceExisting));
+                            list.Add(file as StorageFile);
                             break;
                         }
                     }

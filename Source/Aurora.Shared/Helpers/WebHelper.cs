@@ -259,7 +259,7 @@ namespace Aurora.Shared.Helpers
                 }
                 else
                 {
-                    url = Uri.EscapeUriString($"{url}?{getDataStr.ToString()}");
+                    url = $"{Uri.EscapeUriString(url)}?{getDataStr.ToString()}";
                 }
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
                 //将Cookie写入
