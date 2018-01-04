@@ -62,14 +62,16 @@ namespace Aurora.Music.Pages
 
                         if (s.Song.Performers.Length == 1)
                         {
-                            MoreMenu.Items.Insert(1, new MenuFlyoutItem()
+                            var menuItem = new MenuFlyoutItem()
                             {
                                 Text = $"{s.Song.Performers[0]}",
                                 Icon = new FontIcon()
                                 {
                                     Glyph = "\uE136"
                                 }
-                            });
+                            };
+                            menuItem.Click += OpenArtistViewDialog;
+                            MoreMenu.Items.Insert(1, menuItem);
                         }
                         else
                         {
@@ -83,16 +85,28 @@ namespace Aurora.Music.Pages
                             };
                             foreach (var item in s.Song.Performers)
                             {
-                                sub.Items.Add(new MenuFlyoutItem()
+                                var menuItem = new MenuFlyoutItem()
                                 {
                                     Text = item
-                                });
+                                };
+                                menuItem.Click += OpenArtistViewDialog;
+                                sub.Items.Add(menuItem);
                             }
                             MoreMenu.Items.Insert(1, sub);
                         }
                     }
                 }
             });
+        }
+
+        private async void OpenArtistViewDialog(object sender, RoutedEventArgs e)
+        {
+            var artist = (sender as MenuFlyoutItem).Text;
+            var dialog = new ArtistViewDialog(new ArtistViewModel()
+            {
+                Name = artist,
+            });
+            await dialog.ShowAsync();
         }
 
         private void NowPlayingPage_BackRequested(object sender, BackRequestedEventArgs e)
@@ -175,7 +189,7 @@ namespace Aurora.Music.Pages
             Context.PositionChange(Context.TotalDuration * (e.NewValue / 100d));
         }
 
-        private async void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+        private async void OpenAlbumViewDialog(object sender, RoutedEventArgs e)
         {
             var dialog = new AlbumViewDialog(await Context.GetAlbumAsync());
             await dialog.ShowAsync();

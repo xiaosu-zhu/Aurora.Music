@@ -873,6 +873,7 @@
                         <Setter Target="PlayListFull.Visibility" Value="Collapsed"/>
                         <Setter Target="PlayListBtn.Margin" Value="4,0"/>
                         <Setter Target="NowPanelTexts.Margin" Value="4,0"/>
+                        <Setter Target="SearchBoxWidth.To" Value="240"/>
 
                         <Setter Target="Previous.Margin" Value="2"/>
                         <Setter Target="PlayPause.Margin" Value="2"/>
@@ -1021,7 +1022,7 @@
             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Grid.Resources>
                     <Storyboard x:Name="SearchBoxShow">
-                        <DoubleAnimation Duration="0:0:0.64" Storyboard.TargetName="SearchBox" EnableDependentAnimation="True" Storyboard.TargetProperty="Width" To="320">
+                        <DoubleAnimation x:Name="SearchBoxWidth" Duration="0:0:0.64" Storyboard.TargetName="SearchBox" EnableDependentAnimation="True" Storyboard.TargetProperty="Width" To="320">
                             <DoubleAnimation.EasingFunction>
                                 <QuinticEase/>
                             </DoubleAnimation.EasingFunction>

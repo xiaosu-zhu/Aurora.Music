@@ -201,18 +201,38 @@ namespace Aurora.Music.Services
                     }
                     break;
                 case "online_meta":
-                    var meta_album = await LastfmSearcher.GetAlbumInfo(message["album"] as string, message["artist"] as string);
-                    if (meta_album != null)
+
+                    var meta_action = message["action"] as string;
+                    switch (meta_action)
                     {
-                        returnData.Add("status", 1);
-                        returnData.Add("album_result", JsonConvert.SerializeObject(new PropertySet()
-                        {
-                            ["name"] = meta_album.Name,
-                            ["artwork"] = meta_album.AltArtwork?.OriginalString,
-                            ["desc"] = meta_album.Description,
-                            ["artist"] = meta_album.Artist,
-                            ["year"] = meta_album.Year
-                        }));
+                        case "album":
+                            var meta_album = await LastfmSearcher.GetAlbumInfo(message["album"] as string, message["artist"] as string);
+                            if (meta_album != null)
+                            {
+                                returnData.Add("status", 1);
+                                returnData.Add("album_result", JsonConvert.SerializeObject(new PropertySet()
+                                {
+                                    ["name"] = meta_album.Name,
+                                    ["artwork"] = meta_album.AltArtwork?.OriginalString,
+                                    ["desc"] = meta_album.Description,
+                                    ["artist"] = meta_album.Artist,
+                                    ["year"] = meta_album.Year
+                                }));
+                            }
+                            break;
+                        case "artist":
+                            var meta_artist = await LastfmSearcher.GetArtistInfo(message["artist"] as string);
+                            if (meta_artist != null)
+                            {
+                                returnData.Add("status", 1);
+                                returnData.Add("artist_result", JsonConvert.SerializeObject(new PropertySet()
+                                {
+                                    ["name"] = meta_artist.Name,
+                                    ["avatar"] = meta_artist.AvatarUri.OriginalString,
+                                    ["desc"] = meta_artist.Description,
+                                }));
+                            }
+                            break;
                     }
                     break;
                 default:

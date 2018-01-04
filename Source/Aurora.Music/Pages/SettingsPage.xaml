@@ -33,8 +33,8 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Column="1" VerticalAlignment="Center" Style="{ThemeResource BaseTextBlockStyle}" Margin="8,0" Text="{x:Bind Name}"/>
-                    <TextBlock Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}" Margin="8,0" Text="{x:Bind Description}"/>
-                    <Image MaxHeight="48" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Source="{x:Bind Logo}" Margin="4" Stretch="Uniform"/>
+                    <TextBlock Grid.Row="1" TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis" MaxLines="3" Grid.Column="1" VerticalAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}" Margin="8,0" Text="{x:Bind Description}"/>
+                    <Image MaxHeight="48" Grid.RowSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="{x:Bind Logo}" Stretch="Uniform"/>
                 </Grid>
             </DataTemplate>
         </ResourceDictionary>
@@ -107,6 +107,9 @@
                             <TextBlock Text="Extensions" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,8"/>
 
                             <ComboBox ItemTemplate="{StaticResource ExtensionTemplate}" SelectedIndex="{x:Bind Context.CurrentLyricIndex,Mode=OneWay}" SelectionChanged="LyricCombo_SelectionChanged" ItemsSource="{x:Bind Context.LyricExts}" Header="Lyric Extension" Margin="12,4">
+                            </ComboBox>
+
+                            <ComboBox ItemTemplate="{StaticResource ExtensionTemplate}" SelectedIndex="{x:Bind Context.CurrentMetaIndex,Mode=OneWay}" SelectionChanged="MetaCombo_SelectionChanged" ItemsSource="{x:Bind Context.MetaExts}" Header="MetaData Extension" Margin="12,4">
                             </ComboBox>
 
                             <RichTextBlock Visibility="{x:Bind Context.BoolNottoVisibility(Context.OnlinePurchase),Mode=OneWay}" Style="{ThemeResource BodyRichTextBlockStyle}" IsTextSelectionEnabled="False" Margin="12,8">

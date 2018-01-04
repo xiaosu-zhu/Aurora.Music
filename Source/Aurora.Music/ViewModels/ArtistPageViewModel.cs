@@ -32,8 +32,8 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref heroImage, value); }
         }
 
-        private string artist;
-        public string Artist
+        private ArtistViewModel artist;
+        public ArtistViewModel Artist
         {
             get { return artist; }
             set { SetProperty(ref artist, value); }
@@ -53,16 +53,16 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref songsCount, value); }
         }
 
-        public string Key => Artist;
+        public string Key => Artist.Name;
 
         public ArtistPageViewModel()
         {
             AlbumList = new ObservableCollection<AlbumViewModel>();
         }
 
-        public async Task GetAlbums(string artist)
+        public async Task GetAlbums(ArtistViewModel artist)
         {
-            var albums = await FileReader.GetAlbumsAsync(artist);
+            var albums = await FileReader.GetAlbumsAsync(artist.RawName);
             var b = ThreadPool.RunAsync(async x =>
             {
                 var aa = albums.ToList();
@@ -78,6 +78,14 @@ namespace Aurora.Music.ViewModels
                 {
                     HeroImage = list.ConvertAll(y => (ImageSource)new BitmapImage(y));
                 });
+
+                var art = await MainPageViewModel.Current.GetArtistInfoAsync(artist.RawName);
+                if (art != null)
+                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                    {
+                        Artist.Description = art.Description;
+                        Artist.Avatar = art.AvatarUri;
+                    });
             });
 
             var a = albums.OrderByDescending(x => x.Year);

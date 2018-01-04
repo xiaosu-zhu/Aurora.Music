@@ -220,12 +220,29 @@ namespace Aurora.Music.ViewModels
         {
             var querys = new List<KeyValuePair<string, object>>()
             {
-                    new KeyValuePair<string,object>("album", album),
-                    new KeyValuePair<string, object>("artist", artist),
-                    new KeyValuePair<string, object>("q", "online_meta"),
+                new KeyValuePair<string,object>("album", album),
+                new KeyValuePair<string, object>("artist", artist),
+                new KeyValuePair<string, object>("action", "album"),
+                new KeyValuePair<string, object>("q", "online_meta"),
             };
             var result = await OnlineMetaExtension.ExecuteAsync(querys.ToArray());
             if (result is AlbumInfo s)
+            {
+                return s;
+            }
+            return null;
+        }
+
+        internal async Task<Core.Models.Artist> GetArtistInfoAsync(string artist)
+        {
+            var querys = new List<KeyValuePair<string, object>>()
+            {
+                new KeyValuePair<string, object>("action", "artist"),
+                new KeyValuePair<string, object>("artist", artist),
+                new KeyValuePair<string, object>("q", "online_meta"),
+            };
+            var result = await OnlineMetaExtension.ExecuteAsync(querys.ToArray());
+            if (result is Core.Models.Artist s)
             {
                 return s;
             }

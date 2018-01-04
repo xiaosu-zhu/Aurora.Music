@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
+using Windows.System.Threading;
 
 namespace Aurora.Music.ViewModels
 {
@@ -70,8 +71,30 @@ namespace Aurora.Music.ViewModels
                     ArtistList.Add(item);
                     sum += item.Sum(x => x.SongsCount);
                 }
-                ArtistsCount = artists.Count == 1 ? "1 Artists" : $"{ArtistList.Count} Artists";
+                ArtistsCount = artists.Count == 1 ? "1 Artists" : $"{artists.Count} Artists";
                 SongsCount = sum == 1 ? "1 Song" : $"{sum} Songs";
+
+                var t = ThreadPool.RunAsync(async x =>
+                {
+                    foreach (var item in ArtistList)
+                    {
+                        foreach (var art in item)
+                        {
+                            var uri = await opr.GetAvatarAsync(art.RawName);
+                            if (Uri.TryCreate(uri, UriKind.Absolute, out var u))
+                            {
+                                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
+                                {
+                                    art.Avatar = u;
+                                });
+                            }
+                            else
+                            {
+
+                            }
+                        }
+                    }
+                });
             });
         }
 
@@ -97,7 +120,7 @@ namespace Aurora.Music.ViewModels
                         ArtistList.Add(new GroupedItem<ArtistViewModel>(item.Key, item));
                         sum += item.Sum(x => x.SongsCount);
                     }
-                    ArtistsCount = ArtistList.Count == 1 ? "1 Artists" : $"{ArtistList.Count} Artists";
+                    ArtistsCount = artists.Count == 1 ? "1 Artists" : $"{artists.Count} Artists";
                     SongsCount = sum == 1 ? "1 Song" : $"{sum} Songs";
                     break;
                 default:

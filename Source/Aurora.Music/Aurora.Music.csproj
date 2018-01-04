@@ -103,6 +103,9 @@
     <Compile Include="Controls\AlbumViewDialog.xaml.cs">
       <DependentUpon>AlbumViewDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ArtistViewDialog.xaml.cs">
+      <DependentUpon>ArtistViewDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\CompactOverlayPanel.xaml.cs">
       <DependentUpon>CompactOverlayPanel.xaml</DependentUpon>
     </Compile>
@@ -266,6 +269,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="Controls\AlbumViewDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ArtistViewDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

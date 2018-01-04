@@ -407,11 +407,7 @@ namespace Aurora.Music.Core.Storage
 
         private void CreateTable()
         {
-            conn.GetConnection().CreateTable<SONG>();
-            conn.GetConnection().CreateTable<ALBUM>();
-            conn.GetConnection().CreateTable<FOLDER>();
-            conn.GetConnection().CreateTable<STATISTICS>();
-            conn.GetConnection().CreateTable<PLAYSTATISTIC>();
+            conn.GetConnection().CreateTables(CreateFlags.None, new Type[] { typeof(SONG), typeof(ALBUM), typeof(FOLDER), typeof(STATISTICS), typeof(PLAYSTATISTIC), typeof(AVATAR) });
         }
 
         public async Task<bool> AddFolderAsync(StorageFolder folder)
@@ -1066,6 +1062,40 @@ namespace Aurora.Music.Core.Storage
             }
             return null;
         }
+
+        public async Task UpdateAvatarAsync(string artist, string originalString)
+        {
+            var res = await conn.QueryAsync<AVATAR>("SELECT * FROM AVATAR WHERE Artist=?", artist);
+            if (res.Count > 0)
+            {
+                if (res[0].Uri == originalString)
+                {
+                    return;
+                }
+                res[0].Uri = originalString;
+                await conn.UpdateAsync(res[0]);
+            }
+            await conn.InsertAsync(new AVATAR()
+            {
+                Artist = artist,
+                Uri = originalString
+            });
+        }
+
+        public async Task<string> GetAvatarAsync(string rawName)
+        {
+            var res = await conn.QueryAsync<AVATAR>("SELECT * FROM AVATAR WHERE Artist=?", rawName);
+            if (res.Count > 0)
+            {
+                return res[0].Uri;
+            }
+            return null;
+        }
+
+        public async Task UpdateAlbumArtworkAsync(int iD, string originalString)
+        {
+            return;
+        }
     }
 
     public class Path
@@ -1081,4 +1111,14 @@ namespace Aurora.Music.Core.Storage
         public string Key => AlbumArtists;
     }
 
+    public class AVATAR
+    {
+        [PrimaryKey, AutoIncrement]
+        public int ID { get; set; }
+
+        [Unique]
+        public string Artist { get; set; }
+
+        public string Uri { get; set; }
+    }
 }

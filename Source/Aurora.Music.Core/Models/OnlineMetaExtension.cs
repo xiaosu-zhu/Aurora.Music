@@ -97,7 +97,7 @@ namespace Aurora.Music.Core.Models
             var set = JsonConvert.DeserializeObject<PropertySet>(s);
             return new Artist()
             {
-                AvatarUri = new Uri(set["avatar"] as string),
+                AvatarUri = (set["avatar"] as string).IsNullorEmpty() ? null : new Uri(set["avatar"] as string),
                 Name = set["name"] as string,
                 Description = set["desc"] as string
             };

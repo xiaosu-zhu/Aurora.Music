@@ -131,7 +131,7 @@
                 </StackPanel>
                 <Button BorderThickness="1" Background="{x:Null}" BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" x:Name="DetailPanel" Click="DetailPanel_Click" Grid.Column="1" Grid.Row="1" VerticalAlignment="Stretch" Padding="0">
                     <StackPanel Padding="8" Background="{ThemeResource SystemControlAcrylicWindowBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <toolkit:MarkdownTextBlock LinkClicked="Descriptions_LinkClicked" Text="# Loading..." IsTextSelectionEnabled="False" x:Name="Descriptions" Height="75" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="WrapWholeWords">
+                        <toolkit:MarkdownTextBlock IsTextSelectionEnabled="False" LinkClicked="Descriptions_LinkClicked" Text="# Loading..." x:Name="Descriptions" Height="75" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="WrapWholeWords">
                         </toolkit:MarkdownTextBlock>
                         <FontIcon x:Name="DescriIndicator" FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="10" Glyph="&#xE09D;" />
                     </StackPanel>

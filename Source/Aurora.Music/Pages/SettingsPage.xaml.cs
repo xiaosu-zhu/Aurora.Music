@@ -86,5 +86,10 @@ namespace Aurora.Music.Pages
         {
             SizeChanged += Page_SizeChanged;
         }
+
+        private void MetaCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Context.ChangeMetaExt((sender as ComboBox).SelectedItem);
+        }
     }
 }

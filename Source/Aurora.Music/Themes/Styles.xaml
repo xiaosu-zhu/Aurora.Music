@@ -1688,7 +1688,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="toolkit:ImageEx">
-                    <Grid Background="{TemplateBinding Background}">
+                    <Grid CornerRadius="{TemplateBinding CornerRadius}" Background="{TemplateBinding Background}">
                         <Image Name="PlaceholderImage"
                                HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                                VerticalAlignment="{TemplateBinding VerticalAlignment}"

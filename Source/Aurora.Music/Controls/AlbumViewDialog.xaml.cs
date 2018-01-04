@@ -1,4 +1,5 @@
 ﻿using Aurora.Music.Core;
+using Aurora.Music.Core.Storage;
 using Aurora.Music.ViewModels;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
@@ -36,6 +37,8 @@ namespace Aurora.Music.Controls
         {
             this.InitializeComponent();
         }
+
+        public event EventHandler<Uri> UpdateArtwork;
 
         internal AlbumViewDialog(AlbumViewModel album)
         {
@@ -75,6 +78,14 @@ namespace Aurora.Music.Controls
                             if (album.Artwork == null && info.AltArtwork != null)
                             {
                                 Artwork.Source = new BitmapImage(info.AltArtwork);
+                                UpdateArtwork?.Invoke(this, info.AltArtwork);
+                                var task = ThreadPool.RunAsync(async k =>
+                                {
+                                    if (!album.IsOnline)
+                                    {
+                                        await SQLOperator.Current().UpdateAlbumArtworkAsync(album.ID, info.AltArtwork.OriginalString);
+                                    }
+                                });
                             }
                             Descriptions.Text = info.Description;
                         }

@@ -29,7 +29,6 @@
     </Page.Resources>
 
     <Grid>
-
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState x:Name="Narrow">
@@ -68,7 +67,13 @@
               Style="{StaticResource GeneralGridViewStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
               x:Name="AlbumList">
             <GridView.Header>
-                <Grid Height="400"/>
+                <Button Padding="0" Click="Button_Click" Margin="8,400,8,8" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" BorderThickness="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource SystemControlAcrylicWindowBrush}">
+                    <StackPanel Padding="8" Background="{ThemeResource SystemControlAcrylicWindowBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <toolkit:MarkdownTextBlock IsTextSelectionEnabled="False" LinkClicked="Descriptions_LinkClicked" Text="{x:Bind Context.Artist.Description, Mode=OneWay}" x:Name="Descriptions" Height="75" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="WrapWholeWords">
+                        </toolkit:MarkdownTextBlock>
+                        <FontIcon x:Name="DescriIndicator" FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="10" Glyph="&#xE09D;" />
+                    </StackPanel>
+                </Button>
             </GridView.Header>
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="vm:AlbumViewModel">
@@ -192,6 +197,13 @@
             </ParallaxView>
 
             <Grid x:Name="HeaderBGOverlay" HorizontalAlignment="Stretch" Height="360" Background="{ThemeResource ArtistsPageGradient}"/>
+
+            <toolkit:ImageEx x:Name="AvatarImage" Style="{ThemeResource QuickLoadImageEx}" PlaceholderSource="/Assets/Images/artist_placeholder.png"
+                                 Stretch="Uniform" PlaceholderStretch="Uniform"  Source="{x:Bind Context.Artist.AvatarImage, Mode=OneWay}" 
+                             CornerRadius="999"
+                                 Margin="64,32" HorizontalAlignment="Right" VerticalAlignment="Center" Width="128" Height="128">
+            </toolkit:ImageEx>
+
             <Grid x:Name="HeaderGroup" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="32">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
@@ -199,14 +211,14 @@
                 </Grid.RowDefinitions>
                 <Grid Canvas.ZIndex="9999" x:Name="TitleShrink" Background="{x:Null}"
                           HorizontalAlignment="Left" VerticalAlignment="Center" Height="48">
-                    <TextBlock Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" Margin="12,0" Text="{x:Bind Context.Artist, Mode=OneWay}" 
+                    <TextBlock Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" Margin="12,0" Text="{x:Bind Context.Artist.Name, Mode=OneWay}" 
                                    HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"
                                    TextWrapping="NoWrap" MaxLines="1" Style="{ThemeResource SubheaderTextBlockStyle}" 
                                    TextTrimming="Clip"/>
                 </Grid>
                 <Grid Canvas.ZIndex="9999" x:Name="Title" Background="{ThemeResource SystemControlBackgroundAccentBrush}" 
                           HorizontalAlignment="Left" VerticalAlignment="Center" Height="48">
-                    <TextBlock Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Margin="12,0" Text="{x:Bind Context.Artist, Mode=OneWay}" 
+                    <TextBlock Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Margin="12,0" Text="{x:Bind Context.Artist.Name, Mode=OneWay}" 
                                    HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"
                                    TextWrapping="NoWrap" MaxLines="1" Style="{ThemeResource SubheaderTextBlockStyle}" 
                                    TextTrimming="Clip"/>

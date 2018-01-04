@@ -1,12 +1,56 @@
 ﻿using Aurora.Music.Core.Models;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.MVVM;
+using System;
+using Windows.System.Threading;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Aurora.Music.ViewModels
 {
     class ArtistViewModel : ViewModelBase, IKey
     {
         public string RawName;
+
+        private string description;
+        public string Description
+        {
+            get { return description.IsNullorEmpty() ? Name : description; }
+            set { SetProperty(ref description, value); }
+        }
+
+        private Uri avatar;
+        public Uri Avatar
+        {
+            get { return avatar; }
+            set
+            {
+                if (avatar?.OriginalString == value?.OriginalString)
+                {
+                    return;
+                }
+                SetProperty(ref avatar, value);
+                if (avatar == null)
+                {
+                    AvatarImage = null;
+                }
+                AvatarImage = new BitmapImage(avatar)
+                {
+                    DecodePixelHeight = 128,
+                    DecodePixelType = DecodePixelType.Logical
+                };
+                var t = ThreadPool.RunAsync(async x =>
+                {
+                    await Core.Storage.SQLOperator.Current().UpdateAvatarAsync(RawName, value.OriginalString);
+                });
+            }
+        }
+
+        private BitmapImage avatarImage;
+        public BitmapImage AvatarImage
+        {
+            get { return avatarImage; }
+            set { SetProperty(ref avatarImage, value); }
+        }
 
         private string name;
         public string Name

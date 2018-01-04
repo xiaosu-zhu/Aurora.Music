@@ -295,7 +295,7 @@ namespace Aurora.Shared.Helpers
                 }
             }
             catch (WebException)
-            {
+             {
                 return null;
             }
         }

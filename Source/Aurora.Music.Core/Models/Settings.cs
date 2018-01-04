@@ -58,6 +58,7 @@ namespace Aurora.Music.Core.Models
 
         public string LyricExtensionID { get; set; } = string.Empty;
         public string OnlineMusicExtensionID { get; set; } = string.Empty;
+        public string MetaExtensionID { get; set; } = string.Empty;
 
         public Bitrate PreferredBitRate { get; set; } = Bitrate._256;
         public bool OnlinePurchase { get; set; } = false;

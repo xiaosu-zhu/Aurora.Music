@@ -949,7 +949,7 @@
                     <Button.Flyout>
                         <MenuFlyout x:Name="MoreMenu">
                             <MenuFlyout.Items>
-                                <MenuFlyoutItem Click="MenuFlyoutItem_Click" Text="{x:Bind Context.Song.Album, Mode=OneWay}">
+                                <MenuFlyoutItem Click="OpenAlbumViewDialog" Text="{x:Bind Context.Song.Album, Mode=OneWay}">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE93C;" />
                                     </MenuFlyoutItem.Icon>

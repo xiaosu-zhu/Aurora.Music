@@ -88,7 +88,7 @@ namespace Aurora.Music.Pages
         {
             ArtistList.PrepareConnectedAnimation(Consts.ArtistPageInAnimation, e.ClickedItem, "ArtistName");
 
-            LibraryPage.Current.Navigate(typeof(ArtistPage), (e.ClickedItem as ArtistViewModel).RawName);
+            LibraryPage.Current.Navigate(typeof(ArtistPage), (e.ClickedItem as ArtistViewModel));
             _clickedArtist = e.ClickedItem as ArtistViewModel;
         }
 

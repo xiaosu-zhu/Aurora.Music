@@ -133,6 +133,16 @@ namespace Aurora.Music.ViewModels
             }
         }
 
+        private int currentMetaIndex = -1;
+        public int CurrentMetaIndex
+        {
+            get { return currentMetaIndex; }
+            set
+            {
+                SetProperty(ref currentMetaIndex, value);
+            }
+        }
+
         private bool debugModeEnabled;
         public bool DebugModeEnabled
         {
@@ -187,6 +197,15 @@ namespace Aurora.Music.ViewModels
             }
         }
 
+        internal void ChangeMetaExt(object selectedItem)
+        {
+            if (selectedItem is ExtensionViewModel v)
+            {
+                settings.MetaExtensionID = v.UniqueId;
+                settings.Save();
+            }
+        }
+
         internal async Task PurchaseOnlineExtension()
         {
             if (context == null)
@@ -234,6 +253,7 @@ namespace Aurora.Music.ViewModels
 
         public ObservableCollection<ExtensionViewModel> LyricExts { get; set; } = new ObservableCollection<ExtensionViewModel>();
         public ObservableCollection<ExtensionViewModel> OnlineExts { get; set; } = new ObservableCollection<ExtensionViewModel>();
+        public ObservableCollection<ExtensionViewModel> MetaExts { get; set; } = new ObservableCollection<ExtensionViewModel>();
 
         private bool equalizerEnabled;
         public bool EqualizerEnabled
@@ -285,6 +305,7 @@ namespace Aurora.Music.ViewModels
                 }
                 LyricExts.ToList().ForEach(async (x) => { await x.Load(); });
                 OnlineExts.ToList().ForEach(async (x) => { await x.Load(); });
+                MetaExts.ToList().ForEach(async (x) => { await x.Load(); });
                 try
                 {
                     var f = LyricExts.First(x => x.UniqueId == (settings.LyricExtensionID.IsNullorEmpty() ? Consts.AppUserModelId + "$|$BuiltIn" : settings.LyricExtensionID));
@@ -307,6 +328,22 @@ namespace Aurora.Music.ViewModels
                     if (f != null)
                     {
                         CurrentOnlineIndex = OnlineExts.IndexOf(f);
+                    }
+                    else
+                    {
+                        CurrentOnlineIndex = -1;
+                    }
+                }
+                catch (Exception)
+                {
+                    CurrentOnlineIndex = -1;
+                }
+                try
+                {
+                    var f = MetaExts.First(x => x.UniqueId == (settings.MetaExtensionID.IsNullorEmpty() ? Consts.AppUserModelId + "$|$BuiltIn" : settings.MetaExtensionID));
+                    if (f != null)
+                    {
+                        CurrentMetaIndex = MetaExts.IndexOf(f);
                     }
                     else
                     {
@@ -349,8 +386,6 @@ namespace Aurora.Music.ViewModels
                     if (existingLyricExt == null)
                     {
                         // get extension properties
-
-
                         LyricExts.Add(new ExtensionViewModel(ext, properties));
                     }
                     // update
@@ -369,8 +404,6 @@ namespace Aurora.Music.ViewModels
                     if (existingOnlineExt == null)
                     {
                         // get extension properties
-
-
                         OnlineExts.Add(new ExtensionViewModel(ext, properties));
                     }
                     // update
@@ -378,6 +411,24 @@ namespace Aurora.Music.ViewModels
                     {
                         // update the extension
                         await existingOnlineExt.Update(ext);
+                    }
+                }
+
+                if (category == "OnlineMeta")
+                {
+                    // if its already existing then this is an update
+                    var extingMeta = MetaExts.Where(e => e.UniqueId == identifier).FirstOrDefault();
+                    // new extension
+                    if (extingMeta == null)
+                    {
+                        // get extension properties
+                        MetaExts.Add(new ExtensionViewModel(ext, properties));
+                    }
+                    // update
+                    else
+                    {
+                        // update the extension
+                        await extingMeta.Update(ext);
                     }
                 }
             }
@@ -456,24 +507,29 @@ namespace Aurora.Music.ViewModels
                     });
                 }
 
+                var task = ThreadPool.RunAsync(async k =>
+                {
+                    await Task.Delay(200);
+                    if (settings.OutputDeviceID.IsNullorEmpty())
+                    {
+                        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                        {
+                            AudioSelectedIndex = 0;
+                        });
+                    }
+                    else
+                    {
+                        var index = DevicList.IndexOf(DevicList.First(x => x.ID == settings.OutputDeviceID));
+                        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                        {
+                            AudioSelectedIndex = index;
+                        });
+                    }
+                });
+                
             });
 
-            await Task.Delay(200);
-            if (settings.OutputDeviceID.IsNullorEmpty())
-            {
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
-                {
-                    AudioSelectedIndex = 0;
-                });
-            }
-            else
-            {
-                var index = DevicList.IndexOf(DevicList.First(x => x.ID == settings.OutputDeviceID));
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
-                {
-                    AudioSelectedIndex = index;
-                });
-            }
+            
         }
     }
 

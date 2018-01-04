@@ -15,7 +15,7 @@ namespace Aurora.Music.Core.Extension
     {
         private const string API_KEY = KEY.LASTFM;
 
-        private const string ALBUM_GETINFO = "http://ws.audioscrobbler.com/2.0/";
+        private const string API_URL = "http://ws.audioscrobbler.com/2.0/";
 
         public static async Task<AlbumInfo> GetAlbumInfo(string album, string artist)
         {
@@ -27,7 +27,7 @@ namespace Aurora.Music.Core.Extension
                 param["artist"] = artist;
                 param["album"] = album;
                 param["autocorrect"] = "1";
-                var result = await ApiRequestHelper.HttpGet(ALBUM_GETINFO, param);
+                var result = await ApiRequestHelper.HttpGet(API_URL, param);
                 var xml = new XmlDocument(); xml.LoadXml(result);
                 if (xml.SelectSingleNode("/lfm/@status").InnerText == "ok")
                 {
@@ -86,9 +86,79 @@ namespace Aurora.Music.Core.Extension
             }
         }
 
+        public static async Task<Artist> GetArtistInfo(string art)
+        {
+            try
+            {
+                var param = HttpUtility.ParseQueryString(string.Empty);
+                param["method"] = "artist.getinfo";
+                param["api_key"] = API_KEY;
+                param["artist"] = art;
+                param["autocorrect"] = "1";
+                var result = await ApiRequestHelper.HttpGet(API_URL, param);
+                var xml = new XmlDocument(); xml.LoadXml(result);
+                if (xml.SelectSingleNode("/lfm/@status").InnerText == "ok")
+                {
+                    var artist = new Artist
+                    {
+                        Name = xml.SelectSingleNode("/lfm/artist/name").InnerText
+                    };
+                    var imageNode = xml.SelectSingleNode("/lfm/artist/image[@size='']");
+                    if (imageNode == null)
+                    {
+
+                    }
+                    else
+                    {
+                        if (Uri.TryCreate(imageNode.InnerText, UriKind.Absolute, out var u))
+                        {
+                            artist.AvatarUri = u;
+                        }
+                    }
+
+                    var list = new List<string>();
+
+                    foreach (var item in xml.SelectNodes("/lfm/artist/tags/tag"))
+                    {
+                        list.Add($"[{item.SelectSingleNode("./name").InnerText}]({item.SelectSingleNode("./url").InnerText})");
+                    }
+
+                    if (list.Count == 0)
+                    {
+                        list.Add("None");
+                    }
+
+                    var listener = xml.SelectSingleNode("/lfm/artist/stats/listeners").InnerText;
+                    var played = xml.SelectSingleNode("/lfm/artist/stats/playcount").InnerText;
+
+                    var bioNode = xml.SelectSingleNode("/lfm/artist/bio");
+                    if (bioNode != null)
+                    {
+                        artist.Description = $"# {artist.Name}\r\n\r\n{listener} listeners and played {played} times.\r\n\r\n## Tags\r\n\r\n\r\n{string.Join(", ", list)}.\r\n\r\n---\r\n\r\n## Wiki\r\n{bioNode.SelectSingleNode("./content").InnerText.Replace("\n", "\r\n\r\n")}\r\n\r\n---\r\n\r\nSee [Last.FM]({xml.SelectSingleNode("/lfm/artist/url").InnerText}).";
+                    }
+                    else
+                    {
+                        artist.Description = $"# {artist.Name}\r\n\r\n{listener} listeners and played {played} times.\r\n\r\n## Tags\r\n\r\n\r\n{string.Join(", ", list)}.\r\n\r\n---\r\n\r\nSee [Last.FM]({xml.SelectSingleNode("/lfm/artist/url").InnerText}).";
+                    }
+
+                    return artist;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
         public static object ReadXml(string result)
         {
             var xml = new XmlDocument();
+            xml.LoadXml(result);
+
             return null;
         }
     }

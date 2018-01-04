@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using EF = ExpressionBuilder.ExpressionFunctions;
+using Windows.System;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -45,7 +46,7 @@ namespace Aurora.Music.Pages
             }
             e.Handled = true;
             ConnectedAnimationService.GetForCurrentView().PrepareToAnimate(Consts.ArtistPageInAnimation + "_1", Title);
-            ConnectedAnimationService.GetForCurrentView().PrepareToAnimate(Consts.ArtistPageInAnimation + "_2", HeaderBG);
+            ConnectedAnimationService.GetForCurrentView().PrepareToAnimate(Consts.ArtistPageInAnimation + "_2", AvatarImage);
             LibraryPage.Current.GoBack();
             UnloadObject(this);
         }
@@ -59,7 +60,7 @@ namespace Aurora.Music.Pages
             SystemNavigationManager.GetForCurrentView().BackRequested -= ArtistPage_BackRequested;
             SystemNavigationManager.GetForCurrentView().BackRequested += ArtistPage_BackRequested;
 
-            if (!Context.AlbumList.IsNullorEmpty() && _clickedAlbum != null && (string)e.Parameter == _lastParameter)
+            if (!Context.AlbumList.IsNullorEmpty() && _clickedAlbum != null && ((ArtistViewModel)e.Parameter).RawName == _lastParameter)
             {
                 AlbumList.ScrollIntoView(_clickedAlbum);
                 var ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.AlbumDetailPageInAnimation + "_1");
@@ -74,10 +75,10 @@ namespace Aurora.Music.Pages
                 }
                 return;
             }
-            else if (_clickedAlbum != null && (string)e.Parameter == _lastParameter)
+            else if (_clickedAlbum != null && ((ArtistViewModel)e.Parameter).RawName == _lastParameter)
             {
-                Context.Artist = _lastParameter;
-                await Context.GetAlbums(_lastParameter);
+                Context.Artist = (ArtistViewModel)e.Parameter;
+                await Context.GetAlbums((ArtistViewModel)e.Parameter);
                 var ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.AlbumDetailPageInAnimation + "_1");
                 if (ani != null)
                 {
@@ -90,17 +91,10 @@ namespace Aurora.Music.Pages
                 }
                 return;
             }
-            else if (e.Parameter is string s)
+            else if (e.Parameter is ArtistViewModel s)
             {
-                _lastParameter = s;
-                if (s.IsNullorWhiteSpace())
-                {
-                    Context.Artist = "Unknown Artist";
-                }
-                else
-                {
-                    Context.Artist = s;
-                }
+                _lastParameter = s.RawName;
+                Context.Artist = s;
 
                 await Context.GetAlbums(s);
             }
@@ -155,7 +149,7 @@ namespace Aurora.Music.Pages
             var ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.ArtistPageInAnimation);
             if (ani != null)
             {
-                ani.TryStart(Title, new UIElement[] { HeaderBG, Details });
+                ani.TryStart(AvatarImage, new UIElement[] { Title, HeaderBG, Details });
             }
 
             var scrollviewer = AlbumList.GetScrollViewer();
@@ -231,6 +225,25 @@ namespace Aurora.Music.Pages
                 PlayAlbum_Click(sender, null);
                 e.Handled = true;
             }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (DescriIndicator.Glyph == "\uE018")
+            {
+                DescriIndicator.Glyph = "\uE09D";
+                Descriptions.Height = 75;
+            }
+            else
+            {
+                DescriIndicator.Glyph = "\uE018";
+                Descriptions.Height = double.NaN;
+            }
+        }
+
+        private async void Descriptions_LinkClicked(object sender, Microsoft.Toolkit.Uwp.UI.Controls.LinkClickedEventArgs e)
+        {
+            await Launcher.LaunchUriAsync(new Uri(e.Link));
         }
     }
 }
