@@ -4,7 +4,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using Windows.UI.Xaml;
 
 namespace Aurora.Shared.Helpers
 {
@@ -287,6 +289,16 @@ namespace Aurora.Shared.Helpers
                 return 30;
             }
             return 31;
+        }
+
+        public static void Logging(UnhandledExceptionEventArgs e)
+        {
+            //throw new NotImplementedException();
+        }
+
+        public static void Logging(Exception e)
+        {
+            //throw new NotImplementedException();
         }
     }
 }

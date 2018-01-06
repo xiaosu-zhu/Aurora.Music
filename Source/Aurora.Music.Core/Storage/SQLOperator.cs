@@ -307,55 +307,25 @@ namespace Aurora.Music.Core.Storage
         #region IDisposable Support
         private bool disposedValue = false; // 要检测冗余调用
 
-        protected virtual void Dispose(bool disposing)
+        protected virtual async void Dispose(bool disposing)
         {
             if (!disposedValue)
             {
                 if (disposing)
                 {
-                    if (conn != null)
-                    {
-                        conn.GetConnection().Dispose();
-                    }
                 }
 
                 // TODO: 释放未托管的资源(未托管的对象)并在以下内容中替代终结器。
                 // TODO: 将大型字段设置为 null。
 
-                disposedValue = true;
-            }
-        }
-
-        internal async Task WriteFavoriteAsync(int id, bool isCurrentFavorite)
-        {
-            var res = await conn.QueryAsync<STATISTICS>("SELECT * FROM STATISTICS WHERE TARGETID=? AND TARGETTYPE=0", id);
-            if (res.Count > 0)
-            {
-                res[0].Favorite = isCurrentFavorite;
-                await conn.UpdateAsync(res[0]);
-            }
-            else
-            {
-                await conn.InsertAsync(new STATISTICS
+                if (conn != null)
                 {
-                    TargetID = id,
-                    TargetType = 0,
-                    Favorite = isCurrentFavorite,
-                });
-            }
-        }
+                    await conn.CloseAsync();
+                    conn = null;
+                }
+                GC.Collect();
 
-        internal async Task UpdateSongRatingAsync(int id, double rat)
-        {
-            var result = await conn.QueryAsync<SONG>("SELECT * FROM SONG WHERE ID = ?", id);
-            if (result.Count > 0)
-            {
-                result[0].Rating = rat;
-                await conn.UpdateAsync(result[0]);
-            }
-            else
-            {
-                return;
+                disposedValue = true;
             }
         }
 
@@ -371,7 +341,7 @@ namespace Aurora.Music.Core.Storage
             // 请勿更改此代码。将清理代码放入以上 Dispose(bool disposing) 中。
             Dispose(true);
             // TODO: 如果在以上内容中替代了终结器，则取消注释以下行。
-            // GC.SuppressFinalize(this);
+            //GC.SuppressFinalize(this);
         }
         #endregion
         private static readonly string DB_PATH = "main.db";
@@ -408,6 +378,40 @@ namespace Aurora.Music.Core.Storage
         private void CreateTable()
         {
             conn.GetConnection().CreateTables(CreateFlags.None, new Type[] { typeof(SONG), typeof(ALBUM), typeof(FOLDER), typeof(STATISTICS), typeof(PLAYSTATISTIC), typeof(AVATAR) });
+        }
+
+
+        internal async Task WriteFavoriteAsync(int id, bool isCurrentFavorite)
+        {
+            var res = await conn.QueryAsync<STATISTICS>("SELECT * FROM STATISTICS WHERE TARGETID=? AND TARGETTYPE=0", id);
+            if (res.Count > 0)
+            {
+                res[0].Favorite = isCurrentFavorite;
+                await conn.UpdateAsync(res[0]);
+            }
+            else
+            {
+                await conn.InsertAsync(new STATISTICS
+                {
+                    TargetID = id,
+                    TargetType = 0,
+                    Favorite = isCurrentFavorite,
+                });
+            }
+        }
+
+        internal async Task UpdateSongRatingAsync(int id, double rat)
+        {
+            var result = await conn.QueryAsync<SONG>("SELECT * FROM SONG WHERE ID = ?", id);
+            if (result.Count > 0)
+            {
+                result[0].Rating = rat;
+                await conn.UpdateAsync(result[0]);
+            }
+            else
+            {
+                return;
+            }
         }
 
         public async Task<bool> AddFolderAsync(StorageFolder folder)
@@ -1095,6 +1099,16 @@ namespace Aurora.Music.Core.Storage
         public async Task UpdateAlbumArtworkAsync(int iD, string originalString)
         {
             return;
+        }
+
+        public async Task DANGER_DROP_ALL()
+        {
+            await conn.DropTableAsync<SONG>();
+            await conn.DropTableAsync<ALBUM>();
+            await conn.DropTableAsync<FOLDER>();
+            await conn.DropTableAsync<STATISTICS>();
+            await conn.DropTableAsync<PLAYSTATISTIC>();
+            await conn.DropTableAsync<AVATAR>();
         }
     }
 

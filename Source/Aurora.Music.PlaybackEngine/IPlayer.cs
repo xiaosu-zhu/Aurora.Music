@@ -27,7 +27,7 @@ namespace Aurora.Music.PlaybackEngine
         event EventHandler<StatusChangedArgs> StatusChanged;
         event EventHandler<DownloadProgressChangedArgs> DownloadProgressChanged;
 
-        void SkiptoItem(uint index);
+        void SkiptoIndex(uint index);
         Task ReloadCurrent();
         void DetachCurrentSource();
     }

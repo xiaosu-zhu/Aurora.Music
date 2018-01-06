@@ -55,27 +55,47 @@ namespace Aurora.Music
             });
         }
 
-        public void ProgressUpdate(string title, string content)
+        public async void ProgressUpdate(string title, string content)
         {
-            ProgressUpdateTitle.Text = title;
-            ProgressUpdateContent.Text = content;
+            await Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+            {
+                ProgressUpdateTitle.Text = title;
+                ProgressUpdateContent.Text = content;
+            });
         }
 
-        public void ProgressUpdate(bool show = true)
+        private bool _show;
+
+        public async void ProgressUpdate(bool show = true)
         {
-            if (show)
+            await Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
             {
-                ProgressUpdateNotify.Show();
-            }
-            else
-            {
-                ProgressUpdateNotify.Dismiss();
-            }
+                if (_show != show)
+                {
+                    _show = show;
+                    if (show)
+                    {
+                        ProgressUpdateNotify.Show();
+                    }
+                    else
+                    {
+                        ProgressUpdateNotify.Dismiss();
+                    }
+                }
+            });
+
         }
 
-        public void ProgressUpdate(double progress)
+        /// <summary>
+        /// 0 to 100
+        /// </summary>
+        /// <param name="progress">0 to 100</param>
+        public async void ProgressUpdate(double progress)
         {
-            ProgressUpdateProgress.Value = progress;
+            await Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+            {
+                ProgressUpdateProgress.Value = progress;
+            });
         }
 
         private Type[] navigateOptions = { typeof(HomePage), typeof(LibraryPage) };

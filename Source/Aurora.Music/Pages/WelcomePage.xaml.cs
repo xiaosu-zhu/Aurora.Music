@@ -51,5 +51,15 @@ namespace Aurora.Music.Pages
 
             rootFrame.Navigate(typeof(MainPage));
         }
+
+        private void Skip_Click(object sender, RoutedEventArgs e)
+        {
+            var s = Settings.Load();
+            s.WelcomeFinished = true;
+            s.Save();
+            Frame rootFrame = Window.Current.Content as Frame;
+
+            rootFrame.Navigate(typeof(MainPage));
+        }
     }
 }

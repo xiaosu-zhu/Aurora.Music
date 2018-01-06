@@ -399,7 +399,7 @@ namespace Aurora.Music.ViewModels
         private double downloadProgress;
         private string _lastQuery;
 
-        public double DownloadProgress
+        public double BufferProgress
         {
             get { return downloadProgress; }
             set { SetProperty(ref downloadProgress, value); }
@@ -409,7 +409,7 @@ namespace Aurora.Music.ViewModels
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
-                DownloadProgress = 100 * e.Progress;
+                BufferProgress = 100 * e.Progress;
             });
         }
 
@@ -478,14 +478,37 @@ namespace Aurora.Music.ViewModels
                 });
         }
 
-        private async Task FindFileChanges()
+        public async Task FindFileChanges()
         {
             var addedFiles = await FileTracker.FindChanges();
             if (!addedFiles.IsNullorEmpty())
             {
                 var reader = new FileReader();
+                reader.ProgressUpdated += Reader_ProgressUpdated;
+                reader.Completed += Reader_Completed;
                 await reader.ReadFileandSave(addedFiles);
             }
+        }
+
+        private void Reader_Completed(object sender, EventArgs e)
+        {
+            var t = CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
+            {
+                MainPage.Current.ProgressUpdate(100);
+                MainPage.Current.ProgressUpdate("File Updating", "Completed.");
+                await Task.Delay(1500);
+                MainPage.Current.ProgressUpdate(false);
+            });
+        }
+
+        private void Reader_ProgressUpdated(object sender, ProgressReport e)
+        {
+            var t = CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            {
+                MainPage.Current.ProgressUpdate();
+                MainPage.Current.ProgressUpdate(e.Current * 100.0 / e.Total);
+                MainPage.Current.ProgressUpdate("File Updating", e.Description);
+            });
         }
 
         private async void Reader_NewSongsAdded(object sender, SongsAddedEventArgs e)
@@ -592,7 +615,7 @@ namespace Aurora.Music.ViewModels
 
         internal void SkiptoItem(SongViewModel songViewModel)
         {
-            player.SkiptoItem(songViewModel.Index);
+            player.SkiptoIndex(songViewModel.Index);
         }
 
         public double PositionToValue(TimeSpan t1, TimeSpan total)

@@ -51,6 +51,14 @@ namespace Aurora.Music.ViewModels
                     {
                         return;
                     }
+
+                    if (MainPageViewModel.Current != null)
+                    {
+                        var t = Task.Run(async () =>
+                        {
+                            await MainPageViewModel.Current.FindFileChanges();
+                        });
+                    }
                 });
             }
         }

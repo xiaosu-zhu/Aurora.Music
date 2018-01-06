@@ -25,7 +25,7 @@
             <CollectionViewSource Source="{x:Bind Context.Lyric.Contents,Mode=OneWay}" x:Key="LyricSource"/>
 
             <Style x:Key="RoundSlider" TargetType="Slider">
-                <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAltLowRevealBrush}"/>
+                <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}"/>
                 <Setter Property="BorderThickness" Value="{ThemeResource SliderBorderThemeThickness}"/>
                 <Setter Property="Foreground" Value="{ThemeResource SliderTrackValueFill}"/>
                 <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
@@ -41,7 +41,7 @@
                                 <Grid.Resources>
                                     <Style x:Key="SliderThumbStyle" TargetType="Thumb">
                                         <Setter Property="BorderThickness" Value="2"/>
-                                        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAltLowRevealBrush}"/>
+                                        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAltMediumRevealBrush}"/>
                                         <Setter Property="Template">
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="Thumb">
@@ -64,22 +64,22 @@
                                                 <Setter Target="VerticalThumb.(RevealBrush.State)" Value="Normal" />
                                             </VisualState.Setters>
                                             <Storyboard>
-                                                <DoubleAnimation Storyboard.TargetName="HorizontalThumb" Storyboard.TargetProperty="Width" To="24" EnableDependentAnimation="True">
+                                                <DoubleAnimation Storyboard.TargetName="HorizontalThumbScale" Storyboard.TargetProperty="ScaleX" To="1" EnableDependentAnimation="True">
                                                     <DoubleAnimation.EasingFunction>
                                                         <QuinticEase/>
                                                     </DoubleAnimation.EasingFunction>
                                                 </DoubleAnimation>
-                                                <DoubleAnimation Storyboard.TargetName="VerticalThumb" Storyboard.TargetProperty="Width" To="24" EnableDependentAnimation="True">
+                                                <DoubleAnimation Storyboard.TargetName="VerticalThumbScale" Storyboard.TargetProperty="ScaleX" To="1" EnableDependentAnimation="True">
                                                     <DoubleAnimation.EasingFunction>
                                                         <QuinticEase/>
                                                     </DoubleAnimation.EasingFunction>
                                                 </DoubleAnimation>
-                                                <DoubleAnimation Storyboard.TargetName="HorizontalThumb" Storyboard.TargetProperty="Height" To="24" EnableDependentAnimation="True">
+                                                <DoubleAnimation Storyboard.TargetName="HorizontalThumbScale" Storyboard.TargetProperty="ScaleY" To="1" EnableDependentAnimation="True">
                                                     <DoubleAnimation.EasingFunction>
                                                         <QuinticEase/>
                                                     </DoubleAnimation.EasingFunction>
                                                 </DoubleAnimation>
-                                                <DoubleAnimation Storyboard.TargetName="VerticalThumb" Storyboard.TargetProperty="Height" To="24" EnableDependentAnimation="True">
+                                                <DoubleAnimation Storyboard.TargetName="VerticalThumbScale" Storyboard.TargetProperty="ScaleY" To="1" EnableDependentAnimation="True">
                                                     <DoubleAnimation.EasingFunction>
                                                         <QuinticEase/>
                                                     </DoubleAnimation.EasingFunction>
@@ -92,17 +92,17 @@
                                                 <Setter Target="VerticalThumb.(RevealBrush.State)" Value="Pressed" />
                                             </VisualState.Setters>
                                             <Storyboard>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HorizontalThumb" Storyboard.TargetProperty="Height">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="36"/>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HorizontalThumbScale" Storyboard.TargetProperty="ScaleY">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="1.5"/>
                                                 </ObjectAnimationUsingKeyFrames>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="VerticalThumb" Storyboard.TargetProperty="Height">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="36"/>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="VerticalThumbScale" Storyboard.TargetProperty="ScaleY">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="1.5"/>
                                                 </ObjectAnimationUsingKeyFrames>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HorizontalThumb" Storyboard.TargetProperty="Width">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="36"/>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HorizontalThumbScale" Storyboard.TargetProperty="ScaleX">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="1.5"/>
                                                 </ObjectAnimationUsingKeyFrames>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="VerticalThumb" Storyboard.TargetProperty="Width">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="36"/>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="VerticalThumbScale" Storyboard.TargetProperty="ScaleX">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="1.5"/>
                                                 </ObjectAnimationUsingKeyFrames>
                                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HorizontalTrackRect" Storyboard.TargetProperty="Fill">
                                                     <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlForegroundAltMediumHighBrush}"/>
@@ -188,22 +188,22 @@
                                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetName="VerticalDecreaseRect" Storyboard.TargetProperty="Fill">
                                                     <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SliderTrackValueFillPointerOver}"/>
                                                 </ObjectAnimationUsingKeyFrames>
-                                                <DoubleAnimation Storyboard.TargetName="HorizontalThumb" Storyboard.TargetProperty="Width" To="36" EnableDependentAnimation="True">
+                                                <DoubleAnimation Storyboard.TargetName="HorizontalThumbScale" Storyboard.TargetProperty="ScaleX" To="1.5" EnableDependentAnimation="True">
                                                     <DoubleAnimation.EasingFunction>
                                                         <QuinticEase/>
                                                     </DoubleAnimation.EasingFunction>
                                                 </DoubleAnimation>
-                                                <DoubleAnimation Storyboard.TargetName="VerticalThumb" Storyboard.TargetProperty="Width" To="36" EnableDependentAnimation="True">
+                                                <DoubleAnimation Storyboard.TargetName="VerticalThumbScale" Storyboard.TargetProperty="ScaleX" To="1.5" EnableDependentAnimation="True">
                                                     <DoubleAnimation.EasingFunction>
                                                         <QuinticEase/>
                                                     </DoubleAnimation.EasingFunction>
                                                 </DoubleAnimation>
-                                                <DoubleAnimation Storyboard.TargetName="HorizontalThumb" Storyboard.TargetProperty="Height" To="36" EnableDependentAnimation="True">
+                                                <DoubleAnimation Storyboard.TargetName="HorizontalThumbScale" Storyboard.TargetProperty="ScaleY" To="1.5" EnableDependentAnimation="True">
                                                     <DoubleAnimation.EasingFunction>
                                                         <QuinticEase/>
                                                     </DoubleAnimation.EasingFunction>
                                                 </DoubleAnimation>
-                                                <DoubleAnimation Storyboard.TargetName="VerticalThumb" Storyboard.TargetProperty="Height" To="36" EnableDependentAnimation="True">
+                                                <DoubleAnimation Storyboard.TargetName="VerticalThumbScale" Storyboard.TargetProperty="ScaleY" To="1.5" EnableDependentAnimation="True">
                                                     <DoubleAnimation.EasingFunction>
                                                         <QuinticEase/>
                                                     </DoubleAnimation.EasingFunction>
@@ -253,7 +253,15 @@
                                         <TickBar x:Name="TopTickBar" Grid.ColumnSpan="3" Fill="{ThemeResource SliderTickBarFill}" Height="{ThemeResource SliderOutsideTickBarThemeHeight}" Margin="0,0,0,4" VerticalAlignment="Bottom" Visibility="Collapsed"/>
                                         <TickBar x:Name="HorizontalInlineTickBar" Grid.ColumnSpan="3" Fill="{ThemeResource SliderInlineTickBarFill}" Height="{ThemeResource SliderTrackThemeHeight}" Grid.Row="1" Visibility="Collapsed"/>
                                         <TickBar x:Name="BottomTickBar" Grid.ColumnSpan="3" Fill="{ThemeResource SliderTickBarFill}" Height="{ThemeResource SliderOutsideTickBarThemeHeight}" Margin="0,4,0,0" Grid.Row="2" VerticalAlignment="Top" Visibility="Collapsed"/>
-                                        <Thumb x:Name="HorizontalThumb" Margin="-24,0,0,0" AutomationProperties.AccessibilityView="Raw" Grid.Column="1" DataContext="{TemplateBinding Value}" FocusVisualMargin="0" Height="24" Grid.RowSpan="3" Grid.Row="0" Style="{StaticResource SliderThumbStyle}" Width="24"/>
+                                        <Thumb x:Name="HorizontalThumb" RenderTransformOrigin="0.5,0.5"
+                                               Margin="-24,0,0,0" AutomationProperties.AccessibilityView="Raw" Grid.Column="1" 
+                                               DataContext="{TemplateBinding Value}" FocusVisualMargin="0" Height="24" Grid.RowSpan="3" 
+                                               Grid.Row="0" Style="{StaticResource SliderThumbStyle}" Width="24">
+                                            <Thumb.RenderTransform>
+                                                <ScaleTransform x:Name="HorizontalThumbScale" ScaleX="1" ScaleY="1">
+                                                </ScaleTransform>
+                                            </Thumb.RenderTransform>
+                                        </Thumb>
                                     </Grid>
                                     <Grid x:Name="VerticalTemplate" MinWidth="44" Visibility="Collapsed">
                                         <Grid.ColumnDefinitions>
@@ -271,7 +279,16 @@
                                         <TickBar x:Name="LeftTickBar" Fill="{ThemeResource SliderTickBarFill}" HorizontalAlignment="Right" Margin="0,0,4,0" Grid.RowSpan="3" Visibility="Collapsed" Width="{ThemeResource SliderOutsideTickBarThemeHeight}"/>
                                         <TickBar x:Name="VerticalInlineTickBar" Grid.Column="1" Fill="{ThemeResource SliderInlineTickBarFill}" Grid.RowSpan="3" Visibility="Collapsed" Width="{ThemeResource SliderTrackThemeHeight}"/>
                                         <TickBar x:Name="RightTickBar" Grid.Column="2" Fill="{ThemeResource SliderTickBarFill}" HorizontalAlignment="Left" Margin="4,0,0,0" Grid.RowSpan="3" Visibility="Collapsed" Width="{ThemeResource SliderOutsideTickBarThemeHeight}"/>
-                                        <Thumb x:Name="VerticalThumb" Margin="0,-24,0,0" AutomationProperties.AccessibilityView="Raw" Grid.ColumnSpan="3" Grid.Column="0" DataContext="{TemplateBinding Value}" FocusVisualMargin="0" Height="24" Grid.Row="1" Style="{StaticResource SliderThumbStyle}" Width="24"/>
+                                        <Thumb x:Name="VerticalThumb" Foreground="{TemplateBinding Foreground}"
+                                               Margin="0,-24,0,0" AutomationProperties.AccessibilityView="Raw" RenderTransformOrigin="0.5,0.5"
+                                               Grid.ColumnSpan="3" Grid.Column="0" DataContext="{TemplateBinding Value}" 
+                                               FocusVisualMargin="0" Height="24" Grid.Row="1" 
+                                               Style="{StaticResource SliderThumbStyle}" Width="24">
+                                            <Thumb.RenderTransform>
+                                                <ScaleTransform x:Name="VerticalThumbScale" ScaleX="1" ScaleY="1">
+                                                </ScaleTransform>
+                                            </Thumb.RenderTransform>
+                                        </Thumb>
                                     </Grid>
                                 </Grid>
                             </Grid>
@@ -279,6 +296,10 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+
+
+
+
             <Style TargetType="ListViewItem" x:Key="LyricListItem">
                 <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
                 <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
@@ -383,8 +404,6 @@
                 </Setter>
             </Style>
 
-
-            <!-- Default style for Windows.UI.Xaml.Controls.ProgressBar -->
             <Style TargetType="ProgressBar" x:Key="SlimProgressBar">
                 <Setter Property="Foreground" Value="{ThemeResource SystemControlHighlightAccentBrush}" />
                 <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
@@ -680,6 +699,80 @@
                 </toolkit:DropShadowPanel>
             </DataTemplate>
 
+            <DataTemplate x:Key="EvenTemplate" x:DataType="vm:SongViewModel">
+                <Grid Width="320" Background="{ThemeResource SongListEvenBrush}" 
+                      PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited" 
+                      PointerCanceled="Grid_PointerExited" PointerCaptureLost="Grid_PointerExited" 
+                      Height="48" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="64"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.Resources>
+                        <Storyboard x:Name="PointerOver">
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlayBtn" Storyboard.TargetProperty="Visibility">
+                                <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
+                        <Storyboard x:Name="Normal">
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlayBtn" Storyboard.TargetProperty="Visibility">
+                                <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </Grid.Resources>
+
+                    <TextBlock Text="{x:Bind GetIndex()}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="12,4"/>
+                    <TextBlock Text="{x:Bind Title}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextTrimming="CharacterEllipsis" MaxWidth="240" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="4"/>
+                    <Button Click="PlayBtn_Click" x:Name="PlayBtn" Style="{ThemeResource NoBorderButton}" Background="Transparent" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="48" Visibility="Collapsed">
+                        <Button.Content>
+                            <SymbolIcon Symbol="Next"/>
+                        </Button.Content>
+                    </Button>
+                    <TextBlock Text="{x:Bind DurationtoString(Duration)}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextTrimming="CharacterEllipsis" Grid.Column="3" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="8,4"/>
+                </Grid>
+            </DataTemplate>
+            <DataTemplate x:Key="OddTemplate" x:DataType="vm:SongViewModel">
+                <Grid Width="320" Background="{ThemeResource SongListOddBrush}" 
+                      Height="48" PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited" 
+                      PointerCanceled="Grid_PointerExited" PointerCaptureLost="Grid_PointerExited" 
+                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="64"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.Resources>
+                        <Storyboard x:Name="PointerOver">
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlayBtn" Storyboard.TargetProperty="Visibility">
+                                <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
+                        <Storyboard x:Name="Normal">
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlayBtn" Storyboard.TargetProperty="Visibility">
+                                <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </Grid.Resources>
+
+                    <TextBlock Text="{x:Bind GetIndex()}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="12,4"/>
+                    <TextBlock Text="{x:Bind Title}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextTrimming="CharacterEllipsis" MaxWidth="240" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="4"/>
+                    <Button x:Name="PlayBtn" Click="PlayBtn_Click" Style="{ThemeResource NoBorderButton}" Background="Transparent" Grid.Column="2" Width="48" HorizontalAlignment="Center" VerticalAlignment="Stretch" Visibility="Collapsed">
+                        <Button.Content>
+                            <SymbolIcon Symbol="Next"/>
+                        </Button.Content>
+                    </Button>
+                    <TextBlock Text="{x:Bind DurationtoString(Duration)}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextTrimming="CharacterEllipsis" Grid.Column="3" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="8,4"/>
+                </Grid>
+            </DataTemplate>
+            <controls:SongListTemplateSelector x:Key="SongListTemplateSelector" 
+                                               EvenTemplate="{StaticResource EvenTemplate}" 
+                                               OddTemplate="{StaticResource OddTemplate}"/>
+
         </ResourceDictionary>
     </Page.Resources>
 
@@ -698,7 +791,7 @@
                     <VisualState.Setters>
                         <Setter Target="LrcView.ItemTemplate" Value="{StaticResource NarrowLrc}"/>
                         <Setter Target="LrcHeader.FontSize" Value="16"/>
-                        
+
                         <Setter Target="Previous.Margin" Value="2,4"/>
                         <Setter Target="PlayPause.Margin" Value="2,4"/>
                         <Setter Target="Next.Margin" Value="2,4"/>
@@ -717,6 +810,18 @@
                         <Setter Target="LrcViewOverlay.(Grid.Column)" Value="0"/>
                         <Setter Target="LrcViewOverlay.(Grid.Row)" Value="1"/>
 
+                        <Setter Target="LrcBtn.Visibility" Value="Collapsed"/>
+                        <Setter Target="SmallWindow.Visibility" Value="Collapsed"/>
+                        <Setter Target="Stop.Visibility" Value="Collapsed"/>
+                        <Setter Target="PlayListNarrow.Visibility" Value="Visible"/>
+                        <Setter Target="PlayListFull.Visibility" Value="Collapsed"/>
+                        <Setter Target="NarrowLrcBtn.Visibility" Value="Visible"/>
+                        <Setter Target="NarrowSmallWindow.Visibility" Value="Visible"/>
+                        <Setter Target="NarrowSplit.Visibility" Value="Visible"/>
+
+                        <Setter Target="PlayListBtn.Width" Value="48"/>
+                        <Setter Target="PlayListBtn.Height" Value="48"/>
+                        <Setter Target="PlayListBtn.Style" Value="{ThemeResource RevealRoundButton}"/>
 
                         <Setter Target="LrcView.Margin" Value="12"/>
                         <Setter Target="LrcViewOverlay.Margin" Value="12"/>
@@ -749,6 +854,15 @@
                         <Setter Target="LrcViewOverlay.(Grid.Column)" Value="1"/>
                         <Setter Target="LrcViewOverlay.(Grid.Row)" Value="0"/>
 
+                        <Setter Target="LrcBtn.Visibility" Value="Collapsed"/>
+                        <Setter Target="SmallWindow.Visibility" Value="Collapsed"/>
+                        <Setter Target="Stop.Visibility" Value="Visible"/>
+                        <Setter Target="PlayListNarrow.Visibility" Value="Collapsed"/>
+                        <Setter Target="PlayListFull.Visibility" Value="Visible"/>
+                        <Setter Target="NarrowLrcBtn.Visibility" Value="Visible"/>
+                        <Setter Target="NarrowSmallWindow.Visibility" Value="Visible"/>
+                        <Setter Target="NarrowSplit.Visibility" Value="Visible"/>
+
                         <Setter Target="LrcView.Margin" Value="16,16,16,64"/>
                         <Setter Target="LrcViewOverlay.Margin" Value="16,16,16,64"/>
                         <Setter Target="RowOne.Height" Value="0"/>
@@ -779,6 +893,15 @@
                         <Setter Target="LrcViewOverlay.(Grid.ColumnSpan)" Value="1"/>
                         <Setter Target="LrcViewOverlay.(Grid.Column)" Value="1"/>
                         <Setter Target="LrcViewOverlay.(Grid.Row)" Value="0"/>
+
+                        <Setter Target="LrcBtn.Visibility" Value="Visible"/>
+                        <Setter Target="SmallWindow.Visibility" Value="Visible"/>
+                        <Setter Target="Stop.Visibility" Value="Visible"/>
+                        <Setter Target="PlayListNarrow.Visibility" Value="Collapsed"/>
+                        <Setter Target="PlayListFull.Visibility" Value="Visible"/>
+                        <Setter Target="NarrowLrcBtn.Visibility" Value="Collapsed"/>
+                        <Setter Target="NarrowSmallWindow.Visibility" Value="Collapsed"/>
+                        <Setter Target="NarrowSplit.Visibility" Value="Collapsed"/>
 
                         <Setter Target="LrcView.Margin" Value="32,32,32,64"/>
                         <Setter Target="LrcViewOverlay.Margin" Value="32,32,32,64"/>
@@ -859,9 +982,9 @@
                   SelectedIndex="{x:Bind Context.Lyric.CurrentIndex,Mode=OneWay}" ItemTemplate="{StaticResource NormalLrc}"
                   ItemContainerStyle="{ThemeResource LyricListItem}" ItemsSource="{Binding Source={StaticResource LyricSource}}">
             <ListView.Header>
-                <Grid Height="320">
-                    <toolkit:DropShadowPanel Visibility="{x:Bind Context.BoolNottoVisibility(Context.Lyric.HasLyric),Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="12,0" Color="{ThemeResource SystemAltHighColor}" ShadowOpacity="0.66" BlurRadius="4" OffsetX="0" OffsetY="0">
-                        <TextBlock x:Name="LrcHeader" Text="{x:Bind Context.LyricHint,Mode=OneWay}"
+                <Grid x:Name="LrcHeaderGrid" Loaded="LrcHeader_Loaded">
+                    <toolkit:DropShadowPanel Visibility="{x:Bind Context.BoolNottoVisibility(Context.Lyric.HasLyric),Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Color="{ThemeResource SystemAltHighColor}" ShadowOpacity="0.66" BlurRadius="4" OffsetX="0" OffsetY="0">
+                        <TextBlock FontSize="18" x:Name="LrcHeader" Text="{x:Bind Context.LyricHint,Mode=OneWay}"
                                Style="{ThemeResource SubtitleTextBlockStyle}"/>
                     </toolkit:DropShadowPanel>
                 </Grid>
@@ -882,7 +1005,7 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <ProgressBar Grid.Column="1" Style="{ThemeResource SlimProgressBar}" Height="2" Foreground="{ThemeResource SystemControlBackgroundAltLowRevealBrush}" Background="{x:Null}" Value="{x:Bind Context.DownloadProgress, Mode=OneWay}" HorizontalAlignment="Stretch" Margin="16,2,16,0"/>
+            <ProgressBar Grid.Column="1" Style="{ThemeResource SlimProgressBar}" Height="2" Foreground="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" Background="{x:Null}" Value="{x:Bind Context.BufferProgress, Mode=OneWay}" HorizontalAlignment="Stretch" Margin="16,2,16,0"/>
             <Slider Grid.Column="1" Minimum="0" Maximum="100" 
                     Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 1),Mode=OneWay}" 
                     ThumbToolTipValueConverter="{StaticResource SliderToolTipConverter}" 
@@ -914,6 +1037,12 @@
                         <SymbolIcon Symbol="Next"/>
                     </Button.Content>
                 </Button>
+                <Button x:Name="Stop" Style="{ThemeResource RevealRoundButton}" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 1),Mode=OneWay}" Command="{x:Bind Context.GoNext}" ToolTipService.ToolTip="Stop"
+                                Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                    <Button.Content>
+                        <SymbolIcon Symbol="Stop"/>
+                    </Button.Content>
+                </Button>
                 <ToggleButton x:Name="Shuffle" Style="{ThemeResource RevealRoundToggleButton}" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 1),Mode=OneWay}" IsChecked="{x:Bind Context.IsShuffle, Mode=TwoWay}"
                               ToolTipService.ToolTip="Shuffle" Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <ToggleButton.Content>
@@ -927,15 +1056,37 @@
                         <SymbolIcon Symbol="Refresh"/>
                     </ToggleButton.Content>
                 </ToggleButton>
+
+                <Button x:Name="PlayListBtn" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 1),Mode=OneWay}" Style="{ThemeResource RevealRectangleButton}" ToolTipService.ToolTip="Playing list" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button.Content>
+                        <Grid>
+                            <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="PlayListFull" Text="{x:Bind Context.NowListPreview,Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" Margin="12,8"/>
+                            <FontIcon x:Name="PlayListNarrow" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FontFamily="Segoe MDL2 Assets" Glyph="&#xE12F;" />
+                        </Grid>
+                    </Button.Content>
+                    <Button.Flyout>
+                        <Flyout>
+                            <ListView MaxHeight="360" IsSynchronizedWithCurrentItem="False" ItemTemplateSelector="{StaticResource SongListTemplateSelector}" SelectedIndex="{x:Bind Context.CurrentIndex, Mode=OneWay,FallbackValue=-1}" ItemsSource="{x:Bind Context.NowPlayingList}" ItemContainerStyle="{ThemeResource GeneralListViewItemStyle}">
+                                <ListView.Header>
+                                    <TextBlock Text="Not Playing" Visibility="{x:Bind Context.CollapseIfNotZero(Context.NowPlayingList.Count),Mode=OneWay}" Style="{ThemeResource SubtitleTextBlockStyle}" Margin="36,12" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </ListView.Header>
+                            </ListView>
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="4">
-                <Button x:Name="LrcBtn" Style="{ThemeResource RevealRoundButton}" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 1),Mode=OneWay}" ToolTipService.ToolTip="Lyric window" Command="{x:Bind Context.ShowLyricWindow}"
+                <Button x:Name="LrcBtn" Style="{ThemeResource RevealRoundButton}" 
+                        Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 1),Mode=OneWay}" 
+                        ToolTipService.ToolTip="Lyric Window" Command="{x:Bind Context.ShowLyricWindow}"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <Button.Content>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEA4B;"/>
                     </Button.Content>
                 </Button>
-                <Button x:Name="SmallWindow" Style="{ThemeResource RevealRoundButton}" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 1),Mode=OneWay}" Command="{x:Bind Context.CompactOverlay}" ToolTipService.ToolTip="Small window"
+                <Button x:Name="SmallWindow" Style="{ThemeResource RevealRoundButton}" 
+                        Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 1),Mode=OneWay}" 
+                        Command="{x:Bind Context.CompactOverlay}" ToolTipService.ToolTip="Small Window"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <Button.Content>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE2B4;" />
@@ -966,6 +1117,17 @@
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
                                 <MenuFlyoutSeparator/>
+                                <MenuFlyoutItem x:Name="NarrowLrcBtn" Text="Lyric Window" Command="{x:Bind Context.ShowLyricWindow}">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEA4B;"/>
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem x:Name="NarrowSmallWindow" Text="Small Window" Command="{x:Bind Context.CompactOverlay}">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE2B4;" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutSeparator x:Name="NarrowSplit"/>
                                 <MenuFlyoutItem Click="DownloadOrModify" Text="{x:Bind Context.DownloadOrModify(Context.Song.IsOnline),Mode=OneWay}" >
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Context.DownloadOrModifyIcon(Context.Song.IsOnline),Mode=OneWay}" />
@@ -981,7 +1143,7 @@
                                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE107;" />
                                     </MenuFlyoutSubItem.Icon>
                                     <MenuFlyoutItem Text="Move to Trash" Click="Delete_Click">
-                                        
+
                                     </MenuFlyoutItem>
                                     <MenuFlyoutItem Text="Permanent Delete" Click="Delete_Click_1">
 

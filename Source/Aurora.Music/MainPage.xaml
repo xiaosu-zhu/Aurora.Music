@@ -1145,7 +1145,7 @@
                         </ToggleButton>
                     </StackPanel>
                     <ProgressBar Background="{x:Null}" Foreground="{ThemeResource SystemControlBackgroundAltLowRevealBrush}" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="5" 
-                                 Value="{x:Bind Context.DownloadProgress, Mode=OneWay}"/>
+                                 Value="{x:Bind Context.BufferProgress, Mode=OneWay}"/>
                     <ProgressBar Background="{x:Null}" Foreground="{ThemeResource SystemControlBackgroundBaseHighRevealBorderBrush}" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="5" 
                                  Value="{x:Bind Context.PositionToValue(Context.CurrentPosition, Context.TotalDuration), Mode=OneWay}"/>
                 </Grid>
@@ -1206,7 +1206,7 @@
                                                        Thickness="4" Minimum="0" Maximum="100" Width="36" Height="36"
                                                        Outline="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}"/>
                             <StackPanel Margin="8" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Center">
-                                <TextBlock FontFamily="Consolas" x:Name="ProgressUpdateTitle" FontSize="18" FontWeight="Bold" Style="{ThemeResource SubtitleTextBlockStyle}"/>
+                                <TextBlock x:Name="ProgressUpdateTitle" FontSize="18" FontWeight="Bold" Style="{ThemeResource SubtitleTextBlockStyle}"/>
                                 <TextBlock x:Name="ProgressUpdateContent" Style="{ThemeResource BodyTextBlockStyle}"/>
                             </StackPanel>
                         </StackPanel>

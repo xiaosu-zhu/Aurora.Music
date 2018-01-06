@@ -739,7 +739,7 @@ namespace Aurora.Music.PlaybackEngine
             mediaPlayer.Dispose();
         }
 
-        public void SkiptoItem(uint index)
+        public void SkiptoIndex(uint index)
         {
             if (index >= 0 && index < mediaPlaybackList.Items.Count)
             {

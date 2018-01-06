@@ -1,5 +1,6 @@
 ﻿using Aurora.Music.Core;
 using Aurora.Music.Core.Models;
+using Aurora.Music.Core.Storage;
 using Aurora.Music.Pages;
 using Aurora.Music.PlaybackEngine;
 using Aurora.Shared.Extensions;
@@ -18,6 +19,7 @@ using Windows.Devices.Enumeration;
 using Windows.Foundation.Collections;
 using Windows.Media.Devices;
 using Windows.Services.Store;
+using Windows.Storage;
 using Windows.System;
 using Windows.System.Threading;
 
@@ -69,7 +71,8 @@ namespace Aurora.Music.ViewModels
         {
             get => new DelegateCommand(async () =>
             {
-                await Launcher.LaunchUriAsync(new Uri($"feedback-hub:"));
+                var launcher = Microsoft.Services.Store.Engagement.StoreServicesFeedbackLauncher.GetDefault();
+                await launcher.LaunchAsync();
             });
         }
 
@@ -86,6 +89,71 @@ namespace Aurora.Music.ViewModels
             get => new DelegateCommand(() =>
             {
                 MainPage.Current.Navigate(typeof(AboutPage));
+            });
+        }
+
+
+        public DelegateCommand DownloadPath
+        {
+            get => new DelegateCommand(async () =>
+            {
+                var folderPicker = new Windows.Storage.Pickers.FolderPicker
+                {
+                    SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.ComputerFolder
+                };
+                folderPicker.FileTypeFilter.Add(".mp3");
+                folderPicker.FileTypeFilter.Add(".m4a");
+                folderPicker.FileTypeFilter.Add(".wav");
+                folderPicker.FileTypeFilter.Add(".flac");
+
+                StorageFolder folder = await folderPicker.PickSingleFolderAsync();
+                if (folder != null)
+                {
+                    settings.DownloadPathToken = Windows.Storage.AccessCache.StorageApplicationPermissions.FutureAccessList.Add(folder);
+                    settings.Save();
+                    DownloadPathText = folder.Path;
+                }
+            });
+        }
+
+        private string downloadPathText;
+        public string DownloadPathText
+        {
+            get { return downloadPathText; }
+            set { SetProperty(ref downloadPathText, value); }
+        }
+
+        public DelegateCommand ClearCache
+        {
+            get => new DelegateCommand(async () =>
+            {
+                var folder = ApplicationData.Current.TemporaryFolder;
+                var f = await folder.GetItemsAsync();
+                foreach (var item in f)
+                {
+                    await item.DeleteAsync();
+                }
+
+            });
+        }
+
+        public DelegateCommand DeleteAll
+        {
+            get => new DelegateCommand(async () =>
+            {
+                var opr = SQLOperator.Current();
+                opr.Dispose();
+                opr = null;
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+
+                await Task.Delay(300);
+
+                await ApplicationData.Current.ClearAsync();
+                settings = new Settings();
+                settings.Save();
+                await Task.Delay(300);
+                App.Current.Exit();
             });
         }
 
@@ -291,6 +359,7 @@ namespace Aurora.Music.ViewModels
         private Settings settings;
         private StoreContext context;
         private AppExtensionCatalog _catalog;
+        private StorageFolder downloadFolder;
 
         public async Task FindAllExtensions()
         {
@@ -484,8 +553,31 @@ namespace Aurora.Music.ViewModels
 
             string audioSelector = MediaDevice.GetAudioRenderSelector();
             var outputDevices = await DeviceInformation.FindAllAsync(audioSelector);
+
+
+            try
+            {
+                if (settings.DownloadPathToken.IsNullorEmpty())
+                {
+                    var lib = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Music);
+                    downloadFolder = await lib.SaveFolder.CreateFolderAsync("Download", CreationCollisionOption.OpenIfExists);
+                }
+                else
+                {
+                    downloadFolder = await Windows.Storage.AccessCache.StorageApplicationPermissions.
+                FutureAccessList.GetFolderAsync(settings.DownloadPathToken);
+                }
+            }
+            catch (Exception)
+            {
+                var lib = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Music);
+                downloadFolder = await lib.SaveFolder.CreateFolderAsync("Download", CreationCollisionOption.OpenIfExists);
+            }
+
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
+                DownloadPathText = downloadFolder.Path;
+
                 DevicList.Add(new DeviceInformationViewModel()
                 {
                     Name = "System default",
@@ -526,10 +618,10 @@ namespace Aurora.Music.ViewModels
                         });
                     }
                 });
-                
+
             });
 
-            
+
         }
     }
 

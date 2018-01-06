@@ -640,7 +640,7 @@ namespace Aurora.Music.PlaybackEngine
             DisconnectFromGraph();
         }
 
-        public void SkiptoItem(uint index)
+        public void SkiptoIndex(uint index)
         {
             throw new NotImplementedException();
         }

@@ -58,7 +58,7 @@ namespace Aurora.Music.ViewModels
         }
 
         private double downloadProgress;
-        public double DownloadProgress
+        public double BufferProgress
         {
             get { return downloadProgress; }
             set { SetProperty(ref downloadProgress, value); }
@@ -71,7 +71,7 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref currentColorBrush, value); }
         }
 
-        public void Init(SongViewModel song)
+        public async void Init(SongViewModel song)
         {
             //Initialize our picker object
             castingPicker = new CastingDevicePicker();
@@ -97,15 +97,21 @@ namespace Aurora.Music.ViewModels
             CurrentArtwork = song.Artwork;
             lastUriPath = song.Artwork?.AbsolutePath;
             IsPlaying = player.IsPlaying;
-            DownloadProgress = MainPageViewModel.Current.DownloadProgress;
+            BufferProgress = MainPageViewModel.Current.BufferProgress;
             SongChanged?.Invoke(song, EventArgs.Empty);
             CurrentRating = song.Rating;
-
-            var dispa = CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, async () =>
+            var brush = new SolidColorBrush(await ImagingHelper.GetMainColor(CurrentArtwork));
+            CurrentColorBrush = brush;
+            MainPageViewModel.Current.LeftTopColor = AdjustColorbyTheme(CurrentColorBrush);
+            CurrentIndex = MainPageViewModel.Current.CurrentIndex;
+            var task = ThreadPool.RunAsync(async x =>
             {
-                CurrentColorBrush = new SolidColorBrush(await ImagingHelper.GetMainColor(CurrentArtwork));
-                MainPageViewModel.Current.LeftTopColor = AdjustColorbyTheme(CurrentColorBrush);
-                IsCurrentFavorite = await _lastSong.GetFavoriteAsync();
+                var favor = await _lastSong.GetFavoriteAsync();
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                {
+                    IsCurrentFavorite = favor;
+                });
+
             });
 
             var t = ThreadPool.RunAsync(async x =>
@@ -308,7 +314,27 @@ namespace Aurora.Music.ViewModels
         {
             if (Song.IsOnline)
             {
-                var progress = await FileTracker.DownloadMusic(Song.Song);
+                StorageFolder folder;
+                try
+                {
+                    var s = Settings.Load();
+                    if (!s.DownloadPathToken.IsNullorEmpty())
+                    {
+                        folder = await Windows.Storage.AccessCache.StorageApplicationPermissions.
+                FutureAccessList.GetFolderAsync(s.DownloadPathToken);
+                    }
+                    else
+                    {
+                        var lib = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Music);
+                        folder = await lib.SaveFolder.CreateFolderAsync("Download", CreationCollisionOption.OpenIfExists);
+                    }
+                }
+                catch (Exception)
+                {
+                    var lib = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Music);
+                    folder = await lib.SaveFolder.CreateFolderAsync("Download", CreationCollisionOption.OpenIfExists);
+                }
+                var progress = await FileTracker.DownloadMusic(Song.Song, folder);
                 progress.Progress = DownloadProgressChanged;
                 progress.Completed = DownloadCompleted;
             }
@@ -321,10 +347,41 @@ namespace Aurora.Music.ViewModels
         private void DownloadCompleted(IAsyncOperationWithProgress<DownloadOperation, DownloadOperation> asyncInfo, AsyncStatus asyncStatus)
         {
             MainPage.Current.PopMessage("Download Completed");
+            MainPage.Current.ProgressUpdate("Completed", "Downloading Completed");
         }
 
         private void DownloadProgressChanged(IAsyncOperationWithProgress<DownloadOperation, DownloadOperation> asyncInfo, DownloadOperation progressInfo)
         {
+            MainPage.Current.ProgressUpdate(true);
+            switch (progressInfo.Progress.Status)
+            {
+                case BackgroundTransferStatus.Idle:
+                    MainPage.Current.ProgressUpdate("Idle", "Downloading Idle");
+                    break;
+                case BackgroundTransferStatus.Running:
+                    MainPage.Current.ProgressUpdate(100 * (Convert.ToDouble(progressInfo.Progress.BytesReceived) / Convert.ToDouble(progressInfo.Progress.TotalBytesToReceive)));
+                    MainPage.Current.ProgressUpdate("Processing", "Downloading in Progress");
+                    break;
+                case BackgroundTransferStatus.PausedByApplication:
+                case BackgroundTransferStatus.PausedCostedNetwork:
+                case BackgroundTransferStatus.PausedNoNetwork:
+                case BackgroundTransferStatus.PausedSystemPolicy:
+                case BackgroundTransferStatus.PausedRecoverableWebErrorStatus:
+                    MainPage.Current.ProgressUpdate("Processing", "Downloading Paused");
+                    break;
+                case BackgroundTransferStatus.Completed:
+                    MainPage.Current.ProgressUpdate("Completed", "Downloading Completed");
+                    break;
+                case BackgroundTransferStatus.Canceled:
+                    MainPage.Current.ProgressUpdate("Processing", "Downloading Canceled");
+                    break;
+                case BackgroundTransferStatus.Error:
+                    MainPage.Current.ProgressUpdate("Processing", "Downloading Error");
+                    break;
+                default:
+                    break;
+            }
+
         }
 
         public TimeSpan TotalDuration
@@ -369,7 +426,7 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref isPlaying, value); }
         }
 
-        private int currentIndex;
+        private int currentIndex = -1;
         public int CurrentIndex
         {
             get { return currentIndex; }
@@ -407,6 +464,14 @@ namespace Aurora.Music.ViewModels
 
             dataTransferManager = DataTransferManager.GetForCurrentView();
             dataTransferManager.DataRequested += DataTransferManager_DataRequested;
+
+
+
+            NowListPreview = MainPageViewModel.Current.NowListPreview;
+            foreach (var item in MainPageViewModel.Current.NowPlayingList)
+            {
+                NowPlayingList.Add(item);
+            }
         }
 
         private async void DataTransferManager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
@@ -456,7 +521,7 @@ namespace Aurora.Music.ViewModels
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
             {
-                DownloadProgress = 100 * e.Progress;
+                BufferProgress = 100 * e.Progress;
             });
         }
 
@@ -732,16 +797,18 @@ namespace Aurora.Music.ViewModels
                         if (e.Items is IList<Song> l)
                         {
                             NowListPreview = $"{e.CurrentIndex + 1}/{l.Count}";
-                            uint i = 1;
                             NowPlayingList.Clear();
-                            foreach (var item in l)
+                            for (int i = 0; i < l.Count; i++)
                             {
-                                NowPlayingList.Add(new SongViewModel(item)
+                                NowPlayingList.Add(new SongViewModel(l[i])
                                 {
-                                    Index = i++
+                                    Index = (uint)i
                                 });
                             }
-                            CurrentIndex = Convert.ToInt32(e.CurrentIndex);
+                            if (e.CurrentIndex < NowPlayingList.Count)
+                            {
+                                CurrentIndex = e.CurrentIndex;
+                            }
                         }
 
                         IsCurrentFavorite = await e.CurrentSong.GetFavoriteAsync();

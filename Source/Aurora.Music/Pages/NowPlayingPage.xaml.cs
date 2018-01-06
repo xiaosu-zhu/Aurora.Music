@@ -42,6 +42,27 @@ namespace Aurora.Music.Pages
             Context.SongChanged += Context_SongChanged;
         }
 
+        private void Grid_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            if (sender is Panel s)
+            {
+                (s.Resources["PointerOver"] as Storyboard).Begin();
+            }
+        }
+
+        private void Grid_PointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            if (sender is Panel s)
+            {
+                (s.Resources["Normal"] as Storyboard).Begin();
+            }
+        }
+
+        private void PlayBtn_Click(object sender, RoutedEventArgs e)
+        {
+            MainPageViewModel.Current.SkiptoItem((sender as Button).DataContext as SongViewModel);
+        }
+
         private async void Context_SongChanged(object sender, EventArgs e)
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
@@ -125,7 +146,7 @@ namespace Aurora.Music.Pages
 
             MainPageViewModel.Current.Title = "Now Playing";
             MainPageViewModel.Current.NeedShowTitle = true;
-            MainPageViewModel.Current.LeftTopColor = Resources["SystemControlForegroundBaseHighBrush"] as SolidColorBrush;
+            //MainPageViewModel.Current.LeftTopColor = Resources["SystemControlForegroundBaseHighBrush"] as SolidColorBrush;
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
             AppViewBackButtonVisibility.Visible;
             SystemNavigationManager.GetForCurrentView().BackRequested += NowPlayingPage_BackRequested;
@@ -249,6 +270,31 @@ namespace Aurora.Music.Pages
         private void VisualStateGroup_CurrentStateChanged(object sender, VisualStateChangedEventArgs e)
         {
             ListView_SelectionChanged(LrcView, null);
+            if (e.NewState.Name != "Full")
+            {
+
+            }
+        }
+
+        private void LrcHeader_Loaded(object sender, RoutedEventArgs e)
+        {
+            SizeChanged += NowPlayingPage_SizeChanged;
+            var h = Window.Current.Bounds.Height - 640;
+            if (h < 24)
+            {
+                h = 24;
+            }
+            LrcHeaderGrid.Height = h;
+        }
+
+        private void NowPlayingPage_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            var h = Window.Current.Bounds.Height - 640;
+            if (h < 24)
+            {
+                h = 24;
+            }
+            LrcHeaderGrid.Height = h;
         }
     }
 }

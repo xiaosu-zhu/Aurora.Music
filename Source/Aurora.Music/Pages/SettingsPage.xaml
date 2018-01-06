@@ -79,7 +79,7 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        
+
         <ScrollViewer HorizontalScrollBarVisibility="Hidden" Style="{ThemeResource NarrowScrollViewer}"
                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalScrollMode="Disabled" VerticalScrollMode="Enabled">
             <StackPanel x:Name="Main" Loaded="Main_Loaded" Padding="60,120,60,160" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -120,10 +120,12 @@
                                     </Hyperlink>
                                 </Paragraph>
                             </RichTextBlock>
-
+                            
                             <ComboBox ItemTemplate="{StaticResource ExtensionTemplate}" SelectedIndex="{x:Bind Context.CurrentOnlineIndex,Mode=OneWay}" SelectionChanged="OnlineCombo_SelectionChanged" IsEnabled="{x:Bind Context.OnlinePurchase,Mode=OneWay}" ItemsSource="{x:Bind Context.OnlineExts}" Header="Online Extension" Margin="12,4">
 
                             </ComboBox>
+                            <Button Margin="12,4" Content="Download Path" Command="{x:Bind Context.DownloadPath}" Style="{ThemeResource ButtonRevealStyle}" />
+                            <TextBlock Text="{x:Bind Context.DownloadPathText, Mode=OneWay}" Margin="12,4" Style="{ThemeResource BodyTextBlockStyle}"/>
                         </StackPanel>
                         <StackPanel BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" BorderThickness="0,0,0,1" Background="Gray" Padding="8,0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <TextBlock Text="Audio Graph" TextDecorations="Strikethrough" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,8"/>
@@ -182,6 +184,19 @@
                         <StackPanel BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" BorderThickness="0,0,0,1" Padding="8,0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <TextBlock Text="Advance" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12"/>
                             <ToggleSwitch Header="Debug Mode" IsOn="{x:Bind Context.DebugModeEnabled,Mode=TwoWay}" Margin="8,12" />
+                            <StackPanel Padding="4" Margin="0,4" BorderBrush="#ff4343" BorderThickness="1" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <TextBlock Foreground="#ff4343" Text="Danger Zone" Margin="4"/>
+                                <Button Command="{x:Bind Context.ClearCache}" Style="{ThemeResource ButtonRevealStyle}" Margin="4" Content="Clear Cache"/>
+                                <Button Margin="4" Style="{ThemeResource ButtonRevealStyle}" Background="#ff4343" Content="Delete all and reload" Foreground="{StaticResource SystemControlForegroundAltHighBrush}">
+                                    <Button.Flyout>
+                                        <Flyout>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Button Command="{x:Bind Context.DeleteAll}" Content="I know this will clear all data and continue" Style="{ThemeResource ButtonRevealStyle}" Background="#ff4343" Foreground="{StaticResource SystemControlForegroundAltHighBrush}"/>
+                                            </StackPanel>
+                                        </Flyout>
+                                    </Button.Flyout>
+                                </Button>
+                            </StackPanel>
                         </StackPanel>
                     </StackPanel>
                     <StackPanel x:Name="SidePanel" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">

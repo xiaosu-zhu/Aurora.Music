@@ -356,12 +356,20 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="3*"/>
                     <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
                 <TextBlock Style="{ThemeResource HeaderTextBlockStyle}" 
                            HorizontalAlignment="Center" VerticalAlignment="Center" 
                            Margin="8,4" Text="Before You Start"/>
                 <Frame Grid.Row="1" x:Name="AddFolderFrame"/>
-                <Button Grid.Row="2" Padding="12,4" Margin="16" Click="Button_Click" 
+                <Button Grid.Row="2" Padding="12,4" Margin="16" x:Name="Skip" Click="Skip_Click"
+                        HorizontalAlignment="Center" VerticalAlignment="Center" 
+                        Style="{ThemeResource ButtonRevealStyle}">
+                    <Button.Content>
+                        <TextBlock Text="Skip" Style="{ThemeResource SubtitleTextBlockStyle}"/>
+                    </Button.Content>
+                </Button>
+                <Button Grid.Row="3" Padding="12,4" Margin="16" Click="Button_Click" 
                         HorizontalAlignment="Center" VerticalAlignment="Center" 
                         Style="{ThemeResource ButtonRevealStyle}">
                     <Button.Content>

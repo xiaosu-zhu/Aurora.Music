@@ -208,15 +208,36 @@ namespace Aurora.Music.Core.Storage
             var total = files.Count();
             foreach (var file in files)
             {
-                using (var tagTemp = File.Create(file.Path))
+                if (!file.IsAvailable)
                 {
-                    tempList.Add(await Song.Create(tagTemp.Tag, file.Path, await file.Properties.GetMusicPropertiesAsync()));
-                }
-                ProgressUpdated?.Invoke(this, new ProgressReport() { Description = $"{i} of {total} files readed", Current = i, Total = total });
 
-                i++;
+                    ProgressUpdated?.Invoke(this, new ProgressReport() { Description = $"{i} of {total} files readed", Current = i, Total = total });
+
+                    i++;
+                    continue;
+                }
+                try
+                {
+                    using (var tagTemp = File.Create(file.Path))
+                    {
+                        tempList.Add(await Song.Create(tagTemp.Tag, file.Path, await file.Properties.GetMusicPropertiesAsync()));
+                    }
+
+                }
+                catch (Exception e)
+                {
+                    Shared.Helpers.Tools.Logging(e);
+                    goto step2;
+                }
+                finally
+                {
+
+                    ProgressUpdated?.Invoke(this, new ProgressReport() { Description = $"{i} of {total} files readed", Current = i, Total = total });
+
+                    i++;
+                }
             }
-            i = 1;
+            step2: i = 1;
 
             await Task.Delay(200);
 

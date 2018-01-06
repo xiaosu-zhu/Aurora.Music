@@ -59,8 +59,9 @@ namespace Aurora.Music.Core.Storage
                     IndexerOption = Windows.Storage.Search.IndexerOption.DoNotUseIndexer,
                 };
                 var query = item.CreateFileQueryWithOptions(options);
-
-                list.AddRange(await query.GetFilesAsync());
+                var files = await query.GetFilesAsync();
+                list.AddRange(files);
+                var t = Task.Run(async () => { await opr.UpdateFolderAsync(item, files.Count); });
             }
             foreach (var path in filePaths)
             {

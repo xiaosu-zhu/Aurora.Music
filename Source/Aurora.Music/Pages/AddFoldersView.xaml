@@ -30,9 +30,8 @@
                 <TextBlock Text="Including Music Library" VerticalAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}"/>
                 <ToggleSwitch Style="{StaticResource ColoredToggleSwitch}" IsOn="{x:Bind Context.IncludeMusicLibrary, Mode=TwoWay}" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" Margin="16,0"/>
             </StackPanel>
-            <Button Command="{x:Bind Context.AddFolderCommand}" 
-                    Padding="0,8" Background="{ThemeResource SystemControlBackgroundBaseLowRevealBackgroundBrush}" 
-                    HorizontalAlignment="Stretch" Margin="8,4" Style="{ThemeResource RevealRectangleButton}" Content="Add a new folder to scan"/>
+            <Button Command="{x:Bind Context.AddFolderCommand}" Background="{ThemeResource SystemControlBackgroundBaseLowRevealBackgroundBrush}" 
+                    HorizontalAlignment="Left" Margin="8,4" Style="{ThemeResource ButtonRevealStyle}" Content="Add a new folder to scan"/>
             <ListView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="ListView_SelectionChanged" Margin="8,4" ItemContainerStyle="{ThemeResource GeneralListViewItemStyle}" ItemsSource="{x:Bind Context.Folders}">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="vm:FolderViewModel">

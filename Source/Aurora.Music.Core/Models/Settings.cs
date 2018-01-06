@@ -64,6 +64,8 @@ namespace Aurora.Music.Core.Models
         public bool OnlinePurchase { get; set; } = false;
         public bool DebugModeEnabled { get; set; } = false;
 
+        public string DownloadPathToken { get; set; } = string.Empty;
+        
         public static Settings Load()
         {
             try
