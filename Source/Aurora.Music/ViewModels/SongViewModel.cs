@@ -32,11 +32,11 @@ namespace Aurora.Music.ViewModels
             }
             if (Song.BitRate != default(uint) && Song.BitRate != 0u)
             {
-                descs.Add($"{Song.BitRate / 1000} Kbps");
+                descs.Add($"{(Song.BitRate / 1000.0).ToString("0.#")} Kbps");
             }
             if (Song.SampleRate != default(uint))
             {
-                descs.Add($"{Song.SampleRate / 1000} KHz");
+                descs.Add($"{(Song.SampleRate / 1000.0).ToString("0.#")} KHz");
             }
             var type = GetFileType();
             if (!type.IsNullorEmpty())

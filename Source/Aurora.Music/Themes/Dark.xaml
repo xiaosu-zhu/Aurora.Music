@@ -14,6 +14,8 @@
     <AcrylicBrush x:Key="SystemControlAltTranslucentAcrylicElementBrush" BackgroundSource="Backdrop" TintColor="{StaticResource SystemChromeAltHighColor}" TintOpacity="0.5" FallbackColor="{StaticResource SystemAltLowColor}" />
     <AcrylicBrush x:Key="SystemControlAltTranslucentAcrylicWindowBrush" BackgroundSource="HostBackdrop" TintColor="{StaticResource SystemChromeAltHighColor}" TintOpacity="0.5" FallbackColor="{StaticResource SystemAltLowColor}" />
 
+    <AcrylicBrush x:Key="SystemControlBlackAcrylicElementBrush" BackgroundSource="Backdrop" TintColor="{StaticResource SystemBaseHighColor}" TintOpacity="0.33333" FallbackColor="{StaticResource SystemBaseMediumColor}" />
+
     <RevealBorderBrush x:Key="SystemControlBackgroundAltLowRevealBrush" TargetTheme="Dark" Color="{StaticResource SystemRevealAltLowColor}" FallbackColor="{StaticResource SystemRevealAltLowColor}" />
     <RevealBorderBrush x:Key="SystemControlBackgroundAltHighRevealBrush" TargetTheme="Dark" Color="{StaticResource SystemRevealAltHighColor}" FallbackColor="{StaticResource SystemAltHighColor}" />
     <RevealBorderBrush x:Key="SystemControlBackgroundAltMediumRevealBrush" TargetTheme="Dark" Color="{StaticResource SystemRevealAltMediumColor}" FallbackColor="{StaticResource SystemAltHighColor}" />

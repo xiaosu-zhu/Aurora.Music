@@ -140,7 +140,7 @@
                         </Button>
                         <Button Style="{ThemeResource NoBorderButton}" Grid.Column="1" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Background="{ThemeResource SystemControlBackgroundBaseMediumLowRevealBorderBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                             <Button.Content>
-                                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE710;" />
+                                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE712;" />
                             </Button.Content>
                         </Button>
                     </Grid>
@@ -251,7 +251,7 @@
                         </Button>
                         <Button Style="{ThemeResource NoBorderButton}" Grid.Column="1" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Background="{ThemeResource SystemControlBackgroundBaseMediumLowRevealBorderBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                             <Button.Content>
-                                <FontIcon FontSize="15" FontFamily="Segoe MDL2 Assets" Glyph="&#xE710;" />
+                                <FontIcon FontSize="15" FontFamily="Segoe MDL2 Assets" Glyph="&#xE712;" />
                             </Button.Content>
                         </Button>
                     </Grid>

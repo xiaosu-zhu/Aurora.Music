@@ -245,7 +245,7 @@ namespace Aurora.Music.Core.Storage
             var newlist = new List<SONG>();
             foreach (var song in tempList)
             {
-                var t = await opr.UpdateSongAsync(song);
+                var t = await opr.InsertSongAsync(song);
                 if (t != null)
                 {
                     newlist.Add(t);
@@ -261,6 +261,12 @@ namespace Aurora.Music.Core.Storage
             {
                 Completed?.Invoke(this, EventArgs.Empty);
             }
+        }
+
+        public static async Task UpdateSongAsync(Song model)
+        {
+            var opr = SQLOperator.Current();
+            await opr.UpdateSongAsync(model);
         }
 
         public async Task<List<Song>> GetSongsAsync()

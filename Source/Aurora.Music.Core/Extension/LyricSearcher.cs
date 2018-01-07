@@ -54,12 +54,17 @@ namespace Aurora.Music.Core.Extension
 
         public static async Task SaveLrcLocalAsync(string title, string artists, string result)
         {
-            var fileName = Shared.Utils.InvalidFileNameChars.Aggregate(title, (current, c) => current.Replace(c + "", "_"));
-            fileName += artists.IsNullorEmpty() ? "" : $"-{Shared.Utils.InvalidFileNameChars.Aggregate(artists, (current, c) => current.Replace(c + "", "_"))}";
-
-            var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Lyrics", CreationCollisionOption.OpenIfExists);
             try
             {
+                if (title.IsNullorEmpty() || result.IsNullorEmpty())
+                {
+                    return;
+                }
+                var fileName = Shared.Utils.InvalidFileNameChars.Aggregate(title, (current, c) => current.Replace(c + "", "_"));
+                fileName += artists.IsNullorEmpty() ? "" : $"-{Shared.Utils.InvalidFileNameChars.Aggregate(artists, (current, c) => current.Replace(c + "", "_"))}";
+
+                var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Lyrics", CreationCollisionOption.OpenIfExists);
+
                 var file = await folder.CreateFileAsync($"{fileName}.lrc", CreationCollisionOption.FailIfExists);
                 await FileIO.WriteTextAsync(file, result);
             }

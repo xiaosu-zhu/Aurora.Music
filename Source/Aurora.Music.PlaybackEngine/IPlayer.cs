@@ -22,14 +22,16 @@ namespace Aurora.Music.PlaybackEngine
         void Shuffle(bool? isOn);
 
         bool? IsPlaying { get; }
-        
+
         event EventHandler<PositionUpdatedArgs> PositionUpdated;
         event EventHandler<StatusChangedArgs> StatusChanged;
         event EventHandler<DownloadProgressChangedArgs> DownloadProgressChanged;
 
         void SkiptoIndex(uint index);
         Task ReloadCurrent();
-        void DetachCurrentSource();
+        void RemoveCurrentItem();
+        Task DetachCurrentItem();
+        Task ReAttachCurrentItem();
     }
 
     public class DownloadProgressChangedArgs

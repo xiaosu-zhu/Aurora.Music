@@ -41,6 +41,10 @@ namespace Aurora.Music.PlaybackEngine
 
 
         static Player current;
+        private MediaPlaybackState _savedState;
+        private TimeSpan _savedPosition;
+        private uint _savedIndex;
+
         public static IPlayer Current
         {
             get
@@ -754,8 +758,11 @@ namespace Aurora.Music.PlaybackEngine
 
             var index = mediaPlaybackList.CurrentItemIndex;
 
-            mediaPlayer.Source = null;
+            var cure = mediaPlaybackList.CurrentItem;
             mediaPlaybackList.Items.Remove(mediaPlaybackList.CurrentItem);
+            cure.Source.Dispose();
+            mediaPlayer.Source = null;
+
             if (index > currentList.Count)
             {
 
@@ -811,20 +818,109 @@ namespace Aurora.Music.PlaybackEngine
             {
                 mediaPlayer.Play();
             }
+            StatusChanged?.Invoke(this, new StatusChangedArgs
+            {
+                IsShuffle = mediaPlaybackList.ShuffleEnabled,
+                IsLoop = mediaPlaybackList.AutoRepeatEnabled,
+                CurrentSong = mediaPlaybackList.CurrentItem?.Source.CustomProperties[Consts.SONG] as Song,
+                CurrentIndex = mediaPlaybackList.CurrentItem == null ? -1 : currentList.IndexOf(mediaPlaybackList.CurrentItem?.Source.CustomProperties[Consts.SONG] as Song),
+                Items = currentList
+            });
         }
 
-        public void DetachCurrentSource()
+        public void RemoveCurrentItem()
         {
             var state = mediaPlayer.PlaybackSession.PlaybackState;
             mediaPlayer.Pause();
             var cure = mediaPlaybackList.CurrentItem;
             mediaPlaybackList.MoveNext();
+            cure.Source.Dispose();
             mediaPlaybackList.Items.Remove(cure);
             cure = null;
             if (state == MediaPlaybackState.Playing)
             {
                 mediaPlayer.Play();
             }
+        }
+
+        public async Task DetachCurrentItem()
+        {
+            _savedState = mediaPlayer.PlaybackSession.PlaybackState;
+            _savedPosition = mediaPlayer.PlaybackSession.Position;
+
+            _savedIndex = mediaPlaybackList.CurrentItemIndex;
+
+            var cure = mediaPlaybackList.CurrentItem;
+            mediaPlaybackList.Items.Remove(mediaPlaybackList.CurrentItem);
+            cure.Source.Dispose();
+            mediaPlayer.Source = null;
+        }
+
+        public async Task ReAttachCurrentItem()
+        {
+            if (_savedIndex > currentList.Count)
+            {
+
+            }
+            else
+            {
+                var item = currentList[(int)_savedIndex];
+                MediaSource mediaSource;
+                string builtin;
+
+                if (item.IsOnline)
+                {
+                    mediaSource = MediaSource.CreateFromUri(item.OnlineUri);
+                    builtin = item.PicturePath;
+                }
+                else
+                {
+                    /// **Local files can only create from <see cref="StorageFile"/>**
+
+                    try
+                    {
+                        StorageFile file = await StorageFile.GetFileFromPathAsync(item.FilePath);
+
+                        builtin = await GetBuiltInArtworkAsync(item.ID.ToString(), item.FilePath);
+
+                        mediaSource = MediaSource.CreateFromStorageFile(file);
+                    }
+                    catch (FileNotFoundException)
+                    {
+                        item.IsEmpty = true;
+                        throw;
+                    }
+                }
+
+                mediaSource.CustomProperties[Consts.ID] = item.ID;
+                mediaSource.CustomProperties[Consts.Duration] = mediaSource.Duration ?? default(TimeSpan);
+                mediaSource.CustomProperties[Consts.Artwork] = builtin.IsNullorEmpty() ? null : new Uri(builtin);
+                item.PicturePath = builtin.IsNullorEmpty() ? item.PicturePath : builtin;
+                mediaSource.CustomProperties[Consts.SONG] = item;
+
+                var mediaPlaybackItem = new MediaPlaybackItem(mediaSource);
+                var props = mediaPlaybackItem.GetDisplayProperties();
+
+                await WriteProperties(item, props, builtin);
+
+                mediaPlaybackItem.ApplyDisplayProperties(props);
+                mediaPlaybackList.Items.Insert((int)_savedIndex, mediaPlaybackItem);
+                mediaPlaybackList.StartingItem = mediaPlaybackItem;
+            }
+            mediaPlayer.Source = mediaPlaybackList;
+            mediaPlayer.PlaybackSession.Position = _savedPosition;
+            if (_savedState == MediaPlaybackState.Playing)
+            {
+                mediaPlayer.Play();
+            }
+            StatusChanged?.Invoke(this, new StatusChangedArgs
+            {
+                IsShuffle = mediaPlaybackList.ShuffleEnabled,
+                IsLoop = mediaPlaybackList.AutoRepeatEnabled,
+                CurrentSong = mediaPlaybackList.CurrentItem?.Source.CustomProperties[Consts.SONG] as Song,
+                CurrentIndex = mediaPlaybackList.CurrentItem == null ? -1 : currentList.IndexOf(mediaPlaybackList.CurrentItem?.Source.CustomProperties[Consts.SONG] as Song),
+                Items = currentList
+            });
         }
     }
 }

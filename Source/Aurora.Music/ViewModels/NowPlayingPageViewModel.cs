@@ -27,6 +27,7 @@ using Windows.Networking.BackgroundTransfer;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage.Streams;
 using Windows.Media.Casting;
+using Aurora.Music.Controls;
 
 namespace Aurora.Music.ViewModels
 {
@@ -287,8 +288,9 @@ namespace Aurora.Music.ViewModels
 
         internal async Task WriteRatingValue(double value)
         {
+            await player.DetachCurrentItem();
             await _lastSong.WriteRatingAsync(value);
-            await player.ReloadCurrent();
+            await player.ReAttachCurrentItem();
             CurrentRating = value;
         }
 
@@ -299,7 +301,7 @@ namespace Aurora.Music.ViewModels
                 throw new InvalidOperationException("Online item can't delete");
             }
             var s = Song.Song.FilePath;
-            player.DetachCurrentSource();
+            player.RemoveCurrentItem();
 
             var file = await StorageFile.GetFileFromPathAsync(s);
             await file.DeleteAsync(op);
@@ -340,7 +342,8 @@ namespace Aurora.Music.ViewModels
             }
             else
             {
-
+                var dialog = new TagDialog(Song);
+                await dialog.ShowAsync();
             }
         }
 
@@ -628,6 +631,17 @@ namespace Aurora.Music.ViewModels
                 return new DelegateCommand(() =>
                 {
                     player?.Next();
+                });
+            }
+        }
+
+        public DelegateCommand Stop
+        {
+            get
+            {
+                return new DelegateCommand(() =>
+                {
+                    player?.Stop();
                 });
             }
         }

@@ -295,6 +295,24 @@ namespace Aurora.Music.Core.Models
             }
         }
 
+        public async Task WriteRatingAsync(uint r)
+        {
+            if (IsOnline)
+            {
+                throw new NotImplementedException("WriteRatingAsync on online");
+            }
+            else
+            {
+                var file = await StorageFile.GetFileFromPathAsync(FilePath);
+                var prop = await file.Properties.GetMusicPropertiesAsync();
+
+                prop.Rating = r;
+                await prop.SavePropertiesAsync();
+                Rating = (r < 0 ? 0 : r);
+                await SQLOperator.Current().UpdateSongRatingAsync(ID, r / 20.0);
+            }
+        }
+
         public async Task WriteRatingAsync(double rat)
         {
             if (IsOnline)
@@ -303,8 +321,7 @@ namespace Aurora.Music.Core.Models
             }
             else
             {
-                var s = string.Copy(FilePath);
-                var file = await StorageFile.GetFileFromPathAsync(s);
+                var file = await StorageFile.GetFileFromPathAsync(FilePath);
                 var prop = await file.Properties.GetMusicPropertiesAsync();
                 uint r;
                 if (rat < 0)

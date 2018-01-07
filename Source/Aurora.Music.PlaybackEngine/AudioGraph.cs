@@ -650,7 +650,17 @@ namespace Aurora.Music.PlaybackEngine
             throw new NotImplementedException();
         }
 
-        public void DetachCurrentSource()
+        public void RemoveCurrentItem()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DetachCurrentItem()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task ReAttachCurrentItem()
         {
             throw new NotImplementedException();
         }

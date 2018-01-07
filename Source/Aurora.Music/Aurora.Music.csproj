@@ -120,6 +120,9 @@
     <Compile Include="Controls\SearchResultDialog.xaml.cs">
       <DependentUpon>SearchResultDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\TagDialog.xaml.cs">
+      <DependentUpon>TagDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\TemplateSeletor.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -218,7 +221,6 @@
     <Content Include="Assets\LargeTile.scale-200.png" />
     <Content Include="Assets\LargeTile.scale-400.png" />
     <Content Include="Assets\logo.svg" />
-    <Content Include="Assets\res.xml" />
     <Content Include="Assets\SmallTile.scale-100.png" />
     <Content Include="Assets\SmallTile.scale-125.png" />
     <Content Include="Assets\SmallTile.scale-150.png" />
@@ -289,6 +291,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\SearchResultDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\TagDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

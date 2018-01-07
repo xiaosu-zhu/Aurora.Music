@@ -72,6 +72,7 @@ namespace Aurora.Music.Core.Storage
 
         public SONG(Song song)
         {
+            ID = song.ID;
             FilePath = song.FilePath;
             Duration = song.Duration;
             BitRate = song.BitRate;
@@ -457,7 +458,7 @@ namespace Aurora.Music.Core.Storage
             }
         }
 
-        internal async Task<SONG> UpdateSongAsync(Song song)
+        internal async Task<SONG> InsertSongAsync(Song song)
         {
             var tag = new SONG(song);
 
@@ -1109,6 +1110,12 @@ namespace Aurora.Music.Core.Storage
             await conn.DropTableAsync<STATISTICS>();
             await conn.DropTableAsync<PLAYSTATISTIC>();
             await conn.DropTableAsync<AVATAR>();
+        }
+
+        internal async Task UpdateSongAsync(Song model)
+        {
+            var t = new SONG(model);
+            await conn.UpdateAsync(t);
         }
     }
 

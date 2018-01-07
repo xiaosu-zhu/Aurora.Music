@@ -1037,7 +1037,7 @@
                         <SymbolIcon Symbol="Next"/>
                     </Button.Content>
                 </Button>
-                <Button x:Name="Stop" Style="{ThemeResource RevealRoundButton}" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 1),Mode=OneWay}" Command="{x:Bind Context.GoNext}" ToolTipService.ToolTip="Stop"
+                <Button x:Name="Stop" Style="{ThemeResource RevealRoundButton}" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 1),Mode=OneWay}" Command="{x:Bind Context.Stop}" ToolTipService.ToolTip="Stop"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <Button.Content>
                         <SymbolIcon Symbol="Stop"/>

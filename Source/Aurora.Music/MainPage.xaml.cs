@@ -46,13 +46,6 @@ namespace Aurora.Music
             this.InitializeComponent();
             Current = this;
             MainFrame.Navigate(typeof(HomePage));
-            var r = ThreadPool.RunAsync(async x =>
-            {
-                var assets = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync("Assets");
-                var file = await assets.GetFileAsync("res.xml");
-                var res = await FileIO.ReadTextAsync(file);
-                LastfmSearcher.ReadXml(res);
-            });
         }
 
         public async void ProgressUpdate(string title, string content)
@@ -130,11 +123,6 @@ namespace Aurora.Music
         public bool SubPageCanGoBack { get => MainFrame.Visibility == Visibility.Visible; }
         public bool CanAdd { get; private set; }
 
-        private void Main_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
-        {
-            MainFrame.Navigate(navigateOptions[sender.MenuItems.IndexOf(args.SelectedItem)]);
-        }
-
         string PositionToString(TimeSpan t1, TimeSpan total)
         {
             if (total == null || total == default(TimeSpan))
@@ -172,6 +160,18 @@ namespace Aurora.Music
             if (OverlayFrame.Visibility == Visibility.Visible)
             {
                 GoBackFromNowPlaying();
+            }
+
+            if (MainFrame.Content is SettingsPage || MainFrame.Content is AboutPage)
+            {
+                foreach (var item in Context.HamList)
+                {
+                    item.IsCurrent = false;
+                }
+                ((sender as ListView).SelectedItem as HamPanelItem).IsCurrent = true;
+                MainFrame.Navigate(((sender as ListView).SelectedItem as HamPanelItem).TargetType);
+                Root.IsPaneOpen = false;
+                return;
             }
 
             if (((sender as ListView).SelectedItem as HamPanelItem) == Context.HamList.Find(x => x.IsCurrent))

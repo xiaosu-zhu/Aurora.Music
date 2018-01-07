@@ -574,7 +574,7 @@ namespace Aurora.Music.ViewModels
                 downloadFolder = await lib.SaveFolder.CreateFolderAsync("Download", CreationCollisionOption.OpenIfExists);
             }
 
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
             {
                 DownloadPathText = downloadFolder.Path;
 
@@ -599,25 +599,22 @@ namespace Aurora.Music.ViewModels
                     });
                 }
 
-                var task = ThreadPool.RunAsync(async k =>
+                await Task.Delay(200);
+                if (settings.OutputDeviceID.IsNullorEmpty())
                 {
-                    await Task.Delay(200);
-                    if (settings.OutputDeviceID.IsNullorEmpty())
+                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                     {
-                        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
-                        {
-                            AudioSelectedIndex = 0;
-                        });
-                    }
-                    else
+                        AudioSelectedIndex = 0;
+                    });
+                }
+                else
+                {
+                    var index = DevicList.IndexOf(DevicList.First(x => x.ID == settings.OutputDeviceID));
+                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                     {
-                        var index = DevicList.IndexOf(DevicList.First(x => x.ID == settings.OutputDeviceID));
-                        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
-                        {
-                            AudioSelectedIndex = index;
-                        });
-                    }
-                });
+                        AudioSelectedIndex = index;
+                    });
+                }
 
             });
 

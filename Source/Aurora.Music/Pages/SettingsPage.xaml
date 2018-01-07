@@ -124,8 +124,8 @@
                             <ComboBox ItemTemplate="{StaticResource ExtensionTemplate}" SelectedIndex="{x:Bind Context.CurrentOnlineIndex,Mode=OneWay}" SelectionChanged="OnlineCombo_SelectionChanged" IsEnabled="{x:Bind Context.OnlinePurchase,Mode=OneWay}" ItemsSource="{x:Bind Context.OnlineExts}" Header="Online Extension" Margin="12,4">
 
                             </ComboBox>
-                            <Button Margin="12,4" Content="Download Path" Command="{x:Bind Context.DownloadPath}" Style="{ThemeResource ButtonRevealStyle}" />
-                            <TextBlock Text="{x:Bind Context.DownloadPathText, Mode=OneWay}" Margin="12,4" Style="{ThemeResource BodyTextBlockStyle}"/>
+                            <Button IsEnabled="{x:Bind Context.OnlinePurchase,Mode=OneWay}" Margin="12,4" Content="Download Path" Command="{x:Bind Context.DownloadPath}" Style="{ThemeResource ButtonRevealStyle}" />
+                            <TextBlock Visibility="{x:Bind Context.BooltoVisibility(Context.OnlinePurchase),Mode=OneWay}" Text="{x:Bind Context.DownloadPathText, Mode=OneWay}" Margin="12,4" Style="{ThemeResource BodyTextBlockStyle}"/>
                         </StackPanel>
                         <StackPanel BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" BorderThickness="0,0,0,1" Background="Gray" Padding="8,0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <TextBlock Text="Audio Graph" TextDecorations="Strikethrough" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,8"/>
