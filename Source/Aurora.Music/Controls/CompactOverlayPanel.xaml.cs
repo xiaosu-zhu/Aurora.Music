@@ -46,7 +46,7 @@ namespace Aurora.Music.Controls
 
         private void CompactOverlayPanel_BackRequested(object sender, BackRequestedEventArgs e)
         {
-            throw new NotImplementedException();
+            Context.ReturnNormal.Execute();
         }
 
         private void TitleBar_Loaded(object sender, RoutedEventArgs e)

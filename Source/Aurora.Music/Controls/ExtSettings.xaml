@@ -1,0 +1,14 @@
+﻿<Page
+    x:Class="Aurora.Music.Controls.ExtSettings"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Aurora.Music.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <StackPanel Orientation="Vertical" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <TextBlock Margin="8,0" Text="Aurora Music Extension" Style="{ThemeResource SubheaderTextBlockStyle}"/>
+        <TextBlock Margin="8,0" Style="{ThemeResource SubtitleTextBlockStyle}" Text="This is built in data provider, no settings avaliable."/>
+    </StackPanel>
+</Page>

@@ -974,7 +974,7 @@
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE189;" Width="48" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </StackPanel>
                 </Grid>
-                <ListView SelectionChanged="Pane_CurrentChanged" ItemsSource="{x:Bind Context.HamList}" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemContainerStyle="{ThemeResource PaneListItemStyle}">
+                <ListView SelectionMode="None" IsItemClickEnabled="True" ItemClick="ListView_ItemClick" ItemsSource="{x:Bind Context.HamList}" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemContainerStyle="{ThemeResource PaneListItemStyle}">
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="vm:HamPanelItem">
                             <Grid Height="180">
@@ -999,7 +999,7 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
-                    <Button Height="48" Command="{x:Bind Context.GotoSettings}" HorizontalContentAlignment="Left" Background="{ThemeResource SystemControlBackgroundAltHighRevealBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{ThemeResource RevealRectangleButton}" BorderThickness="0" >
+                    <Button Height="48" Command="{x:Bind Context.GotoSettings}" Click="Button_Click" HorizontalContentAlignment="Left" Background="{ThemeResource SystemControlBackgroundAltHighRevealBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{ThemeResource RevealRectangleButton}" BorderThickness="0" >
                         <Grid HorizontalAlignment="Left" VerticalAlignment="Center" Height="48">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
@@ -1009,10 +1009,10 @@
                             <TextBlock Grid.Column="1" Margin="12,8" Text="Settings" Style="{ThemeResource SubtitleTextBlockStyle}" HorizontalAlignment="Left" VerticalAlignment="Stretch"/>
                         </Grid>
                     </Button>
-                    <Button ToolTipService.ToolTip="About" Height="48" Grid.Column="1" Command="{x:Bind Context.GotoAbout}" Background="{ThemeResource SystemControlBackgroundAltHighRevealBrush}" 
+                    <Button ToolTipService.ToolTip="About" Click="Button_Click" Height="48" Grid.Column="1" Command="{x:Bind Context.GotoAbout}" Background="{ThemeResource SystemControlBackgroundAltHighRevealBrush}" 
                             HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{ThemeResource RevealRectangleButton}" BorderThickness="0" >
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Height="48">
-                            <FontIcon FontFamily="Segoe MDL2 Assets" Width="48" Glyph="&#xED59;" HorizontalAlignment="Left" VerticalAlignment="Stretch"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Width="48" Height="48">
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xED59;" HorizontalAlignment="Left" VerticalAlignment="Stretch"/>
                         </StackPanel>
                     </Button>
                 </Grid>

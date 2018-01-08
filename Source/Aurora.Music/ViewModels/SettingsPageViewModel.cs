@@ -1,4 +1,5 @@
-﻿using Aurora.Music.Core;
+﻿using Aurora.Music.Controls;
+using Aurora.Music.Core;
 using Aurora.Music.Core.Models;
 using Aurora.Music.Core.Storage;
 using Aurora.Music.Pages;
@@ -92,6 +93,14 @@ namespace Aurora.Music.ViewModels
             });
         }
 
+        public DelegateCommand OpenExtensionManager
+        {
+            get => new DelegateCommand(async () =>
+            {
+                var mgr = new ExtensionsManager();
+                await mgr.ShowAsync();
+            });
+        }
 
         public DelegateCommand DownloadPath
         {
@@ -133,7 +142,7 @@ namespace Aurora.Music.ViewModels
                 {
                     await item.DeleteAsync();
                 }
-
+                MainPage.Current.PopMessage("Temporary folder cleared");
             });
         }
 
@@ -548,11 +557,13 @@ namespace Aurora.Music.ViewModels
 
             _catalog = AppExtensionCatalog.Open(Consts.ExtensionContract);
             // set up extension management events
+            _catalog.PackageInstalled += _catalog_PackageInstalled;
+            _catalog.PackageUpdated += _catalog_PackageUpdated;
+            _catalog.PackageUninstalling += _catalog_PackageUninstalling;
+            _catalog.PackageUpdating += _catalog_PackageUpdating;
+            _catalog.PackageStatusChanged += _catalog_PackageStatusChanged;
             // Scan all extensions
             await FindAllExtensions();
-
-            string audioSelector = MediaDevice.GetAudioRenderSelector();
-            var outputDevices = await DeviceInformation.FindAllAsync(audioSelector);
 
 
             try
@@ -585,33 +596,48 @@ namespace Aurora.Music.ViewModels
                     Tag = null
                 });
 
-                foreach (var device in outputDevices)
+
+                while (DevicList.Count < 1)
                 {
-                    //var deviceItem = new ComboBoxItem();
-                    //deviceItem.Content = device.Name;
-                    //deviceItem.Tag = device;
-                    //_audioDeviceComboBox.Items.Add(deviceItem);
-                    DevicList.Add(new DeviceInformationViewModel()
+                    string audioSelector = MediaDevice.GetAudioRenderSelector();
+                    var outputDevices = await DeviceInformation.FindAllAsync(audioSelector);
+                    foreach (var device in outputDevices)
                     {
-                        Name = device.Name,
-                        ID = device.Id,
-                        Tag = device
-                    });
+                        //var deviceItem = new ComboBoxItem();
+                        //deviceItem.Content = device.Name;
+                        //deviceItem.Tag = device;
+                        //_audioDeviceComboBox.Items.Add(deviceItem);
+                        DevicList.Add(new DeviceInformationViewModel()
+                        {
+                            Name = device.Name,
+                            ID = device.Id,
+                            Tag = device
+                        });
+                    }
                 }
 
-                await Task.Delay(200);
                 if (settings.OutputDeviceID.IsNullorEmpty())
                 {
-                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
                     {
+                        await Task.Delay(300);
                         AudioSelectedIndex = 0;
                     });
                 }
                 else
                 {
-                    var index = DevicList.IndexOf(DevicList.First(x => x.ID == settings.OutputDeviceID));
-                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                    int index = -1;
+                    for (int i = 0; i < DevicList.Count; i++)
                     {
+                        if (DevicList[i].ID == settings.OutputDeviceID)
+                        {
+                            index = i;
+                            break;
+                        }
+                    }
+                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
+                    {
+                        await Task.Delay(300);
                         AudioSelectedIndex = index;
                     });
                 }
@@ -619,6 +645,61 @@ namespace Aurora.Music.ViewModels
             });
 
 
+        }
+
+        private async void _catalog_PackageStatusChanged(AppExtensionCatalog sender, AppExtensionPackageStatusChangedEventArgs args)
+        {
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            {
+                LyricExts.Clear();
+                MetaExts.Clear();
+                OnlineExts.Clear();
+            });
+            await FindAllExtensions();
+        }
+
+        private async void _catalog_PackageUpdating(AppExtensionCatalog sender, AppExtensionPackageUpdatingEventArgs args)
+        {
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            {
+                LyricExts.Clear();
+                MetaExts.Clear();
+                OnlineExts.Clear();
+            });
+            await FindAllExtensions();
+        }
+
+        private async void _catalog_PackageUninstalling(AppExtensionCatalog sender, AppExtensionPackageUninstallingEventArgs args)
+        {
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            {
+                LyricExts.Clear();
+                MetaExts.Clear();
+                OnlineExts.Clear();
+            });
+            await FindAllExtensions();
+        }
+
+        private async void _catalog_PackageUpdated(AppExtensionCatalog sender, AppExtensionPackageUpdatedEventArgs args)
+        {
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            {
+                LyricExts.Clear();
+                MetaExts.Clear();
+                OnlineExts.Clear();
+            });
+            await FindAllExtensions();
+        }
+
+        private async void _catalog_PackageInstalled(AppExtensionCatalog sender, AppExtensionPackageInstalledEventArgs args)
+        {
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            {
+                LyricExts.Clear();
+                MetaExts.Clear();
+                OnlineExts.Clear();
+            });
+            await FindAllExtensions();
         }
     }
 

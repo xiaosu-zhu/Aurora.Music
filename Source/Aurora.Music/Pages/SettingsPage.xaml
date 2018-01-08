@@ -34,7 +34,7 @@
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Column="1" VerticalAlignment="Center" Style="{ThemeResource BaseTextBlockStyle}" Margin="8,0" Text="{x:Bind Name}"/>
                     <TextBlock Grid.Row="1" TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis" MaxLines="3" Grid.Column="1" VerticalAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}" Margin="8,0" Text="{x:Bind Description}"/>
-                    <Image MaxHeight="48" Grid.RowSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="{x:Bind Logo}" Stretch="Uniform"/>
+                    <Image MaxHeight="48" Grid.RowSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="{x:Bind Logo, Mode=OneWay}" Stretch="Uniform"/>
                 </Grid>
             </DataTemplate>
         </ResourceDictionary>
@@ -104,7 +104,10 @@
                             <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="We suggest you to control the system volume directly." HorizontalAlignment="Left" VerticalAlignment="Center" Margin="12,0,12,36"/>
                         </StackPanel>
                         <StackPanel BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" BorderThickness="0,0,0,1" Padding="8,0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                            <TextBlock Text="Extensions" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,8"/>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Extensions" VerticalAlignment="Center" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,8"/>
+                                <Button Content="Manage" Command="{x:Bind Context.OpenExtensionManager}" VerticalAlignment="Center" Style="{ThemeResource ButtonRevealStyle}" Margin="8,0"/>
+                            </StackPanel>
 
                             <ComboBox ItemTemplate="{StaticResource ExtensionTemplate}" SelectedIndex="{x:Bind Context.CurrentLyricIndex,Mode=OneWay}" SelectionChanged="LyricCombo_SelectionChanged" ItemsSource="{x:Bind Context.LyricExts}" Header="Lyric Extension" Margin="12,4">
                             </ComboBox>

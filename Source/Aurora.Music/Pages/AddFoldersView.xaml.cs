@@ -39,19 +39,19 @@ namespace Aurora.Music.Pages
             }
         }
 
-        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void DeleteFolderBtn_Click(object sender, RoutedEventArgs e)
         {
+            await Context.RemoveFolder((sender as Button).DataContext as FolderViewModel);
+        }
+
+        private void ListView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            var b = (e.ClickedItem as FolderViewModel).IsOpened;
             foreach (var item in Context.Folders)
             {
                 item.IsOpened = false;
             }
-            if ((sender as ListView).SelectedItem != null)
-                ((sender as ListView).SelectedItem as FolderViewModel).IsOpened = true;
-        }
-
-        private async void DeleteFolderBtn_Click(object sender, RoutedEventArgs e)
-        {
-            await Context.RemoveFolder((sender as Button).DataContext as FolderViewModel);
+            (e.ClickedItem as FolderViewModel).IsOpened = !b;
         }
     }
 }

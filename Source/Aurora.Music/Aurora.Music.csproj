@@ -113,6 +113,12 @@
     <Compile Include="Controls\DropSongsDialog.xaml.cs">
       <DependentUpon>DropSongsDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ExtensionsManager.xaml.cs">
+      <DependentUpon>ExtensionsManager.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ExtSettings.xaml.cs">
+      <DependentUpon>ExtSettings.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ImageGrid.cs" />
     <Compile Include="Controls\LyricView.xaml.cs">
       <DependentUpon>LyricView.xaml</DependentUpon>
@@ -172,7 +178,7 @@
     <Compile Include="ViewModels\ArtistsPageViewModel.cs" />
     <Compile Include="ViewModels\ArtistViewModel.cs" />
     <Compile Include="ViewModels\CategoryList.cs" />
-    <Compile Include="ViewModels\ExtensionManager.cs" />
+    <Compile Include="ViewModels\ExtensionViewModel.cs" />
     <Compile Include="ViewModels\GenericMusicItemViewModel.cs" />
     <Compile Include="ViewModels\GroupedItem.cs" />
     <Compile Include="ViewModels\HomePageViewModel.cs" />
@@ -283,6 +289,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\DropSongsDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ExtensionsManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ExtSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

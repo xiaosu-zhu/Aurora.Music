@@ -32,6 +32,7 @@ namespace Aurora.Music.Core
 
         public const string ExtensionContract = "Aurora.Music.Extensions";
         public const string AppUserModelId = "6727Aurora-ZXS.10476770C0EE5_fxqtv0574xgme!App";
+        public const string PackageFamilyName = "6727Aurora-ZXS.10476770C0EE5_fxqtv0574xgme";
 
         public const string OnlineAddOnStoreID = "9N8LMDXLQQ8V";
 

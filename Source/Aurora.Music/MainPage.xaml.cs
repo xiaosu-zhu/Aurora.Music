@@ -115,11 +115,6 @@ namespace Aurora.Music
         private StackPanel autoSuggestPopupPanel;
         private ThreadPoolTimer dismissTimer;
 
-        internal void GoBack()
-        {
-            throw new NotImplementedException();
-        }
-
         public bool SubPageCanGoBack { get => MainFrame.Visibility == Visibility.Visible; }
         public bool CanAdd { get; private set; }
 
@@ -155,40 +150,6 @@ namespace Aurora.Music
 
         public SolidColorBrush TitleForeground(bool b) => (SolidColorBrush)(b ? Resources["SystemControlForegroundAltHighBrush"] : Resources["SystemControlForegroundBaseHighBrush"]);
 
-        private void Pane_CurrentChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (OverlayFrame.Visibility == Visibility.Visible)
-            {
-                GoBackFromNowPlaying();
-            }
-
-            if (MainFrame.Content is SettingsPage || MainFrame.Content is AboutPage)
-            {
-                foreach (var item in Context.HamList)
-                {
-                    item.IsCurrent = false;
-                }
-                ((sender as ListView).SelectedItem as HamPanelItem).IsCurrent = true;
-                MainFrame.Navigate(((sender as ListView).SelectedItem as HamPanelItem).TargetType);
-                Root.IsPaneOpen = false;
-                return;
-            }
-
-            if (((sender as ListView).SelectedItem as HamPanelItem) == Context.HamList.Find(x => x.IsCurrent))
-            {
-                Root.IsPaneOpen = false;
-                return;
-            }
-
-            foreach (var item in Context.HamList)
-            {
-                item.IsCurrent = false;
-            }
-            ((sender as ListView).SelectedItem as HamPanelItem).IsCurrent = true;
-            MainFrame.Navigate(((sender as ListView).SelectedItem as HamPanelItem).TargetType);
-            Root.IsPaneOpen = false;
-        }
-
         public void ChangeTheme()
         {
             if (MainFrame.Content is IChangeTheme iT)
@@ -197,18 +158,6 @@ namespace Aurora.Music
             }
             var ui = new UISettings();
             Context.IsDarkAccent = Palette.IsDarkColor(ui.GetColorValue(UIColorType.Accent));
-        }
-
-        private void FastFoward_Holding(object sender, Windows.UI.Xaml.Input.HoldingRoutedEventArgs e)
-        {
-            if (e.HoldingState == HoldingState.Canceled)
-            {
-                Context.FastForward(false);
-            }
-            else
-            {
-                Context.FastForward(true);
-            }
         }
 
         private void StackPanel_PointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
@@ -760,6 +709,45 @@ namespace Aurora.Music
                 ConnectedAnimationService.GetForCurrentView().PrepareToAnimate($"{Consts.NowPlayingPageInAnimation}_2", Album).Completed += MainPage_Completed; ;
                 OverlayFrame.Navigate(typeof(NowPlayingPage), Context.NowPlayingList[Context.CurrentIndex]);
             }
+        }
+
+        private void ListView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            if (OverlayFrame.Visibility == Visibility.Visible)
+            {
+                GoBackFromNowPlaying();
+            }
+
+            if (MainFrame.Content is SettingsPage || MainFrame.Content is AboutPage)
+            {
+                foreach (var item in Context.HamList)
+                {
+                    item.IsCurrent = false;
+                }
+                (e.ClickedItem as HamPanelItem).IsCurrent = true;
+                MainFrame.Navigate((e.ClickedItem as HamPanelItem).TargetType);
+                Root.IsPaneOpen = false;
+                return;
+            }
+
+            if ((e.ClickedItem as HamPanelItem) == Context.HamList.Find(x => x.IsCurrent))
+            {
+                Root.IsPaneOpen = false;
+                return;
+            }
+
+            foreach (var item in Context.HamList)
+            {
+                item.IsCurrent = false;
+            }
+            (e.ClickedItem as HamPanelItem).IsCurrent = true;
+            MainFrame.Navigate((e.ClickedItem as HamPanelItem).TargetType);
+            Root.IsPaneOpen = false;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Root.IsPaneOpen = false;
         }
     }
 }

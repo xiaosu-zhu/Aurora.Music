@@ -52,7 +52,7 @@ namespace Aurora.Music.Core.Models
 
         public bool WelcomeFinished { get; set; } = false;
         public string OutputDeviceID { get; set; }
-        public double PlayerVolume { get; set; } = 50d;
+        public double PlayerVolume { get; set; } = 100d;
         public Effects AudioGraphEffects { get; set; } = Effects.None;
         public string CategoryLastClicked { get; set; }
 

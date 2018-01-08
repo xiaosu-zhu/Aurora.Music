@@ -140,11 +140,6 @@ namespace Aurora.Music.ViewModels
 
         private string nowListPreview = "-/-";
 
-        internal void FastForward(bool v)
-        {
-            throw new NotImplementedException();
-        }
-
         public string NowListPreview
         {
             get { return nowListPreview; }

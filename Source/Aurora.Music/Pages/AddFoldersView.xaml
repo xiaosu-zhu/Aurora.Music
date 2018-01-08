@@ -32,7 +32,7 @@
             </StackPanel>
             <Button Command="{x:Bind Context.AddFolderCommand}" Background="{ThemeResource SystemControlBackgroundBaseLowRevealBackgroundBrush}" 
                     HorizontalAlignment="Left" Margin="8,4" Style="{ThemeResource ButtonRevealStyle}" Content="Add a new folder to scan"/>
-            <ListView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="ListView_SelectionChanged" Margin="8,4" ItemContainerStyle="{ThemeResource GeneralListViewItemStyle}" ItemsSource="{x:Bind Context.Folders}">
+            <ListView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionMode="None" IsItemClickEnabled="True" ItemClick="ListView_ItemClick" Margin="8,4" ItemContainerStyle="{ThemeResource GeneralListViewItemStyle}" ItemsSource="{x:Bind Context.Folders}">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="vm:FolderViewModel">
                         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -55,7 +55,7 @@
                                     <ColumnDefinition Width="auto"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock VerticalAlignment="Center" HorizontalAlignment="Stretch" Text="{x:Bind Path}" Style="{ThemeResource BodyTextBlockStyle}" Margin="4" MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"/>
-                                <Button Grid.Column="1" Background="{x:Null}" x:Name="DeleteFolderBtn" Click="DeleteFolderBtn_Click" Style="{ThemeResource AccentButtonStyle}" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Button Grid.Column="1" Foreground="#808080" Background="{ThemeResource SystemControlBackgroundBaseLowRevealBackgroundBrush}" x:Name="DeleteFolderBtn" Click="DeleteFolderBtn_Click" Style="{ThemeResource ButtonRevealStyle}" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Center">
                                     <SymbolIcon Symbol="Delete"/>
                                 </Button>
                             </Grid>

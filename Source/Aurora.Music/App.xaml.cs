@@ -26,6 +26,8 @@ using Windows.UI.Xaml.Navigation;
 using Windows.System;
 using Windows.UI.Core;
 using Aurora.Shared.Helpers;
+using System.Web;
+using Aurora.Music.Controls;
 
 namespace Aurora.Music
 {
@@ -178,6 +180,68 @@ namespace Aurora.Music
             }
         }
 
+        protected override async void OnActivated(IActivatedEventArgs args)
+        {
+            if (args.Kind == ActivationKind.Protocol)
+            {
+                ProtocolActivatedEventArgs eventArgs = args as ProtocolActivatedEventArgs;
+                // TODO: Handle URI activation
+                // The received URI is eventArgs.Uri.AbsoluteUri
+                if (string.IsNullOrEmpty(eventArgs.Uri.Query))
+                {
+                    if (Window.Current.Content == null)
+                    {
+                        OnLaunched(null);
+                    }
+                    else
+                    {
+                        // TODO:
+                        // seems like nothing to do.
+                    }
+                }
+                else
+                {
+                    var query = HttpUtility.ParseQueryString(eventArgs.Uri.Query);
+                    if (query["action"] != null)
+                    {
+                        switch (query["action"])
+                        {
+                            case "ext-setting":
+                                if (Window.Current.Content == null)
+                                {
+                                    // 创建要充当导航上下文的框架，并导航到第一页
+                                    rootFrame = new Frame();
+
+                                    // 将框架放在当前窗口中
+                                    Window.Current.Content = rootFrame;
+                                    rootFrame.Navigate(typeof(AboutPage));
+                                }
+                                else
+                                {
+                                    CoreApplicationView newView = CoreApplication.CreateNewView();
+                                    int newViewId = 0;
+                                    await newView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                                    {
+                                        Frame frame = new Frame();
+                                        frame.Navigate(typeof(ExtSettings));
+                                        Window.Current.Content = frame;
+                                        // You have to activate the window in order to show it later.
+                                        Window.Current.Activate();
+
+                                        newViewId = ApplicationView.GetForCurrentView().Id;
+                                    });
+                                    bool viewShown = await ApplicationViewSwitcher.TryShowAsStandaloneAsync(newViewId);
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+            }
+
+        }
+
         private void CreateRootFrame(ApplicationExecutionState previousExecutionState, string arguments)
         {
             Frame rootFrame = Window.Current.Content as Frame;
@@ -233,7 +297,7 @@ namespace Aurora.Music
             e.Handled = true;
             Tools.Logging(e);
 
-            if (MainPage.Current is MainPage p)
+            if (MainPage.Current is MainPage p && e.Exception is NotImplementedException)
             {
                 p.ThrowException(e);
             }
