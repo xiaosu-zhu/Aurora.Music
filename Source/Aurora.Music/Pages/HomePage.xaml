@@ -787,7 +787,8 @@
             <StackPanel Margin="0,144,0,160" Orientation="Vertical" x:Name="ContentPanel"
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <GridView animations:ReorderGridAnimation.Duration="360" SelectionMode="None" IsItemClickEnabled="True" ItemsSource="{x:Bind Context.HeroList}"
-                          ItemContainerStyle="{ThemeResource HeroGridViewItemStyle}" ItemTemplate="{StaticResource NormalHeroItem}"
+                          ItemContainerStyle="{ThemeResource HeroGridViewItemStyle}" ItemTemplate="{StaticResource NormalHeroItem}" 
+                          ContextRequested="HeroGrid_ContextRequested" ContextCanceled="HeroGrid_ContextCanceled"
                           HorizontalAlignment="Center" VerticalAlignment="Stretch" Padding="64"
                           Margin="0" Style="{ThemeResource HeroGridViewStyle}" x:Name="HeroGrid">
                 </GridView>
@@ -795,6 +796,7 @@
                        Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold"/>
                 <ListView Margin="0,8" IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" ItemClick="FavList_ItemClick"
                           ScrollViewer.IsHorizontalScrollChainingEnabled="True" ScrollViewer.IsHorizontalRailEnabled="True"
+                          ContextRequested="HeroGrid_ContextRequested" ContextCanceled="HeroGrid_ContextCanceled"
                       SelectionMode="None" ItemsSource="{x:Bind Context.FavList}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                       ItemContainerStyle="{ThemeResource HomeListViewItemStyle}" ItemTemplate="{StaticResource NormalListItem}"
                       Style="{StaticResource HorizontalListView}" x:Name="FavList">
@@ -817,7 +819,7 @@
                     </Button>
                 </StackPanel>
                 <ListView Margin="0,8" IsSynchronizedWithCurrentItem="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                          ScrollViewer.IsHorizontalScrollChainingEnabled="True" 
+                          ScrollViewer.IsHorizontalScrollChainingEnabled="True" ContextRequested="HeroGrid_ContextRequested" ContextCanceled="HeroGrid_ContextCanceled"
                           ScrollViewer.IsHorizontalRailEnabled="True" ItemTemplate="{StaticResource NormalListItem}"
                           IsItemClickEnabled="True" SelectionMode="None" ItemClick="FavList_ItemClick"
                           ItemsSource="{x:Bind Context.RandomList}" 

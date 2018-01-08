@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using EF = ExpressionBuilder.ExpressionFunctions;
 using Windows.UI.Xaml.Media;
+using System.Drawing;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -105,6 +106,34 @@ namespace Aurora.Music.Pages
         private async void FavList_ItemClick(object sender, ItemClickEventArgs e)
         {
             await MainPageViewModel.Current.InstantPlay(await (e.ClickedItem as GenericMusicItemViewModel).GetSongsAsync());
+        }
+
+        private void HeroGrid_ContextRequested(UIElement sender, ContextRequestedEventArgs e)
+        {
+            // Walk up the tree to find the ListViewItem.
+            // There may not be one if the click wasn't on an item.
+            var requestedElement = (FrameworkElement)e.OriginalSource;
+            while ((requestedElement != sender) && !(requestedElement is ListViewItem))
+            {
+                requestedElement = (FrameworkElement)VisualTreeHelper.GetParent(requestedElement);
+            }
+            if (requestedElement != sender)
+            {
+                if (e.TryGetPosition(requestedElement, out var point))
+                {
+                    (Resources["SongFlyout"] as MenuFlyout).ShowAt(requestedElement, point);
+                }
+                else
+                {
+                    (Resources["SongFlyout"] as MenuFlyout).ShowAt(requestedElement);
+                }
+                e.Handled = true;
+            }
+        }
+
+        private void HeroGrid_ContextCanceled(UIElement sender, RoutedEventArgs args)
+        {
+            (Resources["SongFlyout"] as MenuFlyout).Hide();
         }
     }
 }
