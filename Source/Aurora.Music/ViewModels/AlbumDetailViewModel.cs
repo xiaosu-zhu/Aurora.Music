@@ -1,4 +1,5 @@
-﻿using Aurora.Shared.Extensions;
+﻿using Aurora.Music.Core.Storage;
+using Aurora.Shared.Extensions;
 using Aurora.Shared.MVVM;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
+using Windows.System.Threading;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace Aurora.Music.ViewModels
@@ -81,6 +83,29 @@ namespace Aurora.Music.ViewModels
                     {
                         Index = (uint)i
                     });
+                }
+            });
+            var info = await MainPageViewModel.Current.GetAlbumInfoAsync(Album.Name, Album.AlbumArtists.FirstOrDefault());
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            {
+                if (info != null)
+                {
+                    if (Album.Artwork == null && info.AltArtwork != null)
+                    {
+                        Album.Artwork = info.AltArtwork;
+                        var task = ThreadPool.RunAsync(async k =>
+                        {
+                            if (!Album.IsOnline)
+                            {
+                                await SQLOperator.Current().UpdateAlbumArtworkAsync(album.ID, info.AltArtwork.OriginalString);
+                            }
+                        });
+                    }
+                    Album.Description = info.Description;
+                }
+                else
+                {
+                    Album.Description = "# Local Album";
                 }
             });
         }

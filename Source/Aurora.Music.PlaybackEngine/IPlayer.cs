@@ -16,6 +16,7 @@ namespace Aurora.Music.PlaybackEngine
         void Next();
         void Previous();
         Task NewPlayList(IList<Song> songs, int startIndex = 0);
+        Task AddtoNextPlay(IList<Song> song);
         void ChangeVolume(double vol);
         void ChangeAudioEndPoint(string outputDeviceID);
         void Loop(bool? isOn);

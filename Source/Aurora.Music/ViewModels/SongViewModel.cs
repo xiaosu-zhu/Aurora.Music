@@ -7,6 +7,7 @@ using System.Linq;
 using Aurora.Music.Core.Models;
 using System.Collections.Generic;
 using Aurora.Shared.MVVM;
+using System.Threading.Tasks;
 
 namespace Aurora.Music.ViewModels
 {
@@ -138,7 +139,7 @@ namespace Aurora.Music.ViewModels
 
         internal string GetFormattedArtists()
         {
-            return Song.AlbumArtists.IsNullorEmpty() ? "Unknown Artists" : string.Join(", ", Song.AlbumArtists);
+            return Song.AlbumArtists.IsNullorEmpty() ? Consts.UnknownArtists : string.Join(", ", Song.AlbumArtists);
         }
 
         private string title;
@@ -152,8 +153,20 @@ namespace Aurora.Music.ViewModels
 
         public string Album
         {
-            get { return album.IsNullorEmpty() ? "Unknown Album" : album; }
+            get { return album.IsNullorEmpty() ? Consts.UnknownAlbum : album; }
             set { album = value; }
+        }
+
+
+        internal async Task<AlbumViewModel> GetAlbumAsync()
+        {
+            if (IsOnline)
+            {
+                if (Song.OnlineAlbumID.IsNullorEmpty())
+                    return null;
+                return new AlbumViewModel(await MainPageViewModel.Current.GetOnlineAlbumAsync(Song.OnlineAlbumID));
+            }
+            return new AlbumViewModel(await SQLOperator.Current().GetAlbumByNameAsync(Song.Album, Song.ID));
         }
 
         private uint track;

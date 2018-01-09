@@ -17,6 +17,8 @@ using Windows.UI.Xaml.Navigation;
 using EF = ExpressionBuilder.ExpressionFunctions;
 using Windows.UI.Xaml.Media;
 using System.Drawing;
+using System.Linq;
+using Windows.UI.Xaml.Controls.Primitives;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -69,10 +71,9 @@ namespace Aurora.Music.Pages
             ((sender as Grid).Resources["Pressed"] as Storyboard).Begin();
         }
 
-        private async void Grid_PointerReleased(object sender, PointerRoutedEventArgs e)
+        private void Grid_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
             ((sender as Grid).Resources["PointerOver"] as Storyboard).Begin();
-            await MainPageViewModel.Current.InstantPlay(await ((sender as FrameworkElement).DataContext as GenericMusicItemViewModel).GetSongsAsync());
         }
 
         private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -113,27 +114,109 @@ namespace Aurora.Music.Pages
             // Walk up the tree to find the ListViewItem.
             // There may not be one if the click wasn't on an item.
             var requestedElement = (FrameworkElement)e.OriginalSource;
-            while ((requestedElement != sender) && !(requestedElement is ListViewItem))
+            while ((requestedElement != sender) && !(requestedElement is SelectorItem))
             {
                 requestedElement = (FrameworkElement)VisualTreeHelper.GetParent(requestedElement);
             }
+            var model = (sender as ListViewBase).ItemFromContainer(requestedElement) as GenericMusicItemViewModel;
             if (requestedElement != sender)
             {
+                var albumMenu = MainPage.Current.SongFlyout.Items.First(x => x.Name == "AlbumMenu") as MenuFlyoutItem;
+
+                switch (model.InnerType)
+                {
+                    case Core.Models.MediaType.Song:
+                        albumMenu.Text = model.Description;
+                        albumMenu.Visibility = Visibility.Visible;
+                        break;
+                    case Core.Models.MediaType.Album:
+                        albumMenu.Text = model.Title;
+                        albumMenu.Visibility = Visibility.Visible;
+                        break;
+                    case Core.Models.MediaType.PlayList:
+                        albumMenu.Visibility = Visibility.Collapsed;
+                        break;
+                    case Core.Models.MediaType.Artist:
+                        albumMenu.Text = model.Description;
+                        albumMenu.Visibility = Visibility.Visible;
+                        break;
+                    default:
+                        break;
+                }
+
+                // remove performers in flyout
+                var index = MainPage.Current.SongFlyout.Items.IndexOf(albumMenu);
+                while (!(MainPage.Current.SongFlyout.Items[index + 1] is MenuFlyoutSeparator))
+                {
+                    MainPage.Current.SongFlyout.Items.RemoveAt(index + 1);
+                }
+
+                if (!model.Addtional.IsNullorEmpty())
+                {
+                    var artists = model.Addtional.Split(", ", StringSplitOptions.RemoveEmptyEntries);
+
+                    // add song's performers to flyout
+                    if (!artists.IsNullorEmpty())
+                    {
+                        if (artists.Length == 1)
+                        {
+                            var menuItem = new MenuFlyoutItem()
+                            {
+                                Text = $"{artists[0]}",
+                                Icon = new FontIcon()
+                                {
+                                    Glyph = "\uE136"
+                                }
+                            };
+                            menuItem.Click += MainPage.Current.MenuFlyoutArtist_Click;
+                            MainPage.Current.SongFlyout.Items.Insert(index + 1, menuItem);
+                        }
+                        else
+                        {
+                            var sub = new MenuFlyoutSubItem()
+                            {
+                                Text = $"Performers:",
+                                Icon = new FontIcon()
+                                {
+                                    Glyph = "\uE136"
+                                }
+                            };
+                            foreach (var item in artists)
+                            {
+                                var menuItem = new MenuFlyoutItem()
+                                {
+                                    Text = item
+                                };
+                                menuItem.Click += MainPage.Current.MenuFlyoutArtist_Click;
+                                sub.Items.Add(menuItem);
+                            }
+                            MainPage.Current.SongFlyout.Items.Insert(index + 1, sub);
+                        }
+                    }
+                }
+                
+
                 if (e.TryGetPosition(requestedElement, out var point))
                 {
-                    (Resources["SongFlyout"] as MenuFlyout).ShowAt(requestedElement, point);
+                    MainPage.Current.SongFlyout.ShowAt(requestedElement, point);
                 }
                 else
                 {
-                    (Resources["SongFlyout"] as MenuFlyout).ShowAt(requestedElement);
+                    MainPage.Current.SongFlyout.ShowAt(requestedElement);
                 }
+
                 e.Handled = true;
             }
         }
 
         private void HeroGrid_ContextCanceled(UIElement sender, RoutedEventArgs args)
         {
-            (Resources["SongFlyout"] as MenuFlyout).Hide();
+            MainPage.Current.SongFlyout.Hide();
+        }
+
+        private async void HeroGrid_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            await MainPageViewModel.Current.InstantPlay(await (e.ClickedItem as GenericMusicItemViewModel).GetSongsAsync());
         }
     }
 }

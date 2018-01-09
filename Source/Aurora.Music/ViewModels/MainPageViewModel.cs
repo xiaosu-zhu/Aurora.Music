@@ -16,6 +16,7 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml.Controls;
 using Aurora.Music.Core.Models;
 using Aurora.Music.PlaybackEngine;
+using Aurora.Music.Core;
 
 namespace Aurora.Music.ViewModels
 {
@@ -38,7 +39,7 @@ namespace Aurora.Music.ViewModels
                 Title = "Library",
                 Icon="\uE2AC",
                 TargetType = typeof(LibraryPage),
-                BG = new Uri("ms-appx:///Assets/Images/artists.png")
+                BG = new Uri("ms-appx:///Assets/Images/songs.png")
             },
             //new HamPanelItem
             //{
@@ -542,7 +543,7 @@ namespace Aurora.Music.ViewModels
                 {
                     var p = e.CurrentSong;
                     CurrentTitle = p.Title.IsNullorEmpty() ? p.FilePath.Split('\\').LastOrDefault() : p.Title;
-                    CurrentAlbum = p.Album.IsNullorEmpty() ? (p.Performers.IsNullorEmpty() ? "Unknown Album" : string.Join(", ", p.Performers)) : p.Album;
+                    CurrentAlbum = p.Album.IsNullorEmpty() ? (p.Performers.IsNullorEmpty() ? Consts.UnknownAlbum : string.Join(", ", p.Performers)) : p.Album;
                     if (!p.PicturePath.IsNullorEmpty())
                     {
                         if (lastUriPath == p.PicturePath)
@@ -588,6 +589,13 @@ namespace Aurora.Music.ViewModels
         internal async Task InstantPlay(IList<Song> songs, int startIndex = 0)
         {
             await player.NewPlayList(songs, startIndex);
+            player.Play();
+        }
+
+        internal async Task PlayNext(IList<Song> songs)
+        {
+            await player.AddtoNextPlay(songs);
+            player.Play();
         }
 
         public Symbol NullableBoolToSymbol(bool? b)

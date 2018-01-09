@@ -27,6 +27,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using System.Linq;
 using Windows.ApplicationModel.DataTransfer;
 using Aurora.Music.Core.Extension;
+using Windows.System;
 
 // https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
 
@@ -41,11 +42,14 @@ namespace Aurora.Music
 
         internal object Lockable = new object();
 
+        public MenuFlyout SongFlyout;
+
         public MainPage()
         {
             this.InitializeComponent();
             Current = this;
             MainFrame.Navigate(typeof(HomePage));
+            SongFlyout = (Resources["SongFlyout"] as MenuFlyout);
         }
 
         public async void ProgressUpdate(string title, string content)
@@ -89,6 +93,41 @@ namespace Aurora.Music
             {
                 ProgressUpdateProgress.Value = progress;
             });
+        }
+
+        internal void GoBack()
+        {
+            if (OverlayFrame.Visibility == Visibility.Visible)
+            {
+                GoBackFromNowPlaying();
+            }
+            else
+            {
+                if (MainFrame.CanGoBack)
+                {
+                    MainFrame.GoBack();
+                }
+                else
+                {
+                    MainFrame.Navigate(typeof(HomePage));
+                }
+            }
+            RefreshPaneCurrent();
+        }
+
+        private void RefreshPaneCurrent()
+        {
+            foreach (var item in Context.HamList)
+            {
+                if (item.TargetType == MainFrame.Content.GetType())
+                {
+                    item.IsCurrent = true;
+                }
+                else
+                {
+                    item.IsCurrent = false;
+                }
+            }
         }
 
         private Type[] navigateOptions = { typeof(HomePage), typeof(LibraryPage) };
@@ -137,6 +176,7 @@ namespace Aurora.Music
             if (OverlayFrame.Visibility == Visibility.Visible)
                 return;
             MainFrame.Navigate(type);
+            RefreshPaneCurrent();
         }
 
         public void Navigate(Type type, object parameter)
@@ -144,6 +184,7 @@ namespace Aurora.Music
             if (OverlayFrame.Visibility == Visibility.Visible)
                 return;
             MainFrame.Navigate(type, parameter);
+            RefreshPaneCurrent();
         }
 
         private void Toggle_PaneOpened(object sender, RoutedEventArgs e) => Root.IsPaneOpen = !Root.IsPaneOpen;
@@ -720,34 +761,279 @@ namespace Aurora.Music
 
             if (MainFrame.Content is SettingsPage || MainFrame.Content is AboutPage)
             {
-                foreach (var item in Context.HamList)
-                {
-                    item.IsCurrent = false;
-                }
-                (e.ClickedItem as HamPanelItem).IsCurrent = true;
                 MainFrame.Navigate((e.ClickedItem as HamPanelItem).TargetType);
                 Root.IsPaneOpen = false;
+                RefreshPaneCurrent();
                 return;
             }
 
             if ((e.ClickedItem as HamPanelItem) == Context.HamList.Find(x => x.IsCurrent))
             {
                 Root.IsPaneOpen = false;
+                RefreshPaneCurrent();
                 return;
             }
-
-            foreach (var item in Context.HamList)
-            {
-                item.IsCurrent = false;
-            }
-            (e.ClickedItem as HamPanelItem).IsCurrent = true;
             MainFrame.Navigate((e.ClickedItem as HamPanelItem).TargetType);
             Root.IsPaneOpen = false;
+
+
+            RefreshPaneCurrent();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Root.IsPaneOpen = false;
+        }
+
+        private async void MenuFlyoutPlay_Click(object sender, RoutedEventArgs e)
+        {
+            if (SongFlyout.Target is SelectorItem s)
+            {
+                switch (s.Content)
+                {
+                    case GenericMusicItemViewModel g:
+                        await Context.InstantPlay(await g.GetSongsAsync());
+                        break;
+                    case SongViewModel song:
+                        await Context.InstantPlay(new List<Song>() { song.Song });
+                        break;
+                    case AlbumViewModel album:
+                        await Context.InstantPlay(await album.GetSongsAsync());
+                        break;
+                    case ArtistViewModel artist:
+                        await Context.InstantPlay(await artist.GetSongsAsync());
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+        }
+        private async void MenuFlyoutPlayNext_Click(object sender, RoutedEventArgs e)
+        {
+            if (SongFlyout.Target is SelectorItem s)
+            {
+                switch (s.Content)
+                {
+                    case GenericMusicItemViewModel g:
+                        await Context.PlayNext(await g.GetSongsAsync());
+                        break;
+                    case SongViewModel song:
+                        await Context.PlayNext(new List<Song>() { song.Song });
+                        break;
+                    case AlbumViewModel album:
+                        await Context.PlayNext(await album.GetSongsAsync());
+                        break;
+                    case ArtistViewModel artist:
+                        await Context.PlayNext(await artist.GetSongsAsync());
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        private async void MenuFlyoutAlbum_Click(object sender, RoutedEventArgs e)
+        {
+            if (SongFlyout.Target is SelectorItem s)
+            {
+                AlbumViewModel viewModel = null;
+                switch (s.Content)
+                {
+                    case GenericMusicItemViewModel g:
+                        viewModel = await g.FindAssociatedAlbumAsync();
+                        break;
+                    case SongViewModel song:
+                        viewModel = await song.GetAlbumAsync();
+                        break;
+                    case AlbumViewModel album:
+                        viewModel = album;
+                        break;
+                    case ArtistViewModel artist:
+                        break;
+
+                    default:
+                        break;
+                }
+                var dialog = new AlbumViewDialog(viewModel);
+                await dialog.ShowAsync();
+            }
+        }
+
+        public async void MenuFlyoutArtist_Click(object sender, RoutedEventArgs e)
+        {
+            var artist = (sender as MenuFlyoutItem).Text;
+            var dialog = new ArtistViewDialog(new ArtistViewModel()
+            {
+                Name = artist,
+            });
+            await dialog.ShowAsync();
+        }
+
+        private void MenuFlyoutShare_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void MenuFlyoutModify_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private async void MenuFlyoutRevealExplorer_Click(object sender, RoutedEventArgs e)
+        {
+            if (SongFlyout.Target is SelectorItem s)
+            {
+                string path = null;
+                switch (s.Content)
+                {
+                    case GenericMusicItemViewModel g:
+                        switch (g.InnerType)
+                        {
+                            case MediaType.Song:
+                                if (g.IsOnline)
+                                {
+                                    throw new InvalidOperationException("Can't open an online file");
+                                }
+                                path = (await g.GetSongsAsync())[0].FilePath;
+                                break;
+                            case MediaType.Album:
+                                break;
+                            case MediaType.PlayList:
+                                break;
+                            case MediaType.Artist:
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    case SongViewModel song:
+                        path = song.FilePath;
+                        break;
+                    case AlbumViewModel album:
+                        break;
+                    case ArtistViewModel artist:
+                        break;
+
+                    default:
+                        break;
+                }
+                if (!path.IsNullorEmpty())
+                {
+                    var file = await StorageFile.GetFileFromPathAsync(path);
+                    var option = new FolderLauncherOptions();
+                    option.ItemsToSelect.Add(file);
+                    await Launcher.LaunchFolderAsync(await file.GetParentAsync(), option);
+                }
+            }
+        }
+        private async void MenuFlyoutDelete_Click(object sender, RoutedEventArgs e)
+        {
+            if (SongFlyout.Target is SelectorItem s)
+            {
+                List<string> paths = new List<string>();
+                switch (s.Content)
+                {
+                    case GenericMusicItemViewModel g:
+                        switch (g.InnerType)
+                        {
+                            case MediaType.Song:
+                                if (g.IsOnline)
+                                {
+                                    throw new InvalidOperationException("Can't open an online file");
+                                }
+                                paths.Add((await g.GetSongsAsync())[0].FilePath);
+                                break;
+                            case MediaType.Album:
+                                paths.AddRange((await g.GetSongsAsync()).Select(x => x.FilePath));
+                                break;
+                            case MediaType.PlayList:
+                                break;
+                            case MediaType.Artist:
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    case SongViewModel song:
+                        paths.Add(song.FilePath);
+                        break;
+                    case AlbumViewModel album:
+                        paths.AddRange((await album.GetSongsAsync()).Select(x => x.FilePath));
+                        break;
+                    case ArtistViewModel artist:
+                        break;
+
+                    default:
+                        break;
+                }
+                foreach (var path in paths)
+                {
+                    if (path.IsNullorEmpty()) continue;
+                    try
+                    {
+                        var file = await StorageFile.GetFileFromPathAsync(path);
+                        await file.DeleteAsync(StorageDeleteOption.PermanentDelete);
+                    }
+                    catch (Exception)
+                    {
+                        continue;
+                    }
+                }
+            }
+        }
+        private async void MenuFlyoutTrash_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (SongFlyout.Target is SelectorItem s)
+            {
+                List<string> paths = new List<string>();
+                switch (s.Content)
+                {
+                    case GenericMusicItemViewModel g:
+                        switch (g.InnerType)
+                        {
+                            case MediaType.Song:
+                                if (g.IsOnline)
+                                {
+                                    throw new InvalidOperationException("Can't open an online file");
+                                }
+                                paths.Add((await g.GetSongsAsync())[0].FilePath);
+                                break;
+                            case MediaType.Album:
+                                paths.AddRange((await g.GetSongsAsync()).Select(x => x.FilePath));
+                                break;
+                            case MediaType.PlayList:
+                                break;
+                            case MediaType.Artist:
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    case SongViewModel song:
+                        paths.Add(song.FilePath);
+                        break;
+                    case AlbumViewModel album:
+                        paths.AddRange((await album.GetSongsAsync()).Select(x => x.FilePath));
+                        break;
+                    case ArtistViewModel artist:
+                        break;
+
+                    default:
+                        break;
+                }
+                foreach (var path in paths)
+                {
+                    if (path.IsNullorEmpty()) continue;
+                    try
+                    {
+                        var file = await StorageFile.GetFileFromPathAsync(path);
+                        await file.DeleteAsync(StorageDeleteOption.Default);
+                    }
+                    catch (Exception)
+                    {
+                        continue;
+                    }
+                }
+            }
         }
     }
 }

@@ -1,7 +1,12 @@
-﻿using Aurora.Music.Core.Models;
+﻿using Aurora.Music.Core;
+using Aurora.Music.Core.Models;
+using Aurora.Music.Core.Storage;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.MVVM;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Windows.System.Threading;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -60,7 +65,7 @@ namespace Aurora.Music.ViewModels
             {
                 if (value.IsNullorWhiteSpace())
                 {
-                    SetProperty(ref name, "Unknown Artist");
+                    SetProperty(ref name, Consts.UnknownArtists);
                     RawName = string.Empty;
                 }
                 else
@@ -106,6 +111,19 @@ namespace Aurora.Music.ViewModels
         public string CountToString(int count)
         {
             return $"{count} Songs";
+        }
+
+        internal async Task<IList<Song>> GetSongsAsync()
+        {
+            var albums = await FileReader.GetAlbumsAsync(RawName);
+
+            var songs = new List<Song>();
+            albums.ForEach(async x =>
+            {
+                var m = new AlbumViewModel(x);
+                songs.AddRange(await m.GetSongsAsync());
+            });
+            return songs;
         }
     }
 }

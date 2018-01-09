@@ -4,6 +4,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -52,6 +53,20 @@ namespace Aurora.Music.Pages
             {
                 MainPageViewModel.Current.NeedShowTitle = false;
             }
+            SystemNavigationManager.GetForCurrentView().BackRequested -= LibraryPage_BackRequested;
+            SystemNavigationManager.GetForCurrentView().BackRequested += LibraryPage_BackRequested;
+        }
+
+        private void LibraryPage_BackRequested(object sender, BackRequestedEventArgs e)
+        {
+            if (e.Handled || MainFrame.CanGoBack)
+            {
+                return;
+            }
+            else
+            {
+                MainPage.Current.GoBack();
+            }
         }
 
         internal void Navigate(Type type, object parameter)
@@ -66,19 +81,39 @@ namespace Aurora.Music.Pages
 
         internal void GoBack()
         {
-            if (MainPage.Current.SubPageCanGoBack)
+            if (MainPage.Current.SubPageCanGoBack && MainFrame.CanGoBack)
             {
                 MainFrame.GoBack();
+                RefreshPaneCurrent();
+            }
+            else
+            {
+                MainPage.Current.GoBack();
             }
         }
 
-        private async void ListView_ItemClick(object sender, ItemClickEventArgs e)
+        private void RefreshPaneCurrent()
+        {
+            for (int i = 0; i < CategoryList.Count; i++)
+            {
+                if (CategoryList[i].NavigatType == MainFrame.Content.GetType())
+                {
+                    if (i == 0)
+                        return;
+                    var item = CategoryList[i];
+                    PrepareAnimationWithItem();
+                    CompleteAnimationWithItems(item);
+                    break;
+                }
+            }
+        }
+
+        private void ListView_ItemClick(object sender, ItemClickEventArgs e)
         {
             Navigate((e.ClickedItem as CategoryListItem).NavigatType);
             var s = Settings.Load();
             s.CategoryLastClicked = (e.ClickedItem as CategoryListItem).Title;
             s.Save();
-            await Task.Delay(100);
             PrepareAnimationWithItem();
             CompleteAnimationWithItems(e.ClickedItem as CategoryListItem);
         }

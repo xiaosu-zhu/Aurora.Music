@@ -169,7 +169,7 @@
 
             <SemanticZoom.ZoomedInView>
                 <ListView ShowsScrollingPlaceholders="True" ItemClick="AlbumList_ItemClick" IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" 
-              SelectionMode="None" ItemsSource="{x:Bind SongsListSource.View, Mode=OneWay}" Loaded="AlbumList_Loaded"
+              SelectionMode="None" ItemsSource="{x:Bind SongsListSource.View, Mode=OneWay}" Loaded="AlbumList_Loaded" ContextRequested="AlbumList_ContextRequested" ContextCanceled="AlbumList_ContextCanceled"
               Padding="32,0,32,160" ItemContainerStyle="{StaticResource GeneralListViewItemStyle}" Style="{ThemeResource GeneralListView}"
                           ItemTemplateSelector="{StaticResource SongListTemplateSelector}"
               HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 

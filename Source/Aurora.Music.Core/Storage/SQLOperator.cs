@@ -1097,7 +1097,7 @@ namespace Aurora.Music.Core.Storage
             return null;
         }
 
-        public async Task UpdateAlbumArtworkAsync(int iD, string originalString)
+        public async Task UpdateAlbumArtworkAsync(int id, string originalString)
         {
             return;
         }

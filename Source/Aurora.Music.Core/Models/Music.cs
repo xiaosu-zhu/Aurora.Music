@@ -58,7 +58,7 @@ namespace Aurora.Music.Core.Models
             ContextualID = s.ID;
             Title = s.Title;
             Description = s.Album;
-            Addtional = s.Performers.IsNullorEmpty() ? "Unknown Artists" : string.Join(", ", s.Performers.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries));
+            Addtional = s.Performers.IsNullorEmpty() ? Consts.UnknownArtists : string.Join(", ", s.Performers.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries));
             IDs = new int[] { s.ID };
             PicturePath = s.PicturePath;
         }
@@ -74,7 +74,7 @@ namespace Aurora.Music.Core.Models
                 return int.Parse(a);
             });
             Description = ids.Length.ToString() + (ids.Length == 1 ? " Song" : " Songs");
-            Addtional = s.AlbumArtists.IsNullorEmpty() ? "Unknown Artists" : string.Join(", ", s.AlbumArtists.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries));
+            Addtional = s.AlbumArtists.IsNullorEmpty() ? Consts.UnknownArtists : string.Join(", ", s.AlbumArtists.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries));
 
             var songIDs = AsyncHelper.RunSync(async () => await SQLOperator.Current().GetSongsAsync(ids));
             var s1 = songIDs.OrderBy(a => a.Track);
@@ -107,7 +107,7 @@ namespace Aurora.Music.Core.Models
             Title = s.Name;
             var ids = s.Songs;
             Description = ids.Length.ToString() + (ids.Length == 1 ? " Song" : " Songs");
-            Addtional = s.AlbumArtists.IsNullorEmpty() ? "Unknown Artists" : string.Join(", ", s.AlbumArtists);
+            Addtional = s.AlbumArtists.IsNullorEmpty() ? Consts.UnknownArtists : string.Join(", ", s.AlbumArtists);
 
             var songIDs = AsyncHelper.RunSync(async () => await SQLOperator.Current().GetSongsAsync(ids));
             var s1 = songIDs.OrderBy(a => a.Track);
@@ -201,7 +201,7 @@ namespace Aurora.Music.Core.Models
             Conductor = song.Conductor;
             DiscCount = song.DiscCount;
             Copyright = song.Copyright;
-            Genres = song.PerformersSort.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);
+            Genres = song.Genres.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);
             Grouping = song.Grouping;
             Lyrics = song.Lyrics;
             Performers = song.Performers.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);
@@ -489,7 +489,7 @@ namespace Aurora.Music.Core.Models
 
         internal Album(IGrouping<string, SONG> album)
         {
-            Name = album.Key.IsNullorEmpty() ? "Unknown Album" : album.Key;
+            Name = album.Key.IsNullorEmpty() ? Consts.UnknownAlbum : album.Key;
 
             // uint value, use their max value
             DiscCount = album.Max(x => x.DiscCount);

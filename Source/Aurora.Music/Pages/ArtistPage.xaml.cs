@@ -16,6 +16,9 @@ using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using EF = ExpressionBuilder.ExpressionFunctions;
 using Windows.System;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Media;
+using System.Linq;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -248,6 +251,47 @@ namespace Aurora.Music.Pages
         private async void Descriptions_LinkClicked(object sender, Microsoft.Toolkit.Uwp.UI.Controls.LinkClickedEventArgs e)
         {
             await Launcher.LaunchUriAsync(new Uri(e.Link));
+        }
+
+        private void AlbumList_ContextRequested(UIElement sender, ContextRequestedEventArgs args)
+        {
+            // Walk up the tree to find the ListViewItem.
+            // There may not be one if the click wasn't on an item.
+            var requestedElement = (FrameworkElement)args.OriginalSource;
+            while ((requestedElement != sender) && !(requestedElement is SelectorItem))
+            {
+                requestedElement = (FrameworkElement)VisualTreeHelper.GetParent(requestedElement);
+            }
+            var model = (sender as ListViewBase).ItemFromContainer(requestedElement) as AlbumViewModel;
+            if (requestedElement != sender)
+            {
+                var albumMenu = MainPage.Current.SongFlyout.Items.First(x => x.Name == "AlbumMenu") as MenuFlyoutItem;
+                albumMenu.Text = model.Name;
+                albumMenu.Visibility = Visibility.Collapsed;
+
+                // remove performers in flyout
+                var index = MainPage.Current.SongFlyout.Items.IndexOf(albumMenu);
+                while (!(MainPage.Current.SongFlyout.Items[index + 1] is MenuFlyoutSeparator))
+                {
+                    MainPage.Current.SongFlyout.Items.RemoveAt(index + 1);
+                }
+
+                if (args.TryGetPosition(requestedElement, out var point))
+                {
+                    MainPage.Current.SongFlyout.ShowAt(requestedElement, point);
+                }
+                else
+                {
+                    MainPage.Current.SongFlyout.ShowAt(requestedElement);
+                }
+
+                args.Handled = true;
+            }
+        }
+
+        private void AlbumList_ContextCanceled(UIElement sender, RoutedEventArgs args)
+        {
+            MainPage.Current.SongFlyout.Hide();
         }
     }
 }

@@ -75,7 +75,6 @@ namespace Aurora.Music.PlaybackEngine
             var outputDevice = await DeviceInformation.CreateFromIdAsync(outputDeviceID);
             mediaPlayer.AudioDevice = outputDevice;
             Pause();
-            PlayWithRestart();
         }
 
         public void ChangeVolume(double value)
@@ -364,9 +363,6 @@ namespace Aurora.Music.PlaybackEngine
             }
 
             PlaybackSession_PlaybackStateChanged(null, null);
-            //StatusChanged?.Invoke(this, null);
-
-            PlayWithRestart();
         }
 
         private async Task AddtoPlayListFirstAsync(IEnumerable<Song> items)
@@ -691,7 +687,7 @@ namespace Aurora.Music.PlaybackEngine
             ChangeVolume(settings.PlayerVolume);
         }
 
-        public void Play()
+        public async void Play()
         {
             var settings = Settings.Load();
             if (mediaPlaybackList == null || mediaPlaybackList.Items.IsNullorEmpty())
@@ -702,31 +698,21 @@ namespace Aurora.Music.PlaybackEngine
             if (mediaPlayer.Source == null)
             {
                 mediaPlayer.Source = mediaPlaybackList;
-                mediaPlaybackList.StartingItem = mediaPlaybackList.Items.First();
             }
 
-            mediaPlayer.Play();
-            ChangeVolume(settings.PlayerVolume);
-        }
-
-        public async void PlayWithRestart()
-        {
-            var settings = Settings.Load();
-            if (mediaPlaybackList == null)
-            {
-                return;
-            }
             int i = 0;
             while (mediaPlaybackList.CurrentItem == null)
             {
                 //mediaPlaybackList.MoveNext();
                 i++;
                 if (i > 10)
-                    throw new TimeoutException("Media player received null source");
+                {
+                    mediaPlaybackList.StartingItem = mediaPlaybackList.Items.First();
+                    break;
+                }
                 await Task.Delay(500);
             }
 
-            mediaPlayer.Source = mediaPlaybackList;
             mediaPlayer.Play();
             ChangeVolume(settings.PlayerVolume);
         }
@@ -921,6 +907,85 @@ namespace Aurora.Music.PlaybackEngine
                 CurrentIndex = mediaPlaybackList.CurrentItem == null ? -1 : currentList.IndexOf(mediaPlaybackList.CurrentItem?.Source.CustomProperties[Consts.SONG] as Song),
                 Items = currentList
             });
+        }
+
+        public async Task AddtoNextPlay(IList<Song> items)
+        {
+            if (mediaPlaybackList.CurrentItem == null)
+            {
+                await NewPlayList(items);
+                return;
+            }
+
+            var curIdx = (int)mediaPlaybackList.CurrentItemIndex;
+
+            // NOTE: add to current song list
+            currentList.InsertRange(curIdx + 1, items);
+
+            StatusChanged?.Invoke(this, new StatusChangedArgs()
+            {
+                CurrentSong = mediaPlaybackList.CurrentItem?.Source.CustomProperties[Consts.SONG] as Song,
+                CurrentIndex = mediaPlaybackList.CurrentItem == null ? -1 : currentList.IndexOf(mediaPlaybackList.CurrentItem?.Source.CustomProperties[Consts.SONG] as Song),
+                Items = currentList
+            });
+
+            for (int i = 0; i < items.Count; i++)
+            {
+                try
+                {
+                    var item = items[i];
+
+                    MediaSource mediaSource;
+                    string builtin;
+
+                    if (item.IsOnline)
+                    {
+                        mediaSource = MediaSource.CreateFromUri(item.OnlineUri);
+                        builtin = item.PicturePath;
+                    }
+                    else
+                    {
+                        try
+                        {
+                            /// **Local files can only create from <see cref="StorageFile"/>**
+                            StorageFile file = await StorageFile.GetFileFromPathAsync(item.FilePath);
+
+                            builtin = await GetBuiltInArtworkAsync(item.ID.ToString(), item.FilePath);
+
+                            mediaSource = MediaSource.CreateFromStorageFile(file);
+                        }
+
+                        catch (FileNotFoundException)
+                        {
+                            item.IsEmpty = true;
+                            throw;
+                        }
+                    }
+
+                    mediaSource.CustomProperties[Consts.ID] = item.ID;
+                    mediaSource.CustomProperties[Consts.Duration] = mediaSource.Duration ?? default(TimeSpan);
+                    mediaSource.CustomProperties[Consts.Artwork] = builtin.IsNullorEmpty() ? null : new Uri(builtin);
+                    item.PicturePath = builtin.IsNullorEmpty() ? item.PicturePath : builtin;
+                    mediaSource.CustomProperties[Consts.SONG] = item;
+                    var mediaPlaybackItem = new MediaPlaybackItem(mediaSource);
+                    var props = mediaPlaybackItem.GetDisplayProperties();
+
+                    await WriteProperties(item, props, builtin);
+
+                    mediaPlaybackItem.ApplyDisplayProperties(props);
+
+                    if (newComing)
+                        return;
+
+
+                    mediaPlaybackList.Items.Insert(curIdx + 1 + i, mediaPlaybackItem);
+
+                }
+                catch (FileNotFoundException)
+                {
+                    continue;
+                }
+            }
         }
     }
 }

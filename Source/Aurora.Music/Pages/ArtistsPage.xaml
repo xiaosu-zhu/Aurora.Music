@@ -88,7 +88,7 @@
             <SemanticZoom.ZoomedInView>
                 <GridView animations:ReorderGridAnimation.Duration="360" ItemClick="ArtistList_ItemClick" IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" 
               SelectionMode="None" ItemsSource="{x:Bind ArtistListSource.View, Mode=OneWay}" Loaded="ArtistList_Loaded"
-              Padding="32,0" ItemContainerStyle="{StaticResource GeneralGridViewItemStyle}" 
+              Padding="32,0" ItemContainerStyle="{StaticResource GeneralGridViewItemStyle}" ContextRequested="ArtistList_ContextRequested" ContextCanceled="ArtistList_ContextCanceled"
               Style="{StaticResource GeneralGridViewStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
               x:Name="ArtistList">
                     <GridView.GroupStyle>

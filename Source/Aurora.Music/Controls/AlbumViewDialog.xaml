@@ -129,7 +129,7 @@
                     <TextBlock Margin="0,4" x:Name="Artist" Text="" Style="{ThemeResource SubtitleTextBlockStyle}"/>
                     <TextBlock Margin="0,4,0,8" x:Name="Brief" Text="" Style="{ThemeResource BodyTextBlockStyle}"/>
                 </StackPanel>
-                <Button BorderThickness="1" Background="{x:Null}" BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" x:Name="DetailPanel" Click="DetailPanel_Click" Grid.Column="1" Grid.Row="1" VerticalAlignment="Stretch" Padding="0">
+                <Button Background="{x:Null}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" x:Name="DetailPanel" Click="DetailPanel_Click" Grid.Column="1" Grid.Row="1" VerticalAlignment="Stretch" Padding="0">
                     <StackPanel Padding="8" Background="{ThemeResource SystemControlAcrylicWindowBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <toolkit:MarkdownTextBlock IsTextSelectionEnabled="False" LinkClicked="Descriptions_LinkClicked" Text="# Loading..." x:Name="Descriptions" Height="75" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="WrapWholeWords">
                         </toolkit:MarkdownTextBlock>

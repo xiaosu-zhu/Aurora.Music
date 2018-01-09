@@ -80,7 +80,6 @@ namespace Aurora.Music.Pages
                     }
                     if (!s.Song.Performers.IsNullorEmpty())
                     {
-
                         if (s.Song.Performers.Length == 1)
                         {
                             var menuItem = new MenuFlyoutItem()

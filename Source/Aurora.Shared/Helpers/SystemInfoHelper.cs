@@ -7,9 +7,23 @@ using Windows.ApplicationModel.Resources.Core;
 using Windows.System;
 using Windows.System.Profile;
 using Windows.UI.ViewManagement;
+using Windows.Globalization.DateTimeFormatting;
+using System.Globalization;
 
 namespace Aurora.Shared.Helpers
 {
+
+    public class CultureInfoHelper
+    {
+        public static CultureInfo GetCurrentCulture()
+        {
+            var cultureName = new DateTimeFormatter("longdate", new[] { "US" }).ResolvedLanguage;
+
+            return new CultureInfo(cultureName);
+        }
+    }
+
+
     public static class SystemInfoHelper
     {
         public static IEnumerable<string> GetSystemInfo()

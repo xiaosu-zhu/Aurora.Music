@@ -219,6 +219,11 @@ namespace Aurora.Music.ViewModels
                 return Color.FromArgb(255, v, p, q);
         }
 
+        internal Task<AlbumViewModel> GetAlbumAsync()
+        {
+            return Song.GetAlbumAsync();
+        }
+
         public SolidColorBrush AdjustColorbyTheme(SolidColorBrush b)
         {
             if (b == null)
@@ -391,17 +396,6 @@ namespace Aurora.Music.ViewModels
         {
             get { return currentDuration; }
             set { SetProperty(ref currentDuration, value); }
-        }
-
-        internal async Task<AlbumViewModel> GetAlbumAsync()
-        {
-            if (_lastSong.IsOnline)
-            {
-                if (_lastSong.OnlineAlbumID.IsNullorEmpty())
-                    return null;
-                return new AlbumViewModel(await MainPageViewModel.Current.GetOnlineAlbumAsync(_lastSong.OnlineAlbumID));
-            }
-            return new AlbumViewModel(await SQLOperator.Current().GetAlbumByNameAsync(_lastSong.Album, _lastSong.ID));
         }
 
         private LyricViewModel lyric = new LyricViewModel();
@@ -677,7 +671,7 @@ namespace Aurora.Music.ViewModels
             {
                 return string.Join(", ", artists);
             }
-            return "Unknown Artist";
+            return Consts.UnknownArtists;
         }
 
         private bool? isShuffle = false;

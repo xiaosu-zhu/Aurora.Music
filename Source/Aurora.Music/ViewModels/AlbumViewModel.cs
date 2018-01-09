@@ -9,6 +9,7 @@ using Windows.UI.Xaml.Media.Imaging;
 using Aurora.Music.Core.Storage;
 using Aurora.Music.Core.Models;
 using Windows.System.Threading;
+using Aurora.Music.Core;
 
 namespace Aurora.Music.ViewModels
 {
@@ -113,7 +114,7 @@ namespace Aurora.Music.ViewModels
 
         internal string GetFormattedArtists()
         {
-            return AlbumArtists.IsNullorEmpty() ? "Unknown Artists" : string.Join(", ", AlbumArtists);
+            return AlbumArtists.IsNullorEmpty() ? Consts.UnknownArtists : string.Join(", ", AlbumArtists);
         }
 
         public virtual uint TrackCount { get; set; }
@@ -152,7 +153,7 @@ namespace Aurora.Music.ViewModels
         private string description;
         public string Description
         {
-            get { return description; }
+            get { return description.IsNullorEmpty() ? $"# {Name}" : description; }
             set { SetProperty(ref description, value); }
         }
 

@@ -45,7 +45,7 @@
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
                         <Button Command="{x:Bind LaunchUri}" IsEnabled="{x:Bind CanLaunch,Mode=OneWay}" ToolTipService.ToolTip="Launch" Style="{ThemeResource ButtonRevealStyle}" Background="{ThemeResource SystemControlBackgroundAccentBrush}" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE1A3;" />
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE11A;" />
                         </Button>
                         <Button Click="Button_Click" IsEnabled="{x:Bind CanUninstall,Mode=OneWay}" ToolTipService.ToolTip="Remove" Style="{ThemeResource ButtonRevealStyle}" Grid.Row="1" Background="#ff4343" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE107;" />

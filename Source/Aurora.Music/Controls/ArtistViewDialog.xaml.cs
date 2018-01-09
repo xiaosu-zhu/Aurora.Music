@@ -95,9 +95,7 @@ namespace Aurora.Music.Controls
                 (s.Resources["PointerOver"] as Storyboard).Begin();
             }
         }
-
-
-
+        
         private async void PlayAlbum_Click(object sender, RoutedEventArgs e)
         {
             await Context.PlayAlbumAsync((sender as Button).DataContext as AlbumViewModel);

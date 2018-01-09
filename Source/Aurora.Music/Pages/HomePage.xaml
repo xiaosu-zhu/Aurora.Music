@@ -501,17 +501,17 @@
                             </DoubleAnimation>
                         </Storyboard>
                     </Grid.Resources>
-                    <Rectangle Height="112" Width="112" RenderTransformOrigin="0.5,0" HorizontalAlignment="Center" VerticalAlignment="Top" Fill="{x:Bind GetMainColorBrush(0.3)}">
+                    <Rectangle Stroke="{ThemeResource SystemControlHighlightAltTransparentRevealBorderBrush}" StrokeThickness="1" Height="112" Width="112" RenderTransformOrigin="0.5,0" HorizontalAlignment="Center" VerticalAlignment="Top" Fill="{x:Bind GetMainColorBrush(0.3)}">
                         <Rectangle.RenderTransform>
                             <CompositeTransform TranslateY="-10"/>
                         </Rectangle.RenderTransform>
                     </Rectangle>
-                    <Rectangle Height="128" Width="128" RenderTransformOrigin="0.5,0" HorizontalAlignment="Center" VerticalAlignment="Top" Fill="{x:Bind GetMainColorBrush(0.5)}">
+                    <Rectangle Stroke="{ThemeResource SystemControlHighlightAltTransparentRevealBorderBrush}" StrokeThickness="1" Height="128" Width="128" RenderTransformOrigin="0.5,0" HorizontalAlignment="Center" VerticalAlignment="Top" Fill="{x:Bind GetMainColorBrush(0.5)}">
                         <Rectangle.RenderTransform>
                             <CompositeTransform TranslateY="-8"/>
                         </Rectangle.RenderTransform>
                     </Rectangle>
-                    <Rectangle Fill="{x:Bind GetMainColorBrush(0.7)}" Height="144" Width="144" RenderTransformOrigin="0.5,0" HorizontalAlignment="Center" VerticalAlignment="Top">
+                    <Rectangle Stroke="{ThemeResource SystemControlHighlightAltTransparentRevealBorderBrush}" StrokeThickness="1" Fill="{x:Bind GetMainColorBrush(0.7)}" Height="144" Width="144" RenderTransformOrigin="0.5,0" HorizontalAlignment="Center" VerticalAlignment="Top">
                         <Rectangle.RenderTransform>
                             <CompositeTransform TranslateY="-4"/>
                         </Rectangle.RenderTransform>
@@ -608,7 +608,7 @@
                             </Rectangle.Fill>
                         </Rectangle>
                     </toolkit:DropShadowPanel>
-                    <Rectangle Height="144" Width="144" Fill="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}">
+                    <Rectangle Stroke="{ThemeResource SystemControlHighlightAltTransparentRevealBorderBrush}" StrokeThickness="1" Height="144" Width="144" Fill="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}">
                     </Rectangle>
                     <TextBlock x:Name="Title" Text="{x:Bind Title}" Style="{ThemeResource SubtitleTextBlockStyle}"
                                            Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" FontSize="16"
@@ -687,7 +687,7 @@
                         <Setter Target="FavList.ItemTemplate" Value="{StaticResource NarrowListItem}"/>
                         <Setter Target="LuckyList.ItemTemplate" Value="{StaticResource NarrowListItem}"/>
                         <Setter Target="RandomPanel.Margin" Value="16,16,16,8"/>
-                        <Setter Target="FavoriteTitle.Margin" Value="16,16,16,8"/>
+                        <Setter Target="FavoritPanel.Margin" Value="16,16,16,8"/>
                         <Setter Target="RandomHeader.Width" Value="20"/>
                         <Setter Target="FavHeader.MinWidth" Value="20"/>
                         <Setter Target="FavHeader.Padding" Value="20,0,0,0"/>
@@ -703,7 +703,7 @@
                         <Setter Target="FavList.ItemTemplate" Value="{StaticResource NormalListItem}"/>
                         <Setter Target="LuckyList.ItemTemplate" Value="{StaticResource NormalListItem}"/>
                         <Setter Target="RandomPanel.Margin" Value="48,16,16,8"/>
-                        <Setter Target="FavoriteTitle.Margin" Value="48,16,16,8"/>
+                        <Setter Target="FavoritPanel.Margin" Value="48,16,16,8"/>
                         <Setter Target="RandomHeader.Width" Value="52"/>
                         <Setter Target="FavHeader.MinWidth" Value="20"/>
                         <Setter Target="FavHeader.Padding" Value="52,0,0,0"/>
@@ -720,7 +720,7 @@
                         <Setter Target="FavList.ItemTemplate" Value="{StaticResource NormalListItem}"/>
                         <Setter Target="LuckyList.ItemTemplate" Value="{StaticResource NormalListItem}"/>
                         <Setter Target="RandomPanel.Margin" Value="60,16,16,8"/>
-                        <Setter Target="FavoriteTitle.Margin" Value="60,16,16,8"/>
+                        <Setter Target="FavoritPanel.Margin" Value="60,16,16,8"/>
                         <Setter Target="RandomHeader.Width" Value="64"/>
                         <Setter Target="FavHeader.MinWidth" Value="20"/>
                         <Setter Target="FavHeader.Padding" Value="64,0,0,0"/>
@@ -789,11 +789,13 @@
                 <GridView animations:ReorderGridAnimation.Duration="360" SelectionMode="None" IsItemClickEnabled="True" ItemsSource="{x:Bind Context.HeroList}"
                           ItemContainerStyle="{ThemeResource HeroGridViewItemStyle}" ItemTemplate="{StaticResource NormalHeroItem}" 
                           ContextRequested="HeroGrid_ContextRequested" ContextCanceled="HeroGrid_ContextCanceled"
-                          HorizontalAlignment="Center" VerticalAlignment="Stretch" Padding="64"
+                          HorizontalAlignment="Center" VerticalAlignment="Stretch" Padding="64" ItemClick="HeroGrid_ItemClick"
                           Margin="0" Style="{ThemeResource HeroGridViewStyle}" x:Name="HeroGrid">
                 </GridView>
-                <TextBlock Margin="60,16,16,8" Text="Your Favorite" x:Name="FavoriteTitle"
-                       Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold"/>
+                <StackPanel x:Name="FavoritPanel" Orientation="Horizontal" Margin="60,16,16,8">
+                    <TextBlock Text="Your Favorite" x:Name="FavoritTitle" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold"/>
+                    <Button Visibility="{x:Bind Context.CollapseIfZero(Context.FavList.Count),Mode=OneWay,FallbackValue=Collapsed}" Style="{ThemeResource TextBlockButtonStyle}" Command="{x:Bind Context.PlayFav}" FontSize="15" Content="Play All" Margin="4,4,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </StackPanel>
                 <ListView Margin="0,8" IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" ItemClick="FavList_ItemClick"
                           ScrollViewer.IsHorizontalScrollChainingEnabled="True" ScrollViewer.IsHorizontalRailEnabled="True"
                           ContextRequested="HeroGrid_ContextRequested" ContextCanceled="HeroGrid_ContextCanceled"
@@ -811,8 +813,8 @@
                 </ListView>
                 <StackPanel x:Name="RandomPanel" Orientation="Horizontal" Margin="60,16,16,8">
                     <TextBlock Text="Feeling Lucky" x:Name="RandomTitle" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold"/>
-                    <Button Style="{ThemeResource TextBlockButtonStyle}" Command="{x:Bind Context.PlayRandom}" FontSize="15" Content="Play All" Margin="4,4,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    <Button Style="{ThemeResource TextBlockButtonStyle}" Command="{x:Bind Context.ReRandom}" HorizontalAlignment="Center" Margin="0,4,4,0" VerticalAlignment="Center">
+                    <Button Visibility="{x:Bind Context.CollapseIfZero(Context.RandomList.Count),Mode=OneWay,FallbackValue=Collapsed}" Style="{ThemeResource TextBlockButtonStyle}" Command="{x:Bind Context.PlayRandom}" FontSize="15" Content="Play All" Margin="4,4,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Button Visibility="{x:Bind Context.CollapseIfZero(Context.RandomList.Count),Mode=OneWay,FallbackValue=Collapsed}" Style="{ThemeResource TextBlockButtonStyle}" Command="{x:Bind Context.ReRandom}" HorizontalAlignment="Center" Margin="0,4,4,0" VerticalAlignment="Center">
                         <Button.Content>
                             <FontIcon FontSize="15" FontFamily="Segoe MDL2 Assets" Glyph="&#xE117;" />
                         </Button.Content>

@@ -8,6 +8,7 @@ using Aurora.Music.Core.Storage;
 using Aurora.Music.Core.Models;
 using Windows.UI;
 using Windows.UI.Xaml.Media;
+using Aurora.Music.Core;
 
 namespace Aurora.Music.ViewModels
 {
@@ -135,7 +136,7 @@ namespace Aurora.Music.ViewModels
             InnerType = MediaType.Song;
             ContextualID = song.ID;
             Title = song.Title;
-            Addtional = song.Performers.IsNullorEmpty() ? "Unknown Artists" : string.Join(", ", song.Performers);
+            Addtional = song.Performers.IsNullorEmpty() ? Consts.UnknownArtists : string.Join(", ", song.Performers);
             Description = song.Album;
             Artwork = song.PicturePath.IsNullorEmpty() ? null : new Uri(song.PicturePath);
             IDs = new int[] { song.ID };

@@ -23,6 +23,9 @@ namespace Aurora.Music.Core
 
         public const string Artwork = "Artwork";
 
+        public const string UnknownArtists = "Unknown Artists";
+        public const string UnknownAlbum = "Unknown Album";
+
         public const string NowPlayingPageInAnimation = "NOW_PLAYING_IN";
 
         public const string ArtistPageInAnimation = "ARTIST_PAGE_IN";

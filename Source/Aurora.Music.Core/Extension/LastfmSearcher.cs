@@ -2,6 +2,7 @@
 using Aurora.Shared.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,6 +27,7 @@ namespace Aurora.Music.Core.Extension
                 param["api_key"] = API_KEY;
                 param["artist"] = artist;
                 param["album"] = album;
+                param["lang"] = CultureInfoHelper.GetCurrentCulture().TwoLetterISOLanguageName;
                 param["autocorrect"] = "1";
                 var result = await ApiRequestHelper.HttpGet(API_URL, param);
                 var xml = new XmlDocument(); xml.LoadXml(result);
@@ -94,6 +96,7 @@ namespace Aurora.Music.Core.Extension
                 param["method"] = "artist.getinfo";
                 param["api_key"] = API_KEY;
                 param["artist"] = art;
+                param["lang"] = CultureInfoHelper.GetCurrentCulture().TwoLetterISOLanguageName;
                 param["autocorrect"] = "1";
                 var result = await ApiRequestHelper.HttpGet(API_URL, param);
                 var xml = new XmlDocument(); xml.LoadXml(result);

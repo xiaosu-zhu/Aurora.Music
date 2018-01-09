@@ -53,6 +53,19 @@ namespace Aurora.Music.ViewModels
             });
         }
 
+        public DelegateCommand PlayFav
+        {
+            get => new DelegateCommand(async () =>
+            {
+                var list = new List<Song>();
+                foreach (var item in FavList)
+                {
+                    list.AddRange(await item.GetSongsAsync());
+                }
+                await MainPageViewModel.Current.InstantPlay(list);
+            });
+        }
+
         public DelegateCommand ReRandom
         {
             get => new DelegateCommand(async () =>
@@ -128,7 +141,8 @@ namespace Aurora.Music.ViewModels
                         }),
                         Title = item.Key,
                         Artwork = pic.IsNullorEmpty() ? null : new Uri(pic),
-                        MainColor = pic.IsNullorEmpty() ? Palette.Blue : await ImagingHelper.GetMainColor(pic.IsNullorEmpty() ? null : new Uri(pic))
+                        MainColor = pic.IsNullorEmpty() ? Palette.Blue : await ImagingHelper.GetMainColor(pic.IsNullorEmpty() ? null : new Uri(pic)),
+                        InnerType = MediaType.PlayList
                     });
                 }
             });

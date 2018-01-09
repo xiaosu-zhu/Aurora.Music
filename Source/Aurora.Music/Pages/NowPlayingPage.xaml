@@ -844,7 +844,7 @@
                         <Setter Target="LrcBtn.Margin" Value="4"/>
                         <Setter Target="SmallWindow.Margin" Value="4"/>
                         <Setter Target="More.Margin" Value="4"/>
-                        <Setter Target="Root.Padding" Value="48,80,48,0"/>
+                        <Setter Target="Root.Padding" Value="24,80,24,0"/>
 
                         <Setter Target="SongPanel.(Grid.ColumnSpan)" Value="1"/>
                         <Setter Target="LrcView.(Grid.ColumnSpan)" Value="1"/>
@@ -1135,7 +1135,7 @@
                                 </MenuFlyoutItem>
                                 <MenuFlyoutItem Click="FindFileClick" Visibility="{x:Bind Context.BoolNottoVisibility(Context.Song.IsOnline),Mode=OneWay}" Text="Open in Explorer">
                                     <MenuFlyoutItem.Icon>
-                                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE7F6;" />
+                                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEC50;" />
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
                                 <MenuFlyoutSubItem Foreground="#E81123" Visibility="{x:Bind Context.BoolNottoVisibility(Context.Song.IsOnline),Mode=OneWay}" Text="Delete">

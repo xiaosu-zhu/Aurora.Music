@@ -664,5 +664,10 @@ namespace Aurora.Music.PlaybackEngine
         {
             throw new NotImplementedException();
         }
+
+        public Task AddtoNextPlay(IList<Song> song)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

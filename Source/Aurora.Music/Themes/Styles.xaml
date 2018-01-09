@@ -1981,7 +1981,7 @@
         <Setter Property="MinWidth" Value="{ThemeResource TextControlThemeMinWidth}" />
         <Setter Property="MinHeight" Value="{ThemeResource TextControlThemeMinHeight}" />
         <Setter Property="Foreground" Value="{ThemeResource TextControlForeground}" />
-        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundTransparentRevealBorderBrush}" />
+        <Setter Property="Background" Value="{ThemeResource SystemControlTransparentRevealBackgroundBrush}" />
         <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundTransparentRevealBorderBrush}" />
         <Setter Property="SelectionHighlightColor" Value="{ThemeResource TextControlSelectionHighlightColor}" />
         <Setter Property="BorderThickness" Value="1,0,0,1" />
@@ -2578,50 +2578,4 @@
             </Setter.Value>
         </Setter>
     </Style>
-
-    <MenuFlyout x:Key="SongFlyout">
-        <MenuFlyoutItem Text="Play">
-            <MenuFlyoutItem.Icon>
-                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE768;" />
-            </MenuFlyoutItem.Icon>
-        </MenuFlyoutItem>
-        <MenuFlyoutItem Text="Play Next">
-            <MenuFlyoutItem.Icon>
-                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE298;" />
-            </MenuFlyoutItem.Icon>
-        </MenuFlyoutItem>
-        <MenuFlyoutSeparator/>
-        <MenuFlyoutItem x:Name="AlbumMenu">
-            <MenuFlyoutItem.Icon>
-                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE93C;" />
-            </MenuFlyoutItem.Icon>
-        </MenuFlyoutItem>
-        <MenuFlyoutSeparator/>
-        <MenuFlyoutItem Text="Share">
-            <MenuFlyoutItem.Icon>
-                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE72D;" />
-            </MenuFlyoutItem.Icon>
-        </MenuFlyoutItem>
-        <MenuFlyoutItem Text="Modify Tags">
-            <MenuFlyoutItem.Icon>
-                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE929;" />
-            </MenuFlyoutItem.Icon>
-        </MenuFlyoutItem>
-        <MenuFlyoutItem Text="Open in Explorer">
-            <MenuFlyoutItem.Icon>
-                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE7F6;" />
-            </MenuFlyoutItem.Icon>
-        </MenuFlyoutItem>
-        <MenuFlyoutSubItem Foreground="#E81123" Text="Delete">
-            <MenuFlyoutSubItem.Icon>
-                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE107;" />
-            </MenuFlyoutSubItem.Icon>
-            <MenuFlyoutItem Text="Move to Trash">
-
-            </MenuFlyoutItem>
-            <MenuFlyoutItem Text="Permanent Delete">
-
-            </MenuFlyoutItem>
-        </MenuFlyoutSubItem>
-    </MenuFlyout>
 </ResourceDictionary>
