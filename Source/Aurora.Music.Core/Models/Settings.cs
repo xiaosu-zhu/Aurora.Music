@@ -65,7 +65,9 @@ namespace Aurora.Music.Core.Models
         public bool DebugModeEnabled { get; set; } = false;
 
         public string DownloadPathToken { get; set; } = string.Empty;
-        
+        public bool RememberFileActivatedAction { get; set; } = false;
+        public bool CopyFileWhenActivated { get; set; } = false;
+
         public static Settings Load()
         {
             try

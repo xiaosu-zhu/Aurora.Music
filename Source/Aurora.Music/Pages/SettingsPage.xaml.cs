@@ -67,14 +67,25 @@ namespace Aurora.Music.Pages
             await Context.PurchaseOnlineExtension();
         }
 
-        private void OnlineCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void OnlineCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Context.ChangeOnlineExt((sender as ComboBox).SelectedItem);
+
+            await MainPageViewModel.Current.ReloadExtensions();
         }
 
-        private void LyricCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void LyricCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Context.ChangeLyricExt((sender as ComboBox).SelectedItem);
+
+            await MainPageViewModel.Current.ReloadExtensions();
+        }
+
+        private async void MetaCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Context.ChangeMetaExt((sender as ComboBox).SelectedItem);
+
+            await MainPageViewModel.Current.ReloadExtensions();
         }
 
         private void Page_SizeChanged(object sender, Windows.UI.Xaml.SizeChangedEventArgs e)
@@ -85,11 +96,6 @@ namespace Aurora.Music.Pages
         private void Main_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             SizeChanged += Page_SizeChanged;
-        }
-
-        private void MetaCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            Context.ChangeMetaExt((sender as ComboBox).SelectedItem);
         }
     }
 }

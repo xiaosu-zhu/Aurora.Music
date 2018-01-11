@@ -38,5 +38,11 @@ namespace Aurora.Music.Pages
         {
             await Launcher.LaunchUriAsync(new Uri("https://unsplash.com/"));
         }
+
+        private async void Hyperlink_Click_1(Windows.UI.Xaml.Documents.Hyperlink sender, Windows.UI.Xaml.Documents.HyperlinkClickEventArgs args)
+        {
+            var launcher = Microsoft.Services.Store.Engagement.StoreServicesFeedbackLauncher.GetDefault();
+            await launcher.LaunchAsync();
+        }
     }
 }

@@ -72,6 +72,6 @@
                 <TextBlock Text="You can choose to save them permanently, or just play instantly." Style="{ThemeResource BodyTextBlockStyle}" TextWrapping="WrapWholeWords" MaxWidth="480" Margin="16,8"/>
             </ListView.Header>
         </ListView>
-        <CheckBox Grid.Row="1" VerticalAlignment="Center" Content="Don't Show Again, Remember My Choice." Margin="16"/>
+        <CheckBox IsThreeState="False" Checked="CheckBox_Checked" Grid.Row="1" VerticalAlignment="Center" Content="Don't Show Again, Remember My Choice." Margin="16"/>
     </Grid>
 </ContentDialog>

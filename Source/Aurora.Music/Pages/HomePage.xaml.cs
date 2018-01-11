@@ -153,7 +153,7 @@ namespace Aurora.Music.Pages
 
                 if (!model.Addtional.IsNullorEmpty())
                 {
-                    var artists = model.Addtional.Split(", ", StringSplitOptions.RemoveEmptyEntries);
+                    var artists = model.Addtional.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries);
 
                     // add song's performers to flyout
                     if (!artists.IsNullorEmpty())
@@ -194,7 +194,7 @@ namespace Aurora.Music.Pages
                         }
                     }
                 }
-                
+
 
                 if (e.TryGetPosition(requestedElement, out var point))
                 {

@@ -50,7 +50,7 @@ namespace Aurora.Shared.Helpers
         {
             var cache = ApplicationData.Current.LocalCacheFolder;
             var log = await cache.CreateFileAsync(name, CreationCollisionOption.OpenIfExists);
-            await FileIO.AppendTextAsync(log, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + ":  " + LOG + Environment.NewLine);
+            await FileIO.AppendTextAsync(log, DateTime.Now.ToString("G") + ":  " + LOG + Environment.NewLine);
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace Aurora.Shared.Helpers
         {
             var cache = ApplicationData.Current.LocalCacheFolder;
             var log = await cache.CreateFileAsync(name, CreationCollisionOption.ReplaceExisting);
-            await FileIO.AppendTextAsync(log, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + Environment.NewLine);
+            await FileIO.AppendTextAsync(log, DateTime.Now.ToString("G") + Environment.NewLine);
             return log;
         }
 
@@ -104,7 +104,7 @@ namespace Aurora.Shared.Helpers
         {
             var cache = ApplicationData.Current.LocalCacheFolder;
             var log = await cache.CreateFileAsync(name, CreationCollisionOption.OpenIfExists);
-            var sb = new StringBuilder(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + Environment.NewLine);
+            var sb = new StringBuilder(DateTime.Now.ToString("G") + Environment.NewLine);
             var info = SystemInfoHelper.GetSystemInfo();
             foreach (var i in info)
             {

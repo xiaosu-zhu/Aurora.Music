@@ -50,14 +50,14 @@ namespace Aurora.Music.ViewModels
 
         public GroupedItem(IGrouping<int, T> group)
         {
-            Key = group.Key.ToString("#");
+            Key = group.Key.ToString("#", CultureInfoHelper.CurrentCulture);
             list = new List<T>();
             list.AddRange(group);
         }
 
         public GroupedItem(IGrouping<uint, T> group)
         {
-            Key = group.Key.ToString("#");
+            Key = group.Key.ToString("#", CultureInfoHelper.CurrentCulture);
             list = new List<T>();
             list.AddRange(group);
         }

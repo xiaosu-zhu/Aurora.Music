@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 
 // The Templated Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234235
 
@@ -36,8 +39,20 @@ namespace Aurora.Music.Controls
 
         private static async void ImageSourcesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is ImageGrid imgGrid && e.NewValue is IList<ImageSource> source)
+            if (d is ImageGrid imgGrid)
             {
+                List<ImageSource> source = new List<ImageSource>();
+                if (e.NewValue is IList<ImageSource> imgs)
+                {
+                    source = imgs.ToList();
+                }
+                else if (e.NewValue is IList<Uri> uris)
+                {
+                    foreach (var item in uris)
+                    {
+                        source.Add(new BitmapImage(item));
+                    }
+                }
                 while (imgGrid.main == null)
                 {
                     await Task.Delay(16);

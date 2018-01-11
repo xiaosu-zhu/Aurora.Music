@@ -109,6 +109,13 @@ namespace Aurora.Music.ViewModels
             LeftTopColor = _lastLeftTop;
         }
 
+        private string placeholderText = "Search in library";
+        public string PlaceholderText
+        {
+            get { return placeholderText; }
+            set { SetProperty(ref placeholderText, value); }
+        }
+
         private TimeSpan currentPosition;
         public TimeSpan CurrentPosition
         {
@@ -366,29 +373,53 @@ namespace Aurora.Music.ViewModels
             player.PositionUpdated += Player_PositionUpdated;
             var t = ThreadPool.RunAsync(async x =>
             {
-                var exts = await Extension.Load(Settings.Load().LyricExtensionID);
+                await ReloadExtensions();
+                await FindFileChanges();
+            });
+        }
+
+        public async Task ReloadExtensions()
+        {
+            var s = Settings.Load();
+            var exts = await Extension.Load(s.LyricExtensionID);
+            foreach (var ext in exts)
+            {
+                if (ext is LyricExtension)
+                {
+                    LyricExtension = ext;
+                }
+            }
+            if (settings.OnlinePurchase)
+            {
+                exts = await Extension.Load(s.OnlineMusicExtensionID);
                 foreach (var ext in exts)
                 {
-                    if (ext is LyricExtension)
-                    {
-                        LyricExtension = ext;
-                    }
-
-                    if (ext is OnlineMetaExtension)
-                    {
-                        OnlineMetaExtension = ext;
-                    }
-
-                    if (ext is OnlineMusicExtension
-#if !DEBUG
-                    && settings.OnlinePurchase
-#endif
-                    )
+                    if (ext is OnlineMusicExtension)
                     {
                         OnlineMusicExtension = ext;
                     }
                 }
-                await FindFileChanges();
+            }
+            else
+            {
+                OnlineMusicExtension = null;
+            }
+
+            exts = await Extension.Load(s.MetaExtensionID);
+            foreach (var ext in exts)
+            {
+                if (ext is OnlineMetaExtension)
+                {
+                    OnlineMetaExtension = ext;
+                }
+            }
+
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            {
+                if (OnlineMusicExtension != null)
+                {
+                    PlaceholderText = "Search in library and web";
+                }
             });
         }
 

@@ -153,6 +153,7 @@ namespace Aurora.Music.Core.Models
                 Year = Convert.ToUInt32(set["year"]),
                 OnlineID = set["id"] as string,
                 Track = Convert.ToUInt32(set["track"]),
+                TrackCount = Convert.ToUInt32(set["track_count"]),
                 Duration = TimeSpan.Parse(set["duration"] as string),
                 FileType = set["file_type"] as string
             };

@@ -124,6 +124,7 @@
     <Compile Include="Models\Online.cs" />
     <Compile Include="Models\OnlineMetaExtension.cs" />
     <Compile Include="Models\OnlineMusicExtension.cs" />
+    <Compile Include="Models\PlayList.cs" />
     <Compile Include="Models\Settings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Storage\Events.cs" />

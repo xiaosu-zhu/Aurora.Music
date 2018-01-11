@@ -105,8 +105,6 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <Content Include="Helpers\Maps\big5.bin" />
-    <Content Include="Helpers\Maps\gb2312.bin" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
@@ -139,7 +137,6 @@
     <Compile Include="Helpers\InteractionHelper.cs" />
     <Compile Include="Helpers\JsonHelper.cs" />
     <Compile Include="Helpers\MemoryRandomAccessStream.cs" />
-    <Compile Include="Helpers\PinYinHelper.cs" />
     <Compile Include="Helpers\EncodingHelper.cs" />
     <Compile Include="Helpers\StringHelper.cs" />
     <Compile Include="Helpers\SystemInfoHelper.cs" />
@@ -151,9 +148,6 @@
     <Compile Include="MVVM\ILOCollection.cs" />
     <Compile Include="MVVM\ViewModelBase.cs" />
     <Compile Include="Palette.cs" />
-    <Compile Include="PinYinLib\Model\PinyinBaseUnit.cs" />
-    <Compile Include="PinYinLib\Model\PinyinSearchUnit.cs" />
-    <Compile Include="PinYinLib\Model\PinyinUnit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\SettingsHelper.cs" />
     <Compile Include="Helpers\WebHelper.cs" />
@@ -168,9 +162,7 @@
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="PinYinLib\Util\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <SDKReference Include="Microsoft.VCLibs, Version=14.0">
       <Name>Visual C++ 2015 Runtime for Universal Windows Platform Apps</Name>

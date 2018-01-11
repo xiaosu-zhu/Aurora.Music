@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Aurora.Music.ViewModels
 {
     public class CategoryListItem : ViewModelBase
     {
         public string Title { get; set; }
-
-        public Uri Index { get; set; }
 
         private bool isCurrent;
         public bool IsCurrent
@@ -27,5 +27,10 @@ namespace Aurora.Music.ViewModels
             return b ? 192d : 96d;
         }
 
+        public double GetVerticalShift(bool b)
+        {
+            return b ? 0d : 250d;
+        }
+        public IList<ImageSource> HeroImages { get; set; }
     }
 }

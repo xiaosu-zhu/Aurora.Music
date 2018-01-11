@@ -266,6 +266,10 @@ namespace Aurora.Music.Core.Models
         {
             if (!pictures.IsNullorEmpty())
             {
+                if (album.IsNullorEmpty())
+                {
+                    album = Consts.UnknownAlbum;
+                }
                 album = Shared.Utils.InvalidFileNameChars.Aggregate(album, (current, c) => current.Replace(c + "", "_"));
                 album = $"{album}.{pictures[0].MimeType.Split('/').LastOrDefault().Replace("jpeg", "jpg")}";
                 try
@@ -287,6 +291,10 @@ namespace Aurora.Music.Core.Models
                     StorageFile cacheImg = await Consts.ArtworkFolder.CreateFileAsync(album, CreationCollisionOption.ReplaceExisting);
                     await FileIO.WriteBytesAsync(cacheImg, pictures[0].Data.Data);
                     return cacheImg.Path;
+                }
+                catch (ArgumentException)
+                {
+                    return string.Empty;
                 }
             }
             else
@@ -466,7 +474,7 @@ namespace Aurora.Music.Core.Models
             ID = iD;
         }
 
-        internal Album(Storage.ALBUM album)
+        internal Album(ALBUM album)
         {
             ID = album.ID;
             var songs = album.Songs.Split(new string[] { "|" }, StringSplitOptions.RemoveEmptyEntries);

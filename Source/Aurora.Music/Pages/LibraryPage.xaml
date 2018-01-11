@@ -3,12 +3,13 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Aurora.Music.Pages"
+    xmlns:controls="using:Aurora.Music.Controls"
     xmlns:vm="using:Aurora.Music.ViewModels"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Unloaded="Page_Unloaded"
     mc:Ignorable="d">
-    
+
     <Page.Transitions>
         <TransitionCollection>
             <NavigationThemeTransition>
@@ -75,11 +76,10 @@
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="vm:CategoryListItem">
                     <Grid x:Name="Panel" HorizontalAlignment="Stretch" Height="{x:Bind GetHeight(IsCurrent), Mode=OneWay}">
-                        <Image x:Name="CategoryBG" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="UniformToFill">
-                            <Image.Source>
-                                <BitmapImage UriSource="{x:Bind Index, TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png}" DecodePixelType="Logical"/>
-                            </Image.Source>
-                        </Image>
+                        <ParallaxView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalShift="{x:Bind GetVerticalShift(IsCurrent),Mode=OneWay}" Source="{Binding ElementName=Category}">
+                            <controls:ImageGrid x:Name="CategoryBG" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ImageSources="{x:Bind HeroImages,Mode=OneWay}">
+                            </controls:ImageGrid>
+                        </ParallaxView>
                         <Grid Background="{ThemeResource SystemControlBackgroundBaseMediumHighBrush}" Visibility="{x:Bind BoolNottoVisibility(IsCurrent),Mode=OneWay}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                         <Grid Background="{ThemeResource SystemControlAltMediumLowAcrylicElementMediumBrush}" HorizontalAlignment="Right" VerticalAlignment="Bottom">
                             <TextBlock Margin="12" x:Name="Title" Text="{x:Bind Title}" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{ThemeResource TitleTextBlockStyle}"/>
@@ -87,6 +87,10 @@
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
+
+            <ListView.Footer>
+                <Grid Height="120"/>
+            </ListView.Footer>
         </ListView>
 
         <Frame x:Name="MainFrame" Background="{ThemeResource SystemControlBackgroundAltHighBrush}" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">

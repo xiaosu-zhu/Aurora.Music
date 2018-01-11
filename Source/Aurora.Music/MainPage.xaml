@@ -859,7 +859,9 @@
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
                 <MenuFlyoutSeparator/>
-                <MenuFlyoutItem Visibility="Collapsed" Click="MenuFlyoutShare_Click" Text="Share">
+                <MenuFlyoutItem Text="Add to collection" Click="MenuFlyoutCollection_Click"/>
+                <MenuFlyoutSeparator/>
+                <MenuFlyoutItem Click="MenuFlyoutShare_Click" Text="Share">
                     <MenuFlyoutItem.Icon>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE72D;" />
                     </MenuFlyoutItem.Icon>
@@ -1218,7 +1220,7 @@
                       Height="32" x:Name="TitleBarOverlay" Visibility="Visible" >
                     <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="1" BorderThickness="0" BorderBrush="{x:Null}" x:Name="TitlebarBtm" Background="{StaticResource SystemControlTransparentRevealBackgroundBrush}"/>
                     <AutoSuggestBox AutoMaximizeSuggestionArea="True" Loaded="SearchBox_Loaded" LosingFocus="SearchBox_LosingFocus" Style="{ThemeResource BlockAutoSuggestBox}" QuerySubmitted="SearchBox_QuerySubmitted" SuggestionChosen="SearchBox_SuggestionChosen"
-                                    PlaceholderText="Search in your library" QueryIcon="Find" x:Name="SearchBox" TextChanged="SearchBox_TextChanged" ItemsSource="{x:Bind Context.SearchItems, Mode=OneWay}"
+                                    PlaceholderText="{x:Bind Context.PlaceholderText,Mode=OneWay}" QueryIcon="Find" x:Name="SearchBox" TextChanged="SearchBox_TextChanged" ItemsSource="{x:Bind Context.SearchItems, Mode=OneWay}"
                                     HorizontalAlignment="Right" Opacity="0" VerticalAlignment="Stretch" Width="48" ItemTemplateSelector="{StaticResource GenericItemSelector}">
                     </AutoSuggestBox>
                     <Button Foreground="{x:Bind Context.LeftTopColor, Mode=OneWay}" x:Name="SearchButton" Click="SearchButton_Click" Background="Transparent" Style="{ThemeResource NoBorderButton}" Width="48" HorizontalAlignment="Right" VerticalAlignment="Stretch" BorderThickness="1,0,0,1" BorderBrush="{StaticResource SystemControlBackgroundTransparentRevealBorderBrush}">

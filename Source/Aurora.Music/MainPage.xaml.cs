@@ -28,6 +28,7 @@ using System.Linq;
 using Windows.ApplicationModel.DataTransfer;
 using Aurora.Music.Core.Extension;
 using Windows.System;
+using Aurora.Shared.Helpers;
 
 // https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
 
@@ -43,6 +44,7 @@ namespace Aurora.Music
         internal object Lockable = new object();
 
         public MenuFlyout SongFlyout;
+        private DataTransferManager dataTransferManager;
 
         public MainPage()
         {
@@ -50,6 +52,14 @@ namespace Aurora.Music
             Current = this;
             MainFrame.Navigate(typeof(HomePage));
             SongFlyout = (Resources["SongFlyout"] as MenuFlyout);
+
+            dataTransferManager = DataTransferManager.GetForCurrentView();
+            dataTransferManager.DataRequested += DataTransferManager_DataRequested;
+        }
+
+        private void DataTransferManager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
+        {
+
         }
 
         public async void ProgressUpdate(string title, string content)
@@ -153,6 +163,8 @@ namespace Aurora.Music
         private IAsyncAction searchTask;
         private StackPanel autoSuggestPopupPanel;
         private ThreadPoolTimer dismissTimer;
+        private string shareTitle;
+        private string shareDesc;
 
         public bool SubPageCanGoBack { get => MainFrame.Visibility == Visibility.Visible; }
         public bool CanAdd { get; private set; }
@@ -163,12 +175,12 @@ namespace Aurora.Music
             {
                 return "0:00/0:00";
             }
-            return $"{t1.ToString(@"m\:ss")}/{total.ToString(@"m\:ss")}";
+            return $"{t1.ToString($@"m\{CultureInfoHelper.CurrentCulture.DateTimeFormat.TimeSeparator}ss", CultureInfoHelper.CurrentCulture)}/{total.ToString(@"m\:ss", CultureInfoHelper.CurrentCulture)}";
         }
 
         string PositionNarrowToString(TimeSpan t1)
         {
-            return t1.ToString(@"m\:ss");
+            return t1.ToString($@"m\{CultureInfoHelper.CurrentCulture.DateTimeFormat.TimeSeparator}ss", CultureInfoHelper.CurrentCulture);
         }
 
         public void Navigate(Type type)
@@ -585,12 +597,19 @@ namespace Aurora.Music
         {
             e.Handled = true;
             e.AcceptedOperation = DataPackageOperation.Copy;
-            ShowModalUI(true, "Loading Files");
             var p = await e.DataView.GetStorageItemsAsync();
+            await FileActivation(p);
+        }
+
+        private async Task FileActivation(IReadOnlyList<IStorageItem> p)
+        {
+            ShowModalUI(true, "Loading Files");
+            var s = Settings.Load();
+
             var list = new List<StorageFile>();
             if (p.Count > 0)
             {
-                list.AddRange(await CopyFilesAsync(p));
+                list.AddRange(await ReadFilesAsync(p));
             }
             else
             {
@@ -602,46 +621,73 @@ namespace Aurora.Music
                 ShowModalUI(false);
                 return;
             }
+
             var songs = await Context.ComingNewSongsAsync(list);
 
             await Context.InstantPlay(songs);
 
+
             if (songs.Count > 0)
-            {
-                ShowDropSongsUI(songs);
-            }
-        }
-
-        private async void ShowDropSongsUI(IList<Song> songs)
-        {
-            ShowModalUI(false);
-            var dialog = new DropSongsDialog(songs);
-            await dialog.ShowAsync();
-        }
-
-        public async Task FileActivated(IReadOnlyList<IStorageItem> p)
-        {
-            ShowModalUI(true, "Loading Files");
-
-            var list = new List<StorageFile>();
-            if (p.Count > 0)
-            {
-                list.AddRange(await CopyFilesAsync(p));
-            }
-            else
             {
                 ShowModalUI(false);
-                return;
+                if (s.RememberFileActivatedAction)
+                {
+                    if (s.CopyFileWhenActivated)
+                    {
+                        var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Music", CreationCollisionOption.OpenIfExists);
+                        foreach (var item in list)
+                        {
+                            try
+                            {
+                                await item.CopyAsync(folder, item.Name, NameCollisionOption.ReplaceExisting);
+                            }
+                            catch (Exception)
+                            {
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    ShowDropSongsUI(songs, list);
+                }
             }
+        }
 
-            var songs = await Context.ComingNewSongsAsync(list);
-
-            await Context.InstantPlay(songs);
-
-            if (songs.Count > 0)
+        private async void ShowDropSongsUI(IList<Song> songs, List<StorageFile> files)
+        {
+            var dialog = new DropSongsDialog(songs);
+            var result = await dialog.ShowAsync();
+            switch (result)
             {
-                ShowDropSongsUI(songs);
+                case ContentDialogResult.None:
+                    break;
+                case ContentDialogResult.Primary:
+                    var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Music", CreationCollisionOption.OpenIfExists);
+                    foreach (var item in files)
+                    {
+                        try
+                        {
+                            await item.CopyAsync(folder, item.Name, NameCollisionOption.ReplaceExisting);
+                        }
+                        catch (Exception)
+                        {
+                        }
+                    }
+                    break;
+                case ContentDialogResult.Secondary:
+                    break;
+                default:
+                    break;
             }
+        }
+
+        public void FileActivated(IReadOnlyList<IStorageItem> p)
+        {
+            var t = Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>
+            {
+                await FileActivation(p);
+            });
         }
 
         public void ShowModalUI(bool show, string title = "")
@@ -657,7 +703,7 @@ namespace Aurora.Music
             ModalText.Text = title;
         }
 
-        private static async Task<IReadOnlyList<StorageFile>> CopyFilesAsync(IReadOnlyList<IStorageItem> p)
+        public static async Task<IReadOnlyList<StorageFile>> ReadFilesAsync(IReadOnlyList<IStorageItem> p)
         {
             var list = new List<StorageFile>();
             foreach (var item in p)
@@ -688,17 +734,11 @@ namespace Aurora.Music
             return list;
         }
 
-        private async void SearchBox_Loaded(object sender, RoutedEventArgs e)
+        private void SearchBox_Loaded(object sender, RoutedEventArgs e)
         {
             var box = sender as AutoSuggestBox;
-
             var up = box.GetFirst<Popup>();
             autoSuggestPopupPanel = up.Child as StackPanel;
-            await Task.Delay(400);
-            if (Context.OnlineMusicExtension != null)
-            {
-                SearchBox.PlaceholderText = "Search in library and web";
-            }
         }
 
         private void Page_Unloaded(object sender, RoutedEventArgs e)
@@ -871,7 +911,32 @@ namespace Aurora.Music
 
         private void MenuFlyoutShare_Click(object sender, RoutedEventArgs e)
         {
+            if (SongFlyout.Target is SelectorItem s)
+            {
+                switch (s.Content)
+                {
+                    case GenericMusicItemViewModel g:
+                        shareTitle = $"I'm sharing {g.Title} to you";
+                        shareDesc = $"I'm sharing {g.Title} to you";
+                        break;
+                    case SongViewModel song:
+                        shareTitle = $"I'm sharing {song.Title} to you";
+                        shareDesc = $"I'm sharing {song.Title} to you";
+                        break;
+                    case AlbumViewModel album:
+                        shareTitle = $"I'm sharing {album.Name} to you";
+                        shareDesc = $"I'm sharing {album.Name} to you";
+                        break;
+                    case ArtistViewModel artist:
+                        shareTitle = $"I'm sharing {artist.Name} to you";
+                        shareDesc = $"I'm sharing {artist.Name} to you";
+                        break;
 
+                    default:
+                        break;
+                }
+            }
+            DataTransferManager.ShowShareUI();
         }
         private void MenuFlyoutModify_Click(object sender, RoutedEventArgs e)
         {
@@ -1034,6 +1099,12 @@ namespace Aurora.Music
                     }
                 }
             }
+        }
+
+        private async void MenuFlyoutCollection_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new AddPlayList();
+            await dialog.ShowAsync();
         }
     }
 }

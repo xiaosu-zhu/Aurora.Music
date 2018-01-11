@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Aurora.Shared.Helpers;
+using System;
 using Windows.UI.Xaml.Data;
 
 namespace Aurora.Music.Controls
@@ -9,7 +10,7 @@ namespace Aurora.Music.Controls
         {
             if (value is double d)
             {
-                return $"{d.ToString("0.#")}%";
+                return $"{d.ToString("0.0", CultureInfoHelper.CurrentCulture)}%";
             }
             return string.Empty;
         }

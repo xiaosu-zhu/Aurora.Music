@@ -134,6 +134,7 @@ namespace Aurora.Music.Services
                                     ["year"] = t.Year,
                                     ["bit_rate"] = (uint)message["bit_rate"] * 1000,
                                     ["track"] = song.DataItems[0].Index_Album,
+                                    ["track_count"] = 0,
                                     ["duration"] = TimeSpan.Zero.ToString()
                                 };
                                 songRes["album_artists"] = songRes["performers"];
@@ -201,7 +202,6 @@ namespace Aurora.Music.Services
                     }
                     break;
                 case "online_meta":
-
                     var meta_action = message["action"] as string;
                     switch (meta_action)
                     {

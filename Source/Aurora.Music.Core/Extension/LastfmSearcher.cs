@@ -27,7 +27,7 @@ namespace Aurora.Music.Core.Extension
                 param["api_key"] = API_KEY;
                 param["artist"] = artist;
                 param["album"] = album;
-                param["lang"] = CultureInfoHelper.GetCurrentCulture().TwoLetterISOLanguageName;
+                param["lang"] = CultureInfoHelper.CurrentCulture.TwoLetterISOLanguageName;
                 param["autocorrect"] = "1";
                 var result = await ApiRequestHelper.HttpGet(API_URL, param);
                 var xml = new XmlDocument(); xml.LoadXml(result);
@@ -96,7 +96,7 @@ namespace Aurora.Music.Core.Extension
                 param["method"] = "artist.getinfo";
                 param["api_key"] = API_KEY;
                 param["artist"] = art;
-                param["lang"] = CultureInfoHelper.GetCurrentCulture().TwoLetterISOLanguageName;
+                param["lang"] = CultureInfoHelper.CurrentCulture.TwoLetterISOLanguageName;
                 param["autocorrect"] = "1";
                 var result = await ApiRequestHelper.HttpGet(API_URL, param);
                 var xml = new XmlDocument(); xml.LoadXml(result);

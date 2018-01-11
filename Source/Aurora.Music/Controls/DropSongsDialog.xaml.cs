@@ -40,10 +40,23 @@ namespace Aurora.Music.Controls
 
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
+            var s = Settings.Load();
+            s.CopyFileWhenActivated = true;
+            s.Save();
         }
 
         private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
+            var s = Settings.Load();
+            s.CopyFileWhenActivated = false;
+            s.Save();
+        }
+
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            var s = Settings.Load();
+            s.RememberFileActivatedAction = (sender as CheckBox).IsChecked ?? false;
+            s.Save();
         }
     }
 }

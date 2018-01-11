@@ -471,7 +471,8 @@ namespace Aurora.Music.ViewModels
             }
         }
 
-        private async void DataTransferManager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
+        // Share data can't wait
+        private void DataTransferManager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
         {
             var request = args.Request;
             try
@@ -479,6 +480,7 @@ namespace Aurora.Music.ViewModels
                 if (Song.IsOnline)
                 {
                     request.Data.SetWebLink(Song.Song.OnlineUri);
+                    request.Data.SetText($"I'm listening {song.Title}, you can listen from {Song.Song.OnlineUri.OriginalString}");
                     if (Song.Song.PicturePath.IsNullorEmpty())
                     {
                         request.Data.Properties.Thumbnail = RandomAccessStreamReference.CreateFromUri(new Uri(Consts.BlackPlaceholder));
@@ -488,24 +490,29 @@ namespace Aurora.Music.ViewModels
                         request.Data.Properties.Thumbnail = RandomAccessStreamReference.CreateFromUri(new Uri(Song.Song.PicturePath));
                     }
                     request.Data.Properties.Title = $"Share \"{Song.Title}\"";
-                    request.Data.Properties.Description = "Share this web song";
+                    request.Data.Properties.Description = $"Share link of what you're playing now";
                 }
                 else
                 {
-                    request.Data.RequestedOperation = DataPackageOperation.Copy;
-                    request.Data.SetStorageItems(new IStorageItem[] { await StorageFile.GetFileFromPathAsync(Song.Song.FilePath) });
+                    var files = new List<StorageFile>
+                    {
+                        AsyncHelper.RunSync(async ()=> await StorageFile.GetFileFromPathAsync(song.Song.FilePath))
+                    };
+
+                    request.Data.SetStorageItems(files);
                     if (Song.Song.PicturePath.IsNullorEmpty())
                     {
                         request.Data.Properties.Thumbnail = RandomAccessStreamReference.CreateFromUri(new Uri(Consts.BlackPlaceholder));
                     }
                     else
                     {
-                        request.Data.Properties.Thumbnail = RandomAccessStreamReference.CreateFromFile(await StorageFile.GetFileFromPathAsync(Song.Song.PicturePath));
+                        request.Data.Properties.Thumbnail = RandomAccessStreamReference.CreateFromFile(AsyncHelper.RunSync(async () => await StorageFile.GetFileFromPathAsync(Song.Song.PicturePath)));
                     }
 
                     request.Data.Properties.Title = $"Share \"{Song.Title}\"";
-                    request.Data.Properties.Description = "Share this file";
+                    request.Data.Properties.Description = $"Share music files to others.";
                 }
+                request.Data.Properties.ContentSourceApplicationLink = new Uri("as-music:");
             }
             catch (Exception e)
             {
@@ -524,7 +531,7 @@ namespace Aurora.Music.ViewModels
 
         public string TimeSpanFormat(TimeSpan t)
         {
-            return t.ToString(@"m\:ss");
+            return t.ToString($@"m\{CultureInfoHelper.CurrentCulture.DateTimeFormat.TimeSeparator}ss", CultureInfoHelper.CurrentCulture);
         }
 
         public Symbol NullableBoolToSymbol(bool? b)

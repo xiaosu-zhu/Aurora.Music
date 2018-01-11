@@ -8,6 +8,7 @@ using Aurora.Music.Core.Models;
 using System.Collections.Generic;
 using Aurora.Shared.MVVM;
 using System.Threading.Tasks;
+using Aurora.Shared.Helpers;
 
 namespace Aurora.Music.ViewModels
 {
@@ -33,11 +34,11 @@ namespace Aurora.Music.ViewModels
             }
             if (Song.BitRate != default(uint) && Song.BitRate != 0u)
             {
-                descs.Add($"{(Song.BitRate / 1000.0).ToString("0.#")} Kbps");
+                descs.Add($"{(Song.BitRate / 1000.0).ToString("0.#", CultureInfoHelper.CurrentCulture)} Kbps");
             }
             if (Song.SampleRate != default(uint))
             {
-                descs.Add($"{(Song.SampleRate / 1000.0).ToString("0.#")} KHz");
+                descs.Add($"{(Song.SampleRate / 1000.0).ToString("0.#", CultureInfoHelper.CurrentCulture)} KHz");
             }
             var type = GetFileType();
             if (!type.IsNullorEmpty())
@@ -111,7 +112,7 @@ namespace Aurora.Music.ViewModels
 
         public string DurationtoString(TimeSpan t)
         {
-            return t.ToString(@"m\:ss");
+            return t.ToString($@"m\{CultureInfoHelper.CurrentCulture.DateTimeFormat.TimeSeparator}ss", CultureInfoHelper.CurrentCulture);
         }
 
         public string FormatDuration(TimeSpan t)

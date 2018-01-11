@@ -3,6 +3,7 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using Aurora.Shared.Extensions;
+using Aurora.Shared.Helpers;
 using System;
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -17,11 +18,11 @@ namespace Aurora.Shared.Converters
         {
             if (value is double)
             {
-                return Math.Round((double)value).ToString("0");
+                return Math.Round((double)value).ToString("0", CultureInfoHelper.CurrentCulture);
             }
             if (value is float)
             {
-                return Math.Round((float)value).ToString("0");
+                return Math.Round((float)value).ToString("0", CultureInfoHelper.CurrentCulture);
             }
             return "0";
         }
@@ -156,11 +157,11 @@ namespace Aurora.Shared.Converters
             }
             else if (value is double)
             {
-                return ((double)value).ToString("P");
+                return ((double)value).ToString("P", CultureInfoHelper.CurrentCulture);
             }
             else if (value is float)
             {
-                return ((float)value).ToString("P");
+                return ((float)value).ToString("P", CultureInfoHelper.CurrentCulture);
             }
             else if (value is long)
             {

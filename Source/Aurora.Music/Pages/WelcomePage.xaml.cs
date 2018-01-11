@@ -41,6 +41,9 @@ namespace Aurora.Music.Pages
         {
             if (Main.SelectedIndex == Main.Items.Count - 1 && !searchBegined)
             {
+                var s = Settings.Load();
+                s.WelcomeFinished = true;
+                s.Save();
                 await StartSearching();
             }
         }

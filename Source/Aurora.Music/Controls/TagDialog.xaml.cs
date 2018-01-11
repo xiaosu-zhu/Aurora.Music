@@ -4,6 +4,7 @@ using Aurora.Music.Core.Storage;
 using Aurora.Music.PlaybackEngine;
 using Aurora.Music.ViewModels;
 using Aurora.Shared.Extensions;
+using Aurora.Shared.Helpers;
 using Aurora.Shared.MVVM;
 using System;
 using System.Collections.Generic;
@@ -466,12 +467,12 @@ namespace Aurora.Music.Controls
 
         public string BitRateToString(uint bitrate)
         {
-            return $"{(bitrate / 1000.0).ToString("0.#")} Kbps";
+            return $"{(bitrate / 1000.0).ToString("0.#", CultureInfoHelper.CurrentCulture)} Kbps";
         }
 
         public string DurationtoString(TimeSpan t)
         {
-            return t.ToString(@"m\:ss\.ff");
+            return t.ToString($@"m\{CultureInfoHelper.CurrentCulture.DateTimeFormat.TimeSeparator}ss\{CultureInfoHelper.CurrentCulture.NumberFormat.NumberDecimalSeparator}ff", CultureInfoHelper.CurrentCulture);
         }
 
         private TimeSpan duration;

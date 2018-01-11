@@ -286,8 +286,7 @@ namespace Aurora.Shared.Helpers
                         using (StreamReader myStreamReader = new StreamReader(myResponseStream, Encoding.GetEncoding(encode)))
                         {
                             //将转换后的内容转化为字符串并返回
-                            string retString = myStreamReader.ReadToEnd();
-                            return retString;
+                            return myStreamReader.ReadToEnd();
                         }
 
                     }

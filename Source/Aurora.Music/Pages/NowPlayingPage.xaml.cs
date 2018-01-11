@@ -278,7 +278,7 @@ namespace Aurora.Music.Pages
         private void LrcHeader_Loaded(object sender, RoutedEventArgs e)
         {
             SizeChanged += NowPlayingPage_SizeChanged;
-            var h = Window.Current.Bounds.Height - 640;
+            var h = (Artwork.ActualHeight + LrcHeader.ActualHeight) / 2;
             if (h < 24)
             {
                 h = 24;
@@ -288,7 +288,7 @@ namespace Aurora.Music.Pages
 
         private void NowPlayingPage_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            var h = Window.Current.Bounds.Height - 640;
+            var h = (Artwork.ActualHeight + LrcHeader.ActualHeight) / 2;
             if (h < 24)
             {
                 h = 24;

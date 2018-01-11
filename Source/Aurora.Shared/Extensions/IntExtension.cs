@@ -2,6 +2,7 @@
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
+using Aurora.Shared.Helpers;
 using System.Text;
 
 namespace Aurora.Shared.Extensions
@@ -36,7 +37,7 @@ namespace Aurora.Shared.Extensions
 
         public static string DectoHex(this long dec)
         {
-            return dec.ToString("X");
+            return dec.ToString("X", CultureInfoHelper.CurrentCulture);
         }
     }
 
@@ -44,7 +45,7 @@ namespace Aurora.Shared.Extensions
     {
         public static string ToHexString(this int dec)
         {
-            return "0x" + dec.ToString("X8");
+            return "0x" + dec.ToString("X8", CultureInfoHelper.CurrentCulture);
         }
 
         public static string ToString(this int[][] k)

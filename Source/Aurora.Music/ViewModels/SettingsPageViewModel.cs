@@ -551,6 +551,7 @@ namespace Aurora.Music.ViewModels
                         });
                         settings.OnlinePurchase = product.IsInUserCollection;
                         settings.Save();
+                        await MainPageViewModel.Current.ReloadExtensions();
                     }
                 }
             });

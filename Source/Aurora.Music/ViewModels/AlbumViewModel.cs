@@ -153,7 +153,7 @@ namespace Aurora.Music.ViewModels
         private string description;
         public string Description
         {
-            get { return description.IsNullorEmpty() ? $"# {Name}" : description; }
+            get { return description; }
             set { SetProperty(ref description, value); }
         }
 

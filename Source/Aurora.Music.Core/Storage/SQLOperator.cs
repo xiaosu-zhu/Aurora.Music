@@ -60,7 +60,7 @@ namespace Aurora.Music.Core.Storage
         public static readonly string[] timeProjection = { "Morning", "Noon", "Afternoon", "Evening" };
     }
 
-    class SONG : IEqualityComparer<SONG>
+    class SONG
     {
         private string albumArtists;
 
@@ -206,16 +206,6 @@ namespace Aurora.Music.Core.Storage
         public virtual string Conductor { get; set; }
         public virtual string Copyright { get; set; }
         public virtual string Comment { get; set; }
-
-        public bool Equals(SONG x, SONG y)
-        {
-            return x.ID == y.ID;
-        }
-
-        public int GetHashCode(SONG obj)
-        {
-            return obj.ID.GetHashCode();
-        }
     }
 
 
@@ -257,6 +247,55 @@ namespace Aurora.Music.Core.Storage
         public virtual string AlbumArtistsSort { get; set; }
         public virtual double ReplayGainAlbumGain { get; set; }
         public virtual double ReplayGainAlbumPeak { get; set; }
+    }
+
+    class PLAYLIST
+    {
+        [PrimaryKey, AutoIncrement]
+        public int ID { get; set; }
+
+        [Unique]
+        public string Title { get; set; }
+        public string HeroArtworks { get; set; }
+        public string Description { get; set; }
+        public string Tags { get; set; }
+        public string IDs { get; set; }
+
+
+
+        public PLAYLIST() { }
+
+        public PLAYLIST(PlayList p)
+        {
+            ID = p.ID;
+            Title = p.Title;
+            Description = p.Description;
+            Tags = string.Join("$|$", p.Tags ?? new string[] { });
+            HeroArtworks = string.Join("$|$", p.HeroArtworks ?? new string[] { });
+            IDs = string.Join('|', p.SongsID ?? new int[] { });
+        }
+    }
+
+    public class ONLINESONG
+    {
+        [PrimaryKey, AutoIncrement]
+        public int ID { get; set; }
+
+        public string OnlineID { get; set; }
+        public string OnlineUrl { get; set; }
+        public string OnlineAlbumID { get; set; }
+
+        public string Title { get; set; }
+        public string Album { get; set; }
+        public string Performers { get; set; }
+        public string AlbumArtists { get; set; }
+        public string PicturePath { get; set; }
+        public uint BitRate { get; set; }
+        public uint Year { get; set; }
+        public uint Track { get; set; }
+        public uint TrackCount { get; set; }
+        public TimeSpan Duration { get; set; }
+        public string FileType { get; set; }
     }
 
     public class FOLDER
@@ -378,7 +417,7 @@ namespace Aurora.Music.Core.Storage
 
         private void CreateTable()
         {
-            conn.GetConnection().CreateTables(CreateFlags.None, new Type[] { typeof(SONG), typeof(ALBUM), typeof(FOLDER), typeof(STATISTICS), typeof(PLAYSTATISTIC), typeof(AVATAR) });
+            conn.GetConnection().CreateTables(CreateFlags.None, new Type[] { typeof(SONG), typeof(ALBUM), typeof(FOLDER), typeof(STATISTICS), typeof(PLAYSTATISTIC), typeof(AVATAR), typeof(PLAYLIST) });
         }
 
 
@@ -1110,12 +1149,35 @@ namespace Aurora.Music.Core.Storage
             await conn.DropTableAsync<STATISTICS>();
             await conn.DropTableAsync<PLAYSTATISTIC>();
             await conn.DropTableAsync<AVATAR>();
+            await conn.DropTableAsync<PLAYLIST>();
         }
 
         internal async Task UpdateSongAsync(Song model)
         {
             var t = new SONG(model);
             await conn.UpdateAsync(t);
+        }
+
+        public async Task<List<PlayList>> GetPlayListBriefAsync()
+        {
+            var list = await conn.QueryAsync<PLAYLIST>("SELECT * FROM PLAYLIST");
+            return list.ConvertAll(x =>
+            {
+                return new PlayList(x);
+            });
+        }
+
+        internal async Task UpdatePlayListAsync(PLAYLIST p)
+        {
+            var res = await conn.QueryAsync<PLAYLIST>("SELECT * FROM PLAYLIST WHERE TITLE=?", p.Title);
+            if (res.Count > 0)
+            {
+                await conn.UpdateAsync(p);
+            }
+            else
+            {
+                await conn.InsertAsync(p);
+            }
         }
     }
 

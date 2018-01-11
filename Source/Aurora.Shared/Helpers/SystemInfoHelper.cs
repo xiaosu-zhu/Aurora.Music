@@ -15,7 +15,10 @@ namespace Aurora.Shared.Helpers
 
     public class CultureInfoHelper
     {
-        public static CultureInfo GetCurrentCulture()
+        public static CultureInfo CurrentCulture
+        { get; } = GetCurrentCulture();
+
+        private static CultureInfo GetCurrentCulture()
         {
             var cultureName = new DateTimeFormatter("longdate", new[] { "US" }).ResolvedLanguage;
 

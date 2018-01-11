@@ -28,6 +28,8 @@ using Windows.UI.Core;
 using Aurora.Shared.Helpers;
 using System.Web;
 using Aurora.Music.Controls;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.Storage;
 
 namespace Aurora.Music
 {
@@ -301,14 +303,63 @@ namespace Aurora.Music
             {
                 p.ThrowException(e);
             }
+
+            if (Window.Current.Content is Frame f)
+            {
+                if (f.Content is WelcomePage)
+                {
+                    var s = Settings.Load();
+                    s.WelcomeFinished = true;
+                    s.Save();
+                }
+            }
+        }
+
+        protected override async void OnShareTargetActivated(ShareTargetActivatedEventArgs args)
+        {
+            base.OnShareTargetActivated(args);
+            args.ShareOperation.ReportStarted();
+            if (args.ShareOperation.Data.Contains(StandardDataFormats.StorageItems))
+            {
+
+                var items = await args.ShareOperation.Data.GetStorageItemsAsync();
+                if (MainPage.Current != null)
+                    await FileReceived(items);
+                else
+                {
+                    var list = new List<StorageFile>();
+                    if (items.Count > 0)
+                    {
+                        list.AddRange(await MainPage.ReadFilesAsync(items));
+                    }
+                    var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Music", CreationCollisionOption.OpenIfExists);
+                    foreach (var item in list)
+                    {
+                        try
+                        {
+                            await item.CopyAsync(folder, item.Name, NameCollisionOption.ReplaceExisting);
+                        }
+                        catch (Exception)
+                        {
+                        }
+                    }
+                }
+            }
+
+            args.ShareOperation.ReportCompleted();
         }
 
         protected override async void OnFileActivated(FileActivatedEventArgs args)
         {
             base.OnFileActivated(args);
+            await FileReceived(args.Files);
+        }
+
+        private async Task FileReceived(IReadOnlyList<IStorageItem> files)
+        {
             if (MainPage.Current is MainPage p)
             {
-                await p.FileActivated(args.Files);
+                p.FileActivated(files);
             }
             else
             {
@@ -316,7 +367,7 @@ namespace Aurora.Music
 
                 while (!(MainPage.Current is MainPage)) await Task.Delay(10);
 
-                await MainPage.Current.FileActivated(args.Files);
+                MainPage.Current.FileActivated(files);
             }
         }
 

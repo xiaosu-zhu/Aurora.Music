@@ -1,6 +1,8 @@
 ﻿using Aurora.Music.Core.Models;
+using Aurora.Music.Core.Storage;
 using Aurora.Music.ViewModels;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,6 +11,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
+using Windows.UI.Xaml.Media.Imaging;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -32,9 +35,44 @@ namespace Aurora.Music.Pages
             MainPageViewModel.Current.NeedShowTitle = true;
             MainPageViewModel.Current.LeftTopColor = Resources["SystemControlForegroundBaseHighBrush"] as SolidColorBrush;
 
-            var settings = Settings.Load();
-            CategoryList = new ObservableCollection<CategoryListItem>() { new CategoryListItem { Title = "Songs", Index = new Uri("ms-appx:///Assets/Images/songs.png"), NavigatType = typeof(SongsPage) }, new CategoryListItem { Title = "Albums", Index = new Uri("ms-appx:///Assets/Images/albums.png"), NavigatType = typeof(AlbumsPage) }, new CategoryListItem { Title = "Artists", Index = new Uri("ms-appx:///Assets/Images/artists.png"), NavigatType = typeof(ArtistsPage) } };
+            CategoryList = new ObservableCollection<CategoryListItem>() {
+                new CategoryListItem
+                {
+                    Title = "Songs",
+                    HeroImages = new List<ImageSource>() { new BitmapImage(new Uri("ms-appx:///Assets/Images/songs.png")) },
+                    NavigatType = typeof(SongsPage)
+                },
+                new CategoryListItem
+                {
+                    Title = "Albums",
+                    HeroImages = new List<ImageSource>() { new BitmapImage(new Uri("ms-appx:///Assets/Images/albums.png")) },
+                    NavigatType = typeof(AlbumsPage)
+                },
+                new CategoryListItem
+                {
+                    Title = "Artists",
+                    HeroImages = new List<ImageSource>() { new BitmapImage(new Uri("ms-appx:///Assets/Images/artists.png")) },
+                    NavigatType = typeof(ArtistsPage)
+                }
+            };
 
+            Task.Run(async () =>
+            {
+                var playlists = await SQLOperator.Current().GetPlayListBriefAsync();
+                await Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+                {
+                    foreach (var playlist in playlists)
+                    {
+                        CategoryList.Add(new CategoryListItem
+                        {
+                            Title = playlist.Title,
+                            HeroImages = playlist.HeroArtworks == null ? null : Array.ConvertAll(playlist.HeroArtworks, x => (ImageSource)new BitmapImage(new Uri(x))).ToList()
+                        });
+                    }
+                });
+            });
+
+            var settings = Settings.Load();
             var item = CategoryList.FirstOrDefault(x => x.Title == settings.CategoryLastClicked);
             if (item != default(CategoryListItem))
             {

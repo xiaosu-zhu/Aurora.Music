@@ -180,7 +180,7 @@ namespace Aurora.Music.Core.Storage
                 var files = await GetFilesAsync(item);
 
                 var opr = SQLOperator.Current();
-                if (KnownFolders.MusicLibrary.Equals(item))
+                if (KnownFolders.MusicLibrary.Path == item.Path || item.Path == ApplicationData.Current.LocalFolder.Path)
                 {
 
                 }
@@ -203,56 +203,46 @@ namespace Aurora.Music.Core.Storage
         public async Task ReadFileandSave(IEnumerable<StorageFile> files)
         {
             var opr = SQLOperator.Current();
-            List<Song> tempList = new List<Song>();
-            int i = 1;
             var total = files.Count();
+            int i = 1;
+
+            var newlist = new List<SONG>();
+
             foreach (var file in files)
             {
                 if (!file.IsAvailable)
                 {
-
                     ProgressUpdated?.Invoke(this, new ProgressReport() { Description = $"{i} of {total} files readed", Current = i, Total = total });
 
                     i++;
                     continue;
                 }
+
                 try
                 {
                     using (var tagTemp = File.Create(file.Path))
                     {
-                        tempList.Add(await Song.Create(tagTemp.Tag, file.Path, await file.Properties.GetMusicPropertiesAsync()));
+                        var song = await Song.Create(tagTemp.Tag, file.Path, await file.Properties.GetMusicPropertiesAsync());
+                        var t = await opr.InsertSongAsync(song);
+                        if (t != null)
+                        {
+                            newlist.Add(t);
+                        }
                     }
-
                 }
                 catch (Exception e)
                 {
                     Shared.Helpers.Tools.Logging(e);
-                    goto step2;
+                    continue;
                 }
                 finally
                 {
-
-                    ProgressUpdated?.Invoke(this, new ProgressReport() { Description = $"{i} of {total} files readed", Current = i, Total = total });
+                    ProgressUpdated?.Invoke(this, new ProgressReport() { Description = $"{i} of {total} files read", Current = i, Total = total });
 
                     i++;
                 }
             }
-            step2: i = 1;
 
-            await Task.Delay(200);
-
-            ProgressUpdated?.Invoke(this, new ProgressReport() { Description = $"0 of {tempList.Count} records stored in database", Current = 0, Total = tempList.Count });
-            var newlist = new List<SONG>();
-            foreach (var song in tempList)
-            {
-                var t = await opr.InsertSongAsync(song);
-                if (t != null)
-                {
-                    newlist.Add(t);
-                }
-                ProgressUpdated?.Invoke(this, new ProgressReport() { Description = $"{i} of {tempList.Count} records stored in database", Current = i, Total = tempList.Count });
-                i++;
-            }
             if (newlist.Count > 0)
             {
                 await AddToAlbums(newlist);
@@ -262,6 +252,7 @@ namespace Aurora.Music.Core.Storage
                 Completed?.Invoke(this, EventArgs.Empty);
             }
         }
+
 
         public static async Task UpdateSongAsync(Song model)
         {
