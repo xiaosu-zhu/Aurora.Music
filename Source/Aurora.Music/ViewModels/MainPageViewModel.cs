@@ -414,7 +414,7 @@ namespace Aurora.Music.ViewModels
                 }
             }
 
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
                 if (OnlineMusicExtension != null)
                 {
@@ -434,7 +434,7 @@ namespace Aurora.Music.ViewModels
 
         private async void Player_DownloadProgressChanged(object sender, DownloadProgressChangedArgs e)
         {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
                 BufferProgress = 100 * e.Progress;
             });
@@ -457,7 +457,7 @@ namespace Aurora.Music.ViewModels
                         new KeyValuePair<string, object>("action", "search"),
                         new KeyValuePair<string, object>("keyword", text)
                     };
-                    var dd = CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
+                    var dd = CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
                     {
                         await Task.Delay(200);
                         MainPage.Current.ShowAutoSuggestPopup();
@@ -466,7 +466,7 @@ namespace Aurora.Music.ViewModels
                     if (webResult is IEnumerable<OnlineMusicItem> items)
                     {
                         if (MainPage.Current.CanAdd && s.Equals(_lastQuery, StringComparison.Ordinal))
-                            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                             {
                                 lock (MainPage.Current.Lockable)
                                 {
@@ -488,7 +488,7 @@ namespace Aurora.Music.ViewModels
             var result = await FileReader.Search(text);
 
             if (MainPage.Current.CanAdd && !result.IsNullorEmpty())
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                 {
                     lock (MainPage.Current.Lockable)
                     {
@@ -519,7 +519,7 @@ namespace Aurora.Music.ViewModels
 
         private void Reader_Completed(object sender, EventArgs e)
         {
-            var t = CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
+            var t = CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
             {
                 MainPage.Current.ProgressUpdate(100);
                 MainPage.Current.ProgressUpdate("File Updating", "Completed.");
@@ -530,7 +530,7 @@ namespace Aurora.Music.ViewModels
 
         private void Reader_ProgressUpdated(object sender, ProgressReport e)
         {
-            var t = CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            var t = CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
                 MainPage.Current.ProgressUpdate();
                 MainPage.Current.ProgressUpdate(e.Current * 100.0 / e.Total);
@@ -545,7 +545,7 @@ namespace Aurora.Music.ViewModels
 
         private async void Player_PositionUpdated(object sender, PositionUpdatedArgs e)
         {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
                 CurrentPosition = e.Current;
                 TotalDuration = e.Total;
@@ -554,7 +554,7 @@ namespace Aurora.Music.ViewModels
 
         private async void Player_StatusChanged(object sender, StatusChangedArgs e)
         {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
                 IsPlaying = player.IsPlaying;
 

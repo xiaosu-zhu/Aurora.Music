@@ -433,7 +433,7 @@ namespace Aurora.Music
 
         private async void Ui_ColorValuesChanged(UISettings sender, object args)
         {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
                 if (rootFrame != null)
                 {

@@ -108,7 +108,7 @@ namespace Aurora.Music.ViewModels
             var task = ThreadPool.RunAsync(async x =>
             {
                 var favor = await _lastSong.GetFavoriteAsync();
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                 {
                     IsCurrentFavorite = favor;
                 });
@@ -124,14 +124,14 @@ namespace Aurora.Music.ViewModels
                     if (result != null)
                     {
                         var l = new Lyric(LrcParser.Parser.Parse((string)result, Song.Song.Duration));
-                        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
+                        await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
                         {
                             Lyric.New(l);
                         });
                     }
                     else
                     {
-                        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
+                        await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
                         {
                             Lyric.Clear();
                             LyricHint = "Can't find lyrics.";
@@ -140,7 +140,7 @@ namespace Aurora.Music.ViewModels
                 }
                 else
                 {
-                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
+                    await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
                     {
                         Lyric.Clear();
                         LyricHint = "Can't find lyrics.";
@@ -157,7 +157,7 @@ namespace Aurora.Music.ViewModels
         private async void CastingPicker_CastingDeviceSelected(CastingDevicePicker sender, CastingDeviceSelectedEventArgs args)
         {
             //Casting must occur from the UI thread.  This dispatches the casting calls to the UI thread.
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, async () =>
+            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, async () =>
             {
                 //Create a casting conneciton from our selected casting device
                 CastingConnection connection = args.SelectedCastingDevice.CreateCastingConnection();
@@ -523,7 +523,7 @@ namespace Aurora.Music.ViewModels
 
         private async void Player_DownloadProgressChanged(object sender, DownloadProgressChangedArgs e)
         {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
+            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
             {
                 BufferProgress = 100 * e.Progress;
             });
@@ -761,7 +761,7 @@ namespace Aurora.Music.ViewModels
 
         private async void Player_PositionUpdated(object sender, PositionUpdatedArgs e)
         {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
                 CurrentPosition = e.Current;
                 TotalDuration = e.Total;
@@ -775,7 +775,7 @@ namespace Aurora.Music.ViewModels
 
         private async void Player_StatusChanged(object sender, StatusChangedArgs e)
         {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
+            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
             {
                 IsPlaying = player.IsPlaying;
                 if (e.CurrentSong != null)
@@ -834,7 +834,7 @@ namespace Aurora.Music.ViewModels
             {
                 if (!_lastSong.IsIDEqual(e.CurrentSong))
                 {
-                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                    await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                     {
                         Lyric.Clear();
                         LyricHint = "Loading lyrics...";
@@ -847,14 +847,14 @@ namespace Aurora.Music.ViewModels
                         if (result != null)
                         {
                             var l = new Lyric(LrcParser.Parser.Parse((string)result, Song.Song.Duration));
-                            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                             {
                                 Lyric.New(l);
                             });
                         }
                         else
                         {
-                            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                             {
                                 Lyric.Clear();
                                 LyricHint = "Can't find lyrics.";
@@ -863,7 +863,7 @@ namespace Aurora.Music.ViewModels
                     }
                     else
                     {
-                        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                        await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                         {
                             Lyric.Clear();
                             LyricHint = "Can't find lyrics.";

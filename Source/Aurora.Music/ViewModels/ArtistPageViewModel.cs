@@ -74,14 +74,14 @@ namespace Aurora.Music.ViewModels
                     list.Add(new Uri(aa[j].PicturePath));
                 }
                 list.Shuffle();
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                 {
                     HeroImage = list.ConvertAll(y => (ImageSource)new BitmapImage(y));
                 });
 
                 var art = await MainPageViewModel.Current.GetArtistInfoAsync(artist.RawName);
                 if (art != null)
-                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                    await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                     {
                         Artist.Description = art.Description;
                         Artist.Avatar = art.AvatarUri;
@@ -94,7 +94,7 @@ namespace Aurora.Music.ViewModels
                           group alb by alb.Genres into grp
                           orderby grp.Count() descending
                           select grp.Key).FirstOrDefault();
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
                 AlbumList.Clear();
                 foreach (var item in a)

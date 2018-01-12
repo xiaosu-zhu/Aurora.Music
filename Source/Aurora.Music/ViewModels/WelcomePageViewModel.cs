@@ -71,7 +71,7 @@ namespace Aurora.Music.ViewModels
             var s = Settings.Load();
             s.WelcomeFinished = true;
             s.Save();
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
                 Finish = 1;
             });
@@ -79,7 +79,7 @@ namespace Aurora.Music.ViewModels
 
         private async void FileReader_ProgressUpdated(object sender, ProgressReport e)
         {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
                 Hint = e.Description;
                 var t = (double)e.Total;

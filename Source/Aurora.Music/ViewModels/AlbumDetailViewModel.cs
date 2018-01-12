@@ -74,7 +74,7 @@ namespace Aurora.Music.ViewModels
         {
             Album = a;
             await a.GetSongsAsync();
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
                 SongList.Clear();
                 for (int i = 0; i < a.Songs.Count; i++)
@@ -86,7 +86,7 @@ namespace Aurora.Music.ViewModels
                 }
             });
             var info = await MainPageViewModel.Current.GetAlbumInfoAsync(Album.Name, Album.AlbumArtists.FirstOrDefault());
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
                 if (info != null)
                 {

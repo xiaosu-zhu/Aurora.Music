@@ -61,7 +61,7 @@ namespace Aurora.Music.ViewModels
                 SongsCount = x.Count
             }));
 
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
                 ArtistList.Clear();
 
@@ -83,7 +83,7 @@ namespace Aurora.Music.ViewModels
                             var uri = await opr.GetAvatarAsync(art.RawName);
                             if (Uri.TryCreate(uri, UriKind.Absolute, out var u))
                             {
-                                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
+                                await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
                                 {
                                     art.Avatar = u;
                                 });

@@ -73,7 +73,7 @@ namespace Aurora.Music.ViewModels
 
             var aCount = await FileReader.GetArtistsCountAsync();
 
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
                 SongsList.Clear();
                 foreach (var item in grouped)
@@ -103,7 +103,7 @@ namespace Aurora.Music.ViewModels
                     list.Add(new Uri(aa[j].FirstOrDefault().PicturePath));
                 }
                 list.Shuffle();
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                 {
                     HeroImage = list.ConvertAll(y => (ImageSource)new BitmapImage(y));
                 });
@@ -139,7 +139,7 @@ namespace Aurora.Music.ViewModels
                         grouped = GroupedItem<SongViewModel>.CreateGroups(songs.ConvertAll(x => new SongViewModel(x)), x => x.Song.Year, true);
                         break;
                 }
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                 {
                     foreach (var item in grouped)
                     {

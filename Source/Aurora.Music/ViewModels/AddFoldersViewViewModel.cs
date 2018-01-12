@@ -115,7 +115,7 @@ namespace Aurora.Music.ViewModels
         {
             var opr = SQLOperator.Current();
             var folders = await opr.GetAllAsync<FOLDER>();
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
                 foreach (var item in folders)
                 {

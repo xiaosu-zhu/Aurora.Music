@@ -125,7 +125,7 @@ namespace Aurora.Music.ViewModels
         public async Task Load()
         {
             var hero = await FileReader.GetHeroListAsync();
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
+            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
             {
                 HeroList.Clear();
                 foreach (var item in hero)
@@ -148,7 +148,7 @@ namespace Aurora.Music.ViewModels
             });
 
             var ran = await FileReader.GetRandomListAsync();
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
                 RandomList.Clear();
                 foreach (var item in ran)
@@ -158,7 +158,7 @@ namespace Aurora.Music.ViewModels
             });
 
             var fav = await FileReader.GetFavListAsync();
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
                 FavList.Clear();
                 foreach (var item in fav)

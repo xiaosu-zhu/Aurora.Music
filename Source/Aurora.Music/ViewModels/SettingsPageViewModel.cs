@@ -374,7 +374,7 @@ namespace Aurora.Music.ViewModels
         {
             // load all the extensions currently installed
             IReadOnlyList<AppExtension> extensions = await _catalog.FindAllAsync();
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
+            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
             {
                 foreach (AppExtension ext in extensions)
                 {
@@ -545,7 +545,7 @@ namespace Aurora.Music.ViewModels
                     {
                         // Access the Store info for the product.
                         StoreProduct product = item.Value;
-                        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                        await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                         {
                             OnlinePurchase = product.IsInUserCollection;
                         });
@@ -586,7 +586,7 @@ namespace Aurora.Music.ViewModels
                 downloadFolder = await lib.SaveFolder.CreateFolderAsync("Download", CreationCollisionOption.OpenIfExists);
             }
 
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
+            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
             {
                 DownloadPathText = downloadFolder.Path;
 
@@ -619,7 +619,7 @@ namespace Aurora.Music.ViewModels
 
                 if (settings.OutputDeviceID.IsNullorEmpty())
                 {
-                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
+                    await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
                     {
                         await Task.Delay(300);
                         AudioSelectedIndex = 0;
@@ -636,7 +636,7 @@ namespace Aurora.Music.ViewModels
                             break;
                         }
                     }
-                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
+                    await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
                     {
                         await Task.Delay(300);
                         AudioSelectedIndex = index;
@@ -650,7 +650,7 @@ namespace Aurora.Music.ViewModels
 
         private async void _catalog_PackageStatusChanged(AppExtensionCatalog sender, AppExtensionPackageStatusChangedEventArgs args)
         {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
                 LyricExts.Clear();
                 MetaExts.Clear();
@@ -661,7 +661,7 @@ namespace Aurora.Music.ViewModels
 
         private async void _catalog_PackageUpdating(AppExtensionCatalog sender, AppExtensionPackageUpdatingEventArgs args)
         {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
                 LyricExts.Clear();
                 MetaExts.Clear();
@@ -672,7 +672,7 @@ namespace Aurora.Music.ViewModels
 
         private async void _catalog_PackageUninstalling(AppExtensionCatalog sender, AppExtensionPackageUninstallingEventArgs args)
         {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
                 LyricExts.Clear();
                 MetaExts.Clear();
@@ -683,7 +683,7 @@ namespace Aurora.Music.ViewModels
 
         private async void _catalog_PackageUpdated(AppExtensionCatalog sender, AppExtensionPackageUpdatedEventArgs args)
         {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
                 LyricExts.Clear();
                 MetaExts.Clear();
@@ -694,7 +694,7 @@ namespace Aurora.Music.ViewModels
 
         private async void _catalog_PackageInstalled(AppExtensionCatalog sender, AppExtensionPackageInstalledEventArgs args)
         {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
                 LyricExts.Clear();
                 MetaExts.Clear();
