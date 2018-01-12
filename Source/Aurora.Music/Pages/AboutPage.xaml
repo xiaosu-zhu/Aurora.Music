@@ -36,7 +36,8 @@
                 <Run x:Name="BuildText"/>
                 <Run Text="and Supported by:"/>
             </TextBlock>
-            <TextBlock TextAlignment="Center" Style="{ThemeResource SubtitleTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12,0" Text="Microsoft.Toolkit.Uwp&#xD;&#xA;Newtonsoft.Json&#xD;&#xA;ksemenenko.ColorThief&#xD;&#xA;WriteableBitmapEx&#xD;&#xA;Win2D.uwp&#xD;&#xA;ExpressionBuilder&#xD;&#xA;Taglib-Sharp&#xD;&#xA;LrcParser"/>
+            <TextBlock TextAlignment="Center" FontFamily="Consolas" Style="{ThemeResource SubtitleTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12,0" 
+                       Text="Taglib-Sharp&#xD;&#xA;SQLite-net&#xD;&#xA;Microsoft.Toolkit.Uwp&#xD;&#xA;Newtonsoft.Json&#xD;&#xA;ExpressionBuilder&#xD;&#xA;ksemenenko.ColorThief&#xD;&#xA;WriteableBitmapEx&#xD;&#xA;Win2D.uwp&#xD;&#xA;LrcParser"/>
             <TextBlock TextAlignment="Center" Margin="12,24,12,0" Style="{ThemeResource BodyTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Text="And photos by:"/>
             <TextBlock TextAlignment="Center" Style="{ThemeResource SubtitleTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12,0" Text="Jason Rosewell&#xD;&#xA;Kelly Sikkema&#xD;&#xA;Malte Wingen&#xD;&#xA;Namroud Gorguis&#xD;&#xA;Yvette de Wit"/>
             <TextBlock TextAlignment="Center" Margin="12,0,12,24" Style="{ThemeResource BodyTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -55,7 +56,7 @@
             <TextBlock TextAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12">
                 <Run Text="Also need your help to fix/improve UI issues (localization, translation),"/>
                 <Hyperlink Click="Hyperlink_Click_1">
-                    <Run Text="open Feedback Hub"/>
+                    <Run Text="Open Feedback Hub"/>
                 </Hyperlink><LineBreak/><LineBreak/>
                 <Run Text="需要你的帮助来解决翻译问题，不甚感激"/>
                 <Hyperlink Click="Hyperlink_Click_1">

@@ -1167,7 +1167,25 @@ namespace Aurora.Music.Core.Storage
             {
                 return new PlayList(res[0]);
             }
-            return null;
+            var fav = new PlayList()
+            {
+                Title = "Favorites",
+                Description = "Automatically generated",
+            };
+
+            var favSongs = await conn.QueryAsync<STATISTICS>("SELECT * FROM STATISTICS WHERE Favorite=1");
+            if (favSongs.Count > 0)
+            {
+                var favsongID = await conn.QueryAsync<SONG>($"SELECT * FROM SONG WHERE ID IN ({string.Join(',', favSongs.Select(x => x.TargetID))})");
+                fav.SongsID = favsongID.Select(x => x.ID).ToArray();
+                var artworks = from g in favsongID group g by g.Album into p orderby p.Count() descending select p.First().PicturePath;
+                fav.HeroArtworks = artworks.Take(3).ToArray();
+            }
+            else
+            {
+                fav.SongsID = new int[] { };
+            }
+            return fav;
         }
 
         // NOTE: treat favorite songs(in STATISTIC) as a playlist
