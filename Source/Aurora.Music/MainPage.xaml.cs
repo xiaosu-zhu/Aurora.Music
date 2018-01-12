@@ -1103,8 +1103,28 @@ namespace Aurora.Music
 
         private async void MenuFlyoutCollection_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = new AddPlayList();
-            await dialog.ShowAsync();
+            if (SongFlyout.Target is SelectorItem s)
+            {
+                AddPlayList dialog;
+                switch (s.Content)
+                {
+                    case GenericMusicItemViewModel g:
+                        dialog = new AddPlayList((await g.GetSongsAsync()).Select(x => x.ID));
+                        break;
+                    case SongViewModel song:
+                        dialog = new AddPlayList(song.ID);
+                        break;
+                    case AlbumViewModel album:
+                        dialog = new AddPlayList((await album.GetSongsAsync()).Select(x => x.ID));
+                        break;
+                    case ArtistViewModel artist:
+                        dialog = new AddPlayList((await artist.GetSongsAsync()).Select(x => x.ID));
+                        break;
+                    default:
+                        throw new OperationCanceledException();
+                }
+                await dialog.ShowAsync();
+            }
         }
     }
 }

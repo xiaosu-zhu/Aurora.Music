@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="Aurora.Music.Pages.SongsPage"
+    x:Class="Aurora.Music.Pages.PlayListPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Aurora.Music.Pages"
@@ -8,8 +8,8 @@
     xmlns:controls="using:Aurora.Music.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Unloaded="Page_Unloaded"
     mc:Ignorable="d">
+
 
     <Page.Transitions>
         <TransitionCollection>
@@ -20,7 +20,7 @@
     </Page.Transitions>
 
     <Page.DataContext>
-        <vm:SongsPageViewModel x:Name="Context"/>
+        <vm:PlayListPageViewModel x:Name="Context"/>
     </Page.DataContext>
 
     <Page.Resources>
@@ -199,25 +199,33 @@
                 </Grid.RowDefinitions>
                 <Grid Canvas.ZIndex="9999" x:Name="TitleShrink" Background="{x:Null}"
                           HorizontalAlignment="Left" VerticalAlignment="Center" Height="48">
-                    <TextBlock Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" Margin="12,0" Text="Songs" 
+                    <TextBlock Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" Margin="12,0" Text="{x:Bind Context.Title,Mode=OneWay}" 
                                    HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"
                                    TextWrapping="NoWrap" MaxLines="1" Style="{ThemeResource SubheaderTextBlockStyle}" 
                                    TextTrimming="Clip"/>
                 </Grid>
                 <Grid Canvas.ZIndex="9999" x:Name="Title" Background="{ThemeResource SystemControlBackgroundAccentBrush}" 
                           HorizontalAlignment="Left" VerticalAlignment="Center" Height="48">
-                    <TextBlock Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Margin="12,0" Text="Songs" 
+                    <TextBlock Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Margin="12,0" Text="{x:Bind Context.Title,Mode=OneWay}" 
                                    HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"
                                    TextWrapping="NoWrap" MaxLines="1" Style="{ThemeResource SubheaderTextBlockStyle}" 
                                    TextTrimming="Clip"/>
                 </Grid>
                 <StackPanel Grid.Row="1" x:Name="Details" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,8">
-                    <Grid VerticalAlignment="Bottom" Margin="0,0,4,0" 
+                    <StackPanel VerticalAlignment="Bottom" Margin="0,0,4,0" Orientation="Horizontal" Padding="12,8"
                               Background="{ThemeResource SystemControlBackgroundAccentBrush}">
-                        <TextBlock Style="{ThemeResource BodyTextBlockStyle}" 
+                        <Grid VerticalAlignment="Center">
+                            <TextBlock VerticalAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}" x:Name="DescriptionText"
                                        Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" 
-                                       Text="{x:Bind Context.ArtistsCount,Mode=OneWay}" Margin="12,8"/>
-                    </Grid>
+                                       Text="{x:Bind Context.Description,Mode=OneWay,TargetNullValue=No&#x20;descriptions}"/>
+                            <TextBox MinWidth="200" Background="{ThemeResource SystemControlBackgroundBaseLowBrush}" 
+                                     BorderThickness="0" BorderBrush="{x:Null}" PlaceholderText="Type some descriptions" 
+                                     VerticalAlignment="Center" MaxLength="35" x:Name="DescriptionEditor" Visibility="Collapsed"/>
+                        </Grid>
+                        <Button x:Name="DescriptionBtn" VerticalAlignment="Center" Style="{ThemeResource TextBlockButtonStyle}" Click="Button_Click" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}">
+                            <FontIcon FontSize="14" x:Name="DescriptionSymbol" FontFamily="Segoe MDL2 Assets" Glyph="&#xE104;" />
+                        </Button>
+                    </StackPanel>
                     <Grid VerticalAlignment="Center" Margin="4,0,4,0" 
                               Background="{ThemeResource SystemControlBackgroundAccentBrush}">
                         <TextBlock Style="{ThemeResource BodyTextBlockStyle}" 

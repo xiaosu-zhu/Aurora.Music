@@ -16,6 +16,10 @@ namespace Aurora.Music.Core.Models
         public string[] Tags { get; set; }
         public List<Song> Songs { get; set; }
         public int ID { get; set; }
+
+        /// <summary>
+        /// max: 3, choose the latest added songs
+        /// </summary>
         public string[] HeroArtworks { get; set; }
         public int[] SongsID { get; set; }
 

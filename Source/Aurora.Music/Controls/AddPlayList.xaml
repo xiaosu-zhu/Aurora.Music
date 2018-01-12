@@ -8,7 +8,6 @@
     mc:Ignorable="d"
     xmlns:vm="using:Aurora.Music.ViewModels"
     xmlns:controls="using:Aurora.Music.Controls"
-    Title="Add to Collection"
     PrimaryButtonText="Confirm"
     CloseButtonText="Cancel"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
@@ -16,31 +15,133 @@
 
     <ContentDialog.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../Themes/Styles.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-            <ResourceDictionary.ThemeDictionaries>
-                <ResourceDictionary x:Key="Light" Source="../Themes/Light.xaml"/>
-                <ResourceDictionary x:Key="Dark" Source="../Themes/Dark.xaml"/>
-            </ResourceDictionary.ThemeDictionaries>
+            <Style TargetType="ListViewItem" x:Key="GeneralListViewItemStyle">
+                <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+                <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
+                <Setter Property="Background" Value="{ThemeResource ListViewItemBackground}" />
+                <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+                <Setter Property="TabNavigation" Value="Local" />
+                <Setter Property="IsHoldingEnabled" Value="True" />
+                <Setter Property="Padding" Value="0" />
+                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="MinWidth" Value="{ThemeResource ListViewItemMinWidth}" />
+                <Setter Property="MinHeight" Value="{ThemeResource ListViewItemMinHeight}" />
+                <Setter Property="AllowDrop" Value="False" />
+                <Setter Property="UseSystemFocusVisuals" Value="True" />
+                <Setter Property="FocusVisualMargin" Value="0" />
+                <Setter Property="FocusVisualPrimaryBrush" Value="{ThemeResource ListViewItemFocusVisualPrimaryBrush}" />
+                <Setter Property="FocusVisualPrimaryThickness" Value="2" />
+                <Setter Property="FocusVisualSecondaryBrush" Value="{ThemeResource ListViewItemFocusVisualSecondaryBrush}" />
+                <Setter Property="FocusVisualSecondaryThickness" Value="1" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ListViewItem">
+                            <ListViewItemPresenter ContentTransitions="{TemplateBinding ContentTransitions}"
+                        x:Name="Root" HorizontalAlignment="Stretch"
+                        Control.IsTemplateFocusTarget="True"
+                        FocusVisualMargin="{TemplateBinding FocusVisualMargin}"
+                        FocusVisualPrimaryBrush="{TemplateBinding FocusVisualPrimaryBrush}"
+                        FocusVisualPrimaryThickness="{TemplateBinding FocusVisualPrimaryThickness}"
+                        FocusVisualSecondaryBrush="{TemplateBinding FocusVisualSecondaryBrush}"
+                        FocusVisualSecondaryThickness="{TemplateBinding FocusVisualSecondaryThickness}"
+                        SelectionCheckMarkVisualEnabled="{ThemeResource ListViewItemSelectionCheckMarkVisualEnabled}"
+                        CheckBrush="{ThemeResource ListViewItemCheckBrush}"
+                        CheckBoxBrush="{ThemeResource ListViewItemCheckBoxBrush}"
+                        DragBackground="{ThemeResource ListViewItemDragBackground}"
+                        DragForeground="{ThemeResource ListViewItemDragForeground}"
+                        FocusBorderBrush="{ThemeResource ListViewItemFocusBorderBrush}"
+                        FocusSecondaryBorderBrush="{ThemeResource ListViewItemFocusSecondaryBorderBrush}"
+                        PlaceholderBackground="{ThemeResource ListViewItemPlaceholderBackground}"
+                        PointerOverBackground="{ThemeResource ListViewItemBackgroundPointerOver}"
+                        PointerOverForeground="{ThemeResource ListViewItemForegroundPointerOver}"
+                        SelectedBackground="{ThemeResource ListViewItemBackgroundSelected}"
+                        SelectedForeground="#ff4343"
+                        SelectedPointerOverBackground="{ThemeResource ListViewItemBackgroundSelectedPointerOver}"
+                        PressedBackground="{ThemeResource ListViewItemBackgroundPressed}"
+                        SelectedPressedBackground="{ThemeResource ListViewItemBackgroundSelectedPressed}"
+                        DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}"
+                        DragOpacity="{ThemeResource ListViewItemDragThemeOpacity}"
+                        ReorderHintOffset="{ThemeResource ListViewItemReorderHintThemeOffset}"
+                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                        ContentMargin="{TemplateBinding Padding}"
+                        CheckMode="{ThemeResource ListViewItemCheckMode}" RevealBackgroundShowsAboveContent="True"
+                        RevealBackground="{ThemeResource ListViewItemRevealBackground}"
+                        RevealBorderThickness="{ThemeResource ListViewItemRevealBorderThemeThickness}"
+                        RevealBorderBrush="{ThemeResource ListViewItemRevealBorderBrush}">
+
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal" />
+                                        <VisualState x:Name="Selected" />
+
+                                        <VisualState x:Name="PointerOver">
+                                            <VisualState.Setters>
+                                                <Setter Target="Root.(RevealBrush.State)" Value="PointerOver" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+
+                                        <VisualState x:Name="PointerOverSelected">
+                                            <VisualState.Setters>
+                                                <Setter Target="Root.(RevealBrush.State)" Value="PointerOver" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState x:Name="PointerOverPressed">
+                                            <VisualState.Setters>
+                                                <Setter Target="Root.(RevealBrush.State)" Value="Pressed" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+
+                                        <VisualState x:Name="Pressed">
+                                            <VisualState.Setters>
+                                                <Setter Target="Root.(RevealBrush.State)" Value="Pressed" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+
+                                        <VisualState x:Name="PressedSelected">
+                                            <VisualState.Setters>
+                                                <Setter Target="Root.(RevealBrush.State)" Value="Pressed" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+
+                                    <VisualStateGroup x:Name="DisabledStates">
+                                        <VisualState x:Name="Enabled" />
+
+                                        <VisualState x:Name="Disabled">
+                                            <VisualState.Setters>
+                                                <Setter Target="Root.RevealBorderThickness" Value="0" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+
+                                </VisualStateManager.VisualStateGroups>
+                            </ListViewItemPresenter>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
         </ResourceDictionary>
     </ContentDialog.Resources>
 
     <ListView x:Name="Main" ItemContainerStyle="{ThemeResource GeneralListViewItemStyle}" ItemsSource="{x:Bind Playlists}">
         <ListView.ItemTemplate>
             <DataTemplate x:DataType="vm:PlayListViewModel">
-                <Grid Padding="8,4">
+                <Grid Height="80">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
-                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <controls:ImageGrid ImageSources="{x:Bind HeroArtworks}" Grid.RowSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                    <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" VerticalAlignment="Center">
+                    <controls:ImageGrid Grid.RowSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ImageSources="{x:Bind HeroArtworks}"/>
+                    <Grid BorderBrush="{x:Null}" BorderThickness="0" Background="{ThemeResource SystemControlBackgroundAltMediumHighBrush}" Grid.RowSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    </Grid>
+                    <TextBlock Margin="8,4,8,0" Style="{ThemeResource SubtitleTextBlockStyle}" VerticalAlignment="Center">
                         <Run Text="{x:Bind Title}"/>
                         <Run Text="/"/>
                         <Run Text="{x:Bind SongsCount()}"/>
                     </TextBlock>
-                    <TextBlock Text="{x:Bind Description, TargetNullValue=No&#x20;descriptions}" Grid.Row="1" VerticalAlignment="Center"/>
+                    <TextBlock Margin="8,0,8,4" Text="{x:Bind Description, TargetNullValue=No&#x20;descriptions}" Grid.Row="1" VerticalAlignment="Center"/>
                 </Grid>
             </DataTemplate>
         </ListView.ItemTemplate>

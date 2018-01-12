@@ -24,12 +24,12 @@ namespace Aurora.Music.ViewModels
 
         public double GetHeight(bool b)
         {
-            return b ? 192d : 96d;
+            return b ? 250d : 150d;
         }
 
         public double GetVerticalShift(bool b)
         {
-            return b ? 0d : 250d;
+            return b ? 0d : -250d;
         }
         public IList<ImageSource> HeroImages { get; set; }
     }

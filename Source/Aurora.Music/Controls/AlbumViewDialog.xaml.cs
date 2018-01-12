@@ -113,6 +113,8 @@ namespace Aurora.Music.Controls
 
         private void Grid_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
+            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Touch)
+            { return; }
             if (sender is Panel s)
             {
                 (s.Resources["PointerOver"] as Storyboard).Begin();

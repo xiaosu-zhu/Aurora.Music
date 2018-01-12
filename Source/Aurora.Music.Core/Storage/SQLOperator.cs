@@ -420,8 +420,7 @@ namespace Aurora.Music.Core.Storage
             conn.GetConnection().CreateTables(CreateFlags.None, new Type[] { typeof(SONG), typeof(ALBUM), typeof(FOLDER), typeof(STATISTICS), typeof(PLAYSTATISTIC), typeof(AVATAR), typeof(PLAYLIST) });
         }
 
-
-        internal async Task WriteFavoriteAsync(int id, bool isCurrentFavorite)
+        public async Task WriteFavoriteAsync(int id, bool isCurrentFavorite)
         {
             var res = await conn.QueryAsync<STATISTICS>("SELECT * FROM STATISTICS WHERE TARGETID=? AND TARGETTYPE=0", id);
             if (res.Count > 0)
@@ -781,9 +780,12 @@ namespace Aurora.Music.Core.Storage
             }
         }
 
+        internal async Task<SONG> GetSongAsync(int id)
+        {
+            return await conn.FindAsync<SONG>(id);
+        }
 
-
-        public async Task<IList<Song>> GetSongsAsync(int[] ids)
+        public async Task<List<Song>> GetSongsAsync(IEnumerable<int> ids)
         {
             var list = new List<SONG>();
             foreach (var id in ids)
@@ -1158,13 +1160,46 @@ namespace Aurora.Music.Core.Storage
             await conn.UpdateAsync(t);
         }
 
+        public async Task<PlayList> GetPlayListAsync(int ID)
+        {
+            var res = await conn.QueryAsync<PLAYLIST>("SELECT * FROM PLAYLIST WHERE ID=?", ID);
+            if (res.Count > 0)
+            {
+                return new PlayList(res[0]);
+            }
+            return null;
+        }
+
+        // NOTE: treat favorite songs(in STATISTIC) as a playlist
         public async Task<List<PlayList>> GetPlayListBriefAsync()
         {
+            var fav = new PlayList()
+            {
+                Title = "Favorites",
+                Description = "Automatically generated",
+            };
+
+            var favSongs = await conn.QueryAsync<STATISTICS>("SELECT * FROM STATISTICS WHERE Favorite=1");
+            if (favSongs.Count > 0)
+            {
+                var favsongID = await conn.QueryAsync<SONG>($"SELECT * FROM SONG WHERE ID IN ({string.Join(',', favSongs.Select(x => x.TargetID))})");
+                fav.SongsID = favsongID.Select(x => x.ID).ToArray();
+                var artworks = from g in favsongID group g by g.Album into p orderby p.Count() descending select p.First().PicturePath;
+                fav.HeroArtworks = artworks.Take(3).ToArray();
+            }
+            else
+            {
+                fav.SongsID = new int[] { };
+            }
+
+
             var list = await conn.QueryAsync<PLAYLIST>("SELECT * FROM PLAYLIST");
-            return list.ConvertAll(x =>
+            var playlists = list.ConvertAll(x =>
             {
                 return new PlayList(x);
             });
+            playlists.Insert(0, fav);
+            return playlists;
         }
 
         internal async Task UpdatePlayListAsync(PLAYLIST p)

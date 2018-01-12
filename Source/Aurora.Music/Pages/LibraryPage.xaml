@@ -80,9 +80,9 @@
                             <controls:ImageGrid x:Name="CategoryBG" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ImageSources="{x:Bind HeroImages,Mode=OneWay}">
                             </controls:ImageGrid>
                         </ParallaxView>
-                        <Grid Background="{ThemeResource SystemControlBackgroundBaseMediumHighBrush}" Visibility="{x:Bind BoolNottoVisibility(IsCurrent),Mode=OneWay}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        <Grid Background="{ThemeResource SystemControlBackgroundAltMediumBrush}" Visibility="{x:Bind BoolNottoVisibility(IsCurrent),Mode=OneWay}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                         <Grid Background="{ThemeResource SystemControlAltMediumLowAcrylicElementMediumBrush}" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                            <TextBlock Margin="12" x:Name="Title" Text="{x:Bind Title}" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{ThemeResource TitleTextBlockStyle}"/>
+                            <TextBlock Margin="8" x:Name="Title" Text="{x:Bind Title}" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{ThemeResource TitleTextBlockStyle}"/>
                         </Grid>
                     </Grid>
                 </DataTemplate>

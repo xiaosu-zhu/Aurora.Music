@@ -25,10 +25,12 @@ namespace Aurora.Music.Controls
     public sealed partial class AddPlayList : ContentDialog
     {
         ObservableCollection<PlayListViewModel> Playlists = new ObservableCollection<PlayListViewModel>();
+
+        private int[] songID;
+
         public AddPlayList()
         {
             this.InitializeComponent();
-
             Task.Run(async () =>
             {
                 var list = await SQLOperator.Current().GetPlayListBriefAsync();
@@ -51,15 +53,37 @@ namespace Aurora.Music.Controls
             });
         }
 
-        private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        public AddPlayList(IEnumerable<int> ID) : this()
         {
-            if (Main.SelectedIndex < 0 || Playlists.Count < 1)
+            songID = ID.ToArray();
+            Title = $"Add {songID.Length} " + (songID.Length == 1 ? "song" : "songs") + " into collection";
+        }
+
+        public AddPlayList(int ID) : this()
+        {
+            songID = new int[] { ID };
+            Title = $"Add 1 song into collection";
+        }
+
+        private async void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+            if (Main.SelectedIndex < 0 || Playlists.Count < 1 || Main.SelectedIndex > Playlists.Count)
             {
 
             }
             else
             {
-
+                if (Main.SelectedIndex == 0)
+                {
+                    foreach (var item in songID)
+                    {
+                        await SQLOperator.Current().WriteFavoriteAsync(item, true);
+                    }
+                }
+                else
+                {
+                    await Playlists[Main.SelectedIndex].AddAsync(songID);
+                }
             }
         }
 
@@ -89,6 +113,7 @@ namespace Aurora.Music.Controls
             Playlists.Add(p);
 
             AddBtn.Visibility = Visibility.Visible;
+            PlaylistTitle.Text = string.Empty;
             AddPanel.Visibility = Visibility.Collapsed;
         }
 

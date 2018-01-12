@@ -1,4 +1,5 @@
 ﻿using Aurora.Music.Core.Models;
+using Aurora.Shared.Extensions;
 using Aurora.Shared.MVVM;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,12 @@ namespace Aurora.Music.ViewModels
         public List<SongViewModel> Songs { get; set; }
         public int[] SongsID { get; set; }
         public int ID { get; internal set; }
-        public List<Uri> HeroArtworks { get; internal set; }
+        private List<Uri> heroArtworks;
+        public List<Uri> HeroArtworks
+        {
+            get { return heroArtworks; }
+            set { SetProperty(ref heroArtworks, value); }
+        }
 
         internal PlayListViewModel(PlayList p)
         {
@@ -50,11 +56,54 @@ namespace Aurora.Music.ViewModels
                 HeroArtworks = HeroArtworks == null ? new string[] { } : HeroArtworks.ConvertAll(x => x.OriginalString).ToArray(),
                 Title = Title,
                 Description = Description,
-                Tags = Tags ?? new string[] { }
+                Tags = Tags ?? new string[] { },
+                SongsID = SongsID ?? new int[] { }
             };
-            p.SongsID = SongsID ?? new int[] { };
 
             await p.SaveAsync();
+        }
+
+        internal async Task AddAsync(int[] SongID)
+        {
+            var songs = await Song.GetAsync(SongID);
+
+            var list = new List<int>();
+
+            foreach (var song in songs)
+            {
+                if (SongsID.Contains(song.ID))
+                {
+                    return;
+                }
+                list.Add(song.ID);
+                if (!song.PicturePath.IsNullorEmpty())
+                {
+                    bool b = true;
+                    // confirm no duplicate
+                    foreach (var item in HeroArtworks)
+                    {
+                        if (item.OriginalString == song.PicturePath)
+                        {
+                            b = false;
+                            break;
+                        }
+                    }
+                    if (b)
+                    {
+                        HeroArtworks.Insert(0, new Uri(song.PicturePath));
+                    }
+                }
+            }
+
+            list.AddRange(SongsID);
+            SongsID = list.ToArray();
+
+            if (HeroArtworks.Count > 3)
+            {
+                HeroArtworks.RemoveRange(3, HeroArtworks.Count - 3);
+            }
+
+            await SaveAsync();
         }
     }
 }

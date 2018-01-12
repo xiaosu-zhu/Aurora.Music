@@ -373,7 +373,7 @@
             </Grid>
             <StackPanel Height="48" HorizontalAlignment="Right" VerticalAlignment="Bottom" Orientation="Horizontal" Margin="32,0">
                 <Button Margin="8,0" Command="{x:Bind Context.PlayAll}" Style="{ThemeResource PlayAllButton}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                <ComboBox SelectionChanged="ComboBox_SelectionChanged" Margin="8,0" BorderBrush="{x:Null}" SelectedIndex="0" BorderThickness="0" Style="{StaticResource HorizontalComboBox}" HorizontalAlignment="Left" VerticalAlignment="Center" Header="Sort by:">
+                <ComboBox x:Name="SortBox" Margin="8,0" BorderBrush="{x:Null}" SelectedIndex="0" BorderThickness="0" Style="{StaticResource HorizontalComboBox}" HorizontalAlignment="Left" VerticalAlignment="Center" Header="Sort by:">
                     <ComboBoxItem Tag="Year">Year</ComboBoxItem>
                     <ComboBoxItem Tag="Name">A-Z</ComboBoxItem>
                     <ComboBoxItem Tag="Artists">Artists</ComboBoxItem>

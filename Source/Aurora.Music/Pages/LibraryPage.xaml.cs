@@ -25,6 +25,7 @@ namespace Aurora.Music.Pages
         public static LibraryPage Current;
 
         internal ObservableCollection<CategoryListItem> CategoryList;
+        private List<PlayList> playlists;
 
         public LibraryPage()
         {
@@ -58,7 +59,7 @@ namespace Aurora.Music.Pages
 
             Task.Run(async () =>
             {
-                var playlists = await SQLOperator.Current().GetPlayListBriefAsync();
+                playlists = await SQLOperator.Current().GetPlayListBriefAsync();
                 await Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
                 {
                     foreach (var playlist in playlists)
@@ -66,7 +67,8 @@ namespace Aurora.Music.Pages
                         CategoryList.Add(new CategoryListItem
                         {
                             Title = playlist.Title,
-                            HeroImages = playlist.HeroArtworks == null ? null : Array.ConvertAll(playlist.HeroArtworks, x => (ImageSource)new BitmapImage(new Uri(x))).ToList()
+                            HeroImages = playlist.HeroArtworks == null ? null : Array.ConvertAll(playlist.HeroArtworks, x => (ImageSource)new BitmapImage(new Uri(x))).ToList(),
+                            NavigatType = typeof(PlayListPage)
                         });
                     }
                 });
@@ -85,7 +87,14 @@ namespace Aurora.Music.Pages
                 CategoryList[0].IsCurrent = true;
             }
 
-            Navigate(CategoryList[0].NavigatType);
+            if (CategoryList[0].NavigatType == typeof(PlayListPage))
+            {
+                Navigate(CategoryList[0].NavigatType, playlists.Find(x => x.Title == (CategoryList[0].Title)));
+            }
+            else
+            {
+                Navigate(CategoryList[0].NavigatType);
+            }
 
             if (Window.Current.Bounds.Width <= 640)
             {
@@ -148,7 +157,16 @@ namespace Aurora.Music.Pages
 
         private void ListView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            Navigate((e.ClickedItem as CategoryListItem).NavigatType);
+            var item = (e.ClickedItem as CategoryListItem);
+            if (item.NavigatType == typeof(PlayListPage))
+            {
+                Navigate(item.NavigatType, playlists.Find(x => x.Title == (item.Title)));
+            }
+            else
+            {
+                Navigate(item.NavigatType);
+            }
+
             var s = Settings.Load();
             s.CategoryLastClicked = (e.ClickedItem as CategoryListItem).Title;
             s.Save();

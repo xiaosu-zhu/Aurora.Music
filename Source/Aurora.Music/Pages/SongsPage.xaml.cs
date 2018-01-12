@@ -42,7 +42,7 @@ namespace Aurora.Music.Pages
             this.NavigationCacheMode = NavigationCacheMode.Enabled;
         }
 
-        private void AlbumsPage_BackRequested(object sender, BackRequestedEventArgs e)
+        private void SongsPage_BackRequested(object sender, BackRequestedEventArgs e)
         {
             if (e.Handled)
             {
@@ -59,11 +59,14 @@ namespace Aurora.Music.Pages
         {
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
             AppViewBackButtonVisibility.Visible;
-            SystemNavigationManager.GetForCurrentView().BackRequested -= AlbumsPage_BackRequested;
-            SystemNavigationManager.GetForCurrentView().BackRequested += AlbumsPage_BackRequested;
+            SystemNavigationManager.GetForCurrentView().BackRequested -= SongsPage_BackRequested;
+            SystemNavigationManager.GetForCurrentView().BackRequested += SongsPage_BackRequested;
 
             if (Context.SongsList.IsNullorEmpty())
                 await Context.GetSongsAsync();
+
+            SortBox.SelectionChanged -= ComboBox_SelectionChanged;
+            SortBox.SelectionChanged += ComboBox_SelectionChanged;
         }
 
         private void AlbumList_ItemClick(object sender, ItemClickEventArgs e)
@@ -73,6 +76,8 @@ namespace Aurora.Music.Pages
 
         private void Grid_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
+            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Touch)
+            { return; }
             if (sender is Panel s)
             {
                 (s.Resources["PointerOver"] as Storyboard).Begin();
@@ -158,7 +163,7 @@ namespace Aurora.Music.Pages
 
         private void Page_Unloaded(object sender, RoutedEventArgs e)
         {
-            SystemNavigationManager.GetForCurrentView().BackRequested -= AlbumsPage_BackRequested;
+            SystemNavigationManager.GetForCurrentView().BackRequested -= SongsPage_BackRequested;
         }
 
         private void PlayAlbum_Click(object sender, RoutedEventArgs e)

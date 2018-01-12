@@ -460,6 +460,15 @@ namespace Aurora.Music.Core.Models
                 return await SQLOperator.Current().GetFavoriteAsync(ID);
             }
         }
+
+        public static async Task<Song> GetAsync(int songID)
+        {
+            return new Song(await SQLOperator.Current().GetSongAsync(songID));
+        }
+        public static async Task<IList<Song>> GetAsync(IEnumerable<int> songID)
+        {
+            return await SQLOperator.Current().GetSongsAsync(songID);
+        }
     }
 
 

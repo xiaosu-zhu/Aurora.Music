@@ -96,6 +96,8 @@ namespace Aurora.Music.Pages
             {
                 await Context.GetAlbums();
             }
+            SortBox.SelectionChanged -= ComboBox_SelectionChanged;
+            SortBox.SelectionChanged += ComboBox_SelectionChanged;
         }
 
         private void StackPanel_PointerEntered(object sender, PointerRoutedEventArgs e)
