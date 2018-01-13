@@ -40,12 +40,12 @@
                     </Grid.ColumnDefinitions>
 
                     <Grid.Resources>
-                        <Storyboard x:Name="PointerOver">
+                        <Storyboard x:Key="PointerOver">
                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlayBtn" Storyboard.TargetProperty="Visibility">
                                 <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
                             </ObjectAnimationUsingKeyFrames>
                         </Storyboard>
-                        <Storyboard x:Name="Normal">
+                        <Storyboard x:Key="Normal">
                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlayBtn" Storyboard.TargetProperty="Visibility">
                                 <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
                             </ObjectAnimationUsingKeyFrames>
@@ -79,12 +79,12 @@
                     </Grid.ColumnDefinitions>
 
                     <Grid.Resources>
-                        <Storyboard x:Name="PointerOver">
+                        <Storyboard x:Key="PointerOver">
                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlayBtn" Storyboard.TargetProperty="Visibility">
                                 <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
                             </ObjectAnimationUsingKeyFrames>
                         </Storyboard>
-                        <Storyboard x:Name="Normal">
+                        <Storyboard x:Key="Normal">
                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlayBtn" Storyboard.TargetProperty="Visibility">
                                 <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
                             </ObjectAnimationUsingKeyFrames>
@@ -110,7 +110,9 @@
         </ResourceDictionary>
     </ContentDialog.Resources>
 
-    <ListView Padding="16,0" ItemContainerStyle="{ThemeResource GeneralListViewItemStyle}" ItemsSource="{x:Bind SongList}" ItemTemplateSelector="{StaticResource SongListTemplateSelector}">
+    <ListView Padding="16,0" ItemContainerStyle="{ThemeResource GeneralListViewItemStyle}" 
+              ContextRequested="SongList_ContextRequested" ContextCanceled="SongList_ContextCanceled"
+              ItemsSource="{x:Bind SongList}" ItemTemplateSelector="{StaticResource SongListTemplateSelector}">
         <ListView.Header>
             <Grid Margin="0,0,0,24">
                 <Grid.ColumnDefinitions>
@@ -129,7 +131,9 @@
                     <TextBlock Margin="0,4" x:Name="Artist" Text="" Style="{ThemeResource SubtitleTextBlockStyle}"/>
                     <TextBlock Margin="0,4,0,8" x:Name="Brief" Text="" Style="{ThemeResource BodyTextBlockStyle}"/>
                 </StackPanel>
-                <Button Background="{x:Null}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" x:Name="DetailPanel" Click="DetailPanel_Click" Grid.Column="1" Grid.Row="1" VerticalAlignment="Stretch" Padding="0">
+                <Button Background="{x:Null}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" 
+                        HorizontalAlignment="Stretch" x:Name="DetailPanel" Click="DetailPanel_Click" BorderThickness="0" 
+                        Grid.Column="1" Grid.Row="1" VerticalAlignment="Stretch" Padding="0">
                     <StackPanel Padding="8" Background="{ThemeResource SystemControlAcrylicWindowBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <toolkit:MarkdownTextBlock IsTextSelectionEnabled="False" LinkClicked="Descriptions_LinkClicked" Text="# Loading..." x:Name="Descriptions" Height="75" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="WrapWholeWords">
                         </toolkit:MarkdownTextBlock>

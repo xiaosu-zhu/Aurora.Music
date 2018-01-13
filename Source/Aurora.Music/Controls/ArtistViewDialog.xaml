@@ -38,7 +38,7 @@
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
                     <Grid.Resources>
-                        <Storyboard x:Key="Normal" x:Name="Normal">
+                        <Storyboard x:Key="Normal">
                             <DoubleAnimation Storyboard.TargetName="Shadow" Duration="0:0:0.48"
                                    Storyboard.TargetProperty="BlurRadius" EnableDependentAnimation="True"
                                    To="8">
@@ -61,7 +61,7 @@
                                 </DoubleAnimation.EasingFunction>
                             </DoubleAnimation>
                         </Storyboard>
-                        <Storyboard x:Key="PointerOver" x:Name="PointerOver">
+                        <Storyboard x:Key="PointerOver">
                             <DoubleAnimation Storyboard.TargetName="Shadow" Duration="0:0:0.48"
                                    Storyboard.TargetProperty="BlurRadius" EnableDependentAnimation="True"
                                    To="16">
@@ -84,7 +84,7 @@
                                 </DoubleAnimation.EasingFunction>
                             </DoubleAnimation>
                         </Storyboard>
-                        <Storyboard x:Key="PointerPressed" x:Name="PointerPressed">
+                        <Storyboard x:Key="PointerPressed">
                             <DoubleAnimation Storyboard.TargetName="Shadow" Duration="0:0:0.48"
                                    Storyboard.TargetProperty="BlurRadius" EnableDependentAnimation="True"
                                    To="0">
@@ -125,12 +125,12 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Button Click="PlayAlbum_Click" Holding="Button_Holding" IsHoldingEnabled="True" Style="{ThemeResource NoBorderButton}" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Background="{ThemeResource SystemControlBackgroundBaseMediumLowRevealBaseLowBackgroundBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                        <Button Click="PlayAlbum_Click" Style="{ThemeResource NoBorderButton}" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Background="{ThemeResource SystemControlBackgroundBaseMediumLowRevealBaseLowBackgroundBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                             <Button.Content>
                                 <FontIcon FontSize="15" FontFamily="Segoe MDL2 Assets" Glyph="&#xE102;" />
                             </Button.Content>
                         </Button>
-                        <Button Style="{ThemeResource NoBorderButton}" Grid.Column="1" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Background="{ThemeResource SystemControlBackgroundBaseMediumLowRevealBaseLowBackgroundBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                        <Button Click="Flyout_Click" Style="{ThemeResource NoBorderButton}" Grid.Column="1" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Background="{ThemeResource SystemControlBackgroundBaseMediumLowRevealBaseLowBackgroundBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                             <Button.Content>
                                 <FontIcon FontSize="15" FontFamily="Segoe MDL2 Assets" Glyph="&#xE712;" />
                             </Button.Content>
@@ -143,8 +143,8 @@
 
     <GridView animations:ReorderGridAnimation.Duration="360" ShowsScrollingPlaceholders="True" ItemClick="AlbumList_ItemClick"
               IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" ItemTemplate="{StaticResource NarrowAlbumItem}"
-              SelectionMode="None" ItemsSource="{x:Bind Context.AlbumList, Mode=OneWay}"
-              ItemContainerStyle="{StaticResource GeneralGridViewItemStyle}" 
+              SelectionMode="None" ItemsSource="{x:Bind Context.AlbumList, Mode=OneWay}" ContextCanceled="AlbumList_ContextCanceled"
+              ItemContainerStyle="{StaticResource GeneralGridViewItemStyle}" ContextRequested="AlbumList_ContextRequested"
               Style="{StaticResource GeneralGridViewStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
               x:Name="AlbumList">
         <GridView.Header>
@@ -163,7 +163,9 @@
                         <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind AlbumCount(Context.AlbumList.Count),Mode=OneWay}"/>
                     </StackPanel>
                 </Grid>
-                <Button Padding="0" Click="Button_Click" Margin="8" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource SystemControlAcrylicWindowBrush}">
+                <Button Padding="0" Click="Button_Click" Margin="8" BorderThickness="0"
+                        HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" 
+                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource SystemControlAcrylicWindowBrush}">
                     <StackPanel Padding="8" Background="{ThemeResource SystemControlAcrylicWindowBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <toolkit:MarkdownTextBlock IsTextSelectionEnabled="False" LinkClicked="Descriptions_LinkClicked" Text="{x:Bind Context.Artist.Description, Mode=OneWay}" x:Name="Descriptions" Height="75" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="WrapWholeWords">
                         </toolkit:MarkdownTextBlock>

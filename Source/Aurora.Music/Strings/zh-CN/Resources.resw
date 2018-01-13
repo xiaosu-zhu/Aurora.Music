@@ -118,131 +118,131 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AboutText" xml:space="preserve">
-    <value>About</value>
+    <value>关于</value>
     <comment>AboutPage Title</comment>
   </data>
   <data name="AppName.Text" xml:space="preserve">
-    <value>Aurora Music</value>
+    <value>极光音乐</value>
     <comment>App Name for Textblock</comment>
   </data>
   <data name="BuildText" xml:space="preserve">
-    <value>Build {0} and Supported by</value>
+    <value>版本 {0}，基于以下库构建</value>
     <comment>AboutPage Build Text</comment>
   </data>
   <data name="GithubTitle.Text" xml:space="preserve">
-    <value>Follow and get instructions of developing extensions on</value>
+    <value>关注并获取开发扩展的技巧：</value>
     <comment>AboutPage Github Title</comment>
   </data>
   <data name="UnSplashTitle.Text" xml:space="preserve">
-    <value>And Photos by</value>
+    <value>感谢以下人员提供应用中素材</value>
     <comment>AboutPage Unsplash Title</comment>
   </data>
   <data name="Now.Text" xml:space="preserve">
-    <value>Now Playing</value>
+    <value>现在播放</value>
     <comment>Now Playing Title</comment>
   </data>
   <data name="Settings.Text" xml:space="preserve">
-    <value>Settings</value>
+    <value>设置</value>
     <comment>Settings</comment>
   </data>
   <data name="Waiting.Text" xml:space="preserve">
-    <value>Waiting</value>
+    <value>稍等</value>
     <comment>Waiting</comment>
   </data>
   <data name="Collapse.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Collapse</value>
+    <value>收起</value>
     <comment>MainPage SplitView Pane Collapse</comment>
   </data>
   <data name="PlayList.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Playing List</value>
+    <value>正在播放列表</value>
     <comment>Playing list ToolTip</comment>
   </data>
   <data name="About.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>About</value>
+    <value>关于</value>
     <comment>About ToolTip</comment>
   </data>
   <data name="Previous.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Previous</value>
+    <value>上一首</value>
     <comment>Previous Song ToolTip</comment>
   </data>
   <data name="Next.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Next</value>
+    <value>下一首</value>
     <comment>Next Song ToolTip</comment>
   </data>
   <data name="Stop.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Stop</value>
+    <value>停止</value>
     <comment>Stop ToolTip</comment>
   </data>
   <data name="Shuffle.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Shuffle</value>
+    <value>随机播放</value>
     <comment>Shuffle ToolTip</comment>
   </data>
   <data name="Loop.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Loop</value>
+    <value>循环播放</value>
     <comment>Loop ToolTip</comment>
   </data>
   <data name="SplitPaneOpen.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Open</value>
+    <value>展开</value>
     <comment>SplitPaneOpen ToolTip</comment>
   </data>
   <data name="Welcome.Text" xml:space="preserve">
-    <value>Welcome!</value>
+    <value>欢迎！</value>
     <comment>WelcomPage Title</comment>
   </data>
   <data name="WelcomeNext.Text" xml:space="preserve">
-    <value>Next</value>
+    <value>下一个</value>
     <comment>WelcomPage Next</comment>
   </data>
   <data name="Favorite.Text" xml:space="preserve">
-    <value>Your Favorites</value>
+    <value>你的最爱</value>
     <comment>Your Favorites</comment>
   </data>
   <data name="StatisticsUnAvaliabe.Text" xml:space="preserve">
-    <value>No enough statistics</value>
+    <value>统计数据不足</value>
     <comment>No enough statistics</comment>
   </data>
   <data name="Lucky.Text" xml:space="preserve">
-    <value>Feeling Lucky</value>
+    <value>手气不错</value>
     <comment>Feeling Lucky</comment>
   </data>
   <data name="HomeSubtitle.Text" xml:space="preserve">
-    <value>Let's Play Something...</value>
+    <value>看看有没有好听的……</value>
     <comment>HomePage Subtitle</comment>
   </data>
   <data name="PlayAllBtn.Content" xml:space="preserve">
-    <value>Play All</value>
+    <value>全部播放</value>
     <comment>Play All</comment>
   </data>
   <data name="PlayAll.Text" xml:space="preserve">
-    <value>Play All</value>
+    <value>全部播放</value>
     <comment>Play All</comment>
   </data>
   <data name="ScanFolder.Text" xml:space="preserve">
-    <value>Here's Scanning Folders</value>
+    <value>已包含的文件夹</value>
     <comment>Here's Scanning Folders</comment>
   </data>
   <data name="AddNewFolder.Content" xml:space="preserve">
-    <value>Add a new folder to scan</value>
+    <value>添加新文件夹</value>
     <comment>Add a new folder to scan</comment>
   </data>
   <data name="PerformersText" xml:space="preserve">
-    <value>Performers</value>
+    <value>歌手</value>
     <comment>Performers</comment>
   </data>
   <data name="Albums.Text" xml:space="preserve">
-    <value>Albums</value>
+    <value>全部专辑</value>
     <comment>Albums</comment>
   </data>
   <data name="SortBox.Header" xml:space="preserve">
-    <value>Sort by:</value>
+    <value>排序:</value>
     <comment>SortBox Cotent</comment>
   </data>
   <data name="Artist.Content" xml:space="preserve">
-    <value>Artist</value>
+    <value>歌手</value>
     <comment>Artist</comment>
   </data>
   <data name="Year.Content" xml:space="preserve">
-    <value>Year</value>
+    <value>发行年份</value>
     <comment>Year</comment>
   </data>
   <data name="TitleSort.Content" xml:space="preserve">
@@ -250,219 +250,219 @@
     <comment>A-Z</comment>
   </data>
   <data name="Album.Content" xml:space="preserve">
-    <value>Album</value>
+    <value>专辑</value>
     <comment>Album</comment>
   </data>
   <data name="Play.Text" xml:space="preserve">
-    <value>Play</value>
+    <value>播放</value>
     <comment>Play</comment>
   </data>
   <data name="PlayNext.Text" xml:space="preserve">
-    <value>Play Next</value>
+    <value>下一首播放</value>
     <comment>Play Next</comment>
   </data>
   <data name="AddCollection.Text" xml:space="preserve">
-    <value>Add to Collection</value>
+    <value>添加到收藏</value>
     <comment>Add to Collection</comment>
   </data>
   <data name="Share.Text" xml:space="preserve">
-    <value>Share</value>
+    <value>分享</value>
     <comment>Share</comment>
   </data>
   <data name="ModifyTag.Text" xml:space="preserve">
-    <value>Modify Tag</value>
+    <value>编辑标签</value>
     <comment>Modify Tag</comment>
   </data>
   <data name="OpenExplorer.Text" xml:space="preserve">
-    <value>Open in Explorer</value>
+    <value>在文件资源管理器中打开</value>
     <comment>Open in Explorer</comment>
   </data>
   <data name="Delete.Text" xml:space="preserve">
-    <value>Delete</value>
+    <value>删除</value>
     <comment>Delete</comment>
   </data>
   <data name="DeleteTrash.Text" xml:space="preserve">
-    <value>Move to Trash</value>
+    <value>移入回收站</value>
     <comment>Move to Trash</comment>
   </data>
   <data name="DeletePerm.Text" xml:space="preserve">
-    <value>Permanent Delete</value>
+    <value>永久删除</value>
     <comment>Permanent Delete</comment>
   </data>
   <data name="Artists.Text" xml:space="preserve">
-    <value>Artists</value>
+    <value>全部歌手</value>
     <comment>Artists</comment>
   </data>
   <data name="LibraryText" xml:space="preserve">
-    <value>Library</value>
+    <value>音乐库</value>
     <comment>Library</comment>
   </data>
   <data name="SongsText" xml:space="preserve">
-    <value>Songs</value>
+    <value>全部歌曲</value>
     <comment>Songs</comment>
   </data>
   <data name="AlbumsText" xml:space="preserve">
-    <value>Albums</value>
+    <value>全部专辑</value>
     <comment>Albums</comment>
   </data>
   <data name="ArtistsText" xml:space="preserve">
-    <value>Artists</value>
+    <value>全部歌手</value>
     <comment>Artists</comment>
   </data>
   <data name="NowPlayingText" xml:space="preserve">
-    <value>Now Playing</value>
+    <value>正在播放</value>
     <comment>Now Playing</comment>
   </data>
   <data name="DescriptionPlaceholder.PlaceholderText" xml:space="preserve">
-    <value>Type some descriptions</value>
+    <value>添加一些注释</value>
     <comment>Type some descriptions</comment>
   </data>
   <data name="IncludeLibrary.Text" xml:space="preserve">
-    <value>Including Music Library</value>
+    <value>包含音乐库</value>
     <comment>Including Music Library</comment>
   </data>
   <data name="Configuration.Text" xml:space="preserve">
-    <value>Player Configuration</value>
+    <value>播放配置</value>
     <comment>Player Configuration</comment>
   </data>
   <data name="Extensions.Text" xml:space="preserve">
-    <value>Extensions</value>
+    <value>扩展</value>
     <comment>Extensions</comment>
   </data>
   <data name="ExtensionIntro.Text" xml:space="preserve">
-    <value>You can enable or restore online extensibility from</value>
+    <value>你可以打开在线音乐扩展功能：</value>
     <comment>ExtensionIntro</comment>
   </data>
   <data name="Here.Text" xml:space="preserve">
-    <value>here</value>
+    <value>从这里</value>
     <comment>here</comment>
   </data>
   <data name="DownloadPath.Content" xml:space="preserve">
-    <value>Download Path</value>
+    <value>下载目录</value>
     <comment>Download Path</comment>
   </data>
   <data name="AudioGraph.Text" xml:space="preserve">
-    <value>Audio Graph</value>
+    <value>音频图</value>
     <comment>Audio Graph</comment>
   </data>
   <data name="NotImplement.Text" xml:space="preserve">
-    <value>Coming Soon</value>
+    <value>未完成</value>
     <comment>Coming Soon</comment>
   </data>
   <data name="AppNameText" xml:space="preserve">
-    <value>Aurora Music</value>
+    <value>极光音乐</value>
     <comment>App Name</comment>
   </data>
   <data name="MusicText" xml:space="preserve">
-    <value>Music</value>
+    <value>音乐</value>
     <comment>Music</comment>
   </data>
   <data name="NativeText" xml:space="preserve">
-    <value>Native Extension</value>
+    <value>原生扩展</value>
     <comment>Native Extension</comment>
   </data>
   <data name="BuiltInText" xml:space="preserve">
-    <value>Built-In Data Provider</value>
+    <value>内建数据</value>
     <comment>Built-In Data Provider</comment>
   </data>
   <data name="OutputEndPoint.Header" xml:space="preserve">
-    <value>Output Endpoint</value>
+    <value>输出结点</value>
     <comment>Output Endpoint</comment>
   </data>
   <data name="OutputDefaultHint.Text" xml:space="preserve">
-    <value>"System default" will be applied at next launch.</value>
+    <value>&#8220;系统默认&#8221;会在下次启动时应用</value>
     <comment>'System default' will be applied at next launch.</comment>
   </data>
   <data name="SystemDefault" xml:space="preserve">
-    <value>System default</value>
-    <comment>System default</comment>
+    <value>系统默认</value>
+    <comment>系统默认</comment>
   </data>
   <data name="VolumeLevel.Header" xml:space="preserve">
-    <value>Volume Level</value>
+    <value>音量等级</value>
     <comment>Volume Level</comment>
   </data>
   <data name="VolumeHint.Text" xml:space="preserve">
-    <value>We suggest you to control the system volume directly.</value>
+    <value>建议直接调整系统音量</value>
     <comment>We suggest you to control the system volume directly.</comment>
   </data>
   <data name="Manage.Content" xml:space="preserve">
-    <value>Manage</value>
+    <value>管理</value>
     <comment>Manage</comment>
   </data>
   <data name="LyricExtension.Header" xml:space="preserve">
-    <value>Lyric Extension</value>
+    <value>歌词扩展</value>
     <comment>Lyric Extension</comment>
   </data>
   <data name="MetaExtension.Header" xml:space="preserve">
-    <value>MetaData Extension</value>
+    <value>媒体信息扩展</value>
     <comment>MetaData Extension</comment>
   </data>
   <data name="OnlineExtension.Header" xml:space="preserve">
-    <value>Online Music Extension</value>
+    <value>在线音乐扩展</value>
     <comment>Online Music Extension</comment>
   </data>
   <data name="Advance.Text" xml:space="preserve">
-    <value>Advance</value>
+    <value>高级</value>
     <comment>Advance</comment>
   </data>
   <data name="DebugMode.Header" xml:space="preserve">
-    <value>Debug Mode</value>
+    <value>调试模式</value>
     <comment>Debug Mode</comment>
   </data>
   <data name="DangerZone.Text" xml:space="preserve">
-    <value>Danger Zone</value>
+    <value>危险区</value>
     <comment>Danger Zone</comment>
   </data>
   <data name="ClearCache.Content" xml:space="preserve">
-    <value>Clear Cache</value>
+    <value>清除缓存</value>
     <comment>Clear Cache</comment>
   </data>
   <data name="DeleteAll.Content" xml:space="preserve">
-    <value>Delete all and reload</value>
+    <value>删除全部数据并重新开始</value>
     <comment>Delete all and reload</comment>
   </data>
   <data name="DeleteAllHint.Content" xml:space="preserve">
-    <value>I know this will clear all data and continue</value>
+    <value>我知晓这会清除所有东西并继续</value>
     <comment>I know this will clear all data and continue</comment>
   </data>
   <data name="OtherInformation.Text" xml:space="preserve">
-    <value>Other Information</value>
+    <value>其他信息</value>
     <comment>Other Information</comment>
   </data>
   <data name="OpenSource.Content" xml:space="preserve">
-    <value>Open Source</value>
+    <value>开放源代码</value>
     <comment>Open Source</comment>
   </data>
   <data name="Comment.Content" xml:space="preserve">
-    <value>Comment in Store</value>
+    <value>在商店评价</value>
     <comment>Comment in Store</comment>
   </data>
   <data name="ReportBug.Content" xml:space="preserve">
-    <value>Report a Bug</value>
+    <value>报告 Bug</value>
     <comment>Report a Bug</comment>
   </data>
   <data name="GetExtension.Content" xml:space="preserve">
-    <value>Get Extensions</value>
+    <value>获取扩展</value>
     <comment>Get Extensions</comment>
   </data>
   <data name="AboutBtn.Content" xml:space="preserve">
-    <value>About</value>
+    <value>关于</value>
     <comment>About</comment>
   </data>
   <data name="Privacy.Content" xml:space="preserve">
-    <value>Privacy Policy</value>
+    <value>隐私策略</value>
     <comment>Privacy Policy</comment>
   </data>
   <data name="SettingsText" xml:space="preserve">
-    <value>Settings</value>
+    <value>设置</value>
     <comment>Settings</comment>
   </data>
   <data name="HomeText" xml:space="preserve">
-    <value>Home</value>
+    <value>主页</value>
     <comment>Home</comment>
-  </data> 
+  </data>
   <data name="LibraryText" xml:space="preserve">
-    <value>Library</value>
+    <value>音乐库</value>
     <comment>Library</comment>
   </data>
 </root>

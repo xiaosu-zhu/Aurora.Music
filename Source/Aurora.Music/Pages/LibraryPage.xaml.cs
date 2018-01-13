@@ -1,4 +1,5 @@
-﻿using Aurora.Music.Core.Models;
+﻿using Aurora.Music.Core;
+using Aurora.Music.Core.Models;
 using Aurora.Music.Core.Storage;
 using Aurora.Music.ViewModels;
 using System;
@@ -32,26 +33,26 @@ namespace Aurora.Music.Pages
             this.InitializeComponent();
             Current = this;
 
-            MainPageViewModel.Current.Title = "Library";
+            MainPageViewModel.Current.Title = Consts.Localizer.GetString("LibraryText");
             MainPageViewModel.Current.NeedShowTitle = true;
             MainPageViewModel.Current.LeftTopColor = Resources["SystemControlForegroundBaseHighBrush"] as SolidColorBrush;
 
             CategoryList = new ObservableCollection<CategoryListItem>() {
                 new CategoryListItem
                 {
-                    Title = "Songs",
+                    Title = Consts.Localizer.GetString("SongsText"),
                     HeroImages = new List<ImageSource>() { new BitmapImage(new Uri("ms-appx:///Assets/Images/songs.png")) },
                     NavigatType = typeof(SongsPage)
                 },
                 new CategoryListItem
                 {
-                    Title = "Albums",
+                    Title = Consts.Localizer.GetString("AlbumsText"),
                     HeroImages = new List<ImageSource>() { new BitmapImage(new Uri("ms-appx:///Assets/Images/albums.png")) },
                     NavigatType = typeof(AlbumsPage)
                 },
                 new CategoryListItem
                 {
-                    Title = "Artists",
+                    Title = Consts.Localizer.GetString("ArtistsText"),
                     HeroImages = new List<ImageSource>() { new BitmapImage(new Uri("ms-appx:///Assets/Images/artists.png")) },
                     NavigatType = typeof(ArtistsPage)
                 }

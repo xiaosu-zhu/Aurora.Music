@@ -28,7 +28,7 @@ namespace Aurora.Music.ViewModels
         {
             new HamPanelItem
             {
-                Title = "Home",
+                Title = Consts.Localizer.GetString("HomeText"),
                 TargetType = typeof(HomePage),
                 Icon="\uE80F",
                 IsCurrent = true,
@@ -36,7 +36,7 @@ namespace Aurora.Music.ViewModels
             },
             new HamPanelItem
             {
-                Title = "Library",
+                Title = Consts.Localizer.GetString("LibraryText"),
                 Icon="\uE2AC",
                 TargetType = typeof(LibraryPage),
                 BG = new Uri("ms-appx:///Assets/Images/songs.png")

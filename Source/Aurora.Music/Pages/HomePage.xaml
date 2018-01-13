@@ -621,8 +621,6 @@
                                           HorizontalAlignment="Center" VerticalAlignment="Center" />
                 </Grid>
             </DataTemplate>
-
-
             <DataTemplate x:Key="NormalListItem" x:DataType="vm:GenericMusicItemViewModel">
                 <StackPanel Width="150" Background="{ThemeResource SystemControlBackgroundAltMediumLowBrush}" 
                                         Orientation="Vertical">
@@ -793,8 +791,8 @@
                           Margin="0" Style="{ThemeResource HeroGridViewStyle}" x:Name="HeroGrid">
                 </GridView>
                 <StackPanel x:Name="FavoritPanel" Orientation="Horizontal" Margin="60,16,16,8">
-                    <TextBlock Text="Your Favorite" x:Name="FavoritTitle" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold"/>
-                    <Button Visibility="{x:Bind Context.CollapseIfZero(Context.FavList.Count),Mode=OneWay,FallbackValue=Collapsed}" Style="{ThemeResource TextBlockButtonStyle}" Command="{x:Bind Context.PlayFav}" FontSize="15" Content="Play All" Margin="4,4,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBlock x:Uid="Favorite" Text="Your Favorite" x:Name="FavoritTitle" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold"/>
+                    <Button x:Uid="PlayAllBtn" Visibility="{x:Bind Context.CollapseIfZero(Context.FavList.Count),Mode=OneWay,FallbackValue=Collapsed}" Style="{ThemeResource TextBlockButtonStyle}" Command="{x:Bind Context.PlayFav}" FontSize="15" Content="Play All" Margin="4,4,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </StackPanel>
                 <ListView Margin="0,8" IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" ItemClick="FavList_ItemClick"
                           ScrollViewer.IsHorizontalScrollChainingEnabled="True" ScrollViewer.IsHorizontalRailEnabled="True"
@@ -804,7 +802,7 @@
                       Style="{StaticResource HorizontalListView}" x:Name="FavList">
                     <ListView.Header>
                         <Grid x:Name="FavHeader" VerticalAlignment="Stretch" Padding="64,0,0,0" MinWidth="64">
-                            <TextBlock Visibility="{x:Bind Context.CollapseIfNotZero(Context.FavList.Count),Mode=OneWay,FallbackValue=Collapsed}" Text="No enough statistics" Style="{ThemeResource SubtitleTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <TextBlock x:Uid="StatisticsUnAvaliabe" Visibility="{x:Bind Context.CollapseIfNotZero(Context.FavList.Count),Mode=OneWay,FallbackValue=Collapsed}" Text="No enough statistics" Style="{ThemeResource SubtitleTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Grid>
                     </ListView.Header>
                     <ListView.Footer>
@@ -812,8 +810,8 @@
                     </ListView.Footer>
                 </ListView>
                 <StackPanel x:Name="RandomPanel" Orientation="Horizontal" Margin="60,16,16,8">
-                    <TextBlock Text="Feeling Lucky" x:Name="RandomTitle" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold"/>
-                    <Button Visibility="{x:Bind Context.CollapseIfZero(Context.RandomList.Count),Mode=OneWay,FallbackValue=Collapsed}" Style="{ThemeResource TextBlockButtonStyle}" Command="{x:Bind Context.PlayRandom}" FontSize="15" Content="Play All" Margin="4,4,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBlock x:Uid="Lucky" Text="Feeling Lucky" x:Name="RandomTitle" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold"/>
+                    <Button x:Uid="PlayAllBtn" Visibility="{x:Bind Context.CollapseIfZero(Context.RandomList.Count),Mode=OneWay,FallbackValue=Collapsed}" Style="{ThemeResource TextBlockButtonStyle}" Command="{x:Bind Context.PlayRandom}" FontSize="15" Content="Play All" Margin="4,4,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     <Button Visibility="{x:Bind Context.CollapseIfZero(Context.RandomList.Count),Mode=OneWay,FallbackValue=Collapsed}" Style="{ThemeResource TextBlockButtonStyle}" Command="{x:Bind Context.ReRandom}" HorizontalAlignment="Center" Margin="0,4,4,0" VerticalAlignment="Center">
                         <Button.Content>
                             <FontIcon FontSize="15" FontFamily="Segoe MDL2 Assets" Glyph="&#xE117;" />
@@ -824,7 +822,7 @@
                           ScrollViewer.IsHorizontalScrollChainingEnabled="True" ContextRequested="HeroGrid_ContextRequested" ContextCanceled="HeroGrid_ContextCanceled"
                           ScrollViewer.IsHorizontalRailEnabled="True" ItemTemplate="{StaticResource NormalListItem}"
                           IsItemClickEnabled="True" SelectionMode="None" ItemClick="FavList_ItemClick"
-                          ItemsSource="{x:Bind Context.RandomList}" 
+                          ItemsSource="{x:Bind Context.RandomList}"
                           ItemContainerStyle="{ThemeResource HomeListViewItemStyle}" 
                           Style="{StaticResource HorizontalListView}" 
                           x:Name="LuckyList">
@@ -843,7 +841,7 @@
             <TextBlock OpticalMarginAlignment="None" HorizontalAlignment="Center" VerticalAlignment="Center" 
                        Style="{ThemeResource SubheaderTextBlockStyle}" FontWeight="Bold" 
                        Text="{x:Bind Context.WelcomeTitle, Mode=OneWay}"/>
-            <TextBlock Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="Subtitle"
+            <TextBlock x:Uid="HomeSubtitle" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="Subtitle"
                        Style="{ThemeResource SubtitleTextBlockStyle}" Text="Let's Play Something..."/>
         </StackPanel>
     </Grid>

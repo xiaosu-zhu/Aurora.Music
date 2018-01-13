@@ -1,4 +1,5 @@
-﻿using Aurora.Music.ViewModels;
+﻿using Aurora.Music.Core;
+using Aurora.Music.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace Aurora.Music.Pages
         {
             this.InitializeComponent();
             LoactionFrame.Navigate(typeof(AddFoldersView));
-            MainPageViewModel.Current.Title = "Settings";
+            MainPageViewModel.Current.Title = Consts.Localizer.GetString("SettingsText");
             MainPageViewModel.Current.NeedShowTitle = true;
             MainPageViewModel.Current.LeftTopColor = Resources["SystemControlForegroundBaseHighBrush"] as SolidColorBrush;
             var t = ThreadPool.RunAsync(async x =>

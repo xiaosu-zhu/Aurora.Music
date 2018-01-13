@@ -225,6 +225,33 @@ namespace Aurora.Music.Pages
             await Context.PlayAlbumAsync((sender as Button).DataContext as AlbumViewModel);
         }
 
+        private void Flyout_Click(object sender, RoutedEventArgs e)
+        {
+            // Walk up the tree to find the ListViewItem.
+            // There may not be one if the click wasn't on an item.
+            var requestedElement = (FrameworkElement)e.OriginalSource;
+            while ((requestedElement != AlbumList) && !(requestedElement is SelectorItem))
+            {
+                requestedElement = (FrameworkElement)VisualTreeHelper.GetParent(requestedElement);
+            }
+            var model = AlbumList.ItemFromContainer(requestedElement) as AlbumViewModel;
+            if (requestedElement != AlbumList)
+            {
+                var albumMenu = MainPage.Current.SongFlyout.Items.First(x => x.Name == "AlbumMenu") as MenuFlyoutItem;
+                albumMenu.Text = model.Name;
+                albumMenu.Visibility = Visibility.Collapsed;
+
+                // remove performers in flyout
+                var index = MainPage.Current.SongFlyout.Items.IndexOf(albumMenu);
+                while (!(MainPage.Current.SongFlyout.Items[index + 1] is MenuFlyoutSeparator))
+                {
+                    MainPage.Current.SongFlyout.Items.RemoveAt(index + 1);
+                }
+
+                MainPage.Current.SongFlyout.ShowAt(requestedElement);
+            }
+        }
+
         private void Button_Holding(object sender, HoldingRoutedEventArgs e)
         {
             if (e.HoldingState == Windows.UI.Input.HoldingState.Completed)

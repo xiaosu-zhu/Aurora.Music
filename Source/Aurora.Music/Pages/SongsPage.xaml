@@ -46,12 +46,12 @@
                     </Grid.ColumnDefinitions>
 
                     <Grid.Resources>
-                        <Storyboard x:Name="PointerOver">
+                        <Storyboard x:Key="PointerOver">
                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlayBtn" Storyboard.TargetProperty="Visibility">
                                 <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
                             </ObjectAnimationUsingKeyFrames>
                         </Storyboard>
-                        <Storyboard x:Name="Normal">
+                        <Storyboard x:Key="Normal">
                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlayBtn" Storyboard.TargetProperty="Visibility">
                                 <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
                             </ObjectAnimationUsingKeyFrames>
@@ -85,12 +85,12 @@
                     </Grid.ColumnDefinitions>
 
                     <Grid.Resources>
-                        <Storyboard x:Name="PointerOver">
+                        <Storyboard x:Key="PointerOver">
                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlayBtn" Storyboard.TargetProperty="Visibility">
                                 <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
                             </ObjectAnimationUsingKeyFrames>
                         </Storyboard>
-                        <Storyboard x:Name="Normal">
+                        <Storyboard x:Key="Normal">
                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlayBtn" Storyboard.TargetProperty="Visibility">
                                 <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
                             </ObjectAnimationUsingKeyFrames>
@@ -185,7 +185,7 @@
         </SemanticZoom>
         <Grid Height="360" x:Name="Header" HorizontalAlignment="Stretch" VerticalAlignment="Top">
             <Grid x:Name="BGBlur" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="360" Background="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}"/>
-            <ParallaxView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="360" VerticalShift="-360" Source="{Binding ElementName=AlbumList}">
+            <ParallaxView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="360" VerticalShift="-360" Source="{x:Bind AlbumList}">
                 <controls:ImageGrid x:Name="HeaderBG" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                                         BorderBrush="{x:Null}" BorderThickness="0"  
                                         ImageSources="{x:Bind Context.HeroImage, Mode=OneWay}"/>
@@ -228,11 +228,11 @@
             </Grid>
             <StackPanel Height="48" HorizontalAlignment="Right" VerticalAlignment="Bottom" Orientation="Horizontal" Margin="32,0">
                 <Button Margin="8,0" Command="{x:Bind Context.PlayAll}" Style="{ThemeResource PlayAllButton}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                <ComboBox x:Name="SortBox" Margin="8,0" BorderBrush="{x:Null}" SelectedIndex="0" BorderThickness="0" Style="{StaticResource HorizontalComboBox}" HorizontalAlignment="Left" VerticalAlignment="Center" Header="Sort by:">
-                    <ComboBoxItem Tag="Name">A-Z</ComboBoxItem>
-                    <ComboBoxItem Tag="Album">Albums</ComboBoxItem>
-                    <ComboBoxItem Tag="Artists">Artists</ComboBoxItem>
-                    <ComboBoxItem Tag="Year">Year</ComboBoxItem>
+                <ComboBox x:Uid="SortBox" x:Name="SortBox" Margin="8,0" BorderBrush="{x:Null}" SelectedIndex="0" BorderThickness="0" Style="{StaticResource HorizontalComboBox}" HorizontalAlignment="Left" VerticalAlignment="Center" Header="Sort by:">
+                    <ComboBoxItem x:Uid="TitleSort" Tag="Name">A-Z</ComboBoxItem>
+                    <ComboBoxItem x:Uid="AlbumName" Tag="Album">Albums</ComboBoxItem>
+                    <ComboBoxItem x:Uid="Artist" Tag="Artists">Artists</ComboBoxItem>
+                    <ComboBoxItem x:Uid="Year" Tag="Year">Year</ComboBoxItem>
                 </ComboBox>
             </StackPanel>
         </Grid>

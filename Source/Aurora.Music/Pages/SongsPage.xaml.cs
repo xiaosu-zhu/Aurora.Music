@@ -166,11 +166,6 @@ namespace Aurora.Music.Pages
             SystemNavigationManager.GetForCurrentView().BackRequested -= SongsPage_BackRequested;
         }
 
-        private void PlayAlbum_Click(object sender, RoutedEventArgs e)
-        {
-            //await Context.PlayAlbumAsync((sender as Button).DataContext as AlbumViewModel);
-        }
-
         private void SemanticZoom_ViewChangeCompleted(object sender, SemanticZoomViewChangedEventArgs e)
         {
             var zoom = sender as SemanticZoom;
@@ -229,7 +224,7 @@ namespace Aurora.Music.Pages
                     {
                         var sub = new MenuFlyoutSubItem()
                         {
-                            Text = $"Performers:",
+                            Text = $"{Consts.Localizer.GetString("PerformersText")}:",
                             Icon = new FontIcon()
                             {
                                 Glyph = "\uE136"

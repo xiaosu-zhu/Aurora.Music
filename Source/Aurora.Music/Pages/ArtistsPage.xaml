@@ -86,9 +86,11 @@
                 </GridView>
             </SemanticZoom.ZoomedOutView>
             <SemanticZoom.ZoomedInView>
-                <GridView animations:ReorderGridAnimation.Duration="360" ItemClick="ArtistList_ItemClick" IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" 
+                <GridView animations:ReorderGridAnimation.Duration="360" ItemClick="ArtistList_ItemClick" 
+                          IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" 
               SelectionMode="None" ItemsSource="{x:Bind ArtistListSource.View, Mode=OneWay}" Loaded="ArtistList_Loaded"
-              Padding="32,0" ItemContainerStyle="{StaticResource GeneralGridViewItemStyle}" ContextRequested="ArtistList_ContextRequested" ContextCanceled="ArtistList_ContextCanceled"
+              Padding="32,0" ItemContainerStyle="{StaticResource GeneralGridViewItemStyle}" 
+                          ContextRequested="ArtistList_ContextRequested" ContextCanceled="ArtistList_ContextCanceled"
               Style="{StaticResource GeneralGridViewStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
               x:Name="ArtistList">
                     <GridView.GroupStyle>
@@ -110,14 +112,20 @@
                                     <RowDefinition Height="*"/>
                                     <RowDefinition Height="auto"/>
                                 </Grid.RowDefinitions>
-                                <toolkit:ImageEx x:Name="ArtistImage" Source="{x:Bind AvatarImage, Mode=OneWay}" PlaceholderSource="/Assets/Images/artist_placeholder.png" 
+                                <toolkit:ImageEx x:Name="ArtistImage" Source="{x:Bind AvatarImage, Mode=OneWay}" 
+                                                 PlaceholderSource="/Assets/Images/artist_placeholder.png" 
                                                  PlaceholderStretch="Uniform" Stretch="Uniform" Style="{ThemeResource QuickLoadImageEx}"
                                                  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="8,4" 
                                                  Width="100" Height="100" CornerRadius="999">
                                 </toolkit:ImageEx>
-                                <StackPanel Orientation="Vertical" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Margin="0,4">
-                                    <TextBlock x:Name="ArtistName" Text="{x:Bind Name}" HorizontalAlignment="Center" VerticalAlignment="Center" MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Style="{ThemeResource BaseTextBlockStyle}" Margin="0,0"/>
-                                    <TextBlock Text="{x:Bind CountToString(SongsCount)}" HorizontalAlignment="Center" VerticalAlignment="Center" MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Style="{ThemeResource BodyTextBlockStyle}" Margin="0,4"/>
+                                <StackPanel Orientation="Vertical" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                            Width="100" Margin="0,4">
+                                    <TextBlock x:Name="ArtistName" Text="{x:Bind Name}" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                               MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" 
+                                               Style="{ThemeResource BaseTextBlockStyle}" Margin="0,0"/>
+                                    <TextBlock Text="{x:Bind CountToString(SongsCount)}" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                               MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" 
+                                               Style="{ThemeResource BodyTextBlockStyle}" Margin="0,4"/>
                                 </StackPanel>
                             </Grid>
                         </DataTemplate>
@@ -143,14 +151,14 @@
                 </Grid.RowDefinitions>
                 <Grid Canvas.ZIndex="9999" x:Name="TitleShrink" Background="{x:Null}"
                           HorizontalAlignment="Left" VerticalAlignment="Center" Height="48">
-                    <TextBlock Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" Margin="12,0" Text="Artists" 
+                    <TextBlock x:Uid="Artists" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" Margin="12,0" Text="Artists" 
                                    HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"
                                    TextWrapping="NoWrap" MaxLines="1" Style="{ThemeResource SubheaderTextBlockStyle}" 
                                    TextTrimming="Clip"/>
                 </Grid>
                 <Grid Canvas.ZIndex="9999" x:Name="Title" Background="{ThemeResource SystemControlBackgroundAccentBrush}" 
                           HorizontalAlignment="Left" VerticalAlignment="Center" Height="48">
-                    <TextBlock Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Margin="12,0" Text="Artists" 
+                    <TextBlock x:Uid="Artists" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Margin="12,0" Text="Artists" 
                                    HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"
                                    TextWrapping="NoWrap" MaxLines="1" Style="{ThemeResource SubheaderTextBlockStyle}" 
                                    TextTrimming="Clip"/>
@@ -171,7 +179,8 @@
                 </StackPanel>
             </Grid>
             <StackPanel Height="48" HorizontalAlignment="Right" VerticalAlignment="Bottom" Orientation="Horizontal" Margin="32,0">
-                <Button Margin="8,0" Command="{x:Bind Context.PlayAll}" Style="{ThemeResource PlayAllButton}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Button Margin="8,0" Command="{x:Bind Context.PlayAll}" Style="{ThemeResource PlayAllButton}" 
+                        HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </StackPanel>
         </Grid>
     </Grid>

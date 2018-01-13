@@ -1,9 +1,11 @@
-﻿using Aurora.Music.ViewModels;
+﻿using Aurora.Music.Core;
+using Aurora.Music.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.System;
@@ -27,12 +29,14 @@ namespace Aurora.Music.Pages
         public AboutPage()
         {
             this.InitializeComponent();
-            MainPageViewModel.Current.Title = "About";
+            MainPageViewModel.Current.Title = Consts.Localizer.GetString("AboutText");
             MainPageViewModel.Current.NeedShowTitle = true;
             MainPageViewModel.Current.LeftTopColor = Resources["SystemControlForegroundBaseHighBrush"] as SolidColorBrush;
 
-            BuildText.Text = $"Build {Shared.Helpers.SystemInfoHelper.GetPackageVer()}";
+            BuildText = string.Format(Consts.Localizer.GetString("BuildText"), Shared.Helpers.SystemInfoHelper.GetPackageVer());
         }
+
+        public string BuildText { get; set; }
 
         private async void Hyperlink_Click(Windows.UI.Xaml.Documents.Hyperlink sender, Windows.UI.Xaml.Documents.HyperlinkClickEventArgs args)
         {

@@ -675,7 +675,7 @@
             <Setter.Value>
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
                     <SymbolIcon Symbol="Play" Margin="4,6,0,6"/>
-                    <TextBlock Margin="4,6,8,6" Text="Play"/>
+                    <TextBlock x:Uid="PlayAll" Margin="4,6,8,6" Text="Play All"/>
                 </StackPanel>
             </Setter.Value>
         </Setter>

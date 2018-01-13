@@ -41,12 +41,12 @@
                     </Grid.ColumnDefinitions>
 
                     <Grid.Resources>
-                        <Storyboard x:Name="PointerOver">
+                        <Storyboard x:Key="PointerOver">
                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlayBtn" Storyboard.TargetProperty="Visibility">
                                 <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
                             </ObjectAnimationUsingKeyFrames>
                         </Storyboard>
-                        <Storyboard x:Name="Normal">
+                        <Storyboard x:Key="Normal">
                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlayBtn" Storyboard.TargetProperty="Visibility">
                                 <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
                             </ObjectAnimationUsingKeyFrames>
@@ -80,22 +80,24 @@
                     </Grid.ColumnDefinitions>
 
                     <Grid.Resources>
-                        <Storyboard x:Name="PointerOver">
+                        <Storyboard x:Key="PointerOver">
                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlayBtn" Storyboard.TargetProperty="Visibility">
                                 <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
                             </ObjectAnimationUsingKeyFrames>
                         </Storyboard>
-                        <Storyboard x:Name="Normal">
+                        <Storyboard x:Key="Normal">
                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlayBtn" Storyboard.TargetProperty="Visibility">
                                 <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
                             </ObjectAnimationUsingKeyFrames>
                         </Storyboard>
                     </Grid.Resources>
 
-                    <TextBlock Text="{x:Bind Track}" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Style="{ThemeResource BodyTextBlockStyle}"/>
+                    <TextBlock Text="{x:Bind Track}" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                               TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Style="{ThemeResource BodyTextBlockStyle}"/>
                     <TextBlock MaxLines="1" Grid.Column="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{x:Bind Title}" 
                                Style="{ThemeResource BodyTextBlockStyle}" Margin="8,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    <Button Click="PlayBtn_Click" x:Name="PlayBtn" Style="{ThemeResource NoBorderButton}" Background="Transparent" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="48" Visibility="Collapsed">
+                    <Button Click="PlayBtn_Click" x:Name="PlayBtn" Style="{ThemeResource NoBorderButton}" Background="Transparent" 
+                            Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="48" Visibility="Collapsed">
                         <Button.Content>
                             <SymbolIcon Symbol="Play"/>
                         </Button.Content>
@@ -107,7 +109,8 @@
                 </Grid>
             </DataTemplate>
 
-            <controls:SongListTemplateSelector x:Key="SongListTemplateSelector" EvenTemplate="{StaticResource EvenTemplate}" OddTemplate="{StaticResource OddTemplate}"/>
+            <controls:SongListTemplateSelector x:Key="SongListTemplateSelector" 
+                                               EvenTemplate="{StaticResource EvenTemplate}" OddTemplate="{StaticResource OddTemplate}"/>
 
         </ResourceDictionary>
     </Page.Resources>
@@ -150,15 +153,25 @@
 
         <ListView Loaded="SongList_Loaded" IsSynchronizedWithCurrentItem="False" ItemsSource="{x:Bind Context.SongList, Mode=OneWay}"
                   ItemTemplateSelector="{StaticResource SongListTemplateSelector}" Style="{ThemeResource GeneralListView}"
-              Padding="32,0,32,160" ItemContainerStyle="{StaticResource GeneralListViewItemStyle}" 
-              HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ContextRequested="SongList_ContextRequested" ContextCanceled="SongList_ContextCanceled"
-              x:Name="SongList">
+                  Padding="32,0,32,160" ItemContainerStyle="{StaticResource GeneralListViewItemStyle}" 
+                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                  ContextRequested="SongList_ContextRequested" ContextCanceled="SongList_ContextCanceled"
+                  x:Name="SongList">
             <ListView.Header>
-                <Button Padding="0" Click="Button_Click" Margin="8,368,8,8" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource SystemControlAcrylicWindowBrush}">
-                    <StackPanel Padding="8" Background="{ThemeResource SystemControlAcrylicWindowBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <toolkit:MarkdownTextBlock IsTextSelectionEnabled="False" LinkClicked="Descriptions_LinkClicked" Text="{x:Bind Context.Album.Description, Mode=OneWay}" x:Name="Descriptions" Height="75" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="WrapWholeWords">
+                <Button Padding="0" Click="Button_Click" Margin="8,368,8,8" BorderThickness="0"
+                        HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" 
+                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                        Background="{ThemeResource SystemControlAcrylicWindowBrush}">
+                    <StackPanel Padding="8" Background="{ThemeResource SystemControlAcrylicWindowBrush}" 
+                                HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <toolkit:MarkdownTextBlock IsTextSelectionEnabled="False" LinkClicked="Descriptions_LinkClicked" 
+                                                   Text="{x:Bind Context.Album.Description, Mode=OneWay}" x:Name="Descriptions" 
+                                                   Height="75" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                                                   TextWrapping="WrapWholeWords">
                         </toolkit:MarkdownTextBlock>
-                        <FontIcon x:Name="DescriIndicator" FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="10" Glyph="&#xE09D;" />
+                        <FontIcon x:Name="DescriIndicator" FontFamily="Segoe MDL2 Assets" 
+                                  HorizontalAlignment="Right" VerticalAlignment="Center" 
+                                  FontSize="10" Glyph="&#xE09D;" />
                     </StackPanel>
                 </Button>
             </ListView.Header>
@@ -168,25 +181,26 @@
             <Grid Height="360" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                 <interactivity:Interaction.Behaviors>
                     <behaviors:Blur x:Name="BlurBehavior"
-                        Value="64"
-                        Duration="0"
-                        Delay="0"
+                        Value="64" Duration="0" Delay="0"
                         AutomaticallyStart="True"/>
                 </interactivity:Interaction.Behaviors>
 
                 <Grid.Background>
                     <ImageBrush AlignmentX="Center" AlignmentY="Center" Stretch="UniformToFill">
                         <ImageBrush.ImageSource>
-                            <BitmapImage DecodePixelHeight="160" DecodePixelType="Logical" UriSource="{x:Bind Context.HeroImage,Mode=OneWay,FallbackValue=ms-appx:///Assets/Images/welcom_bg.png}"/>
+                            <BitmapImage DecodePixelHeight="160" DecodePixelType="Logical" 
+                                         UriSource="{x:Bind Context.HeroImage,Mode=OneWay,FallbackValue=ms-appx:///Assets/Images/welcom_bg.png}"/>
                         </ImageBrush.ImageSource>
                     </ImageBrush>
                 </Grid.Background>
             </Grid>
-            <toolkit:DropShadowPanel x:Name="HeaderBG" BlurRadius="16" ShadowOpacity="0.5" OffsetX="0" OffsetY="0" HorizontalAlignment="Right" Margin="64" VerticalAlignment="Center" 
-                                             Color="{ThemeResource SystemBaseHighColor}">
+            <toolkit:DropShadowPanel x:Name="HeaderBG" BlurRadius="16" ShadowOpacity="0.5" OffsetX="0" OffsetY="0" 
+                                     HorizontalAlignment="Right" Margin="64" VerticalAlignment="Center" 
+                                     Color="{ThemeResource SystemBaseHighColor}">
                 <Image Stretch="Uniform" Height="160" x:Name="HeaderBGImg">
                     <Image.Source>
-                        <BitmapImage DecodePixelHeight="160" DecodePixelType="Logical" UriSource="{x:Bind Context.HeroImage,Mode=OneWay,FallbackValue=ms-appx:///Assets/Images/welcom_bg.png}"/>
+                        <BitmapImage DecodePixelHeight="160" DecodePixelType="Logical" 
+                                     UriSource="{x:Bind Context.HeroImage,Mode=OneWay,FallbackValue=ms-appx:///Assets/Images/welcom_bg.png}"/>
                     </Image.Source>
                 </Image>
             </toolkit:DropShadowPanel>
@@ -197,19 +211,22 @@
                 </Grid.RowDefinitions>
                 <Grid Canvas.ZIndex="9999" x:Name="TitleShrink" Background="{x:Null}"
                           HorizontalAlignment="Left" VerticalAlignment="Center" Height="48">
-                    <TextBlock Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" Margin="12,0" Text="{x:Bind Context.Album.Name, Mode=OneWay}" 
+                    <TextBlock Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" Margin="12,0"
+                               Text="{x:Bind Context.Album.Name, Mode=OneWay}" 
                                    HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"
                                    TextWrapping="NoWrap" MaxLines="1" Style="{ThemeResource SubheaderTextBlockStyle}" 
                                    TextTrimming="Clip"/>
                 </Grid>
                 <Grid Canvas.ZIndex="9999" x:Name="Title" Background="{ThemeResource SystemControlBackgroundAccentBrush}" 
                           HorizontalAlignment="Left" VerticalAlignment="Center" Height="48">
-                    <TextBlock Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Margin="12,0" Text="{x:Bind Context.Album.Name, Mode=OneWay}" 
+                    <TextBlock Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" 
+                               Margin="12,0" Text="{x:Bind Context.Album.Name, Mode=OneWay}" 
                                    HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"
                                    TextWrapping="NoWrap" MaxLines="1" Style="{ThemeResource SubheaderTextBlockStyle}" 
                                    TextTrimming="Clip"/>
                 </Grid>
-                <StackPanel Grid.Row="1" x:Name="Details" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,8">
+                <StackPanel Grid.Row="1" x:Name="Details" Orientation="Horizontal" 
+                            HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,8">
                     <Grid VerticalAlignment="Bottom" Margin="0,0,4,0" 
                               Background="{ThemeResource SystemControlBackgroundAccentBrush}">
                         <TextBlock Style="{ThemeResource BodyTextBlockStyle}" 
@@ -231,7 +248,8 @@
                 </StackPanel>
             </Grid>
             <StackPanel Height="48" HorizontalAlignment="Right" VerticalAlignment="Bottom" Orientation="Horizontal" Margin="32,0">
-                <Button Margin="8,0" Command="{x:Bind Context.PlayAll}" Style="{ThemeResource PlayAllButton}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Button Margin="8,0" Command="{x:Bind Context.PlayAll}" Style="{ThemeResource PlayAllButton}" 
+                        HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </StackPanel>
         </Grid>
     </Grid>

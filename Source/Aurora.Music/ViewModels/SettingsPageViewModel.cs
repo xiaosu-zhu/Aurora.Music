@@ -590,14 +590,6 @@ namespace Aurora.Music.ViewModels
             {
                 DownloadPathText = downloadFolder.Path;
 
-                DevicList.Add(new DeviceInformationViewModel()
-                {
-                    Name = "System default",
-                    ID = null,
-                    Tag = null
-                });
-
-
                 while (DevicList.Count < 1)
                 {
                     string audioSelector = MediaDevice.GetAudioRenderSelector();
@@ -616,12 +608,20 @@ namespace Aurora.Music.ViewModels
                         });
                     }
                 }
+                
+                DevicList.Insert(0, new DeviceInformationViewModel()
+                {
+                    Name = Consts.Localizer.GetString("SystemDefault"),
+                    ID = null,
+                    Tag = null
+                });
 
                 if (settings.OutputDeviceID.IsNullorEmpty())
                 {
                     await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
                     {
-                        await Task.Delay(300);
+                        // wating for listview updated, weird
+                        await Task.Delay(500);
                         AudioSelectedIndex = 0;
                     });
                 }
@@ -638,7 +638,8 @@ namespace Aurora.Music.ViewModels
                     }
                     await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
                     {
-                        await Task.Delay(300);
+                        // wating for listview updated, weird
+                        await Task.Delay(500);
                         AudioSelectedIndex = index;
                     });
                 }

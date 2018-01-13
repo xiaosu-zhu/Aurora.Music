@@ -304,14 +304,20 @@ namespace Aurora.Music
                 p.ThrowException(e);
             }
 
-            if (Window.Current.Content is Frame f)
+            try
             {
-                if (f.Content is WelcomePage)
+                if (Window.Current.Content is Frame f)
                 {
-                    var s = Settings.Load();
-                    s.WelcomeFinished = true;
-                    s.Save();
+                    if (f.Content is WelcomePage)
+                    {
+                        var s = Settings.Load();
+                        s.WelcomeFinished = true;
+                        s.Save();
+                    }
                 }
+            }
+            catch (Exception)
+            {
             }
         }
 

@@ -301,7 +301,7 @@
         <vm:WelcomePageViewModel x:Name="Context"/>
     </Page.DataContext>
     <Grid>
-        <ParallaxView Source="{Binding ElementName=Main}" HorizontalShift="240">
+        <ParallaxView Source="{x:Bind Main}" HorizontalShift="-500">
             <Grid>
                 <Image x:Name="WelcomBG" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="UniformToFill">
                     <Image.Source>
@@ -319,7 +319,7 @@
                     <RowDefinition Height="3*"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-                <TextBlock Style="{ThemeResource HeaderTextBlockStyle}" 
+                <TextBlock x:Uid="Welcome" Style="{ThemeResource HeaderTextBlockStyle}" 
                            HorizontalAlignment="Center" VerticalAlignment="Center" 
                            Margin="8,4" Text="Welcome!"/>
                 <TextBlock Grid.Row="1" Text="Using Aurora Music to delight your music experience." Style="{ThemeResource BodyTextBlockStyle}" 
@@ -328,7 +328,7 @@
                         Click="Button_Click" HorizontalAlignment="Center" VerticalAlignment="Center" 
                         Style="{ThemeResource ButtonRevealStyle}">
                     <Button.Content>
-                        <TextBlock Text="Next" Style="{ThemeResource SubtitleTextBlockStyle}"/>
+                        <TextBlock x:Uid="WelcomeNext" Text="Next" Style="{ThemeResource SubtitleTextBlockStyle}"/>
                     </Button.Content>
                 </Button>
             </Grid>
@@ -347,7 +347,7 @@
                         HorizontalAlignment="Center" VerticalAlignment="Center" 
                         Style="{ThemeResource ButtonRevealStyle}">
                     <Button.Content>
-                        <TextBlock Text="Next" Style="{ThemeResource SubtitleTextBlockStyle}"/>
+                        <TextBlock x:Uid="WelcomeNext" Text="Next" Style="{ThemeResource SubtitleTextBlockStyle}"/>
                     </Button.Content>
                 </Button>
             </Grid>
@@ -373,7 +373,7 @@
                         HorizontalAlignment="Center" VerticalAlignment="Center" 
                         Style="{ThemeResource ButtonRevealStyle}">
                     <Button.Content>
-                        <TextBlock Text="Next" Style="{ThemeResource SubtitleTextBlockStyle}"/>
+                        <TextBlock x:Uid="WelcomeNext" Text="Next" Style="{ThemeResource SubtitleTextBlockStyle}"/>
                     </Button.Content>
                 </Button>
             </Grid>
@@ -405,7 +405,7 @@
                 </StackPanel>
             </Grid>
         </FlipView>
-        <ProgressBar HorizontalAlignment="Stretch" VerticalAlignment="Bottom" 
+        <ProgressBar HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
                      Height="4" Background="{ThemeResource SystemControlBackgroundListLowBrush}" 
                      Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
                      Maximum="100" Minimum="0" Value="{x:Bind IndexToProgress(Main.SelectedIndex),Mode=OneWay}"/>

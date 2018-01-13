@@ -37,7 +37,7 @@
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
                     <Grid.Resources>
-                        <Storyboard x:Key="Normal" x:Name="Normal">
+                        <Storyboard x:Key="Normal">
                             <DoubleAnimation Storyboard.TargetName="Shadow" Duration="0:0:0.48"
                                    Storyboard.TargetProperty="BlurRadius" EnableDependentAnimation="True"
                                    To="16">
@@ -60,7 +60,7 @@
                                 </DoubleAnimation.EasingFunction>
                             </DoubleAnimation>
                         </Storyboard>
-                        <Storyboard x:Key="PointerOver" x:Name="PointerOver">
+                        <Storyboard x:Key="PointerOver">
                             <DoubleAnimation Storyboard.TargetName="Shadow" Duration="0:0:0.48"
                                    Storyboard.TargetProperty="BlurRadius" EnableDependentAnimation="True"
                                    To="24">
@@ -83,7 +83,7 @@
                                 </DoubleAnimation.EasingFunction>
                             </DoubleAnimation>
                         </Storyboard>
-                        <Storyboard x:Key="PointerPressed" x:Name="PointerPressed">
+                        <Storyboard x:Key="PointerPressed">
                             <DoubleAnimation Storyboard.TargetName="Shadow" Duration="0:0:0.48"
                                    Storyboard.TargetProperty="BlurRadius" EnableDependentAnimation="True"
                                    To="0">
@@ -124,12 +124,18 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Button Click="PlayAlbum_Click" Holding="Button_Holding" IsHoldingEnabled="True" Style="{ThemeResource NoBorderButton}" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Background="{ThemeResource SystemControlBackgroundBaseMediumLowRevealBaseLowBackgroundBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                        <Button Click="PlayAlbum_Click" Style="{ThemeResource NoBorderButton}" 
+                                Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" 
+                                Background="{ThemeResource SystemControlBackgroundBaseMediumLowRevealBaseLowBackgroundBrush}" 
+                                HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                             <Button.Content>
                                 <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE102;" />
                             </Button.Content>
                         </Button>
-                        <Button Style="{ThemeResource NoBorderButton}" Grid.Column="1" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Background="{ThemeResource SystemControlBackgroundBaseMediumLowRevealBaseLowBackgroundBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                        <Button Click="Flyout_Click" Style="{ThemeResource NoBorderButton}" Grid.Column="1" 
+                                Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" 
+                                Background="{ThemeResource SystemControlBackgroundBaseMediumLowRevealBaseLowBackgroundBrush}" 
+                                HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                             <Button.Content>
                                 <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE712;" />
                             </Button.Content>
@@ -148,7 +154,7 @@
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
                     <Grid.Resources>
-                        <Storyboard x:Key="Normal" x:Name="Normal">
+                        <Storyboard x:Key="Normal">
                             <DoubleAnimation Storyboard.TargetName="Shadow" Duration="0:0:0.48"
                                    Storyboard.TargetProperty="BlurRadius" EnableDependentAnimation="True"
                                    To="8">
@@ -171,7 +177,7 @@
                                 </DoubleAnimation.EasingFunction>
                             </DoubleAnimation>
                         </Storyboard>
-                        <Storyboard x:Key="PointerOver" x:Name="PointerOver">
+                        <Storyboard x:Key="PointerOver">
                             <DoubleAnimation Storyboard.TargetName="Shadow" Duration="0:0:0.48"
                                    Storyboard.TargetProperty="BlurRadius" EnableDependentAnimation="True"
                                    To="16">
@@ -235,12 +241,18 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Button Click="PlayAlbum_Click" Holding="Button_Holding" IsHoldingEnabled="True" Style="{ThemeResource NoBorderButton}" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Background="{ThemeResource SystemControlBackgroundBaseMediumLowRevealBaseLowBackgroundBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                        <Button Click="PlayAlbum_Click" Style="{ThemeResource NoBorderButton}" 
+                                Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" 
+                                Background="{ThemeResource SystemControlBackgroundBaseMediumLowRevealBaseLowBackgroundBrush}" 
+                                HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                             <Button.Content>
                                 <FontIcon FontSize="15" FontFamily="Segoe MDL2 Assets" Glyph="&#xE102;" />
                             </Button.Content>
                         </Button>
-                        <Button Style="{ThemeResource NoBorderButton}" Grid.Column="1" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Background="{ThemeResource SystemControlBackgroundBaseMediumLowRevealBaseLowBackgroundBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                        <Button Click="Flyout_Click" Style="{ThemeResource NoBorderButton}" Grid.Column="1" 
+                                Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" 
+                                Background="{ThemeResource SystemControlBackgroundBaseMediumLowRevealBaseLowBackgroundBrush}" 
+                                HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                             <Button.Content>
                                 <FontIcon FontSize="15" FontFamily="Segoe MDL2 Assets" Glyph="&#xE712;" />
                             </Button.Content>
@@ -287,13 +299,17 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
-        <GridView animations:ReorderGridAnimation.Duration="360" ShowsScrollingPlaceholders="True" ItemClick="AlbumList_ItemClick" IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" 
-              SelectionMode="None" ItemsSource="{x:Bind Context.AlbumList, Mode=OneWay}" Loaded="AlbumList_Loaded" ContextRequested="AlbumList_ContextRequested" ContextCanceled="AlbumList_ContextCanceled"
+        <GridView animations:ReorderGridAnimation.Duration="360" ShowsScrollingPlaceholders="True" 
+                  ItemClick="AlbumList_ItemClick" IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" 
+              SelectionMode="None" ItemsSource="{x:Bind Context.AlbumList, Mode=OneWay}" Loaded="AlbumList_Loaded" 
+                  ContextRequested="AlbumList_ContextRequested" ContextCanceled="AlbumList_ContextCanceled"
               Padding="32,0,32,160" ItemContainerStyle="{StaticResource GeneralGridViewItemStyle}" ItemTemplate="{StaticResource NormalAlbumItem}"
               Style="{StaticResource GeneralGridViewStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
               x:Name="AlbumList">
             <GridView.Header>
-                <Button Padding="0" Click="Button_Click" Margin="8,400,8,8" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource SystemControlAcrylicWindowBrush}">
+                <Button Padding="0" Click="Button_Click" Margin="8,400,8,8" BorderThickness="0"
+                        HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" 
+                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource SystemControlAcrylicWindowBrush}">
                     <StackPanel Padding="8" Background="{ThemeResource SystemControlAcrylicWindowBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <toolkit:MarkdownTextBlock IsTextSelectionEnabled="False" LinkClicked="Descriptions_LinkClicked" Text="{x:Bind Context.Artist.Description, Mode=OneWay}" x:Name="Descriptions" Height="75" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="WrapWholeWords">
                         </toolkit:MarkdownTextBlock>
@@ -304,7 +320,7 @@
         </GridView>
         <Grid Height="360" x:Name="Header" HorizontalAlignment="Stretch" VerticalAlignment="Top">
             <Grid x:Name="BGBlur" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="360" Background="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}"/>
-            <ParallaxView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="360" VerticalShift="-480" Source="{Binding ElementName=AlbumList}">
+            <ParallaxView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="360" VerticalShift="-480" Source="{x:Bind AlbumList}">
                 <controls:ImageGrid x:Name="HeaderBG" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                                         BorderBrush="{x:Null}" BorderThickness="0"  
                                         ImageSources="{x:Bind Context.HeroImage, Mode=OneWay}"/>
@@ -313,7 +329,7 @@
             <Grid x:Name="HeaderBGOverlay" HorizontalAlignment="Stretch" Height="360" Background="{ThemeResource ArtistsPageGradient}"/>
 
             <toolkit:ImageEx x:Name="AvatarImage" Style="{ThemeResource QuickLoadImageEx}" PlaceholderSource="/Assets/Images/artist_placeholder.png"
-                                 Stretch="Uniform" PlaceholderStretch="Uniform"  Source="{x:Bind Context.Artist.AvatarImage, Mode=OneWay}" 
+                             Stretch="Uniform" PlaceholderStretch="Uniform"  Source="{x:Bind Context.Artist.AvatarImage, Mode=OneWay}" 
                              CornerRadius="999"
                                  Margin="64,32" HorizontalAlignment="Right" VerticalAlignment="Center" Width="128" Height="128">
             </toolkit:ImageEx>

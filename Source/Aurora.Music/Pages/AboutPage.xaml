@@ -30,15 +30,12 @@
             </Viewbox>
             <TextBlock MaxLines="2" FontWeight="Normal" TextAlignment="Center" TextWrapping="WrapWholeWords" Style="{ThemeResource SubheaderTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12,0">
                 <Run FontSize="24" FontWeight="Bold" Text="Aurora Studio's"/><LineBreak/>
-                <Run Text="Aurora Music"/>
+                <Run x:Uid="AppName" Text="Aurora Music"/>
             </TextBlock>
-            <TextBlock Style="{ThemeResource BodyTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12,24,12,0">
-                <Run x:Name="BuildText"/>
-                <Run Text="and Supported by:"/>
-            </TextBlock>
+            <TextBlock Text="{x:Bind BuildText, Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12,24,12,0"/>
             <TextBlock TextAlignment="Center" FontFamily="Consolas" Style="{ThemeResource SubtitleTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12,0" 
                        Text="Taglib-Sharp&#xD;&#xA;SQLite-net&#xD;&#xA;Microsoft.Toolkit.Uwp&#xD;&#xA;Newtonsoft.Json&#xD;&#xA;ExpressionBuilder&#xD;&#xA;ksemenenko.ColorThief&#xD;&#xA;WriteableBitmapEx&#xD;&#xA;Win2D.uwp&#xD;&#xA;LrcParser"/>
-            <TextBlock TextAlignment="Center" Margin="12,24,12,0" Style="{ThemeResource BodyTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Text="And photos by:"/>
+            <TextBlock x:Uid="UnSplashTitle" TextAlignment="Center" Margin="12,24,12,0" Style="{ThemeResource BodyTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Text="And photos by:"/>
             <TextBlock TextAlignment="Center" Style="{ThemeResource SubtitleTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12,0" Text="Jason Rosewell&#xD;&#xA;Kelly Sikkema&#xD;&#xA;Malte Wingen&#xD;&#xA;Namroud Gorguis&#xD;&#xA;Yvette de Wit"/>
             <TextBlock TextAlignment="Center" Margin="12,0,12,24" Style="{ThemeResource BodyTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Run Text="On"/>
@@ -48,7 +45,7 @@
             </TextBlock>
 
             <TextBlock Style="{ThemeResource BodyTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12">
-                <Run Text="Follow and get instructions of developing extensions on"/>
+                <Run x:Uid="GithubTitle" Text="Follow and get instructions of developing extensions on"/>
                 <Hyperlink NavigateUri="https://github.com/pkzxs/Aurora.Music">
                     <Run Text="Github"/>
                 </Hyperlink>

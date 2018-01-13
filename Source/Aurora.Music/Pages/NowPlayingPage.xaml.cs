@@ -97,7 +97,7 @@ namespace Aurora.Music.Pages
                         {
                             var sub = new MenuFlyoutSubItem()
                             {
-                                Text = $"Performers:",
+                                Text = $"{Consts.Localizer.GetString("PerformersText")}:",
                                 Icon = new FontIcon()
                                 {
                                     Glyph = "\uE136"
@@ -143,7 +143,7 @@ namespace Aurora.Music.Pages
         {
             base.OnNavigatedTo(e);
 
-            MainPageViewModel.Current.Title = "Now Playing";
+            MainPageViewModel.Current.Title = Consts.Localizer.GetString("NowPlayingText");
             MainPageViewModel.Current.NeedShowTitle = true;
             //MainPageViewModel.Current.LeftTopColor = Resources["SystemControlForegroundBaseHighBrush"] as SolidColorBrush;
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =

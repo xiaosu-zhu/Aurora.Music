@@ -1,4 +1,5 @@
 ﻿using Aurora.Music.ViewModels;
+using Aurora.Shared.Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -95,7 +96,7 @@ namespace Aurora.Music.Controls
                 (s.Resources["PointerOver"] as Storyboard).Begin();
             }
         }
-        
+
         private async void PlayAlbum_Click(object sender, RoutedEventArgs e)
         {
             await Context.PlayAlbumAsync((sender as Button).DataContext as AlbumViewModel);
@@ -127,6 +128,74 @@ namespace Aurora.Music.Controls
         private async void Descriptions_LinkClicked(object sender, Microsoft.Toolkit.Uwp.UI.Controls.LinkClickedEventArgs e)
         {
             await Launcher.LaunchUriAsync(new Uri(e.Link));
+        }
+
+        private void Flyout_Click(object sender, RoutedEventArgs e)
+        {
+            // Walk up the tree to find the ListViewItem.
+            // There may not be one if the click wasn't on an item.
+            var requestedElement = (FrameworkElement)e.OriginalSource;
+            while ((requestedElement != AlbumList) && !(requestedElement is SelectorItem))
+            {
+                requestedElement = (FrameworkElement)VisualTreeHelper.GetParent(requestedElement);
+            }
+            var model = AlbumList.ItemFromContainer(requestedElement) as AlbumViewModel;
+            if (requestedElement != AlbumList)
+            {
+                var albumMenu = MainPage.Current.SongFlyout.Items.First(x => x.Name == "AlbumMenu") as MenuFlyoutItem;
+                albumMenu.Text = model.Name;
+                albumMenu.Visibility = Visibility.Collapsed;
+
+                // remove performers in flyout
+                var index = MainPage.Current.SongFlyout.Items.IndexOf(albumMenu);
+                while (!(MainPage.Current.SongFlyout.Items[index + 1] is MenuFlyoutSeparator))
+                {
+                    MainPage.Current.SongFlyout.Items.RemoveAt(index + 1);
+                }
+
+                MainPage.Current.SongFlyout.ShowAt(requestedElement);
+            }
+        }
+
+        private void AlbumList_ContextRequested(UIElement sender, ContextRequestedEventArgs args)
+        {
+            // Walk up the tree to find the ListViewItem.
+            // There may not be one if the click wasn't on an item.
+            var requestedElement = (FrameworkElement)args.OriginalSource;
+            while ((requestedElement != sender) && !(requestedElement is SelectorItem))
+            {
+                requestedElement = (FrameworkElement)VisualTreeHelper.GetParent(requestedElement);
+            }
+            var model = (sender as ListViewBase).ItemFromContainer(requestedElement) as AlbumViewModel;
+            if (requestedElement != sender)
+            {
+                var albumMenu = MainPage.Current.SongFlyout.Items.First(x => x.Name == "AlbumMenu") as MenuFlyoutItem;
+                albumMenu.Text = model.Name;
+                albumMenu.Visibility = Visibility.Collapsed;
+
+                // remove performers in flyout
+                var index = MainPage.Current.SongFlyout.Items.IndexOf(albumMenu);
+                while (!(MainPage.Current.SongFlyout.Items[index + 1] is MenuFlyoutSeparator))
+                {
+                    MainPage.Current.SongFlyout.Items.RemoveAt(index + 1);
+                }
+
+                if (args.TryGetPosition(requestedElement, out var point))
+                {
+                    MainPage.Current.SongFlyout.ShowAt(requestedElement, point);
+                }
+                else
+                {
+                    MainPage.Current.SongFlyout.ShowAt(requestedElement);
+                }
+
+                args.Handled = true;
+            }
+        }
+
+        private void AlbumList_ContextCanceled(UIElement sender, RoutedEventArgs args)
+        {
+            MainPage.Current.SongFlyout.Hide();
         }
     }
 }
