@@ -4,15 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F0DBB792-F15D-4C3E-A6FE-5B184251C802}</ProjectGuid>
+    <ProjectGuid>{013C6CDA-318B-4EE7-A1C3-80DF4BB9C092}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Aurora.Music.Core</RootNamespace>
-    <AssemblyName>Aurora.Music.Core</AssemblyName>
+    <RootNamespace>StarButton</RootNamespace>
+    <AssemblyName>StarButton</AssemblyName>
     <DefaultLanguage>zh-CN</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.16299.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
+    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.14393.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.14393.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -106,59 +106,13 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Consts.cs" />
-    <Compile Include="Extension\Json\GecimiJson.cs" />
-    <Compile Include="Extension\Json\QQMusic.cs" />
-    <Compile Include="Extension\Json\QQMusicAlbumJson.cs" />
-    <Compile Include="Extension\Json\QQMusicArtistJson.cs" />
-    <Compile Include="Extension\Json\QQMusicSongJson.cs" />
-    <Compile Include="Extension\KEY.cs" />
-    <Compile Include="Extension\LastfmSearcher.cs" />
-    <Compile Include="Extension\LyricSearcher.cs" />
-    <Compile Include="Extension\OnlineMusicSearcher.cs" />
-    <Compile Include="Models\Extension.cs" />
-    <Compile Include="Models\ISortable.cs" />
-    <Compile Include="Models\Lyric.cs" />
-    <Compile Include="Models\LyricExtension.cs" />
-    <Compile Include="Models\Music.cs" />
-    <Compile Include="Models\Online.cs" />
-    <Compile Include="Models\OnlineMetaExtension.cs" />
-    <Compile Include="Models\OnlineMusicExtension.cs" />
-    <Compile Include="Models\PlayList.cs" />
-    <Compile Include="Models\Settings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Storage\Events.cs" />
-    <Compile Include="Storage\FileReader.cs" />
-    <Compile Include="Storage\FileTracker.cs" />
-    <Compile Include="Storage\SQLOperator.cs" />
-    <Compile Include="Tools\FormatHelper.cs" />
-    <EmbeddedResource Include="Properties\Aurora.Music.Core.rd.xml" />
+    <EmbeddedResource Include="Properties\StarButton.rd.xml" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="ksemenenko.ColorThief">
-      <Version>1.1.0.3</Version>
-    </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.0.5</Version>
+      <Version>6.0.6</Version>
     </PackageReference>
-    <PackageReference Include="Newtonsoft.Json">
-      <Version>10.0.3</Version>
-    </PackageReference>
-  </ItemGroup>
-  <ItemGroup />
-  <ItemGroup>
-    <ProjectReference Include="..\Aurora.Shared\Aurora.Shared.csproj">
-      <Project>{026d99cf-1c25-4dcf-ad95-1070bba9f8a8}</Project>
-      <Name>Aurora.Shared</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LrcParser\LrcParser.csproj">
-      <Project>{e24bad49-f0a6-4c07-b4d9-3d3644a22c69}</Project>
-      <Name>LrcParser</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TagLib.Sharp\TagLib.Sharp.csproj">
-      <Project>{2355f4e1-9225-433b-98cd-f36df22d042b}</Project>
-      <Name>TagLib.Sharp</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

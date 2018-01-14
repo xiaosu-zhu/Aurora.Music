@@ -301,7 +301,7 @@
         <vm:WelcomePageViewModel x:Name="Context"/>
     </Page.DataContext>
     <Grid>
-        <ParallaxView Source="{x:Bind Main}" HorizontalShift="-500">
+        <ParallaxView Source="{x:Bind Main}" HorizontalShift="500">
             <Grid>
                 <Image x:Name="WelcomBG" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="UniformToFill">
                     <Image.Source>

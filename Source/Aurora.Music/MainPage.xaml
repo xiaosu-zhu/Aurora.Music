@@ -1017,7 +1017,7 @@
                             <FontIcon Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" FontFamily="Segoe MDL2 Assets" Glyph="&#xE112;" />
                         </Button.Content>
                     </Button>
-                    <TextBlock x:Uid="NowBtn" Visibility="{x:Bind Context.NullableBooltoVisibility(Context.IsPlaying), Mode=OneWay}" 
+                    <TextBlock x:Uid="Now" Visibility="{x:Bind Context.NullableBooltoVisibility(Context.IsPlaying), Mode=OneWay}" 
                            OpticalMarginAlignment="None" Margin="60,32,0,0" 
                            Style="{ThemeResource SubheaderTextBlockStyle}"
                            Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" 

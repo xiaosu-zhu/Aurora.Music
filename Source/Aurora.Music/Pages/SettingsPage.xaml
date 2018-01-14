@@ -55,6 +55,7 @@
                         <Setter Target="Main.Padding" Value="12,120,12,160"/>
                         <Setter Target="SidePanel.(Grid.Column)" Value="0"/>
                         <Setter Target="SidePanel.(Grid.Row)" Value="1"/>
+                        <Setter Target="SidePanel.MinWidth" Value="0"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Medium">
@@ -63,8 +64,9 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="Main.Padding" Value="32,120,32,160"/>
-                        <Setter Target="SidePanel.(Grid.Column)" Value="1"/>
-                        <Setter Target="SidePanel.(Grid.Row)" Value="0"/>
+                        <Setter Target="SidePanel.(Grid.Column)" Value="0"/>
+                        <Setter Target="SidePanel.(Grid.Row)" Value="1"/>
+                        <Setter Target="SidePanel.MinWidth" Value="0"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Full">
@@ -75,6 +77,7 @@
                         <Setter Target="Main.Padding" Value="60,120,60,160"/>
                         <Setter Target="SidePanel.(Grid.Column)" Value="1"/>
                         <Setter Target="SidePanel.(Grid.Row)" Value="0"/>
+                        <Setter Target="SidePanel.MinWidth" Value="240"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -202,7 +205,7 @@
                             </StackPanel>
                         </StackPanel>
                     </StackPanel>
-                    <StackPanel x:Name="SidePanel" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <StackPanel MinWidth="240" x:Name="SidePanel" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <TextBlock x:Uid="OtherInformation" Text="Other Information" Style="{ThemeResource SubtitleTextBlockStyle}" Margin="12"/>
                         <Button x:Uid="OpenSource" Content="Open Source" Command="{x:Bind Context.Github}" Style="{ThemeResource TextBlockButtonStyle}" Margin="12,4"/>
                         <Button x:Uid="Comment" Content="Comment in Store" Command="{x:Bind Context.CommentInStore}" Style="{ThemeResource TextBlockButtonStyle}" Margin="12,4"/>

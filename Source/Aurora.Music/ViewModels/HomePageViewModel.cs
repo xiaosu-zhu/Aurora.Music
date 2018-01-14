@@ -82,6 +82,24 @@ namespace Aurora.Music.ViewModels
         public HomePageViewModel()
         {
             var fes = Tools.IsFestival(DateTime.Today);
+
+            HeroList.Clear();
+            HeroList.Add(new GenericMusicItemViewModel());
+            HeroList.Add(new GenericMusicItemViewModel());
+
+            FavList.Clear();
+            FavList.Add(new GenericMusicItemViewModel());
+            FavList.Add(new GenericMusicItemViewModel());
+            FavList.Add(new GenericMusicItemViewModel());
+            FavList.Add(new GenericMusicItemViewModel());
+
+            RandomList.Clear();
+            RandomList.Add(new GenericMusicItemViewModel());
+            RandomList.Add(new GenericMusicItemViewModel());
+            RandomList.Add(new GenericMusicItemViewModel());
+            RandomList.Add(new GenericMusicItemViewModel());
+
+
             switch (fes)
             {
                 case Festival.None:

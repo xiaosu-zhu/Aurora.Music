@@ -1,5 +1,4 @@
-﻿using Aurora.Shared.Extensions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -36,7 +35,7 @@ namespace LrcParser
                 return null;
             }
             var slices = ParsePrefix(lrc);
-            if (slices.Count > 0 && !slices[0].Key.IsNullorEmpty())
+            if (slices.Count > 0 && !string.IsNullOrEmpty(slices[0].Key))
             {
                 return new Lyric(CreateSlice(slices).OrderBy(x => x.Offset), CreateDescription(slices));
             }
@@ -74,7 +73,7 @@ namespace LrcParser
                     {
                         for (int j = i; j < slices.Count; j++)
                         {
-                            if (!slices[j].Value.IsNullorEmpty())
+                            if (!string.IsNullOrEmpty(slices[j].Value))
                             {
                                 list.Add(new Slice()
                                 {

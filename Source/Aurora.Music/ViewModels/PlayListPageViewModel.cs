@@ -100,7 +100,7 @@ namespace Aurora.Music.ViewModels
                 SongsCount = songs.Count == 1 ? "1 Song" : $"{songs.Count} Songs";
                 Description = Model.Description;
                 Title = Model.Title;
-                HeroImage = Array.ConvertAll(Model.HeroArtworks, x => new Uri(x)).ToList();
+                HeroImage = Array.ConvertAll(Model.HeroArtworks ?? new string[] { }, x => new Uri(x)).ToList();
             });
         }
 
