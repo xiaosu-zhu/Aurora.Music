@@ -6,6 +6,7 @@
     xmlns:controls="using:Aurora.Music.Controls"
     xmlns:vm="using:Aurora.Music.ViewModels"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:star="using:StarButton"
     Unloaded="Page_Unloaded"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -965,9 +966,7 @@
                 </toolkit:DropShadowPanel>
                 <StackPanel Margin="0,12,0,0" Orientation="Horizontal">
                     <RatingControl Value="{x:Bind Context.CurrentRating,Mode=OneWay}" ValueChanged="RatingControl_ValueChanged" IsClearEnabled="True" VerticalAlignment="Center" IsReadOnly="False"/>
-                    <Button VerticalAlignment="Center" Command="{x:Bind Context.ToggleFavorite}" Margin="8,0,8,4" Style="{ThemeResource TextBlockButtonStyle}">
-                        <FontIcon FontSize="16" FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Context.FavGlyph(Context.IsCurrentFavorite),Mode=OneWay}" Foreground="{x:Bind Context.FavForeground(Context.IsCurrentFavorite),Mode=OneWay,FallbackValue={ThemeResource SystemControlBackgroundBaseHighRevealBorderBrush}}"/>
-                    </Button>
+                    <star:StarButton IsOn="{x:Bind Context.IsCurrentFavorite, Mode=TwoWay}"  HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" Margin="8,4,8,8"/>
                 </StackPanel>
             </StackPanel>
         </Grid>

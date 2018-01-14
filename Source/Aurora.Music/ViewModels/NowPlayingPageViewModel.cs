@@ -599,18 +599,10 @@ namespace Aurora.Music.ViewModels
         public bool IsCurrentFavorite
         {
             get { return isCurrentFac; }
-            set { SetProperty(ref isCurrentFac, value); }
-        }
-
-        public DelegateCommand ToggleFavorite
-        {
-            get
+            set
             {
-                return new DelegateCommand(() =>
-                {
-                    IsCurrentFavorite = !IsCurrentFavorite;
-                    _lastSong.WriteFav(IsCurrentFavorite);
-                });
+                SetProperty(ref isCurrentFac, value);
+                _lastSong.WriteFav(IsCurrentFavorite);
             }
         }
 
