@@ -106,6 +106,13 @@ namespace Aurora.Music.ViewModels
                 await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                 {
                     HeroImage = list.ConvertAll(y => (ImageSource)new BitmapImage(y));
+                    foreach (var item in SongsList)
+                    {
+                        foreach (var song in item)
+                        {
+                            song.RefreshFav();
+                        }
+                    }
                 });
             });
         }
@@ -149,6 +156,14 @@ namespace Aurora.Music.ViewModels
                             return y;
                         });
                         SongsList.Add(item);
+                    }
+
+                    foreach (var item in SongsList)
+                    {
+                        foreach (var song in item)
+                        {
+                            song.RefreshFav();
+                        }
                     }
                 });
             });

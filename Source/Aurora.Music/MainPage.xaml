@@ -799,7 +799,9 @@
                     </TextBlock>
                 </Grid>
             </DataTemplate>
-
+            <DataTemplate x:Key="SearchSuggestionTemplate" x:DataType="vm:GenericMusicItemViewModel">
+                <TextBlock Text="{x:Bind Title}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Margin="8,0"/>
+            </DataTemplate>
             <DataTemplate x:Key="PlaceholderTemplate" x:DataType="vm:GenericMusicItemViewModel">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -838,7 +840,7 @@
                 </Grid>
             </DataTemplate>
 
-            <controls:HomePageTemplateSeletor x:Key="GenericItemSelector" PlaceholderTemplate="{StaticResource PlaceholderTemplate}" SongTemplate="{StaticResource SongTemplate}" AlbumTemplate="{StaticResource AlbumTemplate}"/>
+            <controls:HomePageTemplateSeletor x:Key="GenericItemSelector" SearchSuggestTemplate="{StaticResource SearchSuggestionTemplate}" PlaceholderTemplate="{StaticResource PlaceholderTemplate}" SongTemplate="{StaticResource SongTemplate}" AlbumTemplate="{StaticResource AlbumTemplate}"/>
 
 
             <MenuFlyout x:Key="SongFlyout">

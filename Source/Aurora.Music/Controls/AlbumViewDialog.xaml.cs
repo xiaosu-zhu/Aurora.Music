@@ -45,12 +45,13 @@ namespace Aurora.Music.Controls
             this.InitializeComponent();
             if (album == null)
             {
-                Title = "Oops!";
+                Title = Consts.Localizer.GetString("OopsText");
                 IsPrimaryButtonEnabled = false;
-                Album.Text = "Cant't find it";
+                Album.Text = Consts.Localizer.GetString("SearchFailedText");
                 Artist.Visibility = Visibility.Collapsed;
                 Brief.Visibility = Visibility.Collapsed;
                 Descriptions.Visibility = Visibility.Collapsed;
+
             }
             this.album = album;
             var songs = AsyncHelper.RunSync(async () => { return await album.GetSongsAsync(); });
@@ -61,6 +62,10 @@ namespace Aurora.Music.Controls
                 {
                     Index = i++,
                 });
+            }
+            foreach (var item in SongList)
+            {
+                item.RefreshFav();
             }
             Album.Text = album.Name;
             Artwork.Source = new BitmapImage(album.Artwork ?? new Uri(Consts.NowPlaceholder));
@@ -91,7 +96,7 @@ namespace Aurora.Music.Controls
                         }
                         else
                         {
-                            Descriptions.Text = "# Local Album";
+                            Descriptions.Text = $"# {Consts.Localizer.GetString("LocaAlbumTitle")}";
                         }
                     });
                 });

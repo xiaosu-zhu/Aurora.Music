@@ -1,4 +1,5 @@
-﻿using Aurora.Music.ViewModels;
+﻿using Aurora.Music.Core;
+using Aurora.Music.ViewModels;
 using Aurora.Shared.Extensions;
 using System;
 using System.Collections.Generic;
@@ -43,7 +44,7 @@ namespace Aurora.Music.Controls
 
         public string AlbumCount(int count)
         {
-            return $"{count} albums";
+            return SmartFormat.Smart.Format(Consts.Localizer.GetString("SmartAlbums"), count);
         }
 
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)

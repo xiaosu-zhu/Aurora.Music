@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
+    x:Uid="ExtensionManager"
     Title="Extension Manager"
     CloseButtonText="Close"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
@@ -23,7 +24,7 @@
     <ListView ItemClick="ListView_ItemClick" SelectionMode="None" IsItemClickEnabled="True" ItemsSource="{x:Bind ExtensionList}">
         <ListView.Header>
             <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Margin="4">
-                <Run Text="Hover over icons to see tips, click to show more actions"/>
+                <Run x:Uid="ExtensionDesc" Text="Hover over icons to see tips, click to show more actions"/>
             </TextBlock>
         </ListView.Header>
         <ListView.ItemTemplate>
@@ -44,10 +45,10 @@
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <Button Command="{x:Bind LaunchUri}" IsEnabled="{x:Bind CanLaunch,Mode=OneWay}" ToolTipService.ToolTip="Launch" Style="{ThemeResource ButtonRevealStyle}" Background="{ThemeResource SystemControlBackgroundAccentBrush}" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE11A;" />
+                        <Button x:Uid="ExtensionLaunch" Command="{x:Bind LaunchUri}" IsEnabled="{x:Bind CanLaunch,Mode=OneWay}" ToolTipService.ToolTip="Launch" Style="{ThemeResource ButtonRevealStyle}" Background="{ThemeResource SystemControlBackgroundAccentBrush}" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE115;" />
                         </Button>
-                        <Button Click="Button_Click" IsEnabled="{x:Bind CanUninstall,Mode=OneWay}" ToolTipService.ToolTip="Remove" Style="{ThemeResource ButtonRevealStyle}" Grid.Row="1" Background="#ff4343" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <Button x:Uid="ExtensionRemove" Click="Button_Click" IsEnabled="{x:Bind CanUninstall,Mode=OneWay}" ToolTipService.ToolTip="Remove" Style="{ThemeResource ButtonRevealStyle}" Grid.Row="1" Background="#ff4343" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE107;" />
                         </Button>
                     </Grid>
@@ -75,9 +76,9 @@
                             </CheckBox.Content>
                         </CheckBox>
 
-                        <Grid ToolTipService.ToolTip="Lyric Provider" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0" Background="Transparent"/>
-                        <Grid ToolTipService.ToolTip="Online Music Provider" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="1" Background="Transparent"/>
-                        <Grid ToolTipService.ToolTip="Meta-data Provider" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="2" Background="Transparent"/>
+                        <Grid x:Uid="LyricProvider" ToolTipService.ToolTip="Lyric Provider" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0" Background="Transparent"/>
+                        <Grid x:Uid="OnlineProvider" ToolTipService.ToolTip="Online Music Provider" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="1" Background="Transparent"/>
+                        <Grid x:Uid="MetaProvider" ToolTipService.ToolTip="Meta-data Provider" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="2" Background="Transparent"/>
                     </Grid>
                 </Grid>
             </DataTemplate>

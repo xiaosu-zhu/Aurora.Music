@@ -21,9 +21,9 @@
                                     </ColorAnimation.EasingFunction>
                                 </ColorAnimation>
                                 <ColorAnimation Storyboard.TargetName="Bloom" Storyboard.TargetProperty="(Ellipse.Stroke).(SolidColorBrush.Color)" 
-                                                EnableDependentAnimation="True" Duration="0:0:0.5">
+                                                EnableDependentAnimation="True" Duration="0:0:0.75">
                                     <ColorAnimation.EasingFunction>
-                                        <QuinticEase EasingMode="EaseOut"/>
+                                        <QuinticEase EasingMode="EaseInOut"/>
                                     </ColorAnimation.EasingFunction>
                                 </ColorAnimation>
                                 <DoubleAnimationUsingKeyFrames Storyboard.TargetName="IconScale" EnableDependentAnimation="True" Storyboard.TargetProperty="ScaleX">

@@ -301,6 +301,10 @@
     <value>全部歌曲</value>
     <comment>Songs</comment>
   </data>
+  <data name="Songs.Text" xml:space="preserve">
+    <value>全部歌曲</value>
+    <comment>Songs</comment>
+  </data>
   <data name="AlbumsText" xml:space="preserve">
     <value>全部专辑</value>
     <comment>Albums</comment>
@@ -464,5 +468,185 @@
   <data name="LibraryText" xml:space="preserve">
     <value>音乐库</value>
     <comment>Library</comment>
+  </data>
+  <data name="LocaAlbumTitle" xml:space="preserve">
+    <value>本地专辑</value>
+    <comment>Local Album</comment>
+  </data>
+  <data name="VariousGenresText" xml:space="preserve">
+    <value>多种流派</value>
+    <comment>Various Genres</comment>
+  </data>
+  <data name="SmartSongs" xml:space="preserve">
+    <value>{0}首歌</value>
+    <comment>{0} {0:Song|Songs}</comment>
+  </data>
+  <data name="SmartAlbums" xml:space="preserve">
+    <value>{0}张专辑</value>
+    <comment>{0} {0:Album|Albums}</comment>
+  </data>
+  <data name="OopsText" xml:space="preserve">
+    <value>哦呀！</value>
+    <comment>Ooops!</comment>
+  </data>
+  <data name="SearchFailedText" xml:space="preserve">
+    <value>我们什么都没有找到……</value>
+    <comment>We can't find anything...</comment>
+  </data>
+  <data name="CreateCollection" xml:space="preserve">
+    <value>添加一个新收藏</value>
+    <comment>Create a new collection</comment>
+  </data>
+  <data name="AddPlayListDialog.PrimaryButtonText" xml:space="preserve">
+    <value>确认</value>
+    <comment>Confirm</comment>
+  </data>
+  <data name="AddPlayListDialog.CloseButtonText" xml:space="preserve">
+    <value>取消</value>
+    <comment>Cancel</comment>
+  </data>
+  <data name="AddPlayListDialog.Title" xml:space="preserve">
+    <value>加入到收藏</value>
+    <comment>Add to Collection</comment>
+  </data>
+  <data name="AlbumViewDialog.Title" xml:space="preserve">
+    <value>专辑详情</value>
+    <comment>Album Details</comment>
+  </data>
+  <data name="AlbumViewDialog.PrimaryButtonText" xml:space="preserve">
+    <value>播放</value>
+    <comment>Play</comment>
+  </data>
+  <data name="AlbumViewDialog.CloseButtonText" xml:space="preserve">
+    <value>关闭</value>
+    <comment>Close</comment>
+  </data>
+  <data name="ArtistDialog.Title" xml:space="preserve">
+    <value>歌手详情</value>
+    <comment>Artist Details</comment>
+  </data>
+  <data name="ArtistDialog.CloseButtonText" xml:space="preserve">
+    <value>关闭</value>
+    <comment>Close</comment>
+  </data>
+  <data name="GoBack.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>返回</value>
+    <comment>Go Back</comment>
+  </data>
+  <data name="DropSongDialog.Title" xml:space="preserve">
+    <value>我们找到了一些东西……</value>
+    <comment>We find something...</comment>
+  </data>
+  <data name="DropSongDialog.PrimaryButtonText" xml:space="preserve">
+    <value>收入数据库</value>
+    <comment>Save to Database</comment>
+  </data>
+  <data name="DropSongDialog.SecondaryButtonText" xml:space="preserve">
+    <value>仅播放</value>
+    <comment>Just Play</comment>
+  </data>
+  <data name="DropSongDialogDesc.Text" xml:space="preserve">
+    <value>你可选择持久收入这些文件，或是直接播放。</value>
+    <comment>You can choose to save them permanently, or just play instantly.</comment>
+  </data>
+  <data name="DontShow.Content" xml:space="preserve">
+    <value>不再显示，记住我的选择。</value>
+    <comment>Don't Show Again, Remember My Choice.</comment>
+  </data>
+  <data name="ExtensionManager.Title" xml:space="preserve">
+    <value>扩展管理</value>
+    <comment>Extension Manager</comment>
+  </data>
+  <data name="ExtensionManager.CloseButtonText" xml:space="preserve">
+    <value>关闭</value>
+    <comment>Close</comment>
+  </data>
+  <data name="ExtensionDesc.Text" xml:space="preserve">
+    <value>移至图标上来查看详情，点击以查看更多操作。</value>
+    <comment>Hover over icons to see tips, click to show more actions</comment>
+  </data>
+  <data name="ExtensionLaunch.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>启动</value>
+    <comment>Launch</comment>
+  </data>
+  <data name="ExtensionRemove.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>移除</value>
+    <comment>Remove</comment>
+  </data>
+  <data name="LyricProvider.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>歌词扩展</value>
+    <comment>Lyric Provider</comment>
+  </data>
+  <data name="OnlineProvider.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>在线音乐扩展</value>
+    <comment>Online Music Provider</comment>
+  </data>
+  <data name="MetaProvider.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>媒体信息扩展</value>
+    <comment>Meta-data Provider</comment>
+  </data>
+  <data name="SearchResultDialog.Title" xml:space="preserve">
+    <value>搜索结果</value>
+    <comment>Search Result</comment>
+  </data>
+  <data name="SearchResultDialog.PrimaryButtonText" xml:space="preserve">
+    <value>播放</value>
+    <comment>Play</comment>
+  </data>
+  <data name="SearchResultDialog.SecondaryButtonText" xml:space="preserve">
+    <value>查看</value>
+    <comment>View</comment>
+  </data>
+  <data name="SearchResultDialog.CloseButtonText" xml:space="preserve">
+    <value>关闭</value>
+    <comment>Close</comment>
+  </data>
+  <data name="TagDialog.Title" xml:space="preserve">
+    <value>属性</value>
+    <comment>Properties</comment>
+  </data>
+  <data name="TagDialog.PrimaryButtonText" xml:space="preserve">
+    <value>确认</value>
+    <comment>Confirm</comment>
+  </data>
+  <data name="TagDialog.CloseButtonText" xml:space="preserve">
+    <value>取消</value>
+    <comment>Cancel</comment>
+  </data>
+  <data name="MidnightText" xml:space="preserve">
+    <value>午夜</value>
+    <comment>Midnight</comment>
+  </data>
+  <data name="MorningText" xml:space="preserve">
+    <value>清晨</value>
+    <comment>Morning</comment>
+  </data>
+  <data name="NoonText" xml:space="preserve">
+    <value>早上</value>
+    <comment>Noon</comment>
+  </data>
+  <data name="AfternoonText" xml:space="preserve">
+    <value>下午</value>
+    <comment>Afternoon</comment>
+  </data>
+  <data name="EveningText" xml:space="preserve">
+    <value>晚上</value>
+    <comment>Evening</comment>
+  </data>
+  <data name="WelcomeTitleText" xml:space="preserve">
+    <value>{0}好</value>
+    <comment>Good {0}</comment>
+  </data> 
+  <data name="ValentineWelcome" xml:space="preserve">
+    <value>情人节快乐</value>
+    <comment>Happy Valentine's Day</comment>
+  </data> 
+  <data name="HalloweenWelcome" xml:space="preserve">
+    <value>不给糖就捣蛋</value>
+    <comment>Trick or Treat?</comment>
+  </data> 
+  <data name="ChristmasWelcome" xml:space="preserve">
+    <value>圣诞快乐</value>
+    <comment>Merry Christmas!</comment>
   </data>
 </root>

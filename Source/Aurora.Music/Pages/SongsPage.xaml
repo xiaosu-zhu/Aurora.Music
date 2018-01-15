@@ -68,9 +68,9 @@
                         </Button.Content>
                     </Button>
                     <StackPanel Orientation="Horizontal" Grid.Column="3" VerticalAlignment="Stretch" HorizontalAlignment="Right">
-                        <star:StarButton HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" Margin="8,0"/>
+                        <star:StarButton IsOn="{x:Bind Favorite, Mode=TwoWay}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" Margin="8,0"/>
                         <TextBlock MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" 
-                               HorizontalAlignment="Right" VerticalAlignment="Center"
+                               HorizontalAlignment="Right" VerticalAlignment="Center" Width="120"
                                Text="{x:Bind FormatDuration(Duration)}" Style="{ThemeResource BodyTextBlockStyle}" 
                                Margin="8,0"/>
                     </StackPanel>
@@ -111,9 +111,9 @@
                         </Button.Content>
                     </Button>
                     <StackPanel Orientation="Horizontal" Grid.Column="3" VerticalAlignment="Stretch" HorizontalAlignment="Right">
-                        <star:StarButton HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" Margin="8,0"/>
+                        <star:StarButton IsOn="{x:Bind Favorite, Mode=TwoWay}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" Margin="8,0"/>
                         <TextBlock MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" 
-                               HorizontalAlignment="Right" VerticalAlignment="Center"
+                               HorizontalAlignment="Right" VerticalAlignment="Center" Width="120"
                                Text="{x:Bind FormatDuration(Duration)}" Style="{ThemeResource BodyTextBlockStyle}" 
                                Margin="8,0"/>
                     </StackPanel>
@@ -207,14 +207,14 @@
                 </Grid.RowDefinitions>
                 <Grid Canvas.ZIndex="9999" x:Name="TitleShrink" Background="{x:Null}"
                           HorizontalAlignment="Left" VerticalAlignment="Center" Height="48">
-                    <TextBlock Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" Margin="12,0" Text="Songs" 
+                    <TextBlock x:Uid="Songs" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" Margin="12,0" Text="Songs" 
                                    HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"
                                    TextWrapping="NoWrap" MaxLines="1" Style="{ThemeResource SubheaderTextBlockStyle}" 
                                    TextTrimming="Clip"/>
                 </Grid>
                 <Grid Canvas.ZIndex="9999" x:Name="Title" Background="{ThemeResource SystemControlBackgroundAccentBrush}" 
                           HorizontalAlignment="Left" VerticalAlignment="Center" Height="48">
-                    <TextBlock Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Margin="12,0" Text="Songs" 
+                    <TextBlock x:Uid="Songs" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Margin="12,0" Text="Songs" 
                                    HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"
                                    TextWrapping="NoWrap" MaxLines="1" Style="{ThemeResource SubheaderTextBlockStyle}" 
                                    TextTrimming="Clip"/>

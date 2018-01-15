@@ -8,7 +8,7 @@
     xmlns:controls="using:Aurora.Music.Controls"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
-    
+    xmlns:star="using:StarButton"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Unloaded="Page_Unloaded"
@@ -61,10 +61,13 @@
                             <SymbolIcon Symbol="Play"/>
                         </Button.Content>
                     </Button>
-                    <TextBlock MaxLines="1" Grid.Column="3" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" 
-                               HorizontalAlignment="Right" VerticalAlignment="Center"
+                    <StackPanel Orientation="Horizontal" Grid.Column="3" VerticalAlignment="Stretch" HorizontalAlignment="Right">
+                        <star:StarButton IsOn="{x:Bind Favorite, Mode=TwoWay}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" Margin="8,0"/>
+                        <TextBlock MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" 
+                               HorizontalAlignment="Right" VerticalAlignment="Center" Width="120"
                                Text="{x:Bind FormatDuration(Duration)}" Style="{ThemeResource BodyTextBlockStyle}" 
                                Margin="8,0"/>
+                    </StackPanel>
                 </Grid>
             </DataTemplate>
             <DataTemplate x:Key="EvenTemplate" x:DataType="vm:SongViewModel">
@@ -102,10 +105,13 @@
                             <SymbolIcon Symbol="Play"/>
                         </Button.Content>
                     </Button>
-                    <TextBlock MaxLines="1" Grid.Column="3" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" 
-                               HorizontalAlignment="Right" VerticalAlignment="Center"
+                    <StackPanel Orientation="Horizontal" Grid.Column="3" VerticalAlignment="Stretch" HorizontalAlignment="Right">
+                        <star:StarButton IsOn="{x:Bind Favorite, Mode=TwoWay}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" Margin="8,0"/>
+                        <TextBlock MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" 
+                               HorizontalAlignment="Right" VerticalAlignment="Center" Width="120"
                                Text="{x:Bind FormatDuration(Duration)}" Style="{ThemeResource BodyTextBlockStyle}" 
                                Margin="8,0"/>
+                    </StackPanel>
                 </Grid>
             </DataTemplate>
 

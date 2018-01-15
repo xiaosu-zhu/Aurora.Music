@@ -11,6 +11,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     MinWidth="240"
+    x:Uid="ArtistDialog"
     Title="Artist"
     CloseButtonText="Close"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"

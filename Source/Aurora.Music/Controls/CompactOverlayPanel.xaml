@@ -6,10 +6,8 @@
     xmlns:model="using:Aurora.Music.Core.Models"
     xmlns:vm="using:Aurora.Music.ViewModels"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
-    
     Unloaded="Page_Unloaded"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
@@ -206,7 +204,7 @@
         </StackPanel>
         <StackPanel x:Name="ButtonPanel" Orientation="Horizontal" Margin="0,8,0,8" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Column="1" Grid.Row="2">
             <TextBlock Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" x:Name="PlayListFull" Text="{x:Bind Context.NowListPreview,Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <Button x:Name="Previous" Style="{ThemeResource RevealRoundButton}" Command="{x:Bind Context.GoPrevious}" ToolTipService.ToolTip="Previous"
+            <Button x:Uid="Previous" x:Name="Previous" Style="{ThemeResource RevealRoundButton}" Command="{x:Bind Context.GoPrevious}" ToolTipService.ToolTip="Previous"
                                 Width="48" Height="48" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                 <Button.Content>
                     <SymbolIcon Symbol="Previous"/>
@@ -218,14 +216,14 @@
                     <SymbolIcon Symbol="{x:Bind Context.NullableBoolToSymbol(Context.IsPlaying), Mode=OneWay}"/>
                 </Button.Content>
             </Button>
-            <Button Style="{ThemeResource RevealRoundButton}" Command="{x:Bind Context.GoNext}" ToolTipService.ToolTip="Next"
+            <Button x:Uid="Next" Style="{ThemeResource RevealRoundButton}" Command="{x:Bind Context.GoNext}" ToolTipService.ToolTip="Next"
                                 Width="48" Height="48" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                 <Button.Content>
                     <SymbolIcon Symbol="Next"/>
                 </Button.Content>
             </Button>
 
-            <Button Style="{ThemeResource RevealRoundButton}" Command="{x:Bind Context.ReturnNormal}" ToolTipService.ToolTip="Go back"
+            <Button x:Uid="GoBack" Style="{ThemeResource RevealRoundButton}" Command="{x:Bind Context.ReturnNormal}" ToolTipService.ToolTip="Go Back"
                                 Width="48" Height="48" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                 <Button.Content>
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE2B3;" />

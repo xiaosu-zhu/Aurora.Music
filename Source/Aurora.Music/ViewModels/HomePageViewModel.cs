@@ -105,32 +105,32 @@ namespace Aurora.Music.ViewModels
                 case Festival.None:
                     RightGradient = Palette.GetRandom();
                     LeftGradient = Palette.GetRandom();
-                    WelcomeTitle = $"Good {DateTime.Now.GetHourString()}";
+                    WelcomeTitle = string.Format(Consts.Localizer.GetString("WelcomeTitleText"), DateTime.Now.GetHourString());
                     break;
                 case Festival.Valentine:
                     RightGradient = Palette.Pink;
                     LeftGradient = Palette.PinkRed;
-                    WelcomeTitle = $"Happy Valentine's Day";
+                    WelcomeTitle = Consts.Localizer.GetString("ValentineWelcome");
                     break;
                 case Festival.Halloween:
                     RightGradient = Palette.DarkBlueGray;
                     LeftGradient = Palette.PurpleGray;
-                    WelcomeTitle = $"Trick or Treat?";
+                    WelcomeTitle = Consts.Localizer.GetString("HalloweenWelcome");
                     break;
                 case Festival.Xmas:
                     RightGradient = Palette.VibrantRed;
                     LeftGradient = Palette.Green;
-                    WelcomeTitle = $"Merry Christmas!";
+                    WelcomeTitle = Consts.Localizer.GetString("ChristmasWelcome");
                     break;
                 case Festival.Fool:
                     RightGradient = Palette.GetRandom();
                     LeftGradient = Palette.GetRandom();
-                    WelcomeTitle = $"Good {DateTime.Now.GetHourString()}";
+                    WelcomeTitle = string.Format(Consts.Localizer.GetString("WelcomeTitleText"), DateTime.Now.GetHourString());
                     break;
                 default:
                     RightGradient = Palette.GetRandom();
                     LeftGradient = Palette.GetRandom();
-                    WelcomeTitle = $"Good {DateTime.Now.GetHourString()}";
+                    WelcomeTitle = string.Format(Consts.Localizer.GetString("WelcomeTitleText"), DateTime.Now.GetHourString());
                     break;
             }
         }

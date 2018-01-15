@@ -54,29 +54,5 @@ namespace Aurora.Shared.Helpers
             return dateTime.ToUniversalTime() + UtcOffset;
         }
 
-        public static string GetHourString(this DateTime time)
-        {
-            if (time.Hour < 5)
-            {
-                return "Midnight";
-            }
-            else if (time.Hour < 10)
-            {
-                return "Morning";
-            }
-            else if (time.Hour < 14)
-            {
-                return "Noon";
-            }
-            else if (time.Hour < 19)
-            {
-                return "Afternoon";
-            }
-            else if (time.Hour < 23)
-            {
-                return "Evening";
-            }
-            return "Midnight";
-        }
     }
 }

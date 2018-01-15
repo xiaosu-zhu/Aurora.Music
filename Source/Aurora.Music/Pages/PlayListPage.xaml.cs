@@ -48,8 +48,14 @@ namespace Aurora.Music.Pages
                 return;
             }
             e.Handled = true;
-            ConnectedAnimationService.GetForCurrentView().PrepareToAnimate(Consts.ArtistPageInAnimation + "_1", Title);
-            ConnectedAnimationService.GetForCurrentView().PrepareToAnimate(Consts.ArtistPageInAnimation + "_2", HeaderBG);
+            try
+            {
+                ConnectedAnimationService.GetForCurrentView().PrepareToAnimate(Consts.ArtistPageInAnimation + "_1", Title);
+                ConnectedAnimationService.GetForCurrentView().PrepareToAnimate(Consts.ArtistPageInAnimation + "_2", HeaderBG);
+            }
+            catch (Exception)
+            {
+            }
             LibraryPage.Current.GoBack();
             UnloadObject(this);
         }

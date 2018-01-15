@@ -29,6 +29,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Aurora.Music.Core.Extension;
 using Windows.System;
 using Aurora.Shared.Helpers;
+using Aurora.Music.Core.Storage;
 
 // https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
 
@@ -438,6 +439,11 @@ namespace Aurora.Music
                 {
                     return;
                 }
+                if (g.InnerType == MediaType.Placeholder)
+                {
+                    SearchBox.Text = g.Title;
+                    return;
+                }
                 if (g.InnerType == MediaType.Album)
                 {
                     var view = new AlbumViewDialog(await g.FindAssociatedAlbumAsync());
@@ -445,6 +451,10 @@ namespace Aurora.Music
                 }
                 else
                 {
+                    var t = Task.Run(async () =>
+                    {
+                        await SQLOperator.Current().SaveSearchHistoryAsync(g.Title);
+                    });
                     var dialog = new SearchResultDialog(g);
                     var result = await dialog.ShowAsync();
                     if (result == ContentDialogResult.Secondary)
@@ -463,6 +473,15 @@ namespace Aurora.Music
                 }
                 else
                 {
+                    if (Context.SearchItems[0].InnerType == MediaType.Placeholder)
+                    {
+                        SearchBox.Text = Context.SearchItems[0].Title;
+                        return;
+                    }
+                    var t = Task.Run(async () =>
+                    {
+                        await SQLOperator.Current().SaveSearchHistoryAsync(Context.SearchItems[0].Title);
+                    });
                     if (Context.SearchItems[0].InnerType == MediaType.Album)
                     {
                         var view = new AlbumViewDialog(await Context.SearchItems[0].FindAssociatedAlbumAsync());
@@ -494,7 +513,21 @@ namespace Aurora.Music
         {
             if (args.Reason == AutoSuggestionBoxTextChangeReason.SuggestionChosen)
             {
-                return;
+                if (!Context.SearchItems.IsNullorEmpty())
+                {
+                    if (Context.SearchItems[0].InnerType == MediaType.Placeholder)
+                    {
+
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+                else
+                {
+                    return;
+                }
             }
             if (sender.Text.IsNullorWhiteSpace())
             {
@@ -553,7 +586,6 @@ namespace Aurora.Music
 
             e.DragUIOverride.SetContentFromBitmapImage(new BitmapImage(new Uri(Consts.BlackPlaceholder)));
 
-            e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Copy;
             var p = await e.DataView.GetStorageItemsAsync();
             if (p.Count > 0 && IsSongsFile(p))
             {
@@ -596,7 +628,6 @@ namespace Aurora.Music
         private async void Root_Drop(object sender, DragEventArgs e)
         {
             e.Handled = true;
-            e.AcceptedOperation = DataPackageOperation.Copy;
             var p = await e.DataView.GetStorageItemsAsync();
             await FileActivation(p);
         }
@@ -760,8 +791,21 @@ namespace Aurora.Music
                 if (dataPackageView.Contains(StandardDataFormats.Text))
                 {
                     string text = await dataPackageView.GetTextAsync();
-
-                    SearchBox.Text = text;
+                    var searches = await SQLOperator.Current().GetSearchHistoryAsync();
+                    Context.SearchItems.Clear();
+                    Context.SearchItems.Add(new GenericMusicItemViewModel()
+                    {
+                        Title = text,
+                        InnerType = MediaType.Placeholder
+                    });
+                    foreach (var item in searches)
+                    {
+                        Context.SearchItems.Add(new GenericMusicItemViewModel()
+                        {
+                            Title = item.Query,
+                            InnerType = MediaType.Placeholder
+                        });
+                    }
                 }
             }
             if (!SearchBox.Items.IsNullorEmpty())
@@ -776,6 +820,14 @@ namespace Aurora.Music
 
         private void SearchBox_LosingFocus(UIElement sender, Windows.UI.Xaml.Input.LosingFocusEventArgs args)
         {
+            if (args.NewFocusedElement is ListViewItem && !Context.SearchItems.IsNullorEmpty())
+            {
+                if (Context.SearchItems[0].InnerType == MediaType.Placeholder)
+                {
+                    args.Cancel = true;
+                    return;
+                }
+            }
             SearchBoxCollapse.Begin();
         }
 

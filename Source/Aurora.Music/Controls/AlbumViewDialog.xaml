@@ -5,10 +5,12 @@
     xmlns:local="using:Aurora.Music.Controls"
     xmlns:controls="using:Aurora.Music.Controls"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:star="using:StarButton"
     xmlns:vm="using:Aurora.Music.ViewModels"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
+    x:Uid="AlbumViewDialog"
     Title="Album"
     MinWidth="240"
     PrimaryButtonText="Play"
@@ -60,10 +62,13 @@
                             <SymbolIcon Symbol="Play"/>
                         </Button.Content>
                     </Button>
-                    <TextBlock MaxLines="1" Grid.Column="3" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" 
-                               HorizontalAlignment="Right" VerticalAlignment="Center"
+                    <StackPanel Orientation="Horizontal" Grid.Column="3" VerticalAlignment="Stretch" HorizontalAlignment="Right">
+                        <star:StarButton IsOn="{x:Bind Favorite, Mode=TwoWay}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" Margin="8,0"/>
+                        <TextBlock MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" 
+                               HorizontalAlignment="Right" VerticalAlignment="Center" Width="120"
                                Text="{x:Bind FormatDuration(Duration)}" Style="{ThemeResource BodyTextBlockStyle}" 
                                Margin="8,0"/>
+                    </StackPanel>
                 </Grid>
             </DataTemplate>
             <DataTemplate x:Key="EvenTemplate" x:DataType="vm:SongViewModel">
@@ -99,10 +104,13 @@
                             <SymbolIcon Symbol="Play"/>
                         </Button.Content>
                     </Button>
-                    <TextBlock MaxLines="1" Grid.Column="3" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" 
-                               HorizontalAlignment="Right" VerticalAlignment="Center"
+                    <StackPanel Orientation="Horizontal" Grid.Column="3" VerticalAlignment="Stretch" HorizontalAlignment="Right">
+                        <star:StarButton IsOn="{x:Bind Favorite, Mode=TwoWay}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" Margin="8,0"/>
+                        <TextBlock MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" 
+                               HorizontalAlignment="Right" VerticalAlignment="Center" Width="120"
                                Text="{x:Bind FormatDuration(Duration)}" Style="{ThemeResource BodyTextBlockStyle}" 
                                Margin="8,0"/>
+                    </StackPanel>
                 </Grid>
             </DataTemplate>
 
@@ -135,7 +143,7 @@
                         HorizontalAlignment="Stretch" x:Name="DetailPanel" Click="DetailPanel_Click" BorderThickness="0" 
                         Grid.Column="1" Grid.Row="1" VerticalAlignment="Stretch" Padding="0">
                     <StackPanel Padding="8" Background="{ThemeResource SystemControlAcrylicWindowBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <toolkit:MarkdownTextBlock IsTextSelectionEnabled="False" LinkClicked="Descriptions_LinkClicked" Text="# Loading..." x:Name="Descriptions" Height="75" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="WrapWholeWords">
+                        <toolkit:MarkdownTextBlock IsTextSelectionEnabled="False" LinkClicked="Descriptions_LinkClicked" Text="" x:Name="Descriptions" Height="75" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="WrapWholeWords">
                         </toolkit:MarkdownTextBlock>
                         <FontIcon x:Name="DescriIndicator" FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="10" Glyph="&#xE09D;" />
                     </StackPanel>

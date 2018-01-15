@@ -18,19 +18,8 @@ namespace Aurora.Music.ViewModels
         public string Description { get; set; }
         public string Addtional { get; set; }
 
-        private Uri artwork;
-
         public Uri Artwork
-        {
-            get
-            {
-                return artwork;
-            }
-            set
-            {
-                artwork = value;
-            }
-        }
+        { get; set; }
 
         private bool isOnline;
         public bool IsOnline
@@ -198,6 +187,10 @@ namespace Aurora.Music.ViewModels
             {
                 return string.Empty;
             }
+            if (Description.IsNullorEmpty())
+            {
+                return Title;
+            }
             var title = Title;
             if (title.Length > 20)
             {
@@ -225,6 +218,10 @@ namespace Aurora.Music.ViewModels
                     }
                     return new AlbumViewModel(await opr.GetAlbumByNameAsync(Description, ContextualID));
                 case MediaType.Album:
+                    if (ContextualID == default(int))
+                    {
+                        return new AlbumViewModel(await opr.GetAlbumByNameAsync(Title));
+                    }
                     return new AlbumViewModel(await opr.GetAlbumByIDAsync(ContextualID));
                 case MediaType.PlayList:
                     throw new NotImplementedException();

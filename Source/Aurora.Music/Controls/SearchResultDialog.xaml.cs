@@ -27,10 +27,11 @@ namespace Aurora.Music.Controls
         public SearchResultDialog()
         {
             this.InitializeComponent();
-            Title = "Ooops!";
-            TitleText.Text = "We can't find anything...";
+            Title = Consts.Localizer.GetString("OopsText");
+            TitleText.Text = Consts.Localizer.GetString("SearchFailedText");
             IsSecondaryButtonEnabled = false;
             IsPrimaryButtonEnabled = false;
+            OnlineIndicator.Visibility = Visibility.Collapsed;
         }
 
         public SearchResultDialog(GenericMusicItemViewModel param)

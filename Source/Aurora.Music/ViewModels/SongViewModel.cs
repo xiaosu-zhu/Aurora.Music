@@ -110,6 +110,15 @@ namespace Aurora.Music.ViewModels
             }
         }
 
+        public void RefreshFav()
+        {
+            if (IsOnline)
+            {
+                // TODO: Online fav
+            }
+            Favorite = AsyncHelper.RunSync(async () => await Song.GetFavoriteAsync());
+        }
+
         public string DurationtoString(TimeSpan t)
         {
             return t.ToString($@"m\{CultureInfoHelper.CurrentCulture.DateTimeFormat.TimeSeparator}ss", CultureInfoHelper.CurrentCulture);
@@ -158,6 +167,16 @@ namespace Aurora.Music.ViewModels
             set { album = value; }
         }
 
+        private bool fav;
+        public bool Favorite
+        {
+            get { return fav; }
+            set
+            {
+                SetProperty(ref fav, value);
+                Song.WriteFav(value);
+            }
+        }
 
         internal async Task<AlbumViewModel> GetAlbumAsync()
         {

@@ -602,7 +602,7 @@ namespace Aurora.Music.ViewModels
             set
             {
                 SetProperty(ref isCurrentFac, value);
-                _lastSong.WriteFav(IsCurrentFavorite);
+                _lastSong.WriteFav(value);
             }
         }
 

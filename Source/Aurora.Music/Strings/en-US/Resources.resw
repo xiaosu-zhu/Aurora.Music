@@ -301,6 +301,10 @@
     <value>Songs</value>
     <comment>Songs</comment>
   </data>
+    <data name="Songs.Text" xml:space="preserve">
+    <value>Songs</value>
+    <comment>Songs</comment>
+  </data>
   <data name="AlbumsText" xml:space="preserve">
     <value>Albums</value>
     <comment>Albums</comment>
@@ -464,5 +468,185 @@
   <data name="LibraryText" xml:space="preserve">
     <value>Library</value>
     <comment>Library</comment>
+  </data> 
+  <data name="LocaAlbumTitle" xml:space="preserve">
+    <value>Local Album</value>
+    <comment>Local Album</comment>
+  </data>
+  <data name="VariousGenresText" xml:space="preserve">
+    <value>Various Genres</value>
+    <comment>Various Genres</comment>
+  </data>
+  <data name="SmartSongs" xml:space="preserve">
+    <value>{0} {0:Song|Songs}</value>
+    <comment>{0} {0:Song|Songs}</comment>
+  </data>
+  <data name="SmartAlbums" xml:space="preserve">
+    <value>{0} {0:Album|Albums}</value>
+    <comment>{0} {0:Album|Albums}</comment>
+  </data>
+  <data name="OopsText" xml:space="preserve">
+    <value>Ooops!</value>
+    <comment>Ooops!</comment>
+  </data>
+  <data name="SearchFailedText" xml:space="preserve">
+    <value>We can't find anything...</value>
+    <comment>We can't find anything...</comment>
+  </data> 
+    <data name="CreateCollection" xml:space="preserve">
+    <value>Create a new collection</value>
+    <comment>Create a new collection</comment>
+  </data>
+  <data name="AddPlayListDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Confirm</value>
+    <comment>Confirm</comment>
+  </data>
+  <data name="AddPlayListDialog.CloseButtonText" xml:space="preserve">
+    <value>Cancel</value>
+    <comment>Cancel</comment>
+  </data>
+  <data name="AddPlayListDialog.Title" xml:space="preserve">
+    <value>Add to Collection</value>
+    <comment>Add to Collection</comment>
+  </data>
+  <data name="AlbumViewDialog.Title" xml:space="preserve">
+    <value>Album Details</value>
+    <comment>Album Details</comment>
+  </data>
+  <data name="AlbumViewDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Play</value>
+    <comment>Play</comment>
+  </data>
+  <data name="AlbumViewDialog.CloseButtonText" xml:space="preserve">
+    <value>Close</value>
+    <comment>Close</comment>
+  </data>
+  <data name="ArtistDialog.Title" xml:space="preserve">
+    <value>Artist Details</value>
+    <comment>Artist Details</comment>
+  </data>
+  <data name="ArtistDialog.CloseButtonText" xml:space="preserve">
+    <value>Close</value>
+    <comment>Close</comment>
+  </data>
+  <data name="GoBack.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Go Back</value>
+    <comment>Go Back</comment>
+  </data>
+  <data name="DropSongDialog.Title" xml:space="preserve">
+    <value>We find something...</value>
+    <comment>We find something...</comment>
+  </data>
+  <data name="DropSongDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Save to Database</value>
+    <comment>Save to Database</comment>
+  </data>
+  <data name="DropSongDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Just Play</value>
+    <comment>Just Play</comment>
+  </data>
+  <data name="DropSongDialogDesc.Text" xml:space="preserve">
+    <value>You can choose to save them permanently, or just play instantly.</value>
+    <comment>You can choose to save them permanently, or just play instantly.</comment>
+  </data>
+  <data name="DontShow.Content" xml:space="preserve">
+    <value>Don't Show Again, Remember My Choice.</value>
+    <comment>Don't Show Again, Remember My Choice.</comment>
+  </data>
+  <data name="ExtensionManager.Title" xml:space="preserve">
+    <value>Extension Manager</value>
+    <comment>Extension Manager</comment>
+  </data>
+  <data name="ExtensionManager.CloseButtonText" xml:space="preserve">
+    <value>Close</value>
+    <comment>Close</comment>
+  </data>
+  <data name="ExtensionDesc.Text" xml:space="preserve">
+    <value>Hover over icons to see tips, click to show more actions.</value>
+    <comment>Hover over icons to see tips, click to show more actions</comment>
+  </data>
+  <data name="ExtensionLaunch.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Launch</value>
+    <comment>Launch</comment>
+  </data>
+  <data name="ExtensionRemove.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Remove</value>
+    <comment>Remove</comment>
+  </data>
+  <data name="LyricProvider.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Lyric Provider</value>
+    <comment>Lyric Provider</comment>
+  </data>
+  <data name="OnlineProvider.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Online Music Provider</value>
+    <comment>Online Music Provider</comment>
+  </data>
+  <data name="MetaProvider.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Meta-data Provider</value>
+    <comment>Meta-data Provider</comment>
+  </data>
+    <data name="SearchResultDialog.Title" xml:space="preserve">
+    <value>Search Result</value>
+    <comment>Search Result</comment>
+  </data>
+  <data name="SearchResultDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Play</value>
+    <comment>Play</comment>
+  </data>
+  <data name="SearchResultDialog.SecondaryButtonText" xml:space="preserve">
+    <value>View</value>
+    <comment>View</comment>
+  </data>
+  <data name="SearchResultDialog.CloseButtonText" xml:space="preserve">
+    <value>Close</value>
+    <comment>Close</comment>
+  </data>
+  <data name="TagDialog.Title" xml:space="preserve">
+    <value>Properties</value>
+    <comment>Properties</comment>
+  </data>
+  <data name="TagDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Confirm</value>
+    <comment>Confirm</comment>
+  </data>
+  <data name="TagDialog.CloseButtonText" xml:space="preserve">
+    <value>Cancel</value>
+    <comment>Cancel</comment>
+  </data>
+  <data name="MidnightText" xml:space="preserve">
+    <value>Midnight</value>
+    <comment>Midnight</comment>
+  </data>
+  <data name="MorningText" xml:space="preserve">
+    <value>Morning</value>
+    <comment>Morning</comment>
+  </data>
+  <data name="NoonText" xml:space="preserve">
+    <value>Noon</value>
+    <comment>Noon</comment>
+  </data>
+  <data name="AfternoonText" xml:space="preserve">
+    <value>Afternoon</value>
+    <comment>Afternoon</comment>
+  </data>
+  <data name="EveningText" xml:space="preserve">
+    <value>Evening</value>
+    <comment>Evening</comment>
+  </data>
+  <data name="WelcomeTitleText" xml:space="preserve">
+    <value>Good {0}</value>
+    <comment>Good {0}</comment>
+  </data>
+  <data name="ValentineWelcome" xml:space="preserve">
+    <value>Happy Valentine's Day!</value>
+    <comment>Happy Valentine's Day</comment>
+  </data>
+  <data name="HalloweenWelcome" xml:space="preserve">
+    <value>Trick or Treat?</value>
+    <comment>Trick or Treat?</comment>
+  </data>
+  <data name="ChristmasWelcome" xml:space="preserve">
+    <value>Merry Christmas!</value>
+    <comment>Merry Christmas!</comment>
   </data>
 </root>

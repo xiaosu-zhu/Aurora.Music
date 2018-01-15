@@ -9,6 +9,6 @@
 
     <StackPanel Orientation="Vertical" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <TextBlock Margin="8,0" Text="Aurora Music Extension" Style="{ThemeResource SubheaderTextBlockStyle}"/>
-        <TextBlock Margin="8,0" Style="{ThemeResource SubtitleTextBlockStyle}" Text="This is built in data provider, no settings avaliable."/>
+        <TextBlock Margin="8,0" Style="{ThemeResource SubtitleTextBlockStyle}" Text="Coming soon: Online music bit rate, perferred search result count"/>
     </StackPanel>
 </Page>

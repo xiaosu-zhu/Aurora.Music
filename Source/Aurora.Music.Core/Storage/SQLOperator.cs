@@ -13,6 +13,39 @@ using Windows.UI;
 
 namespace Aurora.Music.Core.Storage
 {
+    public class Path
+    {
+        public string FilePath { get; set; }
+    }
+
+    public class Artist : IKey
+    {
+        public int Count { get; set; }
+        public string AlbumArtists { get; set; }
+
+        public string Key => AlbumArtists;
+    }
+
+    public class AVATAR
+    {
+        [PrimaryKey, AutoIncrement]
+        public int ID { get; set; }
+
+        [Unique]
+        public string Artist { get; set; }
+
+        public string Uri { get; set; }
+    }
+
+    public class SEARCHHISTORY
+    {
+        [PrimaryKey, AutoIncrement]
+        public int ID { get; set; }
+
+        [Unique]
+        public string Query { get; set; }
+    }
+
     class STATISTICS
     {
         [PrimaryKey, AutoIncrement]
@@ -417,7 +450,7 @@ namespace Aurora.Music.Core.Storage
 
         private void CreateTable()
         {
-            conn.GetConnection().CreateTables(CreateFlags.None, new Type[] { typeof(SONG), typeof(ALBUM), typeof(FOLDER), typeof(STATISTICS), typeof(PLAYSTATISTIC), typeof(AVATAR), typeof(PLAYLIST) });
+            conn.GetConnection().CreateTables(CreateFlags.None, new Type[] { typeof(SONG), typeof(ALBUM), typeof(FOLDER), typeof(STATISTICS), typeof(PLAYSTATISTIC), typeof(AVATAR), typeof(PLAYLIST), typeof(SEARCHHISTORY) });
         }
 
         public async Task WriteFavoriteAsync(int id, bool isCurrentFavorite)
@@ -1099,6 +1132,23 @@ namespace Aurora.Music.Core.Storage
             return null;
         }
 
+        public async Task<Album> GetAlbumByNameAsync(string album)
+        {
+            if (album.IsNullorEmpty())
+            {
+                return null;
+            }
+            else
+            {
+                var res = await conn.QueryAsync<ALBUM>("SELECT * FROM ALBUM WHERE NAME=?", album);
+                if (res.Count > 0)
+                {
+                    return new Album(res[0]);
+                }
+            }
+            return null;
+        }
+
         public async Task<Album> GetAlbumByIDAsync(int contextualID)
         {
             var res = await conn.QueryAsync<ALBUM>("SELECT * FROM ALBUM WHERE ID=?", contextualID);
@@ -1152,6 +1202,7 @@ namespace Aurora.Music.Core.Storage
             await conn.DropTableAsync<PLAYSTATISTIC>();
             await conn.DropTableAsync<AVATAR>();
             await conn.DropTableAsync<PLAYLIST>();
+            await conn.DropTableAsync<SEARCHHISTORY>();
         }
 
         internal async Task UpdateSongAsync(Song model)
@@ -1232,29 +1283,27 @@ namespace Aurora.Music.Core.Storage
                 await conn.InsertAsync(p);
             }
         }
-    }
 
-    public class Path
-    {
-        public string FilePath { get; set; }
-    }
+        public async Task SaveSearchHistoryAsync(string query)
+        {
+            var res = await conn.QueryAsync<SEARCHHISTORY>("SELECT * FROM SEARCHHISTORY WHERE QUERY=?", query);
+            if (res.Count > 0)
+            {
+                foreach (var item in res)
+                {
+                    await conn.DeleteAsync<SEARCHHISTORY>(item);
+                }
+            }
+            await conn.InsertAsync(new SEARCHHISTORY()
+            {
+                Query = query
+            });
+        }
 
-    public class Artist : IKey
-    {
-        public int Count { get; set; }
-        public string AlbumArtists { get; set; }
 
-        public string Key => AlbumArtists;
-    }
-
-    public class AVATAR
-    {
-        [PrimaryKey, AutoIncrement]
-        public int ID { get; set; }
-
-        [Unique]
-        public string Artist { get; set; }
-
-        public string Uri { get; set; }
+        public async Task<List<SEARCHHISTORY>> GetSearchHistoryAsync()
+        {
+            return await conn.QueryAsync<SEARCHHISTORY>("SELECT * FROM SEARCHHISTORY ORDER BY ID DESC LIMIT 10");
+        }
     }
 }

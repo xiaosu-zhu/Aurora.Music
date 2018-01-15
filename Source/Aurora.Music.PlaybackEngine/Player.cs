@@ -829,6 +829,7 @@ namespace Aurora.Music.PlaybackEngine
             }
         }
 
+#pragma warning disable 1998
         public async Task DetachCurrentItem()
         {
             _savedState = mediaPlayer.PlaybackSession.PlaybackState;

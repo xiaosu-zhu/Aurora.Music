@@ -1,6 +1,8 @@
-﻿using Aurora.Music.Core.Storage;
+﻿using Aurora.Music.Core;
+using Aurora.Music.Core.Storage;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.MVVM;
+using SmartFormat;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -40,9 +42,9 @@ namespace Aurora.Music.ViewModels
         {
             if (a != null)
             {
-                return a.SongsID.Length == 1 ? "1 Song" : $"{a.TrackCount} Songs";
+                return Smart.Format(Consts.Localizer.GetString("SmartSongs"), a.SongsID.Length);
             }
-            return "0 Songs";
+            return Smart.Format(Consts.Localizer.GetString("SmartSongs"), 0);
         }
 
         public string GenresToString(AlbumViewModel a)
@@ -51,7 +53,7 @@ namespace Aurora.Music.ViewModels
             {
                 return string.Join(", ", a.Genres);
             }
-            return "Various Genres";
+            return Consts.Localizer.GetString("VariousGenresText");
         }
 
         public DelegateCommand PlayAll
@@ -84,6 +86,10 @@ namespace Aurora.Music.ViewModels
                         Index = (uint)i
                     });
                 }
+                foreach (var item in SongList)
+                {
+                    item.RefreshFav();
+                }
             });
             var info = await MainPageViewModel.Current.GetAlbumInfoAsync(Album.Name, Album.AlbumArtists.FirstOrDefault());
             await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
@@ -105,7 +111,7 @@ namespace Aurora.Music.ViewModels
                 }
                 else
                 {
-                    Album.Description = "# Local Album";
+                    Album.Description = $"# {Consts.Localizer.GetString("LocaAlbumTitle")}";
                 }
             });
         }

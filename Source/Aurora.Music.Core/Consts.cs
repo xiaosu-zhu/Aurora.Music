@@ -49,5 +49,31 @@ namespace Aurora.Music.Core
         {
             get => localizer;
         }
+
+
+        public static string GetHourString(this DateTime time)
+        {
+            if (time.Hour < 5)
+            {
+                return Localizer.GetString("MidnightText");
+            }
+            else if (time.Hour < 10)
+            {
+                return Localizer.GetString("MorningText");
+            }
+            else if (time.Hour < 14)
+            {
+                return Localizer.GetString("NoonText");
+            }
+            else if (time.Hour < 19)
+            {
+                return Localizer.GetString("AfternoonText");
+            }
+            else if (time.Hour < 23)
+            {
+                return Localizer.GetString("EveningText");
+            }
+            return Localizer.GetString("MidnightText");
+        }
     }
 }

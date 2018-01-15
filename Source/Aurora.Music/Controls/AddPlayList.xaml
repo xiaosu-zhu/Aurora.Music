@@ -6,9 +6,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
+    x:Uid="AddPlayListDialog"
+    Title="Add to Collection"
     xmlns:vm="using:Aurora.Music.ViewModels"
     xmlns:controls="using:Aurora.Music.Controls"
     PrimaryButtonText="Confirm"
+    DefaultButton="Primary"
     CloseButtonText="Cancel"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
     SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
@@ -151,7 +154,7 @@
                     <Button.Content>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                             <FontIcon FontSize="15" Margin="4" FontFamily="Segoe MDL2 Assets" Glyph="&#xE109;" />
-                            <TextBlock Style="{ThemeResource BodyTextBlockStyle}" VerticalAlignment="Center" Margin="4" Text="Create a new collection"/>
+                            <TextBlock x:Uid="CreateCollection" Style="{ThemeResource BodyTextBlockStyle}" VerticalAlignment="Center" Margin="4" Text="Create a new collection"/>
                         </StackPanel>
                     </Button.Content>
                 </Button>

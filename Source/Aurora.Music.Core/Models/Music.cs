@@ -19,7 +19,7 @@ namespace Aurora.Music.Core.Models
 
     public enum MediaType
     {
-        Song, Album, PlayList, Artist
+        Song, Album, PlayList, Artist, Placeholder
     }
 
     public class Artist

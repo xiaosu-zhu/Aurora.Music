@@ -281,7 +281,7 @@ namespace StarButton
             }
 
             // TODO: adjust speed
-            ani.SpeedRatio = 1.25;
+            ani.SpeedRatio = 1.2;
 
             ani.Begin();
         }
