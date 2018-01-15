@@ -1030,7 +1030,7 @@
                                    Margin="8" TextAlignment="Right" Text="{x:Bind Context.CurrentTitle, Mode=OneWay}" 
                                    Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" Style="{ThemeResource TitleTextBlockStyle}" 
                                    HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE189;" Width="48" Margin="8" 
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE189;" Margin="8" 
                                   Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" 
                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </StackPanel>
@@ -1209,7 +1209,7 @@
                     </StackPanel>
                     <ProgressBar Background="{x:Null}" Foreground="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="5" 
                                  Value="{x:Bind Context.BufferProgress, Mode=OneWay}"/>
-                    <ProgressBar Background="{x:Null}" Foreground="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="5" 
+                    <ProgressBar Background="{x:Null}" Foreground="{ThemeResource SystemControlBackgroundBaseHighBrush}" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="5" 
                                  Value="{x:Bind Context.PositionToValue(Context.CurrentPosition, Context.TotalDuration), Mode=OneWay}"/>
                 </Grid>
                 <Frame x:Name="OverlayFrame" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>

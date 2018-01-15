@@ -791,21 +791,22 @@ namespace Aurora.Music
                 if (dataPackageView.Contains(StandardDataFormats.Text))
                 {
                     string text = await dataPackageView.GetTextAsync();
-                    var searches = await SQLOperator.Current().GetSearchHistoryAsync();
                     Context.SearchItems.Clear();
                     Context.SearchItems.Add(new GenericMusicItemViewModel()
                     {
                         Title = text,
                         InnerType = MediaType.Placeholder
                     });
-                    foreach (var item in searches)
+                }
+
+                var searches = await SQLOperator.Current().GetSearchHistoryAsync();
+                foreach (var item in searches)
+                {
+                    Context.SearchItems.Add(new GenericMusicItemViewModel()
                     {
-                        Context.SearchItems.Add(new GenericMusicItemViewModel()
-                        {
-                            Title = item.Query,
-                            InnerType = MediaType.Placeholder
-                        });
-                    }
+                        Title = item.Query,
+                        InnerType = MediaType.Placeholder
+                    });
                 }
             }
             if (!SearchBox.Items.IsNullorEmpty())
