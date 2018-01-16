@@ -324,11 +324,10 @@ namespace Aurora.Music.ViewModels
                 StorageFolder folder;
                 try
                 {
-                    var s = Settings.Load();
-                    if (!s.DownloadPathToken.IsNullorEmpty())
+                    if (!Settings.Current.DownloadPathToken.IsNullorEmpty())
                     {
                         folder = await Windows.Storage.AccessCache.StorageApplicationPermissions.
-                FutureAccessList.GetFolderAsync(s.DownloadPathToken);
+                FutureAccessList.GetFolderAsync(Settings.Current.DownloadPathToken);
                     }
                     else
                     {

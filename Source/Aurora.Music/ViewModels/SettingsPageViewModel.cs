@@ -38,9 +38,9 @@ namespace Aurora.Music.ViewModels
                     return;
                 SetProperty(ref audioSelectedIndex, value);
 
-                settings.OutputDeviceID = DevicList[value].ID;
-                settings.Save();
-                Player.Current.ChangeAudioEndPoint(settings.OutputDeviceID);
+                Settings.Current.OutputDeviceID = DevicList[value].ID;
+                Settings.Current.Save();
+                Player.Current.ChangeAudioEndPoint(Settings.Current.OutputDeviceID);
             }
         }
 
@@ -118,8 +118,8 @@ namespace Aurora.Music.ViewModels
                 StorageFolder folder = await folderPicker.PickSingleFolderAsync();
                 if (folder != null)
                 {
-                    settings.DownloadPathToken = Windows.Storage.AccessCache.StorageApplicationPermissions.FutureAccessList.Add(folder);
-                    settings.Save();
+                    Settings.Current.DownloadPathToken = Windows.Storage.AccessCache.StorageApplicationPermissions.FutureAccessList.Add(folder);
+                    Settings.Current.Save();
                     DownloadPathText = folder.Path;
                 }
             });
@@ -168,8 +168,7 @@ namespace Aurora.Music.ViewModels
                 await Task.Delay(300);
 
                 await ApplicationData.Current.ClearAsync();
-                settings = new Settings();
-                settings.Save();
+                Settings.Current.DANGER_DELETE();
                 await Task.Delay(300);
                 App.Current.Exit();
             });
@@ -191,8 +190,8 @@ namespace Aurora.Music.ViewModels
                 if (!value.AlmostEqualTo(playerVolume))
                 {
                     Player.Current.ChangeVolume(value);
-                    settings.PlayerVolume = value;
-                    settings.Save();
+                    Settings.Current.PlayerVolume = value;
+                    Settings.Current.Save();
                 }
 
                 SetProperty(ref playerVolume, value);
@@ -235,8 +234,8 @@ namespace Aurora.Music.ViewModels
             get { return debugModeEnabled; }
             set
             {
-                settings.DebugModeEnabled = value;
-                settings.Save();
+                Settings.Current.DebugModeEnabled = value;
+                Settings.Current.Save();
                 SetProperty(ref debugModeEnabled, value);
             }
         }
@@ -246,31 +245,31 @@ namespace Aurora.Music.ViewModels
             switch (tag)
             {
                 case "Threshold":
-                    settings.AudioGraphEffects ^= Effects.Limiter;
+                    Settings.Current.AudioGraphEffects ^= Effects.Limiter;
                     break;
                 case "Equalizer":
-                    settings.AudioGraphEffects ^= Effects.Equalizer;
+                    Settings.Current.AudioGraphEffects ^= Effects.Equalizer;
                     break;
                 case "Reverb":
-                    settings.AudioGraphEffects ^= Effects.Reverb;
+                    Settings.Current.AudioGraphEffects ^= Effects.Reverb;
                     break;
                 default:
                     break;
             }
 
-            settings.Save();
+            Settings.Current.Save();
 
-            EqualizerEnabled = settings.AudioGraphEffects.HasFlag(Effects.Equalizer);
-            ThresholdEnabled = settings.AudioGraphEffects.HasFlag(Effects.Limiter);
-            ReverbEnabled = settings.AudioGraphEffects.HasFlag(Effects.Reverb);
+            EqualizerEnabled = Settings.Current.AudioGraphEffects.HasFlag(Effects.Equalizer);
+            ThresholdEnabled = Settings.Current.AudioGraphEffects.HasFlag(Effects.Limiter);
+            ReverbEnabled = Settings.Current.AudioGraphEffects.HasFlag(Effects.Reverb);
         }
 
         internal void ChangeLyricExt(object selectedItem)
         {
             if (selectedItem is ExtensionViewModel v)
             {
-                settings.LyricExtensionID = v.UniqueId;
-                settings.Save();
+                Settings.Current.LyricExtensionID = v.UniqueId;
+                Settings.Current.Save();
             }
         }
 
@@ -278,8 +277,8 @@ namespace Aurora.Music.ViewModels
         {
             if (selectedItem is ExtensionViewModel v)
             {
-                settings.OnlineMusicExtensionID = v.UniqueId;
-                settings.Save();
+                Settings.Current.OnlineMusicExtensionID = v.UniqueId;
+                Settings.Current.Save();
             }
         }
 
@@ -287,8 +286,8 @@ namespace Aurora.Music.ViewModels
         {
             if (selectedItem is ExtensionViewModel v)
             {
-                settings.MetaExtensionID = v.UniqueId;
-                settings.Save();
+                Settings.Current.MetaExtensionID = v.UniqueId;
+                Settings.Current.Save();
             }
         }
 
@@ -315,26 +314,27 @@ namespace Aurora.Music.ViewModels
                 case StorePurchaseStatus.AlreadyPurchased:
                 case StorePurchaseStatus.Succeeded:
                     OnlinePurchase = true;
-                    settings.OnlinePurchase = true;
-                    settings.Save();
+                    Settings.Current.OnlinePurchase = true;
+                    Settings.Current.Save();
                     break;
 
                 case StorePurchaseStatus.NotPurchased:
                     OnlinePurchase = false;
-                    settings.OnlinePurchase = false;
-                    settings.Save();
+                    Settings.Current.OnlinePurchase = false;
+                    Settings.Current.Save();
                     break;
 
                 case StorePurchaseStatus.NetworkError:
                 case StorePurchaseStatus.ServerError:
                 default:
                     OnlinePurchase = false;
-                    settings.OnlinePurchase = false;
-                    settings.Save();
+                    Settings.Current.OnlinePurchase = false;
+                    Settings.Current.Save();
                     MainPage.Current.PopMessage("Purchase Error:\r\n" + extendedError);
                     break;
             }
             MainPage.Current.ShowModalUI(false);
+            await MainPageViewModel.Current.ReloadExtensions();
         }
 
         public ObservableCollection<ExtensionViewModel> LyricExts { get; set; } = new ObservableCollection<ExtensionViewModel>();
@@ -364,17 +364,15 @@ namespace Aurora.Music.ViewModels
 
         public SettingsPageViewModel()
         {
-            settings = Settings.Load();
-            PlayerVolume = settings.PlayerVolume;
-            OnlinePurchase = settings.OnlinePurchase;
-            EqualizerEnabled = settings.AudioGraphEffects.HasFlag(Effects.Equalizer);
-            ThresholdEnabled = settings.AudioGraphEffects.HasFlag(Effects.Limiter);
-            ReverbEnabled = settings.AudioGraphEffects.HasFlag(Effects.Reverb);
-            DebugModeEnabled = settings.DebugModeEnabled;
+            PlayerVolume = Settings.Current.PlayerVolume;
+            OnlinePurchase = Settings.Current.OnlinePurchase;
+            EqualizerEnabled = Settings.Current.AudioGraphEffects.HasFlag(Effects.Equalizer);
+            ThresholdEnabled = Settings.Current.AudioGraphEffects.HasFlag(Effects.Limiter);
+            ReverbEnabled = Settings.Current.AudioGraphEffects.HasFlag(Effects.Reverb);
+            DebugModeEnabled = Settings.Current.DebugModeEnabled;
         }
 
         public ObservableCollection<DeviceInformationViewModel> DevicList = new ObservableCollection<DeviceInformationViewModel>();
-        private Settings settings;
         private StoreContext context;
         private AppExtensionCatalog _catalog;
         private StorageFolder downloadFolder;
@@ -395,7 +393,7 @@ namespace Aurora.Music.ViewModels
                 MetaExts.ToList().ForEach(async (x) => { await x.Load(); });
                 try
                 {
-                    var f = LyricExts.First(x => x.UniqueId == (settings.LyricExtensionID.IsNullorEmpty() ? Consts.AppUserModelId + "$|$BuiltIn" : settings.LyricExtensionID));
+                    var f = LyricExts.First(x => x.UniqueId == (Settings.Current.LyricExtensionID.IsNullorEmpty() ? Consts.AppUserModelId + "$|$BuiltIn" : Settings.Current.LyricExtensionID));
                     if (f != null)
                     {
                         CurrentLyricIndex = LyricExts.IndexOf(f);
@@ -411,7 +409,7 @@ namespace Aurora.Music.ViewModels
                 }
                 try
                 {
-                    var f = OnlineExts.First(x => x.UniqueId == (settings.OnlineMusicExtensionID.IsNullorEmpty() ? Consts.AppUserModelId + "$|$BuiltIn" : settings.OnlineMusicExtensionID));
+                    var f = OnlineExts.First(x => x.UniqueId == (Settings.Current.OnlineMusicExtensionID.IsNullorEmpty() ? Consts.AppUserModelId + "$|$BuiltIn" : Settings.Current.OnlineMusicExtensionID));
                     if (f != null)
                     {
                         CurrentOnlineIndex = OnlineExts.IndexOf(f);
@@ -427,7 +425,7 @@ namespace Aurora.Music.ViewModels
                 }
                 try
                 {
-                    var f = MetaExts.First(x => x.UniqueId == (settings.MetaExtensionID.IsNullorEmpty() ? Consts.AppUserModelId + "$|$BuiltIn" : settings.MetaExtensionID));
+                    var f = MetaExts.First(x => x.UniqueId == (Settings.Current.MetaExtensionID.IsNullorEmpty() ? Consts.AppUserModelId + "$|$BuiltIn" : Settings.Current.MetaExtensionID));
                     if (f != null)
                     {
                         CurrentMetaIndex = MetaExts.IndexOf(f);
@@ -558,8 +556,8 @@ namespace Aurora.Music.ViewModels
                         {
                             OnlinePurchase = product.IsInUserCollection;
                         });
-                        settings.OnlinePurchase = product.IsInUserCollection;
-                        settings.Save();
+                        Settings.Current.OnlinePurchase = product.IsInUserCollection;
+                        Settings.Current.Save();
                         await MainPageViewModel.Current.ReloadExtensions();
                     }
                 }
@@ -578,7 +576,7 @@ namespace Aurora.Music.ViewModels
 
             try
             {
-                if (settings.DownloadPathToken.IsNullorEmpty())
+                if (Settings.Current.DownloadPathToken.IsNullorEmpty())
                 {
                     var lib = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Music);
                     downloadFolder = await lib.SaveFolder.CreateFolderAsync("Download", CreationCollisionOption.OpenIfExists);
@@ -586,7 +584,7 @@ namespace Aurora.Music.ViewModels
                 else
                 {
                     downloadFolder = await Windows.Storage.AccessCache.StorageApplicationPermissions.
-                FutureAccessList.GetFolderAsync(settings.DownloadPathToken);
+                FutureAccessList.GetFolderAsync(Settings.Current.DownloadPathToken);
                 }
             }
             catch (Exception)
@@ -625,7 +623,7 @@ namespace Aurora.Music.ViewModels
                     Tag = null
                 });
 
-                if (settings.OutputDeviceID.IsNullorEmpty())
+                if (Settings.Current.OutputDeviceID.IsNullorEmpty())
                 {
                     await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
                     {
@@ -639,7 +637,7 @@ namespace Aurora.Music.ViewModels
                     int index = -1;
                     for (int i = 0; i < DevicList.Count; i++)
                     {
-                        if (DevicList[i].ID == settings.OutputDeviceID)
+                        if (DevicList[i].ID == Settings.Current.OutputDeviceID)
                         {
                             index = i;
                             break;

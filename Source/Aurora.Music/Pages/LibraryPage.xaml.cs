@@ -74,9 +74,8 @@ namespace Aurora.Music.Pages
                     }
                 });
             });
-
-            var settings = Settings.Load();
-            var item = CategoryList.FirstOrDefault(x => x.Title == settings.CategoryLastClicked);
+            
+            var item = CategoryList.FirstOrDefault(x => x.Title == Settings.Current.CategoryLastClicked);
             if (item != default(CategoryListItem))
             {
                 item.IsCurrent = true;
@@ -168,9 +167,8 @@ namespace Aurora.Music.Pages
                 Navigate(item.NavigatType);
             }
 
-            var s = Settings.Load();
-            s.CategoryLastClicked = (e.ClickedItem as CategoryListItem).Title;
-            s.Save();
+            Settings.Current.CategoryLastClicked = (e.ClickedItem as CategoryListItem).Title;
+            Settings.Current.Save();
             PrepareAnimationWithItem();
             CompleteAnimationWithItems(e.ClickedItem as CategoryListItem);
         }

@@ -94,9 +94,9 @@ namespace Aurora.Music.PlaybackEngine
 
             currentList = new List<Song>();
 
-            var settings = Settings.Load();
-            ChangeAudioEndPoint(settings.OutputDeviceID);
-            ChangeVolume(settings.PlayerVolume);
+
+            ChangeAudioEndPoint(Settings.Current.OutputDeviceID);
+            ChangeVolume(Settings.Current.PlayerVolume);
 
             _autoDevice = mediaPlayer.AudioDevice;
             var type = mediaPlayer.AudioDeviceType;
@@ -617,7 +617,6 @@ namespace Aurora.Music.PlaybackEngine
 
         public void Next()
         {
-            var settings = Settings.Load();
             if (mediaPlaybackList.CurrentItem == null || mediaPlaybackList.Items.Count < 1)
             {
                 return;
@@ -626,7 +625,7 @@ namespace Aurora.Music.PlaybackEngine
             {
                 mediaPlaybackList.MoveNext();
 
-                ChangeVolume(settings.PlayerVolume);
+                ChangeVolume(Settings.Current.PlayerVolume);
                 return;
             }
 
@@ -637,7 +636,7 @@ namespace Aurora.Music.PlaybackEngine
             }
 
             mediaPlaybackList.MoveNext();
-            ChangeVolume(settings.PlayerVolume);
+            ChangeVolume(Settings.Current.PlayerVolume);
         }
 
         public void Stop()
@@ -662,7 +661,6 @@ namespace Aurora.Music.PlaybackEngine
 
         public void Previous()
         {
-            var settings = Settings.Load();
             if (mediaPlaybackList.CurrentItem == null || mediaPlaybackList.Items.Count < 1)
             {
                 return;
@@ -675,7 +673,7 @@ namespace Aurora.Music.PlaybackEngine
             if (mediaPlaybackList.AutoRepeatEnabled)
             {
                 mediaPlaybackList.MovePrevious();
-                ChangeVolume(settings.PlayerVolume);
+                ChangeVolume(Settings.Current.PlayerVolume);
                 return;
             }
             if (mediaPlaybackList.CurrentItemIndex == 0)
@@ -684,12 +682,11 @@ namespace Aurora.Music.PlaybackEngine
                 return;
             }
             mediaPlaybackList.MovePrevious();
-            ChangeVolume(settings.PlayerVolume);
+            ChangeVolume(Settings.Current.PlayerVolume);
         }
 
         public async void Play()
         {
-            var settings = Settings.Load();
             if (mediaPlaybackList == null || mediaPlaybackList.Items.IsNullorEmpty())
             {
                 return;
@@ -714,7 +711,7 @@ namespace Aurora.Music.PlaybackEngine
             }
 
             mediaPlayer.Play();
-            ChangeVolume(settings.PlayerVolume);
+            ChangeVolume(Settings.Current.PlayerVolume);
         }
 
         public void Pause()

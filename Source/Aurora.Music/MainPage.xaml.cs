@@ -635,7 +635,6 @@ namespace Aurora.Music
         private async Task FileActivation(IReadOnlyList<IStorageItem> p)
         {
             ShowModalUI(true, "Loading Files");
-            var s = Settings.Load();
 
             var list = new List<StorageFile>();
             if (p.Count > 0)
@@ -661,9 +660,9 @@ namespace Aurora.Music
             if (songs.Count > 0)
             {
                 ShowModalUI(false);
-                if (s.RememberFileActivatedAction)
+                if (Settings.Current.RememberFileActivatedAction)
                 {
-                    if (s.CopyFileWhenActivated)
+                    if (Settings.Current.CopyFileWhenActivated)
                     {
                         var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Music", CreationCollisionOption.OpenIfExists);
                         foreach (var item in list)

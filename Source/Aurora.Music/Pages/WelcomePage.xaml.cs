@@ -41,9 +41,8 @@ namespace Aurora.Music.Pages
         {
             if (Main.SelectedIndex == Main.Items.Count - 1 && !searchBegined)
             {
-                var s = Settings.Load();
-                s.WelcomeFinished = true;
-                s.Save();
+                Settings.Current.WelcomeFinished = true;
+                Settings.Current.Save();
                 await StartSearching();
             }
         }
@@ -57,9 +56,8 @@ namespace Aurora.Music.Pages
 
         private void Skip_Click(object sender, RoutedEventArgs e)
         {
-            var s = Settings.Load();
-            s.WelcomeFinished = true;
-            s.Save();
+            Settings.Current.WelcomeFinished = true;
+            Settings.Current.Save();
             Frame rootFrame = Window.Current.Content as Frame;
 
             rootFrame.Navigate(typeof(MainPage));

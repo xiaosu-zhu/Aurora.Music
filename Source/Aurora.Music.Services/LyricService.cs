@@ -39,7 +39,6 @@ namespace Aurora.Music.Services
             // Get a deferral because we use an awaitable API below to respond to the message
             // and we don't want this call to get cancelled while we are waiting.
             var messageDeferral = args.GetDeferral();
-            var setting = Settings.Load();
 
             ValueSet message = args.Request.Message;
             ValueSet returnData = new ValueSet();
@@ -173,7 +172,7 @@ namespace Aurora.Music.Services
                                         ["album_id"] = x.Album.Mid,
                                         ["performers"] = x.SingerItems.Select(y => y.Name).ToArray(),
                                         ["year"] = t.Year,
-                                        ["bit_rate"] = setting.GetPreferredBitRate() * 1000,
+                                        ["bit_rate"] = Settings.Current.GetPreferredBitRate() * 1000,
                                         ["picture_path"] = OnlineMusicSearcher.GeneratePicturePathByID(x.Album.Mid),
                                         ["track"] = x.Index_Album,
                                         ["duration"] = TimeSpan.Zero.ToString(),

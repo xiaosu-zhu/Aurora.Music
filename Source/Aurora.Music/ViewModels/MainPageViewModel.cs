@@ -51,8 +51,6 @@ namespace Aurora.Music.ViewModels
         };
 
         public ObservableCollection<SongViewModel> NowPlayingList { get; set; } = new ObservableCollection<SongViewModel>();
-
-        private Settings settings;
         private IPlayer player;
 
         private SolidColorBrush _lastLeftTop;
@@ -192,7 +190,7 @@ namespace Aurora.Music.ViewModels
                     new KeyValuePair<string,object>("q", "online_music"),
                     new KeyValuePair<string, object>("action", "song"),
                     new KeyValuePair<string, object>("id", id),
-                    new KeyValuePair<string, object>("bit_rate", settings.GetPreferredBitRate())
+                    new KeyValuePair<string, object>("bit_rate", Settings.Current.GetPreferredBitRate())
                 };
             var songResult = await OnlineMusicExtension.ExecuteAsync(querys.ToArray());
             if (songResult is Song s)
@@ -209,7 +207,7 @@ namespace Aurora.Music.ViewModels
                     new KeyValuePair<string,object>("q", "online_music"),
                     new KeyValuePair<string, object>("action", "album"),
                     new KeyValuePair<string, object>("id", id),
-                    new KeyValuePair<string, object>("bit_rate", settings.GetPreferredBitRate())
+                    new KeyValuePair<string, object>("bit_rate", Settings.Current.GetPreferredBitRate())
                 };
             var songResult = await OnlineMusicExtension.ExecuteAsync(querys.ToArray());
             if (songResult is Album s)
@@ -365,7 +363,6 @@ namespace Aurora.Music.ViewModels
 
         public MainPageViewModel()
         {
-            settings = Settings.Load();
             player = Player.Current;
             Current = this;
             player.DownloadProgressChanged += Player_DownloadProgressChanged;
@@ -380,8 +377,7 @@ namespace Aurora.Music.ViewModels
 
         public async Task ReloadExtensions()
         {
-            var s = Settings.Load();
-            var exts = await Extension.Load(s.LyricExtensionID);
+            var exts = await Extension.Load(Settings.Current.LyricExtensionID);
             foreach (var ext in exts)
             {
                 if (ext is LyricExtension)
@@ -389,9 +385,9 @@ namespace Aurora.Music.ViewModels
                     LyricExtension = ext;
                 }
             }
-            if (settings.OnlinePurchase)
+            if (Settings.Current.OnlinePurchase)
             {
-                exts = await Extension.Load(s.OnlineMusicExtensionID);
+                exts = await Extension.Load(Settings.Current.OnlineMusicExtensionID);
                 foreach (var ext in exts)
                 {
                     if (ext is OnlineMusicExtension)
@@ -405,7 +401,7 @@ namespace Aurora.Music.ViewModels
                 OnlineMusicExtension = null;
             }
 
-            exts = await Extension.Load(s.MetaExtensionID);
+            exts = await Extension.Load(Settings.Current.MetaExtensionID);
             foreach (var ext in exts)
             {
                 if (ext is OnlineMetaExtension)

@@ -310,9 +310,8 @@ namespace Aurora.Music
                 {
                     if (f.Content is WelcomePage)
                     {
-                        var s = Settings.Load();
-                        s.WelcomeFinished = true;
-                        s.Save();
+                        Settings.Current.WelcomeFinished = true;
+                        Settings.Current.Save();
                     }
                 }
             }
@@ -427,7 +426,7 @@ namespace Aurora.Music
                     // 当导航堆栈尚未还原时，导航到第一页，
                     // 并通过将所需信息作为导航参数传入来配置
                     // 参数
-                    if (Settings.Load().WelcomeFinished)
+                    if (Settings.Current.WelcomeFinished)
                         rootFrame.Navigate(typeof(MainPage), e?.Arguments);
                     else
                         rootFrame.Navigate(typeof(WelcomePage), e?.Arguments);

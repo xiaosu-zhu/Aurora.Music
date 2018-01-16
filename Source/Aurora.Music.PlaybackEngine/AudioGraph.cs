@@ -122,11 +122,9 @@ namespace Aurora.Music.PlaybackEngine
 
         public async Task Init()
         {
-            var settings = Settings.Load();
-
             audioSettings = new AudioGraphSettings(Windows.Media.Render.AudioRenderCategory.Media);
 
-            ChangeAudioEndPoint(settings.OutputDeviceID);
+            ChangeAudioEndPoint(Settings.Current.OutputDeviceID);
 
             CreateAudioGraphResult result = await AudioGraph.CreateAsync(audioSettings);
             if (result.Status != AudioGraphCreationStatus.Success)
@@ -135,7 +133,7 @@ namespace Aurora.Music.PlaybackEngine
             }
 
             audioGraph = result.Graph;
-            ChangeVolume(settings.PlayerVolume);
+            ChangeVolume(Settings.Current.PlayerVolume);
             audioGraph.UnrecoverableErrorOccurred += AudioGraph_UnrecoverableErrorOccurred;
         }
 
@@ -177,8 +175,6 @@ namespace Aurora.Music.PlaybackEngine
 
         private void InitEffects()
         {
-            var settings = Settings.Load();
-
             reverbEffect = new ReverbEffectDefinition(audioGraph)
             {
                 WetDryMix = 50,
@@ -596,8 +592,7 @@ namespace Aurora.Music.PlaybackEngine
 
             if (reverbNode == null)
             {
-                var settings = Settings.Load();
-                ApplyEffects(settings.AudioGraphEffects);
+                ApplyEffects(Settings.Current.AudioGraphEffects);
             }
 
             prepared = true;

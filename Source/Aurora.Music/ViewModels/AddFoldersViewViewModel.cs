@@ -18,8 +18,6 @@ namespace Aurora.Music.ViewModels
 {
     class AddFoldersViewViewModel : ViewModelBase
     {
-        private Settings settings;
-
         public DelegateCommand AddFolderCommand
         {
             get
@@ -93,8 +91,8 @@ namespace Aurora.Music.ViewModels
             set
             {
                 SetProperty(ref includeMusicLibrary, value);
-                settings.IncludeMusicLibrary = value;
-                settings.Save();
+                Settings.Current.IncludeMusicLibrary = value;
+                Settings.Current.Save();
             }
         }
 
@@ -103,8 +101,7 @@ namespace Aurora.Music.ViewModels
         public AddFoldersViewViewModel()
         {
             Folders = new ObservableCollection<FolderViewModel>();
-            settings = Settings.Load();
-            IncludeMusicLibrary = settings.IncludeMusicLibrary;
+            IncludeMusicLibrary = Settings.Current.IncludeMusicLibrary;
         }
 
         public void ChangeForeGround()

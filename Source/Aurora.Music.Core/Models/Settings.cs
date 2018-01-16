@@ -43,6 +43,8 @@ namespace Aurora.Music.Core.Models
 
     public class Settings
     {
+        public static event EventHandler SettingsChanged;
+
         private static object lockable = new object();
 
         private const string SETTINGS_CONTAINER = "main";
@@ -67,6 +69,31 @@ namespace Aurora.Music.Core.Models
         public string DownloadPathToken { get; set; } = string.Empty;
         public bool RememberFileActivatedAction { get; set; } = false;
         public bool CopyFileWhenActivated { get; set; } = false;
+
+        private static Settings current;
+        public static Settings Current
+        {
+            get
+            {
+                lock (lockable)
+                {
+                    if (current == null)
+                    {
+                        current = Load();
+                        SettingsChanged += Settings_SettingsChanged;
+                    }
+                    return current;
+                }
+            }
+        }
+
+        private static void Settings_SettingsChanged(object sender, EventArgs e)
+        {
+            lock (lockable)
+            {
+                current = Load();
+            }
+        }
 
         public static Settings Load()
         {
@@ -93,6 +120,7 @@ namespace Aurora.Music.Core.Models
             {
                 LocalSettingsHelper.GetContainer(SETTINGS_CONTAINER).WriteGroupSettings(this);
             }
+            SettingsChanged?.Invoke(null, EventArgs.Empty);
         }
 
         public uint GetPreferredBitRate()
@@ -110,6 +138,12 @@ namespace Aurora.Music.Core.Models
                 default:
                     return 256u;
             }
+        }
+
+        public void DANGER_DELETE()
+        {
+            var s = new Settings();
+            s.Save();
         }
     }
 }

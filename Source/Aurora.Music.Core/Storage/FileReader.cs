@@ -159,9 +159,8 @@ namespace Aurora.Music.Core.Storage
 
         public static List<StorageFolder> InitFolderList()
         {
-            var set = Settings.Load();
             var list = new List<StorageFolder>();
-            if (set.IncludeMusicLibrary)
+            if (Settings.Current.IncludeMusicLibrary)
             {
                 // TODO: music library don't have path
                 list.Add(KnownFolders.MusicLibrary);

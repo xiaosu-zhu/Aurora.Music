@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Aurora.Music"
+    Unloaded="Page_Unloaded"
     xmlns:vm="using:Aurora.Music.ViewModels"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -112,10 +113,10 @@
                                 <Button x:Uid="Manage" Content="Manage" Command="{x:Bind Context.OpenExtensionManager}" VerticalAlignment="Center" Style="{ThemeResource ButtonRevealStyle}" Margin="8,0"/>
                             </StackPanel>
 
-                            <ComboBox x:Uid="LyricExtension" HorizontalAlignment="Stretch" ItemTemplate="{StaticResource ExtensionTemplate}" SelectedIndex="{x:Bind Context.CurrentLyricIndex,Mode=OneWay}" SelectionChanged="LyricCombo_SelectionChanged" ItemsSource="{x:Bind Context.LyricExts}" Header="Lyric Extension" Margin="12,4">
+                            <ComboBox x:Uid="LyricExtension" x:Name="LrcCombo" HorizontalAlignment="Stretch" ItemTemplate="{StaticResource ExtensionTemplate}" SelectedIndex="{x:Bind Context.CurrentLyricIndex,Mode=OneWay}" ItemsSource="{x:Bind Context.LyricExts}" Header="Lyric Extension" Margin="12,4">
                             </ComboBox>
 
-                            <ComboBox x:Uid="MetaExtension" HorizontalAlignment="Stretch" ItemTemplate="{StaticResource ExtensionTemplate}" SelectedIndex="{x:Bind Context.CurrentMetaIndex,Mode=OneWay}" SelectionChanged="MetaCombo_SelectionChanged" ItemsSource="{x:Bind Context.MetaExts}" Header="MetaData Extension" Margin="12,4">
+                            <ComboBox x:Uid="MetaExtension" x:Name="MetaCombo" HorizontalAlignment="Stretch" ItemTemplate="{StaticResource ExtensionTemplate}" SelectedIndex="{x:Bind Context.CurrentMetaIndex,Mode=OneWay}" ItemsSource="{x:Bind Context.MetaExts}" Header="MetaData Extension" Margin="12,4">
                             </ComboBox>
 
                             <RichTextBlock Visibility="{x:Bind Context.BoolNottoVisibility(Context.OnlinePurchase),Mode=OneWay}" Style="{ThemeResource BodyRichTextBlockStyle}" IsTextSelectionEnabled="False" Margin="12,8">
@@ -127,7 +128,7 @@
                                 </Paragraph>
                             </RichTextBlock>
 
-                            <ComboBox x:Uid="OnlineExtension" HorizontalAlignment="Stretch" ItemTemplate="{StaticResource ExtensionTemplate}" SelectedIndex="{x:Bind Context.CurrentOnlineIndex,Mode=OneWay}" SelectionChanged="OnlineCombo_SelectionChanged" IsEnabled="{x:Bind Context.OnlinePurchase,Mode=OneWay}" ItemsSource="{x:Bind Context.OnlineExts}" Header="Online Music Extension" Margin="12,4">
+                            <ComboBox x:Uid="OnlineExtension" x:Name="OnlineCombo" HorizontalAlignment="Stretch" ItemTemplate="{StaticResource ExtensionTemplate}" SelectedIndex="{x:Bind Context.CurrentOnlineIndex,Mode=OneWay}" IsEnabled="{x:Bind Context.OnlinePurchase,Mode=OneWay}" ItemsSource="{x:Bind Context.OnlineExts}" Header="Online Music Extension" Margin="12,4">
 
                             </ComboBox>
                             <Button x:Uid="DownloadPath" IsEnabled="{x:Bind Context.OnlinePurchase,Mode=OneWay}" Margin="12,4" Content="Download Path" Command="{x:Bind Context.DownloadPath}" Style="{ThemeResource ButtonRevealStyle}" />

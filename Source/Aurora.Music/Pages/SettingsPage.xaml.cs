@@ -97,6 +97,14 @@ namespace Aurora.Music.Pages
         private void Main_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             SizeChanged += Page_SizeChanged;
+            OnlineCombo.SelectionChanged += OnlineCombo_SelectionChanged;
+            LrcCombo.SelectionChanged += LyricCombo_SelectionChanged;
+            MetaCombo.SelectionChanged += MetaCombo_SelectionChanged;
+        }
+
+        private void Page_Unloaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            SizeChanged -= Page_SizeChanged;
         }
     }
 }
