@@ -31,7 +31,7 @@ Then, after your extension got lyric, you should send data as following:
 
 **Note that**, the value of `result` is a `string`, which is in the format of lrc, it is something like:
 
-`[00:13.49]Love, love me do[00:16.23]You know I love you[00:19.58]I¡¯ll always be true[00:22.80]so please, love me do...`
+`[00:13.49]Love, love me do[00:16.23]You know I love you[00:19.58]I'll always be true[00:22.80]so please, love me do...`
 
 Meanwhile, if you only provide lyric sentences by sentences, just join them by `\r\n` and send, the app can process.
 
