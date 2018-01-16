@@ -50,6 +50,9 @@ namespace Aurora.Music.Core
             get => localizer;
         }
 
+        public static string CommaSeparator => localizer.GetString("CommaSeparator");
+
+        public const string ArraySeparator = "$|$";
 
         public static string GetHourString(this DateTime time)
         {

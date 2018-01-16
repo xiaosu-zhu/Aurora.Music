@@ -70,7 +70,7 @@ namespace Aurora.Music.ViewModels
                 }
                 else
                 {
-                    SetProperty(ref name, value.Replace("$|$", ", "));
+                    SetProperty(ref name, value.Replace(Consts.ArraySeparator, Consts.CommaSeparator));
                     RawName = value;
                 }
             }
@@ -110,7 +110,7 @@ namespace Aurora.Music.ViewModels
 
         public string CountToString(int count)
         {
-            return $"{count} Songs";
+            return SmartFormat.Smart.Format(Consts.Localizer.GetString("SmartSongs"), count);
         }
 
         internal async Task<IList<Song>> GetSongsAsync()

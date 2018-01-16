@@ -13,6 +13,7 @@ using Windows.ApplicationModel.Core;
 using Aurora.Shared.Extensions;
 using Windows.System.Threading;
 using Aurora.Music.Core.Models;
+using Aurora.Music.Core;
 
 namespace Aurora.Music.ViewModels
 {
@@ -101,8 +102,8 @@ namespace Aurora.Music.ViewModels
                 {
                     AlbumList.Add(new AlbumViewModel(item));
                 }
-                SongsCount = AlbumList.Count == 1 ? "1 Album" : $"{AlbumList.Count} Albums";
-                Genres = genres.IsNullorEmpty() ? "Various Genres" : string.Join(", ", genres);
+                SongsCount = SmartFormat.Smart.Format(Consts.Localizer.GetString("SmartAlbums"), AlbumList.Count);
+                Genres = genres.IsNullorEmpty() ? Consts.Localizer.GetString("VariousGenresText") : string.Join(Consts.CommaSeparator, genres);
             });
         }
 

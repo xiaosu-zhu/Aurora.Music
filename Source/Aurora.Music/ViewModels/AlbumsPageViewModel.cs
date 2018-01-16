@@ -1,4 +1,5 @@
-﻿using Aurora.Music.Core.Storage;
+﻿using Aurora.Music.Core;
+using Aurora.Music.Core.Storage;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.MVVM;
 using System;
@@ -79,8 +80,8 @@ namespace Aurora.Music.ViewModels
                 {
                     AlbumList.Add(item);
                 }
-                SongsCount = albums.Count == 1 ? "1 Album" : $"{albums.Count} Albums";
-                ArtistsCount = aCount == 1 ? "1 Artist" : $"{aCount} Artists";
+                SongsCount = SmartFormat.Smart.Format(Consts.Localizer.GetString("SmartAlbums"), albums.Count);
+                ArtistsCount = SmartFormat.Smart.Format(Consts.Localizer.GetString("SmartArtists"), aCount);
             });
 
             var b = ThreadPool.RunAsync(async x =>

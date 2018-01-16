@@ -51,7 +51,7 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref song, value); }
         }
 
-        private string lyricHint = "Loading lyrics...";
+        private string lyricHint = Consts.Localizer.GetString("LoadingLyricsText");
         public string LyricHint
         {
             get { return lyricHint; }
@@ -134,7 +134,7 @@ namespace Aurora.Music.ViewModels
                         await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
                         {
                             Lyric.Clear();
-                            LyricHint = "Can't find lyrics.";
+                            LyricHint = Consts.Localizer.GetString("NoLyricText");
                         });
                     }
                 }
@@ -143,7 +143,7 @@ namespace Aurora.Music.ViewModels
                     await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
                     {
                         Lyric.Clear();
-                        LyricHint = "Can't find lyrics.";
+                        LyricHint = Consts.Localizer.GetString("NoLyricText");
                     });
                 }
             });
@@ -354,8 +354,8 @@ namespace Aurora.Music.ViewModels
 
         private void DownloadCompleted(IAsyncOperationWithProgress<DownloadOperation, DownloadOperation> asyncInfo, AsyncStatus asyncStatus)
         {
-            MainPage.Current.PopMessage("Download Completed");
-            MainPage.Current.ProgressUpdate("Completed", "Downloading Completed");
+            MainPage.Current.PopMessage(Consts.Localizer.GetString("DownloadCompletedText"));
+            MainPage.Current.ProgressUpdate(Consts.Localizer.GetString("CompletedText"), Consts.Localizer.GetString("DownloadCompletedText"));
         }
 
         private void DownloadProgressChanged(IAsyncOperationWithProgress<DownloadOperation, DownloadOperation> asyncInfo, DownloadOperation progressInfo)
@@ -364,27 +364,27 @@ namespace Aurora.Music.ViewModels
             switch (progressInfo.Progress.Status)
             {
                 case BackgroundTransferStatus.Idle:
-                    MainPage.Current.ProgressUpdate("Idle", "Downloading Idle");
+                    MainPage.Current.ProgressUpdate(Consts.Localizer.GetString("IdleText"), Consts.Localizer.GetString("DownloadingIdleText"));
                     break;
                 case BackgroundTransferStatus.Running:
                     MainPage.Current.ProgressUpdate(100 * (Convert.ToDouble(progressInfo.Progress.BytesReceived) / Convert.ToDouble(progressInfo.Progress.TotalBytesToReceive)));
-                    MainPage.Current.ProgressUpdate("Processing", "Downloading in Progress");
+                    MainPage.Current.ProgressUpdate(Consts.Localizer.GetString("ProcessingText"), Consts.Localizer.GetString("DownloadinginProgressText"));
                     break;
                 case BackgroundTransferStatus.PausedByApplication:
                 case BackgroundTransferStatus.PausedCostedNetwork:
                 case BackgroundTransferStatus.PausedNoNetwork:
                 case BackgroundTransferStatus.PausedSystemPolicy:
                 case BackgroundTransferStatus.PausedRecoverableWebErrorStatus:
-                    MainPage.Current.ProgressUpdate("Processing", "Downloading Paused");
+                    MainPage.Current.ProgressUpdate(Consts.Localizer.GetString("ProcessingText"), Consts.Localizer.GetString("DownloadingPausedText"));
                     break;
                 case BackgroundTransferStatus.Completed:
-                    MainPage.Current.ProgressUpdate("Completed", "Downloading Completed");
+                    MainPage.Current.ProgressUpdate(Consts.Localizer.GetString("CompletedText"), Consts.Localizer.GetString("DownloadCompletedText"));
                     break;
                 case BackgroundTransferStatus.Canceled:
-                    MainPage.Current.ProgressUpdate("Processing", "Downloading Canceled");
+                    MainPage.Current.ProgressUpdate(Consts.Localizer.GetString("ProcessingText"), Consts.Localizer.GetString("DownloadingCanceledText"));
                     break;
                 case BackgroundTransferStatus.Error:
-                    MainPage.Current.ProgressUpdate("Processing", "Downloading Error");
+                    MainPage.Current.ProgressUpdate(Consts.Localizer.GetString("ProcessingText"), Consts.Localizer.GetString("DownloadingErrorText"));
                     break;
                 default:
                     break;
@@ -547,9 +547,9 @@ namespace Aurora.Music.ViewModels
         {
             if (b is bool bb)
             {
-                return bb ? "Pause" : "Play";
+                return bb ? Consts.Localizer.GetString("PauseText") : Consts.Localizer.GetString("PlayText");
             }
-            return "Play";
+            return Consts.Localizer.GetString("PlayText");
         }
 
         public double PositionToValue(TimeSpan t1, TimeSpan total)
@@ -668,7 +668,7 @@ namespace Aurora.Music.ViewModels
         {
             if (!artists.IsNullorEmpty())
             {
-                return string.Join(", ", artists);
+                return string.Join(Consts.CommaSeparator, artists);
             }
             return Consts.UnknownArtists;
         }
@@ -748,7 +748,7 @@ namespace Aurora.Music.ViewModels
             }
         }
 
-        public string DownloadOrModify(bool b) => b ? "Download" : "Modify Tags";
+        public string DownloadOrModify(bool b) => b ? Consts.Localizer.GetString("DownloadText") : Consts.Localizer.GetString("ModifyTagsText");
         public string DownloadOrModifyIcon(bool b) => b ? "\uE896" : "\uE929";
 
         private async void Player_PositionUpdated(object sender, PositionUpdatedArgs e)
@@ -829,7 +829,7 @@ namespace Aurora.Music.ViewModels
                     await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                     {
                         Lyric.Clear();
-                        LyricHint = "Loading lyrics...";
+                        LyricHint = Consts.Localizer.GetString("LoadingLyricsText");
                     });
                     _lastSong = e.CurrentSong;
                     var ext = MainPageViewModel.Current.LyricExtension;
@@ -849,7 +849,7 @@ namespace Aurora.Music.ViewModels
                             await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                             {
                                 Lyric.Clear();
-                                LyricHint = "Can't find lyrics.";
+                                LyricHint = Consts.Localizer.GetString("NoLyricText");
                             });
                         }
                     }
@@ -858,7 +858,7 @@ namespace Aurora.Music.ViewModels
                         await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                         {
                             Lyric.Clear();
-                            LyricHint = "Can't find lyrics.";
+                            LyricHint = Consts.Localizer.GetString("NoLyricText");
                         });
                     }
                 }

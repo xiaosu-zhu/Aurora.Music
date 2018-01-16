@@ -65,7 +65,7 @@ namespace Aurora.Music.ViewModels
         private string name;
         public string Name
         {
-            get { return Avaliable ? name : "Not avaliable"; }
+            get { return Avaliable ? name : Consts.Localizer.GetString("NotAvaliableText"); }
             set { SetProperty(ref name, value); }
         }
 
@@ -119,7 +119,7 @@ namespace Aurora.Music.ViewModels
 
         public ExtensionViewModel(AppExtension ext, PropertySet properties)
         {
-            UniqueId = ext.AppInfo.AppUserModelId + "$|$" + ext.Id;
+            UniqueId = ext.AppInfo.AppUserModelId + Consts.ArraySeparator + ext.Id;
             if (ext.AppInfo.PackageFamilyName == Consts.PackageFamilyName)
             {
                 CanUninstall = false;
@@ -192,7 +192,7 @@ namespace Aurora.Music.ViewModels
         {
 
             var properties = await ext.GetExtensionPropertiesAsync() as PropertySet;
-            UniqueId = ext.AppInfo.AppUserModelId + "$|$" + ext.Id;
+            UniqueId = ext.AppInfo.AppUserModelId + Consts.ArraySeparator + ext.Id;
 
 
             if (ext.AppInfo.PackageFamilyName == Consts.PackageFamilyName)

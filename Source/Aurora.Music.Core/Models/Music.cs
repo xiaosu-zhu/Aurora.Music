@@ -58,7 +58,7 @@ namespace Aurora.Music.Core.Models
             ContextualID = s.ID;
             Title = s.Title;
             Description = s.Album;
-            Addtional = s.Performers.IsNullorEmpty() ? Consts.UnknownArtists : string.Join(", ", s.Performers.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries));
+            Addtional = s.Performers.IsNullorEmpty() ? Consts.UnknownArtists : string.Join(Consts.CommaSeparator, s.Performers.Split(new string[] { Consts.ArraySeparator }, StringSplitOptions.RemoveEmptyEntries));
             IDs = new int[] { s.ID };
             PicturePath = s.PicturePath;
         }
@@ -73,8 +73,8 @@ namespace Aurora.Music.Core.Models
             {
                 return int.Parse(a);
             });
-            Description = ids.Length.ToString() + (ids.Length == 1 ? " Song" : " Songs");
-            Addtional = s.AlbumArtists.IsNullorEmpty() ? Consts.UnknownArtists : string.Join(", ", s.AlbumArtists.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries));
+            Description = SmartFormat.Smart.Format(Consts.Localizer.GetString("SmartSongs"), ids.Length);
+            Addtional = s.AlbumArtists.IsNullorEmpty() ? Consts.UnknownArtists : string.Join(Consts.CommaSeparator, s.AlbumArtists.Split(new string[] { Consts.ArraySeparator }, StringSplitOptions.RemoveEmptyEntries));
 
             var songIDs = AsyncHelper.RunSync(async () => await SQLOperator.Current().GetSongsAsync(ids));
             var s1 = songIDs.OrderBy(a => a.Track);
@@ -106,8 +106,8 @@ namespace Aurora.Music.Core.Models
             ContextualID = s.ID;
             Title = s.Name;
             var ids = s.Songs;
-            Description = ids.Length.ToString() + (ids.Length == 1 ? " Song" : " Songs");
-            Addtional = s.AlbumArtists.IsNullorEmpty() ? Consts.UnknownArtists : string.Join(", ", s.AlbumArtists);
+            Description = SmartFormat.Smart.Format(Consts.Localizer.GetString("SmartSongs"), ids.Length);
+            Addtional = s.AlbumArtists.IsNullorEmpty() ? Consts.UnknownArtists : string.Join(Consts.CommaSeparator, s.AlbumArtists);
 
             var songIDs = AsyncHelper.RunSync(async () => await SQLOperator.Current().GetSongsAsync(ids));
             var s1 = songIDs.OrderBy(a => a.Track);
@@ -182,8 +182,8 @@ namespace Aurora.Music.Core.Models
             MusicIpId = song.MusicIpId;
             BeatsPerMinute = song.BeatsPerMinute;
             Album = song.Album;
-            AlbumArtists = song.AlbumArtists.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);
-            AlbumArtistsSort = song.AlbumArtistsSort.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);
+            AlbumArtists = song.AlbumArtists.Split(new string[] { Consts.ArraySeparator }, StringSplitOptions.RemoveEmptyEntries);
+            AlbumArtistsSort = song.AlbumArtistsSort.Split(new string[] { Consts.ArraySeparator }, StringSplitOptions.RemoveEmptyEntries);
             AlbumSort = song.AlbumSort;
             AmazonId = song.AmazonId;
             Title = song.Title;
@@ -196,16 +196,16 @@ namespace Aurora.Music.Core.Models
             ReplayGainAlbumPeak = song.ReplayGainAlbumPeak;
             Comment = song.Comment;
             Disc = song.Disc;
-            Composers = song.Composers.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);
-            ComposersSort = song.ComposersSort.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);
+            Composers = song.Composers.Split(new string[] { Consts.ArraySeparator }, StringSplitOptions.RemoveEmptyEntries);
+            ComposersSort = song.ComposersSort.Split(new string[] { Consts.ArraySeparator }, StringSplitOptions.RemoveEmptyEntries);
             Conductor = song.Conductor;
             DiscCount = song.DiscCount;
             Copyright = song.Copyright;
-            Genres = song.Genres.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);
+            Genres = song.Genres.Split(new string[] { Consts.ArraySeparator }, StringSplitOptions.RemoveEmptyEntries);
             Grouping = song.Grouping;
             Lyrics = song.Lyrics;
-            Performers = song.Performers.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);
-            PerformersSort = song.PerformersSort.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);
+            Performers = song.Performers.Split(new string[] { Consts.ArraySeparator }, StringSplitOptions.RemoveEmptyEntries);
+            PerformersSort = song.PerformersSort.Split(new string[] { Consts.ArraySeparator }, StringSplitOptions.RemoveEmptyEntries);
             Year = song.Year;
             PicturePath = song.PicturePath;
             SampleRate = song.SampleRate;
@@ -374,7 +374,8 @@ namespace Aurora.Music.Core.Models
         {
             if (IsOnline)
             {
-                throw new NotImplementedException("WriteFav on online");
+                // TODO: throw new NotImplementedException("WriteFav on online");
+                return;
             }
             else
             {
@@ -453,7 +454,8 @@ namespace Aurora.Music.Core.Models
         {
             if (IsOnline)
             {
-                throw new NotImplementedException("GetFavoriteAsync on online");
+                // TODO: get fac online
+                return false;
             }
             else
             {
@@ -492,13 +494,13 @@ namespace Aurora.Music.Core.Models
                 return int.Parse(a);
             });
             Name = album.Name;
-            Genres = album.Genres.IsNullorEmpty() ? null : album.Genres.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);
+            Genres = album.Genres.IsNullorEmpty() ? null : album.Genres.Split(new string[] { Consts.ArraySeparator }, StringSplitOptions.RemoveEmptyEntries);
             Year = album.Year;
             AlbumSort = album.AlbumSort;
             TrackCount = album.TrackCount;
             DiscCount = album.DiscCount;
-            AlbumArtists = album.AlbumArtists.IsNullorEmpty() ? null : album.AlbumArtists.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);
-            AlbumArtistsSort = album.AlbumArtistsSort.IsNullorEmpty() ? null : album.AlbumArtistsSort.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);
+            AlbumArtists = album.AlbumArtists.IsNullorEmpty() ? null : album.AlbumArtists.Split(new string[] { Consts.ArraySeparator }, StringSplitOptions.RemoveEmptyEntries);
+            AlbumArtistsSort = album.AlbumArtistsSort.IsNullorEmpty() ? null : album.AlbumArtistsSort.Split(new string[] { Consts.ArraySeparator }, StringSplitOptions.RemoveEmptyEntries);
             ReplayGainAlbumGain = album.ReplayGainAlbumGain;
             ReplayGainAlbumPeak = album.ReplayGainAlbumPeak;
             PicturePath = album.PicturePath;
@@ -515,9 +517,9 @@ namespace Aurora.Music.Core.Models
 
             // TODO: not combine all, just use not-null value
             // string[] value, use their all value (remove duplicated values) combine
-            AlbumArtists = (from aa in album where !aa.AlbumArtists.IsNullorEmpty() select aa.AlbumArtists).FirstOrDefault()?.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);//album.Where(x => !x.AlbumArtists.IsNullorEmpty()).FirstOrDefault().AlbumArtists;
-            Genres = (from aa in album where !aa.Genres.IsNullorEmpty() select aa.Genres).FirstOrDefault()?.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);
-            AlbumArtistsSort = (from aa in album where !aa.AlbumArtistsSort.IsNullorEmpty() select aa.AlbumArtistsSort).FirstOrDefault()?.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);
+            AlbumArtists = (from aa in album where !aa.AlbumArtists.IsNullorEmpty() select aa.AlbumArtists).FirstOrDefault()?.Split(new string[] { Consts.ArraySeparator }, StringSplitOptions.RemoveEmptyEntries);//album.Where(x => !x.AlbumArtists.IsNullorEmpty()).FirstOrDefault().AlbumArtists;
+            Genres = (from aa in album where !aa.Genres.IsNullorEmpty() select aa.Genres).FirstOrDefault()?.Split(new string[] { Consts.ArraySeparator }, StringSplitOptions.RemoveEmptyEntries);
+            AlbumArtistsSort = (from aa in album where !aa.AlbumArtistsSort.IsNullorEmpty() select aa.AlbumArtistsSort).FirstOrDefault()?.Split(new string[] { Consts.ArraySeparator }, StringSplitOptions.RemoveEmptyEntries);
 
             // normal value, use their not-null value
             AlbumSort = (from aa in album where !aa.AlbumSort.IsNullorEmpty() select aa.AlbumSort).FirstOrDefault();

@@ -114,8 +114,8 @@ namespace Aurora.Music.ViewModels
             InnerType = MediaType.Album;
             ContextualID = album.ID;
             Title = album.Name;
-            Addtional = string.Join(", ", album.AlbumArtists);
-            Description = album.Songs.Length + album.Songs.Length == 1 ? " Song" : " Songs";
+            Addtional = string.Join(Consts.CommaSeparator, album.AlbumArtists);
+            Description = SmartFormat.Smart.Format(Consts.Localizer.GetString("SmartSongs"), (album.Songs.Length + album.Songs.Length));
             Artwork = album.PicturePath.IsNullorEmpty() ? null : new Uri(album.PicturePath);
             IDs = album.Songs;
         }
@@ -125,7 +125,7 @@ namespace Aurora.Music.ViewModels
             InnerType = MediaType.Song;
             ContextualID = song.ID;
             Title = song.Title;
-            Addtional = song.Performers.IsNullorEmpty() ? Consts.UnknownArtists : string.Join(", ", song.Performers);
+            Addtional = song.Performers.IsNullorEmpty() ? Consts.UnknownArtists : string.Join(Consts.CommaSeparator, song.Performers);
             Description = song.Album;
             Artwork = song.PicturePath.IsNullorEmpty() ? null : new Uri(song.PicturePath);
             IDs = new int[] { song.ID };

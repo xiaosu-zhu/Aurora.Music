@@ -1,4 +1,5 @@
-﻿using Aurora.Music.Core.Models;
+﻿using Aurora.Music.Core;
+using Aurora.Music.Core.Models;
 using Aurora.Music.Core.Storage;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
@@ -141,7 +142,7 @@ namespace Aurora.Music.ViewModels
                 NotAvaliable = true;
                 Disk = "N/A";
                 Path = item.Path;
-                FolderName = "Not Avaliable";
+                FolderName = Consts.Localizer.GetString("NotAvaliableText");
                 SongsCount = 0;
                 return;
             }
@@ -182,9 +183,9 @@ namespace Aurora.Music.ViewModels
         {
             if (count < 0)
             {
-                return "Need Scan";
+                return Consts.Localizer.GetString("NeedScanText");
             }
-            return count == 1 ? count + " Song" : count + " Songs";
+            return SmartFormat.Smart.Format(Consts.Localizer.GetString("SmartSongs"), count);
         }
     }
 }

@@ -507,9 +507,9 @@ namespace Aurora.Music.PlaybackEngine
             props.Type = Windows.Media.MediaPlaybackType.Music;
             props.MusicProperties.Title = item.Title.IsNullorEmpty() ? item.FilePath.Split('\\').LastOrDefault() : item.Title;
             props.MusicProperties.AlbumTitle = item.Album.IsNullorEmpty() ? "" : item.Album;
-            props.MusicProperties.AlbumArtist = item.AlbumArtists.IsNullorEmpty() ? "" : string.Join(", ", item.AlbumArtists);
+            props.MusicProperties.AlbumArtist = item.AlbumArtists.IsNullorEmpty() ? "" : string.Join(Consts.CommaSeparator, item.AlbumArtists);
             props.MusicProperties.AlbumTrackCount = item.TrackCount;
-            props.MusicProperties.Artist = item.Performers.IsNullorEmpty() ? "" : string.Join(", ", item.Performers);
+            props.MusicProperties.Artist = item.Performers.IsNullorEmpty() ? "" : string.Join(Consts.CommaSeparator, item.Performers);
             props.MusicProperties.TrackNumber = item.Track;
             if (!item.Genres.IsNullorEmpty())
             {

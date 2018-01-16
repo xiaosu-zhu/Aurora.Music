@@ -238,7 +238,7 @@
                 <Button Margin="8,0" Command="{x:Bind Context.PlayAll}" Style="{ThemeResource PlayAllButton}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 <ComboBox x:Uid="SortBox" x:Name="SortBox" Margin="8,0" BorderBrush="{x:Null}" SelectedIndex="0" BorderThickness="0" Style="{StaticResource HorizontalComboBox}" HorizontalAlignment="Left" VerticalAlignment="Center" Header="Sort by:">
                     <ComboBoxItem x:Uid="TitleSort" Tag="Name">A-Z</ComboBoxItem>
-                    <ComboBoxItem x:Uid="AlbumName" Tag="Album">Albums</ComboBoxItem>
+                    <ComboBoxItem x:Uid="Album" Tag="Album">Albums</ComboBoxItem>
                     <ComboBoxItem x:Uid="Artist" Tag="Artists">Artists</ComboBoxItem>
                     <ComboBoxItem x:Uid="Year" Tag="Year">Year</ComboBoxItem>
                 </ComboBox>

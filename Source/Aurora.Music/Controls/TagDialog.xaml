@@ -39,11 +39,11 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <StackPanel Margin="4" Grid.Column="1" Orientation="Vertical">
-                <TextBlock Text="Title" Style="{ThemeResource BodyTextBlockStyle}"/>
+                <TextBlock x:Uid="Title" Text="Title" Style="{ThemeResource BodyTextBlockStyle}"/>
                 <TextBox Text="{x:Bind SongTitle, Mode=TwoWay}"/>
             </StackPanel>
             <StackPanel Margin="4" Grid.Column="1" Grid.Row="1" Orientation="Vertical">
-                <TextBlock Text="Album Name"/>
+                <TextBlock x:Uid="AlbumName" Text="Album Name"/>
                 <TextBox Text="{x:Bind Album, Mode=TwoWay}"/>
             </StackPanel>
             <Button Command="{x:Bind ChangeArtwork}" 
@@ -56,7 +56,7 @@
                         <Image Source="{x:Bind Artwork, Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Uniform"/>
                         <StackPanel Orientation="Vertical" Visibility="Collapsed" x:Name="ForeGrid" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{ThemeResource SystemControlBlackAcrylicElementBrush}" BorderBrush="{x:Null}" BorderThickness="0">
                             <FontIcon Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Margin="0,12,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe MDL2 Assets" Glyph="&#xE104;" />
-                            <TextBlock Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Text="Instantly" Style="{ThemeResource BaseTextBlockStyle}" Margin="8,4,8,12"/>
+                            <TextBlock x:Uid="Instantly" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Text="Instantly" Style="{ThemeResource BaseTextBlockStyle}" Margin="8,4,8,12"/>
                         </StackPanel>
                     </Grid>
                 </Button.Content>
@@ -64,24 +64,24 @@
         </Grid>
         <Grid>
             <StackPanel Margin="4" Orientation="Vertical">
-                <TextBlock Text="Performers" Style="{ThemeResource BodyTextBlockStyle}"/>
+                <TextBlock x:Uid="Performers" Text="Performers" Style="{ThemeResource BodyTextBlockStyle}"/>
                 <TextBox Text="{x:Bind StrArrToString(Performers), BindBack=StringToPerformers, Mode=TwoWay}"/>
             </StackPanel>
         </Grid>
         <Grid>
             <StackPanel Margin="4" Orientation="Vertical">
-                <TextBlock Text="Album Artists" Style="{ThemeResource BodyTextBlockStyle}"/>
+                <TextBlock x:Uid="AlbumArtists" Text="Album Artists" Style="{ThemeResource BodyTextBlockStyle}"/>
                 <TextBox Text="{x:Bind StrArrToString(AlbumArtists), BindBack=StringToAlbumArtists, Mode=TwoWay}"/>
             </StackPanel>
         </Grid>
         <Grid>
             <StackPanel Margin="4" Orientation="Vertical">
-                <TextBlock Text="Genres" Style="{ThemeResource BodyTextBlockStyle}"/>
+                <TextBlock x:Uid="Genres" Text="Genres" Style="{ThemeResource BodyTextBlockStyle}"/>
                 <TextBox Text="{x:Bind StrArrToString(Genres), BindBack=StringToGenres, Mode=TwoWay}"/>
             </StackPanel>
         </Grid>
         <StackPanel Margin="4" Orientation="Vertical">
-            <TextBlock Text="Track" Style="{ThemeResource BodyTextBlockStyle}"/>
+            <TextBlock x:Uid="Track" Text="Track" Style="{ThemeResource BodyTextBlockStyle}"/>
             <StackPanel Orientation="Horizontal">
                 <TextBox InputScope="Number" Text="{x:Bind Track.ToString(),BindBack=StringToTrack,Mode=TwoWay}"/>
                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4" Text="/" Style="{ThemeResource BodyTextBlockStyle}"/>
@@ -89,7 +89,7 @@
             </StackPanel>
         </StackPanel>
         <StackPanel Margin="4" Orientation="Vertical">
-            <TextBlock Text="Disc" Style="{ThemeResource BodyTextBlockStyle}"/>
+            <TextBlock x:Uid="Disc" Text="Disc" Style="{ThemeResource BodyTextBlockStyle}"/>
             <StackPanel Orientation="Horizontal">
                 <TextBox InputScope="Number" Text="{x:Bind Disc.ToString(), BindBack=StringToDisc,Mode=TwoWay}"/>
                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4" Text="/" Style="{ThemeResource BodyTextBlockStyle}"/>
@@ -102,11 +102,11 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <StackPanel Margin="4" Orientation="Vertical">
-                <TextBlock Text="Rating" Style="{ThemeResource BodyTextBlockStyle}"/>
+                <TextBlock x:Uid="Rating" Text="Rating" Style="{ThemeResource BodyTextBlockStyle}"/>
                 <TextBox Text="{x:Bind Rating.ToString(),BindBack=StringToRating,Mode=TwoWay}"/>
             </StackPanel>
             <StackPanel Margin="4" Grid.Column="1" Orientation="Vertical">
-                <TextBlock Text="Year"/>
+                <TextBlock x:Uid="YearText" Text="Year"/>
                 <TextBox Text="{x:Bind Year.ToString(),BindBack=StringToYear,Mode=TwoWay}"/>
             </StackPanel>
         </Grid>
@@ -116,11 +116,11 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <StackPanel Margin="4" Orientation="Vertical">
-                <TextBlock Text="Bit Rate" Style="{ThemeResource BodyTextBlockStyle}"/>
+                <TextBlock x:Uid="BitRate" Text="Bit Rate" Style="{ThemeResource BodyTextBlockStyle}"/>
                 <TextBlock Text="{x:Bind BitRateToString(BitRate), Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}"/>
             </StackPanel>
             <StackPanel Margin="4" Grid.Column="1" Orientation="Vertical">
-                <TextBlock Text="Duration"/>
+                <TextBlock x:Uid="Duration" Text="Duration"/>
                 <TextBlock Text="{x:Bind DurationtoString(Duration),Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}"/>
             </StackPanel>
         </Grid>

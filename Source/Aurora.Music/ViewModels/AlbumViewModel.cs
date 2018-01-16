@@ -77,11 +77,11 @@ namespace Aurora.Music.ViewModels
                 }
             if (!Songs.IsNullorEmpty())
             {
-                b += Songs.Count != 1 ? $"{Songs.Count} Songs" : "1 Song";
+                b += SmartFormat.Smart.Format(Consts.Localizer.GetString("SmartSongs"), Songs.Count);
             }
             else if (SongsID != null)
             {
-                b += SongsID.Length != 1 ? $"{SongsID.Length} Songs" : "1 Song";
+                b += SmartFormat.Smart.Format(Consts.Localizer.GetString("SmartSongs"), SongsID.Length);
             }
             return b;
         }
@@ -114,7 +114,7 @@ namespace Aurora.Music.ViewModels
 
         internal string GetFormattedArtists()
         {
-            return AlbumArtists.IsNullorEmpty() ? Consts.UnknownArtists : string.Join(", ", AlbumArtists);
+            return AlbumArtists.IsNullorEmpty() ? Consts.UnknownArtists : string.Join(Consts.CommaSeparator, AlbumArtists);
         }
 
         public virtual uint TrackCount { get; set; }

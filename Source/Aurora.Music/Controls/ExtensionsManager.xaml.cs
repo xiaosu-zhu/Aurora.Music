@@ -71,7 +71,7 @@ namespace Aurora.Music.Controls
         public async Task LoadExtension(AppExtension ext)
         {
             // get unique identifier for this extension
-            string identifier = ext.AppInfo.AppUserModelId + "$|$" + ext.Id;
+            string identifier = ext.AppInfo.AppUserModelId + Consts.ArraySeparator + ext.Id;
 
             // load the extension if the package is OK
             if (!(ext.Package.Status.VerifyIsOK()

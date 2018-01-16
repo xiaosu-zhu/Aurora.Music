@@ -301,7 +301,7 @@
     <value>Songs</value>
     <comment>Songs</comment>
   </data>
-    <data name="Songs.Text" xml:space="preserve">
+  <data name="Songs.Text" xml:space="preserve">
     <value>Songs</value>
     <comment>Songs</comment>
   </data>
@@ -464,11 +464,11 @@
   <data name="HomeText" xml:space="preserve">
     <value>Home</value>
     <comment>Home</comment>
-  </data> 
+  </data>
   <data name="LibraryText" xml:space="preserve">
     <value>Library</value>
     <comment>Library</comment>
-  </data> 
+  </data>
   <data name="LocaAlbumTitle" xml:space="preserve">
     <value>Local Album</value>
     <comment>Local Album</comment>
@@ -485,6 +485,10 @@
     <value>{0} {0:Album|Albums}</value>
     <comment>{0} {0:Album|Albums}</comment>
   </data>
+  <data name="SmartArtists" xml:space="preserve">
+    <value>{0} {0:Artist|Artists}</value>
+    <comment>{0} {0:Artist|Artists}</comment>
+  </data>
   <data name="OopsText" xml:space="preserve">
     <value>Ooops!</value>
     <comment>Ooops!</comment>
@@ -492,8 +496,8 @@
   <data name="SearchFailedText" xml:space="preserve">
     <value>We can't find anything...</value>
     <comment>We can't find anything...</comment>
-  </data> 
-    <data name="CreateCollection" xml:space="preserve">
+  </data>
+  <data name="CreateCollection" xml:space="preserve">
     <value>Create a new collection</value>
     <comment>Create a new collection</comment>
   </data>
@@ -585,7 +589,7 @@
     <value>Meta-data Provider</value>
     <comment>Meta-data Provider</comment>
   </data>
-    <data name="SearchResultDialog.Title" xml:space="preserve">
+  <data name="SearchResultDialog.Title" xml:space="preserve">
     <value>Search Result</value>
     <comment>Search Result</comment>
   </data>
@@ -648,5 +652,201 @@
   <data name="ChristmasWelcome" xml:space="preserve">
     <value>Merry Christmas!</value>
     <comment>Merry Christmas!</comment>
+  </data>
+  <data name="Title.Text" xml:space="preserve">
+    <value>Title</value>
+    <comment>Title</comment>
+  </data>
+  <data name="AlbumName.Text" xml:space="preserve">
+    <value>Album Name</value>
+    <comment>Album Name</comment>
+  </data>
+  <data name="Instantly.Text" xml:space="preserve">
+    <value>Instantly</value>
+    <comment>Instantly</comment>
+  </data>
+  <data name="Performers.Text" xml:space="preserve">
+    <value>Performers</value>
+    <comment>Performers</comment>
+  </data>
+  <data name="AlbumArtists.Text" xml:space="preserve">
+    <value>Album Artists</value>
+    <comment>Album Artists</comment>
+  </data>
+  <data name="Genres.Text" xml:space="preserve">
+    <value>Genres</value>
+    <comment>Genres</comment>
+  </data>
+  <data name="Track.Text" xml:space="preserve">
+    <value>Track</value>
+    <comment>Track</comment>
+  </data>
+  <data name="Disc.Text" xml:space="preserve">
+    <value>Disc</value>
+    <comment>Disc</comment>
+  </data>
+  <data name="Rating.Text" xml:space="preserve">
+    <value>Rating</value>
+    <comment>Rating</comment>
+  </data>
+  <data name="YearText.Text" xml:space="preserve">
+    <value>Year</value>
+    <comment>Year</comment>
+  </data>
+  <data name="BitRate.Text" xml:space="preserve">
+    <value>Bit Rate</value>
+    <comment>Bit Rate</comment>
+  </data>
+  <data name="Duration.Text" xml:space="preserve">
+    <value>Duration</value>
+    <comment>Duration</comment>
+  </data>
+  <data name="NotAvaliableText" xml:space="preserve">
+    <value>Not Avaliable</value>
+    <comment>Not Avaliable</comment>
+  </data>
+  <data name="NeedScanText" xml:space="preserve">
+    <value>Need Scan</value>
+    <comment>Need Scan</comment>
+  </data>
+  <data name="CommaSeparator" xml:space="preserve">
+    <value>, </value>
+    <comment>, </comment>
+  </data>
+  <data name="NoLyricText" xml:space="preserve">
+    <value>No Lyrics</value>
+    <comment>No Lyrics</comment>
+  </data>
+  <data name="EndText" xml:space="preserve">
+    <value>End</value>
+    <comment>End</comment>
+  </data>
+  <data name="SearchInLibraryText" xml:space="preserve">
+    <value>Search in library</value>
+    <comment>Search in library</comment>
+  </data>
+  <data name="NotPlayingText" xml:space="preserve">
+    <value>Not Playing</value>
+    <comment>Not Playing</comment>
+  </data>
+  <data name="SearchInWebText" xml:space="preserve">
+    <value>Search in Library and Web</value>
+    <comment>Search in Library and Web</comment>
+  </data>
+  <data name="FileUpdatingText" xml:space="preserve">
+    <value>File Updating</value>
+    <comment>File Updating</comment>
+  </data>
+  <data name="CompletedText" xml:space="preserve">
+    <value>Completed</value>
+    <comment>Completed</comment>
+  </data>
+  <data name="PauseText" xml:space="preserve">
+    <value>Pause</value>
+    <comment>Pause</comment>
+  </data>
+  <data name="PlayText" xml:space="preserve">
+    <value>Play</value>
+    <comment>Play</comment>
+  </data>
+  <data name="LoadingLyricsText" xml:space="preserve">
+    <value>Loading lyrics...</value>
+    <comment>Loading lyrics...</comment>
+  </data>
+  <data name="DownloadCompletedText" xml:space="preserve">
+    <value>Download Completed</value>
+    <comment>Download Completed</comment>
+  </data>
+  <data name="IdleText" xml:space="preserve">
+    <value>Idle</value>
+    <comment>Idle</comment>
+  </data>
+  <data name="DownloadingIdleText" xml:space="preserve">
+    <value>Downloading Idle</value>
+    <comment>Downloading Idle</comment>
+  </data>
+  <data name="ProcessingText" xml:space="preserve">
+    <value>Processing</value>
+    <comment>Processing</comment>
+  </data>
+  <data name="DownloadinginProgressText" xml:space="preserve">
+    <value>Downloading in Progress</value>
+    <comment>Downloading in Progress</comment>
+  </data>
+  <data name="DownloadingPausedText" xml:space="preserve">
+    <value>Downloading Paused</value>
+    <comment>Downloading Paused</comment>
+  </data>
+  <data name="DownloadingCanceledText" xml:space="preserve">
+    <value>Downloading Canceled</value>
+    <comment>Downloading Canceled</comment>
+  </data>
+  <data name="DownloadingErrorText" xml:space="preserve">
+    <value>Downloading Error</value>
+    <comment>Downloading Error</comment>
+  </data>
+  <data name="DownloadText" xml:space="preserve">
+    <value>Download</value>
+    <comment>Download</comment>
+  </data>
+  <data name="ModifyTagsText" xml:space="preserve">
+    <value>Modify Tags</value>
+    <comment>Modify Tags</comment>
+  </data>
+  <data name="ClearCacheText" xml:space="preserve">
+    <value>Temporary folder cleared</value>
+    <comment>Temporary folder cleared</comment>
+  </data>
+  <data name="WaitingResultText" xml:space="preserve">
+    <value>Waiting for Result</value>
+    <comment>Waiting for Result</comment>
+  </data>
+  <data name="OnlineContentText" xml:space="preserve">
+    <value>Online Content</value>
+    <comment>Online Content</comment>
+  </data>
+  <data name="VariousText" xml:space="preserve">
+    <value>Various</value>
+    <comment>Various</comment>
+  </data>
+  <data name="RencentlyPlayedText" xml:space="preserve">
+    <value>Rencently Played</value>
+    <comment>Rencently Played</comment>
+  </data>
+  <data name="TodayFavText" xml:space="preserve">
+    <value>{0}'s Favorites</value>
+    <comment>{0}'s Favorites</comment>
+  </data>
+  <data name="DayOfWeek_Sunday" xml:space="preserve">
+    <value>Sunday</value>
+    <comment>Sunday</comment>
+  </data>
+  <data name="DayOfWeek_Monday" xml:space="preserve">
+    <value>Monday</value>
+    <comment>Monday</comment>
+  </data>
+  <data name="DayOfWeek_Tuesday" xml:space="preserve">
+    <value>Tuesday</value>
+    <comment>Tuesday</comment>
+  </data>
+  <data name="DayOfWeek_Wednesday" xml:space="preserve">
+    <value>Wednesday</value>
+    <comment>Wednesday</comment>
+  </data>
+  <data name="DayOfWeek_Thursday" xml:space="preserve">
+    <value>Thursday</value>
+    <comment>Thursday</comment>
+  </data>
+  <data name="DayOfWeek_Friday" xml:space="preserve">
+    <value>Friday</value>
+    <comment>Friday</comment>
+  </data>
+  <data name="DayOfWeek_Saturday" xml:space="preserve">
+    <value>Saturday</value>
+    <comment>Saturday</comment>
+  </data>
+  <data name="TodaySuggestionText" xml:space="preserve">
+    <value>{0}'s Suggestion</value>
+    <comment>{0}'s Suggestion</comment>
   </data>
 </root>

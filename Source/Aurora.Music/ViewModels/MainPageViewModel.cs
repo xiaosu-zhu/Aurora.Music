@@ -109,7 +109,7 @@ namespace Aurora.Music.ViewModels
             LeftTopColor = _lastLeftTop;
         }
 
-        private string placeholderText = "Search in library";
+        private string placeholderText = Consts.Localizer.GetString("SearchInLibraryText");
         public string PlaceholderText
         {
             get { return placeholderText; }
@@ -133,7 +133,7 @@ namespace Aurora.Music.ViewModels
         private string currentTitle;
         public string CurrentTitle
         {
-            get { return currentTitle.IsNullorEmpty() ? "Aurora Music" : currentTitle; }
+            get { return currentTitle.IsNullorEmpty() ? Consts.Localizer.GetString("AppNameText") : currentTitle; }
             set { SetProperty(ref currentTitle, value); }
         }
 
@@ -142,7 +142,7 @@ namespace Aurora.Music.ViewModels
 
         public string CurrentAlbum
         {
-            get { return currentAlbum.IsNullorEmpty() ? "Not playing" : currentAlbum; }
+            get { return currentAlbum.IsNullorEmpty() ? Consts.Localizer.GetString("NotPlayingText") : currentAlbum; }
             set { SetProperty(ref currentAlbum, value); }
         }
 
@@ -418,7 +418,7 @@ namespace Aurora.Music.ViewModels
             {
                 if (OnlineMusicExtension != null)
                 {
-                    PlaceholderText = "Search in library and web";
+                    PlaceholderText = Consts.Localizer.GetString("SearchInWebText");
                 }
             });
         }
@@ -522,7 +522,7 @@ namespace Aurora.Music.ViewModels
             var t = CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
             {
                 MainPage.Current.ProgressUpdate(100);
-                MainPage.Current.ProgressUpdate("File Updating", "Completed.");
+                MainPage.Current.ProgressUpdate(Consts.Localizer.GetString("FileUpdatingText"), Consts.Localizer.GetString("CompletedText"));
                 await Task.Delay(1500);
                 MainPage.Current.ProgressUpdate(false);
             });
@@ -534,7 +534,7 @@ namespace Aurora.Music.ViewModels
             {
                 MainPage.Current.ProgressUpdate();
                 MainPage.Current.ProgressUpdate(e.Current * 100.0 / e.Total);
-                MainPage.Current.ProgressUpdate("File Updating", e.Description);
+                MainPage.Current.ProgressUpdate(Consts.Localizer.GetString("FileUpdatingText"), e.Description);
             });
         }
 
@@ -574,7 +574,7 @@ namespace Aurora.Music.ViewModels
                 {
                     var p = e.CurrentSong;
                     CurrentTitle = p.Title.IsNullorEmpty() ? p.FilePath.Split('\\').LastOrDefault() : p.Title;
-                    CurrentAlbum = p.Album.IsNullorEmpty() ? (p.Performers.IsNullorEmpty() ? Consts.UnknownAlbum : string.Join(", ", p.Performers)) : p.Album;
+                    CurrentAlbum = p.Album.IsNullorEmpty() ? (p.Performers.IsNullorEmpty() ? Consts.UnknownAlbum : string.Join(Consts.CommaSeparator, p.Performers)) : p.Album;
                     if (!p.PicturePath.IsNullorEmpty())
                     {
                         if (lastUriPath == p.PicturePath)
@@ -642,9 +642,9 @@ namespace Aurora.Music.ViewModels
         {
             if (b is bool bb)
             {
-                return bb ? "Pause" : "Play";
+                return bb ? Consts.Localizer.GetString("PauseText") : Consts.Localizer.GetString("PlayText");
             }
-            return "Play";
+            return Consts.Localizer.GetString("PlayText");
         }
 
         internal void SkiptoItem(SongViewModel songViewModel)

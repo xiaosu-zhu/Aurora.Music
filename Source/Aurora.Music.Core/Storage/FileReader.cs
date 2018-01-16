@@ -141,9 +141,9 @@ namespace Aurora.Music.Core.Storage
 
             var res = new List<ListWithKey<GenericMusicItem>>
             {
-                new ListWithKey<GenericMusicItem>($"{DateTime.Today.DayOfWeek}'s Suggestion", todaySuggestion),
-                new ListWithKey<GenericMusicItem>("Rencently Played", recent),
-                new ListWithKey<GenericMusicItem>($"{DateTime.Now.GetHourString()} Favorites", nowSuggestion)
+                new ListWithKey<GenericMusicItem>(string.Format(Consts.Localizer.GetString("TodaySuggestionText"), DateTime.Today.DayOfWeek.GetDisplayName()), todaySuggestion),
+                new ListWithKey<GenericMusicItem>(Consts.Localizer.GetString("RencentlyPlayedText"), recent),
+                new ListWithKey<GenericMusicItem>(string.Format(Consts.Localizer.GetString("TodayFavText"), DateTime.Now.GetHourString()), nowSuggestion)
             };
             res.Shuffle();
             return res;

@@ -132,17 +132,26 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref downloadPathText, value); }
         }
 
+        private bool canClearCache = true;
+        public bool CanClearCache
+        {
+            get { return canClearCache; }
+            set { SetProperty(ref canClearCache, value); }
+        }
+
         public DelegateCommand ClearCache
         {
             get => new DelegateCommand(async () =>
             {
+                CanClearCache = false;
                 var folder = ApplicationData.Current.TemporaryFolder;
                 var f = await folder.GetItemsAsync();
                 foreach (var item in f)
                 {
-                    await item.DeleteAsync();
+                    await item.DeleteAsync(StorageDeleteOption.PermanentDelete);
                 }
-                MainPage.Current.PopMessage("Temporary folder cleared");
+                CanClearCache = true;
+                MainPage.Current.PopMessage(Consts.Localizer.GetString("ClearCacheText"));
             });
         }
 
@@ -290,7 +299,7 @@ namespace Aurora.Music.ViewModels
                 context = StoreContext.GetDefault();
             }
 
-            MainPage.Current.ShowModalUI(true, "Wating for Result");
+            MainPage.Current.ShowModalUI(true, Consts.Localizer.GetString("WaitingResultText"));
             StorePurchaseResult result = await context.RequestPurchaseAsync(Consts.OnlineAddOnStoreID);
 
 
@@ -439,7 +448,7 @@ namespace Aurora.Music.ViewModels
         public async Task LoadExtension(AppExtension ext)
         {
             // get unique identifier for this extension
-            string identifier = ext.AppInfo.AppUserModelId + "$|$" + ext.Id;
+            string identifier = ext.AppInfo.AppUserModelId + Consts.ArraySeparator + ext.Id;
 
             // load the extension if the package is OK
             if (!(ext.Package.Status.VerifyIsOK()
@@ -608,7 +617,7 @@ namespace Aurora.Music.ViewModels
                         });
                     }
                 }
-                
+
                 DevicList.Insert(0, new DeviceInformationViewModel()
                 {
                     Name = Consts.Localizer.GetString("SystemDefault"),

@@ -69,11 +69,11 @@ namespace Aurora.Music.Core.Extension
                     var wikiNode = (xml.SelectSingleNode("/lfm/album/wiki/content"));
                     if (wikiNode == null)
                     {
-                        info.Description = $"# {info.Name} by {info.Artist}\r\n\r\n{listener} listeners and played {played} times.\r\n\r\n## Tags\r\n\r\n\r\n{string.Join(", ", list)}.\r\n\r\n---\r\n\r\nSee [Last.FM]({xml.SelectSingleNode("/lfm/album/url").InnerText}).";
+                        info.Description = $"# {info.Name} by {info.Artist}\r\n\r\n{listener} listeners and played {played} times.\r\n\r\n## Tags\r\n\r\n\r\n{string.Join(Consts.CommaSeparator, list)}.\r\n\r\n---\r\n\r\nSee [Last.FM]({xml.SelectSingleNode("/lfm/album/url").InnerText}).";
                     }
                     else
                     {
-                        info.Description = $"# {info.Name} by {info.Artist}\r\n\r\n{listener} listeners and played {played} times.\r\n\r\n## Tags\r\n\r\n\r\n{string.Join(", ", list)}.\r\n\r\n---\r\n\r\n## Wiki\r\n{wikiNode.InnerText.Replace("\n", "\r\n\r\n")}\r\n\r\n---\r\n\r\nSee [Last.FM]({xml.SelectSingleNode("/lfm/album/url").InnerText}).";
+                        info.Description = $"# {info.Name} by {info.Artist}\r\n\r\n{listener} listeners and played {played} times.\r\n\r\n## Tags\r\n\r\n\r\n{string.Join(Consts.CommaSeparator, list)}.\r\n\r\n---\r\n\r\n## Wiki\r\n{wikiNode.InnerText.Replace("\n", "\r\n\r\n")}\r\n\r\n---\r\n\r\nSee [Last.FM]({xml.SelectSingleNode("/lfm/album/url").InnerText}).";
                     }
                     return info;
                 }
@@ -137,11 +137,11 @@ namespace Aurora.Music.Core.Extension
                     var bioNode = xml.SelectSingleNode("/lfm/artist/bio");
                     if (bioNode != null)
                     {
-                        artist.Description = $"# {artist.Name}\r\n\r\n{listener} listeners and played {played} times.\r\n\r\n## Tags\r\n\r\n\r\n{string.Join(", ", list)}.\r\n\r\n---\r\n\r\n## Wiki\r\n{bioNode.SelectSingleNode("./content").InnerText.Replace("\n", "\r\n\r\n")}\r\n\r\n---\r\n\r\nSee [Last.FM]({xml.SelectSingleNode("/lfm/artist/url").InnerText}).";
+                        artist.Description = $"# {artist.Name}\r\n\r\n{listener} listeners and played {played} times.\r\n\r\n## Tags\r\n\r\n\r\n{string.Join(Consts.CommaSeparator, list)}.\r\n\r\n---\r\n\r\n## Wiki\r\n{bioNode.SelectSingleNode("./content").InnerText.Replace("\n", "\r\n\r\n")}\r\n\r\n---\r\n\r\nSee [Last.FM]({xml.SelectSingleNode("/lfm/artist/url").InnerText}).";
                     }
                     else
                     {
-                        artist.Description = $"# {artist.Name}\r\n\r\n{listener} listeners and played {played} times.\r\n\r\n## Tags\r\n\r\n\r\n{string.Join(", ", list)}.\r\n\r\n---\r\n\r\nSee [Last.FM]({xml.SelectSingleNode("/lfm/artist/url").InnerText}).";
+                        artist.Description = $"# {artist.Name}\r\n\r\n{listener} listeners and played {played} times.\r\n\r\n## Tags\r\n\r\n\r\n{string.Join(Consts.CommaSeparator, list)}.\r\n\r\n---\r\n\r\nSee [Last.FM]({xml.SelectSingleNode("/lfm/artist/url").InnerText}).";
                     }
 
                     return artist;

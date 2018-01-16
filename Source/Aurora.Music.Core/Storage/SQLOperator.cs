@@ -88,9 +88,6 @@ namespace Aurora.Music.Core.Storage
         public int Afternoon { get; set; }
         public int Evening { get; set; }
         public int Dusk { get; set; }
-
-        public static readonly string[] dateProjection = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
-        public static readonly string[] timeProjection = { "Morning", "Noon", "Afternoon", "Evening" };
     }
 
     class SONG
@@ -123,10 +120,10 @@ namespace Aurora.Music.Core.Storage
             MusicIpId = song.MusicIpId;
             BeatsPerMinute = song.BeatsPerMinute;
             Album = song.Album;
-            Performers = string.Join("$|$", song.Performers);
-            PerformersSort = string.Join("$|$", song.PerformersSort);
-            AlbumArtists = string.Join("$|$", song.AlbumArtists);
-            AlbumArtistsSort = string.Join("$|$", song.AlbumArtistsSort);
+            Performers = string.Join(Consts.ArraySeparator, song.Performers);
+            PerformersSort = string.Join(Consts.ArraySeparator, song.PerformersSort);
+            AlbumArtists = string.Join(Consts.ArraySeparator, song.AlbumArtists);
+            AlbumArtistsSort = string.Join(Consts.ArraySeparator, song.AlbumArtistsSort);
             AlbumSort = song.AlbumSort;
             AmazonId = song.AmazonId;
             Title = song.Title;
@@ -139,12 +136,12 @@ namespace Aurora.Music.Core.Storage
             ReplayGainAlbumPeak = song.ReplayGainAlbumPeak;
             Comment = song.Comment;
             Disc = song.Disc;
-            Composers = string.Join("$|$", song.Composers);
-            ComposersSort = string.Join("$|$", song.ComposersSort);
+            Composers = string.Join(Consts.ArraySeparator, song.Composers);
+            ComposersSort = string.Join(Consts.ArraySeparator, song.ComposersSort);
             Conductor = song.Conductor;
             DiscCount = song.DiscCount;
             Copyright = song.Copyright;
-            Genres = string.Join("$|$", song.Genres);
+            Genres = string.Join(Consts.ArraySeparator, song.Genres);
             Grouping = song.Grouping;
             Lyrics = song.Lyrics;
             Year = song.Year;
@@ -253,13 +250,13 @@ namespace Aurora.Music.Core.Storage
         {
             Songs = string.Join('|', album.Songs);
             Name = album.Name;
-            Genres = string.Join("$|$", album.Genres ?? new string[] { });
+            Genres = string.Join(Consts.ArraySeparator, album.Genres ?? new string[] { });
             Year = album.Year;
             AlbumSort = album.AlbumSort;
             TrackCount = album.TrackCount;
             DiscCount = album.DiscCount;
-            AlbumArtists = string.Join("$|$", album.AlbumArtists);
-            AlbumArtistsSort = string.Join("$|$", album.AlbumArtistsSort ?? new string[] { });
+            AlbumArtists = string.Join(Consts.ArraySeparator, album.AlbumArtists);
+            AlbumArtistsSort = string.Join(Consts.ArraySeparator, album.AlbumArtistsSort ?? new string[] { });
             ReplayGainAlbumGain = album.ReplayGainAlbumGain;
             ReplayGainAlbumPeak = album.ReplayGainAlbumPeak;
             PicturePath = album.PicturePath;
@@ -303,8 +300,8 @@ namespace Aurora.Music.Core.Storage
             ID = p.ID;
             Title = p.Title;
             Description = p.Description;
-            Tags = string.Join("$|$", p.Tags ?? new string[] { });
-            HeroArtworks = string.Join("$|$", p.HeroArtworks ?? new string[] { });
+            Tags = string.Join(Consts.ArraySeparator, p.Tags ?? new string[] { });
+            HeroArtworks = string.Join(Consts.ArraySeparator, p.HeroArtworks ?? new string[] { });
             IDs = string.Join('|', p.SongsID ?? new int[] { });
         }
     }
@@ -605,15 +602,15 @@ namespace Aurora.Music.Core.Storage
                 p.Songs = p.Songs + '|' + string.Join('|', album.Select(x => x.ID).Distinct());
                 if (p.AlbumArtists.IsNullorEmpty())
                 {
-                    p.AlbumArtists = string.Join("$|$", (from aa in album where !aa.AlbumArtists.IsNullorEmpty() select aa.AlbumArtists).FirstOrDefault());
+                    p.AlbumArtists = string.Join(Consts.ArraySeparator, (from aa in album where !aa.AlbumArtists.IsNullorEmpty() select aa.AlbumArtists).FirstOrDefault());
                 }
                 if (p.AlbumArtistsSort.IsNullorEmpty())
                 {
-                    p.AlbumArtistsSort = string.Join("$|$", (from aa in album where !aa.AlbumArtistsSort.IsNullorEmpty() select aa.AlbumArtistsSort).FirstOrDefault());
+                    p.AlbumArtistsSort = string.Join(Consts.ArraySeparator, (from aa in album where !aa.AlbumArtistsSort.IsNullorEmpty() select aa.AlbumArtistsSort).FirstOrDefault());
                 }
                 if (p.Genres.IsNullorEmpty())
                 {
-                    p.Genres = string.Join("$|$", (from aa in album where !aa.Genres.IsNullorEmpty() select aa.Genres).FirstOrDefault());
+                    p.Genres = string.Join(Consts.ArraySeparator, (from aa in album where !aa.Genres.IsNullorEmpty() select aa.Genres).FirstOrDefault());
                 }
                 if (p.PicturePath.IsNullorEmpty())
                 {
@@ -646,9 +643,9 @@ namespace Aurora.Music.Core.Storage
 
                     // TODO: not combine all, just use not-null value
                     // string[] value, use their all value (remove duplicated values) combine
-                    AlbumArtists = string.Join("$|$", (from aa in album where !aa.AlbumArtists.IsNullorEmpty() select aa.AlbumArtists).FirstOrDefault()),//album.Where(x => !x.AlbumArtists.IsNullorEmpty()).FirstOrDefault().AlbumArtists;
-                    Genres = string.Join("$|$", (from aa in album where !aa.Genres.IsNullorEmpty() select aa.Genres).FirstOrDefault()),
-                    AlbumArtistsSort = string.Join("$|$", (from aa in album where !aa.AlbumArtistsSort.IsNullorEmpty() select aa.AlbumArtistsSort).FirstOrDefault()),
+                    AlbumArtists = string.Join(Consts.ArraySeparator, (from aa in album where !aa.AlbumArtists.IsNullorEmpty() select aa.AlbumArtists).FirstOrDefault()),//album.Where(x => !x.AlbumArtists.IsNullorEmpty()).FirstOrDefault().AlbumArtists;
+                    Genres = string.Join(Consts.ArraySeparator, (from aa in album where !aa.Genres.IsNullorEmpty() select aa.Genres).FirstOrDefault()),
+                    AlbumArtistsSort = string.Join(Consts.ArraySeparator, (from aa in album where !aa.AlbumArtistsSort.IsNullorEmpty() select aa.AlbumArtistsSort).FirstOrDefault()),
 
                     // normal value, use their not-null value
                     AlbumSort = (from aa in album where !aa.AlbumSort.IsNullorEmpty() select aa.AlbumSort).FirstOrDefault(),
@@ -1291,7 +1288,7 @@ namespace Aurora.Music.Core.Storage
             {
                 foreach (var item in res)
                 {
-                    await conn.DeleteAsync<SEARCHHISTORY>(item);
+                    await conn.DeleteAsync(item);
                 }
             }
             await conn.InsertAsync(new SEARCHHISTORY()

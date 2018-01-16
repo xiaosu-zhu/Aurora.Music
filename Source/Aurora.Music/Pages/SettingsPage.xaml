@@ -192,7 +192,7 @@
                             <ToggleSwitch x:Uid="DebugMode" Header="Debug Mode" IsOn="{x:Bind Context.DebugModeEnabled,Mode=TwoWay}" Margin="8,12" />
                             <StackPanel Padding="4" Margin="0,4" BorderBrush="#ff4343" BorderThickness="1" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                 <TextBlock x:Uid="DangerZone" Foreground="#ff4343" Text="Danger Zone" Margin="4"/>
-                                <Button x:Uid="ClearCache" Command="{x:Bind Context.ClearCache}" Style="{ThemeResource ButtonRevealStyle}" Margin="4" Content="Clear Cache"/>
+                                <Button x:Uid="ClearCache" IsEnabled="{x:Bind Context.CanClearCache,Mode=OneWay}" Command="{x:Bind Context.ClearCache}" Style="{ThemeResource ButtonRevealStyle}" Margin="4" Content="Clear Cache"/>
                                 <Button x:Uid="DeleteAll" Margin="4" Style="{ThemeResource ButtonRevealStyle}" Background="#ff4343" Content="Delete all and reload" Foreground="{StaticResource SystemControlForegroundAltHighBrush}">
                                     <Button.Flyout>
                                         <Flyout>

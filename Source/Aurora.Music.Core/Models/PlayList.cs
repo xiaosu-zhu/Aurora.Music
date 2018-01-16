@@ -28,8 +28,8 @@ namespace Aurora.Music.Core.Models
             ID = p.ID;
             Title = p.Title;
             Description = p.Description;
-            Tags = p.Tags.IsNullorEmpty() ? new string[] { } : p.Tags.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);
-            HeroArtworks = p.HeroArtworks.IsNullorEmpty() ? new string[] { } : p.HeroArtworks.Split(new string[] { "$|$" }, StringSplitOptions.RemoveEmptyEntries);
+            Tags = p.Tags.IsNullorEmpty() ? new string[] { } : p.Tags.Split(new string[] { Consts.ArraySeparator }, StringSplitOptions.RemoveEmptyEntries);
+            HeroArtworks = p.HeroArtworks.IsNullorEmpty() ? new string[] { } : p.HeroArtworks.Split(new string[] { Consts.ArraySeparator }, StringSplitOptions.RemoveEmptyEntries);
 
             var ids = p.IDs.IsNullorEmpty() ? new string[] { } : p.IDs.Split('|', StringSplitOptions.RemoveEmptyEntries);
             SongsID = Array.ConvertAll(ids, (a) =>

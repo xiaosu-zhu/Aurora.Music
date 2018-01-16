@@ -251,7 +251,7 @@
   </data>
   <data name="Album.Content" xml:space="preserve">
     <value>专辑</value>
-    <comment>Album</comment>
+    <comment>Albums</comment>
   </data>
   <data name="Play.Text" xml:space="preserve">
     <value>播放</value>
@@ -485,6 +485,10 @@
     <value>{0}张专辑</value>
     <comment>{0} {0:Album|Albums}</comment>
   </data>
+  <data name="SmartArtists" xml:space="preserve">
+    <value>{0}个歌手</value>
+    <comment>{0} {0:Artist|Artists}</comment>
+  </data>
   <data name="OopsText" xml:space="preserve">
     <value>哦呀！</value>
     <comment>Ooops!</comment>
@@ -636,17 +640,213 @@
   <data name="WelcomeTitleText" xml:space="preserve">
     <value>{0}好</value>
     <comment>Good {0}</comment>
-  </data> 
+  </data>
   <data name="ValentineWelcome" xml:space="preserve">
     <value>情人节快乐</value>
     <comment>Happy Valentine's Day</comment>
-  </data> 
+  </data>
   <data name="HalloweenWelcome" xml:space="preserve">
     <value>不给糖就捣蛋</value>
     <comment>Trick or Treat?</comment>
-  </data> 
+  </data>
   <data name="ChristmasWelcome" xml:space="preserve">
     <value>圣诞快乐</value>
     <comment>Merry Christmas!</comment>
+  </data>
+  <data name="Title.Text" xml:space="preserve">
+    <value>标题</value>
+    <comment>Title</comment>
+  </data>
+  <data name="AlbumName.Text" xml:space="preserve">
+    <value>专辑名称</value>
+    <comment>Album Name</comment>
+  </data>
+  <data name="Instantly.Text" xml:space="preserve">
+    <value>即时生效</value>
+    <comment>Instantly</comment>
+  </data>
+  <data name="Performers.Text" xml:space="preserve">
+    <value>歌手</value>
+    <comment>Performers</comment>
+  </data>
+  <data name="AlbumArtists.Text" xml:space="preserve">
+    <value>专辑艺术家</value>
+    <comment>Album Artists</comment>
+  </data>
+  <data name="Genres.Text" xml:space="preserve">
+    <value>流派</value>
+    <comment>Genres</comment>
+  </data>
+  <data name="Track.Text" xml:space="preserve">
+    <value>音轨</value>
+    <comment>Track</comment>
+  </data>
+  <data name="Disc.Text" xml:space="preserve">
+    <value>碟片</value>
+    <comment>Disc</comment>
+  </data>
+  <data name="Rating.Text" xml:space="preserve">
+    <value>评分</value>
+    <comment>Rating</comment>
+  </data>
+  <data name="YearText.Text" xml:space="preserve">
+    <value>发行年份</value>
+    <comment>Year</comment>
+  </data>
+  <data name="BitRate.Text" xml:space="preserve">
+    <value>比特率</value>
+    <comment>Bit Rate</comment>
+  </data>
+  <data name="Duration.Text" xml:space="preserve">
+    <value>时长</value>
+    <comment>Duration</comment>
+  </data>
+  <data name="NotAvaliableText" xml:space="preserve">
+    <value>不可用</value>
+    <comment>Not Avaliable</comment>
+  </data>
+  <data name="NeedScanText" xml:space="preserve">
+    <value>需要扫描</value>
+    <comment>Need Scan</comment>
+  </data>
+  <data name="CommaSeparator" xml:space="preserve">
+    <value>，</value>
+    <comment>, </comment>
+  </data>
+  <data name="NoLyricText" xml:space="preserve">
+    <value>无歌词</value>
+    <comment>No Lyrics</comment>
+  </data>
+  <data name="EndText" xml:space="preserve">
+    <value>结尾</value>
+    <comment>End</comment>
+  </data>
+  <data name="SearchInLibraryText" xml:space="preserve">
+    <value>在库中搜索</value>
+    <comment>Search in library</comment>
+  </data>
+  <data name="NotPlayingText" xml:space="preserve">
+    <value>未在播放</value>
+    <comment>Not Playing</comment>
+  </data>
+  <data name="SearchInWebText" xml:space="preserve">
+    <value>在库和网络中搜索</value>
+    <comment>Search in Library and Web</comment>
+  </data>
+  <data name="FileUpdatingText" xml:space="preserve">
+    <value>更新文件中</value>
+    <comment>File Updating</comment>
+  </data>
+  <data name="CompletedText" xml:space="preserve">
+    <value>完成</value>
+    <comment>Completed</comment>
+  </data>
+  <data name="PauseText" xml:space="preserve">
+    <value>暂停</value>
+    <comment>Pause</comment>
+  </data>
+  <data name="PlayText" xml:space="preserve">
+    <value>播放</value>
+    <comment>Play</comment>
+  </data>
+  <data name="LoadingLyricsText" xml:space="preserve">
+    <value>加载歌词中……</value>
+    <comment>Loading lyrics...</comment>
+  </data>
+  <data name="DownloadCompletedText" xml:space="preserve">
+    <value>下载完成</value>
+    <comment>Download Completed</comment>
+  </data>
+  <data name="IdleText" xml:space="preserve">
+    <value>空闲中</value>
+    <comment>Idle</comment>
+  </data>
+  <data name="DownloadingIdleText" xml:space="preserve">
+    <value>下载空闲中</value>
+    <comment>Downloading Idle</comment>
+  </data>
+  <data name="ProcessingText" xml:space="preserve">
+    <value>处理中</value>
+    <comment>Processing</comment>
+  </data>
+  <data name="DownloadinginProgressText" xml:space="preserve">
+    <value>下载正在进行</value>
+    <comment>Downloading in Progress</comment>
+  </data>
+  <data name="DownloadingPausedText" xml:space="preserve">
+    <value>下载已暂停</value>
+    <comment>Downloading Paused</comment>
+  </data>
+  <data name="DownloadingCanceledText" xml:space="preserve">
+    <value>下载已取消</value>
+    <comment>Downloading Canceled</comment>
+  </data>
+  <data name="DownloadingErrorText" xml:space="preserve">
+    <value>下载出错</value>
+    <comment>Downloading Error</comment>
+  </data>
+  <data name="DownloadText" xml:space="preserve">
+    <value>下载</value>
+    <comment>Download</comment>
+  </data>
+  <data name="ModifyTagsText" xml:space="preserve">
+    <value>编辑标签</value>
+    <comment>Modify Tags</comment>
+  </data>
+  <data name="ClearCacheText" xml:space="preserve">
+    <value>临时文件已清除</value>
+    <comment>Temporary folder cleared</comment>
+  </data>
+  <data name="WaitingResultText" xml:space="preserve">
+    <value>等待结果中</value>
+    <comment>Waiting for Result</comment>
+  </data>
+  <data name="OnlineContentText" xml:space="preserve">
+    <value>在线内容</value>
+    <comment>Online Content</comment>
+  </data>
+  <data name="VariousText" xml:space="preserve">
+    <value>多个</value>
+    <comment>Various</comment>
+  </data>
+  <data name="RencentlyPlayedText" xml:space="preserve">
+    <value>最近播放</value>
+    <comment>Rencently Played</comment>
+  </data>
+  <data name="TodayFavText" xml:space="preserve">
+    <value>{0}的最爱</value>
+    <comment>{0}'s Favorites</comment>
+  </data>
+  <data name="DayOfWeek_Sunday" xml:space="preserve">
+    <value>周日</value>
+    <comment>Sunday</comment>
+  </data>
+  <data name="DayOfWeek_Monday" xml:space="preserve">
+    <value>周一</value>
+    <comment>Monday</comment>
+  </data>
+  <data name="DayOfWeek_Tuesday" xml:space="preserve">
+    <value>周二</value>
+    <comment>Tuesday</comment>
+  </data>
+  <data name="DayOfWeek_Wednesday" xml:space="preserve">
+    <value>周三</value>
+    <comment>Wednesday</comment>
+  </data>
+  <data name="DayOfWeek_Thursday" xml:space="preserve">
+    <value>周四</value>
+    <comment>Thursday</comment>
+  </data>
+  <data name="DayOfWeek_Friday" xml:space="preserve">
+    <value>周五</value>
+    <comment>Friday</comment>
+  </data>
+  <data name="DayOfWeek_Saturday" xml:space="preserve">
+    <value>周末</value>
+    <comment>Saturday</comment>
+  </data> 
+  <data name="TodaySuggestionText" xml:space="preserve">
+    <value>{0}合集</value>
+    <comment>{0}'s Suggestion</comment>
   </data>
 </root>

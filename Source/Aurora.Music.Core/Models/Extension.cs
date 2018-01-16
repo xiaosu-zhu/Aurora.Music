@@ -35,7 +35,7 @@ namespace Aurora.Music.Core.Models
             #endregion
 
             //AUMID + Extension ID is the unique identifier for an extension
-            UniqueId = ext.AppInfo.AppUserModelId + "$|$" + ext.Id;
+            UniqueId = ext.AppInfo.AppUserModelId + Consts.ArraySeparator + ext.Id;
         }
 
         #region Properties
@@ -52,7 +52,7 @@ namespace Aurora.Music.Core.Models
 
         public void New(AppExtension ext)
         {
-            if (UniqueId == ext.AppInfo.AppUserModelId + "$|$" + ext.Id)
+            if (UniqueId == ext.AppInfo.AppUserModelId + Consts.ArraySeparator + ext.Id)
             {
                 AppExtension = ext;
                 #region Properties
@@ -78,7 +78,7 @@ namespace Aurora.Music.Core.Models
             var extesions = await catalog.FindAllAsync();
             foreach (var ext in extesions)
             {
-                if (lyricExtensionID == ext.AppInfo.AppUserModelId + "$|$" + ext.Id)
+                if (lyricExtensionID == ext.AppInfo.AppUserModelId + Consts.ArraySeparator + ext.Id)
                 {
                     var properties = await ext.GetExtensionPropertiesAsync();
 

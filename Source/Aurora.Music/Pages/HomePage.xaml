@@ -528,15 +528,15 @@
                             </Rectangle.Fill>
                         </Rectangle>
                     </toolkit:DropShadowPanel>
-                    <Rectangle Height="160" Width="160" Fill="{ThemeResource SystemControlBackgroundBaseMediumLowRevealBaseLowBackgroundBrush}">
+                    <Rectangle Height="160" Width="160" Fill="{ThemeResource SystemControlBackgroundAltMediumRevealBrush}">
                     </Rectangle>
                     <TextBlock x:Name="Title" Text="{x:Bind Title}" Style="{ThemeResource SubtitleTextBlockStyle}"
-                                           Foreground="{ThemeResource SystemControlForegroundAltHighBrush}"
+                                           Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"
                                            HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"
                                            Margin="12" MaxLines="2" TextWrapping="WrapWholeWords" 
                                                TextTrimming="CharacterEllipsis"/>
                     <FontIcon x:Name="Icon" FontFamily="Segoe MDL2 Assets" Opacity="0"
-                                           Foreground="{ThemeResource SystemControlForegroundAltHighBrush}"
+                                           Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"
                                           Glyph="&#xE102;" FontSize="32"
                                           HorizontalAlignment="Center" VerticalAlignment="Center" />
                 </Grid>
@@ -610,15 +610,15 @@
                     </toolkit:DropShadowPanel>
                     <Rectangle Stroke="{ThemeResource SystemControlHighlightAltTransparentRevealBorderBrush}" 
                                StrokeThickness="1" Height="144" Width="144" 
-                               Fill="{ThemeResource SystemControlBackgroundBaseMediumLowRevealBaseLowBackgroundBrush}">
+                               Fill="{ThemeResource SystemControlBackgroundAltMediumRevealBrush}">
                     </Rectangle>
                     <TextBlock x:Name="Title" Text="{x:Bind Title}" Style="{ThemeResource SubtitleTextBlockStyle}"
-                                           Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" FontSize="16"
+                                           Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" FontSize="16"
                                            HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"
                                            Margin="12" MaxLines="2" TextWrapping="WrapWholeWords" 
                                                TextTrimming="CharacterEllipsis"/>
                     <FontIcon x:Name="Icon" FontFamily="Segoe MDL2 Assets" Opacity="0"
-                                           Foreground="{ThemeResource SystemControlForegroundAltHighBrush}"
+                                           Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"
                                           Glyph="&#xE102;" FontSize="24"
                                           HorizontalAlignment="Center" VerticalAlignment="Center" />
                 </Grid>

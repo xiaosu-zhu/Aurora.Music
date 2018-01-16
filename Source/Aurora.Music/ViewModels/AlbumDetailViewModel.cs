@@ -51,7 +51,7 @@ namespace Aurora.Music.ViewModels
         {
             if (a != null && !a.Genres.IsNullorEmpty())
             {
-                return string.Join(", ", a.Genres);
+                return string.Join(Consts.CommaSeparator, a.Genres);
             }
             return Consts.Localizer.GetString("VariousGenresText");
         }

@@ -1,4 +1,5 @@
-﻿using Aurora.Music.Core.Models;
+﻿using Aurora.Music.Core;
+using Aurora.Music.Core.Models;
 using Aurora.Shared.MVVM;
 using System;
 using System.Collections.ObjectModel;
@@ -34,7 +35,7 @@ namespace Aurora.Music.ViewModels
             {
                 return Contents[CurrentIndex].Content;
             }
-            return "No Lyrics.";
+            return Consts.Localizer.GetString("NoLyricText");
         }
 
 
@@ -54,7 +55,7 @@ namespace Aurora.Music.ViewModels
             {
                 return Contents[CurrentIndex + 1].Content;
             }
-            return "End";
+            return Consts.Localizer.GetString("EndText");
         }
 
         private Lyric lyric;

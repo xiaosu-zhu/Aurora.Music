@@ -1,4 +1,5 @@
-﻿using Aurora.Music.Core.Models;
+﻿using Aurora.Music.Core;
+using Aurora.Music.Core.Models;
 using Aurora.Music.Core.Storage;
 using Aurora.Shared.MVVM;
 using System;
@@ -97,7 +98,7 @@ namespace Aurora.Music.ViewModels
                     });
                     SongsList.Add(item);
                 }
-                SongsCount = songs.Count == 1 ? "1 Song" : $"{songs.Count} Songs";
+                SongsCount = SmartFormat.Smart.Format(Consts.Localizer.GetString("SmartSongs"), songs.Count);
                 Description = Model.Description;
                 Title = Model.Title;
                 HeroImage = Array.ConvertAll(Model.HeroArtworks ?? new string[] { }, x => new Uri(x)).ToList();

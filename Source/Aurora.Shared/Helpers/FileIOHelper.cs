@@ -92,7 +92,7 @@ namespace Aurora.Shared.Helpers
             {
                 foreach (var item in fs)
                 {
-                    await item.DeleteAsync();
+                    await item.DeleteAsync(StorageDeleteOption.PermanentDelete);
                 }
             }
             var file = await folder.CreateFileAsync(name, CreationCollisionOption.ReplaceExisting);
@@ -128,7 +128,7 @@ namespace Aurora.Shared.Helpers
                 var log = await cache.CreateFileAsync(fileName, CreationCollisionOption.OpenIfExists);
                 if (log != null)
                 {
-                    await log.DeleteAsync();
+                    await log.DeleteAsync(StorageDeleteOption.PermanentDelete);
                 }
             }
             catch (Exception)
@@ -391,7 +391,7 @@ namespace Aurora.Shared.Helpers
             {
                 if (file.Name.Contains(key))
                 {
-                    await file.DeleteAsync();
+                    await file.DeleteAsync(StorageDeleteOption.PermanentDelete);
                 }
             }
         }
@@ -413,7 +413,7 @@ namespace Aurora.Shared.Helpers
                     {
                         if (file.Name.Contains(key))
                         {
-                            await file.DeleteAsync();
+                            await file.DeleteAsync(StorageDeleteOption.PermanentDelete);
                         }
                     }
                 }

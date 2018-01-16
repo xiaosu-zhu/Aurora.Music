@@ -1,4 +1,5 @@
-﻿using Aurora.Music.Core.Storage;
+﻿using Aurora.Music.Core;
+using Aurora.Music.Core.Storage;
 using Aurora.Shared.MVVM;
 using System;
 using System.Collections.Generic;
@@ -71,8 +72,8 @@ namespace Aurora.Music.ViewModels
                     ArtistList.Add(item);
                     sum += item.Sum(x => x.SongsCount);
                 }
-                ArtistsCount = artists.Count == 1 ? "1 Artists" : $"{artists.Count} Artists";
-                SongsCount = sum == 1 ? "1 Song" : $"{sum} Songs";
+                ArtistsCount = SmartFormat.Smart.Format(Consts.Localizer.GetString("SmartArtists"), artists.Count);
+                SongsCount = SmartFormat.Smart.Format(Consts.Localizer.GetString("SmartSongs"), sum);
 
                 var t = ThreadPool.RunAsync(async x =>
                 {
@@ -120,8 +121,8 @@ namespace Aurora.Music.ViewModels
                         ArtistList.Add(new GroupedItem<ArtistViewModel>(item.Key, item));
                         sum += item.Sum(x => x.SongsCount);
                     }
-                    ArtistsCount = artists.Count == 1 ? "1 Artists" : $"{artists.Count} Artists";
-                    SongsCount = sum == 1 ? "1 Song" : $"{sum} Songs";
+                    ArtistsCount = SmartFormat.Smart.Format(Consts.Localizer.GetString("SmartArtists"), artists.Count);
+                    SongsCount = SmartFormat.Smart.Format(Consts.Localizer.GetString("SmartSongs"), sum);
                     break;
                 default:
                     break;

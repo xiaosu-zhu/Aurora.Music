@@ -50,7 +50,7 @@ namespace Aurora.Music.ViewModels
         {
             if (IsOnline)
             {
-                return "Online Content";
+                return Consts.Localizer.GetString("OnlineContentText");
             }
             var ext = FilePath.Split('.').Last().ToLower();
             switch (ext)
@@ -102,11 +102,11 @@ namespace Aurora.Music.ViewModels
         {
             if (arr.IsNullorEmpty())
             {
-                return "Various";
+                return Consts.Localizer.GetString("VariousText");
             }
             else
             {
-                return string.Join(", ", arr);
+                return string.Join(Consts.CommaSeparator, arr);
             }
         }
 
@@ -149,7 +149,7 @@ namespace Aurora.Music.ViewModels
 
         internal string GetFormattedArtists()
         {
-            return Song.AlbumArtists.IsNullorEmpty() ? Consts.UnknownArtists : string.Join(", ", Song.AlbumArtists);
+            return Song.AlbumArtists.IsNullorEmpty() ? Consts.UnknownArtists : string.Join(Consts.CommaSeparator, Song.AlbumArtists);
         }
 
         private string title;

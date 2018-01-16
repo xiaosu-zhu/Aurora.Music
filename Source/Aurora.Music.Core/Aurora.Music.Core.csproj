@@ -117,7 +117,7 @@
     <Compile Include="Extension\LyricSearcher.cs" />
     <Compile Include="Extension\OnlineMusicSearcher.cs" />
     <Compile Include="Models\Extension.cs" />
-    <Compile Include="Models\ISortable.cs" />
+    <Compile Include="Models\IKey.cs" />
     <Compile Include="Models\Lyric.cs" />
     <Compile Include="Models\LyricExtension.cs" />
     <Compile Include="Models\Music.cs" />
@@ -143,6 +143,9 @@
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>10.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="SmartFormat.Net">
+      <Version>2.1.0.2</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup />

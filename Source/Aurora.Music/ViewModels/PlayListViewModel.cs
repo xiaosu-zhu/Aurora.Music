@@ -1,4 +1,5 @@
-﻿using Aurora.Music.Core.Models;
+﻿using Aurora.Music.Core;
+using Aurora.Music.Core.Models;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.MVVM;
 using System;
@@ -41,11 +42,11 @@ namespace Aurora.Music.ViewModels
 
         public string SongsCount()
         {
-            if (SongsID == null || SongsID.Length == 0)
+            if (SongsID == null)
             {
-                return "0 songs";
+                SmartFormat.Smart.Format(Consts.Localizer.GetString("SmartSongs"), 0);
             }
-            return $"{SongsID.Length} " + (SongsID.Length == 1 ? "song" : "songs");
+            return SmartFormat.Smart.Format(Consts.Localizer.GetString("SmartSongs"), SongsID.Length);
         }
 
         internal async Task SaveAsync()

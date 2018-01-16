@@ -238,7 +238,7 @@ namespace Aurora.Music.Controls
                       {
                           foreach (var file in files)
                           {
-                              await file.DeleteAsync();
+                              await file.DeleteAsync(StorageDeleteOption.PermanentDelete);
                           }
                       }
 
