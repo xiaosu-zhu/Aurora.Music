@@ -10,16 +10,18 @@ Insure you've learned how to implement an app service and the usage of `Property
 
 This kind of extensions let Aurora Music have the ability to fetch specific lyrics.
 
+### Receive
 For example, when the app wants the lyric of `Love Me Do` by `The Beatles`, here's the staffs you will receive:
 
 | Query key | Value | Description |
 | --- | --- | --- |
 | `q` | `lyric` | The query action |
 | `title` | `Love Me Do` | The title of song |
-| *¡¤`artist`* | `The Beatles` | The Performer of song |
+| *\*`artist`* | `The Beatles` | The Performer of song |
 
-*¡¤: This key is optional, which means sometimes the value is empty.*
+*\*: This key is optional, which means sometimes the value is empty.*
 
+### Send
 Then, after your extension got lyric, you should send data as following:
 
 | Key | Value | Description |
@@ -29,7 +31,7 @@ Then, after your extension got lyric, you should send data as following:
 
 **Note that**, the value of `result` is a `string`, which is in the format of lrc, it is something like:
 
-`[00:13.49]Love, love me do[00:16.23]You know I love you[00:19.58]I¡¯ll always be true[00:22.80]so please, love me do...`
+`[00:13.49]Love, love me do[00:16.23]You know I love you[00:19.58]IÂ¡Â¯ll always be true[00:22.80]so please, love me do...`
 
 Meanwhile, if you only provide lyric sentences by sentences, just join them by `\r\n` and send, the app can process.
 
@@ -41,6 +43,7 @@ here's the final result:
 
 This kind of extensions let Aurora Music have the ability to show the info of albums, performers, etc.
 
+### Receive
 When the app wants to show the album info of `Abbey Road` by `The Beatles`, you will receive:
 
 | Query key | Value | Description |
@@ -52,6 +55,7 @@ When the app wants to show the album info of `Abbey Road` by `The Beatles`, you 
 
 **Note**: the `q` value is `online_meta`, which means app wants to query online meta-data. And the `action` value is `album`, which means app wants the album info currently.
 
+### Send
 After you got the info, you can send data as below:
 
 | Key | Value | Description |
