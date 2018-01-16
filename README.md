@@ -13,5 +13,5 @@ A small, lightweight UWP music player.
 Read instructions for extension development from 
 ### [here](./Documentation)
 You can provider your own data in this way. There's also a code sample 
-### [here](./Samples/ExtensionSample)
+### [here](./Samples)
 
