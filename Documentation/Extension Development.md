@@ -33,37 +33,39 @@ Now, it's play time, You can follow these steps to create a basic extension!
 To declare your app as an extension, you should add these lines to the `Package.appxmanifest`. First, you should check if it already included such namespaces at the first line:
 
 
-    ```xml
-    <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
-	     xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
-	     xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" 
-	     xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3" 
-	     xmlns:uap4="http://schemas.microsoft.com/appx/manifest/uap/windows10/4" 
-	     IgnorableNamespaces="uap mp uap3 uap4">
-		 ...
-		 Properties
-		 ...
-	</Package>
-    ```
+```xml
+<Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+         xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
+         xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" 
+         xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3" 
+         xmlns:uap4="http://schemas.microsoft.com/appx/manifest/uap/windows10/4" 
+         IgnorableNamespaces="uap mp uap3 uap4">
+         ...
+         Properties
+         ...
+</Package>
+```
 
 
 Then, you should declare this is an appExtension, under the Extension Node:
 
 
-	<Application ...>
-	    ...
-	    ...
-	    <Extensions>
-	        <uap3:Extension Category="windows.appExtension">
-		    <uap3:AppExtension Name="Aurora.Music.Extensions" Id="BuiltIn" PublicFolder="Public" DisplayName="Lyric" Description="Aurora Music Lyric Provider">
-				<uap3:Properties>
-					<Service>Aurora.Music.Services</Service>
-					<Category>Lyric</Category>
-				</uap3:Properties>
-		    </uap3:AppExtension>
-		</uap3:Extension>
-	    </Extensions>
-	</Application>
+```xml
+<Application ...>
+    ...
+    ...
+    <Extensions>
+	    <uap3:Extension Category="windows.appExtension">
+	        <uap3:AppExtension Name="Aurora.Music.Extensions" Id="BuiltIn" PublicFolder="Public" DisplayName="Lyric" Description="Aurora Music Lyric Provider">
+                <uap3:Properties>
+                    <Service>Aurora.Music.Services</Service>
+                    <Category>Lyric</Category>
+                </uap3:Properties>
+            </uap3:AppExtension>
+        </uap3:Extension>
+    </Extensions>
+</Application>
+```
 
 
 
@@ -119,9 +121,9 @@ When we call `SendMessageAsync` in main app, we pass a `ValueSet` which contains
 Here's an example:
 
 
-    ```cs
-    private async void OnRequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
-    {
+```cs
+private async void OnRequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
+{
 	// Get a deferral because we use an awaitable API below to respond to the message
 	// and we don't want this call to get cancelled while we are waiting.
 	var messageDeferral = args.GetDeferral();
@@ -163,7 +165,8 @@ Here's an example:
 	// Complete the deferral so that the platform knows that we're done responding to the app service call.
 	// Note for error handling: this must be called even if SendResponseAsync() throws an exception.
 	messageDeferral.Complete();
-    }
+}
+```
     
 
 
