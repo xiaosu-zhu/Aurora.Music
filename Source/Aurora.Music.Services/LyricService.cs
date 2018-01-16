@@ -48,7 +48,6 @@ namespace Aurora.Music.Services
             switch (command)
             {
                 case "lyric":
-
                     var title = message["title"] as string;
                     message.TryGetValue("artist", out object art);
                     var artists = art as string;

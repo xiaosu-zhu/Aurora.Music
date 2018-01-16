@@ -54,10 +54,10 @@ Then, you should declare this is an appExtension, under the Extension Node:
 	    <Extensions>
 	        <uap3:Extension Category="windows.appExtension">
 		    <uap3:AppExtension Name="Aurora.Music.Extensions" Id="BuiltIn" PublicFolder="Public" DisplayName="Lyric" Description="Aurora Music Lyric Provider">
-			<uap3:Properties>
-			    <Service>Aurora.Music.Services</Service>
-			    <Category>Lyric</Category>
-			</uap3:Properties>
+				<uap3:Properties>
+					<Service>Aurora.Music.Services</Service>
+					<Category>Lyric</Category>
+				</uap3:Properties>
 		    </uap3:AppExtension>
 		</uap3:Extension>
 	    </Extensions>
@@ -65,12 +65,21 @@ Then, you should declare this is an appExtension, under the Extension Node:
 
 
 
-NOTE: the use of `uap3:Properties` is explained in [Query Intro](./Query%20Intro.md), this is a declaration of your extension's features.
+**NOTE**
+1: The `Name="Aurora.Music.Extensions"` in the `uap3:AppExtension` node must be "Aurora.Music.Extensions", so the app can recognize. and the `Id` can't be `BuiltIn`, it is reserved.
+
+**NOTE**: the `uap3:Properties` is a `PropertySet`, which is a declaration of your extension's features described below:
+
+| Key | Value | Description |
+| --- | --- | --- |
+| `Service` | `string` | `Name of your app service` |
+| `Category` | `Lyric;OnlineMusic;OnlineMeta` | three kinds: `Lyric`, `OnlineMusic`, `OnlineMeta`, if you provide multiple services, you can join them with`;` |
+| `LaunchUri ` | `string` | an activate Uri of your app, optional |
 
 
 In this scenario, we add two properties: `Service` and `Category`. `Service` is the name of your app service(added below), `Category` is what kind of service you would to provide(here is a lyric provider).
 
-Before using AppService, you should also declare it, this time you can add it in the manifest manager:
+When Providing AppService, you should first declare it, this time you can add it in the manifest manager:
 
 
 ![Modify Appxmanifest](https://i.loli.net/2017/11/26/5a19a11d60bad.png "Add the AppService Declaration")
