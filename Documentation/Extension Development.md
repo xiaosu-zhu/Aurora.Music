@@ -5,7 +5,7 @@ Aurora Music have implemented the support for Extensions (1: [Extend your app wi
 
  - Perform as a lyric provider
  - Perform as an online music provider
- - ~~Perform as an online metadata provider~~ (not complete)
+ - Perform as an online metadata provider
  
  You can get the full sample [here](../Samples/ExtensionSample)
 
@@ -33,6 +33,7 @@ Now, it's play time, You can follow these steps to create a basic extension!
 To declare your app as an extension, you should add these lines to the `Package.appxmanifest`. First, you should check if it already included such namespaces at the first line:
 
 
+    ```xml
     <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
 	     xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
 	     xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" 
@@ -43,6 +44,7 @@ To declare your app as an extension, you should add these lines to the `Package.
 		 Properties
 		 ...
 	</Package>
+    ```
 
 
 Then, you should declare this is an appExtension, under the Extension Node:
@@ -66,9 +68,10 @@ Then, you should declare this is an appExtension, under the Extension Node:
 
 
 **NOTE**
-1: The `Name="Aurora.Music.Extensions"` in the `uap3:AppExtension` node must be "Aurora.Music.Extensions", so the app can recognize. and the `Id` can't be `BuiltIn`, it is reserved.
 
-**NOTE**: the `uap3:Properties` is a `PropertySet`, which is a declaration of your extension's features described below:
+1. The `Name="Aurora.Music.Extensions"` in the `uap3:AppExtension` node must be "Aurora.Music.Extensions", so the app can recognize. and the `Id` can't be `BuiltIn`, it is reserved.
+
+2. The `uap3:Properties` is a `PropertySet`, which is a declaration of your extension's features described below:
 
 | Key | Value | Description |
 | --- | --- | --- |
@@ -76,6 +79,7 @@ Then, you should declare this is an appExtension, under the Extension Node:
 | `Category` | `Lyric;OnlineMusic;OnlineMeta` | three kinds: `Lyric`, `OnlineMusic`, `OnlineMeta`, if you provide multiple services, you can join them with`;` |
 | `LaunchUri ` | `string` | an activate Uri of your app, optional |
 
+---
 
 In this scenario, we add two properties: `Service` and `Category`. `Service` is the name of your app service(added below), `Category` is what kind of service you would to provide(here is a lyric provider).
 
@@ -101,19 +105,21 @@ When we call `SendMessageAsync` in main app, we pass a `ValueSet` which contains
 | ------ | ------- | ------------ |
 | q  |`"lyric"` | The type of request |
 | title	| `"lorem ipsum"` | The title of the song |
-| artist\* | `"a man"` | The performer of the song |
-| album\*  | `"a album"`  | The album name of the song |
+| *\*artist* | `"a man"` | The performer of the song |
+| *\*album*  | `"a album"`  | The album name of the song |
 | ID | "OnlineID" | If you are an online music provider you may need this |
  
  
 \*:optional
 
+**NOTICE**: Because the tag of the song may be corrupt, so the key: `artist` or `album`, may be null or empty.
 
-NOTICE: Because the tag of the song may be corrupt, so the key:  `artist` or  `album`, may be null or empty.
+---
 
 Here's an example:
 
 
+    ```cs
     private async void OnRequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
     {
 	// Get a deferral because we use an awaitable API below to respond to the message
@@ -158,6 +164,7 @@ Here's an example:
 	// Note for error handling: this must be called even if SendResponseAsync() throws an exception.
 	messageDeferral.Complete();
     }
+    
 
 
 In the `returnData` above, you should provide:
@@ -193,7 +200,3 @@ All done! Feeling lucky~
   [2]: https://docs.microsoft.com/en-us/windows/uwp/launch-resume/how-to-create-and-consume-an-app-service
 
   
-
-
-
-
