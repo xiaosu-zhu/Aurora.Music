@@ -5,7 +5,6 @@ This is an introduction of the query in [Extension Development](./Extension%20De
 ## Before You Start
 
 Insure you've learned how to implement an app service and the usage of `PropertySet`.
-
 ## Lyric Provider
 
 This kind of extensions let Aurora Music have the ability to fetch specific lyrics.
@@ -37,7 +36,7 @@ Meanwhile, if you only provide lyric sentences by sentences, just join them by `
 
 here's the final result:
 
-![](https://i.loli.net/2018/01/16/5a5df87b3bf74.png "Lyric Result")
+![](https://i.loli.net/2018/01/16/5a5df87b3be08.png "Lyric Result")
 
 ## Meta-data Provider
 
@@ -112,4 +111,4 @@ The data of `artist_result` shows below:
 
 Here's the result:
 
-![](https://i.loli.net/2018/01/16/5a5df87b3be08.png "Album Info Result")
+![](https://i.loli.net/2018/01/16/5a5df87b3bf74.png "Album Info Result")
