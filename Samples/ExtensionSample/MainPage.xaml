@@ -8,6 +8,6 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <TextBlock Text="Extension Sample" Style="{ThemeResource HeaderTextBlockStyle}" Margin="12,0"/>
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Style="{ThemeResource SubtitleTextBlockStyle}" TextWrapping="WrapWholeWords" TextTrimming="None" Text="Close this, and go to Aurora Music-Settings, switch 'Debug Mode' to 'On' and refresh, then you can see this appear at Lyric Extension ComboBox"/>
     </Grid>
 </Page>

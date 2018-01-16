@@ -155,21 +155,28 @@ namespace Aurora.Music.ViewModels
             Description = ext.Description;
             Service = (properties["Service"] as PropertySet)["#text"] as string;
 
-            _launchUri = (properties["LaunchUri"] as PropertySet)["#text"] as string;
-            if (string.IsNullOrEmpty(_launchUri))
+            if (properties.TryGetValue("LaunchUri", out object uri))
             {
-                CanLaunch = false;
-            }
-            else
-            {
-                if (Uri.TryCreate(_launchUri, UriKind.Absolute, out var u))
-                {
-                    CanLaunch = true;
-                }
-                else
+                if (string.IsNullOrEmpty(uri as string))
                 {
                     CanLaunch = false;
                 }
+                else
+                {
+                    if (Uri.TryCreate(uri as string, UriKind.Absolute, out var u))
+                    {
+                        CanLaunch = true;
+                        _launchUri = uri as string;
+                    }
+                    else
+                    {
+                        CanLaunch = false;
+                    }
+                }
+            }
+            else
+            {
+                CanLaunch = false;
             }
         }
 

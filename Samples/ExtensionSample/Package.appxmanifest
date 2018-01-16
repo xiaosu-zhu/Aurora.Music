@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3" xmlns:uap4="http://schemas.microsoft.com/appx/manifest/uap/windows10/4" IgnorableNamespaces="uap mp uap3 uap4">
-  <Identity Name="704b53af-61df-4fa0-bef8-dbafc6f79384" Publisher="CN=sample" Version="1.0.0.0" />
-  <mp:PhoneIdentity PhoneProductId="704b53af-61df-4fa0-bef8-dbafc6f79384" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
+  <Identity Name="3329eabe-baf6-4502-be2f-800426b9d50d" Publisher="CN=Xiaos" Version="1.0.0.0" />
+  <mp:PhoneIdentity PhoneProductId="3329eabe-baf6-4502-be2f-800426b9d50d" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>ExtensionSample</DisplayName>
     <PublisherDisplayName>Xiaos</PublisherDisplayName>
@@ -21,17 +21,17 @@
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
       <Extensions>
+        <uap:Extension Category="windows.appService">
+          <uap:AppService Name="ExtensionSample.Service" />
+        </uap:Extension>
         <uap3:Extension Category="windows.appExtension">
-          <uap3:AppExtension Name="ExtensionSample" Id="Sample" PublicFolder="Public" DisplayName="Sample" Description="Aurora Music Extensibility Sample">
+          <uap3:AppExtension Name="Aurora.Music.Extensions" Id="Sample" PublicFolder="Public" DisplayName="Extension Sample" Description="This is a sample for lyric extension">
             <uap3:Properties>
-              <Service>Aurora.Music.Sample</Service>
-              <Category>Lyric;OnlineMusic</Category>
+              <Service>ExtensionSample.Service</Service>
+              <Category>Lyric</Category>
             </uap3:Properties>
           </uap3:AppExtension>
         </uap3:Extension>
-        <uap:Extension Category="windows.appService">
-          <uap:AppService Name="Aurora.Music.Sample" />
-        </uap:Extension>
       </Extensions>
     </Application>
   </Applications>
