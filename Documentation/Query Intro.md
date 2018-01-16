@@ -37,7 +37,7 @@ Meanwhile, if you only provide lyric sentences by sentences, just join them by `
 
 here's the final result:
 
-**TODO**
+![](https://i.loli.net/2018/01/16/5a5df87b3bf74.png "Lyric Result")
 
 ## Meta-data Provider
 
@@ -77,4 +77,39 @@ The data of `album_result` shows below:
 
 Here's the result:
 
-*TODO*
+![](https://i.loli.net/2018/01/16/5a5df879d0db4.png "Album Info Result")
+
+
+### Artist Info is Similarly
+### Receive
+When the app wants to show the artist info `The Beatles`, you will receive:
+
+| Query key | Value | Description |
+| --- | --- | --- |
+| `q` | `online_meta` | The query action |
+| `action` | `artist` | Type of info to query |
+| `artist` | `The Beatles` | The artist of album |
+
+**Note**: the `q` value is `online_meta`, which means app wants to query online meta-data. And the `action` value is `album`, which means app wants the album info currently.
+
+### Send
+After you got the info, you can send data as below:
+
+| Key | Value | Description |
+| --- | --- | --- |
+| `status` | `1` | `1 => success, 0 => failed` |
+| `artist_result` | `PropertySet` | See below |
+
+The data of `artist_result` shows below:
+
+| Key | Value | Description |
+| --- | --- | --- |
+| `name` | `The Beatles` | The name of artist |
+| `avatar` | `string` | An absolute `Uri` string |
+| `desc` | `string` | The description of artist |
+
+**Note**: the `desc` value should be in the format of Markdown, then app can easily show it in rich-style.
+
+Here's the result:
+
+![](https://i.loli.net/2018/01/16/5a5df87b3be08.png "Album Info Result")
