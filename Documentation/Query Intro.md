@@ -10,13 +10,13 @@ Insure you've learned how to implement an app service and the usage of `Property
 This kind of extensions let Aurora Music have the ability to fetch specific lyrics.
 
 ### Receive
-For example, when the app wants the lyric of `Love Me Do` by `The Beatles`, here's the staffs you will receive:
+For example, when the app wants the lyric of "Love Me Do" by "The Beatles", here's the staffs you will receive:
 
 | Query key | Value | Description |
 | --- | --- | --- |
-| `q` | `lyric` | The query action |
-| `title` | `Love Me Do` | The title of song |
-| *\*`artist`* | `The Beatles` | The Performer of song |
+| `q` | `"lyric"` | The query action |
+| `title` | `"Love Me Do"` | The title of song |
+| *\*`artist`* | `"The Beatles"` | The Performer of song |
 
 *\*: This key is optional, which means sometimes the value is empty.*
 
@@ -43,16 +43,16 @@ here's the final result:
 This kind of extensions let Aurora Music have the ability to show the info of albums, performers, etc.
 
 ### Receive
-When the app wants to show the album info of `Abbey Road` by `The Beatles`, you will receive:
+When the app wants to show the album info of "Abbey Road" by "The Beatles", you will receive:
 
 | Query key | Value | Description |
 | --- | --- | --- |
-| `q` | `online_meta` | The query action |
-| `action` | `album` | Type of info to query |
-| `album` | `Abbey Road` | The name of album |
-| `artist` | `The Beatles` | The artist of album |
+| `q` | `"online_meta"` | The query action |
+| `action` | `"album"` | Type of info to query |
+| `album` | `"Abbey Road"` | The name of album |
+| `artist` | `"The Beatles"` | The artist of album |
 
-**Note**: the `q` value is `online_meta`, which means app wants to query online meta-data. And the `action` value is `album`, which means app wants the album info currently.
+**Note**: the `q` value is `"online_meta"`, which means app wants to query online meta-data. And the `action` value is `"album"`, which means app wants the album info currently.
 
 ### Send
 After you got the info, you can send data as below:
@@ -66,10 +66,10 @@ The data of `album_result` shows below:
 
 | Key | Value | Description |
 | --- | --- | --- |
-| `name` | `The Beatles` | The name of album |
+| `name` | `"The Beatles"` | The name of album |
 | `artwork` | `string` | An absolute `Uri` string |
 | `desc` | `string` | The description of album |
-| `artist` | `The Beatles` | The artist of album |
+| `artist` | `"The Beatles"` | The artist of album |
 | `year` | `2009` | `uint`, The publish year of album(you can just send `0`) |
 
 **Note**: the `desc` value should be in the format of Markdown, then app can easily show it in rich-style.
@@ -81,15 +81,15 @@ Here's the result:
 
 ### Artist Info is Similarly
 ### Receive
-When the app wants to show the artist info `The Beatles`, you will receive:
+When the app wants to show the artist info "The Beatles", you will receive:
 
 | Query key | Value | Description |
 | --- | --- | --- |
-| `q` | `online_meta` | The query action |
-| `action` | `artist` | Type of info to query |
-| `artist` | `The Beatles` | The artist of album |
+| `q` | `"online_meta"` | The query action |
+| `action` | `"artist"` | Type of info to query |
+| `artist` | `"The Beatles"` | The artist of album |
 
-**Note**: the `q` value is `online_meta`, which means app wants to query online meta-data. And the `action` value is `album`, which means app wants the album info currently.
+**Note**: the `q` value is `"online_meta"`, which means app wants to query online meta-data. And the `action` value is `"album"`, which means app wants the album info currently.
 
 ### Send
 After you got the info, you can send data as below:
@@ -103,7 +103,7 @@ The data of `artist_result` shows below:
 
 | Key | Value | Description |
 | --- | --- | --- |
-| `name` | `The Beatles` | The name of artist |
+| `name` | `"The Beatles"` | The name of artist |
 | `avatar` | `string` | An absolute `Uri` string |
 | `desc` | `string` | The description of artist |
 
