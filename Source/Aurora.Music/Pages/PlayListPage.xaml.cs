@@ -293,7 +293,7 @@ namespace Aurora.Music.Pages
                 DescriptionEditor.Visibility = Visibility.Collapsed;
                 DescriptionText.Visibility = Visibility.Visible;
                 await Context.EditDescription(DescriptionEditor.Text);
-                DescriptionText.Text = string.Empty;
+                DescriptionEditor.Text = string.Empty;
             }
         }
     }

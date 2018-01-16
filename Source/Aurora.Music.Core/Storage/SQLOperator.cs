@@ -1268,16 +1268,18 @@ namespace Aurora.Music.Core.Storage
             return playlists;
         }
 
-        internal async Task UpdatePlayListAsync(PLAYLIST p)
+        internal async Task<int> UpdatePlayListAsync(PLAYLIST p)
         {
             var res = await conn.QueryAsync<PLAYLIST>("SELECT * FROM PLAYLIST WHERE TITLE=?", p.Title);
             if (res.Count > 0)
             {
                 await conn.UpdateAsync(p);
+                return p.ID;
             }
             else
             {
                 await conn.InsertAsync(p);
+                return p.ID;
             }
         }
 

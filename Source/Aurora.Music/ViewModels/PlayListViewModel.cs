@@ -14,11 +14,11 @@ namespace Aurora.Music.ViewModels
     {
         public string Title { get; set; }
         public string Description { get; set; }
-        public string[] Tags { get; set; }
-        public List<SongViewModel> Songs { get; set; }
-        public int[] SongsID { get; set; }
+        public string[] Tags { get; set; } = new string[] { };
+        public List<SongViewModel> Songs { get; set; } = new List<SongViewModel>();
+        public int[] SongsID { get; set; } = new int[] { };
         public int ID { get; internal set; }
-        private List<Uri> heroArtworks;
+        private List<Uri> heroArtworks = new List<Uri>();
         public List<Uri> HeroArtworks
         {
             get { return heroArtworks; }
@@ -46,7 +46,7 @@ namespace Aurora.Music.ViewModels
             {
                 SmartFormat.Smart.Format(Consts.Localizer.GetString("SmartSongs"), 0);
             }
-            return SmartFormat.Smart.Format(Consts.Localizer.GetString("SmartSongs"), SongsID.Length);
+            return SmartFormat.Smart.Format(Consts.Localizer.GetString("SmartSongs"), (SongsID ?? new int[] { }).Length);
         }
 
         internal async Task SaveAsync()
@@ -61,7 +61,7 @@ namespace Aurora.Music.ViewModels
                 SongsID = SongsID ?? new int[] { }
             };
 
-            await p.SaveAsync();
+            ID = await p.SaveAsync();
         }
 
         internal async Task AddAsync(int[] SongID)

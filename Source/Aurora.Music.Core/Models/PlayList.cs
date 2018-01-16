@@ -43,9 +43,9 @@ namespace Aurora.Music.Core.Models
         {
         }
 
-        public async Task SaveAsync()
+        public async Task<int> SaveAsync()
         {
-            await SQLOperator.Current().UpdatePlayListAsync(new PLAYLIST(this));
+            return await SQLOperator.Current().UpdatePlayListAsync(new PLAYLIST(this));
         }
     }
 }
