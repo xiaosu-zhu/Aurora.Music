@@ -55,8 +55,8 @@ Then, you should declare this is an appExtension, under the Extension Node:
     ...
     ...
     <Extensions>
-	    <uap3:Extension Category="windows.appExtension">
-	        <uap3:AppExtension Name="Aurora.Music.Extensions" Id="BuiltIn" PublicFolder="Public" DisplayName="Lyric" Description="Aurora Music Lyric Provider">
+        <uap3:Extension Category="windows.appExtension">
+            <uap3:AppExtension Name="Aurora.Music.Extensions" Id="BuiltIn" PublicFolder="Public" DisplayName="Lyric" Description="Aurora Music Lyric Provider">
                 <uap3:Properties>
                     <Service>Aurora.Music.Services</Service>
                     <Category>Lyric</Category>
@@ -103,10 +103,10 @@ Now, let's see what you will receive when the main app calls your service.
 When we call `SendMessageAsync` in main app, we pass a `ValueSet` which contains necessary parameters. For lyric extensions, we pass these:
 
 
-| Key	 | Value   | Description  |
+| Key     | Value   | Description  |
 | ------ | ------- | ------------ |
 | q  |`"lyric"` | The type of request |
-| title	| `"lorem ipsum"` | The title of the song |
+| title    | `"lorem ipsum"` | The title of the song |
 | *\*artist* | `"a man"` | The performer of the song |
 | *\*album*  | `"a album"`  | The album name of the song |
 | ID | "OnlineID" | If you are an online music provider you may need this |
@@ -124,47 +124,47 @@ Here's an example:
 ```cs
 private async void OnRequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
 {
-	// Get a deferral because we use an awaitable API below to respond to the message
-	// and we don't want this call to get cancelled while we are waiting.
-	var messageDeferral = args.GetDeferral();
+    // Get a deferral because we use an awaitable API below to respond to the message
+    // and we don't want this call to get cancelled while we are waiting.
+    var messageDeferral = args.GetDeferral();
 
-	ValueSet message = args.Request.Message;
-	ValueSet returnData = new ValueSet();
-	string command = message["q"] as string;
+    ValueSet message = args.Request.Message;
+    ValueSet returnData = new ValueSet();
+    string command = message["q"] as string;
 
-	switch (command)
-	{
-		case "lyric":
+    switch (command)
+    {
+        case "lyric":
 
-			var title = message["title"] as string;
-			message.TryGetValue("artist", out object art);
-			var artists = art as string;
-			message.TryGetValue("album", out object alb);
-			var album = alb as string;
+            var title = message["title"] as string;
+            message.TryGetValue("artist", out object art);
+            var artists = art as string;
+            message.TryGetValue("album", out object alb);
+            var album = alb as string;
 
-			// get lyric from somewhere
-			var result = await LyricSearcher.GetLyricAsync(title, artists, album);
-			if (result != null)
-			{
-				returnData.Add("result", result);
-				returnData.Add("status", 1);
-			}
-			else
-			{
-				returnData.Add("result", null);
-				returnData.Add("status", 1);
-			}
-			break;
-			default:
-			returnData.Add("status", 0);
-			break;
-	}
+            // get lyric from somewhere
+            var result = await LyricSearcher.GetLyricAsync(title, artists, album);
+            if (result != null)
+            {
+                returnData.Add("result", result);
+                returnData.Add("status", 1);
+            }
+            else
+            {
+                returnData.Add("result", null);
+                returnData.Add("status", 1);
+            }
+            break;
+            default:
+            returnData.Add("status", 0);
+            break;
+    }
 
-	await args.Request.SendResponseAsync(returnData);
-	// Return the data to the caller.
-	// Complete the deferral so that the platform knows that we're done responding to the app service call.
-	// Note for error handling: this must be called even if SendResponseAsync() throws an exception.
-	messageDeferral.Complete();
+    await args.Request.SendResponseAsync(returnData);
+    // Return the data to the caller.
+    // Complete the deferral so that the platform knows that we're done responding to the app service call.
+    // Note for error handling: this must be called even if SendResponseAsync() throws an exception.
+    messageDeferral.Complete();
 }
 ```
     
