@@ -41,7 +41,7 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref canLaunch, value); }
         }
 
-        private bool canUninstall;
+        private bool canUninstall = true;
         public bool CanUninstall
         {
             get { return canUninstall; }

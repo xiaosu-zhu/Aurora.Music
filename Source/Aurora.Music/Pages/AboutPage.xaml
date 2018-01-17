@@ -20,7 +20,38 @@
     </Page.Resources>
     
     <ScrollViewer Style="{ThemeResource NarrowScrollViewer}" HorizontalScrollMode="Disabled">
-        <StackPanel Orientation="Vertical" Margin="64,80,64,160" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="SomethingWeird.Orientation" Value="Vertical"/>
+                        <Setter Target="Main.Padding" Value="12,120,12,160"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="641"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="Main.Padding" Value="0,120,0,160"/>
+                        <Setter Target="SomethingWeird.Orientation" Value="Horizontal"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Full">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1008"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="Main.Padding" Value="60,120,60,160"/>
+                        <Setter Target="SomethingWeird.Orientation" Value="Horizontal"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <StackPanel Orientation="Vertical" x:Name="Main" Padding="64,80,64,160" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
             <Viewbox Margin="12,0" MaxHeight="120" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Image Stretch="Uniform">
                     <Image.Source>
@@ -60,6 +91,10 @@
                     <Run Text="打开反馈中心"/>
                 </Hyperlink>
             </TextBlock>
+            <StackPanel x:Name="SomethingWeird" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Image MaxHeight="320" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Uniform" Source="/Assets/ali.png" Margin="8"/>
+                <Image MaxHeight="320" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Uniform" Source="/Assets/wechat.png" Margin="8"/>
+            </StackPanel>
         </StackPanel>
     </ScrollViewer>
 </Page>

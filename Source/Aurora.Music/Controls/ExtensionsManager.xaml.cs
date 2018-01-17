@@ -124,6 +124,7 @@ namespace Aurora.Music.Controls
 
         private async void _catalog_PackageUninstalling(AppExtensionCatalog sender, AppExtensionPackageUninstallingEventArgs args)
         {
+            await Task.Delay(1000);
             await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
                 ExtensionList.Clear();

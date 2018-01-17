@@ -377,38 +377,17 @@ namespace Aurora.Music.ViewModels
 
         public async Task ReloadExtensions()
         {
-            var exts = await Extension.Load(Settings.Current.LyricExtensionID);
-            foreach (var ext in exts)
-            {
-                if (ext is LyricExtension)
-                {
-                    LyricExtension = ext;
-                }
-            }
+            LyricExtension = await Extension.Load<LyricExtension>(Settings.Current.LyricExtensionID);
             if (Settings.Current.OnlinePurchase)
             {
-                exts = await Extension.Load(Settings.Current.OnlineMusicExtensionID);
-                foreach (var ext in exts)
-                {
-                    if (ext is OnlineMusicExtension)
-                    {
-                        OnlineMusicExtension = ext;
-                    }
-                }
+                OnlineMusicExtension = await Extension.Load<OnlineMusicExtension>(Settings.Current.OnlineMusicExtensionID);
             }
             else
             {
                 OnlineMusicExtension = null;
             }
 
-            exts = await Extension.Load(Settings.Current.MetaExtensionID);
-            foreach (var ext in exts)
-            {
-                if (ext is OnlineMetaExtension)
-                {
-                    OnlineMetaExtension = ext;
-                }
-            }
+            OnlineMetaExtension = await Extension.Load<OnlineMetaExtension>(Settings.Current.MetaExtensionID);
 
             await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {

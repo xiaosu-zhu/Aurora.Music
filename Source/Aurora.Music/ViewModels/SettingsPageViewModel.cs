@@ -271,6 +271,11 @@ namespace Aurora.Music.ViewModels
                 Settings.Current.LyricExtensionID = v.UniqueId;
                 Settings.Current.Save();
             }
+            else
+            {
+                Settings.Current.LyricExtensionID = string.Empty;
+                Settings.Current.Save();
+            }
         }
 
         internal void ChangeOnlineExt(object selectedItem)
@@ -280,6 +285,11 @@ namespace Aurora.Music.ViewModels
                 Settings.Current.OnlineMusicExtensionID = v.UniqueId;
                 Settings.Current.Save();
             }
+            else
+            {
+                Settings.Current.LyricExtensionID = string.Empty;
+                Settings.Current.Save();
+            }
         }
 
         internal void ChangeMetaExt(object selectedItem)
@@ -287,6 +297,11 @@ namespace Aurora.Music.ViewModels
             if (selectedItem is ExtensionViewModel v)
             {
                 Settings.Current.MetaExtensionID = v.UniqueId;
+                Settings.Current.Save();
+            }
+            else
+            {
+                Settings.Current.LyricExtensionID = string.Empty;
                 Settings.Current.Save();
             }
         }
@@ -451,7 +466,7 @@ namespace Aurora.Music.ViewModels
             // load the extension if the package is OK
             if (!(ext.Package.Status.VerifyIsOK()
 #if !DEBUG
-                    && settings.DebugModeEnabled ? true : ext.Package.SignatureKind == PackageSignatureKind.Store
+                    && Settings.Current.DebugModeEnabled ? true : ext.Package.SignatureKind == PackageSignatureKind.Store
 #endif
                     ))
             {
@@ -680,6 +695,7 @@ namespace Aurora.Music.ViewModels
 
         private async void _catalog_PackageUninstalling(AppExtensionCatalog sender, AppExtensionPackageUninstallingEventArgs args)
         {
+            await Task.Delay(1000);
             await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
                 LyricExts.Clear();

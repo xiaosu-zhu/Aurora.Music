@@ -68,7 +68,7 @@ namespace Aurora.Music.Core.Models
             }
         }
 
-        public static async Task<List<Extension>> Load(string lyricExtensionID)
+        public static async Task<Extension> Load<T>(string lyricExtensionID) where T : Extension
         {
             if (lyricExtensionID.IsNullorEmpty())
             {
@@ -76,39 +76,53 @@ namespace Aurora.Music.Core.Models
             }
             var catalog = AppExtensionCatalog.Open(Consts.ExtensionContract);
             var extesions = await catalog.FindAllAsync();
-            foreach (var ext in extesions)
+            bool b = false;
+            find: foreach (var ext in extesions)
             {
                 if (lyricExtensionID == ext.AppInfo.AppUserModelId + Consts.ArraySeparator + ext.Id)
                 {
-                    var properties = await ext.GetExtensionPropertiesAsync();
-
-                    var categoryProperty = properties["Category"] as PropertySet;
-
-                    var categories = (categoryProperty["#text"] as string).Split(';');
-
-                    var results = new List<Extension>();
-
-                    foreach (var category in categories)
+                    try
                     {
-                        switch (category)
+                        var properties = await ext.GetExtensionPropertiesAsync();
+
+                        var categoryProperty = properties["Category"] as PropertySet;
+
+                        // parse Category
+                        var categories = (categoryProperty["#text"] as string).Split(';');
+
+                        if (typeof(T) == typeof(LyricExtension) && categories.Contains("Lyric"))
                         {
-                            case "Lyric":
-                                results.Add(new LyricExtension(ext, properties));
-                                break;
-                            case "OnlineMusic":
-                                results.Add(new OnlineMusicExtension(ext, properties));
-                                break;
-                            case "OnlineMeta":
-                                results.Add(new OnlineMetaExtension(ext, properties));
-                                break;
-                            default:
-                                break;
+                            return new LyricExtension(ext, properties);
                         }
+                        if (typeof(T) == typeof(OnlineMetaExtension) && categories.Contains("OnlineMeta"))
+                        {
+                            return new OnlineMetaExtension(ext, properties);
+                        }
+                        if (typeof(T) == typeof(OnlineMusicExtension) && categories.Contains("OnlineMusic"))
+                        {
+                            return new OnlineMusicExtension(ext, properties);
+                        }
+
+                        // we have the exact extension, but it don't provide this kind of extension, return null
+                        return null;
                     }
-                    return results;
+                    catch (Exception)
+                    {
+                        // if extension didn't write the correct manifest, may throw exception
+                        continue;
+                    }
                 }
             }
-            throw new ArgumentException("Can't find specific Extension");
+            if (!b)
+            {
+                b = true;
+                lyricExtensionID = Consts.AppUserModelId + "$|$BuiltIn";
+                goto find;
+            }
+            else
+            {
+                throw new InvalidOperationException("Can't find specific Extension");
+            }
         }
         //{
         //if (_loaded)
