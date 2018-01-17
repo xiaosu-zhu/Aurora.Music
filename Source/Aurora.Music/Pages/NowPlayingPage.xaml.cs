@@ -131,6 +131,7 @@ namespace Aurora.Music.Pages
 
         private void NowPlayingPage_BackRequested(object sender, BackRequestedEventArgs e)
         {
+            if (e.Handled) return;
             ConnectedAnimationService.GetForCurrentView().PrepareToAnimate(Consts.NowPlayingPageInAnimation, Artwork);
             ConnectedAnimationService.GetForCurrentView().PrepareToAnimate($"{Consts.NowPlayingPageInAnimation}_1", Title);
             ConnectedAnimationService.GetForCurrentView().PrepareToAnimate($"{Consts.NowPlayingPageInAnimation}_2", Album);

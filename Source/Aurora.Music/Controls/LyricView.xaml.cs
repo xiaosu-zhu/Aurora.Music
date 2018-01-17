@@ -99,7 +99,7 @@ namespace Aurora.Music.Controls
 
         private async void LyricView_StatusChanged(object sender, PlaybackEngine.StatusChangedArgs e)
         {
-            if (e.CurrentSong != null && e.CurrentSong.IsIDEqual(Model.Song))
+            if (e.CurrentSong != null && !e.CurrentSong.IsIDEqual(Model.Song))
             {
                 Model = new SongViewModel(e.CurrentSong);
                 if (extension != null)

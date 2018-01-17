@@ -41,6 +41,13 @@ namespace Aurora.Music.ViewModels
                 TargetType = typeof(LibraryPage),
                 BG = new Uri("ms-appx:///Assets/Images/songs.png")
             },
+            new HamPanelItem
+            {
+                Title = "豆瓣 FM",
+                Icon = "\uE2AC",
+                TargetType = typeof(DoubanPage),
+                BG = new Uri("ms-appx:///Assets/Images/songs.png")
+            }
             //new HamPanelItem
             //{
             //    Title = "Playlist",
@@ -314,6 +321,7 @@ namespace Aurora.Music.ViewModels
             {
                 return new DelegateCommand(() =>
                 {
+                    MainPage.Current.GoBackFromNowPlaying();
                     MainPage.Current.Navigate(typeof(SettingsPage));
                 });
             }
@@ -325,6 +333,7 @@ namespace Aurora.Music.ViewModels
             {
                 return new DelegateCommand(() =>
                 {
+                    MainPage.Current.GoBackFromNowPlaying();
                     MainPage.Current.Navigate(typeof(AboutPage));
                 });
             }

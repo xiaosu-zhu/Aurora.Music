@@ -70,6 +70,8 @@ namespace Aurora.Music.Core.Models
         public bool RememberFileActivatedAction { get; set; } = false;
         public bool CopyFileWhenActivated { get; set; } = false;
 
+        public DateTime DoubanLogin { get; set; }
+
         private static Settings current;
         public static Settings Current
         {
@@ -86,6 +88,8 @@ namespace Aurora.Music.Core.Models
                 }
             }
         }
+
+        public double DoubanExpireTime { get; set; }
 
         private static void Settings_SettingsChanged(object sender, EventArgs e)
         {

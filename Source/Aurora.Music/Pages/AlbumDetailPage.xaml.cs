@@ -44,6 +44,7 @@ namespace Aurora.Music.Pages
 
         private void AlbumDetailPage_BackRequested(object sender, BackRequestedEventArgs e)
         {
+            if (e.Handled) return;
             e.Handled = true;
             ConnectedAnimationService.GetForCurrentView().PrepareToAnimate(Consts.AlbumDetailPageInAnimation + "_1", Title);
             ConnectedAnimationService.GetForCurrentView().PrepareToAnimate(Consts.AlbumDetailPageInAnimation + "_2", HeaderBG);

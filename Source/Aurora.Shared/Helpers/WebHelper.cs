@@ -9,6 +9,7 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Foundation;
@@ -70,120 +71,100 @@ namespace Aurora.Shared.Helpers
 
     public static class ApiRequestHelper
     {
-        /// <summary>
-        /// 发送 HTTP 请求
-        /// </summary>
-        /// <param name="url">请求的 URL</param>
-        /// <param name="pars">请求的参数</param>
-        /// <param name="apikey">API Key</param>
-        /// <returns>请求结果</returns>
-        public static async Task<string> RequestIncludeKeyAsync(string url, string[] pars, string apikey)
+        ///// <summary>
+        ///// 发送 HTTP 请求
+        ///// </summary>
+        ///// <param name="url">请求的 URL</param>
+        ///// <param name="pars">请求的参数</param>
+        ///// <param name="apikey">API Key</param>
+        ///// <returns>请求结果</returns>
+        //public static async Task<string> RequestIncludeKeyAsync(string url, string[] pars, string apikey)
+        //{
+        //    try
+        //    {
+        //        var strURL = url;
+        //        if (!pars.IsNullorEmpty())
+        //        {
+        //            strURL += '?';
+        //            foreach (var param in pars)
+        //            {
+        //                strURL += param + '&';
+        //            }
+        //            strURL += "key=" + apikey;
+        //        }
+        //        WebRequest request;
+        //        request = WebRequest.Create(strURL);
+        //        request.Method = "GET";
+        //        WebResponse response;
+        //        response = await request.GetResponseAsync();
+        //        Stream s;
+        //        s = response.GetResponseStream();
+        //        string StrDate = "";
+        //        string strValue = "";
+        //        StreamReader Reader = new StreamReader(s, Encoding.UTF8);
+        //        while ((StrDate = Reader.ReadLine()) != null)
+        //        {
+        //            strValue += StrDate + "\r\n";
+        //        }
+        //        return strValue;
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return null;
+        //    }
+
+        //}
+
+        //public static async Task<string> RequestWithFormattedUrlAsync(string requestUrl, params string[] v)
+        //{
+        //    try
+        //    {
+        //        WebRequest request;
+        //        request = WebRequest.Create(string.Format(requestUrl, v));
+        //        request.Method = "GET";
+        //        WebResponse response;
+        //        response = await request.GetResponseAsync();
+        //        Stream s;
+        //        s = response.GetResponseStream();
+        //        string StrDate = "";
+        //        string strValue = "";
+        //        StreamReader Reader = new StreamReader(s, Encoding.UTF8);
+        //        while ((StrDate = Reader.ReadLine()) != null)
+        //        {
+        //            strValue += StrDate + "\r\n";
+        //        }
+        //        return strValue;
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return null;
+        //    }
+        //}
+
+        public static async Task<string> HttpPostJson(string url, string postDataJson)
         {
-            try
+            using (var httpClient = new HttpClient())
             {
-                var strURL = url;
-                if (!pars.IsNullorEmpty())
+                Uri requestUri = new Uri(url);
+                try
                 {
-                    strURL += '?';
-                    foreach (var param in pars)
+                    var content = new HttpStringContent(postDataJson, Windows.Storage.Streams.UnicodeEncoding.Utf8, "application/json");
+                    content.Headers.ContentType.MediaType = "application/json";
+                    content.Headers.ContentType.CharSet = "utf-8";
+                    using (HttpResponseMessage response = await httpClient.PostAsync(requestUri, content))
                     {
-                        strURL += param + '&';
+                        response.EnsureSuccessStatusCode();
+                        var buffer = await response.Content.ReadAsBufferAsync();
+                        var byteArray = buffer.ToArray();
+                        return Encoding.UTF8.GetString(byteArray, 0, byteArray.Length);
                     }
-                    strURL += "key=" + apikey;
                 }
-                WebRequest request;
-                request = WebRequest.Create(strURL);
-                request.Method = "GET";
-                WebResponse response;
-                response = await request.GetResponseAsync();
-                Stream s;
-                s = response.GetResponseStream();
-                string StrDate = "";
-                string strValue = "";
-                StreamReader Reader = new StreamReader(s, Encoding.UTF8);
-                while ((StrDate = Reader.ReadLine()) != null)
+                catch (Exception)
                 {
-                    strValue += StrDate + "\r\n";
+                    //Could not connect to server
+                    //Use more specific exception handling, this is just an example
+                    return null;
                 }
-                return strValue;
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-
-        }
-
-        public static async Task<string> RequestWithFormattedUrlAsync(string requestUrl, params string[] v)
-        {
-            try
-            {
-                WebRequest request;
-                request = WebRequest.Create(string.Format(requestUrl, v));
-                request.Method = "GET";
-                WebResponse response;
-                response = await request.GetResponseAsync();
-                Stream s;
-                s = response.GetResponseStream();
-                string StrDate = "";
-                string strValue = "";
-                StreamReader Reader = new StreamReader(s, Encoding.UTF8);
-                while ((StrDate = Reader.ReadLine()) != null)
-                {
-                    strValue += StrDate + "\r\n";
-                }
-                return strValue;
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-        }
-
-        public static async Task<string> HttpPost(string url, string postDataJson, string encode = "utf-8", CookieCollection cc = null)
-        {
-            try
-            {
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-                request.CookieContainer = new CookieContainer();
-                if (cc != null)
-                {
-                    request.CookieContainer.Add(new Uri(url), cc);
-                }
-
-                //设置请求方式为POST
-                request.Method = "POST";
-                //在POST里一定要注意写入Content—Length，这里的长度是指POST上传的数据的长度，可以使用Encoding中的GetByteCount方法完成
-                request.Headers["Content-Length"] = Encoding.UTF8.GetByteCount(postDataJson).ToString();
-                request.ContentType = "application/json";
-
-                //test request header
-                //request.Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8";
-                //request.Headers["Accept-Encoding"] = "gzip, deflate";
-                //request.Headers["Accept-Language"] = "zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3";
-                //request.Headers["Connection"] = "keep-alive";
-                //request.Headers["DNT"] = "1";
-                //request.Headers["Host"] = "10.3.8.211";
-                //request.Headers["Referrer"] = "http://10.3.8.211/";
-                //request.Headers["User-Agent"] = "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:47.0) Gecko/20100101 Firefox/47.0";
-
-                //拿到request的输入流
-                Stream myRequestStream = await request.GetRequestStreamAsync();
-
-                byte[] bs = Encoding.UTF8.GetBytes(postDataJson);
-                myRequestStream.Write(bs, 0, bs.Length);
-
-                //异步得到Response并且将Response转换为String
-                HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync();
-                Stream myResponseStream = response.GetResponseStream();
-                using (var reader = new StreamReader(myResponseStream, Encoding.GetEncoding(encode)))
-                {
-                    return reader.ReadToEnd();
-                }
-            }
-            catch (Exception)
-            {
-                return string.Empty;
             }
         }
 
@@ -195,46 +176,52 @@ namespace Aurora.Shared.Helpers
                 {
                     return null;
                 }
-                //Get方式提交数据只需要在网址后面使用?即可，如果多组数据，需要在提交的时候使用&连接
-                if (getDataStr.IsNullorEmpty())
+                //Create an HTTP client object
+                using (HttpClient httpClient = new HttpClient())
                 {
-                    url = Uri.EscapeUriString(url);
-                }
-                else
-                {
-                    url = Uri.EscapeUriString($"url?{string.Join("&", getDataStr.Select(x => $"{x.Key}={x.Value}"))}");
-                }
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-                //将Cookie写入
-                request.CookieContainer = new CookieContainer();
-                if (cc != null)
-                {
-                    request.CookieContainer.Add(new Uri(url), cc);
-                }
+                    //The safe way to add a header value is to use the TryParseAdd method and verify the return value is true,
+                    //especially if the header value is coming from user input.
 
-                //设置request的方式为GET
-                request.Method = "GET";
-                //设置HTTP头的内容类型,如果需要在Http头中加入其他内容，可以直接使用 request.Headers["头名称"]="头内容" 来添加
-                request.ContentType = "text/html;charset=UTF-8";
-                //通过异步方法拿到回应
-                using (HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync())
-                {
+                    //header = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; WOW64; Trident/6.0)";
+                    //if (!headers.UserAgent.TryParseAdd(header))
+                    //{
+                    //    throw new Exception("Invalid header value: " + header);
+                    //}
 
-                    //写入流
-                    using (Stream myResponseStream = response.GetResponseStream())
+
+                    if (getDataStr == null || getDataStr.Count() == 0)
                     {
-                        //注册编码转换器（这里同之前WPF开发中不同，需要事先注册编码转换器才能使用）
-                        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-                        //进行内容编码转换
-                        using (StreamReader myStreamReader = new StreamReader(myResponseStream, Encoding.GetEncoding(encode)))
-                        {
-                            //将转换后的内容转化为字符串并返回
-                            string retString = myStreamReader.ReadToEnd();
-                            return retString;
-                        }
 
                     }
+                    else
+                    {
+                        url += $"?{string.Join("&", getDataStr.Select(x => $"{x.Key}={x.Value}"))}";
+                    }
 
+                    Uri requestUri = new Uri(url);
+
+                    try
+                    {
+                        //Send the GET request asynchronously and retrieve the response as a string.
+                        using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, requestUri))
+                        {
+                            request.Headers.UserAgent.TryParseAdd("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36 Edge/16.16299");
+                            request.Headers.TryAppendWithoutValidation("Accept-Charset", "utf-8");
+                            request.Headers.Connection.TryParseAdd("Keep-Alive");
+                            request.Headers.AcceptEncoding.TryParseAdd("gzip, deflate, br");
+                            using (HttpResponseMessage response = await httpClient.SendRequestAsync(request))
+                            {
+                                response.EnsureSuccessStatusCode();
+                                var buffer = await response.Content.ReadAsBufferAsync();
+                                var byteArray = buffer.ToArray();
+                                return Encoding.UTF8.GetString(byteArray, 0, byteArray.Length);
+                            }
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        return null;
+                    }
                 }
             }
             catch (WebException)
@@ -244,87 +231,59 @@ namespace Aurora.Shared.Helpers
         }
 
 
-        public static async Task<string> HttpGet(string url, NameValueCollection getDataStr = null, string encode = "utf-8", CookieCollection cc = null)
+        public static async Task<string> HttpGet(string url, NameValueCollection getDataStr = null)
         {
-            try
+            if (!WebHelper.IsInternet())
             {
-                if (!WebHelper.IsInternet())
+                return null;
+            }
+            //Create an HTTP client object
+            using (HttpClient httpClient = new HttpClient())
+            {
+                //The safe way to add a header value is to use the TryParseAdd method and verify the return value is true,
+                //especially if the header value is coming from user input.
+
+                //header = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; WOW64; Trident/6.0)";
+                //if (!headers.UserAgent.TryParseAdd(header))
+                //{
+                //    throw new Exception("Invalid header value: " + header);
+                //}
+
+
+                if (getDataStr == null)
+                {
+
+                }
+                else
+                {
+                    url += $"?{getDataStr.ToString()}";
+                }
+
+                Uri requestUri = new Uri(url);
+
+                try
+                {
+                    //Send the GET request asynchronously and retrieve the response as a string.
+                    using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, requestUri))
+                    {
+                        request.Headers.UserAgent.TryParseAdd("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36 Edge/16.16299");
+                        request.Headers.TryAppendWithoutValidation("Accept-Charset", "utf-8");
+                        request.Headers.Connection.TryParseAdd("Keep-Alive");
+                        request.Headers.AcceptEncoding.TryParseAdd("gzip, deflate, br");
+                        using (HttpResponseMessage response = await httpClient.SendRequestAsync(request))
+                        {
+                            response.EnsureSuccessStatusCode();
+                            var buffer = await response.Content.ReadAsBufferAsync();
+                            var byteArray = buffer.ToArray();
+                            return Encoding.UTF8.GetString(byteArray, 0, byteArray.Length);
+                        }
+                    }
+                }
+                catch (Exception)
                 {
                     return null;
                 }
-                //Get方式提交数据只需要在网址后面使用?即可，如果多组数据，需要在提交的时候使用&连接
-                if (getDataStr == null)
-                {
-                    url = Uri.EscapeUriString(url);
-                }
-                else
-                {
-                    url = $"{Uri.EscapeUriString(url)}?{getDataStr.ToString()}";
-                }
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-                //将Cookie写入
-                request.CookieContainer = new CookieContainer();
-                if (cc != null)
-                {
-                    request.CookieContainer.Add(new Uri(url), cc);
-                }
-
-                //设置request的方式为GET
-                request.Method = "GET";
-                //设置HTTP头的内容类型,如果需要在Http头中加入其他内容，可以直接使用 request.Headers["头名称"]="头内容" 来添加
-                request.ContentType = "text/html;charset=UTF-8";
-                //通过异步方法拿到回应
-                using (HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync())
-                {
-
-                    //写入流
-                    using (Stream myResponseStream = response.GetResponseStream())
-                    {
-                        //注册编码转换器（这里同之前WPF开发中不同，需要事先注册编码转换器才能使用）
-                        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-                        //进行内容编码转换
-                        using (StreamReader myStreamReader = new StreamReader(myResponseStream, Encoding.GetEncoding(encode)))
-                        {
-                            //将转换后的内容转化为字符串并返回
-                            return myStreamReader.ReadToEnd();
-                        }
-
-                    }
-
-                }
             }
-            catch (WebException)
-            {
-                return null;
-            }
-        }
-
-
-        public static async Task<string> RequestAsync(string ipUrl)
-        {
-            try
-            {
-                WebRequest request;
-                request = WebRequest.Create(ipUrl);
-                request.Method = "GET";
-                WebResponse response;
-                response = await request.GetResponseAsync();
-                Stream s;
-                s = response.GetResponseStream();
-                string StrDate = "";
-                string strValue = "";
-                StreamReader Reader = new StreamReader(s, Encoding.UTF8);
-                while ((StrDate = Reader.ReadLine()) != null)
-                {
-                    strValue += StrDate + "\r\n";
-                }
-                return strValue;
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-
         }
     }
 
@@ -441,7 +400,7 @@ namespace Aurora.Shared.Helpers
 
         public static async Task<IAsyncOperationWithProgress<DownloadOperation, DownloadOperation>> DownloadFileAsync(string name, Uri uri, StorageFolder folder = null)
         {
-            var downloader = new Windows.Networking.BackgroundTransfer.BackgroundDownloader();
+            var downloader = new BackgroundDownloader();
             if (folder == null)
             {
                 folder = ApplicationData.Current.LocalFolder;

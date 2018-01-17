@@ -110,7 +110,6 @@ namespace Aurora.Music
         {
             if (OverlayFrame.Visibility == Visibility.Visible)
             {
-                GoBackFromNowPlaying();
             }
             else
             {

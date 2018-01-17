@@ -118,6 +118,7 @@
     <Compile Include="Extension\OnlineMusicSearcher.cs" />
     <Compile Include="Models\Extension.cs" />
     <Compile Include="Models\IKey.cs" />
+    <Compile Include="Models\Json\Douban.cs" />
     <Compile Include="Models\Lyric.cs" />
     <Compile Include="Models\LyricExtension.cs" />
     <Compile Include="Models\Music.cs" />
