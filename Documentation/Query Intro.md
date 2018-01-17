@@ -17,6 +17,8 @@ For example, when the app wants the lyric of "Love Me Do" by "The Beatles", here
 | `q` | `"lyric"` | The query action |
 | `title` | `"Love Me Do"` | The title of song |
 | *\*`artist`* | `"The Beatles"` | The Performer of song |
+| *\*`album`*  | `"Album Name"`  | The album name of the song |
+| *\*`ID`* | `"OnlineID"` | If you are an online music provider you may need this |
 
 *\*: This key is optional, which means sometimes the value is empty.*
 

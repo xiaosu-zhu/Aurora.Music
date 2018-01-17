@@ -105,11 +105,11 @@ When we call `SendMessageAsync` in main app, we pass a `ValueSet` which contains
 
 | Key     | Value   | Description  |
 | ------ | ------- | ------------ |
-| q  |`"lyric"` | The type of request |
-| title    | `"lorem ipsum"` | The title of the song |
-| *\*artist* | `"a man"` | The performer of the song |
-| *\*album*  | `"a album"`  | The album name of the song |
-| ID | "OnlineID" | If you are an online music provider you may need this |
+| `q`  |`"lyric"` | The type of request |
+| `title`    | `"lorem ipsum"` | The title of the song |
+| *\*`artist`* | `"a man"` | The performer of the song |
+| *\*`album`*  | `"a album"`  | The album name of the song |
+| *\*`ID`* | `"OnlineID"` | If you are an online music provider you may need this |
  
  
 \*:optional
@@ -155,7 +155,7 @@ private async void OnRequestReceived(AppServiceConnection sender, AppServiceRequ
                 returnData.Add("status", 1);
             }
             break;
-            default:
+        default:
             returnData.Add("status", 0);
             break;
     }
@@ -175,8 +175,8 @@ In the `returnData` above, you should provide:
 
 | Key  | Value  | Description  |
 | ------ | ------- | ----------- |
-| status | `1` or `0`  | Response is success or failed |
-| result | `raw string` | The lyric string |
+| `status` | `1` or `0`  | Response is success or failed |
+| `result` | `raw string` | The lyric string |
 
 
 
