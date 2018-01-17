@@ -109,7 +109,7 @@ When we call `SendMessageAsync` in main app, we pass a `ValueSet` which contains
 | title    | `"lorem ipsum"` | The title of the song |
 | *\*artist* | `"a man"` | The performer of the song |
 | *\*album*  | `"a album"`  | The album name of the song |
-| ID | "OnlineID" | If you are an online music provider you may need this |
+| *\*ID* | `"OnlineID"` | If you are an online music provider you may need this |
  
  
 \*:optional
@@ -155,7 +155,7 @@ private async void OnRequestReceived(AppServiceConnection sender, AppServiceRequ
                 returnData.Add("status", 1);
             }
             break;
-            default:
+        default:
             returnData.Add("status", 0);
             break;
     }
