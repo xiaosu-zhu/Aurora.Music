@@ -9,6 +9,11 @@
 
 A small, lightweight UWP music player.
 
+
+[/Source/Taglib.Sharp](./Source/TagLib.Sharp/) is ported to UWP from [mono/taglib-sharp](https://github.com/mono/taglib-sharp).
+
+[/Source/ExpressionBuilder](./Source/ExpressionBuilder/) is from [Microsoft/WindowsUIDevLabs](https://github.com/Microsoft/WindowsUIDevLabs)
+
 # Documents and Samples
 Read instructions for extension development from 
 ### [here](./Documentation)
