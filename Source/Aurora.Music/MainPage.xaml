@@ -801,8 +801,8 @@
             </DataTemplate>
             <DataTemplate x:Key="SearchSuggestionTemplate" x:DataType="vm:GenericMusicItemViewModel">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                    <FontIcon FontSize="15" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center" Glyph="{x:Bind Description}" Margin="8,0"/>
-                    <TextBlock VerticalAlignment="Center" Text="{x:Bind Title}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Margin="8,0"/>
+                    <FontIcon FontSize="15" FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Center" VerticalAlignment="Center" Glyph="{x:Bind Description}" Margin="0,0,4,0"/>
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Stretch" Text="{x:Bind Title}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Margin="4,0"/>
                 </StackPanel>
             </DataTemplate>
             <DataTemplate x:Key="PlaceholderTemplate" x:DataType="vm:GenericMusicItemViewModel">
