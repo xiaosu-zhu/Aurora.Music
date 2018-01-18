@@ -25,6 +25,9 @@ namespace Aurora.Shared.Helpers
 
     public static class ApiRequestHelper
     {
+        /// <summary>
+        /// See https://docs.microsoft.com/en-us/azure/architecture/antipatterns/improper-instantiation/
+        /// </summary>
         private static readonly HttpClient httpClient = CreateHttpClient();
 
         /// <summary>
