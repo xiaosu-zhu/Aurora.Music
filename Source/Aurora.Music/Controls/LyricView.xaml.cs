@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
@@ -70,7 +71,14 @@ namespace Aurora.Music.Controls
                 extension = MainPageViewModel.Current.LyricExtension;
                 if (extension != null)
                 {
-                    var result = await extension.ExecuteAsync(new KeyValuePair<string, object>("q", "lyric"), new KeyValuePair<string, object>("title", model.Title), new KeyValuePair<string, object>("artist", model.Song.Performers.IsNullorEmpty() ? null : model.Song.Performers[0]), new KeyValuePair<string, object>("ID", model.IsOnline ? model.Song.OnlineID : null));
+                    var result = await extension.ExecuteAsync(new ValueSet()
+                    {
+                        ["q"] = "lyric",
+                        ["title"] = model.Title,
+                        ["artist"] = model.Song.Performers.IsNullorEmpty() ? null : model.Song.Performers[0],
+                        ["ID"] = model.IsOnline ? model.Song.OnlineID : null,
+                        ["album"] = model.Album
+                    });
                     if (result != null)
                     {
                         var l = new Lyric(LrcParser.Parser.Parse((string)result, model.Song.Duration));
@@ -104,7 +112,14 @@ namespace Aurora.Music.Controls
                 Model = new SongViewModel(e.CurrentSong);
                 if (extension != null)
                 {
-                    var result = await extension.ExecuteAsync(new KeyValuePair<string, object>("q", "lyric"), new KeyValuePair<string, object>("title", model.Title), new KeyValuePair<string, object>("artist", model.Song.Performers.IsNullorEmpty() ? null : model.Song.Performers[0]), new KeyValuePair<string, object>("ID", model.IsOnline ? model.Song.OnlineID : null));
+                    var result = await extension.ExecuteAsync(new ValueSet()
+                    {
+                        ["q"] = "lyric",
+                        ["title"] = model.Title,
+                        ["artist"] = model.Song.Performers.IsNullorEmpty() ? null : model.Song.Performers[0],
+                        ["ID"] = model.IsOnline ? model.Song.OnlineID : null,
+                        ["album"] = model.Album
+                    });
                     if (result != null)
                     {
                         var l = new Lyric(LrcParser.Parser.Parse((string)result, model.Song.Duration));

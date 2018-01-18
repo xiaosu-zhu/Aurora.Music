@@ -532,7 +532,6 @@ namespace Aurora.Music
             if (sender.Text.IsNullorWhiteSpace())
             {
                 Context.SearchItems.Clear();
-                SearchButton_Click(null, null);
                 return;
             }
             CanAdd = false;

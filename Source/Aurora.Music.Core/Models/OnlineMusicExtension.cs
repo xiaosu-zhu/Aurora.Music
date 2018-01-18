@@ -18,7 +18,7 @@ namespace Aurora.Music.Core.Models
         {
         }
 
-        public override async Task<object> ExecuteAsync(params KeyValuePair<string, object>[] parameters)
+        public override async Task<object> ExecuteAsync(ValueSet parameters)
         {
 
             if (_serviceName.IsNullorEmpty())
@@ -45,17 +45,8 @@ namespace Aurora.Music.Core.Models
                     else
                     {
                         // send request to service
-                        var request = new ValueSet
-                        {
-                        };
-
-                        foreach (var item in parameters)
-                        {
-                            request.Add(item);
-                        }
-
                         // get response
-                        AppServiceResponse response = await connection.SendMessageAsync(request);
+                        AppServiceResponse response = await connection.SendMessageAsync(parameters);
                         if (response.Status == AppServiceResponseStatus.Success)
                         {
                             ValueSet message = response.Message as ValueSet;

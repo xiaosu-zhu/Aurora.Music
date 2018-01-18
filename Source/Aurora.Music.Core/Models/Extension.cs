@@ -43,7 +43,7 @@ namespace Aurora.Music.Core.Models
         public AppExtension AppExtension { get; protected set; }
         #endregion
 
-        public abstract Task<object> ExecuteAsync(params KeyValuePair<string, object>[] parameters);
+        public abstract Task<object> ExecuteAsync(ValueSet parameters);
 
         public void Unload()
         {
