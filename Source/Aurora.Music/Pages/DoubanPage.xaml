@@ -6,6 +6,7 @@
     xmlns:vm="using:Aurora.Music.ViewModels"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:controls="using:Aurora.Music.Controls"
+    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
     xmlns:star="using:StarButton"
@@ -32,30 +33,83 @@
 
         </ResourceDictionary>
     </Page.Resources>
-
-    <GridView Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="0,80,0,74" Style="{ThemeResource HorizontalGridViewStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-              IsSynchronizedWithCurrentItem="False" ItemContainerStyle="{ThemeResource GeneralGridViewItemStyle}" 
+    <Grid>
+        <GridView animations:ReorderGridAnimation.Duration="360" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" 
+                  Padding="0,80,0,0" Style="{ThemeResource HorizontalGridViewStyle}" 
+                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+              IsSynchronizedWithCurrentItem="False" ItemContainerStyle="{ThemeResource GridViewItemRevealBackgroundShowsAboveContentStyle}" 
               ItemsSource="{x:Bind ChannelList.View, Mode=OneWay}" SelectionMode="None" IsItemClickEnabled="True">
-        <GridView.Header>
-            <Grid Width="60"/>
-        </GridView.Header>
-        <GridView.ItemTemplate>
-            <DataTemplate x:DataType="vm:ChannelViewModel">
-                <StackPanel Padding="8" Background="{ThemeResource SystemControlAltMediumLowAcrylicWindowMediumBrush}" Orientation="Vertical">
-                    <Grid Margin="12" Width="96" Height="96" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CornerRadius="999">
-                        <Image HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="Uniform">
-                            <Image.Source>
-                                <BitmapImage UriSource="{x:Bind Cover}"/>
-                            </Image.Source>
-                        </Image>
+            <GridView.Header>
+                <Grid Padding="320,64" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="正在播放" FontWeight="Bold" Style="{ThemeResource TitleTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12"/>
+                        <Grid Grid.Row="1" Width="320" Height="320" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12">
+                            <interactivity:Interaction.Behaviors>
+                                <behaviors:Blur Value="12" Duration="0" Delay="0" AutomaticallyStart="True"/>
+                            </interactivity:Interaction.Behaviors>
+                            <Grid CornerRadius="9999" Margin="0,16,0,0" Width="240" Height="240" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Image Source="/Assets/Images/songs.png" Stretch="UniformToFill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                            </Grid>
+                        </Grid>
+                        <Grid Grid.Row="1" CornerRadius="9999" Width="240" Height="240" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12">
+                            <Image Source="/Assets/Images/songs.png" Stretch="UniformToFill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        </Grid>
+                        <StackPanel Grid.Row="2" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12">
+                            <TextBlock Text="Title Name" Style="{ThemeResource BaseTextBlockStyle}" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <TextBlock Text="Description" Style="{ThemeResource BodyTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="3">
+                            <Button x:Uid="Next" Style="{ThemeResource RevealRoundButton}" ToolTipService.ToolTip="Next"
+                                Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                                <Button.Content>
+                                    <SymbolIcon Symbol="Delete"/>
+                                </Button.Content>
+                            </Button>
+                            <Button x:Uid="Next" Style="{ThemeResource RevealRoundButton}" ToolTipService.ToolTip="Next"
+                                Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                                <Button.Content>
+                                    <SymbolIcon Symbol="Pause"/>
+                                </Button.Content>
+                            </Button>
+                            <Button x:Uid="Next" Style="{ThemeResource RevealRoundButton}" ToolTipService.ToolTip="Next"
+                                Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                                <Button.Content>
+                                    <SymbolIcon Symbol="Next"/>
+                                </Button.Content>
+                            </Button>
+                            <star:StarButton FontSize="32" Margin="12,4" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </StackPanel>
                     </Grid>
-                    <TextBlock Margin="4,0" FontSize="16" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" Style="{ThemeResource BaseTextBlockStyle}" Text="{x:Bind Name}"/>
-                    <TextBlock TextWrapping="WrapWholeWords" Height="48" TextTrimming="CharacterEllipsis" Style="{ThemeResource BodyTextBlockStyle}" Margin="8,4" Text="{x:Bind Description}"/>
-                </StackPanel>
-            </DataTemplate>
-        </GridView.ItemTemplate>
-        <GridView.GroupStyle>
-            <GroupStyle x:Name="GroupStyle" HeaderTemplate="{StaticResource NormalGroupHeader}"/>
-        </GridView.GroupStyle>
-    </GridView>
+                </Grid>
+            </GridView.Header>
+            <GridView.ItemTemplate>
+                <DataTemplate x:DataType="vm:ChannelViewModel">
+                    <StackPanel Padding="8" Orientation="Vertical" Background="{ThemeResource SystemControlAltMediumLowAcrylicWindowMediumBrush}">
+                        <Grid Margin="12" Width="96" Height="96" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CornerRadius="999">
+                            <Image HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="UniformToFill">
+                                <Image.Source>
+                                    <BitmapImage UriSource="{x:Bind Cover}"/>
+                                </Image.Source>
+                            </Image>
+                        </Grid>
+                        <TextBlock Margin="4,0" FontSize="16" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" Style="{ThemeResource BaseTextBlockStyle}" Text="{x:Bind Name}"/>
+                        <TextBlock Width="108" TextWrapping="WrapWholeWords" Height="48" TextTrimming="CharacterEllipsis" Style="{ThemeResource BodyTextBlockStyle}" Margin="8,4" Text="{x:Bind Description}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+            <GridView.GroupStyle>
+                <GroupStyle x:Name="GroupStyle" HeaderTemplate="{StaticResource NormalGroupHeader}"/>
+            </GridView.GroupStyle>
+        </GridView>
+        <Grid Background="{ThemeResource SystemControlAltMediumLowAcrylicElementMediumBrush}">
+            <TextBlock Text="Not Completed" Style="{ThemeResource SubheaderTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Grid>
+    </Grid>
+
 </Page>

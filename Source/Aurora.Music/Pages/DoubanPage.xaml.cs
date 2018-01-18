@@ -30,6 +30,7 @@ namespace Aurora.Music.Pages
             MainPageViewModel.Current.Title = "豆瓣 FM";
             MainPageViewModel.Current.NeedShowTitle = true;
             MainPageViewModel.Current.LeftTopColor = Resources["SystemControlForegroundBaseHighBrush"] as SolidColorBrush;
+            MainPageViewModel.Current.NeedShowPanel = false;
         }
     }
 }

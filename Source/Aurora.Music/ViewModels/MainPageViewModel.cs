@@ -46,7 +46,7 @@ namespace Aurora.Music.ViewModels
                 Title = "豆瓣 FM",
                 Icon = "\uE2AC",
                 TargetType = typeof(DoubanPage),
-                BG = new Uri("ms-appx:///Assets/Images/songs.png")
+                BG = new Uri("ms-appx:///Assets/Images/radio.png")
             }
             //new HamPanelItem
             //{
@@ -79,7 +79,7 @@ namespace Aurora.Music.ViewModels
         public Extension OnlineMusicExtension { get; private set; }
         public Extension OnlineMetaExtension { get; private set; }
 
-        private bool needShowPanel = true;
+        private bool needShowPanel = false;
         public bool NeedShowPanel
         {
             get { return needShowPanel; }
@@ -542,7 +542,7 @@ namespace Aurora.Music.ViewModels
             {
                 IsPlaying = player.IsPlaying;
 
-                if (e.CurrentIndex == -1 && e.Items == null)
+                if (e.CurrentIndex == -1)
                 {
                     NowPlayingList.Clear();
                     NowListPreview = "-/-";
@@ -551,6 +551,7 @@ namespace Aurora.Music.ViewModels
                     CurrentArtwork = null;
                     lastUriPath = null;
                     CurrentIndex = -1;
+                    NeedShowPanel = false;
                     return;
                 }
 
@@ -591,6 +592,14 @@ namespace Aurora.Music.ViewModels
                 if (e.CurrentIndex < NowPlayingList.Count)
                 {
                     CurrentIndex = e.CurrentIndex;
+                }
+                if (MainPage.Current.IsCurrentDouban)
+                {
+                    return;
+                }
+                else
+                {
+                    NeedShowPanel = true;
                 }
             });
         }

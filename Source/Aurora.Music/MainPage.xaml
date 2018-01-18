@@ -3,7 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Aurora.Music" xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:vm="using:Aurora.Music.ViewModels"
+    xmlns:vm="using:Aurora.Music.ViewModels" xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:controls="using:Aurora.Music.Controls" xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
     Unloaded="Page_Unloaded"
@@ -800,7 +800,10 @@
                 </Grid>
             </DataTemplate>
             <DataTemplate x:Key="SearchSuggestionTemplate" x:DataType="vm:GenericMusicItemViewModel">
-                <TextBlock Text="{x:Bind Title}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Margin="8,0"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <FontIcon FontSize="15" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center" Glyph="{x:Bind Description}" Margin="8,0"/>
+                    <TextBlock VerticalAlignment="Center" Text="{x:Bind Title}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Margin="8,0"/>
+                </StackPanel>
             </DataTemplate>
             <DataTemplate x:Key="PlaceholderTemplate" x:DataType="vm:GenericMusicItemViewModel">
                 <Grid>
@@ -1115,6 +1118,16 @@
                 <Grid Visibility="{x:Bind Context.BooltoVisibility(Context.NeedShowPanel), Mode=OneWay}" 
                       HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="74" x:Name="NowPanel"
                       Background="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}">
+                    
+                    <animations:Implicit.ShowAnimations>
+                        <animations:TranslationAnimation Duration="0:0:1" From="0,96,0" To="0" ></animations:TranslationAnimation>
+                    </animations:Implicit.ShowAnimations>
+
+                    <animations:Implicit.HideAnimations>
+                        <animations:TranslationAnimation Duration="0:0:1" From="0" To="0,96,0"></animations:TranslationAnimation>
+                    </animations:Implicit.HideAnimations>
+                    
+                    
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="auto"/>

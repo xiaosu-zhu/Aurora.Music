@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.System.Threading;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Shapes;
@@ -91,11 +92,12 @@ namespace Aurora.Music.Pages
 
         private void Page_SizeChanged(object sender, Windows.UI.Xaml.SizeChangedEventArgs e)
         {
-            Main.Width = ActualWidth;
+            Main.Width = Window.Current.Bounds.Width;
         }
 
         private void Main_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
+            Main.Width = Window.Current.Bounds.Width;
             SizeChanged += Page_SizeChanged;
             OnlineCombo.SelectionChanged += OnlineCombo_SelectionChanged;
             LrcCombo.SelectionChanged += LyricCombo_SelectionChanged;

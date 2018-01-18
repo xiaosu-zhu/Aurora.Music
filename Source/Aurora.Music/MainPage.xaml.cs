@@ -168,6 +168,7 @@ namespace Aurora.Music
 
         public bool SubPageCanGoBack { get => MainFrame.Visibility == Visibility.Visible; }
         public bool CanAdd { get; private set; }
+        public bool IsCurrentDouban => MainFrame.Content is DoubanPage;
 
         string PositionToString(TimeSpan t1, TimeSpan total)
         {
@@ -531,6 +532,7 @@ namespace Aurora.Music
             if (sender.Text.IsNullorWhiteSpace())
             {
                 Context.SearchItems.Clear();
+                SearchButton_Click(null, null);
                 return;
             }
             CanAdd = false;
@@ -785,25 +787,31 @@ namespace Aurora.Music
 
             if (SearchBox.Text.IsNullorEmpty())
             {
+                Context.SearchItems.Clear();
+
+                // add clipboard text
                 DataPackageView dataPackageView = Clipboard.GetContent();
                 if (dataPackageView.Contains(StandardDataFormats.Text))
                 {
                     string text = await dataPackageView.GetTextAsync();
-                    Context.SearchItems.Clear();
-                    Context.SearchItems.Add(new GenericMusicItemViewModel()
-                    {
-                        Title = text,
-                        InnerType = MediaType.Placeholder
-                    });
+                    if (!string.IsNullOrWhiteSpace(text))
+                        Context.SearchItems.Add(new GenericMusicItemViewModel()
+                        {
+                            Title = text,
+                            InnerType = MediaType.Placeholder,
+                            Description = "\uE16D",
+                        });
                 }
 
+                // add search history
                 var searches = await SQLOperator.Current().GetSearchHistoryAsync();
                 foreach (var item in searches)
                 {
                     Context.SearchItems.Add(new GenericMusicItemViewModel()
                     {
                         Title = item.Query,
-                        InnerType = MediaType.Placeholder
+                        InnerType = MediaType.Placeholder,
+                        Description = "\uE81C",
                     });
                 }
             }
