@@ -4,7 +4,7 @@ This is an introduction of the query in [Extension Development](./Extension%20De
 
 ## Before You Start
 
-Insure you've learned how to implement an app service and the usage of `PropertySet`.
+Insure you've learned how to implement an app service and the usage of `ValueSet`.
 ## Lyric Provider
 
 This kind of extensions let Aurora Music have the ability to fetch specific lyrics.
@@ -62,7 +62,7 @@ After you got the info, you can send data as below:
 | Key | Value | Description |
 | --- | --- | --- |
 | `status` | `1` | `1 => success, 0 => failed` |
-| `album_result` | `PropertySet` | See below |
+| `album_result` | `json` | See below |
 
 The data of `album_result` shows below:
 
@@ -74,7 +74,9 @@ The data of `album_result` shows below:
 | `artist` | `"The Beatles"` | The artist of album |
 | `year` | `2009` | `uint`, The publish year of album(you can just send `0`) |
 
-**Note**: the `desc` value should be in the format of Markdown, then app can easily show it in rich-style.
+**Note**: 
+1. You can first build the `album_result`from a `ValueSet` and then serialize it to `json`.
+2. The `desc` value should be in the format of Markdown, then app can easily show it in rich-style.
 
 Here's the result:
 
@@ -99,7 +101,7 @@ After you got the info, you can send data as below:
 | Key | Value | Description |
 | --- | --- | --- |
 | `status` | `1` | `1 => success, 0 => failed` |
-| `artist_result` | `PropertySet` | See below |
+| `artist_result` | `json` | See below |
 
 The data of `artist_result` shows below:
 
@@ -109,7 +111,9 @@ The data of `artist_result` shows below:
 | `avatar` | `string` | An absolute `Uri` string |
 | `desc` | `string` | The description of artist |
 
-**Note**: the `desc` value should be in the format of Markdown, then app can easily show it in rich-style.
+**Note**:
+1. You can first build the `artist_result`from a `ValueSet` and then serialize it to `json`.
+2. the `desc` value should be in the format of Markdown, then app can easily show it in rich-style.
 
 Here's the result:
 

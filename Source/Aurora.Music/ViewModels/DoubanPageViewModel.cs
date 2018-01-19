@@ -56,6 +56,7 @@ namespace Aurora.Music.ViewModels
                     Channels.Add(g);
                 }
             });
+            await Login("pkzxs1232125@126.com", "ZXSzxs1232125");
         }
 
         public async Task Login(string username, string password)
