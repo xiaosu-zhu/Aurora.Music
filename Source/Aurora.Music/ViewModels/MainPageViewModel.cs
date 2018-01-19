@@ -17,6 +17,7 @@ using Windows.UI.Xaml.Controls;
 using Aurora.Music.Core.Models;
 using Aurora.Music.PlaybackEngine;
 using Aurora.Music.Core;
+using Windows.Foundation.Collections;
 
 namespace Aurora.Music.ViewModels
 {
@@ -192,14 +193,14 @@ namespace Aurora.Music.ViewModels
 
         internal async Task<Song> GetOnlineSongAsync(string id)
         {
-            var querys = new List<KeyValuePair<string, object>>()
-                {
-                    new KeyValuePair<string,object>("q", "online_music"),
-                    new KeyValuePair<string, object>("action", "song"),
-                    new KeyValuePair<string, object>("id", id),
-                    new KeyValuePair<string, object>("bit_rate", Settings.Current.GetPreferredBitRate())
-                };
-            var songResult = await OnlineMusicExtension.ExecuteAsync(querys.ToArray());
+            var querys = new ValueSet()
+            {
+                new KeyValuePair<string,object>("q", "online_music"),
+                new KeyValuePair<string, object>("action", "song"),
+                new KeyValuePair<string, object>("id", id),
+                new KeyValuePair<string, object>("bit_rate", Settings.Current.GetPreferredBitRate())
+            };
+            var songResult = await OnlineMusicExtension.ExecuteAsync(querys);
             if (songResult is Song s)
             {
                 return s;
@@ -209,14 +210,14 @@ namespace Aurora.Music.ViewModels
 
         internal async Task<Album> GetOnlineAlbumAsync(string id)
         {
-            var querys = new List<KeyValuePair<string, object>>()
-                {
-                    new KeyValuePair<string,object>("q", "online_music"),
-                    new KeyValuePair<string, object>("action", "album"),
-                    new KeyValuePair<string, object>("id", id),
-                    new KeyValuePair<string, object>("bit_rate", Settings.Current.GetPreferredBitRate())
-                };
-            var songResult = await OnlineMusicExtension.ExecuteAsync(querys.ToArray());
+            var querys = new ValueSet()
+            {
+                new KeyValuePair<string,object>("q", "online_music"),
+                new KeyValuePair<string, object>("action", "album"),
+                new KeyValuePair<string, object>("id", id),
+                new KeyValuePair<string, object>("bit_rate", Settings.Current.GetPreferredBitRate())
+            };
+            var songResult = await OnlineMusicExtension.ExecuteAsync(querys);
             if (songResult is Album s)
             {
                 return s;
@@ -226,14 +227,14 @@ namespace Aurora.Music.ViewModels
 
         internal async Task<AlbumInfo> GetAlbumInfoAsync(string album, string artist)
         {
-            var querys = new List<KeyValuePair<string, object>>()
+            var querys = new ValueSet()
             {
                 new KeyValuePair<string,object>("album", album),
                 new KeyValuePair<string, object>("artist", artist),
                 new KeyValuePair<string, object>("action", "album"),
                 new KeyValuePair<string, object>("q", "online_meta"),
             };
-            var result = await OnlineMetaExtension.ExecuteAsync(querys.ToArray());
+            var result = await OnlineMetaExtension.ExecuteAsync(querys);
             if (result is AlbumInfo s)
             {
                 return s;
@@ -243,13 +244,13 @@ namespace Aurora.Music.ViewModels
 
         internal async Task<Core.Models.Artist> GetArtistInfoAsync(string artist)
         {
-            var querys = new List<KeyValuePair<string, object>>()
+            var querys = new ValueSet()
             {
                 new KeyValuePair<string, object>("action", "artist"),
                 new KeyValuePair<string, object>("artist", artist),
                 new KeyValuePair<string, object>("q", "online_meta"),
             };
-            var result = await OnlineMetaExtension.ExecuteAsync(querys.ToArray());
+            var result = await OnlineMetaExtension.ExecuteAsync(querys);
             if (result is Core.Models.Artist s)
             {
                 return s;
@@ -435,7 +436,7 @@ namespace Aurora.Music.ViewModels
 
                 var job = ThreadPool.RunAsync(async work =>
                 {
-                    var querys = new List<KeyValuePair<string, object>>()
+                    var querys = new ValueSet()
                     {
                         new KeyValuePair<string,object>("q", "online_music"),
                         new KeyValuePair<string, object>("action", "search"),
@@ -446,7 +447,7 @@ namespace Aurora.Music.ViewModels
                         await Task.Delay(200);
                         MainPage.Current.ShowAutoSuggestPopup();
                     });
-                    var webResult = await OnlineMusicExtension.ExecuteAsync(querys.ToArray());
+                    var webResult = await OnlineMusicExtension.ExecuteAsync(querys);
                     if (webResult is IEnumerable<OnlineMusicItem> items)
                     {
                         if (MainPage.Current.CanAdd && s.Equals(_lastQuery, StringComparison.Ordinal))

@@ -28,6 +28,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage.Streams;
 using Windows.Media.Casting;
 using Aurora.Music.Controls;
+using Windows.Foundation.Collections;
 
 namespace Aurora.Music.ViewModels
 {
@@ -120,7 +121,14 @@ namespace Aurora.Music.ViewModels
                 var ext = MainPageViewModel.Current.LyricExtension;
                 if (ext != null)
                 {
-                    var result = await ext.ExecuteAsync(new KeyValuePair<string, object>("q", "lyric"), new KeyValuePair<string, object>("title", Song.Title), new KeyValuePair<string, object>("album", song.Album), new KeyValuePair<string, object>("artist", Song.Song.Performers.IsNullorEmpty() ? null : Song.Song.Performers[0]), new KeyValuePair<string, object>("ID", song.IsOnline ? song.Song.OnlineID : null));
+                    var result = await ext.ExecuteAsync(new ValueSet()
+                    {
+                        new KeyValuePair<string, object>("q", "lyric"),
+                        new KeyValuePair<string, object>("title", Song.Title),
+                        new KeyValuePair<string, object>("album", song.Album),
+                        new KeyValuePair<string, object>("artist", Song.Song.Performers.IsNullorEmpty() ? null : Song.Song.Performers[0]),
+                        new KeyValuePair<string, object>("ID", song.IsOnline ? song.Song.OnlineID : null)
+                    });
                     if (result != null)
                     {
                         var l = new Lyric(LrcParser.Parser.Parse((string)result, Song.Song.Duration));
@@ -834,7 +842,14 @@ namespace Aurora.Music.ViewModels
                     var ext = MainPageViewModel.Current.LyricExtension;
                     if (ext != null)
                     {
-                        var result = await ext.ExecuteAsync(new KeyValuePair<string, object>("q", "lyric"), new KeyValuePair<string, object>("title", Song.Title), new KeyValuePair<string, object>("album", song.Album), new KeyValuePair<string, object>("artist", Song.Song.Performers.IsNullorEmpty() ? null : Song.Song.Performers[0]), new KeyValuePair<string, object>("ID", song.IsOnline ? song.Song.OnlineID : null));
+                        var result = await ext.ExecuteAsync(new ValueSet()
+                        {
+                            new KeyValuePair<string, object>("q", "lyric"),
+                            new KeyValuePair<string, object>("title", Song.Title),
+                            new KeyValuePair<string, object>("album", song.Album),
+                            new KeyValuePair<string, object>("artist", Song.Song.Performers.IsNullorEmpty() ? null : Song.Song.Performers[0]),
+                            new KeyValuePair<string, object>("ID", song.IsOnline ? song.Song.OnlineID : null)
+                        });
                         if (result != null)
                         {
                             var l = new Lyric(LrcParser.Parser.Parse((string)result, Song.Song.Duration));

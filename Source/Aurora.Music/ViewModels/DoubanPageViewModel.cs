@@ -63,7 +63,7 @@ namespace Aurora.Music.ViewModels
             if (Settings.Current.DoubanLogin.AddSeconds(Settings.Current.DoubanExpireTime) < DateTime.Now.AddDays(1))
             {
                 // Login and get access_token
-                await ApiRequestHelper.HttpPostJson("https://www.douban.com/service/auth2/token", JsonConvert.SerializeObject(new PropertySet
+                var dix = new Dictionary<string, string>
                 {
                     ["apikey"] = "02646d3fb69a52ff072d47bf23cef8fd",
                     ["client_id"] = "02646d3fb69a52ff072d47bf23cef8fd",
@@ -75,7 +75,9 @@ namespace Aurora.Music.ViewModels
                     ["redirect_uri"] = "http://www.douban.com/mobile/fm",
                     ["username"] = username,
                     ["password"] = password
-                }));
+                };
+
+                var result = await ApiRequestHelper.HttpPostForm("https://www.douban.com/service/auth2/token", dix);
             }
             else
             {
