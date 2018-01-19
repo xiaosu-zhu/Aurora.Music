@@ -4,7 +4,7 @@ This is an introduction of the query in [Extension Development](./Extension%20De
 
 ## Before You Start
 
-Insure you've learned how to implement an app service and the usage of `PropertySet`.
+Insure you've learned how to implement an app service and the usage of `ValueSet`.
 ## Lyric Provider
 
 This kind of extensions let Aurora Music have the ability to fetch specific lyrics.
