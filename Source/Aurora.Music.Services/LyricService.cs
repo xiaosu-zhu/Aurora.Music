@@ -86,7 +86,7 @@ namespace Aurora.Music.Services
                             message.TryGetValue("page", out object page);
                             message.TryGetValue("count", out object count);
                             var result = await OnlineMusicSearcher.SearchAsync(message["keyword"] as string, page as int?, count as int?);
-                            var resultList = new List<PropertySet>();
+                            var resultList = new List<ValueSet>();
                             if (result == null && result.Data != null)
                             {
                                 returnData.Add("status", 0);
@@ -95,7 +95,7 @@ namespace Aurora.Music.Services
 
                             foreach (var item in result.Data.Song.ListItems)
                             {
-                                var set = new PropertySet
+                                var set = new ValueSet
                                 {
                                     ["title"] = item.Title,
                                     ["description"] = item.SingerItems[0]?.Title,
@@ -122,7 +122,7 @@ namespace Aurora.Music.Services
                                 DateTime.TryParseExact(song.DataItems[0].Album.Time_Public, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime t);
 
                                 // TODO: property
-                                var songRes = new PropertySet
+                                var songRes = new ValueSet
                                 {
                                     ["title"] = song.DataItems[0].Title,
                                     ["id"] = song.DataItems[0].Mid,
@@ -150,7 +150,7 @@ namespace Aurora.Music.Services
                             if (album != null && album.Data != null)
                             {
                                 DateTime.TryParseExact(album.Data.GetAlbumInfo.Fpublic_Time, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime t);
-                                var albumRes = new PropertySet
+                                var albumRes = new ValueSet
                                 {
                                     ["name"] = album.Data.GetAlbumInfo.Falbum_Name,
                                     ["desription"] = album.Data.GetAlbumDesc.Falbum_Desc.Replace("\n", "\r\n\r\n"),
@@ -163,7 +163,7 @@ namespace Aurora.Music.Services
                                 returnData.Add("album_result", JsonConvert.SerializeObject(albumRes));
                                 returnData.Add("songs", JsonConvert.SerializeObject(album.Data.GetSongInfoItems.Select(x =>
                                 {
-                                    var p = new PropertySet()
+                                    var p = new ValueSet()
                                     {
                                         ["id"] = x.Mid,
                                         ["title"] = x.Name,
@@ -183,7 +183,7 @@ namespace Aurora.Music.Services
                                 })));
                                 returnData.Add("album_artists", JsonConvert.SerializeObject(album.Data.SingerInfoItems.Select(x =>
                                 {
-                                    return new PropertySet()
+                                    return new ValueSet()
                                     {
                                         ["name"] = x.Fsinger_Name,
                                         ["id"] = x.Fsinger_Mid,
@@ -208,7 +208,7 @@ namespace Aurora.Music.Services
                             if (meta_album != null)
                             {
                                 returnData.Add("status", 1);
-                                returnData.Add("album_result", JsonConvert.SerializeObject(new PropertySet()
+                                returnData.Add("album_result", JsonConvert.SerializeObject(new ValueSet()
                                 {
                                     ["name"] = meta_album.Name,
                                     ["artwork"] = meta_album.AltArtwork?.OriginalString,
@@ -223,7 +223,7 @@ namespace Aurora.Music.Services
                             if (meta_artist != null)
                             {
                                 returnData.Add("status", 1);
-                                returnData.Add("artist_result", JsonConvert.SerializeObject(new PropertySet()
+                                returnData.Add("artist_result", JsonConvert.SerializeObject(new ValueSet()
                                 {
                                     ["name"] = meta_artist.Name,
                                     ["avatar"] = meta_artist.AvatarUri.OriginalString,

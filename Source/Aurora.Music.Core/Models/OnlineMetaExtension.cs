@@ -72,7 +72,7 @@ namespace Aurora.Music.Core.Models
 
         private object GetAlbumInfo(string r)
         {
-            var set = JsonConvert.DeserializeObject<PropertySet>(r);
+            var set = JsonConvert.DeserializeObject<ValueSet>(r);
             return new AlbumInfo()
             {
                 Name = set["name"] as string,
@@ -85,7 +85,7 @@ namespace Aurora.Music.Core.Models
 
         private object GetArtistInfo(string s)
         {
-            var set = JsonConvert.DeserializeObject<PropertySet>(s);
+            var set = JsonConvert.DeserializeObject<ValueSet>(s);
             return new Artist()
             {
                 AvatarUri = (set["avatar"] as string).IsNullorEmpty() ? null : new Uri(set["avatar"] as string),
