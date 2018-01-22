@@ -18,6 +18,8 @@ using Aurora.Music.Core.Models;
 using Aurora.Music.PlaybackEngine;
 using Aurora.Music.Core;
 using Windows.Foundation.Collections;
+using Aurora.Music.Controls;
+using Aurora.Shared.Helpers;
 
 namespace Aurora.Music.ViewModels
 {
@@ -380,6 +382,16 @@ namespace Aurora.Music.ViewModels
             player.PositionUpdated += Player_PositionUpdated;
             var t = ThreadPool.RunAsync(async x =>
             {
+                if (Settings.Current.LastUpdateBuild < SystemInfoHelper.GetPackageVersionNum())
+                {
+                    var k = CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
+                    {
+                        UpdateInfo i = new UpdateInfo();
+                        await i.ShowAsync();
+                        Settings.Current.LastUpdateBuild = SystemInfoHelper.GetPackageVersionNum();
+                        Settings.Current.Save();
+                    });
+                }
                 await ReloadExtensions();
                 await FindFileChanges();
             });
@@ -493,7 +505,7 @@ namespace Aurora.Music.ViewModels
         public async Task FindFileChanges()
         {
             var addedFiles = await FileTracker.FindChanges();
-            if (!addedFiles.IsNullorEmpty())
+            if (!(addedFiles.Count == 0))
             {
                 var reader = new FileReader();
                 reader.ProgressUpdated += Reader_ProgressUpdated;

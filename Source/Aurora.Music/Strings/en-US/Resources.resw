@@ -497,7 +497,7 @@
     <value>We can't find anything...</value>
     <comment>We can't find anything...</comment>
   </data>
-  <data name="CreateCollection" xml:space="preserve">
+  <data name="CreateCollection.Text" xml:space="preserve">
     <value>Create a new collection</value>
     <comment>Create a new collection</comment>
   </data>
@@ -848,5 +848,29 @@
   <data name="TodaySuggestionText" xml:space="preserve">
     <value>{0}'s Suggestion</value>
     <comment>{0}'s Suggestion</comment>
+  </data>
+  <data name="UpdateNoteDialog.CloseButtonText" xml:space="preserve">
+    <value>Close</value>
+    <comment>Close</comment>
+  </data>
+  <data name="UpdateNoteTitle" xml:space="preserve">
+    <value>Update Note for Build {0}</value>
+    <comment>Update Note for Build {0}</comment>
+  </data>
+  <data name="UpdateNote" xml:space="preserve">
+    <value>* Added Update Note&#xD;&#xA;* Added more translation</value>
+    <comment>Update Note</comment>
+  </data>
+  <data name="AddToCollectionTitle" xml:space="preserve">
+    <value>Add {0} into Collection</value>
+    <comment>Add {0} into Collection</comment>
+  </data>
+  <data name="Favorites" xml:space="preserve">
+    <value>Favorites</value>
+    <comment>Favorites</comment>
+  </data>
+  <data name="AutoGen" xml:space="preserve">
+    <value>Automatically Generated</value>
+    <comment>Automatically Generated</comment>
   </data>
 </root>

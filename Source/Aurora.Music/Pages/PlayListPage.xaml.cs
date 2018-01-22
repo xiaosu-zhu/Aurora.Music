@@ -73,7 +73,7 @@ namespace Aurora.Music.Pages
             }
             await Context.GetSongsAsync(e.Parameter as PlayList);
 
-            if ((e.Parameter as PlayList).Title == "Favorites")
+            if ((e.Parameter as PlayList).Title == Consts.Localizer.GetString("Favorites"))
             {
                 DescriptionBtn.Visibility = Visibility.Collapsed;
             }

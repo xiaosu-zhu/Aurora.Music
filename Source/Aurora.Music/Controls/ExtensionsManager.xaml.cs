@@ -76,7 +76,7 @@ namespace Aurora.Music.Controls
             // load the extension if the package is OK
             if (!(ext.Package.Status.VerifyIsOK()
 #if !DEBUG
-                    && Settings.Load().DebugModeEnabled ? true : ext.Package.SignatureKind == PackageSignatureKind.Store
+                    && Settings.Current.DebugModeEnabled ? true : ext.Package.SignatureKind == PackageSignatureKind.Store
 #endif
                     ))
             {

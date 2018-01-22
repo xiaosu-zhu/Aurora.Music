@@ -67,7 +67,7 @@ namespace Aurora.Shared.Helpers
 
         public static ulong GetPackageVersionNum()
         {
-            return ((ulong)Package.Current.Id.Version.Major << 32) + ((ulong)Package.Current.Id.Version.Minor << 16) + Package.Current.Id.Version.Build;
+            return (Convert.ToUInt64(Package.Current.Id.Version.Major) << 48) + (Convert.ToUInt64(Package.Current.Id.Version.Minor) << 32) + (Convert.ToUInt64(Package.Current.Id.Version.Build) << 16) + Convert.ToUInt64(Package.Current.Id.Version.Revision);
         }
 
 

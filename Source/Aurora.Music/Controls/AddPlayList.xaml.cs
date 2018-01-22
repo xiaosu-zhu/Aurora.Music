@@ -1,22 +1,15 @@
-﻿using Aurora.Music.Core.Storage;
+﻿using Aurora.Music.Core;
+using Aurora.Music.Core.Storage;
 using Aurora.Music.ViewModels;
 using Aurora.Shared.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“内容对话框”项模板
 
@@ -56,13 +49,13 @@ namespace Aurora.Music.Controls
         public AddPlayList(IEnumerable<int> ID) : this()
         {
             songID = ID.ToArray();
-            Title = $"Add {songID.Length} " + (songID.Length == 1 ? "song" : "songs") + " into collection";
+            Title = string.Format(Consts.Localizer.GetString("AddToCollectionTitle"), SmartFormat.Smart.Format(Consts.Localizer.GetString("SmartSongs"), songID.Length));
         }
 
         public AddPlayList(int ID) : this()
         {
             songID = new int[] { ID };
-            Title = $"Add 1 song into collection";
+            Title = string.Format(Consts.Localizer.GetString("AddToCollectionTitle"), SmartFormat.Smart.Format(Consts.Localizer.GetString("SmartSongs"), 1));
         }
 
         private async void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)

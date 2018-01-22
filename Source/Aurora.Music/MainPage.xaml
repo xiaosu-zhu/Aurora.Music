@@ -1247,7 +1247,7 @@
                 </Grid>
                 <Grid HorizontalAlignment="Right" VerticalAlignment="Top" 
                       Height="32" x:Name="TitleBarOverlay" Visibility="Visible" >
-                    <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="1" BorderThickness="0" BorderBrush="{x:Null}" x:Name="TitlebarBtm" Background="{StaticResource SystemControlTransparentRevealBackgroundBrush}"/>
+                    <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="1" BorderThickness="0" BorderBrush="{x:Null}" x:Name="TitlebarBtm" Background="{StaticResource SystemControlBackgroundTransparentRevealBorderBrush}"/>
                     <AutoSuggestBox AutoMaximizeSuggestionArea="True" Loaded="SearchBox_Loaded" LosingFocus="SearchBox_LosingFocus" Style="{ThemeResource BlockAutoSuggestBox}" QuerySubmitted="SearchBox_QuerySubmitted" SuggestionChosen="SearchBox_SuggestionChosen"
                                     PlaceholderText="{x:Bind Context.PlaceholderText,Mode=OneWay}" QueryIcon="Find" x:Name="SearchBox" TextChanged="SearchBox_TextChanged" ItemsSource="{x:Bind Context.SearchItems, Mode=OneWay}"
                                     HorizontalAlignment="Right" Opacity="0" VerticalAlignment="Stretch" Width="48" ItemTemplateSelector="{StaticResource GenericItemSelector}">

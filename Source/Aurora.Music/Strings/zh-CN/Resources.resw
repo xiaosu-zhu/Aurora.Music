@@ -497,7 +497,7 @@
     <value>我们什么都没有找到……</value>
     <comment>We can't find anything...</comment>
   </data>
-  <data name="CreateCollection" xml:space="preserve">
+  <data name="CreateCollection.Text" xml:space="preserve">
     <value>添加一个新收藏</value>
     <comment>Create a new collection</comment>
   </data>
@@ -844,9 +844,33 @@
   <data name="DayOfWeek_Saturday" xml:space="preserve">
     <value>周末</value>
     <comment>Saturday</comment>
-  </data> 
+  </data>
   <data name="TodaySuggestionText" xml:space="preserve">
     <value>{0}合集</value>
     <comment>{0}'s Suggestion</comment>
+  </data>
+  <data name="UpdateNoteDialog.CloseButtonText" xml:space="preserve">
+    <value>关闭</value>
+    <comment>Close</comment>
+  </data>
+  <data name="UpdateNoteTitle" xml:space="preserve">
+    <value>{0} 版本更新日志</value>
+    <comment>Update Note for Build {0}</comment>
+  </data>
+  <data name="UpdateNote" xml:space="preserve">
+    <value>* 添加更新日志&#xD;&#xA;* 补充翻译文本</value>
+    <comment>Update Note</comment>
+  </data>
+  <data name="AddToCollectionTitle" xml:space="preserve">
+    <value>将{0}添加到收藏</value>
+    <comment>Add {0} into Collection</comment>
+  </data>
+  <data name="Favorites" xml:space="preserve">
+    <value>最爱</value>
+    <comment>Favorites</comment>
+  </data>
+  <data name="AutoGen" xml:space="preserve">
+    <value>自动生成</value>
+    <comment>Automatically Generated</comment>
   </data>
 </root>

@@ -1217,8 +1217,8 @@ namespace Aurora.Music.Core.Storage
             }
             var fav = new PlayList()
             {
-                Title = "Favorites",
-                Description = "Automatically generated",
+                Title = Consts.Localizer.GetString("Favorites"),
+                Description = Consts.Localizer.GetString("AutoGen"),
             };
 
             var favSongs = await conn.QueryAsync<STATISTICS>("SELECT * FROM STATISTICS WHERE Favorite=1");
@@ -1241,8 +1241,8 @@ namespace Aurora.Music.Core.Storage
         {
             var fav = new PlayList()
             {
-                Title = "Favorites",
-                Description = "Automatically generated",
+                Title = Consts.Localizer.GetString("Favorites"),
+                Description = Consts.Localizer.GetString("AutoGen"),
             };
 
             var favSongs = await conn.QueryAsync<STATISTICS>("SELECT * FROM STATISTICS WHERE Favorite=1");

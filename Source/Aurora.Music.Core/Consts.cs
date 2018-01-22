@@ -3,6 +3,7 @@ using System;
 using System.Runtime.Serialization;
 using Windows.ApplicationModel.Resources;
 using Windows.Storage;
+using Windows.UI.Xaml.Controls;
 
 namespace Aurora.Music.Core
 {
@@ -51,6 +52,10 @@ namespace Aurora.Music.Core
         }
 
         public static string CommaSeparator => localizer.GetString("CommaSeparator");
+
+        public static string UpdateNote => localizer.GetString("UpdateNote");
+
+        public static string UpdateNoteTitle => localizer.GetString("UpdateNoteTitle");
 
         public const string ArraySeparator = "$|$";
 

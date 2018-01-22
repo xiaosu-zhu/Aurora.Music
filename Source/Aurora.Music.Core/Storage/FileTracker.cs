@@ -37,7 +37,7 @@ namespace Aurora.Music.Core.Storage
             return await query.GetFilesAsync();
         }
 
-        public static async Task<IEnumerable<StorageFile>> FindChanges()
+        public static async Task<List<StorageFile>> FindChanges()
         {
             var opr = SQLOperator.Current();
             var filePaths = await opr.GetFilePathsAsync();
@@ -45,7 +45,12 @@ namespace Aurora.Music.Core.Storage
             var folders = FileReader.InitFolderList();
             foreach (var f in foldersDB)
             {
-                folders.Add(await f.GetFolderAsync());
+                StorageFolder folder = await f.GetFolderAsync();
+                if (folders.Exists(a => a.Path == folder.Path))
+                {
+                    continue;
+                }
+                folders.Add(folder);
             }
             var list = new List<StorageFile>();
             foreach (var item in folders)
@@ -63,6 +68,8 @@ namespace Aurora.Music.Core.Storage
                 list.AddRange(files);
                 var t = Task.Run(async () => { await opr.UpdateFolderAsync(item, files.Count); });
             }
+            list.Distinct(new StorageFileComparer());
+
             foreach (var path in filePaths)
             {
                 try

@@ -301,6 +301,54 @@
         <vm:WelcomePageViewModel x:Name="Context"/>
     </Page.DataContext>
     <Grid>
+        <Grid.Resources>
+            <Storyboard x:Name="Ani1">
+                <DoubleAnimation BeginTime="0:0:1" Storyboard.TargetName="Re0" EnableDependentAnimation="True" Duration="0:0:2" Storyboard.TargetProperty="Height" To="80">
+                    <DoubleAnimation.EasingFunction>
+                        <QuinticEase/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation BeginTime="0:0:1" Storyboard.TargetName="Re1" EnableDependentAnimation="True" Duration="0:0:2" Storyboard.TargetProperty="Height" To="90">
+                    <DoubleAnimation.EasingFunction>
+                        <QuinticEase/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation BeginTime="0:0:1" Storyboard.TargetName="Re2" EnableDependentAnimation="True" Duration="0:0:2" Storyboard.TargetProperty="Height" To="60">
+                    <DoubleAnimation.EasingFunction>
+                        <QuinticEase/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation BeginTime="0:0:1" Storyboard.TargetName="Re3" EnableDependentAnimation="True" Duration="0:0:2" Storyboard.TargetProperty="Height" To="120">
+                    <DoubleAnimation.EasingFunction>
+                        <QuinticEase/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation BeginTime="0:0:1" Storyboard.TargetName="Re4" EnableDependentAnimation="True" Duration="0:0:2" Storyboard.TargetProperty="Height" To="72">
+                    <DoubleAnimation.EasingFunction>
+                        <QuinticEase/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation BeginTime="0:0:1" Storyboard.TargetName="Re5" EnableDependentAnimation="True" Duration="0:0:2" Storyboard.TargetProperty="Height" To="36">
+                    <DoubleAnimation.EasingFunction>
+                        <QuinticEase/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation BeginTime="0:0:1" Storyboard.TargetName="Re6" EnableDependentAnimation="True" Duration="0:0:2" Storyboard.TargetProperty="Height" To="24">
+                    <DoubleAnimation.EasingFunction>
+                        <QuinticEase/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+            </Storyboard>
+            <Storyboard x:Name="Ani2">
+                <DoubleAnimation BeginTime="0:0:1" Storyboard.TargetName="Ani2OL" EnableDependentAnimation="True" Duration="0:0:2" Storyboard.TargetProperty="Width" To="100">
+                    <DoubleAnimation.EasingFunction>
+                        <QuinticEase/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation RepeatBehavior="Forever" Duration="0:0:15" Storyboard.TargetName="Ani2BGR" Storyboard.TargetProperty="Angle" To="360"/>
+            </Storyboard>
+        </Grid.Resources>
+        
         <ParallaxView Source="{x:Bind Main}" HorizontalShift="500">
             <Grid>
                 <Image x:Name="WelcomBG" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="UniformToFill">
@@ -316,15 +364,34 @@
             <Grid HorizontalAlignment="Center" VerticalAlignment="Stretch">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="*"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-                <TextBlock x:Uid="Welcome" Style="{ThemeResource HeaderTextBlockStyle}" 
+                <TextBlock x:Uid="Welcome" Style="{ThemeResource SubheaderTextBlockStyle}" 
                            HorizontalAlignment="Center" VerticalAlignment="Center" 
                            Margin="8,4" Text="Welcome!"/>
-                <TextBlock Grid.Row="1" Text="Using Aurora Music to delight your music experience." Style="{ThemeResource BodyTextBlockStyle}" 
+                <Grid Grid.Row="1" Width="160" Height="160">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Rectangle x:Name="Re0" Fill="#ef8200" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="0"/>
+                    <Rectangle x:Name="Re1" Fill="#ee7b00" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="0"/>
+                    <Rectangle x:Name="Re2" Fill="#ea7101" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="0"/>
+                    <Rectangle x:Name="Re3" Fill="#e76700" Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="0"/>
+                    <Rectangle x:Name="Re4" Fill="#e35b00" Grid.Column="4" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="0"/>
+                    <Rectangle x:Name="Re5" Fill="#e15201" Grid.Column="5" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="0"/>
+                    <Rectangle x:Name="Re6" Fill="#df4b01" Grid.Column="6" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="0"/>
+                </Grid>
+                <TextBlock Grid.Row="2" Text="Using Aurora Music to delight your music experience." Style="{ThemeResource SubtitleTextBlockStyle}" 
                            HorizontalAlignment="Left" VerticalAlignment="Center" Margin="8,4"/>
-                <Button Grid.Row="2" Padding="12,4" Margin="16" 
+                <Button Grid.Row="3" Padding="12,4" Margin="16" 
                         Click="Button_Click" HorizontalAlignment="Center" VerticalAlignment="Center" 
                         Style="{ThemeResource ButtonRevealStyle}">
                     <Button.Content>
@@ -335,15 +402,24 @@
             <Grid HorizontalAlignment="Center" VerticalAlignment="Stretch">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="*"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-                <TextBlock Style="{ThemeResource HeaderTextBlockStyle}" 
+                <TextBlock Style="{ThemeResource SubheaderTextBlockStyle}" 
                            HorizontalAlignment="Center" VerticalAlignment="Center" 
                            Margin="8,4" Text="Fluent Feel"/>
-                <TextBlock Grid.Row="1" Text="It is based on Fluent-deisgn System, just check out the stunning UI performance." Style="{ThemeResource BodyTextBlockStyle}" 
+                <Grid Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Image x:Name="Ani2BG" Height="144" Width="144" Stretch="Uniform" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center" VerticalAlignment="Center" Source="/Assets/Images/placeholder_b.png">
+                        <Image.RenderTransform>
+                            <RotateTransform Angle="0" x:Name="Ani2BGR"/>
+                        </Image.RenderTransform>
+                    </Image>
+                    <Grid x:Name="Ani2OL" BorderBrush="{ThemeResource SystemControlHighlightAltTransparentRevealBorderBrush}" BorderThickness="1" Background="{ThemeResource SystemControlBaseMediumLowAcrylicElementMediumBrush}" Width="0" Height="160" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                </Grid>
+                <TextBlock Grid.Row="2" Text="It is based on Fluent-deisgn System, just check out the stunning UI performance." Style="{ThemeResource SubtitleTextBlockStyle}" 
                            HorizontalAlignment="Left" VerticalAlignment="Center" Margin="8,4"/>
-                <Button Grid.Row="2" Padding="12,4" Margin="16" Click="Button_Click" 
+                <Button Grid.Row="3" Padding="12,4" Margin="16" Click="Button_Click" 
                         HorizontalAlignment="Center" VerticalAlignment="Center" 
                         Style="{ThemeResource ButtonRevealStyle}">
                     <Button.Content>
@@ -358,7 +434,7 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-                <TextBlock Style="{ThemeResource HeaderTextBlockStyle}" 
+                <TextBlock Style="{ThemeResource SubheaderTextBlockStyle}" 
                            HorizontalAlignment="Center" VerticalAlignment="Center" 
                            Margin="8,4" Text="Before You Start"/>
                 <Frame Grid.Row="1" x:Name="AddFolderFrame"/>
@@ -383,9 +459,9 @@
                     <RowDefinition Height="3*"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-                <TextBlock Style="{ThemeResource HeaderTextBlockStyle}" 
+                <TextBlock Style="{ThemeResource SubheaderTextBlockStyle}" 
                            HorizontalAlignment="Center" VerticalAlignment="Center" 
-                           Margin="8,4" Text="Wait for a While"/>
+                           Margin="8,4" Text="Wait for a While..."/>
                 <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center" 
                             Orientation="Vertical" Grid.Row="1">
                     <TextBlock Text="{x:Bind Context.Hint, Mode=OneWay}" Style="{ThemeResource SubtitleTextBlockStyle}" 

@@ -94,6 +94,18 @@ namespace Aurora.Shared.Helpers
             return Random.NextDouble() > 0.5;
         }
 
+
+        /// <summary>
+        /// 得到一个区间内的随机数
+        /// </summary>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
+        /// <returns></returns>
+        public static double RandomBetween(double min, double max)
+        {
+            return min == max ? min : min + Random.NextDouble() * (max - min);
+        }
+
         /// <summary>
         /// 
         /// </summary>

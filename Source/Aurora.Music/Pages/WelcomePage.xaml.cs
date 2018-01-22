@@ -1,5 +1,8 @@
 ﻿using Aurora.Music.Core.Models;
+using Aurora.Shared.Helpers;
+using System;
 using System.Threading.Tasks;
+using Windows.System.Threading;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -18,6 +21,8 @@ namespace Aurora.Music.Pages
         {
             this.InitializeComponent();
             AddFolderFrame.Navigate(typeof(AddFoldersView), new object());
+            Ani2.Stop();
+            Ani1.Begin();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -39,6 +44,22 @@ namespace Aurora.Music.Pages
 
         private async void Main_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (Main.SelectedIndex == 0)
+            {
+                Ani2.Stop();
+                Ani1.Begin();
+                return;
+            }
+            if (Main.SelectedIndex == 1)
+            {
+                Ani2.Begin();
+                Ani1.Stop();
+                return;
+            }
+
+            Ani1.Stop();
+            Ani2.Stop();
+
             if (Main.SelectedIndex == Main.Items.Count - 1 && !searchBegined)
             {
                 Settings.Current.WelcomeFinished = true;

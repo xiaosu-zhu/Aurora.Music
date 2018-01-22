@@ -71,6 +71,9 @@ namespace Aurora.Music.Core.Models
         public bool CopyFileWhenActivated { get; set; } = false;
 
         public DateTime DoubanLogin { get; set; }
+        public double DoubanExpireTime { get; set; }
+
+        public ulong LastUpdateBuild { get; set; } = 0ul;
 
         private static Settings current;
         public static Settings Current
@@ -89,8 +92,6 @@ namespace Aurora.Music.Core.Models
             }
         }
 
-        public double DoubanExpireTime { get; set; }
-
         private static void Settings_SettingsChanged(object sender, EventArgs e)
         {
             lock (lockable)
@@ -99,7 +100,7 @@ namespace Aurora.Music.Core.Models
             }
         }
 
-        public static Settings Load()
+        private static Settings Load()
         {
             try
             {
