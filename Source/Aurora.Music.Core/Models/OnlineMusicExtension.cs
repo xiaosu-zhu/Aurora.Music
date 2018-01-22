@@ -78,9 +78,9 @@ namespace Aurora.Music.Core.Models
 
         private Album GetAlbum(string r, string s, string art)
         {
-            var set = JsonConvert.DeserializeObject<ValueSet>(r);
-            var songs = JsonConvert.DeserializeObject<ValueSet[]>(s);
-            var artists = JsonConvert.DeserializeObject<ValueSet[]>(art);
+            var set = JsonConvert.DeserializeObject<PropertySet>(r);
+            var songs = JsonConvert.DeserializeObject<PropertySet[]>(s);
+            var artists = JsonConvert.DeserializeObject<PropertySet[]>(art);
             var a = new Album
             {
                 Name = set["name"] as string,
@@ -126,7 +126,7 @@ namespace Aurora.Music.Core.Models
 
         private Song GetOnlineSong(string t)
         {
-            var set = JsonConvert.DeserializeObject<ValueSet>(t);
+            var set = JsonConvert.DeserializeObject<PropertySet>(t);
 
             // Required Properties
             var song = new Song
@@ -155,7 +155,7 @@ namespace Aurora.Music.Core.Models
 
         private IEnumerable<OnlineMusicItem> GetGenericMusicItem(string result)
         {
-            var set = JsonConvert.DeserializeObject<ValueSet[]>(result);
+            var set = JsonConvert.DeserializeObject<PropertySet[]>(result);
             var res = new List<OnlineMusicItem>();
             foreach (var p in set)
             {
