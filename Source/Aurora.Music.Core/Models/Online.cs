@@ -6,11 +6,6 @@ using System.Threading.Tasks;
 
 namespace Aurora.Music.Core.Models
 {
-    public class OnlineSong : Song
-    {
-        public Uri SongUri { get; private set; }
-    }
-
     public class OnlineMusicItem : GenericMusicItem
     {
         public string[] OnlineID { get; private set; }

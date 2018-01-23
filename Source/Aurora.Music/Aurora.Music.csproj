@@ -123,9 +123,6 @@
       <DependentUpon>ExtSettings.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\ImageGrid.cs" />
-    <Compile Include="Controls\ListItems\AlbumItem.xaml.cs">
-      <DependentUpon>AlbumItem.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\LyricView.xaml.cs">
       <DependentUpon>LyricView.xaml</DependentUpon>
     </Compile>
@@ -136,6 +133,7 @@
       <DependentUpon>TagDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\TemplateSeletor.cs" />
+    <Compile Include="Controls\Tile.cs" />
     <Compile Include="Controls\UpdateInfo.xaml.cs">
       <DependentUpon>UpdateInfo.xaml</DependentUpon>
     </Compile>
@@ -332,11 +330,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\ListItems\AlbumItem.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Page>
     <Page Include="Controls\LyricView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -436,6 +429,9 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.0.6</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications">
+      <Version>2.1.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI">
       <Version>2.1.1</Version>

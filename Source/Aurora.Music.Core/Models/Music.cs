@@ -22,14 +22,14 @@ namespace Aurora.Music.Core.Models
         Song, Album, PlayList, Artist, Placeholder
     }
 
-    public class Artist
+    public sealed class Artist
     {
         public string Name { get; set; }
         public string Description { get; set; }
         public Uri AvatarUri { get; set; }
     }
 
-    public class AlbumInfo
+    public sealed class AlbumInfo
     {
         public Uri AltArtwork { get; set; }
         public string Name { get; set; }
@@ -143,7 +143,7 @@ namespace Aurora.Music.Core.Models
         }
     }
 
-    public class Song
+    public sealed class Song
     {
         public bool IsIDEqual(Song s)
         {
@@ -389,18 +389,18 @@ namespace Aurora.Music.Core.Models
         public string FilePath { get; set; }
         public string PicturePath { get; set; }
 
-        public virtual string MusicBrainzReleaseId { get; set; }
-        public virtual string MusicBrainzDiscId { get; set; }
-        public virtual string MusicIpId { get; set; }
-        public virtual string AmazonId { get; set; }
-        public virtual string MusicBrainzReleaseStatus { get; set; }
-        public virtual string MusicBrainzReleaseType { get; set; }
-        public virtual string MusicBrainzReleaseCountry { get; set; }
-        public virtual double ReplayGainTrackGain { get; set; }
-        public virtual double ReplayGainTrackPeak { get; set; }
-        public virtual double ReplayGainAlbumGain { get; set; }
-        public virtual double ReplayGainAlbumPeak { get; set; }
-        //public virtual IPicture[] Pictures { get; set; }
+        public string MusicBrainzReleaseId { get; set; }
+        public string MusicBrainzDiscId { get; set; }
+        public string MusicIpId { get; set; }
+        public string AmazonId { get; set; }
+        public string MusicBrainzReleaseStatus { get; set; }
+        public string MusicBrainzReleaseType { get; set; }
+        public string MusicBrainzReleaseCountry { get; set; }
+        public double ReplayGainTrackGain { get; set; }
+        public double ReplayGainTrackPeak { get; set; }
+        public double ReplayGainAlbumGain { get; set; }
+        public double ReplayGainAlbumPeak { get; set; }
+        //public IPicture[] Pictures { get; set; }
         public string FirstAlbumArtist { get; set; }
         public string FirstAlbumArtistSort { get; set; }
         public string FirstPerformer { get; set; }
@@ -412,34 +412,34 @@ namespace Aurora.Music.Core.Models
         public string JoinedPerformers { get; set; }
         public string JoinedPerformersSort { get; set; }
         public string JoinedComposers { get; set; }
-        public virtual string MusicBrainzTrackId { get; set; }
-        public virtual string MusicBrainzReleaseArtistId { get; set; }
-        public virtual bool IsEmpty { get; set; }
-        public virtual string MusicBrainzArtistId { get; set; }
+        public string MusicBrainzTrackId { get; set; }
+        public string MusicBrainzReleaseArtistId { get; set; }
+        public bool IsEmpty { get; set; }
+        public string MusicBrainzArtistId { get; set; }
         public TagTypes TagTypes { get; set; }
-        public virtual string Title { get; set; }
-        public virtual string TitleSort { get; set; }
-        public virtual string[] Performers { get; set; }
-        public virtual string[] PerformersSort { get; set; }
-        public virtual string[] AlbumArtists { get; set; }
-        public virtual string[] AlbumArtistsSort { get; set; }
-        public virtual string[] Composers { get; set; }
-        public virtual string[] ComposersSort { get; set; }
-        public virtual string Album { get; set; }
+        public string Title { get; set; }
+        public string TitleSort { get; set; }
+        public string[] Performers { get; set; }
+        public string[] PerformersSort { get; set; }
+        public string[] AlbumArtists { get; set; }
+        public string[] AlbumArtistsSort { get; set; }
+        public string[] Composers { get; set; }
+        public string[] ComposersSort { get; set; }
+        public string Album { get; set; }
         public string JoinedGenres { get; set; }
-        public virtual string AlbumSort { get; set; }
-        public virtual string[] Genres { get; set; }
-        public virtual uint Year { get; set; }
-        public virtual uint Track { get; set; }
-        public virtual uint TrackCount { get; set; }
-        public virtual uint Disc { get; set; }
-        public virtual uint DiscCount { get; set; }
-        public virtual string Lyrics { get; set; }
-        public virtual string Grouping { get; set; }
-        public virtual uint BeatsPerMinute { get; set; }
-        public virtual string Conductor { get; set; }
-        public virtual string Copyright { get; set; }
-        public virtual string Comment { get; set; }
+        public string AlbumSort { get; set; }
+        public string[] Genres { get; set; }
+        public uint Year { get; set; }
+        public uint Track { get; set; }
+        public uint TrackCount { get; set; }
+        public uint Disc { get; set; }
+        public uint DiscCount { get; set; }
+        public string Lyrics { get; set; }
+        public string Grouping { get; set; }
+        public uint BeatsPerMinute { get; set; }
+        public string Conductor { get; set; }
+        public string Copyright { get; set; }
+        public string Comment { get; set; }
         public int ID { get; set; }
         public int SampleRate { get; set; }
         public int AudioChannels { get; private set; }
@@ -474,7 +474,7 @@ namespace Aurora.Music.Core.Models
     }
 
 
-    public class Album
+    public sealed class Album
     {
         public Album()
         {
@@ -536,15 +536,15 @@ namespace Aurora.Music.Core.Models
         public string PicturePath { get; set; }
 
         public string Name { get; set; }
-        public virtual string[] Genres { get; set; }
-        public virtual uint Year { get; set; }
-        public virtual string AlbumSort { get; set; }
-        public virtual uint TrackCount { get; set; }
-        public virtual uint DiscCount { get; set; }
-        public virtual string[] AlbumArtists { get; set; }
-        public virtual string[] AlbumArtistsSort { get; set; }
-        public virtual double ReplayGainAlbumGain { get; set; }
-        public virtual double ReplayGainAlbumPeak { get; set; }
+        public string[] Genres { get; set; }
+        public uint Year { get; set; }
+        public string AlbumSort { get; set; }
+        public uint TrackCount { get; set; }
+        public uint DiscCount { get; set; }
+        public string[] AlbumArtists { get; set; }
+        public string[] AlbumArtistsSort { get; set; }
+        public double ReplayGainAlbumGain { get; set; }
+        public double ReplayGainAlbumPeak { get; set; }
         public int ID { get; }
         public string Desription { get; internal set; }
         public bool IsOnline { get; internal set; }

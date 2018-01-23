@@ -1,6 +1,7 @@
 ﻿using Aurora.Music.Core;
 using Aurora.Music.Core.Models;
 using Aurora.Music.Core.Storage;
+using Aurora.Music.PlaybackEngine;
 using Aurora.Shared;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
@@ -33,7 +34,9 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref rightGradient, value); }
         }
 
-        private string welcomeTitle = "Hi.";
+        private string welcomeTitle = "";
+        private PlayerStatus playerStatus;
+
         public string WelcomeTitle
         {
             get { return welcomeTitle; }
@@ -143,6 +146,9 @@ namespace Aurora.Music.ViewModels
         public async Task Load()
         {
             var hero = await FileReader.GetHeroListAsync();
+
+            playerStatus = await PlayerStatus.LoadAsync();
+
             await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
             {
                 HeroList.Clear();
@@ -150,7 +156,7 @@ namespace Aurora.Music.ViewModels
                 {
                     if (item.IsNullorEmpty())
                         continue;
-                    var pic = (from i in item where !i.PicturePath.IsNullorEmpty() select i.PicturePath into p orderby Tools.Random.Next() select p).FirstOrDefault();
+                    var pic = (from i in item where !i.PicturePath.IsNullorEmpty() select i.PicturePath).FirstOrDefault();
                     HeroList.Add(new GenericMusicItemViewModel()
                     {
                         IDs = item.Select(x => x.IDs).Aggregate((a, b) =>
@@ -159,7 +165,20 @@ namespace Aurora.Music.ViewModels
                         }),
                         Title = item.Key,
                         Artwork = pic.IsNullorEmpty() ? null : new Uri(pic),
-                        MainColor = pic.IsNullorEmpty() ? Palette.Blue : await ImagingHelper.GetMainColor(pic.IsNullorEmpty() ? null : new Uri(pic)),
+                        MainColor = pic.IsNullorEmpty() ? Palette.Gray : await ImagingHelper.GetMainColor(pic.IsNullorEmpty() ? null : new Uri(pic)),
+                        InnerType = MediaType.PlayList
+                    });
+                }
+
+                if (playerStatus != null && playerStatus.Songs != null)
+                {
+                    var pic = (from i in playerStatus.Songs where !i.PicturePath.IsNullorEmpty() select i.PicturePath).FirstOrDefault();
+                    HeroList.Add(new GenericMusicItemViewModel()
+                    {
+                        IDs = null,
+                        Title = Consts.Localizer.GetString("PlayingHistoryText"),
+                        Artwork = pic.IsNullorEmpty() ? null : new Uri(pic),
+                        MainColor = pic.IsNullorEmpty() ? Palette.Gray : await ImagingHelper.GetMainColor(pic.IsNullorEmpty() ? null : new Uri(pic)),
                         InnerType = MediaType.PlayList
                     });
                 }
@@ -187,5 +206,10 @@ namespace Aurora.Music.ViewModels
 
         }
 
+        internal async Task RestorePlayerStatus()
+        {
+            await MainPageViewModel.Current.InstantPlay(playerStatus.Songs, playerStatus.Index);
+            Player.Current.Seek(playerStatus.Position);
+        }
     }
 }

@@ -214,6 +214,7 @@
                         <Button x:Uid="GetExtension" Content="Get Extensions" Command="{x:Bind Context.GetExtensions}" Style="{ThemeResource TextBlockButtonStyle}" Margin="12,4"/>
                         <Button x:Uid="AboutBtn" Content="About" Command="{x:Bind Context.About}" Style="{ThemeResource TextBlockButtonStyle}" Margin="12,4"/>
                         <Button x:Uid="Privacy" Content="Privacy Policy" Command="{x:Bind Context.NavigateToPrivacy}" Style="{ThemeResource TextBlockButtonStyle}" Margin="12,4"/>
+                        <Button x:Uid="WhatsNew" Content="What's New?" Command="{x:Bind Context.ShowUpdateInfo}" Style="{ThemeResource TextBlockButtonStyle}" Margin="12,4"/>
                     </StackPanel>
                 </Grid>
             </StackPanel>

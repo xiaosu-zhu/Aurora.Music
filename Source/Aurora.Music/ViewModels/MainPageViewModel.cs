@@ -20,6 +20,8 @@ using Aurora.Music.Core;
 using Windows.Foundation.Collections;
 using Aurora.Music.Controls;
 using Aurora.Shared.Helpers;
+using Newtonsoft.Json;
+using System.Diagnostics;
 
 namespace Aurora.Music.ViewModels
 {
@@ -589,6 +591,10 @@ namespace Aurora.Music.ViewModels
                     {
                         CurrentArtwork = null;
                     }
+                    Task.Run(() =>
+                    {
+                        Tile.SendNormal(CurrentTitle, CurrentAlbum, string.Join(Consts.CommaSeparator, p.Performers ?? new string[] { }), p.PicturePath);
+                    });
                 }
                 if (e.Items is IList<Song> l)
                 {
@@ -615,6 +621,15 @@ namespace Aurora.Music.ViewModels
                     NeedShowPanel = true;
                 }
             });
+        }
+
+        internal async Task SavePointAsync()
+        {
+            if (!NowPlayingList.IsNullorEmpty())
+            {
+                var status = new PlayerStatus(NowPlayingList.Select(s => s.Song), CurrentIndex, CurrentPosition);
+                await status.SaveAsync();
+            }
         }
 
         public void Dispose()

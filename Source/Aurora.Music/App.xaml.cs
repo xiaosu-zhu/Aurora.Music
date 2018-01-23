@@ -30,6 +30,7 @@ using System.Web;
 using Aurora.Music.Controls;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
+using Aurora.Music.ViewModels;
 
 namespace Aurora.Music
 {
@@ -438,7 +439,7 @@ namespace Aurora.Music
 
         private async void Ui_ColorValuesChanged(UISettings sender, object args)
         {
-            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
             {
                 if (rootFrame != null)
                 {
@@ -467,10 +468,16 @@ namespace Aurora.Music
         /// </summary>
         /// <param name="sender">挂起的请求的源。</param>
         /// <param name="e">有关挂起请求的详细信息。</param>
-        private void OnSuspending(object sender, SuspendingEventArgs e)
+        private async void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: 保存应用程序状态并停止任何后台活动
+
+            if (MainPageViewModel.Current != null)
+            {
+                await MainPageViewModel.Current.SavePointAsync();
+            }
+
             deferral.Complete();
         }
     }

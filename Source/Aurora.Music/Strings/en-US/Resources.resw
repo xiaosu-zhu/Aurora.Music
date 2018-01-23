@@ -858,7 +858,7 @@
     <comment>Update Note for Build {0}</comment>
   </data>
   <data name="UpdateNote" xml:space="preserve">
-    <value>* Added Update Note&#xD;&#xA;* Added more translation</value>
+    <value>* **NEW**: Update Live Tile while playing&#xD;&#xA;* **Update**: Added more translation</value>
     <comment>Update Note</comment>
   </data>
   <data name="AddToCollectionTitle" xml:space="preserve">
@@ -872,5 +872,37 @@
   <data name="AutoGen" xml:space="preserve">
     <value>Automatically Generated</value>
     <comment>Automatically Generated</comment>
+  </data>
+  <data name="PlayingHistoryText" xml:space="preserve">
+    <value>Last Played</value>
+    <comment>Last Played</comment>
+  </data>
+  <data name="LyricWindowFlyout.Text" xml:space="preserve">
+    <value>Lyric Window</value>
+    <comment>Lyric Window</comment>
+  </data>
+    <data name="Cast.Text" xml:space="preserve">
+    <value>Cast</value>
+    <comment>Cast</comment>
+  </data> 
+  <data name="SmallWindowFlyout.Text" xml:space="preserve">
+    <value>小窗播放</value>
+    <comment>Small Window</comment>
+  </data>
+  <data name="LyricWindow.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>歌词窗口</value>
+    <comment>Lyric Window</comment>
+  </data> 
+  <data name="SmallWindow.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>小窗播放</value>
+    <comment>Small Window</comment>
+  </data>
+  <data name="TileDesc" xml:space="preserve">
+    <value>{0} by {1}</value>
+    <comment>{0} by {1}</comment>
+  </data> 
+    <data name="WhatsNew.Content" xml:space="preserve">
+    <value>What's New?</value>
+    <comment>What's New?</comment>
   </data>
 </root>

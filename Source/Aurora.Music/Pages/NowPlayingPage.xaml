@@ -1059,8 +1059,8 @@
                         </Grid>
                     </Button.Content>
                     <Button.Flyout>
-                        <Flyout>
-                            <ListView MaxHeight="360" IsSynchronizedWithCurrentItem="False" ItemTemplateSelector="{StaticResource SongListTemplateSelector}" SelectedIndex="{x:Bind Context.CurrentIndex, Mode=OneWay,FallbackValue=-1}" ItemsSource="{x:Bind Context.NowPlayingList}" ItemContainerStyle="{ThemeResource GeneralListViewItemStyle}">
+                        <Flyout Opened="Flyout_Opened">
+                            <ListView x:Name="NowPlayingFlyout" MaxHeight="360" IsSynchronizedWithCurrentItem="False" ItemTemplateSelector="{StaticResource SongListTemplateSelector}" SelectedIndex="{x:Bind Context.CurrentIndex, Mode=OneWay,FallbackValue=-1}" ItemsSource="{x:Bind Context.NowPlayingList}" ItemContainerStyle="{ThemeResource GeneralListViewItemStyle}">
                                 <ListView.Header>
                                     <TextBlock Text="Not Playing" Visibility="{x:Bind Context.CollapseIfNotZero(Context.NowPlayingList.Count),Mode=OneWay}" Style="{ThemeResource SubtitleTextBlockStyle}" Margin="36,12" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </ListView.Header>
@@ -1070,7 +1070,7 @@
                 </Button>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="4">
-                <Button x:Name="LrcBtn" Style="{ThemeResource RevealRoundButton}" 
+                <Button x:Uid="LyricWindow" x:Name="LrcBtn" Style="{ThemeResource RevealRoundButton}" 
                         Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 1),Mode=OneWay}" 
                         ToolTipService.ToolTip="Lyric Window" Command="{x:Bind Context.ShowLyricWindow}"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
@@ -1078,7 +1078,7 @@
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEA4B;"/>
                     </Button.Content>
                 </Button>
-                <Button x:Name="SmallWindow" Style="{ThemeResource RevealRoundButton}" 
+                <Button x:Uid="SmallWindow" x:Name="SmallWindow" Style="{ThemeResource RevealRoundButton}" 
                         Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 1),Mode=OneWay}" 
                         Command="{x:Bind Context.CompactOverlay}" ToolTipService.ToolTip="Small Window"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
@@ -1111,12 +1111,12 @@
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
                                 <MenuFlyoutSeparator/>
-                                <MenuFlyoutItem x:Uid="LyricWindow" x:Name="NarrowLrcBtn" Text="Lyric Window" Command="{x:Bind Context.ShowLyricWindow}">
+                                <MenuFlyoutItem x:Uid="LyricWindowFlyout" x:Name="NarrowLrcBtn" Text="Lyric Window" Command="{x:Bind Context.ShowLyricWindow}">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEA4B;"/>
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
-                                <MenuFlyoutItem x:Uid="SmallWindow" x:Name="NarrowSmallWindow" Text="Small Window" Command="{x:Bind Context.CompactOverlay}">
+                                <MenuFlyoutItem x:Uid="SmallWindowFlyout" x:Name="NarrowSmallWindow" Text="Small Window" Command="{x:Bind Context.CompactOverlay}">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE2B4;" />
                                     </MenuFlyoutItem.Icon>

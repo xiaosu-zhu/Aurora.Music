@@ -858,7 +858,7 @@
     <comment>Update Note for Build {0}</comment>
   </data>
   <data name="UpdateNote" xml:space="preserve">
-    <value>* 添加更新日志&#xD;&#xA;* 补充翻译文本</value>
+    <value>* **新增**：播放时将信息发送到磁贴上&#xD;&#xA;* **更新**：补充翻译文本</value>
     <comment>Update Note</comment>
   </data>
   <data name="AddToCollectionTitle" xml:space="preserve">
@@ -872,5 +872,37 @@
   <data name="AutoGen" xml:space="preserve">
     <value>自动生成</value>
     <comment>Automatically Generated</comment>
+  </data> 
+  <data name="PlayingHistoryText" xml:space="preserve">
+    <value>上次播放</value>
+    <comment>Last Played</comment>
+  </data>
+  <data name="LyricWindowFlyout.Text" xml:space="preserve">
+    <value>歌词窗口</value>
+    <comment>Lyric Window</comment>
+  </data> 
+  <data name="SmallWindowFlyout.Text" xml:space="preserve">
+    <value>小窗播放</value>
+    <comment>Small Window</comment>
+  </data>
+  <data name="Cast.Text" xml:space="preserve">
+    <value>播放到</value>
+    <comment>Cast</comment>
+  </data> 
+  <data name="LyricWindow.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>歌词窗口</value>
+    <comment>Lyric Window</comment>
+  </data> 
+  <data name="SmallWindow.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>小窗播放</value>
+    <comment>Small Window</comment>
+  </data> 
+  <data name="TileDesc" xml:space="preserve">
+    <value>{1} 创作的 {0}</value>
+    <comment>{0} by {1}</comment>
+  </data> 
+  <data name="WhatsNew.Content" xml:space="preserve">
+    <value>这次更新了什么？</value>
+    <comment>What's New?</comment>
   </data>
 </root>

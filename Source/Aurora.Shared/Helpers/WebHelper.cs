@@ -305,7 +305,7 @@ namespace Aurora.Shared.Helpers
             {
                 folder = ApplicationData.Current.LocalFolder;
             }
-            var file = await folder.CreateFileAsync(name, CreationCollisionOption.OpenIfExists);
+            var file = await folder.CreateFileAsync(name, CreationCollisionOption.GenerateUniqueName);
             // Create a new download operation.
             var download = downloader.CreateDownload(uri, file);
             return download.StartAsync();

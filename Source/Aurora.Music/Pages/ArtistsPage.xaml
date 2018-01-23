@@ -94,7 +94,7 @@
               Style="{StaticResource GeneralGridViewStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
               x:Name="ArtistList">
                     <GridView.GroupStyle>
-                        <GroupStyle x:Name="GroupStyle" HeaderTemplate="{StaticResource NormalGroupHeader}"/>
+                        <GroupStyle HeaderTemplate="{StaticResource NormalGroupHeader}"/>
                     </GridView.GroupStyle>
                     <GridView.Header>
                         <Grid Height="400"/>

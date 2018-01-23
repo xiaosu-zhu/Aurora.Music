@@ -216,7 +216,14 @@ namespace Aurora.Music.Pages
 
         private async void HeroGrid_ItemClick(object sender, ItemClickEventArgs e)
         {
-            await MainPageViewModel.Current.InstantPlay(await (e.ClickedItem as GenericMusicItemViewModel).GetSongsAsync());
+            if ((e.ClickedItem as GenericMusicItemViewModel).IDs == null)
+            {
+                await Context.RestorePlayerStatus();
+            }
+            else
+            {
+                await MainPageViewModel.Current.InstantPlay(await (e.ClickedItem as GenericMusicItemViewModel).GetSongsAsync());
+            }
         }
     }
 }

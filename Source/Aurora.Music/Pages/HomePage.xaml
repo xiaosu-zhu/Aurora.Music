@@ -528,7 +528,7 @@
                             </Rectangle.Fill>
                         </Rectangle>
                     </toolkit:DropShadowPanel>
-                    <Rectangle Height="160" Width="160" Fill="{ThemeResource SystemControlBackgroundAltMediumRevealBrush}">
+                    <Rectangle Height="160" Width="160" Stroke="{ThemeResource SystemControlHighlightAltTransparentRevealBorderBrush}" Fill="{ThemeResource SystemControlBackgroundAltMediumRevealBrush}">
                     </Rectangle>
                     <TextBlock x:Name="Title" Text="{x:Bind Title}" Style="{ThemeResource SubtitleTextBlockStyle}"
                                            Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"

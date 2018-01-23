@@ -1164,8 +1164,8 @@
                             </Grid>
                         </Button.Content>
                         <Button.Flyout>
-                            <Flyout>
-                                <ListView MaxHeight="360" IsSynchronizedWithCurrentItem="False" ItemTemplateSelector="{StaticResource SongListTemplateSelector}" SelectedIndex="{x:Bind Context.CurrentIndex, Mode=OneWay,FallbackValue=-1}" ItemsSource="{x:Bind Context.NowPlayingList}" ItemContainerStyle="{ThemeResource GeneralListViewItemStyle}">
+                            <Flyout Opened="Flyout_Opened">
+                                <ListView x:Name="NowPlayingFlyout" MaxHeight="360" IsSynchronizedWithCurrentItem="False" ItemTemplateSelector="{StaticResource SongListTemplateSelector}" SelectedIndex="{x:Bind Context.CurrentIndex, Mode=OneWay,FallbackValue=-1}" ItemsSource="{x:Bind Context.NowPlayingList}" ItemContainerStyle="{ThemeResource GeneralListViewItemStyle}">
                                     <ListView.Header>
                                         <TextBlock Text="Not Playing" Visibility="{x:Bind Context.CollapseIfNotZero(Context.NowPlayingList.Count),Mode=OneWay}" Style="{ThemeResource SubtitleTextBlockStyle}" Margin="36,12" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     </ListView.Header>

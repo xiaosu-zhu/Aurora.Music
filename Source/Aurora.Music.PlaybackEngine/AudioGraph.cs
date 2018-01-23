@@ -640,7 +640,7 @@ namespace Aurora.Music.PlaybackEngine
             throw new NotImplementedException();
         }
 
-        public async Task ReloadCurrent()
+        public Task ReloadCurrent()
         {
             throw new NotImplementedException();
         }

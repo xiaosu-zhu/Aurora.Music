@@ -175,7 +175,7 @@
               HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
               x:Name="AlbumList">
                     <ListView.GroupStyle>
-                        <GroupStyle x:Name="GroupStyle" HeaderTemplate="{StaticResource NormalGroupHeader}"/>
+                        <GroupStyle HeaderTemplate="{StaticResource NormalGroupHeader}"/>
                     </ListView.GroupStyle>
                     <ListView.Header>
                         <Grid Height="400"/>

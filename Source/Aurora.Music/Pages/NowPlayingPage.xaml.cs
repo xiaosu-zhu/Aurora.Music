@@ -296,5 +296,11 @@ namespace Aurora.Music.Pages
             }
             LrcHeaderGrid.Height = h;
         }
+
+
+        private async void Flyout_Opened(object sender, object e)
+        {
+            await NowPlayingFlyout.ScrollToIndex(NowPlayingFlyout.SelectedIndex, ScrollPosition.Center);
+        }
     }
 }
