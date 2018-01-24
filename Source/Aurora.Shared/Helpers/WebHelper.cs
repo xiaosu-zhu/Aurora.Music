@@ -72,7 +72,7 @@ namespace Aurora.Shared.Helpers
             }
         }
 
-        public static async Task<string> HttpPostForm(string url, IEnumerable<KeyValuePair<string, string>> form)
+        public static async Task<string> HttpPostForm(string url, IEnumerable<KeyValuePair<string, string>> form, bool ignoreStatus = false)
         {
             try
             {
@@ -80,7 +80,14 @@ namespace Aurora.Shared.Helpers
                 var content = new HttpFormUrlEncodedContent(form);
                 using (var response = await httpClient.PostAsync(requestUri, content))
                 {
-                    response.EnsureSuccessStatusCode();
+                    if (ignoreStatus)
+                    {
+
+                    }
+                    else
+                    {
+                        response.EnsureSuccessStatusCode();
+                    }
                     var buffer = await response.Content.ReadAsBufferAsync();
                     var byteArray = buffer.ToArray();
                     return Encoding.UTF8.GetString(byteArray, 0, byteArray.Length);
@@ -94,7 +101,7 @@ namespace Aurora.Shared.Helpers
             }
         }
 
-        public static async Task<string> HttpGet(string url, IEnumerable<KeyValuePair<string, string>> getDataStr)
+        public static async Task<string> HttpGet(string url, IEnumerable<KeyValuePair<string, string>> getDataStr, IEnumerable<KeyValuePair<string, string>> addHeader = null)
         {
             //The safe way to add a header value is to use the TryParseAdd method and verify the return value is true,
             //especially if the header value is coming from user input.
@@ -124,6 +131,15 @@ namespace Aurora.Shared.Helpers
                     request.Headers.TryAppendWithoutValidation("Accept-Charset", "utf-8");
                     request.Headers.Connection.TryParseAdd("Keep-Alive");
                     request.Headers.AcceptEncoding.TryParseAdd("gzip, deflate, br");
+
+                    if (addHeader != null)
+                    {
+                        foreach (var item in addHeader)
+                        {
+                            request.Headers.TryAppendWithoutValidation(item.Key, item.Value);
+                        }
+                    }
+
                     using (HttpResponseMessage response = await httpClient.SendRequestAsync(request))
                     {
                         response.EnsureSuccessStatusCode();
@@ -140,7 +156,7 @@ namespace Aurora.Shared.Helpers
         }
 
 
-        public static async Task<string> HttpGet(string url, NameValueCollection getDataStr = null)
+        public static async Task<string> HttpGet(string url, NameValueCollection getDataStr = null, IEnumerable<KeyValuePair<string, string>> addHeader = null)
         {
             //The safe way to add a header value is to use the TryParseAdd method and verify the return value is true,
             //especially if the header value is coming from user input.
@@ -169,6 +185,15 @@ namespace Aurora.Shared.Helpers
                     request.Headers.TryAppendWithoutValidation("Accept-Charset", "utf-8");
                     request.Headers.Connection.TryParseAdd("Keep-Alive");
                     request.Headers.AcceptEncoding.TryParseAdd("gzip, deflate, br");
+
+                    if (addHeader != null)
+                    {
+                        foreach (var item in addHeader)
+                        {
+                            request.Headers.TryAppendWithoutValidation(item.Key, item.Value);
+                        }
+                    }
+
                     using (HttpResponseMessage response = await httpClient.SendRequestAsync(request))
                     {
                         response.EnsureSuccessStatusCode();

@@ -9,11 +9,12 @@
     </ResourceDictionary.ThemeDictionaries>
 
     <DataTemplate x:Key="NormalGroupHeader">
-        <TextBlock Text="{Binding Key}" Foreground="{ThemeResource SystemControlForegroundAccentBrush}"/>
+        <TextBlock FontWeight="Bold" Text="{Binding Key}" Foreground="{ThemeResource SystemControlForegroundAccentBrush}"/>
     </DataTemplate>
 
     <DataTemplate x:Key="NarrowGroupHeader">
-        <TextBlock FontSize="15" Text="{Binding Key}" Foreground="{ThemeResource SystemControlForegroundAccentBrush}"/>
+        <TextBlock FontWeight="Bold" FontSize="15" Text="{Binding Key}" 
+                   Foreground="{ThemeResource SystemControlForegroundAccentBrush}"/>
     </DataTemplate>
 
     <Style x:Key="DismissTextBlockButtonStyle" TargetType="ButtonBase">

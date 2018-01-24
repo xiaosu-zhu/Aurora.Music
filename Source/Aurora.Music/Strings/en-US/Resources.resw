@@ -877,32 +877,37 @@
     <value>Last Played</value>
     <comment>Last Played</comment>
   </data>
+
+  <data name="Cast.Text" xml:space="preserve">
+    <value>Cast</value>
+    <comment>Cast</comment>
+  </data>
   <data name="LyricWindowFlyout.Text" xml:space="preserve">
     <value>Lyric Window</value>
     <comment>Lyric Window</comment>
   </data>
-    <data name="Cast.Text" xml:space="preserve">
-    <value>Cast</value>
-    <comment>Cast</comment>
-  </data> 
   <data name="SmallWindowFlyout.Text" xml:space="preserve">
-    <value>小窗播放</value>
+    <value>Small Window</value>
     <comment>Small Window</comment>
   </data>
   <data name="LyricWindow.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>歌词窗口</value>
+    <value>Lyric Window</value>
     <comment>Lyric Window</comment>
-  </data> 
+  </data>
   <data name="SmallWindow.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>小窗播放</value>
+    <value>Small Window</value>
     <comment>Small Window</comment>
   </data>
   <data name="TileDesc" xml:space="preserve">
     <value>{0} by {1}</value>
     <comment>{0} by {1}</comment>
-  </data> 
-    <data name="WhatsNew.Content" xml:space="preserve">
+  </data>
+  <data name="WhatsNew.Content" xml:space="preserve">
     <value>What's New?</value>
     <comment>What's New?</comment>
+  </data>
+  <data name="DropBtn.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Drop</value>
+    <comment>Drop</comment>
   </data>
 </root>

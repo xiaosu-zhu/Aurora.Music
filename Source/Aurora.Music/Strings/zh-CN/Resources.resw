@@ -138,7 +138,7 @@
     <comment>AboutPage Unsplash Title</comment>
   </data>
   <data name="Now.Text" xml:space="preserve">
-    <value>现在播放</value>
+    <value>正在播放</value>
     <comment>Now Playing Title</comment>
   </data>
   <data name="Settings.Text" xml:space="preserve">
@@ -904,5 +904,9 @@
   <data name="WhatsNew.Content" xml:space="preserve">
     <value>这次更新了什么？</value>
     <comment>What's New?</comment>
+  </data>
+  <data name="DropBtn.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>丢掉</value>
+    <comment>Drop</comment>
   </data>
 </root>

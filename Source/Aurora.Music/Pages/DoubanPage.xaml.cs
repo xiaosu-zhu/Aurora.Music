@@ -32,5 +32,16 @@ namespace Aurora.Music.Pages
             MainPageViewModel.Current.LeftTopColor = Resources["SystemControlForegroundBaseHighBrush"] as SolidColorBrush;
             MainPageViewModel.Current.NeedShowPanel = false;
         }
+
+        private void GridView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            Context.Switch(e.ClickedItem as ChannelViewModel);
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            Context.Detach();
+        }
     }
 }

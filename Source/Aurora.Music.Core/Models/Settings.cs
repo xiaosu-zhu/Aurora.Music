@@ -1,4 +1,5 @@
-﻿using Aurora.Shared.Helpers;
+﻿using Aurora.Shared.Extensions;
+using Aurora.Shared.Helpers;
 using System;
 using Windows.UI.Xaml;
 
@@ -72,6 +73,9 @@ namespace Aurora.Music.Core.Models
 
         public DateTime DoubanLogin { get; set; }
         public double DoubanExpireTime { get; set; }
+        public string DoubanUserName { get; set; }
+        public string DoubanUserID { get; set; }
+        public string DoubanToken { get; set; }
 
         public ulong LastUpdateBuild { get; set; } = 0ul;
 
@@ -90,6 +94,12 @@ namespace Aurora.Music.Core.Models
                     return current;
                 }
             }
+        }
+
+        public bool VerifyDoubanLogin()
+        {
+            var b = DoubanUserID.IsNullorEmpty() || DoubanToken.IsNullorEmpty() || DoubanLogin.AddSeconds(DoubanExpireTime) < DateTime.Now.AddDays(1);
+            return !b;
         }
 
         private static void Settings_SettingsChanged(object sender, EventArgs e)

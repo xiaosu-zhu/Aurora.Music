@@ -113,6 +113,9 @@
       <DependentUpon>CompactOverlayPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Converters.cs" />
+    <Compile Include="Controls\DoubanLogin.xaml.cs">
+      <DependentUpon>DoubanLogin.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\DropSongsDialog.xaml.cs">
       <DependentUpon>DropSongsDialog.xaml</DependentUpon>
     </Compile>
@@ -315,6 +318,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\CompactOverlayPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\DoubanLogin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
