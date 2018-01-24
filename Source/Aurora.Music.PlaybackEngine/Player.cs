@@ -2,17 +2,13 @@
 using Aurora.Music.Core.Models;
 using Aurora.Music.Core.Storage;
 using Aurora.Shared.Extensions;
-using Aurora.Shared.Helpers;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.Devices.Enumeration;
 using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.Storage;
@@ -197,7 +193,7 @@ namespace Aurora.Music.PlaybackEngine
                 IsShuffle = mediaPlaybackList.ShuffleEnabled,
                 IsLoop = mediaPlaybackList.AutoRepeatEnabled,
                 CurrentSong = mediaPlaybackList.CurrentItem?.Source.CustomProperties[Consts.SONG] as Song,
-                CurrentIndex = mediaPlaybackList.CurrentItem == null ? -1 : currentList.IndexOf(mediaPlaybackList.CurrentItem?.Source.CustomProperties[Consts.SONG] as Song),
+                CurrentIndex = mediaPlaybackList.CurrentItem == null ? -1 : (int)mediaPlaybackList.CurrentItemIndex,
                 Items = currentList
             });
         }
@@ -226,7 +222,7 @@ namespace Aurora.Music.PlaybackEngine
                 IsShuffle = mediaPlaybackList.ShuffleEnabled,
                 IsLoop = mediaPlaybackList.AutoRepeatEnabled,
                 CurrentSong = mediaPlaybackList.CurrentItem?.Source.CustomProperties[Consts.SONG] as Song,
-                CurrentIndex = mediaPlaybackList.CurrentItem == null ? -1 : currentList.IndexOf(mediaPlaybackList.CurrentItem?.Source.CustomProperties[Consts.SONG] as Song),
+                CurrentIndex = mediaPlaybackList.CurrentItem == null ? -1 : (int)mediaPlaybackList.CurrentItemIndex,
                 Items = currentList
             });
 
@@ -283,9 +279,6 @@ namespace Aurora.Music.PlaybackEngine
                     }
                 }
 
-                mediaSource.CustomProperties[Consts.ID] = item.ID;
-                mediaSource.CustomProperties[Consts.Duration] = mediaSource.Duration ?? default(TimeSpan);
-                mediaSource.CustomProperties[Consts.Artwork] = builtin.IsNullorEmpty() ? null : new Uri(builtin);
                 item.PicturePath = builtin.IsNullorEmpty() ? item.PicturePath : builtin;
                 mediaSource.CustomProperties[Consts.SONG] = item;
 
@@ -335,10 +328,6 @@ namespace Aurora.Music.PlaybackEngine
 
                     mediaSource = MediaSource.CreateFromStorageFile(file);
                 }
-
-                mediaSource.CustomProperties[Consts.ID] = item.ID;
-                mediaSource.CustomProperties[Consts.Duration] = mediaSource.Duration ?? default(TimeSpan);
-                mediaSource.CustomProperties[Consts.Artwork] = builtin.IsNullorEmpty() ? null : new Uri(builtin);
                 item.PicturePath = builtin.IsNullorEmpty() ? item.PicturePath : builtin;
                 mediaSource.CustomProperties[Consts.SONG] = item;
 
@@ -398,9 +387,6 @@ namespace Aurora.Music.PlaybackEngine
                         }
                     }
 
-                    mediaSource.CustomProperties[Consts.ID] = item.ID;
-                    mediaSource.CustomProperties[Consts.Duration] = mediaSource.Duration ?? default(TimeSpan);
-                    mediaSource.CustomProperties[Consts.Artwork] = builtin.IsNullorEmpty() ? null : new Uri(builtin);
                     item.PicturePath = builtin.IsNullorEmpty() ? item.PicturePath : builtin;
                     mediaSource.CustomProperties[Consts.SONG] = item;
                     var mediaPlaybackItem = new MediaPlaybackItem(mediaSource);
@@ -455,9 +441,6 @@ namespace Aurora.Music.PlaybackEngine
                         }
                     }
 
-                    mediaSource.CustomProperties[Consts.ID] = item.ID;
-                    mediaSource.CustomProperties[Consts.Duration] = mediaSource.Duration ?? default(TimeSpan);
-                    mediaSource.CustomProperties[Consts.Artwork] = builtin.IsNullorEmpty() ? null : new Uri(builtin);
                     item.PicturePath = builtin.IsNullorEmpty() ? item.PicturePath : builtin;
                     mediaSource.CustomProperties[Consts.SONG] = item;
                     var mediaPlaybackItem = new MediaPlaybackItem(mediaSource);
@@ -780,9 +763,6 @@ namespace Aurora.Music.PlaybackEngine
                     }
                 }
 
-                mediaSource.CustomProperties[Consts.ID] = item.ID;
-                mediaSource.CustomProperties[Consts.Duration] = mediaSource.Duration ?? default(TimeSpan);
-                mediaSource.CustomProperties[Consts.Artwork] = builtin.IsNullorEmpty() ? null : new Uri(builtin);
                 item.PicturePath = builtin.IsNullorEmpty() ? item.PicturePath : builtin;
                 mediaSource.CustomProperties[Consts.SONG] = item;
 
@@ -806,7 +786,7 @@ namespace Aurora.Music.PlaybackEngine
                 IsShuffle = mediaPlaybackList.ShuffleEnabled,
                 IsLoop = mediaPlaybackList.AutoRepeatEnabled,
                 CurrentSong = mediaPlaybackList.CurrentItem?.Source.CustomProperties[Consts.SONG] as Song,
-                CurrentIndex = mediaPlaybackList.CurrentItem == null ? -1 : currentList.IndexOf(mediaPlaybackList.CurrentItem?.Source.CustomProperties[Consts.SONG] as Song),
+                CurrentIndex = mediaPlaybackList.CurrentItem == null ? -1 : (int)mediaPlaybackList.CurrentItemIndex,
                 Items = currentList
             });
         }
@@ -876,9 +856,6 @@ namespace Aurora.Music.PlaybackEngine
                     }
                 }
 
-                mediaSource.CustomProperties[Consts.ID] = item.ID;
-                mediaSource.CustomProperties[Consts.Duration] = mediaSource.Duration ?? default(TimeSpan);
-                mediaSource.CustomProperties[Consts.Artwork] = builtin.IsNullorEmpty() ? null : new Uri(builtin);
                 item.PicturePath = builtin.IsNullorEmpty() ? item.PicturePath : builtin;
                 mediaSource.CustomProperties[Consts.SONG] = item;
 
@@ -902,7 +879,7 @@ namespace Aurora.Music.PlaybackEngine
                 IsShuffle = mediaPlaybackList.ShuffleEnabled,
                 IsLoop = mediaPlaybackList.AutoRepeatEnabled,
                 CurrentSong = mediaPlaybackList.CurrentItem?.Source.CustomProperties[Consts.SONG] as Song,
-                CurrentIndex = mediaPlaybackList.CurrentItem == null ? -1 : currentList.IndexOf(mediaPlaybackList.CurrentItem?.Source.CustomProperties[Consts.SONG] as Song),
+                CurrentIndex = mediaPlaybackList.CurrentItem == null ? -1 : (int)mediaPlaybackList.CurrentItemIndex,
                 Items = currentList
             });
         }
@@ -923,7 +900,7 @@ namespace Aurora.Music.PlaybackEngine
             StatusChanged?.Invoke(this, new StatusChangedArgs()
             {
                 CurrentSong = mediaPlaybackList.CurrentItem?.Source.CustomProperties[Consts.SONG] as Song,
-                CurrentIndex = mediaPlaybackList.CurrentItem == null ? -1 : currentList.IndexOf(mediaPlaybackList.CurrentItem?.Source.CustomProperties[Consts.SONG] as Song),
+                CurrentIndex = mediaPlaybackList.CurrentItem == null ? -1 : (int)mediaPlaybackList.CurrentItemIndex,
                 Items = currentList
             });
 
@@ -960,9 +937,6 @@ namespace Aurora.Music.PlaybackEngine
                         }
                     }
 
-                    mediaSource.CustomProperties[Consts.ID] = item.ID;
-                    mediaSource.CustomProperties[Consts.Duration] = mediaSource.Duration ?? default(TimeSpan);
-                    mediaSource.CustomProperties[Consts.Artwork] = builtin.IsNullorEmpty() ? null : new Uri(builtin);
                     item.PicturePath = builtin.IsNullorEmpty() ? item.PicturePath : builtin;
                     mediaSource.CustomProperties[Consts.SONG] = item;
                     var mediaPlaybackItem = new MediaPlaybackItem(mediaSource);
@@ -984,6 +958,21 @@ namespace Aurora.Music.PlaybackEngine
                     continue;
                 }
             }
+        }
+
+        public async Task UpdateComingItems(List<Song> list)
+        {
+            throw new NotImplementedException();
+            if (mediaPlaybackList.CurrentItem != null && mediaPlaybackList.CurrentItemIndex < currentList.Count - 1)
+            {
+                currentList.RemoveRange((int)mediaPlaybackList.CurrentItemIndex + 1, currentList.Count - (int)mediaPlaybackList.CurrentItemIndex);
+                for (int i = (int)mediaPlaybackList.CurrentItemIndex + 1; i < mediaPlaybackList.Items.Count; i++)
+                {
+                    mediaPlaybackList.Items.RemoveAt(i);
+                }
+            }
+            currentList.AddRange(list);
+            await AddtoPlayListAsync(list);
         }
     }
 }

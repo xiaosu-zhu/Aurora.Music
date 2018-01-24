@@ -101,7 +101,7 @@ namespace Aurora.Shared.Helpers
             }
         }
 
-        public static async Task<string> HttpGet(string url, IEnumerable<KeyValuePair<string, string>> getDataStr, IEnumerable<KeyValuePair<string, string>> addHeader = null)
+        public static async Task<string> HttpGet(string url, IEnumerable<KeyValuePair<string, string>> getDataStr, IEnumerable<KeyValuePair<string, string>> addHeader = null, bool ignoreStatus = false)
         {
             //The safe way to add a header value is to use the TryParseAdd method and verify the return value is true,
             //especially if the header value is coming from user input.
@@ -142,7 +142,14 @@ namespace Aurora.Shared.Helpers
 
                     using (HttpResponseMessage response = await httpClient.SendRequestAsync(request))
                     {
-                        response.EnsureSuccessStatusCode();
+                        if (ignoreStatus)
+                        {
+
+                        }
+                        else
+                        {
+                            response.EnsureSuccessStatusCode();
+                        }
                         var buffer = await response.Content.ReadAsBufferAsync();
                         var byteArray = buffer.ToArray();
                         return Encoding.UTF8.GetString(byteArray, 0, byteArray.Length);
@@ -156,7 +163,7 @@ namespace Aurora.Shared.Helpers
         }
 
 
-        public static async Task<string> HttpGet(string url, NameValueCollection getDataStr = null, IEnumerable<KeyValuePair<string, string>> addHeader = null)
+        public static async Task<string> HttpGet(string url, NameValueCollection getDataStr = null, IEnumerable<KeyValuePair<string, string>> addHeader = null, bool ignoreStatus = false)
         {
             //The safe way to add a header value is to use the TryParseAdd method and verify the return value is true,
             //especially if the header value is coming from user input.
@@ -196,7 +203,14 @@ namespace Aurora.Shared.Helpers
 
                     using (HttpResponseMessage response = await httpClient.SendRequestAsync(request))
                     {
-                        response.EnsureSuccessStatusCode();
+                        if (ignoreStatus)
+                        {
+
+                        }
+                        else
+                        {
+                            response.EnsureSuccessStatusCode();
+                        }
                         var buffer = await response.Content.ReadAsBufferAsync();
                         var byteArray = buffer.ToArray();
                         return Encoding.UTF8.GetString(byteArray, 0, byteArray.Length);

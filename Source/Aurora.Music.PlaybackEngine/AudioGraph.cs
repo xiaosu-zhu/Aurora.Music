@@ -664,5 +664,10 @@ namespace Aurora.Music.PlaybackEngine
         {
             throw new NotImplementedException();
         }
+
+        public Task UpdateComingItems(List<Song> list)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

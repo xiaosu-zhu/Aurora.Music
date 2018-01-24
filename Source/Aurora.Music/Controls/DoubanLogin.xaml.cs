@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -25,15 +26,14 @@ namespace Aurora.Music.Controls
 {
     public sealed partial class DoubanLogin : ContentDialog
     {
-        public DoubanLogin()
-        {
-            this.InitializeComponent();
-
-            TextBoxRegex.SetRegex(Account,
-                @"(^(?("")("".+?(?<!\\)""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))"
+        static readonly Regex test = new Regex(@"(^(?("")("".+?(?<!\\)""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))"
                 +
                 @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))$)"
                 + @"|(^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$)");
+
+        public DoubanLogin()
+        {
+            this.InitializeComponent();
         }
 
         private async void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
@@ -122,12 +122,12 @@ namespace Aurora.Music.Controls
         private void Password_PasswordChanged(object sender, RoutedEventArgs e)
         {
             Password.Header = Password.Password.Length >= 8 ? "Password" : "Not Valid";
-            IsPrimaryButtonEnabled = Password.Password.Length >= 8 && (bool)Account.GetValue(TextBoxRegex.IsValidProperty);
+            IsPrimaryButtonEnabled = Password.Password.Length >= 8 && test.IsMatch(Account.Text);
         }
 
         private void Account_TextChanged(object sender, TextChangedEventArgs e)
         {
-            var b = (bool)Account.GetValue(TextBoxRegex.IsValidProperty);
+            var b = test.IsMatch(Account.Text);
             Account.Header = b ? "Account" : "Not Valid";
             IsPrimaryButtonEnabled = Password.Password.Length >= 8 && b;
         }

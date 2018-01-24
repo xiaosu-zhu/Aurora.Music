@@ -13,17 +13,11 @@ namespace Aurora.Music.Core
         {
             return await ApplicationData.Current.LocalFolder.CreateFolderAsync("Artworks", CreationCollisionOption.OpenIfExists);
         });
-
-        public const string ID = "ID";
-
+        
         public const string SONG = "SONG";
 
         public const string BlackPlaceholder = "ms-appx:///Assets/Images/placeholder_b.png";
         public const string NowPlaceholder = "ms-appx:///Assets/Images/now_placeholder.png";
-
-        public const string Duration = "Duration";
-
-        public const string Artwork = "Artwork";
 
         public const string UnknownArtists = "Unknown Artists";
         public const string UnknownAlbum = "Unknown Album";

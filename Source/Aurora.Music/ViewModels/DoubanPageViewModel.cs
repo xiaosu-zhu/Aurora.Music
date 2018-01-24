@@ -20,8 +20,14 @@ using Windows.UI.Xaml.Controls;
 
 namespace Aurora.Music.ViewModels
 {
+    enum ReportType
+    {
+        bye, end, @new, playing, skip, rate, unrate
+    }
     class DoubanPageViewModel : ViewModelBase
     {
+        Queue<string> playedQueue = new Queue<string>();
+
         public ObservableCollection<ChannelGroup> Channels { get; set; }
         private Uri artwork;
         public Uri Artwork
@@ -30,11 +36,43 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref artwork, value); }
         }
 
+        private string sid;
         private string title;
         public string Title
         {
             get { return title; }
             set { SetProperty(ref title, value); }
+        }
+
+        private bool rateToggle;
+        public bool RateToggle
+        {
+            get { return rateToggle; }
+            set
+            {
+                Task.Run(async () =>
+                {
+                    var list = await Report(value ? ReportType.rate : ReportType.unrate, channel.ToString(), sid);
+                    if (list.r == 0)
+                    {
+                        await Player.Current.AddtoNextPlay(list.song.Select(a => new Core.Models.Song()
+                        {
+                            Title = a.title,
+                            Album = a.albumtitle,
+                            OnlineUri = new Uri(a.url),
+                            OnlineID = a.sid,
+                            IsOnline = true,
+                            PicturePath = a.picture,
+                            Performers = a.singers.Select(s => s.name).ToArray(),
+                            AlbumArtists = new string[] { a.artist },
+                        }).ToList());
+
+                        Player.Current.Play();
+                    }
+                });
+
+                SetProperty(ref rateToggle, value);
+            }
         }
 
         private string description;
@@ -62,10 +100,156 @@ namespace Aurora.Music.ViewModels
 
         public DelegateCommand Delete
         {
-            get => new DelegateCommand(() =>
+            get => new DelegateCommand(async () =>
             {
+                var list = await Report(ReportType.bye, channel.ToString(), sid);
+                if (list.r == 0)
+                {
+                    await Player.Current.NewPlayList(list.song.Select(a => new Core.Models.Song()
+                    {
+                        Title = a.title,
+                        Album = a.albumtitle,
+                        OnlineUri = new Uri(a.url),
+                        OnlineID = a.sid,
+                        IsOnline = true,
+                        PicturePath = a.picture,
+                        Performers = a.singers.Select(s => s.name).ToArray(),
+                        AlbumArtists = new string[] { a.artist },
+                    }).ToList());
 
+                    Player.Current.Play();
+                }
+                else
+                {
+                    MainPage.Current.PopMessage($"Playing error: {list.err}");
+                }
             });
+        }
+
+        public DelegateCommand Next
+        {
+            get => new DelegateCommand(async () =>
+            {
+                Player.Current?.Next();
+                if (lastProgress < 0.9)
+                {
+                    var list = await Report(ReportType.skip, channel.ToString(), sid);
+                    if (list.r == 0)
+                    {
+                        await Player.Current.AddtoNextPlay(list.song.Select(a => new Core.Models.Song()
+                        {
+                            Title = a.title,
+                            Album = a.albumtitle,
+                            OnlineUri = new Uri(a.url),
+                            OnlineID = a.sid,
+                            IsOnline = true,
+                            PicturePath = a.picture,
+                            Performers = a.singers.Select(s => s.name).ToArray(),
+                            AlbumArtists = new string[] { a.artist },
+                        }).ToList());
+                    }
+                }
+                if (Player.Current?.IsPlaying == null || !(bool)Player.Current?.IsPlaying)
+                {
+                    Player.Current?.Play();
+                }
+            });
+        }
+
+        async Task<playlist> Report(ReportType type, string channel, string sid = null)
+        {
+            var args = new Dictionary<string, string>()
+            {
+                ["channel"] = channel,
+                ["from"] = "mainsite",
+                ["pt"] = "0.0",
+                ["kbps"] = "128",
+                ["formats"] = "aac",
+                ["alt"] = "json",
+                ["app_name"] = "radio_iphone",
+                ["apikey"] = "02646d3fb69a52ff072d47bf23cef8fd",
+                ["client"] = "s:mobile|y:iOS 10.2|f:115|d:b88146214e19b8a8244c9bc0e2789da68955234d|e:iPhone7,1|m:appstore",
+                ["client_id"] = "02646d3fb69a52ff072d47bf23cef8fd",
+                ["icon_cate"] = "xlarge",
+                ["udid"] = "b88146214e19b8a8244c9bc0e2789da68955234d",
+                ["douban_udid"] = "b635779c65b816b13b330b68921c0f8edc049590",
+                ["version"] = "100",
+                //["type"] = "n"
+            };
+
+            switch (type)
+            {
+                case ReportType.bye:
+                    args.Add("type", "b");
+                    if (sid == null)
+                        throw new ArgumentException("sid is null");
+                    args.Add("sid", sid);
+                    break;
+                case ReportType.end:
+                    args.Add("type", "e");
+                    if (sid == null)
+                        throw new ArgumentException("sid is null");
+                    args.Add("sid", sid);
+                    break;
+                case ReportType.@new:
+                    args.Add("type", "n");
+                    break;
+                case ReportType.playing:
+                    args.Add("type", "p");
+                    break;
+                case ReportType.skip:
+                    args.Add("type", "s");
+                    if (sid == null)
+                        throw new ArgumentException("sid is null");
+                    args.Add("sid", sid);
+                    break;
+                case ReportType.rate:
+                    args.Add("type", "r");
+                    if (sid == null)
+                        throw new ArgumentException("sid is null");
+                    args.Add("sid", sid);
+                    break;
+                case ReportType.unrate:
+                    args.Add("type", "u");
+                    if (sid == null)
+                        throw new ArgumentException("sid is null");
+                    args.Add("sid", sid);
+                    break;
+                default:
+                    throw new ArgumentException("ReportType mismatch");
+            }
+
+            string h = string.Empty;
+
+            while (playedQueue.TryDequeue(out string songID))
+            {
+                h += $"sid:{songID}|";
+            }
+            if (!h.IsNullorEmpty())
+            {
+                h.Remove(h.Length - 1);
+                args.Add("h", h);
+            }
+
+            Dictionary<string, string> addHeader = null;
+
+            if (Settings.Current.VerifyDoubanLogin())
+            {
+                addHeader = new Dictionary<string, string>()
+                {
+                    ["Authorization"] = $"Bearer {Settings.Current.DoubanToken}"
+                };
+                args.Add("user_id", Settings.Current.DoubanUserID);
+                args.Add("expire", Settings.Current.DoubanExpireTime.ToString("0"));
+                args.Add("token", Settings.Current.DoubanToken);
+            }
+
+            var json = await ApiRequestHelper.HttpGet("https://api.douban.com/v2/fm/playlist", args, addHeader, true);
+            if (!json.IsNullorEmpty())
+            {
+                return JsonConvert.DeserializeObject<playlist>(json);
+            }
+            return null;
         }
 
         public DelegateCommand PlayPause
@@ -94,6 +278,9 @@ namespace Aurora.Music.ViewModels
         }
 
         private bool? isPlaying;
+        private int channel;
+        private double lastProgress;
+
         public bool? IsPlaying
         {
             get { return isPlaying; }
@@ -152,7 +339,7 @@ namespace Aurora.Music.ViewModels
 
         private void Current_PositionUpdated(object sender, PositionUpdatedArgs e)
         {
-            //throw new NotImplementedException();
+            lastProgress = e.Current / e.Total;
         }
 
         private async void Current_StatusChanged(object sender, StatusChangedArgs e)
@@ -162,9 +349,39 @@ namespace Aurora.Music.ViewModels
                 IsPlaying = Player.Current.IsPlaying;
                 if (e.CurrentSong != null)
                 {
+                    if (e.CurrentSong.OnlineID != sid)
+                    {
+                        rateToggle = false;
+                        RaisePropertyChanged("RateToggle");
+
+                        if (lastProgress >= 0.9)
+                        {
+                            var p = string.Copy(sid);
+                            playedQueue.Enqueue(p);
+                            Task.Run(async () =>
+                            {
+                                var list = await Report(ReportType.end, channel.ToString(), p);
+                                if (list.r == 0)
+                                {
+                                    await Player.Current.AddtoNextPlay(list.song.Select(a => new Core.Models.Song()
+                                    {
+                                        Title = a.title,
+                                        Album = a.albumtitle,
+                                        OnlineUri = new Uri(a.url),
+                                        OnlineID = a.sid,
+                                        IsOnline = true,
+                                        PicturePath = a.picture,
+                                        Performers = a.singers.Select(s => s.name).ToArray(),
+                                        AlbumArtists = new string[] { a.artist },
+                                    }).ToList());
+                                }
+                            });
+                        }
+                    }
                     Title = e.CurrentSong.Title;
                     Description = string.Format(Consts.Localizer.GetString("TileDesc"), e.CurrentSong.Album, string.Join(Consts.CommaSeparator, e.CurrentSong.Performers ?? new string[] { }));
                     Artwork = e.CurrentSong.PicturePath.IsNullorEmpty() ? null : new Uri(e.CurrentSong.PicturePath);
+                    sid = e.CurrentSong.OnlineID;
                 }
             });
         }
@@ -177,7 +394,7 @@ namespace Aurora.Music.ViewModels
                 {
                     DoubanLogin d = new DoubanLogin();
                     var result = await d.ShowAsync();
-                    if (result == Windows.UI.Xaml.Controls.ContentDialogResult.Primary)
+                    if (result == ContentDialogResult.Primary)
                     {
                         model.Name = Settings.Current.DoubanUserName;
                     }
@@ -188,7 +405,8 @@ namespace Aurora.Music.ViewModels
                 }
 
             }
-            var liat = await model.RequestPlayListAsync();
+            channel = model.ID;
+            var liat = await Report(ReportType.@new, model.ID.ToString());
             if (liat.r == 0)
             {
                 await Player.Current.NewPlayList(liat.song.Select(a => new Core.Models.Song()
@@ -204,6 +422,10 @@ namespace Aurora.Music.ViewModels
                 }).ToList());
 
                 Player.Current.Play();
+            }
+            else
+            {
+                MainPage.Current.PopMessage($"Playing error: {liat.err}");
             }
         }
     }

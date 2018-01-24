@@ -159,6 +159,38 @@
                 <GroupStyle HidesIfEmpty="True" HeaderTemplate="{StaticResource NormalGroupHeader}"/>
             </GridView.GroupStyle>
         </GridView>
+        <Viewbox Stretch="Uniform" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                <Grid Width="32" Height="72" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="Red"/>
+                <Grid Width="32" Height="80" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="Green"/>
+                <Grid Width="32" Height="69" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="AliceBlue"/>
+                <Grid Width="32" Height="35" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="Red"/>
+                <Grid Width="32" Height="108" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="Green"/>
+                <Grid Width="32" Height="65" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="AliceBlue"/>
+                <Grid Width="32" Height="88" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="Red"/>
+                <Grid Width="32" Height="72" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="Green"/>
+                <Grid Width="32" Height="80" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="AliceBlue"/>
+                <Grid Width="32" Height="69" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="Red"/>
+                <Grid Width="32" Height="35" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="Green"/>
+                <Grid Width="32" Height="108" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="AliceBlue"/>
+                <Grid Width="32" Height="65" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="Red"/>
+                <Grid Width="32" Height="88" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="Green"/>
+                <Grid Width="32" Height="72" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="Red"/>
+                <Grid Width="32" Height="80" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="Green"/>
+                <Grid Width="32" Height="69" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="AliceBlue"/>
+                <Grid Width="32" Height="35" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="Red"/>
+                <Grid Width="32" Height="108" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="Green"/>
+                <Grid Width="32" Height="65" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="AliceBlue"/>
+                <Grid Width="32" Height="88" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="Red"/>
+                <Grid Width="32" Height="72" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="Green"/>
+                <Grid Width="32" Height="80" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="AliceBlue"/>
+                <Grid Width="32" Height="69" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="Red"/>
+                <Grid Width="32" Height="35" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="Green"/>
+                <Grid Width="32" Height="108" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="AliceBlue"/>
+                <Grid Width="32" Height="65" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="Red"/>
+                <Grid Width="32" Height="88" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="Green"/>
+            </StackPanel>
+        </Viewbox>
         <Grid Grid.Column="1" Padding="64" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
@@ -166,8 +198,7 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <TextBlock Text="Not Completed, playing may be interrupted" Foreground="#ff4300" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <TextBlock x:Uid="Now" Visibility="Collapsed" Text="正在播放" FontWeight="Bold" Style="{ThemeResource TitleTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock x:Uid="Now" Text="正在播放" FontWeight="Bold" Style="{ThemeResource TitleTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             <Grid Grid.Row="1" Margin="0,32,0,0" Width="320" Height="320" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <interactivity:Interaction.Behaviors>
                     <behaviors:Blur Value="8" Duration="0" Delay="0" AutomaticallyStart="True"/>
@@ -204,13 +235,13 @@
                         <SymbolIcon Symbol="{x:Bind Context.NullableBoolToSymbol(Context.IsPlaying), Mode=OneWay}"/>
                     </Button.Content>
                 </Button>
-                <Button x:Uid="Next" Style="{ThemeResource RevealRoundButton}" ToolTipService.ToolTip="Next"
+                <Button x:Uid="Next" Command="{x:Bind Context.Next}" Style="{ThemeResource RevealRoundButton}" ToolTipService.ToolTip="Next"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <Button.Content>
                         <SymbolIcon Symbol="Next"/>
                     </Button.Content>
                 </Button>
-                <star:StarButton FontSize="32" Margin="12,4" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <star:StarButton IsOn="{x:Bind Context.RateToggle, Mode=TwoWay}" FontSize="32" Margin="12,4" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </StackPanel>
         </Grid>
     </Grid>
