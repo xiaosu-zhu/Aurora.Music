@@ -19,7 +19,7 @@ using EF = ExpressionBuilder.ExpressionFunctions;
 
 namespace Aurora.Music.Pages
 {
-    public sealed partial class AlbumDetailPage : Page
+    public sealed partial class AlbumDetailPage : Page, Controls.IRequestGoBack
     {
         private CompositionPropertySet _scrollerPropertySet;
         private Compositor _compositor;
@@ -31,9 +31,6 @@ namespace Aurora.Music.Pages
 
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
             AppViewBackButtonVisibility.Visible;
-
-            SystemNavigationManager.GetForCurrentView().BackRequested -= AlbumDetailPage_BackRequested;
-            SystemNavigationManager.GetForCurrentView().BackRequested += AlbumDetailPage_BackRequested;
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -42,10 +39,8 @@ namespace Aurora.Music.Pages
             this.UnloadObject(this);
         }
 
-        private void AlbumDetailPage_BackRequested(object sender, BackRequestedEventArgs e)
+        public void RequestGoBack()
         {
-            if (e.Handled) return;
-            e.Handled = true;
             ConnectedAnimationService.GetForCurrentView().PrepareToAnimate(Consts.AlbumDetailPageInAnimation + "_1", Title);
             ConnectedAnimationService.GetForCurrentView().PrepareToAnimate(Consts.AlbumDetailPageInAnimation + "_2", HeaderBG);
             LibraryPage.Current.GoBack();
@@ -130,7 +125,6 @@ namespace Aurora.Music.Pages
 
         private void Page_Unloaded(object sender, RoutedEventArgs e)
         {
-            SystemNavigationManager.GetForCurrentView().BackRequested -= AlbumDetailPage_BackRequested;
             Context = null;
         }
 

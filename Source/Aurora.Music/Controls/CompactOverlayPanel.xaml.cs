@@ -44,6 +44,12 @@ namespace Aurora.Music.Controls
             }
         }
 
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            SystemNavigationManager.GetForCurrentView().BackRequested -= CompactOverlayPanel_BackRequested;
+        }
+
         private void CompactOverlayPanel_BackRequested(object sender, BackRequestedEventArgs e)
         {
             Context.ReturnNormal.Execute();

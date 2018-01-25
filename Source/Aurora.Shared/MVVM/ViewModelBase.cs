@@ -40,6 +40,15 @@ namespace Aurora.Shared.MVVM
             return changed;
         }
 
+        public bool NullableBooltoBool(bool? b)
+        {
+            if (b is bool a)
+            {
+                return a;
+            }
+            return false;
+        }
+
         public Visibility BooltoVisibility(bool b)
         {
             return b ? Visibility.Visible : Visibility.Collapsed;

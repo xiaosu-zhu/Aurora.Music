@@ -858,7 +858,7 @@
     <comment>Update Note for Build {0}</comment>
   </data>
   <data name="UpdateNote" xml:space="preserve">
-    <value>* **NEW**: Update Live Tile while playing&#xD;&#xA;* **Update**: Added more translation</value>
+    <value>* **NEW**: Added douban FM channels&#xD;&#xA;* **NEW**: Added Keyboard Accelerators and Access Keys, for more information please view in "Settings-Ease of Access" page&#xD;&#xA;* **FIX**: Back Navigation can't work properly in some cases</value>
     <comment>Update Note</comment>
   </data>
   <data name="AddToCollectionTitle" xml:space="preserve">
@@ -909,5 +909,17 @@
   <data name="DropBtn.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Drop</value>
     <comment>Drop</comment>
+  </data>
+  <data name="DouText" xml:space="preserve">
+    <value>douban FM</value>
+    <comment>豆瓣 FM</comment>
+  </data>
+  <data name="EaseAccess.CloseButtonText" xml:space="preserve">
+    <value>Close</value>
+    <comment>Close</comment>
+  </data> 
+  <data name="EaseAccessBtn.Content" xml:space="preserve">
+    <value>Ease of Access</value>
+    <comment>Ease of Access</comment>
   </data>
 </root>

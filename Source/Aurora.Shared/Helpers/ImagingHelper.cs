@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Numerics;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
@@ -331,6 +333,71 @@ namespace Aurora.Shared.Helpers
 
             return await FromBitmap(scaledbmp);
 
+        }
+
+        public static async Task<List<Color>> GetColorPalette(Uri path)
+        {
+            if (path == null)
+            {
+                return new List<Color>() { new UISettings().GetColorValue(UIColorType.Accent) };
+            }
+            //get the file
+            if (path.IsFile)
+            {
+                var file = await StorageFile.GetFileFromPathAsync(path.LocalPath);
+                using (IRandomAccessStream stream = await file.OpenReadAsync())
+                {
+                    //Create a decoder for the image
+                    var decoder = await BitmapDecoder.CreateAsync(stream);
+
+                    ////Create a transform to get a 1x1 image
+                    //var myTransform = new BitmapTransform { ScaledHeight = 1, ScaledWidth = 1 };
+
+                    ////Get the pixel provider
+                    //var pixels = await decoder.GetPixelDataAsync(
+                    //    BitmapPixelFormat.Rgba8,
+                    //    BitmapAlphaMode.Ignore,
+                    //    myTransform,
+                    //    ExifOrientationMode.IgnoreExifOrientation,
+                    //    ColorManagementMode.DoNotColorManage);
+
+                    ////Get the bytes of the 1x1 scaled image
+                    //var bytes = pixels.DetachPixelData();
+
+                    return (await colorThief.GetPalette(decoder, 4)).Select(a => FromColorThief(a.Color)).ToList();
+
+                    //read the color 
+                    //return Color.FromArgb(255, bytes[0], bytes[1], bytes[2]);
+                }
+            }
+            else
+            {
+                RandomAccessStreamReference random = RandomAccessStreamReference.CreateFromUri(path);
+                using (IRandomAccessStream stream = await random.OpenReadAsync())
+                {
+                    //Create a decoder for the image
+                    var decoder = await BitmapDecoder.CreateAsync(stream);
+
+                    ////Create a transform to get a 1x1 image
+                    //var myTransform = new BitmapTransform { ScaledHeight = 1, ScaledWidth = 1 };
+
+                    ////Get the pixel provider
+                    //var pixels = await decoder.GetPixelDataAsync(
+                    //    BitmapPixelFormat.Rgba8,
+                    //    BitmapAlphaMode.Ignore,
+                    //    myTransform,
+                    //    ExifOrientationMode.IgnoreExifOrientation,
+                    //    ColorManagementMode.DoNotColorManage);
+
+                    ////Get the bytes of the 1x1 scaled image
+                    //var bytes = pixels.DetachPixelData();
+
+                    return (await colorThief.GetPalette(decoder, 4)).Select(a => FromColorThief(a.Color)).ToList();
+
+                    //read the color 
+                    //return Color.FromArgb(255, bytes[0], bytes[1], bytes[2]);
+                }
+            }
         }
     }
 }

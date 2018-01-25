@@ -858,7 +858,7 @@
     <comment>Update Note for Build {0}</comment>
   </data>
   <data name="UpdateNote" xml:space="preserve">
-    <value>* **新增**：播放时将信息发送到磁贴上&#xD;&#xA;* **更新**：补充翻译文本</value>
+    <value>* **新增**：豆瓣 FM 频道播放&#xD;&#xA;* **新增**：添加快捷键与访问键，请到“设置-轻松使用”中查看&#xD;&#xA;* **修复**：某些情况下后退导航不能如预期工作的问题</value>
     <comment>Update Note</comment>
   </data>
   <data name="AddToCollectionTitle" xml:space="preserve">
@@ -908,5 +908,17 @@
   <data name="DropBtn.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>丢掉</value>
     <comment>Drop</comment>
+  </data> 
+  <data name="DouText" xml:space="preserve">
+    <value>豆瓣 FM</value>
+    <comment>豆瓣 FM</comment>
+  </data>
+  <data name="EaseAccess.CloseButtonText" xml:space="preserve">
+    <value>关闭</value>
+    <comment>Close</comment>
+  </data>
+  <data name="EaseAccessBtn.Content" xml:space="preserve">
+    <value>轻松使用</value>
+    <comment>Ease of Access</comment>
   </data>
 </root>

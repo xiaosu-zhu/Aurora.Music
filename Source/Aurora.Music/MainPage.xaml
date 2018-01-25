@@ -1156,7 +1156,7 @@
                         </Button.Content>
 
                     </Button>
-                    <Button x:Uid="PlayList" x:Name="PlayListBtn" Grid.Row="1" Style="{ThemeResource RevealRectangleButton}" ToolTipService.ToolTip="Playing list" Grid.Column="2" Margin="12,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button AccessKey="L" x:Uid="PlayList" x:Name="PlayListBtn" Grid.Row="1" Style="{ThemeResource RevealRectangleButton}" ToolTipService.ToolTip="Playing list" Grid.Column="2" Margin="12,0" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Button.Content>
                             <Grid>
                                 <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="PlayListFull" Text="{x:Bind Context.NowListPreview,Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" Margin="12,8"/>
@@ -1172,6 +1172,9 @@
                                 </ListView>
                             </Flyout>
                         </Button.Flyout>
+                        <Button.KeyboardAccelerators>
+                            <KeyboardAccelerator Modifiers="Control" Key="L" />
+                        </Button.KeyboardAccelerators>
                     </Button>
                     <Grid Grid.Row="1" Grid.Column="3" Margin="4,0"
                                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -1180,30 +1183,44 @@
                     </Grid>
                     <StackPanel Grid.Row="1" Orientation="Horizontal" Grid.Column="4" Margin="4,0"
                                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <Button x:Uid="Previous" x:Name="Previous" Style="{ThemeResource RevealRoundButton}" Command="{x:Bind Context.GoPrevious}" ToolTipService.ToolTip="Previous"
+                        <Button AccessKey="[" x:Uid="Previous" x:Name="Previous" Style="{ThemeResource RevealRoundButton}" Command="{x:Bind Context.GoPrevious}" ToolTipService.ToolTip="Previous"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                             <Button.Content>
                                 <SymbolIcon Symbol="Previous"/>
                             </Button.Content>
+                            <Button.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="F1" />
+                            </Button.KeyboardAccelerators>
                         </Button>
-                        <Button x:Name="PlayPause" Style="{ThemeResource RevealRoundButton}" Command="{x:Bind Context.PlayPause}" ToolTipService.ToolTip="{x:Bind Context.NullableBoolToString(Context.IsPlaying), Mode=OneWay}"
+                        <Button AccessKey="P" x:Name="PlayPause" Style="{ThemeResource RevealRoundButton}" Command="{x:Bind Context.PlayPause}" ToolTipService.ToolTip="{x:Bind Context.NullableBoolToString(Context.IsPlaying), Mode=OneWay}"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                             <Button.Content>
                                 <SymbolIcon Symbol="{x:Bind Context.NullableBoolToSymbol(Context.IsPlaying), Mode=OneWay}"/>
                             </Button.Content>
+                            <Button.KeyboardAccelerators>
+                                <KeyboardAccelerator Modifiers="Control" Key="P" />
+                                <KeyboardAccelerator Key="F2" />
+                            </Button.KeyboardAccelerators>
                         </Button>
-                        <Button x:Uid="Next" x:Name="Next" Style="{ThemeResource RevealRoundButton}" Command="{x:Bind Context.GoNext}" ToolTipService.ToolTip="Next"
+                        <Button AccessKey="]" x:Uid="Next" x:Name="Next" Style="{ThemeResource RevealRoundButton}" Command="{x:Bind Context.GoNext}" ToolTipService.ToolTip="Next"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                             <Button.Content>
                                 <SymbolIcon Symbol="Next"/>
                             </Button.Content>
+                            <Button.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="F3" />
+                            </Button.KeyboardAccelerators>
                         </Button>
 
-                        <Button x:Uid="Stop" x:Name="Stop" Style="{ThemeResource RevealRoundButton}" Command="{x:Bind Context.Stop}" ToolTipService.ToolTip="Stop"
+                        <Button AccessKey="E" x:Uid="Stop" x:Name="Stop" Style="{ThemeResource RevealRoundButton}" Command="{x:Bind Context.Stop}" ToolTipService.ToolTip="Stop"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                             <Button.Content>
                                 <SymbolIcon Symbol="Stop"/>
                             </Button.Content>
+                            <Button.KeyboardAccelerators>
+                                <KeyboardAccelerator Modifiers="Control" Key="E" />
+                                <KeyboardAccelerator Key="F4" />
+                            </Button.KeyboardAccelerators>
                         </Button>
 
                         <ToggleButton x:Uid="Shuffle" x:Name="Shuffle" Style="{ThemeResource RevealRoundToggleButton}" IsChecked="{x:Bind Context.IsShuffle, Mode=TwoWay}" ToolTipService.ToolTip="Shuffle"
@@ -1226,12 +1243,15 @@
                                  Value="{x:Bind Context.PositionToValue(Context.CurrentPosition, Context.TotalDuration), Mode=OneWay}"/>
                 </Grid>
                 <Frame x:Name="OverlayFrame" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                <Button x:Uid="SplitPaneOpen" Style="{ThemeResource RevealRectangleButton}" Background="Transparent" Foreground="{x:Bind Context.LeftTopColor, Mode=OneWay}"
+                <Button AccessKey="M" x:Uid="SplitPaneOpen" Style="{ThemeResource RevealRectangleButton}" Background="Transparent" Foreground="{x:Bind Context.LeftTopColor, Mode=OneWay}"
                         HorizontalAlignment="Left" VerticalAlignment="Top" Click="Toggle_PaneOpened" ToolTipService.ToolTip="Open"
                         Margin="0,32,0,0" Width="48" Height="48">
                     <Button.Content>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE700;" />
                     </Button.Content>
+                    <Button.KeyboardAccelerators>
+                        <KeyboardAccelerator Modifiers="Control" Key="M" />
+                    </Button.KeyboardAccelerators>
                 </Button>
                 <TextBlock Visibility="{x:Bind Context.BooltoVisibility(Context.NeedShowTitle), Mode=OneWay}" 
                            OpticalMarginAlignment="None" Margin="60,32,0,0" 
@@ -1252,7 +1272,10 @@
                                     PlaceholderText="{x:Bind Context.PlaceholderText,Mode=OneWay}" QueryIcon="Find" x:Name="SearchBox" TextChanged="SearchBox_TextChanged" ItemsSource="{x:Bind Context.SearchItems, Mode=OneWay}"
                                     HorizontalAlignment="Right" Opacity="0" VerticalAlignment="Stretch" Width="48" ItemTemplateSelector="{StaticResource GenericItemSelector}">
                     </AutoSuggestBox>
-                    <Button Foreground="{x:Bind Context.LeftTopColor, Mode=OneWay}" x:Name="SearchButton" Click="SearchButton_Click" Background="Transparent" Style="{ThemeResource NoBorderButton}" Width="48" HorizontalAlignment="Right" VerticalAlignment="Stretch" BorderThickness="1,0,0,1" BorderBrush="{StaticResource SystemControlBackgroundTransparentRevealBorderBrush}">
+                    <Button AccessKey="F" Foreground="{x:Bind Context.LeftTopColor, Mode=OneWay}" x:Name="SearchButton" Click="SearchButton_Click" Background="Transparent" Style="{ThemeResource NoBorderButton}" Width="48" HorizontalAlignment="Right" VerticalAlignment="Stretch" BorderThickness="1,0,0,1" BorderBrush="{StaticResource SystemControlBackgroundTransparentRevealBorderBrush}">
+                        <Button.KeyboardAccelerators>
+                            <KeyboardAccelerator Modifiers="Control" Key="F" />
+                        </Button.KeyboardAccelerators>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE11A;" FontSize="13"/>
                     </Button>
                 </Grid>

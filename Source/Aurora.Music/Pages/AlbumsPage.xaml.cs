@@ -29,7 +29,7 @@ namespace Aurora.Music.Pages
     /// <summary>
     /// 可用于自身或导航至 Frame 内部的空白页。
     /// </summary>
-    public sealed partial class AlbumsPage : Page
+    public sealed partial class AlbumsPage : Page, Controls.IRequestGoBack
     {
         private CompositionPropertySet _scrollerPropertySet;
         private Compositor _compositor;
@@ -42,13 +42,8 @@ namespace Aurora.Music.Pages
             this.NavigationCacheMode = NavigationCacheMode.Enabled;
         }
 
-        private void AlbumsPage_BackRequested(object sender, BackRequestedEventArgs e)
+        public void RequestGoBack()
         {
-            if (e.Handled)
-            {
-                return;
-            }
-            e.Handled = true;
             ConnectedAnimationService.GetForCurrentView().PrepareToAnimate(Consts.ArtistPageInAnimation + "_1", Title);
             ConnectedAnimationService.GetForCurrentView().PrepareToAnimate(Consts.ArtistPageInAnimation + "_2", HeaderBG);
             LibraryPage.Current.GoBack();
@@ -59,8 +54,6 @@ namespace Aurora.Music.Pages
         {
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
             AppViewBackButtonVisibility.Visible;
-            SystemNavigationManager.GetForCurrentView().BackRequested -= AlbumsPage_BackRequested;
-            SystemNavigationManager.GetForCurrentView().BackRequested += AlbumsPage_BackRequested;
 
             if (!Context.AlbumList.IsNullorEmpty() && _clickedAlbum != null)
             {
@@ -210,7 +203,6 @@ namespace Aurora.Music.Pages
 
         private void Page_Unloaded(object sender, RoutedEventArgs e)
         {
-            SystemNavigationManager.GetForCurrentView().BackRequested -= AlbumsPage_BackRequested;
         }
 
         private async void PlayAlbum_Click(object sender, RoutedEventArgs e)

@@ -30,7 +30,7 @@ namespace Aurora.Music.Pages
     /// <summary>
     /// 可用于自身或导航至 Frame 内部的空白页。
     /// </summary>
-    public sealed partial class PlayListPage : Page
+    public sealed partial class PlayListPage : Page, Controls.IRequestGoBack
     {
         public PlayListPage()
         {
@@ -41,13 +41,8 @@ namespace Aurora.Music.Pages
         private Compositor _compositor;
         private CompositionPropertySet _props;
 
-        private void PlayListPage_BackRequested(object sender, BackRequestedEventArgs e)
+        public void RequestGoBack()
         {
-            if (e.Handled)
-            {
-                return;
-            }
-            e.Handled = true;
             try
             {
                 ConnectedAnimationService.GetForCurrentView().PrepareToAnimate(Consts.ArtistPageInAnimation + "_1", Title);
@@ -64,8 +59,6 @@ namespace Aurora.Music.Pages
         {
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
             AppViewBackButtonVisibility.Visible;
-            SystemNavigationManager.GetForCurrentView().BackRequested -= PlayListPage_BackRequested;
-            SystemNavigationManager.GetForCurrentView().BackRequested += PlayListPage_BackRequested;
 
             if (e.Parameter == null)
             {
@@ -180,7 +173,6 @@ namespace Aurora.Music.Pages
 
         private void Page_Unloaded(object sender, RoutedEventArgs e)
         {
-            SystemNavigationManager.GetForCurrentView().BackRequested -= PlayListPage_BackRequested;
         }
 
         private void SemanticZoom_ViewChangeCompleted(object sender, SemanticZoomViewChangedEventArgs e)

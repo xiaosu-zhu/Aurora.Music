@@ -30,6 +30,7 @@ using Aurora.Music.Core.Extension;
 using Windows.System;
 using Aurora.Shared.Helpers;
 using Aurora.Music.Core.Storage;
+using System.Diagnostics;
 
 // https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
 
@@ -50,12 +51,35 @@ namespace Aurora.Music
         public MainPage()
         {
             this.InitializeComponent();
+
             Current = this;
             MainFrame.Navigate(typeof(HomePage));
             SongFlyout = (Resources["SongFlyout"] as MenuFlyout);
 
             dataTransferManager = DataTransferManager.GetForCurrentView();
             dataTransferManager.DataRequested += DataTransferManager_DataRequested;
+            //Window.Current.CoreWindow.Dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
+            //Window.Current.CoreWindow.KeyUp += MainPage_KeyUp;
+
+            SystemNavigationManager.GetForCurrentView().BackRequested += MaiPage_BackRequested;
+        }
+
+        private void MaiPage_BackRequested(object sender, BackRequestedEventArgs e)
+        {
+            if (MainFrame.Visibility == Visibility.Collapsed && OverlayFrame.Visibility == Visibility.Visible && OverlayFrame.Content is IRequestGoBack g)
+            {
+                g.RequestGoBack();
+                return;
+            }
+            if (MainFrame.Visibility == Visibility.Visible && OverlayFrame.Visibility == Visibility.Collapsed && MainFrame.Content is IRequestGoBack p)
+            {
+                p.RequestGoBack();
+                return;
+            }
+
+            GoBack();
+
+            e.Handled = true;
         }
 
         private void DataTransferManager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
@@ -166,7 +190,7 @@ namespace Aurora.Music
         private string shareTitle;
         private string shareDesc;
 
-        public bool SubPageCanGoBack { get => MainFrame.Visibility == Visibility.Visible; }
+
         public bool CanAdd { get; private set; }
         public bool IsCurrentDouban => MainFrame.Content is DoubanPage;
 
@@ -543,15 +567,6 @@ namespace Aurora.Music
 
             autoSuggestPopupPanel.Children[0].Visibility = Visibility.Visible;
             ((autoSuggestPopupPanel.Children[0] as Panel).Children[0] as ProgressRing).IsActive = true;
-            if ((Context.SearchItems != null && Context.SearchItems.Count < 1) || (!Context.SearchItems.IsNullorEmpty() && !Context.SearchItems[0].Title.IsNullorEmpty()))
-                lock (Lockable)
-                {
-                    Context.SearchItems.Clear();
-                    for (int i = 0; i < 5; i++)
-                    {
-                        Context.SearchItems.Add(new GenericMusicItemViewModel());
-                    }
-                }
             searchTask = ThreadPool.RunAsync(async x =>
             {
                 CanAdd = true;
@@ -781,6 +796,15 @@ namespace Aurora.Music
 
         private async void SearchButton_Click(object sender, RoutedEventArgs e)
         {
+            switch (SearchButton.Visibility)
+            {
+                case Visibility.Collapsed:
+                    SearchBoxCollapse.Begin();
+                    return;
+                default:
+                    break;
+            }
+
             SearchBoxShow.Begin();
             SearchBox.Focus(FocusState.Programmatic);
 

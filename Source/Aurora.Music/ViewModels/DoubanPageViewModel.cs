@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 
 namespace Aurora.Music.ViewModels
 {
@@ -42,6 +43,13 @@ namespace Aurora.Music.ViewModels
         {
             get { return title; }
             set { SetProperty(ref title, value); }
+        }
+
+        private List<SolidColorBrush> palette;
+        public List<SolidColorBrush> Palette
+        {
+            get { return palette; }
+            set { SetProperty(ref palette, value); }
         }
 
         private bool rateToggle;
@@ -96,6 +104,10 @@ namespace Aurora.Music.ViewModels
         {
             Player.Current.StatusChanged -= Current_StatusChanged;
             Player.Current.PositionUpdated -= Current_PositionUpdated;
+            Palette?.Clear();
+            Palette = null;
+            Channels?.Clear();
+            Channels = null;
         }
 
         public DelegateCommand Delete
@@ -147,12 +159,13 @@ namespace Aurora.Music.ViewModels
                             Performers = a.singers.Select(s => s.name).ToArray(),
                             AlbumArtists = new string[] { a.artist },
                         }).ToList());
+                        if (Player.Current?.IsPlaying == null || !(bool)Player.Current?.IsPlaying)
+                        {
+                            Player.Current?.Play();
+                        }
                     }
                 }
-                if (Player.Current?.IsPlaying == null || !(bool)Player.Current?.IsPlaying)
-                {
-                    Player.Current?.Play();
-                }
+
             });
         }
 
@@ -258,6 +271,11 @@ namespace Aurora.Music.ViewModels
             {
                 return new DelegateCommand(() =>
                 {
+                    if (sid == null)
+                    {
+                        Switch(Channels.First().First());
+                        return;
+                    }
                     if (IsPlaying is bool b)
                     {
                         if (b)
@@ -319,7 +337,7 @@ namespace Aurora.Music.ViewModels
                 {
                     var g = new ChannelGroup()
                     {
-                        Name = (item.group_name.IsNullorEmpty() ? (Settings.Current.DoubanToken.IsNullorEmpty() ? "Not Login" : Settings.Current.DoubanUserName) : item.group_name),
+                        Name = (item.group_name.IsNullorEmpty() ? (Settings.Current.VerifyDoubanLogin() ? Settings.Current.DoubanUserName : "Not Login") : item.group_name),
                         ID = item.group_id,
                     };
                     foreach (var c in item.chls)
@@ -374,9 +392,33 @@ namespace Aurora.Music.ViewModels
                                         Performers = a.singers.Select(s => s.name).ToArray(),
                                         AlbumArtists = new string[] { a.artist },
                                     }).ToList());
+
+                                    if (Player.Current?.IsPlaying == null || !(bool)Player.Current?.IsPlaying)
+                                    {
+                                        Player.Current?.Play();
+                                    }
                                 }
                             });
                         }
+
+                        Task.Run(async () =>
+                        {
+                            var pal = await ImagingHelper.GetColorPalette(e.CurrentSong.PicturePath.IsNullorEmpty() ? new Uri(Consts.NowPlaceholder) : new Uri(e.CurrentSong.PicturePath));
+                            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                            {
+                                var list = new List<SolidColorBrush>();
+                                for (int i = 0; i < 32; i++)
+                                {
+                                    int j = i;
+                                    while (j >= pal.Count)
+                                    {
+                                        j -= pal.Count;
+                                    }
+                                    list.Add(new SolidColorBrush(pal[j]));
+                                }
+                                Palette = list;
+                            });
+                        });
                     }
                     Title = e.CurrentSong.Title;
                     Description = string.Format(Consts.Localizer.GetString("TileDesc"), e.CurrentSong.Album, string.Join(Consts.CommaSeparator, e.CurrentSong.Performers ?? new string[] { }));

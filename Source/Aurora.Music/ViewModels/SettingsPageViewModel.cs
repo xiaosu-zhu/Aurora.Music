@@ -61,6 +61,15 @@ namespace Aurora.Music.ViewModels
             });
         }
 
+        public DelegateCommand ShowEaseAccess
+        {
+            get => new DelegateCommand(async () =>
+            {
+                EaseAccess u = new EaseAccess();
+                await u.ShowAsync();
+            });
+        }
+
         public DelegateCommand CommentInStore
         {
             get => new DelegateCommand(async () =>

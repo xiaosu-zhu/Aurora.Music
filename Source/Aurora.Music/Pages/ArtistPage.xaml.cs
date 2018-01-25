@@ -19,6 +19,7 @@ using Windows.System;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Media;
 using System.Linq;
+using Aurora.Music.Controls;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -27,7 +28,7 @@ namespace Aurora.Music.Pages
     /// <summary>
     /// 可用于自身或导航至 Frame 内部的空白页。
     /// </summary>
-    public sealed partial class ArtistPage : Page
+    public sealed partial class ArtistPage : Page, IRequestGoBack
     {
         private CompositionPropertySet _scrollerPropertySet;
         private Compositor _compositor;
@@ -41,13 +42,8 @@ namespace Aurora.Music.Pages
             this.NavigationCacheMode = NavigationCacheMode.Enabled;
         }
 
-        private void ArtistPage_BackRequested(object sender, BackRequestedEventArgs e)
+        public void RequestGoBack()
         {
-            if (e.Handled)
-            {
-                return;
-            }
-            e.Handled = true;
             ConnectedAnimationService.GetForCurrentView().PrepareToAnimate(Consts.ArtistPageInAnimation + "_1", Title);
             ConnectedAnimationService.GetForCurrentView().PrepareToAnimate(Consts.ArtistPageInAnimation + "_2", AvatarImage);
             LibraryPage.Current.GoBack();
@@ -60,8 +56,6 @@ namespace Aurora.Music.Pages
 
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
             AppViewBackButtonVisibility.Visible;
-            SystemNavigationManager.GetForCurrentView().BackRequested -= ArtistPage_BackRequested;
-            SystemNavigationManager.GetForCurrentView().BackRequested += ArtistPage_BackRequested;
 
             if (!Context.AlbumList.IsNullorEmpty() && _clickedAlbum != null && ((ArtistViewModel)e.Parameter).RawName == _lastParameter)
             {
@@ -217,7 +211,6 @@ namespace Aurora.Music.Pages
 
         private void Page_Unloaded(object sender, RoutedEventArgs e)
         {
-            SystemNavigationManager.GetForCurrentView().BackRequested -= ArtistPage_BackRequested;
         }
 
         private async void PlayAlbum_Click(object sender, RoutedEventArgs e)

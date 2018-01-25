@@ -89,14 +89,32 @@ namespace Aurora.Music.ViewModels
             HeroList.Clear();
             HeroList.Add(new GenericMusicItemViewModel());
             HeroList.Add(new GenericMusicItemViewModel());
+            HeroList.Add(new GenericMusicItemViewModel());
+            HeroList.Add(new GenericMusicItemViewModel());
 
             FavList.Clear();
             FavList.Add(new GenericMusicItemViewModel());
             FavList.Add(new GenericMusicItemViewModel());
             FavList.Add(new GenericMusicItemViewModel());
             FavList.Add(new GenericMusicItemViewModel());
+            FavList.Add(new GenericMusicItemViewModel());
+            FavList.Add(new GenericMusicItemViewModel());
+            FavList.Add(new GenericMusicItemViewModel());
+            FavList.Add(new GenericMusicItemViewModel());
+            FavList.Add(new GenericMusicItemViewModel());
+            FavList.Add(new GenericMusicItemViewModel());
+            FavList.Add(new GenericMusicItemViewModel());
+            FavList.Add(new GenericMusicItemViewModel());
 
             RandomList.Clear();
+            RandomList.Add(new GenericMusicItemViewModel());
+            RandomList.Add(new GenericMusicItemViewModel());
+            RandomList.Add(new GenericMusicItemViewModel());
+            RandomList.Add(new GenericMusicItemViewModel());
+            RandomList.Add(new GenericMusicItemViewModel());
+            RandomList.Add(new GenericMusicItemViewModel());
+            RandomList.Add(new GenericMusicItemViewModel());
+            RandomList.Add(new GenericMusicItemViewModel());
             RandomList.Add(new GenericMusicItemViewModel());
             RandomList.Add(new GenericMusicItemViewModel());
             RandomList.Add(new GenericMusicItemViewModel());

@@ -31,7 +31,7 @@ namespace Aurora.Music.Pages
     /// <summary>
     /// 可用于自身或导航至 Frame 内部的空白页。
     /// </summary>
-    public sealed partial class NowPlayingPage : Page
+    public sealed partial class NowPlayingPage : Page, IRequestGoBack
     {
         internal static NowPlayingPage Current;
 
@@ -129,15 +129,13 @@ namespace Aurora.Music.Pages
             await dialog.ShowAsync();
         }
 
-        private void NowPlayingPage_BackRequested(object sender, BackRequestedEventArgs e)
+        public void RequestGoBack()
         {
-            if (e.Handled) return;
             ConnectedAnimationService.GetForCurrentView().PrepareToAnimate(Consts.NowPlayingPageInAnimation, Artwork);
             ConnectedAnimationService.GetForCurrentView().PrepareToAnimate($"{Consts.NowPlayingPageInAnimation}_1", Title);
             ConnectedAnimationService.GetForCurrentView().PrepareToAnimate($"{Consts.NowPlayingPageInAnimation}_2", Album);
             Root.Background = new SolidColorBrush(Colors.Transparent);
             MainPage.Current.GoBackFromNowPlaying();
-            e.Handled = true;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -149,7 +147,6 @@ namespace Aurora.Music.Pages
             //MainPageViewModel.Current.LeftTopColor = Resources["SystemControlForegroundBaseHighBrush"] as SolidColorBrush;
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
             AppViewBackButtonVisibility.Visible;
-            SystemNavigationManager.GetForCurrentView().BackRequested += NowPlayingPage_BackRequested;
 
 
             if (e.Parameter is SongViewModel s)
@@ -180,8 +177,6 @@ namespace Aurora.Music.Pages
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             base.OnNavigatedFrom(e);
-
-            SystemNavigationManager.GetForCurrentView().BackRequested -= NowPlayingPage_BackRequested;
             MainPageViewModel.Current.RestoreLastTitle();
         }
 
@@ -199,7 +194,6 @@ namespace Aurora.Music.Pages
 
         private void Page_Unloaded(object sender, RoutedEventArgs e)
         {
-            SystemNavigationManager.GetForCurrentView().BackRequested -= NowPlayingPage_BackRequested;
             MainPageViewModel.Current.RestoreLastTitle();
             Context?.Dispose();
             Unload();

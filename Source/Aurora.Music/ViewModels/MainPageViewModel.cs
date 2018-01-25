@@ -48,7 +48,7 @@ namespace Aurora.Music.ViewModels
             },
             new HamPanelItem
             {
-                Title = "豆瓣 FM",
+                Title = Consts.Localizer.GetString("DouText"),
                 Icon = "\uE2AC",
                 TargetType = typeof(DoubanPage),
                 BG = new Uri("ms-appx:///Assets/Images/radio.png")
@@ -469,7 +469,7 @@ namespace Aurora.Music.ViewModels
                             {
                                 lock (MainPage.Current.Lockable)
                                 {
-                                    if (SearchItems.Count > 0 && SearchItems[0].Title.IsNullorEmpty())
+                                    if (SearchItems.Count > 0 && SearchItems[0].InnerType == MediaType.Placeholder)
                                     {
                                         SearchItems.Clear();
                                     }
@@ -491,7 +491,7 @@ namespace Aurora.Music.ViewModels
                 {
                     lock (MainPage.Current.Lockable)
                     {
-                        if (SearchItems.Count > 0 && SearchItems[0].Title.IsNullorEmpty())
+                        if (SearchItems.Count > 0 && SearchItems[0].InnerType == MediaType.Placeholder)
                         {
                             SearchItems.Clear();
                         }

@@ -119,6 +119,9 @@
     <Compile Include="Controls\DropSongsDialog.xaml.cs">
       <DependentUpon>DropSongsDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\EaseAccess.xaml.cs">
+      <DependentUpon>EaseAccess.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ExtensionsManager.xaml.cs">
       <DependentUpon>ExtensionsManager.xaml</DependentUpon>
     </Compile>
@@ -126,6 +129,7 @@
       <DependentUpon>ExtSettings.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\ImageGrid.cs" />
+    <Compile Include="Controls\IRequestGoBack.cs" />
     <Compile Include="Controls\LyricView.xaml.cs">
       <DependentUpon>LyricView.xaml</DependentUpon>
     </Compile>
@@ -326,6 +330,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\DropSongsDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\EaseAccess.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

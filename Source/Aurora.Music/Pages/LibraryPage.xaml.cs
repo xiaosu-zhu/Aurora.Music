@@ -22,7 +22,7 @@ namespace Aurora.Music.Pages
     /// <summary>
     /// 可用于自身或导航至 Frame 内部的空白页。
     /// </summary>
-    public sealed partial class LibraryPage : Page
+    public sealed partial class LibraryPage : Page, Controls.IRequestGoBack
     {
         public static LibraryPage Current;
 
@@ -75,7 +75,7 @@ namespace Aurora.Music.Pages
                     }
                 });
             });
-            
+
             var item = CategoryList.FirstOrDefault(x => x.Title == Settings.Current.CategoryLastClicked);
             if (item != default(CategoryListItem))
             {
@@ -101,15 +101,21 @@ namespace Aurora.Music.Pages
             {
                 MainPageViewModel.Current.NeedShowTitle = false;
             }
-            SystemNavigationManager.GetForCurrentView().BackRequested -= LibraryPage_BackRequested;
-            SystemNavigationManager.GetForCurrentView().BackRequested += LibraryPage_BackRequested;
         }
 
-        private void LibraryPage_BackRequested(object sender, BackRequestedEventArgs e)
+        public void RequestGoBack()
         {
-            if (e.Handled || MainFrame.CanGoBack)
+            if (MainFrame.CanGoBack)
             {
-                return;
+                if (MainFrame.Content is Controls.IRequestGoBack g)
+                {
+                    g.RequestGoBack();
+                }
+                else
+                {
+                    MainFrame.GoBack();
+                }
+
             }
             else
             {
@@ -129,7 +135,7 @@ namespace Aurora.Music.Pages
 
         internal void GoBack()
         {
-            if (MainPage.Current.SubPageCanGoBack && MainFrame.CanGoBack)
+            if (MainFrame.CanGoBack)
             {
                 MainFrame.GoBack();
                 RefreshPaneCurrent();
@@ -223,13 +229,11 @@ namespace Aurora.Music.Pages
         private void Page_Unloaded(object sender, RoutedEventArgs e)
         {
             MainFrame.Content = null;
-            SystemNavigationManager.GetForCurrentView().BackRequested -= LibraryPage_BackRequested;
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             base.OnNavigatedFrom(e);
-            SystemNavigationManager.GetForCurrentView().BackRequested -= LibraryPage_BackRequested;
         }
 
         private void VisualStateGroup_CurrentStateChanged(object sender, VisualStateChangedEventArgs e)

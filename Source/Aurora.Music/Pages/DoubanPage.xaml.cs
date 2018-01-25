@@ -1,5 +1,7 @@
 ﻿using Aurora.Music.Core;
 using Aurora.Music.ViewModels;
+using Aurora.Shared.Extensions;
+using Aurora.Shared.Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -27,10 +29,27 @@ namespace Aurora.Music.Pages
         public DoubanPage()
         {
             this.InitializeComponent();
-            MainPageViewModel.Current.Title = "豆瓣 FM";
+            MainPageViewModel.Current.Title = Consts.Localizer.GetString("DouText");
             MainPageViewModel.Current.NeedShowTitle = true;
             MainPageViewModel.Current.LeftTopColor = Resources["SystemControlForegroundBaseHighBrush"] as SolidColorBrush;
             MainPageViewModel.Current.NeedShowPanel = false;
+            Context.PropertyChanged += Context_PropertyChanged;
+        }
+
+        private void Context_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Palette")
+            {
+                int n = TopPanel.Children.Count;
+                while (n > 1)
+                {
+                    n--;
+                    int k = Tools.Random.Next(n + 1);
+                    TopPanel.Children.Move((uint)k, (uint)n);
+                    TopPanel.Children.Move((uint)n - 1, (uint)k);
+                }
+
+            }
         }
 
         private void GridView_ItemClick(object sender, ItemClickEventArgs e)

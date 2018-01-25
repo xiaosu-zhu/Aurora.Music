@@ -160,45 +160,54 @@
             </GridView.GroupStyle>
         </GridView>
         <Viewbox Stretch="Uniform" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Stretch">
-                <Grid Width="32" Height="72" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="Red"/>
-                <Grid Width="32" Height="80" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="Green"/>
-                <Grid Width="32" Height="69" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="AliceBlue"/>
-                <Grid Width="32" Height="35" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="Red"/>
-                <Grid Width="32" Height="108" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="Green"/>
-                <Grid Width="32" Height="65" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="AliceBlue"/>
-                <Grid Width="32" Height="88" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="Red"/>
-                <Grid Width="32" Height="72" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="Green"/>
-                <Grid Width="32" Height="80" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="AliceBlue"/>
-                <Grid Width="32" Height="69" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="Red"/>
-                <Grid Width="32" Height="35" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="Green"/>
-                <Grid Width="32" Height="108" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="AliceBlue"/>
-                <Grid Width="32" Height="65" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="Red"/>
-                <Grid Width="32" Height="88" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="Green"/>
-                <Grid Width="32" Height="72" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="Red"/>
-                <Grid Width="32" Height="80" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="Green"/>
-                <Grid Width="32" Height="69" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="AliceBlue"/>
-                <Grid Width="32" Height="35" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="Red"/>
-                <Grid Width="32" Height="108" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="Green"/>
-                <Grid Width="32" Height="65" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="AliceBlue"/>
-                <Grid Width="32" Height="88" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="Red"/>
-                <Grid Width="32" Height="72" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="Green"/>
-                <Grid Width="32" Height="80" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="AliceBlue"/>
-                <Grid Width="32" Height="69" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="Red"/>
-                <Grid Width="32" Height="35" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="Green"/>
-                <Grid Width="32" Height="108" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="AliceBlue"/>
-                <Grid Width="32" Height="65" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="Red"/>
-                <Grid Width="32" Height="88" Margin="0,-24,0,0" CornerRadius="16" VerticalAlignment="Top" Background="Green"/>
+            <StackPanel x:Name="TopPanel" Margin="0,-16,0,0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                <StackPanel.ChildrenTransitions>
+                    <TransitionCollection>
+                        <RepositionThemeTransition IsStaggeringEnabled="False"/>
+                    </TransitionCollection>
+                </StackPanel.ChildrenTransitions>
+                <Grid Width="32" Height="72" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[0],Mode=OneWay}"/>
+                <Grid Width="32" Height="76" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[1],Mode=OneWay}"/>
+                <Grid Width="32" Height="80" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[2],Mode=OneWay}"/>
+                <Grid Width="32" Height="84" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[3],Mode=OneWay}"/>
+                <Grid Width="32" Height="88" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[4],Mode=OneWay}"/>
+                <Grid Width="32" Height="92" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[5],Mode=OneWay}"/>
+                <Grid Width="32" Height="96" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[6],Mode=OneWay}"/>
+                <Grid Width="32" Height="92" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[7],Mode=OneWay}"/>
+                <Grid Width="32" Height="88" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[8],Mode=OneWay}"/>
+                <Grid Width="32" Height="84" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[9],Mode=OneWay}"/>
+                <Grid Width="32" Height="80" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[10],Mode=OneWay}"/>
+                <Grid Width="32" Height="76" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[11],Mode=OneWay}"/>
+                <Grid Width="32" Height="72" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[12],Mode=OneWay}"/>
+                <Grid Width="32" Height="68" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[13],Mode=OneWay}"/>
+                <Grid Width="32" Height="64" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[14],Mode=OneWay}"/>
+                <Grid Width="32" Height="60" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[15],Mode=OneWay}"/>
+                <Grid Width="32" Height="56" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[16],Mode=OneWay}"/>
+                <Grid Width="32" Height="52" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[17],Mode=OneWay}"/>
+                <Grid Width="32" Height="48" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[18],Mode=OneWay}"/>
+                <Grid Width="32" Height="52" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[19],Mode=OneWay}"/>
+                <Grid Width="32" Height="56" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[20],Mode=OneWay}"/>
+                <Grid Width="32" Height="60" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[21],Mode=OneWay}"/>
+                <Grid Width="32" Height="64" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[22],Mode=OneWay}"/>
+                <Grid Width="32" Height="68" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[23],Mode=OneWay}"/>
+                <Grid Width="32" Height="72" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[24],Mode=OneWay}"/>
+                <Grid Width="32" Height="80" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[25],Mode=OneWay}"/>
+                <Grid Width="32" Height="84" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[26],Mode=OneWay}"/>
+                <Grid Width="32" Height="88" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[27],Mode=OneWay}"/>
+                <Grid Width="32" Height="92" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[28],Mode=OneWay}"/>
+                <Grid Width="32" Height="96" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[29],Mode=OneWay}"/>
+                <Grid Width="32" Height="92" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[30],Mode=OneWay}"/>
+                <Grid Width="32" Height="88" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[31],Mode=OneWay}"/>
             </StackPanel>
         </Viewbox>
         <Grid Grid.Column="1" Padding="64" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
+                <RowDefinition Height="36"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <TextBlock x:Uid="Now" Text="正在播放" FontWeight="Bold" Style="{ThemeResource TitleTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock x:Uid="Now" Visibility="{x:Bind Context.NullableBooltoVisibility(Context.IsPlaying), Mode=OneWay}" Text="正在播放" FontWeight="Bold" Style="{ThemeResource TitleTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             <Grid Grid.Row="1" Margin="0,32,0,0" Width="320" Height="320" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <interactivity:Interaction.Behaviors>
                     <behaviors:Blur Value="8" Duration="0" Delay="0" AutomaticallyStart="True"/>
@@ -223,25 +232,39 @@
                 <TextBlock Text="{x:Bind Context.Description, Mode=OneWay}" FontSize="16" Style="{ThemeResource BodyTextBlockStyle}" Margin="8" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="3">
-                <Button x:Uid="DropBtn" Command="{x:Bind Context.Delete}" Style="{ThemeResource RevealRoundButton}" ToolTipService.ToolTip="Next"
+                <Button IsEnabled="{x:Bind Context.NullableBooltoBool(Context.IsPlaying), Mode=OneWay}" AccessKey="[" x:Uid="DropBtn" Command="{x:Bind Context.Delete}" Style="{ThemeResource RevealRoundButton}" ToolTipService.ToolTip="Next"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <Button.Content>
                         <SymbolIcon Symbol="Delete"/>
                     </Button.Content>
+                    <Button.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="Delete" />
+                        <KeyboardAccelerator Key="F1" />
+                    </Button.KeyboardAccelerators>
                 </Button>
-                <Button Style="{ThemeResource RevealRoundButton}" Command="{x:Bind Context.PlayPause}" ToolTipService.ToolTip="{x:Bind Context.NullableBoolToString(Context.IsPlaying), Mode=OneWay}"
+                <Button AccessKey="P" Style="{ThemeResource RevealRoundButton}" Command="{x:Bind Context.PlayPause}" ToolTipService.ToolTip="{x:Bind Context.NullableBoolToString(Context.IsPlaying), Mode=OneWay}"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <Button.Content>
                         <SymbolIcon Symbol="{x:Bind Context.NullableBoolToSymbol(Context.IsPlaying), Mode=OneWay}"/>
                     </Button.Content>
+                    <Button.KeyboardAccelerators>
+                        <KeyboardAccelerator Modifiers="Control" Key="P" />
+                        <KeyboardAccelerator Key="F2" />
+                    </Button.KeyboardAccelerators>
                 </Button>
-                <Button x:Uid="Next" Command="{x:Bind Context.Next}" Style="{ThemeResource RevealRoundButton}" ToolTipService.ToolTip="Next"
+                <Button IsEnabled="{x:Bind Context.NullableBooltoBool(Context.IsPlaying), Mode=OneWay}" AccessKey="]" x:Uid="Next" Command="{x:Bind Context.Next}" Style="{ThemeResource RevealRoundButton}" ToolTipService.ToolTip="Next"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <Button.Content>
                         <SymbolIcon Symbol="Next"/>
                     </Button.Content>
+                    <Button.KeyboardAccelerators>
+                        <KeyboardAccelerator Modifiers="Control" Key="N" />
+                        <KeyboardAccelerator Key="F3" />
+                    </Button.KeyboardAccelerators>
                 </Button>
-                <star:StarButton IsOn="{x:Bind Context.RateToggle, Mode=TwoWay}" FontSize="32" Margin="12,4" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <star:StarButton IsEnabled="{x:Bind Context.NullableBooltoBool(Context.IsPlaying), Mode=OneWay}" IsOn="{x:Bind Context.RateToggle, Mode=TwoWay}" FontSize="32" Margin="12,4" VerticalAlignment="Center" HorizontalAlignment="Center">
+
+                </star:StarButton>
             </StackPanel>
         </Grid>
     </Grid>

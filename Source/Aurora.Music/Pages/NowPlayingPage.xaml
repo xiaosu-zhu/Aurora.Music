@@ -1013,29 +1013,43 @@
                 <TextBlock Text="{x:Bind Context.TimeSpanFormat(Context.TotalDuration),Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource SystemControlBackgroundBaseHighRevealBorderBrush}"/>
             </toolkit:DropShadowPanel>
             <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="4" HorizontalAlignment="Left" VerticalAlignment="Stretch" Grid.ColumnSpan="2">
-                <Button x:Uid="Previous" x:Name="Previous" Style="{ThemeResource RevealRoundButton}" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 1),Mode=OneWay}" Command="{x:Bind Context.GoPrevious}" ToolTipService.ToolTip="Previous"
+                <Button AccessKey="[" x:Uid="Previous" x:Name="Previous" Style="{ThemeResource RevealRoundButton}" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 1),Mode=OneWay}" Command="{x:Bind Context.GoPrevious}" ToolTipService.ToolTip="Previous"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <Button.Content>
                         <SymbolIcon Symbol="Previous"/>
                     </Button.Content>
+                    <Button.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="F1" />
+                    </Button.KeyboardAccelerators>
                 </Button>
-                <Button x:Name="PlayPause" Style="{ThemeResource RevealRoundButton}" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 1),Mode=OneWay}" Command="{x:Bind Context.PlayPause}" ToolTipService.ToolTip="{x:Bind Context.NullableBoolToString(Context.IsPlaying), Mode=OneWay}"
+                <Button AccessKey="P" x:Name="PlayPause" Style="{ThemeResource RevealRoundButton}" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 1),Mode=OneWay}" Command="{x:Bind Context.PlayPause}" ToolTipService.ToolTip="{x:Bind Context.NullableBoolToString(Context.IsPlaying), Mode=OneWay}"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <Button.Content>
                         <SymbolIcon Symbol="{x:Bind Context.NullableBoolToSymbol(Context.IsPlaying), Mode=OneWay}"/>
                     </Button.Content>
+                    <Button.KeyboardAccelerators>
+                        <KeyboardAccelerator Modifiers="Control" Key="P" />
+                        <KeyboardAccelerator Key="F2" />
+                    </Button.KeyboardAccelerators>
                 </Button>
-                <Button x:Uid="Next" x:Name="Next" Style="{ThemeResource RevealRoundButton}" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 1),Mode=OneWay}" Command="{x:Bind Context.GoNext}" ToolTipService.ToolTip="Next"
+                <Button AccessKey="]" x:Uid="Next" x:Name="Next" Style="{ThemeResource RevealRoundButton}" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 1),Mode=OneWay}" Command="{x:Bind Context.GoNext}" ToolTipService.ToolTip="Next"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <Button.Content>
                         <SymbolIcon Symbol="Next"/>
                     </Button.Content>
+                    <Button.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="F3" />
+                    </Button.KeyboardAccelerators>
                 </Button>
-                <Button x:Uid="Stop" x:Name="Stop" Style="{ThemeResource RevealRoundButton}" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 1),Mode=OneWay}" Command="{x:Bind Context.Stop}" ToolTipService.ToolTip="Stop"
+                <Button AccessKey="E" x:Uid="Stop" x:Name="Stop" Style="{ThemeResource RevealRoundButton}" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 1),Mode=OneWay}" Command="{x:Bind Context.Stop}" ToolTipService.ToolTip="Stop"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <Button.Content>
                         <SymbolIcon Symbol="Stop"/>
                     </Button.Content>
+                    <Button.KeyboardAccelerators>
+                        <KeyboardAccelerator Modifiers="Control" Key="E" />
+                        <KeyboardAccelerator Key="F4" />
+                    </Button.KeyboardAccelerators>
                 </Button>
                 <ToggleButton x:Uid="Shuffle" x:Name="Shuffle" Style="{ThemeResource RevealRoundToggleButton}" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 1),Mode=OneWay}" IsChecked="{x:Bind Context.IsShuffle, Mode=TwoWay}"
                               ToolTipService.ToolTip="Shuffle" Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
@@ -1051,7 +1065,7 @@
                     </ToggleButton.Content>
                 </ToggleButton>
 
-                <Button x:Uid="PlayList" x:Name="PlayListBtn" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 1),Mode=OneWay}" Style="{ThemeResource RevealRectangleButton}" ToolTipService.ToolTip="Playing list" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Button AccessKey="L" x:Uid="PlayList" x:Name="PlayListBtn" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 1),Mode=OneWay}" Style="{ThemeResource RevealRectangleButton}" ToolTipService.ToolTip="Playing list" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Button.Content>
                         <Grid>
                             <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="PlayListFull" Text="{x:Bind Context.NowListPreview,Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" Margin="12,8"/>
@@ -1067,6 +1081,9 @@
                             </ListView>
                         </Flyout>
                     </Button.Flyout>
+                    <Button.KeyboardAccelerators>
+                        <KeyboardAccelerator Modifiers="Control" Key="L" />
+                    </Button.KeyboardAccelerators>
                 </Button>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="4">
@@ -1086,11 +1103,14 @@
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE2B4;" />
                     </Button.Content>
                 </Button>
-                <Button x:Name="More" Style="{ThemeResource RevealRoundButton}" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 1),Mode=OneWay}" ToolTipService.ToolTip="More"
+                <Button AccessKey="." x:Name="More" Style="{ThemeResource RevealRoundButton}" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 1),Mode=OneWay}" ToolTipService.ToolTip="More"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <Button.Content>
                         <SymbolIcon Symbol="More"/>
                     </Button.Content>
+                    <Button.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="F5" />
+                    </Button.KeyboardAccelerators>
                     <Button.Flyout>
                         <MenuFlyout x:Name="MoreMenu">
                             <MenuFlyout.Items>
