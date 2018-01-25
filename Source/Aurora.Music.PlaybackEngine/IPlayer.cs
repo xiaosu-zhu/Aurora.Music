@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Media.Playback;
 
 namespace Aurora.Music.PlaybackEngine
 {
@@ -25,7 +26,7 @@ namespace Aurora.Music.PlaybackEngine
         bool? IsPlaying { get; }
 
         event EventHandler<PositionUpdatedArgs> PositionUpdated;
-        event EventHandler<StatusChangedArgs> StatusChanged;
+        event EventHandler<PlayingItemsChangedArgs> StatusChanged;
         event EventHandler<DownloadProgressChangedArgs> DownloadProgressChanged;
 
         void SkiptoIndex(uint index);
@@ -44,7 +45,7 @@ namespace Aurora.Music.PlaybackEngine
         public double Progress { get; set; }
     }
 
-    public class StatusChangedArgs
+    public class PlayingItemsChangedArgs
     {
         public Song CurrentSong { get; set; }
         public bool IsLoop { get; set; }
@@ -52,6 +53,11 @@ namespace Aurora.Music.PlaybackEngine
 
         public int CurrentIndex { get; set; }
         public IReadOnlyList<Song> Items { get; internal set; }
+    }
+
+    public class PlaybackStatusChangedArgs
+    {
+        public MediaPlaybackState PlaybackStatus { get; set; }
     }
 
     public class PositionUpdatedArgs

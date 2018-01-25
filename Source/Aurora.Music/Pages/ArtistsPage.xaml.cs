@@ -42,6 +42,11 @@ namespace Aurora.Music.Pages
             });
         }
 
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+        }
+
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
             if (!Context.ArtistList.IsNullorEmpty() && _clickedArtist != null)

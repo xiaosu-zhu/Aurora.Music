@@ -52,6 +52,7 @@ namespace Aurora.Music.Controls
 
         private void CompactOverlayPanel_BackRequested(object sender, BackRequestedEventArgs e)
         {
+            e.Handled = true;
             Context.ReturnNormal.Execute();
         }
 

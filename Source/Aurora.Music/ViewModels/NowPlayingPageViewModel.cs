@@ -772,7 +772,7 @@ namespace Aurora.Music.ViewModels
             });
         }
 
-        private async void Player_StatusChanged(object sender, StatusChangedArgs e)
+        private async void Player_StatusChanged(object sender, PlayingItemsChangedArgs e)
         {
             await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
             {

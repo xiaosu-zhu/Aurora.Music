@@ -61,6 +61,7 @@ namespace Aurora.Music.Pages
         {
             base.OnNavigatedFrom(e);
             Context.Detach();
+            Context.PropertyChanged -= Context_PropertyChanged;
         }
     }
 }

@@ -178,6 +178,8 @@ namespace Aurora.Music.Pages
         {
             base.OnNavigatedFrom(e);
             MainPageViewModel.Current.RestoreLastTitle();
+            SizeChanged -= NowPlayingPage_SizeChanged;
+            Context.SongChanged -= Context_SongChanged;
         }
 
         private async void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)

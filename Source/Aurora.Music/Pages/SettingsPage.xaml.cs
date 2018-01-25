@@ -9,6 +9,7 @@ using Windows.System.Threading;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Navigation;
 using Windows.UI.Xaml.Shapes;
 
 namespace Aurora.Music.Pages
@@ -26,6 +27,15 @@ namespace Aurora.Music.Pages
             {
                 await Context.Init();
             });
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            SizeChanged -= Page_SizeChanged;
+            OnlineCombo.SelectionChanged -= OnlineCombo_SelectionChanged;
+            LrcCombo.SelectionChanged -= LyricCombo_SelectionChanged;
+            MetaCombo.SelectionChanged -= MetaCombo_SelectionChanged;
         }
 
         private void Ellipse_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)

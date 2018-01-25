@@ -187,6 +187,12 @@ namespace Aurora.Music.ViewModels
             {
                 return string.Empty;
             }
+
+            if (InnerType == MediaType.Placeholder)
+            {
+                return Title;
+            }
+
             if (Description.IsNullorEmpty())
             {
                 return Title;

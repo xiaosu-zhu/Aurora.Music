@@ -57,15 +57,28 @@ namespace Aurora.Music
             SongFlyout = (Resources["SongFlyout"] as MenuFlyout);
 
             dataTransferManager = DataTransferManager.GetForCurrentView();
-            dataTransferManager.DataRequested += DataTransferManager_DataRequested;
             //Window.Current.CoreWindow.Dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
             //Window.Current.CoreWindow.KeyUp += MainPage_KeyUp;
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            dataTransferManager.DataRequested += DataTransferManager_DataRequested;
 
             SystemNavigationManager.GetForCurrentView().BackRequested += MaiPage_BackRequested;
         }
 
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            //SystemNavigationManager.GetForCurrentView().BackRequested -= MaiPage_BackRequested;
+            //dataTransferManager.DataRequested -= DataTransferManager_DataRequested;
+        }
+
         private void MaiPage_BackRequested(object sender, BackRequestedEventArgs e)
         {
+            if (e.Handled || ((Window.Current.Content is Frame f) && f.Content is CompactOverlayPanel)) return;
             if (MainFrame.Visibility == Visibility.Collapsed && OverlayFrame.Visibility == Visibility.Visible && OverlayFrame.Content is IRequestGoBack g)
             {
                 g.RequestGoBack();

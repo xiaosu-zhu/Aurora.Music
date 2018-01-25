@@ -119,6 +119,8 @@
                             <ComboBox x:Uid="MetaExtension" x:Name="MetaCombo" HorizontalAlignment="Stretch" ItemTemplate="{StaticResource ExtensionTemplate}" SelectedIndex="{x:Bind Context.CurrentMetaIndex,Mode=OneWay}" ItemsSource="{x:Bind Context.MetaExts}" Header="MetaData Extension" Margin="12,4">
                             </ComboBox>
 
+                            <ToggleSwitch Header="Automatically retrieve album/artist metadata" Margin="12,4" />
+
                             <RichTextBlock Visibility="{x:Bind Context.BoolNottoVisibility(Context.OnlinePurchase),Mode=OneWay}" Style="{ThemeResource BodyRichTextBlockStyle}" IsTextSelectionEnabled="False" Margin="12,8">
                                 <Paragraph >
                                     <Run x:Uid="ExtensionIntro" Text="You can enable or restore online extensibility from"/>
@@ -131,6 +133,8 @@
                             <ComboBox x:Uid="OnlineExtension" x:Name="OnlineCombo" HorizontalAlignment="Stretch" ItemTemplate="{StaticResource ExtensionTemplate}" SelectedIndex="{x:Bind Context.CurrentOnlineIndex,Mode=OneWay}" IsEnabled="{x:Bind Context.OnlinePurchase,Mode=OneWay}" ItemsSource="{x:Bind Context.OnlineExts}" Header="Online Music Extension" Margin="12,4">
 
                             </ComboBox>
+                            <ToggleSwitch Header="Using metered connection to play online contents" Margin="12,4" />
+                            <ToggleSwitch Header="Using metered connection to download online contents"  Margin="12,4"/>
                             <Button x:Uid="DownloadPath" IsEnabled="{x:Bind Context.OnlinePurchase,Mode=OneWay}" Margin="12,4" Content="Download Path" Command="{x:Bind Context.DownloadPath}" Style="{ThemeResource ButtonRevealStyle}" />
                             <TextBlock Visibility="{x:Bind Context.BooltoVisibility(Context.OnlinePurchase),Mode=OneWay}" Text="{x:Bind Context.DownloadPathText, Mode=OneWay}" Margin="12,4" Style="{ThemeResource BodyTextBlockStyle}"/>
                         </StackPanel>

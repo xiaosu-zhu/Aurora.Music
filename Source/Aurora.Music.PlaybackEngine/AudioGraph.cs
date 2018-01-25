@@ -73,7 +73,7 @@ namespace Aurora.Music.PlaybackEngine
         #endregion
 
         public event EventHandler<PositionUpdatedArgs> PositionUpdated;
-        public event EventHandler<StatusChangedArgs> StatusChanged;
+        public event EventHandler<PlayingItemsChangedArgs> StatusChanged;
         public event EventHandler<DownloadProgressChangedArgs> DownloadProgressChanged;
 
         #region IDisposable
@@ -524,7 +524,7 @@ namespace Aurora.Music.PlaybackEngine
         {
             if (b)
             {
-                StatusChanged?.Invoke(this, new StatusChangedArgs
+                StatusChanged?.Invoke(this, new PlayingItemsChangedArgs
                 {
                     CurrentIndex = currentIndex,
                     IsLoop = isLoop,
@@ -535,7 +535,7 @@ namespace Aurora.Music.PlaybackEngine
             }
             else
             {
-                StatusChanged?.Invoke(this, new StatusChangedArgs
+                StatusChanged?.Invoke(this, new PlayingItemsChangedArgs
                 {
                     IsLoop = isLoop,
                     IsShuffle = isShuffle,

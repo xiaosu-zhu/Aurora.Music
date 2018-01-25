@@ -33,7 +33,7 @@
                     <Setter.Value>
                         <ControlTemplate TargetType="GridViewItem">
                             <ListViewItemPresenter ContentTransitions="{TemplateBinding ContentTransitions}"
-                        x:Name="Root" Margin="-2.5" Padding="0" BorderThickness="1"
+                        x:Name="Root" Margin="0,0,-6,-6" Padding="0" BorderThickness="1"
                         Control.IsTemplateFocusTarget="True"
                         FocusVisualMargin="{TemplateBinding FocusVisualMargin}"
                         FocusVisualPrimaryBrush="{TemplateBinding FocusVisualPrimaryBrush}"

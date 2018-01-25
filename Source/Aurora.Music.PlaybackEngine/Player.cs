@@ -78,7 +78,7 @@ namespace Aurora.Music.PlaybackEngine
             mediaPlayer.Volume = value / 100d;
         }
 
-        public event EventHandler<StatusChangedArgs> StatusChanged;
+        public event EventHandler<PlayingItemsChangedArgs> StatusChanged;
         public event EventHandler<DownloadProgressChangedArgs> DownloadProgressChanged;
 
         public Player()
@@ -188,7 +188,7 @@ namespace Aurora.Music.PlaybackEngine
                 default:
                     break;
             }
-            StatusChanged?.Invoke(this, new StatusChangedArgs
+            StatusChanged?.Invoke(this, new PlayingItemsChangedArgs
             {
                 IsShuffle = mediaPlaybackList.ShuffleEnabled,
                 IsLoop = mediaPlaybackList.AutoRepeatEnabled,
@@ -217,7 +217,7 @@ namespace Aurora.Music.PlaybackEngine
                     break;
             }
 
-            StatusChanged?.Invoke(this, new StatusChangedArgs
+            StatusChanged?.Invoke(this, new PlayingItemsChangedArgs
             {
                 IsShuffle = mediaPlaybackList.ShuffleEnabled,
                 IsLoop = mediaPlaybackList.AutoRepeatEnabled,
@@ -631,7 +631,7 @@ namespace Aurora.Music.PlaybackEngine
             if (mediaPlayer.PlaybackSession.CanPause)
                 mediaPlayer.Pause();
             mediaPlayer.Source = null;
-            StatusChanged?.Invoke(this, new StatusChangedArgs() { CurrentSong = null, CurrentIndex = -1, Items = null });
+            StatusChanged?.Invoke(this, new PlayingItemsChangedArgs() { CurrentSong = null, CurrentIndex = -1, Items = null });
         }
 
         public void Seek(TimeSpan position)
@@ -781,7 +781,7 @@ namespace Aurora.Music.PlaybackEngine
             {
                 mediaPlayer.Play();
             }
-            StatusChanged?.Invoke(this, new StatusChangedArgs
+            StatusChanged?.Invoke(this, new PlayingItemsChangedArgs
             {
                 IsShuffle = mediaPlaybackList.ShuffleEnabled,
                 IsLoop = mediaPlaybackList.AutoRepeatEnabled,
@@ -874,7 +874,7 @@ namespace Aurora.Music.PlaybackEngine
             {
                 mediaPlayer.Play();
             }
-            StatusChanged?.Invoke(this, new StatusChangedArgs
+            StatusChanged?.Invoke(this, new PlayingItemsChangedArgs
             {
                 IsShuffle = mediaPlaybackList.ShuffleEnabled,
                 IsLoop = mediaPlaybackList.AutoRepeatEnabled,
@@ -897,7 +897,7 @@ namespace Aurora.Music.PlaybackEngine
             // NOTE: add to current song list
             currentList.InsertRange(curIdx + 1, items);
 
-            StatusChanged?.Invoke(this, new StatusChangedArgs()
+            StatusChanged?.Invoke(this, new PlayingItemsChangedArgs()
             {
                 CurrentSong = mediaPlaybackList.CurrentItem?.Source.CustomProperties[Consts.SONG] as Song,
                 CurrentIndex = mediaPlaybackList.CurrentItem == null ? -1 : (int)mediaPlaybackList.CurrentItemIndex,

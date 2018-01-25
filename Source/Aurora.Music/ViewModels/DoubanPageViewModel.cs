@@ -360,18 +360,15 @@ namespace Aurora.Music.ViewModels
             lastProgress = e.Current / e.Total;
         }
 
-        private async void Current_StatusChanged(object sender, StatusChangedArgs e)
+        private async void Current_StatusChanged(object sender, PlayingItemsChangedArgs e)
         {
             await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
-                IsPlaying = Player.Current.IsPlaying;
+
                 if (e.CurrentSong != null)
                 {
                     if (e.CurrentSong.OnlineID != sid)
                     {
-                        rateToggle = false;
-                        RaisePropertyChanged("RateToggle");
-
                         if (lastProgress >= 0.9)
                         {
                             var p = string.Copy(sid);
@@ -419,12 +416,77 @@ namespace Aurora.Music.ViewModels
                                 Palette = list;
                             });
                         });
+
+
+                        rateToggle = false;
+                        RaisePropertyChanged("RateToggle");
+
+                        Title = e.CurrentSong.Title;
+                        Description = string.Format(Consts.Localizer.GetString("TileDesc"), e.CurrentSong.Album, string.Join(Consts.CommaSeparator, e.CurrentSong.Performers ?? new string[] { }));
+                        Artwork = e.CurrentSong.PicturePath.IsNullorEmpty() ? null : new Uri(e.CurrentSong.PicturePath);
+                        sid = e.CurrentSong.OnlineID;
+
                     }
-                    Title = e.CurrentSong.Title;
-                    Description = string.Format(Consts.Localizer.GetString("TileDesc"), e.CurrentSong.Album, string.Join(Consts.CommaSeparator, e.CurrentSong.Performers ?? new string[] { }));
-                    Artwork = e.CurrentSong.PicturePath.IsNullorEmpty() ? null : new Uri(e.CurrentSong.PicturePath);
-                    sid = e.CurrentSong.OnlineID;
                 }
+                else
+                {
+                    if (IsPlaying is bool aaa && aaa)
+                    {
+                        Task.Run(async () =>
+                        {
+                            if (lastProgress >= 0.9)
+                            {
+                                var p = string.Copy(sid);
+                                playedQueue.Enqueue(p);
+
+                                var list = await Report(ReportType.end, channel.ToString(), p);
+                                if (list.r == 0)
+                                {
+                                    await Player.Current.AddtoNextPlay(list.song.Select(a => new Core.Models.Song()
+                                    {
+                                        Title = a.title,
+                                        Album = a.albumtitle,
+                                        OnlineUri = new Uri(a.url),
+                                        OnlineID = a.sid,
+                                        IsOnline = true,
+                                        PicturePath = a.picture,
+                                        Performers = a.singers.Select(s => s.name).ToArray(),
+                                        AlbumArtists = new string[] { a.artist },
+                                    }).ToList());
+
+                                    if (Player.Current?.IsPlaying == null || !(bool)Player.Current?.IsPlaying)
+                                    {
+                                        Player.Current?.Play();
+                                    }
+                                }
+
+                            }
+                            else
+                            {
+                                var list = await Report(ReportType.skip, channel.ToString(), sid);
+                                if (list.r == 0)
+                                {
+                                    await Player.Current.AddtoNextPlay(list.song.Select(a => new Core.Models.Song()
+                                    {
+                                        Title = a.title,
+                                        Album = a.albumtitle,
+                                        OnlineUri = new Uri(a.url),
+                                        OnlineID = a.sid,
+                                        IsOnline = true,
+                                        PicturePath = a.picture,
+                                        Performers = a.singers.Select(s => s.name).ToArray(),
+                                        AlbumArtists = new string[] { a.artist },
+                                    }).ToList());
+                                    if (Player.Current?.IsPlaying == null || !(bool)Player.Current?.IsPlaying)
+                                    {
+                                        Player.Current?.Play();
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+                IsPlaying = Player.Current.IsPlaying;
             });
         }
 
@@ -438,7 +500,7 @@ namespace Aurora.Music.ViewModels
                     var result = await d.ShowAsync();
                     if (result == ContentDialogResult.Primary)
                     {
-                        model.Name = Settings.Current.DoubanUserName;
+                        Channels.Where(a => a.Contains(model)).First().Name = Settings.Current.DoubanUserName;
                     }
                     else
                     {

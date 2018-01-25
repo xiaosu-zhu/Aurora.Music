@@ -103,6 +103,11 @@ namespace Aurora.Music.Pages
             }
         }
 
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            base.OnNavigatingFrom(e);
+        }
+
         public void RequestGoBack()
         {
             if (MainFrame.CanGoBack)

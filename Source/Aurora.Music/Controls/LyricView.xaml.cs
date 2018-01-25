@@ -105,7 +105,7 @@ namespace Aurora.Music.Controls
             }
         }
 
-        private async void LyricView_StatusChanged(object sender, PlaybackEngine.StatusChangedArgs e)
+        private async void LyricView_StatusChanged(object sender, PlaybackEngine.PlayingItemsChangedArgs e)
         {
             if (e.CurrentSong != null && !e.CurrentSong.IsIDEqual(Model.Song))
             {
