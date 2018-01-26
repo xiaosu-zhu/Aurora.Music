@@ -1,4 +1,9 @@
-﻿<Page
+﻿<!--
+Copyright (c) Aurora Studio. All rights reserved.
+
+Licensed under the MIT License. See LICENSE in the project root for license information.
+-->
+<Page
     x:Class="Aurora.Music.Pages.PlayListPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -222,7 +227,7 @@
                                      BorderThickness="0" BorderBrush="{x:Null}" PlaceholderText="Type some descriptions" 
                                      VerticalAlignment="Center" MaxLength="35" x:Name="DescriptionEditor" Visibility="Collapsed"/>
                         </Grid>
-                        <Button x:Name="DescriptionBtn" VerticalAlignment="Center" Style="{ThemeResource TextBlockButtonStyle}" Click="Button_Click" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}">
+                        <Button x:Name="DescriptionBtn" VerticalAlignment="Center" Margin="8,0" Style="{ThemeResource TextBlockButtonStyle}" Click="Button_Click" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}">
                             <FontIcon FontSize="14" x:Name="DescriptionSymbol" FontFamily="Segoe MDL2 Assets" Glyph="&#xE104;" />
                         </Button>
                     </StackPanel>

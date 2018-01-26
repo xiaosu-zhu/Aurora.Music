@@ -1,14 +1,6 @@
-﻿// AForge Math Library
-// AForge.NET framework
-// http://www.aforgenet.com/framework/
+﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
-// Copyright � Andrew Kirillov, 2005-2009
-// andrew.kirillov@aforgenet.com
-//
-// Copyright � Israel Lot, 2008
-// israel.lot@gmail.com
-//
-
+// Licensed under the MIT License. See LICENSE in the project root for license information.
 namespace AForge.Math
 {
     using System;

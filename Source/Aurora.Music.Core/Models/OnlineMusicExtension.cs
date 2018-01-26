@@ -1,4 +1,7 @@
-﻿using Aurora.Music.Core.Extension.Json.QQMusicAlbum;
+﻿// Copyright (c) Aurora Studio. All rights reserved.
+//
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+using Aurora.Music.Core.Extension.Json.QQMusicAlbum;
 using Aurora.Shared.Extensions;
 using Newtonsoft.Json;
 using System;

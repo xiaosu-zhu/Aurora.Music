@@ -917,9 +917,21 @@
   <data name="EaseAccess.CloseButtonText" xml:space="preserve">
     <value>Close</value>
     <comment>Close</comment>
-  </data> 
+  </data>
   <data name="EaseAccessBtn.Content" xml:space="preserve">
     <value>Ease of Access</value>
     <comment>Ease of Access</comment>
+  </data>
+  <data name="SmartDuration" xml:space="preserve">
+    <value>{0} {0:min|mins}, {1} {1:sec|secs}</value>
+    <comment>{0} {0:min|mins}, {1} {1:sec|secs}</comment>
+  </data>  
+  <data name="SmartDurationLong" xml:space="preserve">
+    <value>{0} {0:hour|hours}, {1} {1:min|mins}</value>
+    <comment>{0} {0:hour|hours}, {1} {1:min|mins}</comment>
+  </data>
+  <data name="SmartDurationShort" xml:space="preserve">
+    <value>{0} {0:sec|secs}</value>
+    <comment>{0} {0:sec|secs}</comment>
   </data>
 </root>

@@ -1,4 +1,7 @@
-﻿using System.Reflection;
+﻿// Copyright (c) Aurora Studio. All rights reserved.
+//
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 

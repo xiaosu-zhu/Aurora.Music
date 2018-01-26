@@ -1,4 +1,7 @@
-﻿using Aurora.Music.Core;
+﻿// Copyright (c) Aurora Studio. All rights reserved.
+//
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+using Aurora.Music.Core;
 using Aurora.Music.Core.Models;
 using Aurora.Music.Core.Storage;
 using Aurora.Shared.Extensions;
@@ -84,7 +87,7 @@ namespace Aurora.Music.ViewModels
         }
 
 
-        private bool includeMusicLibrary;
+        private bool includeMusicLibrary = Settings.Current.IncludeMusicLibrary;
         public bool IncludeMusicLibrary
         {
             get { return includeMusicLibrary; }
@@ -101,7 +104,6 @@ namespace Aurora.Music.ViewModels
         public AddFoldersViewViewModel()
         {
             Folders = new ObservableCollection<FolderViewModel>();
-            IncludeMusicLibrary = Settings.Current.IncludeMusicLibrary;
         }
 
         public void ChangeForeGround()

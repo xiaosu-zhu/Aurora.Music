@@ -921,4 +921,16 @@
     <value>轻松使用</value>
     <comment>Ease of Access</comment>
   </data>
+  <data name="SmartDuration" xml:space="preserve">
+    <value>{0}分，{1}秒</value>
+    <comment>{0} {0:min|mins}, {1} {1:sec|secs}</comment>
+  </data>
+  <data name="SmartDurationLong" xml:space="preserve">
+    <value>{0}小时，{1}分</value>
+    <comment>{0} {0:hour|hours}, {1} {1:min|mins}</comment>
+  </data>
+  <data name="SmartDurationShort" xml:space="preserve">
+    <value>{0}秒</value>
+    <comment>{0} {0:sec|secs}</comment>
+  </data>
 </root>

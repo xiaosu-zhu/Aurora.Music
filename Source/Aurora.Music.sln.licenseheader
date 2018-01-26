@@ -1,0 +1,16 @@
+extensions: .cs .cpp .h
+// Copyright (c) Aurora Studio. All rights reserved.
+//
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+extensions: .aspx .ascx
+<%-- 
+Copyright (c) 2011 rubicon IT GmbH
+--%>
+extensions: .vb
+'Sample license text.
+extensions:  .xml .config .xsd .xaml
+<!--
+Copyright (c) Aurora Studio. All rights reserved.
+
+Licensed under the MIT License. See LICENSE in the project root for license information.
+-->

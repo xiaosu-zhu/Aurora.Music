@@ -1,4 +1,9 @@
-﻿<Page
+﻿<!--
+Copyright (c) Aurora Studio. All rights reserved.
+
+Licensed under the MIT License. See LICENSE in the project root for license information.
+-->
+<Page
     x:Class="Aurora.Music.Pages.AddFoldersView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -21,17 +26,17 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <ScrollViewer MaxHeight="360" HorizontalScrollBarVisibility="Hidden" HorizontalScrollMode="Disabled" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <StackPanel Padding="12,0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <TextBlock x:Uid="ScanFolder" Style="{ThemeResource TitleTextBlockStyle}" Text="Here's Scanning Folders" Margin="0,4" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-            <StackPanel Orientation="Horizontal" Margin="8,4">
+    <ScrollViewer MaxHeight="360" VerticalScrollBarVisibility="Hidden" VerticalScrollMode="Enabled" HorizontalScrollBarVisibility="Hidden" HorizontalScrollMode="Disabled" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <StackPanel Padding="8,0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <TextBlock x:Uid="ScanFolder" Style="{ThemeResource TitleTextBlockStyle}" Text="Here's Scanning Folders" Margin="0,12" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <StackPanel Orientation="Horizontal" Margin="0,8">
                 <TextBlock x:Uid="IncludeLibrary" Text="Including Music Library" VerticalAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}"/>
-                <ToggleSwitch Style="{StaticResource ColoredToggleSwitch}" IsOn="{x:Bind Context.IncludeMusicLibrary, Mode=TwoWay}" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" Margin="16,0"/>
+                <ToggleSwitch Style="{StaticResource ColoredToggleSwitch}" IsOn="{x:Bind Context.IncludeMusicLibrary, Mode=TwoWay}" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" Margin="8,0"/>
             </StackPanel>
             <Button x:Uid="AddNewFolder" Command="{x:Bind Context.AddFolderCommand}" Background="{ThemeResource SystemControlBackgroundBaseLowRevealBackgroundBrush}" 
-                    HorizontalAlignment="Left" Margin="8,4" Style="{ThemeResource ButtonRevealStyle}" Content="Add a new folder to scan"/>
+                    HorizontalAlignment="Left" Margin="0,8" Style="{ThemeResource ButtonRevealStyle}" Content="Add a new folder to scan"/>
             <ListView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                      SelectionMode="None" IsItemClickEnabled="True" ItemClick="ListView_ItemClick" Margin="8,4" 
+                      SelectionMode="None" IsItemClickEnabled="True" ItemClick="ListView_ItemClick" Margin="0,8" 
                       ItemContainerStyle="{ThemeResource GeneralListViewItemStyle}" ItemsSource="{x:Bind Context.Folders}">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="vm:FolderViewModel">

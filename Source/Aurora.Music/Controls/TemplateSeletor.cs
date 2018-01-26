@@ -1,14 +1,11 @@
-﻿using Aurora.Music.Core.Models;
+﻿// Copyright (c) Aurora Studio. All rights reserved.
+//
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+using Aurora.Music.Core.Models;
 using Aurora.Music.ViewModels;
 using Aurora.Shared.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
 
 namespace Aurora.Music.Controls
 {

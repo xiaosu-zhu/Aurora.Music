@@ -1,4 +1,9 @@
-﻿<Page
+﻿<!--
+Copyright (c) Aurora Studio. All rights reserved.
+
+Licensed under the MIT License. See LICENSE in the project root for license information.
+-->
+<Page
     x:Class="Aurora.Music.Pages.HomePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -688,9 +693,9 @@
                         <Setter Target="LuckyList.ItemTemplate" Value="{StaticResource NarrowListItem}"/>
                         <Setter Target="RandomPanel.Margin" Value="16,16,16,8"/>
                         <Setter Target="FavoritPanel.Margin" Value="16,16,16,8"/>
-                        <Setter Target="RandomHeader.Width" Value="20"/>
-                        <Setter Target="FavHeader.MinWidth" Value="20"/>
-                        <Setter Target="FavHeader.Padding" Value="20,0,0,0"/>
+                        <Setter Target="RandomHeader.Width" Value="16"/>
+                        <Setter Target="FavHeader.MinWidth" Value="16"/>
+                        <Setter Target="FavHeader.Padding" Value="16,0,0,0"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Medium">
@@ -704,9 +709,9 @@
                         <Setter Target="LuckyList.ItemTemplate" Value="{StaticResource NormalListItem}"/>
                         <Setter Target="RandomPanel.Margin" Value="48,16,16,8"/>
                         <Setter Target="FavoritPanel.Margin" Value="48,16,16,8"/>
-                        <Setter Target="RandomHeader.Width" Value="52"/>
-                        <Setter Target="FavHeader.MinWidth" Value="20"/>
-                        <Setter Target="FavHeader.Padding" Value="52,0,0,0"/>
+                        <Setter Target="RandomHeader.Width" Value="48"/>
+                        <Setter Target="FavHeader.MinWidth" Value="48"/>
+                        <Setter Target="FavHeader.Padding" Value="48,0,0,0"/>
                     </VisualState.Setters>
                 </VisualState>
 
@@ -721,9 +726,9 @@
                         <Setter Target="LuckyList.ItemTemplate" Value="{StaticResource NormalListItem}"/>
                         <Setter Target="RandomPanel.Margin" Value="60,16,16,8"/>
                         <Setter Target="FavoritPanel.Margin" Value="60,16,16,8"/>
-                        <Setter Target="RandomHeader.Width" Value="64"/>
-                        <Setter Target="FavHeader.MinWidth" Value="20"/>
-                        <Setter Target="FavHeader.Padding" Value="64,0,0,0"/>
+                        <Setter Target="RandomHeader.Width" Value="60"/>
+                        <Setter Target="FavHeader.MinWidth" Value="60"/>
+                        <Setter Target="FavHeader.Padding" Value="60,0,0,0"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -794,7 +799,7 @@
                 </GridView>
                 <StackPanel x:Name="FavoritPanel" Orientation="Horizontal" Margin="60,16,16,8">
                     <TextBlock x:Uid="Favorite" Text="Your Favorite" x:Name="FavoritTitle" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold"/>
-                    <Button x:Uid="PlayAllBtn" Visibility="{x:Bind Context.CollapseIfZero(Context.FavList.Count),Mode=OneWay,FallbackValue=Collapsed}" Style="{ThemeResource TextBlockButtonStyle}" Command="{x:Bind Context.PlayFav}" FontSize="15" Content="Play All" Margin="4,4,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Button x:Uid="PlayAllBtn" Visibility="{x:Bind Context.CollapseIfZero(Context.FavList.Count),Mode=OneWay,FallbackValue=Collapsed}" Style="{ThemeResource TextBlockButtonStyle}" Command="{x:Bind Context.PlayFav}" FontSize="15" Content="Play All" Margin="8,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </StackPanel>
                 <ListView Margin="0,8" IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" ItemClick="FavList_ItemClick"
                           ScrollViewer.IsHorizontalScrollChainingEnabled="True" ScrollViewer.IsHorizontalRailEnabled="True"
@@ -803,18 +808,18 @@
                       ItemContainerStyle="{ThemeResource HomeListViewItemStyle}" ItemTemplate="{StaticResource NormalListItem}"
                       Style="{StaticResource HorizontalListView}" x:Name="FavList">
                     <ListView.Header>
-                        <Grid x:Name="FavHeader" VerticalAlignment="Stretch" Padding="64,0,0,0" MinWidth="64">
+                        <Grid x:Name="FavHeader" VerticalAlignment="Stretch" Padding="60,0,0,0" MinWidth="60">
                             <TextBlock x:Uid="StatisticsUnAvaliabe" Visibility="{x:Bind Context.CollapseIfNotZero(Context.FavList.Count),Mode=OneWay,FallbackValue=Collapsed}" Text="No enough statistics" Style="{ThemeResource SubtitleTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Grid>
                     </ListView.Header>
                     <ListView.Footer>
-                        <Grid VerticalAlignment="Stretch" Width="64"/>
+                        <Grid VerticalAlignment="Stretch" Width="60"/>
                     </ListView.Footer>
                 </ListView>
                 <StackPanel x:Name="RandomPanel" Orientation="Horizontal" Margin="60,16,16,8">
                     <TextBlock x:Uid="Lucky" Text="Feeling Lucky" x:Name="RandomTitle" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold"/>
-                    <Button x:Uid="PlayAllBtn" Visibility="{x:Bind Context.CollapseIfZero(Context.RandomList.Count),Mode=OneWay,FallbackValue=Collapsed}" Style="{ThemeResource TextBlockButtonStyle}" Command="{x:Bind Context.PlayRandom}" FontSize="15" Content="Play All" Margin="4,4,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    <Button Visibility="{x:Bind Context.CollapseIfZero(Context.RandomList.Count),Mode=OneWay,FallbackValue=Collapsed}" Style="{ThemeResource TextBlockButtonStyle}" Command="{x:Bind Context.ReRandom}" HorizontalAlignment="Center" Margin="0,4,4,0" VerticalAlignment="Center">
+                    <Button x:Uid="PlayAllBtn" Visibility="{x:Bind Context.CollapseIfZero(Context.RandomList.Count),Mode=OneWay,FallbackValue=Collapsed}" Style="{ThemeResource TextBlockButtonStyle}" Command="{x:Bind Context.PlayRandom}" FontSize="15" Content="Play All" Margin="8,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Button Visibility="{x:Bind Context.CollapseIfZero(Context.RandomList.Count),Mode=OneWay,FallbackValue=Collapsed}" Style="{ThemeResource TextBlockButtonStyle}" Command="{x:Bind Context.ReRandom}" HorizontalAlignment="Center" Margin="8,0" VerticalAlignment="Center">
                         <Button.Content>
                             <FontIcon FontSize="15" FontFamily="Segoe MDL2 Assets" Glyph="&#xE117;" />
                         </Button.Content>
@@ -829,10 +834,10 @@
                           Style="{StaticResource HorizontalListView}" 
                           x:Name="LuckyList">
                     <ListView.Header>
-                        <Grid x:Name="RandomHeader" VerticalAlignment="Stretch" Width="64"/>
+                        <Grid x:Name="RandomHeader" VerticalAlignment="Stretch" Width="60"/>
                     </ListView.Header>
                     <ListView.Footer>
-                        <Grid VerticalAlignment="Stretch" Width="64"/>
+                        <Grid VerticalAlignment="Stretch" Width="60"/>
                     </ListView.Footer>
                 </ListView>
             </StackPanel>

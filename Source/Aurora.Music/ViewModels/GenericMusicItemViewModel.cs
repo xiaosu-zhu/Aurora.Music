@@ -1,4 +1,7 @@
-﻿using Aurora.Shared.Extensions;
+﻿// Copyright (c) Aurora Studio. All rights reserved.
+//
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+using Aurora.Shared.Extensions;
 using Aurora.Shared.MVVM;
 using System;
 using System.Collections.Generic;
@@ -154,6 +157,10 @@ namespace Aurora.Music.ViewModels
 
         internal virtual async Task<IList<Song>> GetSongsAsync()
         {
+            if (IDs == null)
+            {
+                return new List<Song>();
+            }
             if (IsOnline)
             {
                 if (MainPageViewModel.Current.OnlineMusicExtension == null)

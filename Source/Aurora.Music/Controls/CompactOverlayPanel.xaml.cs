@@ -1,4 +1,7 @@
-﻿using Aurora.Music.ViewModels;
+﻿// Copyright (c) Aurora Studio. All rights reserved.
+//
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+using Aurora.Music.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IO;

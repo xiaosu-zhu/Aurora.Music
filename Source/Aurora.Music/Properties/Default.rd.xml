@@ -1,4 +1,10 @@
 <!--
+Copyright (c) Aurora Studio. All rights reserved.
+
+Licensed under the MIT License. See LICENSE in the project root for license information.
+-->
+
+<!--
     此文件包含 .NET Native 使用的运行时指令。此处的默认值适合大多数
     开发人员。但可通过修改这些参数来修改 .NET Native
     优化程序的行为。

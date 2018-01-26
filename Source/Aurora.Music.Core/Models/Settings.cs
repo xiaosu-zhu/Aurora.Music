@@ -1,4 +1,7 @@
-﻿using Aurora.Shared.Extensions;
+﻿// Copyright (c) Aurora Studio. All rights reserved.
+//
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
 using System;
 using Windows.UI.Xaml;
@@ -96,6 +99,10 @@ namespace Aurora.Music.Core.Models
             }
         }
 
+        public bool MetaDataEnabled { get; set; } = true;
+        public bool DataPlayEnabled { get; set; } = true;
+        public bool DataDownloadEnabled { get; set; } = true;
+
         public bool VerifyDoubanLogin()
         {
             var b = DoubanUserID.IsNullorEmpty() || DoubanToken.IsNullorEmpty() || DoubanLogin.AddSeconds(DoubanExpireTime) < DateTime.Now.AddDays(1);
@@ -134,8 +141,8 @@ namespace Aurora.Music.Core.Models
             lock (lockable)
             {
                 LocalSettingsHelper.GetContainer(SETTINGS_CONTAINER).WriteGroupSettings(this);
+                SettingsChanged?.Invoke(null, EventArgs.Empty);
             }
-            SettingsChanged?.Invoke(null, EventArgs.Empty);
         }
 
         public uint GetPreferredBitRate()

@@ -1,14 +1,6 @@
-﻿// AForge Math Library
-// AForge.NET framework
-// http://www.aforgenet.com/framework/
+﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
-// Copyright � Andrew Kirillov, 2005-2009
-// andrew.kirillov@aforgenet.com
-//
-// FFT idea from Exocortex.DSP library
-// http://www.exocortex.org/dsp/
-//
-
+// Licensed under the MIT License. See LICENSE in the project root for license information.
 using Aurora.Shared.Helpers;
 using System;
 namespace AForge.Math

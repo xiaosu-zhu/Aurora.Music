@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
+Copyright (c) Aurora Studio. All rights reserved.
+
+Licensed under the MIT License. See LICENSE in the project root for license information.
+-->
+
+<!--
     此文件包含运行时指令，应用程序通过反射和其他动态代码模式
     所访问的类型的规范。运行时指令用于控制
     .NET Native 优化器，并确保它不会删除你的库所访问的代码。如果你的

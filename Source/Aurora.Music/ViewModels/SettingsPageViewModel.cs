@@ -1,4 +1,7 @@
-﻿using Aurora.Music.Controls;
+﻿// Copyright (c) Aurora Studio. All rights reserved.
+//
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+using Aurora.Music.Controls;
 using Aurora.Music.Core;
 using Aurora.Music.Core.Models;
 using Aurora.Music.Core.Storage;
@@ -143,6 +146,40 @@ namespace Aurora.Music.ViewModels
             });
         }
 
+        private bool metaDataEnabled = Settings.Current.MetaDataEnabled;
+        public bool MetaDataEnabled
+        {
+            get { return metaDataEnabled; }
+            set
+            {
+                Settings.Current.MetaDataEnabled = value;
+                Settings.Current.Save();
+                SetProperty(ref metaDataEnabled, value);
+            }
+        }
+        private bool dataPlayEnabled = Settings.Current.DataPlayEnabled;
+        public bool DataPlayEnabled
+        {
+            get { return dataPlayEnabled; }
+            set
+            {
+                Settings.Current.DataPlayEnabled = value;
+                Settings.Current.Save();
+                SetProperty(ref dataPlayEnabled, value);
+            }
+        }
+        private bool dataDownloadEnabled = Settings.Current.DataDownloadEnabled;
+        public bool DataDownloadEnabled
+        {
+            get { return dataDownloadEnabled; }
+            set
+            {
+                Settings.Current.DataDownloadEnabled = value;
+                Settings.Current.Save();
+                SetProperty(ref dataDownloadEnabled, value);
+            }
+        }
+
         private string downloadPathText;
         public string DownloadPathText
         {
@@ -192,14 +229,14 @@ namespace Aurora.Music.ViewModels
             });
         }
 
-        private bool onlinePurchase;
+        private bool onlinePurchase = Settings.Current.OnlinePurchase;
         public bool OnlinePurchase
         {
             get { return onlinePurchase; }
             set { SetProperty(ref onlinePurchase, value); }
         }
 
-        private double playerVolume;
+        private double playerVolume=Settings.Current.PlayerVolume;
         public double PlayerVolume
         {
             get { return playerVolume; }
@@ -246,7 +283,7 @@ namespace Aurora.Music.ViewModels
             }
         }
 
-        private bool debugModeEnabled;
+        private bool debugModeEnabled = Settings.Current.DebugModeEnabled;
         public bool DebugModeEnabled
         {
             get { return debugModeEnabled; }
@@ -374,21 +411,21 @@ namespace Aurora.Music.ViewModels
         public ObservableCollection<ExtensionViewModel> OnlineExts { get; set; } = new ObservableCollection<ExtensionViewModel>();
         public ObservableCollection<ExtensionViewModel> MetaExts { get; set; } = new ObservableCollection<ExtensionViewModel>();
 
-        private bool equalizerEnabled;
+        private bool equalizerEnabled = Settings.Current.AudioGraphEffects.HasFlag(Effects.Equalizer);
         public bool EqualizerEnabled
         {
             get { return equalizerEnabled; }
             set { SetProperty(ref equalizerEnabled, value); }
         }
 
-        private bool threshold;
+        private bool threshold = Settings.Current.AudioGraphEffects.HasFlag(Effects.Limiter);
         public bool ThresholdEnabled
         {
             get { return threshold; }
             set { SetProperty(ref threshold, value); }
         }
 
-        private bool reverb;
+        private bool reverb = Settings.Current.AudioGraphEffects.HasFlag(Effects.Reverb);
         public bool ReverbEnabled
         {
             get { return reverb; }
@@ -397,12 +434,6 @@ namespace Aurora.Music.ViewModels
 
         public SettingsPageViewModel()
         {
-            PlayerVolume = Settings.Current.PlayerVolume;
-            OnlinePurchase = Settings.Current.OnlinePurchase;
-            EqualizerEnabled = Settings.Current.AudioGraphEffects.HasFlag(Effects.Equalizer);
-            ThresholdEnabled = Settings.Current.AudioGraphEffects.HasFlag(Effects.Limiter);
-            ReverbEnabled = Settings.Current.AudioGraphEffects.HasFlag(Effects.Reverb);
-            DebugModeEnabled = Settings.Current.DebugModeEnabled;
         }
 
         public ObservableCollection<DeviceInformationViewModel> DevicList = new ObservableCollection<DeviceInformationViewModel>();

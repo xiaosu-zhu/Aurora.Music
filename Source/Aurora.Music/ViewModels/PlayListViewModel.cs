@@ -1,4 +1,7 @@
-﻿using Aurora.Music.Core;
+﻿// Copyright (c) Aurora Studio. All rights reserved.
+//
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+using Aurora.Music.Core;
 using Aurora.Music.Core.Models;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.MVVM;

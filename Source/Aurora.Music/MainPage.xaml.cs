@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Aurora Studio. All rights reserved.
+//
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+using System;
 using Aurora.Music.Pages;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml;
