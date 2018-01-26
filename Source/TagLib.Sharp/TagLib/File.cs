@@ -1265,6 +1265,12 @@ namespace TagLib
             return Create(path, null, ReadStyle.Average);
         }
 
+        public static File Create(StorageFile file)
+        {
+            return Create(new LocalFileAbstraction(file),
+                null, ReadStyle.Average);
+        }
+
         /// <summary>
         ///    Creates a new instance of a <see cref="File" /> subclass
         ///    for a specified file abstraction, guessing the mime-type
@@ -1556,6 +1562,7 @@ namespace TagLib
             ///    Contains the name used to open the file.
             /// </summary>
             private string name;
+            private StorageFile file;
 
             /// <summary>
             ///    Constructs and initializes a new instance of
@@ -1576,6 +1583,12 @@ namespace TagLib
                     throw new ArgumentNullException("path");
 
                 name = path;
+            }
+
+            public LocalFileAbstraction(StorageFile file)
+            {
+                this.file = file ?? throw new ArgumentNullException("file");
+                name = file.Path;
             }
 
             /// <summary>
@@ -1607,7 +1620,8 @@ namespace TagLib
                 {
                     return AsyncHelper.RunSync(async () =>
                     {
-                        var file = await StorageFile.GetFileFromPathAsync(Name);
+                        if (file == null && Name != null)
+                            file = await StorageFile.GetFileFromPathAsync(Name);
                         var stream = await file.OpenReadAsync();
                         return stream.AsStreamForRead();
                     });
@@ -1634,7 +1648,8 @@ namespace TagLib
                 {
                     return AsyncHelper.RunSync(async () =>
                     {
-                        var file = await StorageFile.GetFileFromPathAsync(Name);
+                        if (file == null && Name != null)
+                            file = await StorageFile.GetFileFromPathAsync(Name);
                         var stream = await file.OpenAsync(FileAccessMode.ReadWrite);
                         return stream.AsStream();
                     });

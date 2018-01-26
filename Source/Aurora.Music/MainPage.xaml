@@ -1264,6 +1264,16 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                            Foreground="{x:Bind Context.LeftTopColor, Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Top" 
                            FontWeight="Bold" Text="{x:Bind Context.Title,Mode=OneWay}"/>
 
+                <Grid Visibility="Collapsed" Opacity="0" x:Name="ModalOverlay" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource SystemControlAltLowBrush}">
+                        <interactivity:Interaction.Behaviors>
+                            <behaviors:Blur x:Name="BlurBehavior" Value="0" Delay="0" AutomaticallyStart="True"/>
+                        </interactivity:Interaction.Behaviors>
+                    </Grid>
+                    <ProgressRing Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" x:Name="ModalRing" HorizontalAlignment="Center" VerticalAlignment="Center" Width="48" Height="48" IsActive="False" IsEnabled="False"/>
+                    <TextBlock x:Uid="Waiting"  Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" Text="Waiting" x:Name="ModalText" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,80,0,0"/>
+                </Grid>
+                
                 <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top" Background="Transparent" 
                       Height="32" x:Name="TitleBar" Loaded="TitleBar_Loaded">
                     <TextBlock x:Uid="AppName"  Style="{ThemeResource CaptionTextBlockStyle}" Visibility="{x:Bind Context.BooltoVisibility(Context.NeedShowTitle), Mode=OneWay}"
@@ -1284,17 +1294,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE11A;" FontSize="13"/>
                     </Button>
                 </Grid>
-
-                <Grid Visibility="Collapsed" Opacity="0" x:Name="ModalOverlay" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource SystemControlAltLowBrush}">
-                        <interactivity:Interaction.Behaviors>
-                            <behaviors:Blur x:Name="BlurBehavior" Value="0" Delay="0" AutomaticallyStart="True"/>
-                        </interactivity:Interaction.Behaviors>
-                    </Grid>
-                    <ProgressRing Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" x:Name="ModalRing" HorizontalAlignment="Center" VerticalAlignment="Center" Width="48" Height="48" IsActive="False" IsEnabled="False"/>
-                    <TextBlock x:Uid="Waiting"  Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" Text="Waiting" x:Name="ModalText" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,80,0,0"/>
-                </Grid>
-
+                
                 <toolkit:InAppNotification x:Name="InAppNotify" Style="{ThemeResource ToastNotificationStyle}" Content=""
                                     AnimationDuration="00:00:00.72" VerticalOffset="16" HorizontalOffset="0"/>
 

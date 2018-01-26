@@ -1,39 +1,35 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
-using System;
-using Aurora.Music.Pages;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml;
-using Aurora.Music.ViewModels;
-using Aurora.Shared.Controls;
-using Windows.UI.Input;
-using Windows.UI.Xaml.Media.Animation;
-using Aurora.Music.Core;
-using Windows.UI.Xaml.Media;
-using Aurora.Shared;
-using Windows.UI.ViewManagement;
-using Windows.ApplicationModel.Core;
-using Windows.System.Threading;
-using Aurora.Shared.Extensions;
 using Aurora.Music.Controls;
-using Windows.UI.Xaml.Media.Imaging;
-using Windows.Storage;
-using System.Collections.Generic;
+using Aurora.Music.Core;
 using Aurora.Music.Core.Models;
-using System.Threading.Tasks;
-using Windows.UI.Xaml.Navigation;
-using Windows.UI.Core;
-using Windows.UI;
-using Windows.Foundation;
-using Windows.UI.Xaml.Controls.Primitives;
-using System.Linq;
-using Windows.ApplicationModel.DataTransfer;
-using Aurora.Music.Core.Extension;
-using Windows.System;
-using Aurora.Shared.Helpers;
 using Aurora.Music.Core.Storage;
-using System.Diagnostics;
+using Aurora.Music.Pages;
+using Aurora.Music.ViewModels;
+using Aurora.Shared;
+using Aurora.Shared.Controls;
+using Aurora.Shared.Extensions;
+using Aurora.Shared.Helpers;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.Foundation;
+using Windows.Storage;
+using Windows.System;
+using Windows.System.Threading;
+using Windows.UI;
+using Windows.UI.Core;
+using Windows.UI.ViewManagement;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
+using Windows.UI.Xaml.Navigation;
 
 // https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
 
@@ -100,7 +96,7 @@ namespace Aurora.Music
 
         private void DataTransferManager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
         {
-
+            args.Request.FailWithDisplayText("Not Implement");
         }
 
         public async void ProgressUpdate(string title, string content)
@@ -613,17 +609,16 @@ namespace Aurora.Music
 
         private async void Root_DragOver(object sender, DragEventArgs e)
         {
-            e.Handled = true;
-
-            e.DragUIOverride.SetContentFromBitmapImage(new BitmapImage(new Uri(Consts.BlackPlaceholder)));
-
+            var d = e.GetDeferral();
             var p = await e.DataView.GetStorageItemsAsync();
             if (p.Count > 0 && IsSongsFile(p))
             {
+                e.Handled = true;
                 e.DragUIOverride.IsGlyphVisible = true;
                 e.DragUIOverride.Caption = "Drop to Play";
                 e.DragUIOverride.IsCaptionVisible = true;
                 e.DragUIOverride.IsContentVisible = true;
+                e.AcceptedOperation = DataPackageOperation.None | DataPackageOperation.Copy | DataPackageOperation.Link | DataPackageOperation.Move;
             }
             else
             {
@@ -632,6 +627,7 @@ namespace Aurora.Music
                 e.DragUIOverride.IsCaptionVisible = true;
                 e.DragUIOverride.IsContentVisible = false;
             }
+            d.Complete();
         }
 
         private bool IsSongsFile(IReadOnlyList<IStorageItem> p)
@@ -658,9 +654,26 @@ namespace Aurora.Music
 
         private async void Root_Drop(object sender, DragEventArgs e)
         {
-            e.Handled = true;
+            var d = e.GetDeferral();
             var p = await e.DataView.GetStorageItemsAsync();
-            await FileActivation(p);
+            if (p.Count > 0 && IsSongsFile(p))
+            {
+                e.Handled = true;
+                e.DragUIOverride.IsGlyphVisible = true;
+                e.DragUIOverride.Caption = "Drop to Play";
+                e.DragUIOverride.IsCaptionVisible = true;
+                e.DragUIOverride.IsContentVisible = true;
+                e.AcceptedOperation = DataPackageOperation.None | DataPackageOperation.Copy | DataPackageOperation.Link | DataPackageOperation.Move;
+                await FileActivation(p);
+            }
+            else
+            {
+                e.DragUIOverride.IsGlyphVisible = true;
+                e.DragUIOverride.Caption = "Not Support";
+                e.DragUIOverride.IsCaptionVisible = true;
+                e.DragUIOverride.IsContentVisible = false;
+            }
+            d.Complete();
         }
 
         private async Task FileActivation(IReadOnlyList<IStorageItem> p)
@@ -683,12 +696,10 @@ namespace Aurora.Music
                 return;
             }
 
-            var songs = await Context.ComingNewSongsAsync(list);
-
-            await Context.InstantPlay(songs);
+            await Context.InstantPlay(list);
 
 
-            if (songs.Count > 0)
+            if (list.Count > 0)
             {
                 ShowModalUI(false);
                 if (Settings.Current.RememberFileActivatedAction)
@@ -710,14 +721,14 @@ namespace Aurora.Music
                 }
                 else
                 {
-                    ShowDropSongsUI(songs, list);
+                    ShowDropSongsUI(list);
                 }
             }
         }
 
-        private async void ShowDropSongsUI(IList<Song> songs, List<StorageFile> files)
+        private async void ShowDropSongsUI(List<StorageFile> files)
         {
-            var dialog = new DropSongsDialog(songs);
+            var dialog = new DropSongsDialog(files);
             var result = await dialog.ShowAsync();
             switch (result)
             {

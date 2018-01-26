@@ -669,5 +669,10 @@ namespace Aurora.Music.PlaybackEngine
         {
             throw new NotImplementedException();
         }
+
+        public Task NewPlayList(IList<StorageFile> list)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

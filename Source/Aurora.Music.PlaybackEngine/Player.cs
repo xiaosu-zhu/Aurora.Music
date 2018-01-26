@@ -268,7 +268,7 @@ namespace Aurora.Music.PlaybackEngine
                     {
                         StorageFile file = await StorageFile.GetFileFromPathAsync(item.FilePath);
 
-                        builtin = await GetBuiltInArtworkAsync(item.ID.ToString(), item.FilePath);
+                        builtin = await GetBuiltInArtworkAsync(item.ID.ToString(), file);
 
                         mediaSource = MediaSource.CreateFromStorageFile(file);
                     }
@@ -324,7 +324,7 @@ namespace Aurora.Music.PlaybackEngine
                     /// **Local files can only create from <see cref="StorageFile"/>**
                     StorageFile file = await StorageFile.GetFileFromPathAsync(item.FilePath);
 
-                    builtin = await GetBuiltInArtworkAsync(item.ID.ToString(), item.FilePath);
+                    builtin = await GetBuiltInArtworkAsync(item.ID.ToString(), file);
 
                     mediaSource = MediaSource.CreateFromStorageFile(file);
                 }
@@ -353,6 +353,42 @@ namespace Aurora.Music.PlaybackEngine
 
             PlaybackSession_PlaybackStateChanged(null, null);
         }
+        public async Task NewPlayList(IList<StorageFile> items)
+        {
+            if (items.IsNullorEmpty())
+            {
+                throw new ArgumentNullException("Items empty");
+            }
+
+            newComing = true;
+            _addPlayListTask?.Cancel();
+
+            mediaPlayer.Pause();
+            mediaPlaybackList.Items.Clear();
+
+            currentList.Clear();
+
+            foreach (var file in items)
+            {
+                MediaSource mediaSource;
+
+                var item = await FileReader.ReadFileAsync(file);
+
+                mediaSource = MediaSource.CreateFromStorageFile(file);
+                mediaSource.CustomProperties[Consts.SONG] = item;
+
+                var mediaPlaybackItem = new MediaPlaybackItem(mediaSource);
+                var props = mediaPlaybackItem.GetDisplayProperties();
+
+                await WriteProperties(item, props, item.PicturePath);
+
+                mediaPlaybackItem.ApplyDisplayProperties(props);
+                mediaPlaybackList.Items.Add(mediaPlaybackItem);
+                currentList.Add(item);
+            }
+            mediaPlaybackList.StartingItem = mediaPlaybackList.Items.First();
+            mediaPlayer.Source = mediaPlaybackList;
+        }
 
         private async Task AddtoPlayListFirstAsync(IEnumerable<Song> items)
         {
@@ -375,7 +411,7 @@ namespace Aurora.Music.PlaybackEngine
                             /// **Local files can only create from <see cref="StorageFile"/>**
                             StorageFile file = await StorageFile.GetFileFromPathAsync(item.FilePath);
 
-                            builtin = await GetBuiltInArtworkAsync(item.ID.ToString(), item.FilePath);
+                            builtin = await GetBuiltInArtworkAsync(item.ID.ToString(), file);
 
                             mediaSource = MediaSource.CreateFromStorageFile(file);
                         }
@@ -429,7 +465,7 @@ namespace Aurora.Music.PlaybackEngine
                             /// **Local files can only create from <see cref="StorageFile"/>**
                             StorageFile file = await StorageFile.GetFileFromPathAsync(item.FilePath);
 
-                            builtin = await GetBuiltInArtworkAsync(item.ID.ToString(), item.FilePath);
+                            builtin = await GetBuiltInArtworkAsync(item.ID.ToString(), file);
 
                             mediaSource = MediaSource.CreateFromStorageFile(file);
                         }
@@ -503,7 +539,7 @@ namespace Aurora.Music.PlaybackEngine
             }
         }
 
-        private async Task<string> GetBuiltInArtworkAsync(string id, string filePath)
+        private async Task<string> GetBuiltInArtworkAsync(string id, StorageFile file)
         {
             var options = new Windows.Storage.Search.QueryOptions(Windows.Storage.Search.CommonFileQuery.DefaultQuery, new string[] { ".jpg", ".png", ".bmp" })
             {
@@ -518,9 +554,8 @@ namespace Aurora.Music.PlaybackEngine
             }
             else
             {
-                using (var tag = TagLib.File.Create(filePath))
+                using (var tag = TagLib.File.Create(file))
                 {
-
                     var pictures = tag.Tag.Pictures;
                     if (!pictures.IsNullorEmpty())
                     {
@@ -752,7 +787,7 @@ namespace Aurora.Music.PlaybackEngine
                     {
                         StorageFile file = await StorageFile.GetFileFromPathAsync(item.FilePath);
 
-                        builtin = await GetBuiltInArtworkAsync(item.ID.ToString(), item.FilePath);
+                        builtin = await GetBuiltInArtworkAsync(item.ID.ToString(), file);
 
                         mediaSource = MediaSource.CreateFromStorageFile(file);
                     }
@@ -845,7 +880,7 @@ namespace Aurora.Music.PlaybackEngine
                     {
                         StorageFile file = await StorageFile.GetFileFromPathAsync(item.FilePath);
 
-                        builtin = await GetBuiltInArtworkAsync(item.ID.ToString(), item.FilePath);
+                        builtin = await GetBuiltInArtworkAsync(item.ID.ToString(), file);
 
                         mediaSource = MediaSource.CreateFromStorageFile(file);
                     }
@@ -925,7 +960,7 @@ namespace Aurora.Music.PlaybackEngine
                             /// **Local files can only create from <see cref="StorageFile"/>**
                             StorageFile file = await StorageFile.GetFileFromPathAsync(item.FilePath);
 
-                            builtin = await GetBuiltInArtworkAsync(item.ID.ToString(), item.FilePath);
+                            builtin = await GetBuiltInArtworkAsync(item.ID.ToString(), file);
 
                             mediaSource = MediaSource.CreateFromStorageFile(file);
                         }

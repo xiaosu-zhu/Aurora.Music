@@ -255,5 +255,15 @@ namespace Aurora.Music.Pages
                 MainPageViewModel.Current.NeedShowTitle = true;
             }
         }
+
+        private void Grid_DragOver(object sender, DragEventArgs e)
+        {
+
+        }
+
+        private void Grid_Drop(object sender, DragEventArgs e)
+        {
+
+        }
     }
 }

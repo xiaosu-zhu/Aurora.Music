@@ -354,5 +354,11 @@ namespace Aurora.Music.Pages
         {
             MainPage.Current.SongFlyout.Hide();
         }
+
+        private void AlbumList_DragStarting(UIElement sender, DragStartingEventArgs args)
+        {
+            var d = args.GetDeferral();
+            args.AllowedOperations = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Link;
+        }
     }
 }

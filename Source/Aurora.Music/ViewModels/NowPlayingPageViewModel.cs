@@ -482,8 +482,9 @@ namespace Aurora.Music.ViewModels
         }
 
         // Share data can't wait
-        private void DataTransferManager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
+        private async void DataTransferManager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
         {
+            var d = args.Request.GetDeferral();
             var request = args.Request;
             try
             {
@@ -506,7 +507,7 @@ namespace Aurora.Music.ViewModels
                 {
                     var files = new List<StorageFile>
                     {
-                        AsyncHelper.RunSync(async ()=> await StorageFile.GetFileFromPathAsync(song.Song.FilePath))
+                        await StorageFile.GetFileFromPathAsync(song.Song.FilePath)
                     };
 
                     request.Data.SetStorageItems(files);
@@ -516,7 +517,7 @@ namespace Aurora.Music.ViewModels
                     }
                     else
                     {
-                        request.Data.Properties.Thumbnail = RandomAccessStreamReference.CreateFromFile(AsyncHelper.RunSync(async () => await StorageFile.GetFileFromPathAsync(Song.Song.PicturePath)));
+                        request.Data.Properties.Thumbnail = RandomAccessStreamReference.CreateFromFile(await StorageFile.GetFileFromPathAsync(Song.Song.PicturePath));
                     }
 
                     request.Data.Properties.Title = $"Share \"{Song.Title}\"";
@@ -528,7 +529,7 @@ namespace Aurora.Music.ViewModels
             {
                 request.FailWithDisplayText(e.Message);
             }
-
+            d.Complete();
         }
 
         private async void Player_DownloadProgressChanged(object sender, DownloadProgressChangedArgs e)

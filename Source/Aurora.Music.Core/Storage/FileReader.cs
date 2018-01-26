@@ -212,7 +212,7 @@ namespace Aurora.Music.Core.Storage
 
             foreach (var file in files)
             {
-                if (!file.IsAvailable)
+                if (!file.IsAvailable || file.Attributes.HasFlag(FileAttributes.LocallyIncomplete))
                 {
                     ProgressUpdated?.Invoke(this, new ProgressReport() { Description = $"{i} of {total} files readed", Current = i, Total = total });
 
@@ -341,7 +341,7 @@ namespace Aurora.Music.Core.Storage
             var total = files.Count;
             foreach (var file in files)
             {
-                using (var tagTemp = File.Create(file.Path))
+                using (var tagTemp = File.Create(file))
                 {
                     tempList.Add(await Song.Create(tagTemp.Tag, file.Path, await file.Properties.GetMusicPropertiesAsync()));
                 }
@@ -353,6 +353,14 @@ namespace Aurora.Music.Core.Storage
                 list.AddRange(item);
             }
             return list;
+        }
+
+        public static async Task<Song> ReadFileAsync(StorageFile file)
+        {
+            using (var tagTemp = File.Create(file))
+            {
+                return await Song.Create(tagTemp.Tag, file.Path, await file.Properties.GetMusicPropertiesAsync());
+            }
         }
     }
 

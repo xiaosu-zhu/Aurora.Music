@@ -2,22 +2,11 @@
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using Aurora.Music.Core.Models;
-using Aurora.Music.ViewModels;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“内容对话框”项模板
 
@@ -25,19 +14,19 @@ namespace Aurora.Music.Controls
 {
     public sealed partial class DropSongsDialog : ContentDialog
     {
-        internal ObservableCollection<SongViewModel> DropList { get; set; } = new ObservableCollection<SongViewModel>();
+        internal ObservableCollection<StorageFile> DropList { get; set; } = new ObservableCollection<StorageFile>();
 
         public DropSongsDialog()
         {
             this.InitializeComponent();
         }
 
-        public DropSongsDialog(IList<Song> songs)
+        public DropSongsDialog(IList<StorageFile> files)
         {
             this.InitializeComponent();
-            foreach (var item in songs)
+            foreach (var item in files)
             {
-                DropList.Add(new SongViewModel(item));
+                DropList.Add(item);
             }
         }
 

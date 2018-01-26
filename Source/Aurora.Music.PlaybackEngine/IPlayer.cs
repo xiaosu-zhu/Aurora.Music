@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Media.Playback;
+using Windows.Storage;
 
 namespace Aurora.Music.PlaybackEngine
 {
@@ -17,6 +18,7 @@ namespace Aurora.Music.PlaybackEngine
         void Next();
         void Previous();
         Task NewPlayList(IList<Song> songs, int startIndex = 0);
+        Task NewPlayList(IList<StorageFile> list);
         Task AddtoNextPlay(IList<Song> song);
         void ChangeVolume(double vol);
         void ChangeAudioEndPoint(string outputDeviceID);

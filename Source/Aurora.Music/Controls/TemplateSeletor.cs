@@ -73,6 +73,8 @@ namespace Aurora.Music.Controls
         public DataTemplate EvenTemplate { get; set; }
         public DataTemplate OddTemplate { get; set; }
 
+        private static ulong i = 0;
+
         protected override DataTemplate SelectTemplateCore(object item)
         {
             if (item is SongViewModel s)
@@ -86,7 +88,14 @@ namespace Aurora.Music.Controls
                     return OddTemplate;
                 }
             }
-            return EvenTemplate;
+            if (i++ % 2 == 0)
+            {
+                return EvenTemplate;
+            }
+            else
+            {
+                return OddTemplate;
+            }
         }
 
         protected override DataTemplate SelectTemplateCore(object item, DependencyObject container)

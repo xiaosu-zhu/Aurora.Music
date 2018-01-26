@@ -11,6 +11,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:Aurora.Music.ViewModels"
+    xmlns:data="using:Windows.Storage"
     mc:Ignorable="d"
     x:Uid="DropSongDialog"
     Title="We find something..."
@@ -28,37 +29,33 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <ResourceDictionary x:Key="Light" Source="../Themes/Light.xaml"/>
                 <ResourceDictionary x:Key="Dark" Source="../Themes/Dark.xaml"/>
             </ResourceDictionary.ThemeDictionaries>
-            <DataTemplate x:Key="OddTemplate" x:DataType="vm:SongViewModel">
+            <DataTemplate x:Key="OddTemplate" x:DataType="data:StorageFile">
                 <Grid Height="48" Background="{ThemeResource SongListOddBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Text="{x:Bind Track}" Margin="8,0" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Style="{ThemeResource BodyTextBlockStyle}"/>
-                    <TextBlock MaxLines="1" Grid.Column="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{x:Bind Title}" 
+                    <TextBlock MaxLines="1" Grid.Column="0" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{x:Bind Name}" ToolTipService.ToolTip="{x:Bind Name}" 
                                Style="{ThemeResource BodyTextBlockStyle}" Margin="8,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    <TextBlock MaxLines="1" Grid.Column="3" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" 
-                               HorizontalAlignment="Right" VerticalAlignment="Center"
-                               Text="{x:Bind FormatDuration(Duration)}" Style="{ThemeResource BodyTextBlockStyle}" 
+                    <TextBlock MaxLines="1" Grid.Column="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" 
+                               HorizontalAlignment="Right" VerticalAlignment="Center" ToolTipService.ToolTip="{x:Bind Path}" 
+                               Text="{x:Bind Path}" Style="{ThemeResource BodyTextBlockStyle}" 
                                Margin="8,0"/>
                 </Grid>
             </DataTemplate>
-            <DataTemplate x:Key="EvenTemplate" x:DataType="vm:SongViewModel">
+            <DataTemplate x:Key="EvenTemplate" x:DataType="data:StorageFile">
                 <Grid Height="48" Background="{ThemeResource SongListEvenBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="{x:Bind Track}" Margin="8,0" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Style="{ThemeResource BodyTextBlockStyle}"/>
-                    <TextBlock MaxLines="1" Grid.Column="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{x:Bind Title}" 
+
+                    <TextBlock MaxLines="1" Grid.Column="0" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{x:Bind Name}" ToolTipService.ToolTip="{x:Bind Name}" 
                                Style="{ThemeResource BodyTextBlockStyle}" Margin="8,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    <TextBlock MaxLines="1" Grid.Column="2" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" 
-                               HorizontalAlignment="Right" VerticalAlignment="Center"
-                               Text="{x:Bind FormatDuration(Duration)}" Style="{ThemeResource BodyTextBlockStyle}" 
+                    <TextBlock MaxLines="1" Grid.Column="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" 
+                               HorizontalAlignment="Right" VerticalAlignment="Center" ToolTipService.ToolTip="{x:Bind Path}" 
+                               Text="{x:Bind Path}" Style="{ThemeResource BodyTextBlockStyle}" 
                                Margin="8,0"/>
                 </Grid>
             </DataTemplate>

@@ -647,6 +647,12 @@ namespace Aurora.Music.ViewModels
             player.Play();
         }
 
+        internal async Task InstantPlay(List<StorageFile> list)
+        {
+            await player.NewPlayList(list);
+            player.Play();
+        }
+
         internal async Task PlayNext(IList<Song> songs)
         {
             await player.AddtoNextPlay(songs);
