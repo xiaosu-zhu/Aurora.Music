@@ -117,7 +117,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <VisualState x:Name="PointerOver">
                     <VisualState.Setters>
                         <Setter Target="BlurBehavior.Value" Value="4"/>
-                        <Setter Target="BlurBG.Margin" Value="-30,-20,-30,-30"/>
+                        <Setter Target="BlurBG.Margin" Value="-30,-16,-30,-30"/>
                         <Setter Target="FloatPanel.Visibility" Value="Visible"/>
                     </VisualState.Setters>
                 </VisualState>
@@ -140,7 +140,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <VisualState x:Name="TouchPointerOver">
                     <VisualState.Setters>
                         <Setter Target="BlurBehavior.Value" Value="4"/>
-                        <Setter Target="BlurBG.Margin" Value="-30,-20,-30,-30"/>
+                        <Setter Target="BlurBG.Margin" Value="-30,-16,-30,-30"/>
                         <Setter Target="FloatPanel.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
                 </VisualState>
