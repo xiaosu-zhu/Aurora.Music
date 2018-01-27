@@ -28,7 +28,7 @@ namespace Aurora.Music.Core
         public const string NowPlayingPageInAnimation = "NOW_PLAYING_IN";
 
         public const string ArtistPageInAnimation = "ARTIST_PAGE_IN";
-        public const string AlbumDetailPageInAnimation = "ALBUM_DETAIL_IN";
+        public const string AlbumItemConnectedAnimation = "ALBUM_DETAIL_IN";
 
         public static readonly string[] FileTypes = { ".flac", ".wav", ".m4a", ".aac", ".mp3", ".wma" };
 

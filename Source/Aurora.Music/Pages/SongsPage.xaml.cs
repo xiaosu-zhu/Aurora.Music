@@ -6,19 +6,12 @@ using Aurora.Music.Core;
 using Aurora.Music.ViewModels;
 using Aurora.Shared.Extensions;
 using ExpressionBuilder;
-using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Composition;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
@@ -57,7 +50,6 @@ namespace Aurora.Music.Pages
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             base.OnNavigatedFrom(e);
-            SortBox.SelectionChanged -= ComboBox_SelectionChanged;
         }
 
         protected async override void OnNavigatedTo(NavigationEventArgs e)

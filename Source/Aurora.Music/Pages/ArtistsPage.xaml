@@ -99,8 +99,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
               Style="{StaticResource GeneralGridViewStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
               x:Name="ArtistList">
                     <GridView.GroupStyle>
-                        <GroupStyle HeaderTemplate="{StaticResource NormalGroupHeader}"/>
-                    </GridView.GroupStyle>
+                        <GroupStyle x:Name="GroupStyle" HeaderTemplate="{StaticResource NormalGroupHeader}"/></GridView.GroupStyle>
                     <GridView.Header>
                         <Grid Height="400"/>
                     </GridView.Header>

@@ -1,28 +1,26 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
+using Aurora.Music.Controls;
+using Aurora.Music.Controls.ListItems;
 using Aurora.Music.Core;
 using Aurora.Music.ViewModels;
 using Aurora.Shared.Extensions;
 using ExpressionBuilder;
-using System.Numerics;
 using System;
-using System.Threading.Tasks;
-using Windows.System.Threading;
+using System.Linq;
+using Windows.System;
 using Windows.UI.Composition;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using EF = ExpressionBuilder.ExpressionFunctions;
-using Windows.System;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Media;
-using System.Linq;
-using Aurora.Music.Controls;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -68,15 +66,16 @@ namespace Aurora.Music.Pages
             if (!Context.AlbumList.IsNullorEmpty() && _clickedAlbum != null && ((ArtistViewModel)e.Parameter).RawName == _lastParameter)
             {
                 AlbumList.ScrollIntoView(_clickedAlbum);
-                var ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.AlbumDetailPageInAnimation + "_1");
+                var container = (AlbumList.ContainerFromItem(_clickedAlbum) as SelectorItem).ContentTemplateRoot as AlbumItem;
+                var ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.AlbumItemConnectedAnimation + "_1");
                 if (ani != null)
                 {
-                    await AlbumList.TryStartConnectedAnimationAsync(ani, _clickedAlbum, "AlbumName");
+                    container.StartConnectedAnimation(ani, "AlbumName");
                 }
-                ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.AlbumDetailPageInAnimation + "_2");
+                ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.AlbumItemConnectedAnimation + "_2");
                 if (ani != null)
                 {
-                    await AlbumList.TryStartConnectedAnimationAsync(ani, _clickedAlbum, "Shadow");
+                    container.StartConnectedAnimation(ani, "Artwork");
                 }
                 return;
             }
@@ -84,15 +83,17 @@ namespace Aurora.Music.Pages
             {
                 Context.Artist = (ArtistViewModel)e.Parameter;
                 await Context.GetAlbums((ArtistViewModel)e.Parameter);
-                var ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.AlbumDetailPageInAnimation + "_1");
+                AlbumList.ScrollIntoView(_clickedAlbum);
+                var container = (AlbumList.ContainerFromItem(_clickedAlbum) as SelectorItem).ContentTemplateRoot as AlbumItem;
+                var ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.AlbumItemConnectedAnimation + "_1");
                 if (ani != null)
                 {
-                    await AlbumList.TryStartConnectedAnimationAsync(ani, _clickedAlbum, "AlbumName");
+                    container.StartConnectedAnimation(ani, "AlbumName");
                 }
-                ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.AlbumDetailPageInAnimation + "_2");
+                ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.AlbumItemConnectedAnimation + "_2");
                 if (ani != null)
                 {
-                    await AlbumList.TryStartConnectedAnimationAsync(ani, _clickedAlbum, "Shadow");
+                    container.StartConnectedAnimation(ani, "Artwork");
                 }
                 return;
             }
@@ -109,28 +110,10 @@ namespace Aurora.Music.Pages
             }
         }
 
-        private void StackPanel_PointerEntered(object sender, PointerRoutedEventArgs e)
-        {
-            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Touch)
-            { return; }
-            if (sender is Panel s)
-            {
-                (s.Resources["PointerOver"] as Storyboard).Begin();
-            }
-        }
-
-        private void StackPanel_PointerExited(object sender, PointerRoutedEventArgs e)
-        {
-            if (sender is Panel s)
-            {
-                (s.Resources["Normal"] as Storyboard).Begin();
-            }
-        }
-
         private void AlbumList_ItemClick(object sender, ItemClickEventArgs e)
         {
-            AlbumList.PrepareConnectedAnimation(Consts.AlbumDetailPageInAnimation + "_1", e.ClickedItem, "AlbumName");
-            AlbumList.PrepareConnectedAnimation(Consts.AlbumDetailPageInAnimation + "_2", e.ClickedItem, "Shadow");
+            var container = (AlbumList.ContainerFromItem(e.ClickedItem) as SelectorItem).ContentTemplateRoot as AlbumItem;
+            container.PrePareConnectedAnimation();
             LibraryPage.Current.Navigate(typeof(AlbumDetailPage), e.ClickedItem);
             _clickedAlbum = e.ClickedItem as AlbumViewModel;
         }
@@ -140,16 +123,6 @@ namespace Aurora.Music.Pages
             if (sender is Panel s)
             {
                 (s.Resources["PointerPressed"] as Storyboard).Begin();
-            }
-        }
-
-        private void StackPanel_PointerReleased(object sender, PointerRoutedEventArgs e)
-        {
-            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Touch)
-            { return; }
-            if (sender is Panel s)
-            {
-                (s.Resources["PointerOver"] as Storyboard).Begin();
             }
         }
 
@@ -223,7 +196,7 @@ namespace Aurora.Music.Pages
 
         private async void PlayAlbum_Click(object sender, RoutedEventArgs e)
         {
-            await Context.PlayAlbumAsync((sender as Button).DataContext as AlbumViewModel);
+            await Context.PlayAlbumAsync(sender as AlbumViewModel);
         }
 
         private void Flyout_Click(object sender, RoutedEventArgs e)
@@ -250,15 +223,6 @@ namespace Aurora.Music.Pages
                 }
 
                 MainPage.Current.SongFlyout.ShowAt(requestedElement);
-            }
-        }
-
-        private void Button_Holding(object sender, HoldingRoutedEventArgs e)
-        {
-            if (e.HoldingState == Windows.UI.Input.HoldingState.Completed)
-            {
-                PlayAlbum_Click(sender, null);
-                e.Handled = true;
             }
         }
 

@@ -130,6 +130,9 @@
     </Compile>
     <Compile Include="Controls\ImageGrid.cs" />
     <Compile Include="Controls\IRequestGoBack.cs" />
+    <Compile Include="Controls\ListItems\AlbumItem.xaml.cs">
+      <DependentUpon>AlbumItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\LyricView.xaml.cs">
       <DependentUpon>LyricView.xaml</DependentUpon>
     </Compile>
@@ -342,6 +345,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\ExtSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ListItems\AlbumItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

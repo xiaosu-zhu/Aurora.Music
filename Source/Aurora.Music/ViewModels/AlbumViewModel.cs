@@ -13,10 +13,11 @@ using Aurora.Music.Core.Storage;
 using Aurora.Music.Core.Models;
 using Windows.System.Threading;
 using Aurora.Music.Core;
+using Windows.UI.Xaml.Media;
 
 namespace Aurora.Music.ViewModels
 {
-    class AlbumViewModel : ViewModelBase, IKey
+    public class AlbumViewModel : ViewModelBase, IKey
     {
         public AlbumViewModel(Album album)
         {
@@ -33,7 +34,12 @@ namespace Aurora.Music.ViewModels
             Name = album.Name;
             if (!album.PicturePath.IsNullorEmpty())
             {
-                artworkUri = new Uri(album.PicturePath);
+                ArtworkUri = new Uri(album.PicturePath);
+                Artwork = new BitmapImage(ArtworkUri)
+                {
+                    DecodePixelHeight = 160,
+                    DecodePixelType = DecodePixelType.Logical
+                };
             }
             Genres = album.Genres;
             Year = album.Year;
@@ -61,6 +67,17 @@ namespace Aurora.Music.ViewModels
         public List<Song> Songs { get; set; } = new List<Song>();
 
         private Uri artworkUri;
+        public Uri ArtworkUri
+        {
+            get
+            {
+                return artworkUri;
+            }
+            set
+            {
+                artworkUri = value;
+            }
+        }
 
 
         private const string splitter = " · ";
@@ -89,16 +106,11 @@ namespace Aurora.Music.ViewModels
             return b;
         }
 
-        public Uri Artwork
+        private BitmapImage artwork;
+        public BitmapImage Artwork
         {
-            get
-            {
-                return artworkUri;
-            }
-            set
-            {
-                SetProperty(ref artworkUri, value);
-            }
+            get { return artwork; }
+            set { SetProperty(ref artwork, value); }
         }
 
         private string title;
@@ -201,7 +213,7 @@ namespace Aurora.Music.ViewModels
                         AlbumArtistsSort = AlbumArtistsSort ?? new string[] { },
                         ReplayGainAlbumGain = ReplayGainAlbumGain,
                         ReplayGainAlbumPeak = ReplayGainAlbumPeak,
-                        PicturePath = Artwork == null ? string.Empty : Artwork.AbsolutePath ?? string.Empty,
+                        PicturePath = ArtworkUri == null ? string.Empty : ArtworkUri.AbsolutePath ?? string.Empty,
                     });
                 }
             });

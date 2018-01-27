@@ -71,7 +71,7 @@ namespace Aurora.Music.Controls
                 item.RefreshFav();
             }
             Album.Text = album.Name;
-            Artwork.Source = new BitmapImage(album.Artwork ?? new Uri(Consts.NowPlaceholder));
+            Artwork.Source = new BitmapImage(album.ArtworkUri ?? new Uri(Consts.NowPlaceholder));
             Artist.Text = album.GetFormattedArtists();
             Brief.Text = album.GetBrief();
             if (album.Description.IsNullorEmpty())

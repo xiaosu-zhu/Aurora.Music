@@ -13,6 +13,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     xmlns:controls="using:Aurora.Music.Controls"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
+    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:star="using:StarButton"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -190,9 +191,12 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         <Grid Height="360" x:Name="Header" HorizontalAlignment="Stretch" VerticalAlignment="Top">
             <Grid x:Name="BGBlur" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="360" Background="Transparent"/>
             <Grid Height="360" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                <animations:Implicit.ShowAnimations>
+                    <animations:OpacityAnimation Duration="0:0:2" From="0" To="1.0"></animations:OpacityAnimation>
+                </animations:Implicit.ShowAnimations>
                 <interactivity:Interaction.Behaviors>
                     <behaviors:Blur x:Name="BlurBehavior"
-                        Value="64" Duration="0" Delay="0"
+                        Value="64" Duration="2000" Delay="0"
                         AutomaticallyStart="True"/>
                 </interactivity:Interaction.Behaviors>
 
@@ -204,6 +208,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         </ImageBrush.ImageSource>
                     </ImageBrush>
                 </Grid.Background>
+                <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource SystemControlBackgroundBaseMediumBrush}"/>
             </Grid>
             <toolkit:DropShadowPanel x:Name="HeaderBG" BlurRadius="16" ShadowOpacity="0.5" OffsetX="0" OffsetY="0" 
                                      HorizontalAlignment="Right" Margin="64" VerticalAlignment="Center" 
@@ -222,7 +227,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </Grid.RowDefinitions>
                 <Grid Canvas.ZIndex="9999" x:Name="TitleShrink" Background="{x:Null}"
                           HorizontalAlignment="Left" VerticalAlignment="Center" Height="48">
-                    <TextBlock Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" Margin="12,0"
+                    <TextBlock Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Margin="12,0"
                                Text="{x:Bind Context.Album.Name, Mode=OneWay}" 
                                    HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"
                                    TextWrapping="NoWrap" MaxLines="1" Style="{ThemeResource SubheaderTextBlockStyle}" 

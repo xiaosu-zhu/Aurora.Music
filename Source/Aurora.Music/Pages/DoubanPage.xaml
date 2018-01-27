@@ -161,7 +161,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </DataTemplate>
             </GridView.ItemTemplate>
             <GridView.GroupStyle>
-                <GroupStyle HidesIfEmpty="True" HeaderTemplate="{StaticResource NormalGroupHeader}"/>
+                <GroupStyle x:Name="GroupStyle" HeaderTemplate="{StaticResource NormalGroupHeader}"/>
             </GridView.GroupStyle>
         </GridView>
         <Viewbox Stretch="Uniform" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top">

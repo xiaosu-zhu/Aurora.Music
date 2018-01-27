@@ -101,7 +101,7 @@ namespace Aurora.Music.ViewModels
                 {
                     if (Album.Artwork == null && info.AltArtwork != null)
                     {
-                        Album.Artwork = info.AltArtwork;
+                        Album.ArtworkUri = info.AltArtwork;
                         var task = ThreadPool.RunAsync(async k =>
                         {
                             if (!Album.IsOnline)

@@ -44,8 +44,8 @@ namespace Aurora.Music.Pages
 
         public void RequestGoBack()
         {
-            ConnectedAnimationService.GetForCurrentView().PrepareToAnimate(Consts.AlbumDetailPageInAnimation + "_1", Title);
-            ConnectedAnimationService.GetForCurrentView().PrepareToAnimate(Consts.AlbumDetailPageInAnimation + "_2", HeaderBG);
+            ConnectedAnimationService.GetForCurrentView().PrepareToAnimate(Consts.AlbumItemConnectedAnimation + "_1", Title);
+            ConnectedAnimationService.GetForCurrentView().PrepareToAnimate(Consts.AlbumItemConnectedAnimation + "_2", HeaderBG);
             LibraryPage.Current.GoBack();
         }
 
@@ -54,19 +54,19 @@ namespace Aurora.Music.Pages
             base.OnNavigatedTo(e);
             if (e.Parameter is AlbumViewModel s)
             {
-                Context.HeroImage = s.Artwork;
+                Context.HeroImage = s.ArtworkUri;
                 await Context.GetSongsAsync(s);
             }
         }
 
         private void SongList_Loaded(object sender, RoutedEventArgs e)
         {
-            var ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.AlbumDetailPageInAnimation + "_1");
+            var ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.AlbumItemConnectedAnimation + "_1");
             if (ani != null)
             {
                 ani.TryStart(Title, new UIElement[] { Details });
             }
-            ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.AlbumDetailPageInAnimation + "_2");
+            ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.AlbumItemConnectedAnimation + "_2");
             if (ani != null)
             {
                 ani.TryStart(HeaderBG);

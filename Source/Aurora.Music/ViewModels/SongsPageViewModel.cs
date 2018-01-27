@@ -2,6 +2,7 @@
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using Aurora.Music.Core;
+using Aurora.Music.Core.Models;
 using Aurora.Music.Core.Storage;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.MVVM;
@@ -60,7 +61,12 @@ namespace Aurora.Music.ViewModels
             {
                 return new DelegateCommand(async () =>
                 {
-                    await MainPageViewModel.Current.InstantPlay(await FileReader.GetAllSongAsync());
+                    var list = new List<Song>();
+                    foreach (var item in SongsList)
+                    {
+                        list.AddRange(item.Select(a => a.Song));
+                    }
+                    await MainPageViewModel.Current.InstantPlay(list);
                 });
             }
         }
@@ -127,56 +133,54 @@ namespace Aurora.Music.ViewModels
             await MainPageViewModel.Current.InstantPlay(songs);
         }
 
-        internal void ChangeSort(int selectedIndex)
+        internal async void ChangeSort(int selectedIndex)
         {
-            SongsList.Clear();
-            var t = ThreadPool.RunAsync(async tow =>
+            var songs = await FileReader.GetAllSongAsync();
+            IEnumerable<GroupedItem<SongViewModel>> grouped;
+
+            switch (selectedIndex)
             {
-                var songs = await FileReader.GetAllSongAsync();
-                IEnumerable<GroupedItem<SongViewModel>> grouped;
-
-                switch (selectedIndex)
+                case 0:
+                    grouped = GroupedItem<SongViewModel>.CreateGroupsByAlpha(songs.ConvertAll(x => new SongViewModel(x)));
+                    break;
+                case 1:
+                    grouped = GroupedItem<SongViewModel>.CreateGroups(songs.ConvertAll(x => new SongViewModel(x)), x => x.FormattedAlbum);
+                    break;
+                case 2:
+                    grouped = GroupedItem<SongViewModel>.CreateGroups(songs.ConvertAll(x => new SongViewModel(x)), x => x.GetFormattedArtists());
+                    break;
+                default:
+                    grouped = GroupedItem<SongViewModel>.CreateGroups(songs.ConvertAll(x => new SongViewModel(x)), x => x.Song.Year, true);
+                    break;
+            }
+            foreach (var item in grouped)
+            {
+                item.Aggregate((x, y) =>
                 {
-                    case 0:
-                        grouped = GroupedItem<SongViewModel>.CreateGroupsByAlpha(songs.ConvertAll(x => new SongViewModel(x)));
-                        break;
-                    case 1:
-                        grouped = GroupedItem<SongViewModel>.CreateGroups(songs.ConvertAll(x => new SongViewModel(x)), x => x.FormattedAlbum);
-                        break;
-                    case 2:
-                        grouped = GroupedItem<SongViewModel>.CreateGroups(songs.ConvertAll(x => new SongViewModel(x)), x => x.GetFormattedArtists());
-                        break;
-                    default:
-                        grouped = GroupedItem<SongViewModel>.CreateGroups(songs.ConvertAll(x => new SongViewModel(x)), x => x.Song.Year, true);
-                        break;
-                }
-                await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
-                {
-                    foreach (var item in grouped)
-                    {
-                        item.Aggregate((x, y) =>
-                        {
-                            y.Index = x.Index + 1;
-                            return y;
-                        });
-                        SongsList.Add(item);
-                    }
-
-                    foreach (var item in SongsList)
-                    {
-                        foreach (var song in item)
-                        {
-                            song.RefreshFav();
-                        }
-                    }
+                    y.Index = x.Index + 1;
+                    return y;
                 });
-            });
+                SongsList.Add(item);
+            }
+
+            SongsList.Clear();
+            foreach (var item in SongsList)
+            {
+                foreach (var song in item)
+                {
+                    song.RefreshFav();
+                }
+            }
 
         }
 
         internal async Task PlayAt(SongViewModel songViewModel)
         {
-            var list = await FileReader.GetAllSongAsync();
+            var list = new List<Song>();
+            foreach (var item in SongsList)
+            {
+                list.AddRange(item.Select(a => a.Song));
+            }
             await MainPageViewModel.Current.InstantPlay(list, list.FindIndex(x => x.ID == songViewModel.ID));
         }
     }
