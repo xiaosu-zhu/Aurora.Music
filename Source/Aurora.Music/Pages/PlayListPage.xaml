@@ -11,6 +11,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     xmlns:vm="using:Aurora.Music.ViewModels"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:controls="using:Aurora.Music.Controls"
+    xmlns:list="using:Aurora.Music.Controls.ListItems"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
@@ -37,88 +38,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <ResourceDictionary x:Key="Light" Source="../Themes/Light.xaml"/>
                 <ResourceDictionary x:Key="Dark" Source="../Themes/Dark.xaml"/>
             </ResourceDictionary.ThemeDictionaries>
-
-            <DataTemplate x:Key="OddTemplate" x:DataType="vm:SongViewModel">
-                <Grid Height="48" Background="{ThemeResource SongListOddBrush}" 
-                      PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited" 
-                      PointerCanceled="Grid_PointerExited" PointerCaptureLost="Grid_PointerExited" 
-                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition MinWidth="48" Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-
-                    <Grid.Resources>
-                        <Storyboard x:Key="PointerOver">
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlayBtn" Storyboard.TargetProperty="Visibility">
-                                <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
-                            </ObjectAnimationUsingKeyFrames>
-                        </Storyboard>
-                        <Storyboard x:Key="Normal">
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlayBtn" Storyboard.TargetProperty="Visibility">
-                                <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
-                            </ObjectAnimationUsingKeyFrames>
-                        </Storyboard>
-                    </Grid.Resources>
-
-                    <TextBlock Text="{x:Bind Track}" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Style="{ThemeResource BodyTextBlockStyle}"/>
-                    <TextBlock MaxLines="1" Grid.Column="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{x:Bind Title}" 
-                               Style="{ThemeResource BodyTextBlockStyle}" Margin="8,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    <Button Click="PlayBtn_Click" x:Name="PlayBtn" Style="{ThemeResource NoBorderButton}" Background="Transparent" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="48" Visibility="Collapsed">
-                        <Button.Content>
-                            <SymbolIcon Symbol="Play"/>
-                        </Button.Content>
-                    </Button>
-                    <TextBlock MaxLines="1" Grid.Column="3" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" 
-                               HorizontalAlignment="Right" VerticalAlignment="Center"
-                               Text="{x:Bind FormatDuration(Duration)}" Style="{ThemeResource BodyTextBlockStyle}" 
-                               Margin="8,0"/>
-                </Grid>
-            </DataTemplate>
-            <DataTemplate x:Key="EvenTemplate" x:DataType="vm:SongViewModel">
-                <Grid Height="48" Background="{ThemeResource SongListEvenBrush}" 
-                      PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited" 
-                      PointerCanceled="Grid_PointerExited" PointerCaptureLost="Grid_PointerExited" 
-                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition MinWidth="48" Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-
-                    <Grid.Resources>
-                        <Storyboard x:Key="PointerOver">
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlayBtn" Storyboard.TargetProperty="Visibility">
-                                <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
-                            </ObjectAnimationUsingKeyFrames>
-                        </Storyboard>
-                        <Storyboard x:Key="Normal">
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlayBtn" Storyboard.TargetProperty="Visibility">
-                                <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
-                            </ObjectAnimationUsingKeyFrames>
-                        </Storyboard>
-                    </Grid.Resources>
-
-                    <TextBlock Text="{x:Bind Track}" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Style="{ThemeResource BodyTextBlockStyle}"/>
-                    <TextBlock MaxLines="1" Grid.Column="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{x:Bind Title}" 
-                               Style="{ThemeResource BodyTextBlockStyle}" Margin="8,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    <Button Click="PlayBtn_Click" x:Name="PlayBtn" Style="{ThemeResource NoBorderButton}" Background="Transparent" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="48" Visibility="Collapsed">
-                        <Button.Content>
-                            <SymbolIcon Symbol="Play"/>
-                        </Button.Content>
-                    </Button>
-                    <TextBlock MaxLines="1" Grid.Column="3" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" 
-                               HorizontalAlignment="Right" VerticalAlignment="Center"
-                               Text="{x:Bind FormatDuration(Duration)}" Style="{ThemeResource BodyTextBlockStyle}" 
-                               Margin="8,0"/>
-                </Grid>
-            </DataTemplate>
-
-            <controls:SongListTemplateSelector x:Key="SongListTemplateSelector" EvenTemplate="{StaticResource EvenTemplate}" OddTemplate="{StaticResource OddTemplate}"/>
-
             <CollectionViewSource Source="{x:Bind Context.SongsList, Mode=OneWay}" IsSourceGrouped="True" x:Key="SongsListSource" x:Name="SongsListSource"/>
         </ResourceDictionary>
     </Page.Resources>
@@ -175,8 +94,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <SemanticZoom.ZoomedInView>
                 <ListView ShowsScrollingPlaceholders="True" ItemClick="AlbumList_ItemClick" IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" 
               SelectionMode="None" ItemsSource="{x:Bind SongsListSource.View, Mode=OneWay}" Loaded="AlbumList_Loaded" ContextRequested="AlbumList_ContextRequested" ContextCanceled="AlbumList_ContextCanceled"
-              Padding="32,0,32,160" ItemContainerStyle="{StaticResource GeneralListViewItemStyle}" Style="{ThemeResource GeneralListView}"
-                          ItemTemplateSelector="{StaticResource SongListTemplateSelector}"
+              Padding="32,0,32,160" ItemContainerStyleSelector="{StaticResource SongListStyleSelector}" Style="{ThemeResource GeneralListView}"
               HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
               x:Name="AlbumList">
                     <ListView.GroupStyle>
@@ -185,6 +103,11 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <ListView.Header>
                         <Grid Height="400"/>
                     </ListView.Header>
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="vm:SongViewModel">
+                            <list:SongItem Data="{x:Bind }" Play="PlayBtn_Click"/>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
                 </ListView>
             </SemanticZoom.ZoomedInView>
         </SemanticZoom>

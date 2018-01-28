@@ -68,6 +68,11 @@ namespace Aurora.Shared.Helpers
 #endif
         }
 
+        public static string ToVersionString(this Version version)
+        {
+            return $"{version.Major.ToString("0")}.{version.Minor.ToString("0")}.{version.Build.ToString("0")}";
+        }
+
         public static ulong GetPackageVersionNum()
         {
             return (Convert.ToUInt64(Package.Current.Id.Version.Major) << 48) + (Convert.ToUInt64(Package.Current.Id.Version.Minor) << 32) + (Convert.ToUInt64(Package.Current.Id.Version.Build) << 16) + Convert.ToUInt64(Package.Current.Id.Version.Revision);

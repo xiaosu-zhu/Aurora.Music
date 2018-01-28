@@ -212,8 +212,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <TextBlock x:Uid="Now" Visibility="{x:Bind Context.NullableBooltoVisibility(Context.IsPlaying), Mode=OneWay}" Text="正在播放" FontWeight="Bold" Style="{ThemeResource TitleTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <Grid Grid.Row="1" Margin="0,32,0,0" Width="320" Height="320" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock x:Uid="Now" Margin="0,32" Visibility="{x:Bind Context.NullableBooltoVisibility(Context.IsPlaying), Mode=OneWay}" Text="正在播放" FontWeight="Bold" Style="{ThemeResource TitleTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Grid Grid.Row="1" Margin="-40,-32,-40,-48" Width="320" Height="320" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <interactivity:Interaction.Behaviors>
                     <behaviors:Blur Value="8" Duration="0" Delay="0" AutomaticallyStart="True"/>
                 </interactivity:Interaction.Behaviors>
@@ -232,9 +232,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     </Image.Source>
                 </Image>
             </Grid>
-            <StackPanel Grid.Row="2" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12,0,12,12">
-                <TextBlock Text="{x:Bind Context.Title, Mode=OneWay}" FontWeight="Bold" FontSize="32" Style="{ThemeResource TitleTextBlockStyle}" Margin="8" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                <TextBlock Text="{x:Bind Context.Description, Mode=OneWay}" FontSize="16" Style="{ThemeResource BodyTextBlockStyle}" Margin="8" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <StackPanel Grid.Row="2" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12">
+                <TextBlock Text="{x:Bind Context.Title, Mode=OneWay}" FontWeight="Bold" FontSize="32" Style="{ThemeResource TitleTextBlockStyle}" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <TextBlock Text="{x:Bind Context.Description, Mode=OneWay}" FontSize="16" Style="{ThemeResource BodyTextBlockStyle}" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="3">
                 <Button IsEnabled="{x:Bind Context.NullableBooltoBool(Context.IsPlaying), Mode=OneWay}" AccessKey="[" x:Uid="DropBtn" Command="{x:Bind Context.Delete}" Style="{ThemeResource RevealRoundButton}" ToolTipService.ToolTip="Next"

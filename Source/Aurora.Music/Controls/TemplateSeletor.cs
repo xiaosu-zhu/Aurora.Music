@@ -68,47 +68,21 @@ namespace Aurora.Music.Controls
         }
     }
 
-    class SongListTemplateSelector : DataTemplateSelector
+    class SongListStyleSelector : StyleSelector
     {
-        public DataTemplate EvenTemplate { get; set; }
-        public DataTemplate OddTemplate { get; set; }
-
+        public Style EvenStyle { get; set; }
+        public Style OddStyle { get; set; }
         private static ulong i = 0;
 
-        protected override DataTemplate SelectTemplateCore(object item)
+        protected override Style SelectStyleCore(object item, DependencyObject container)
         {
-            if (item is SongViewModel s)
-            {
-                if (s.Index % 2 == 0)
-                {
-                    return EvenTemplate;
-                }
-                else
-                {
-                    return OddTemplate;
-                }
-            }
             if (i++ % 2 == 0)
             {
-                return EvenTemplate;
+                return EvenStyle;
             }
             else
             {
-                return OddTemplate;
-            }
-        }
-
-        protected override DataTemplate SelectTemplateCore(object item, DependencyObject container)
-        {
-            var listview = ItemsControl.ItemsControlFromItemContainer(container);
-            var index = listview.IndexFromContainer(container);
-            if (index % 2 == 0)
-            {
-                return EvenTemplate;
-            }
-            else
-            {
-                return OddTemplate;
+                return OddStyle;
             }
         }
     }

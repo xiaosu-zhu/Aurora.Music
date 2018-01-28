@@ -153,6 +153,8 @@ namespace Aurora.Music.ViewModels
                     grouped = GroupedItem<SongViewModel>.CreateGroups(songs.ConvertAll(x => new SongViewModel(x)), x => x.Song.Year, true);
                     break;
             }
+
+            SongsList.Clear();
             foreach (var item in grouped)
             {
                 item.Aggregate((x, y) =>
@@ -162,8 +164,6 @@ namespace Aurora.Music.ViewModels
                 });
                 SongsList.Add(item);
             }
-
-            SongsList.Clear();
             foreach (var item in SongsList)
             {
                 foreach (var song in item)

@@ -69,28 +69,9 @@ namespace Aurora.Music.Pages
         {
         }
 
-
-        private void Grid_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
-            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Touch)
-            { return; }
-            if (sender is Panel s)
-            {
-                (s.Resources["PointerOver"] as Storyboard).Begin();
-            }
-        }
-
-        private void Grid_PointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
-            if (sender is Panel s)
-            {
-                (s.Resources["Normal"] as Storyboard).Begin();
-            }
-        }
-
         private async void PlayBtn_Click(object sender, RoutedEventArgs e)
         {
-            await Context.PlayAt((sender as FrameworkElement).DataContext as SongViewModel);
+            await Context.PlayAt(sender as SongViewModel);
         }
 
         private void AlbumList_Loaded(object sender, RoutedEventArgs e)
@@ -256,6 +237,18 @@ namespace Aurora.Music.Pages
         private void AlbumList_ContextCanceled(UIElement sender, RoutedEventArgs args)
         {
             MainPage.Current.SongFlyout.Hide();
+        }
+
+        private void SongItem_RequestMultiSelect(object sender, RoutedEventArgs e)
+        {
+            AlbumList.SelectionMode = ListViewSelectionMode.Multiple;
+            foreach (var item in Context.SongsList)
+            {
+                foreach (var song in item)
+                {
+                    song.ListMultiSelecting = true;
+                }
+            }
         }
     }
 }

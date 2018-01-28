@@ -1,0 +1,96 @@
+﻿<!--
+Copyright (c) Aurora Studio. All rights reserved.
+
+Licensed under the MIT License. See LICENSE in the project root for license information.
+-->
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:Class="Aurora.Music.Controls.BindedTemplates"
+    xmlns:star="using:StarButton"
+    xmlns:vm="using:Aurora.Music.ViewModels">
+    
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../Themes/Styles.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary Source="../Themes/Light.xaml" x:Key="Light"/>
+        <ResourceDictionary Source="../Themes/Dark.xaml" x:Key="Dark"/>
+    </ResourceDictionary.ThemeDictionaries>
+
+    <DataTemplate x:Key="PlayingListTemplate" x:DataType="vm:SongViewModel">
+        <Grid Background="Transparent" Width="320" Height="48" 
+              PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited"
+              PointerCanceled="Grid_PointerExited" PointerCaptureLost="Grid_PointerExited"
+              HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="64"/>
+            </Grid.ColumnDefinitions>
+            <Grid.Resources>
+                <Storyboard x:Key="PointerOver">
+                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlayBtn" Storyboard.TargetProperty="Visibility">
+                        <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
+                    </ObjectAnimationUsingKeyFrames>
+                </Storyboard>
+                <Storyboard x:Key="Normal">
+                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlayBtn" Storyboard.TargetProperty="Visibility">
+                        <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+                    </ObjectAnimationUsingKeyFrames>
+                </Storyboard>
+            </Grid.Resources>
+            <TextBlock Text="{x:Bind GetIndex()}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="12,4"/>
+            <TextBlock Text="{x:Bind Title}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextTrimming="CharacterEllipsis" MaxWidth="240" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="4"/>
+            <Button x:Name="PlayBtn" Click="PlayBtn_Click" Style="{ThemeResource NoBorderButton}" Background="Transparent" Grid.Column="2" Width="48" HorizontalAlignment="Center" VerticalAlignment="Stretch" Visibility="Collapsed">
+                <Button.Content>
+                    <SymbolIcon Symbol="Next"/>
+                </Button.Content>
+            </Button>
+            <TextBlock Text="{x:Bind DurationtoString(Duration)}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextTrimming="CharacterEllipsis" Grid.Column="3" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="8,4"/>
+        </Grid>
+    </DataTemplate>
+
+
+    <DataTemplate x:Key="NarrowSongListTemplate" x:DataType="vm:SongViewModel">
+        <Grid Background="Transparent" Height="48" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+              PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited" 
+              PointerCanceled="Grid_PointerExited" PointerCaptureLost="Grid_PointerExited">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition MinWidth="48" Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.Resources>
+                <Storyboard x:Key="PointerOver">
+                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlayBtn" Storyboard.TargetProperty="Visibility">
+                        <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
+                    </ObjectAnimationUsingKeyFrames>
+                </Storyboard>
+                <Storyboard x:Key="Normal">
+                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlayBtn" Storyboard.TargetProperty="Visibility">
+                        <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+                    </ObjectAnimationUsingKeyFrames>
+                </Storyboard>
+            </Grid.Resources>
+
+            <TextBlock Text="{x:Bind Track}" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Style="{ThemeResource BodyTextBlockStyle}"/>
+            <TextBlock MaxLines="1" Grid.Column="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{x:Bind Title}" 
+                               Style="{ThemeResource BodyTextBlockStyle}" Margin="8,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <Button Click="SongList_Play" x:Name="PlayBtn" Style="{ThemeResource NoBorderButton}" Background="Transparent" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="48" Visibility="Collapsed">
+                <Button.Content>
+                    <SymbolIcon Symbol="Play"/>
+                </Button.Content>
+            </Button>
+            <StackPanel Orientation="Horizontal" Grid.Column="3" VerticalAlignment="Stretch" HorizontalAlignment="Right">
+                <star:StarButton IsOn="{x:Bind Favorite, Mode=TwoWay}" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                 FontSize="18" Margin="8,0"/>
+                <TextBlock MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" 
+                               HorizontalAlignment="Right" VerticalAlignment="Center" Width="120"
+                               Text="{x:Bind FormatDuration(Duration)}" Style="{ThemeResource BodyTextBlockStyle}" Margin="8,0"/>
+            </StackPanel>
+        </Grid>
+    </DataTemplate>
+</ResourceDictionary>

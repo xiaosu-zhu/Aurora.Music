@@ -15,11 +15,18 @@ using Aurora.Shared.Helpers;
 
 namespace Aurora.Music.ViewModels
 {
-    class SongViewModel : ViewModelBase, IKey
+    public class SongViewModel : ViewModelBase, IKey
     {
         public SongViewModel()
         {
 
+        }
+
+        private bool listMultiSelecting;
+        public bool ListMultiSelecting
+        {
+            get { return listMultiSelecting; }
+            set { SetProperty(ref listMultiSelecting, value); }
         }
 
         public bool IsOnline { get; set; }

@@ -133,6 +133,12 @@
     <Compile Include="Controls\ListItems\AlbumItem.xaml.cs">
       <DependentUpon>AlbumItem.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\BindedTemplates.xaml.cs">
+      <DependentUpon>BindedTemplates.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ListItems\SongItem.xaml.cs">
+      <DependentUpon>SongItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\LyricView.xaml.cs">
       <DependentUpon>LyricView.xaml</DependentUpon>
     </Compile>
@@ -349,6 +355,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\ListItems\AlbumItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\BindedTemplates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ListItems\SongItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

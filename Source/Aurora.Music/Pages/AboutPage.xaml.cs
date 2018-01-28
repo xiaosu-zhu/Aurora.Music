@@ -3,22 +3,12 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using Aurora.Music.Core;
 using Aurora.Music.ViewModels;
+using Aurora.Shared.Helpers;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.ApplicationModel.Resources;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using System.Reflection;
 using Windows.System;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -36,7 +26,9 @@ namespace Aurora.Music.Pages
             MainPageViewModel.Current.NeedShowTitle = true;
             MainPageViewModel.Current.LeftTopColor = Resources["SystemControlForegroundBaseHighBrush"] as SolidColorBrush;
 
-            BuildText = string.Format(Consts.Localizer.GetString("BuildText"), Shared.Helpers.SystemInfoHelper.GetPackageVer());
+            BuildText = string.Format(Consts.Localizer.GetString("BuildText"), SystemInfoHelper.GetPackageVer());
+            AssemblyName name = typeof(Microsoft.Toolkit.Uwp.UI.Controls.DropShadowPanel).Assembly.GetName();
+            name.Version.ToVersionString();
         }
 
         public string BuildText { get; set; }

@@ -29,5 +29,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     <SolidColorBrush x:Key="RevealRoundBackground" Color="{StaticResource SystemChromeMediumColor}" Opacity="0.33"/>
 
     <SolidColorBrush x:Key="SongListEvenBrush" Color="{StaticResource SystemChromeMediumColor}" Opacity="0.3333"/>
-    <SolidColorBrush x:Key="SongListOddBrush" Color="{StaticResource SystemAltHighColor}" Opacity="0.3333"/>
+    <SolidColorBrush x:Key="SongListOddBrush" Color="{StaticResource SystemChromeDisabledHighColor}" Opacity="0.3333"/>
+    <SolidColorBrush x:Key="SongListEvenPressedBrush" Color="{StaticResource SystemChromeDisabledHighColor}" Opacity="1"/>
+    <SolidColorBrush x:Key="SongListOddPressedBrush" Color="{StaticResource SystemChromeDisabledHighColor}" Opacity="1"/>
+    <SolidColorBrush x:Key="SongListEvenPointerOverBrush" Color="{StaticResource SystemChromeDisabledHighColor}" Opacity="0.666666"/>
+    <SolidColorBrush x:Key="SongListOddPointerOverBrush" Color="{StaticResource SystemChromeDisabledHighColor}" Opacity="0.6666666"/>
 </ResourceDictionary>

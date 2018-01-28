@@ -729,6 +729,10 @@
     <value>未在播放</value>
     <comment>Not Playing</comment>
   </data>
+  <data name="NotPlaying.Text" xml:space="preserve">
+    <value>未在播放</value>
+    <comment>Not Playing</comment>
+  </data>
   <data name="SearchInWebText" xml:space="preserve">
     <value>在库和网络中搜索</value>
     <comment>Search in Library and Web</comment>
@@ -858,7 +862,7 @@
     <comment>Update Note for Build {0}</comment>
   </data>
   <data name="UpdateNote" xml:space="preserve">
-    <value>* **新增**：豆瓣 FM 频道播放&#xD;&#xA;* **新增**：添加快捷键与访问键，请到“设置-轻松使用”中查看&#xD;&#xA;* **修复**：某些情况下后退导航不能如预期工作的问题</value>
+    <value>* **改进**：略微更改歌曲和专辑列表样式&#xD;&#xA;* **修复**：多处错误&#xD;&#xA;* **修复**：补全翻译文本</value>
     <comment>Update Note</comment>
   </data>
   <data name="AddToCollectionTitle" xml:space="preserve">

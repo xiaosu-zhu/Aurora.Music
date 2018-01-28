@@ -119,29 +119,6 @@ namespace Aurora.Music.Controls
         {
         }
 
-        private void Grid_PointerEntered(object sender, PointerRoutedEventArgs e)
-        {
-            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Touch)
-            { return; }
-            if (sender is Panel s)
-            {
-                (s.Resources["PointerOver"] as Storyboard).Begin();
-            }
-        }
-
-        private void Grid_PointerExited(object sender, PointerRoutedEventArgs e)
-        {
-            if (sender is Panel s)
-            {
-                (s.Resources["Normal"] as Storyboard).Begin();
-            }
-        }
-
-        private async void PlayBtn_Click(object sender, RoutedEventArgs e)
-        {
-            await MainPageViewModel.Current.InstantPlay(await album.GetSongsAsync(), (int)((sender as FrameworkElement).DataContext as SongViewModel).Index);
-        }
-
         private void DetailPanel_Click(object sender, RoutedEventArgs e)
         {
             if (DescriIndicator.Glyph == "\uE018")
@@ -166,7 +143,7 @@ namespace Aurora.Music.Controls
         }
 
 
-        private void SongList_ContextRequested(UIElement sender, Windows.UI.Xaml.Input.ContextRequestedEventArgs args)
+        private void SongList_ContextRequested(UIElement sender, ContextRequestedEventArgs args)
         {
             // Walk up the tree to find the ListViewItem.
             // There may not be one if the click wasn't on an item.

@@ -728,6 +728,10 @@
   <data name="NotPlayingText" xml:space="preserve">
     <value>Not Playing</value>
     <comment>Not Playing</comment>
+  </data> 
+  <data name="NotPlaying.Text" xml:space="preserve">
+    <value>Not Playing</value>
+    <comment>Not Playing</comment>
   </data>
   <data name="SearchInWebText" xml:space="preserve">
     <value>Search in Library and Web</value>

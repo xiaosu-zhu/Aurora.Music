@@ -9,6 +9,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Aurora.Music.Pages"
     xmlns:vm="using:Aurora.Music.ViewModels"
+    xmlns:controls="using:Aurora.Music.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     RequestedTheme="{x:Bind Context.Foreground,Mode=OneWay}"
@@ -35,9 +36,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </StackPanel>
             <Button x:Uid="AddNewFolder" Command="{x:Bind Context.AddFolderCommand}" Background="{ThemeResource SystemControlBackgroundBaseLowRevealBackgroundBrush}" 
                     HorizontalAlignment="Left" Margin="0,8" Style="{ThemeResource ButtonRevealStyle}" Content="Add a new folder to scan"/>
-            <ListView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                      SelectionMode="None" IsItemClickEnabled="True" ItemClick="ListView_ItemClick" Margin="0,8" 
-                      ItemContainerStyle="{ThemeResource GeneralListViewItemStyle}" ItemsSource="{x:Bind Context.Folders}">
+            <ListView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemContainerStyleSelector="{StaticResource SongListStyleSelector}"
+                      SelectionMode="None" IsItemClickEnabled="True" ItemClick="ListView_ItemClick" Margin="0,8" ItemsSource="{x:Bind Context.Folders}">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="vm:FolderViewModel">
                         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
