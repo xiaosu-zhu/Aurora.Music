@@ -211,7 +211,7 @@ namespace Aurora.Music.Core.Extension.Json.QQMusicAlbum
         /// 
         /// </summary>
         [DataMember(Name = "Fmovie")]
-        public string Fmovie { get; set; }
+        public object Fmovie { get; set; }
 
         ///<summary>
         /// 
@@ -1357,7 +1357,7 @@ namespace Aurora.Music.Core.Extension.Json.QQMusicAlbum
         /// 
         /// </summary>
         [DataMember(Name = "albumTips")]
-        public string AlbumTips { get; set; }
+        public object AlbumTips { get; set; }
 
         ///<summary>
         /// 录音室专辑
@@ -1447,7 +1447,7 @@ namespace Aurora.Music.Core.Extension.Json.QQMusicAlbum
         /// 
         /// </summary>
         [DataMember(Name = "getShowInfo")]
-        public string GetShowInfo { get; set; }
+        public object GetShowInfo { get; set; }
 
         ///<summary>
         /// 

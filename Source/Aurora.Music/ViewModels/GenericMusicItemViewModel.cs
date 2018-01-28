@@ -157,10 +157,6 @@ namespace Aurora.Music.ViewModels
 
         internal virtual async Task<IList<Song>> GetSongsAsync()
         {
-            if (IDs == null)
-            {
-                return new List<Song>();
-            }
             if (IsOnline)
             {
                 if (MainPageViewModel.Current.OnlineMusicExtension == null)
@@ -179,6 +175,10 @@ namespace Aurora.Music.ViewModels
             }
             else
             {
+                if (IDs == null)
+                {
+                    return new List<Song>();
+                }
                 var opr = SQLOperator.Current();
 
                 var s = await opr.GetSongsAsync(IDs);
