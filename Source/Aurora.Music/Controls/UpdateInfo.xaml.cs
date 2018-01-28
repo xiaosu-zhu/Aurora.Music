@@ -17,5 +17,21 @@ namespace Aurora.Music.Controls
             Title = string.Format(Consts.UpdateNoteTitle, SystemInfoHelper.GetPackageVer());
             Note.Text = Consts.UpdateNote;
         }
+
+        private void ContentDialog_Unloaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            this.SizeChanged -= UpdateInfo_SizeChanged;
+        }
+
+        private void Root_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            Note.Width = Root.ActualWidth;
+            this.SizeChanged += UpdateInfo_SizeChanged;
+        }
+
+        private void UpdateInfo_SizeChanged(object sender, Windows.UI.Xaml.SizeChangedEventArgs e)
+        {
+            Note.Width = Root.ActualWidth;
+        }
     }
 }

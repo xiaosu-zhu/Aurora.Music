@@ -35,7 +35,6 @@ namespace Aurora.Music.Pages
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             base.OnNavigatedFrom(e);
-            SizeChanged -= Page_SizeChanged;
             OnlineCombo.SelectionChanged -= OnlineCombo_SelectionChanged;
             LrcCombo.SelectionChanged -= LyricCombo_SelectionChanged;
             MetaCombo.SelectionChanged -= MetaCombo_SelectionChanged;
@@ -103,23 +102,11 @@ namespace Aurora.Music.Pages
             await MainPageViewModel.Current.ReloadExtensions();
         }
 
-        private void Page_SizeChanged(object sender, Windows.UI.Xaml.SizeChangedEventArgs e)
-        {
-            Main.Width = Window.Current.Bounds.Width;
-        }
-
         private void Main_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            Main.Width = Window.Current.Bounds.Width;
-            SizeChanged += Page_SizeChanged;
             OnlineCombo.SelectionChanged += OnlineCombo_SelectionChanged;
             LrcCombo.SelectionChanged += LyricCombo_SelectionChanged;
             MetaCombo.SelectionChanged += MetaCombo_SelectionChanged;
-        }
-
-        private void Page_Unloaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-            SizeChanged -= Page_SizeChanged;
         }
     }
 }

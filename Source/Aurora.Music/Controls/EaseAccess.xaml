@@ -3,7 +3,7 @@ Copyright (c) Aurora Studio. All rights reserved.
 
 Licensed under the MIT License. See LICENSE in the project root for license information.
 -->
-<ContentDialog
+<ContentDialog Unloaded="ContentDialog_Unloaded"
     x:Class="Aurora.Music.Controls.EaseAccess"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -13,9 +13,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Uid="EaseAccess"
     CloseButtonText="Close"
+    DefaultButton="Close"
     mc:Ignorable="d">
-
-    <StackPanel Orientation="Vertical">
-        <toolkit:MarkdownTextBlock IsTextSelectionEnabled="False" Text="# Access Keys&#xD;&#xA;---&#xD;&#xA;Pressing the `Alt` key initializes access key functionality and displays all currently available key combinations in Key Tips. Then hit the specific key to invoke interactions binded to this element.&#xD;&#xA;&#xD;&#xA;# Keyboard Accelerators&#xD;&#xA;---&#xD;&#xA;Here are shortcut keys that supports:&#xD;&#xA;&#xD;&#xA;| Key | Function |&#xD;&#xA;| --- | --- |&#xD;&#xA;| `Ctrl + P, F2` | Play/Pause |&#xD;&#xA;| `F1` | Go Previous |&#xD;&#xA;| `F3` | Go Next |&#xD;&#xA;| `Ctrl + F` | Search |&#xD;&#xA;| `Ctrl + E` | Stop Playing |&#xD;&#xA;| `Ctrl + M` | Open Side Menu |&#xD;&#xA;| `Ctrl + L` | Open Playing list |"/>
-    </StackPanel>
+    <ScrollViewer Loaded="Root_Loaded" x:Name="Root" HorizontalScrollMode="Disabled">
+        <toolkit:MarkdownTextBlock x:Name="Main" Text="# Access Keys&#xD;&#xA;---&#xD;&#xA;Pressing the `Alt` key initializes access key functionality and displays all currently available key combinations in Key Tips. Then hit the specific key to invoke interactions binded to this element.&#xD;&#xA;&#xD;&#xA;# Keyboard Accelerators&#xD;&#xA;---&#xD;&#xA;Here are shortcut keys that supports:&#xD;&#xA;&#xD;&#xA;| Key | Function |&#xD;&#xA;| --- | --- |&#xD;&#xA;| `Ctrl + P, F2` | Play/Pause |&#xD;&#xA;| `F1` | Go Previous |&#xD;&#xA;| `F3` | Go Next |&#xD;&#xA;| `Ctrl + F` | Search |&#xD;&#xA;| `Ctrl + E` | Stop Playing |&#xD;&#xA;| `Ctrl + M` | Open Side Menu |&#xD;&#xA;| `Ctrl + L` | Open Playing list |"/>
+    </ScrollViewer>
 </ContentDialog>

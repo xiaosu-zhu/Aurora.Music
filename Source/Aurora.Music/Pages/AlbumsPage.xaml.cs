@@ -72,7 +72,7 @@ namespace Aurora.Music.Pages
                 ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.AlbumItemConnectedAnimation + "_2");
                 if (ani != null)
                 {
-                    container.StartConnectedAnimation(ani, "Artwork");
+                    container.StartConnectedAnimation(ani, "Arts");
                 }
                 return;
             }
@@ -89,7 +89,7 @@ namespace Aurora.Music.Pages
                 ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.AlbumItemConnectedAnimation + "_2");
                 if (ani != null)
                 {
-                    container.StartConnectedAnimation(ani, "Artwork");
+                    container.StartConnectedAnimation(ani, "Arts");
                 }
                 return;
             }

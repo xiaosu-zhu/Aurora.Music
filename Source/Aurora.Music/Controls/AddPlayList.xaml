@@ -23,6 +23,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 
     <ContentDialog.Resources>
         <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Themes/Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
             <Style TargetType="ListViewItem" x:Key="GeneralListViewItemStyle">
                 <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
                 <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />

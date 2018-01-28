@@ -27,12 +27,20 @@ namespace Aurora.Music.Controls
             this.InitializeComponent();
         }
 
-        private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private void Root_Loaded(object sender, RoutedEventArgs e)
         {
+            Main.Width = Root.ActualWidth;
+            SizeChanged += EaseAccess_SizeChanged;
         }
 
-        private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private void EaseAccess_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            Main.Width = Root.ActualWidth;
+        }
+
+        private void ContentDialog_Unloaded(object sender, RoutedEventArgs e)
+        {
+            SizeChanged -= EaseAccess_SizeChanged;
         }
     }
 }

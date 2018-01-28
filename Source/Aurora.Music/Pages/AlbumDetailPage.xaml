@@ -120,16 +120,12 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </Grid.Background>
                 <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource SystemControlBackgroundBaseMediumBrush}"/>
             </Grid>
-            <toolkit:DropShadowPanel x:Name="HeaderBG" BlurRadius="16" ShadowOpacity="0.5" OffsetX="0" OffsetY="0" 
-                                     HorizontalAlignment="Right" Margin="64" VerticalAlignment="Center" 
-                                     Color="{ThemeResource SystemBaseHighColor}">
-                <Image Stretch="Uniform" Height="160" x:Name="HeaderBGImg">
-                    <Image.Source>
-                        <BitmapImage DecodePixelHeight="160" DecodePixelType="Logical" 
+            <Image x:Name="HeaderBG" HorizontalAlignment="Right" Margin="64" VerticalAlignment="Center" Stretch="Uniform" Height="160">
+                <Image.Source>
+                    <BitmapImage DecodePixelHeight="160" DecodePixelType="Logical" 
                                      UriSource="{x:Bind Context.HeroImage,Mode=OneWay,FallbackValue=ms-appx:///Assets/Images/welcom_bg.png}"/>
-                    </Image.Source>
-                </Image>
-            </toolkit:DropShadowPanel>
+                </Image.Source>
+            </Image>
             <Grid x:Name="HeaderGroup" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="32">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>

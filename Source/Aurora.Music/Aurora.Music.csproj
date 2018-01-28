@@ -142,6 +142,9 @@
     <Compile Include="Controls\LyricView.xaml.cs">
       <DependentUpon>LyricView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\OpenSource.xaml.cs">
+      <DependentUpon>OpenSource.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\SearchResultDialog.xaml.cs">
       <DependentUpon>SearchResultDialog.xaml</DependentUpon>
     </Compile>
@@ -370,6 +373,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\LyricView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\OpenSource.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

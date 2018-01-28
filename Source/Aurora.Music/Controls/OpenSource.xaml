@@ -3,21 +3,19 @@ Copyright (c) Aurora Studio. All rights reserved.
 
 Licensed under the MIT License. See LICENSE in the project root for license information.
 -->
-<ContentDialog
-    Unloaded="ContentDialog_Unloaded"
-    x:Class="Aurora.Music.Controls.UpdateInfo"
+<ContentDialog Unloaded="ContentDialog_Unloaded"
+    x:Class="Aurora.Music.Controls.OpenSource"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Aurora.Music.Controls"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    x:Uid="UpdateNoteDialog"
     mc:Ignorable="d"
-    DefaultButton="Close"
-    CloseButtonText="Close">
-    <ScrollViewer Loaded="Root_Loaded" x:Name="Root" HorizontalScrollMode="Disabled">
-        <toolkit:MarkdownTextBlock IsTextSelectionEnabled="False" x:Name="Note">
-        </toolkit:MarkdownTextBlock>
+    Title="Open Source"
+    CloseButtonText="Close"
+    DefaultButton="Close">
+    <ScrollViewer x:Name="Root" HorizontalScrollMode="Disabled">
+        <toolkit:MarkdownTextBlock Loaded="Main_Loaded" LinkClicked="Main_LinkClicked" x:Name="Main" Text="You can explorer currently using open source libraries below:&#xD;&#xA;&#xD;&#xA;| `Name` | `Version` | `License` | `Site` |&#xD;&#xA;| --- | --- | --- | ---|&#xD;&#xA;"></toolkit:MarkdownTextBlock>
     </ScrollViewer>
-</ContentDialog>
+    </ContentDialog>

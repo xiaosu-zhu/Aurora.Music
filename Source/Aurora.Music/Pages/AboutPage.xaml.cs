@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
+using Aurora.Music.Controls;
 using Aurora.Music.Core;
 using Aurora.Music.ViewModels;
 using Aurora.Shared.Helpers;
@@ -27,8 +28,6 @@ namespace Aurora.Music.Pages
             MainPageViewModel.Current.LeftTopColor = Resources["SystemControlForegroundBaseHighBrush"] as SolidColorBrush;
 
             BuildText = string.Format(Consts.Localizer.GetString("BuildText"), SystemInfoHelper.GetPackageVer());
-            AssemblyName name = typeof(Microsoft.Toolkit.Uwp.UI.Controls.DropShadowPanel).Assembly.GetName();
-            name.Version.ToVersionString();
         }
 
         public string BuildText { get; set; }
@@ -42,6 +41,12 @@ namespace Aurora.Music.Pages
         {
             var launcher = Microsoft.Services.Store.Engagement.StoreServicesFeedbackLauncher.GetDefault();
             await launcher.LaunchAsync();
+        }
+
+        private async void Button_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            OpenSource o = new OpenSource();
+            await o.ShowAsync();
         }
     }
 }
