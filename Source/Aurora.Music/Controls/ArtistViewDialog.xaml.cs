@@ -5,8 +5,8 @@ using Aurora.Music.Core;
 using Aurora.Music.ViewModels;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.System;
-using Windows.System.Threading;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -26,27 +26,21 @@ namespace Aurora.Music.Controls
 
         internal ArtistViewDialog(ArtistViewModel artist)
         {
+            MainPage.Current.ShowModalUI(true, "Prepare to Play");
             this.InitializeComponent();
             Context.Artist = artist;
             Title = artist.Name;
 
-            var t = ThreadPool.RunAsync(async x =>
+            Task.Run(async () =>
             {
                 await Context.GetAlbums(artist);
+                MainPage.Current.ShowModalUI(false);
             });
         }
 
         public string AlbumCount(int count)
         {
             return SmartFormat.Smart.Format(Consts.Localizer.GetString("SmartAlbums"), count);
-        }
-
-        private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
-        }
-
-        private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
         }
 
         private async void AlbumList_ItemClick(object sender, ItemClickEventArgs e)

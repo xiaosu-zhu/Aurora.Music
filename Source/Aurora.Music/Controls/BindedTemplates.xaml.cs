@@ -52,7 +52,9 @@ namespace Aurora.Music.Controls
 
         private async void SongList_Play(object sender, RoutedEventArgs e)
         {
+            MainPage.Current.ShowModalUI(true, "Prepare to Play");
             await MainPageViewModel.Current.InstantPlay(await (await ((sender as FrameworkElement).DataContext as SongViewModel).GetAlbumAsync()).GetSongsAsync(), (int)((sender as FrameworkElement).DataContext as SongViewModel).Index);
+            MainPage.Current.ShowModalUI(false);
         }
     }
 }

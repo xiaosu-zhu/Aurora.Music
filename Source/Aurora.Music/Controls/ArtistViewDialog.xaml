@@ -20,9 +20,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     x:Uid="ArtistDialog"
     Title="Artist"
     CloseButtonText="Close"
-    DefaultButton="Close"
-    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
-    SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
+    DefaultButton="Close">
     <ContentDialog.DataContext>
         <vm:ArtistPageViewModel x:Name="Context"/>
     </ContentDialog.DataContext>

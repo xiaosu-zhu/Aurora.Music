@@ -529,7 +529,9 @@ namespace Aurora.Music
                     var result = await dialog.ShowAsync();
                     if (result == ContentDialogResult.Secondary)
                     {
+                        ShowModalUI(true, "Prepare to Show");
                         var view = new AlbumViewDialog(await g.FindAssociatedAlbumAsync());
+                        ShowModalUI(false);
                         result = await view.ShowAsync();
                     }
                 }
@@ -563,7 +565,9 @@ namespace Aurora.Music
                         var result = await dialog.ShowAsync();
                         if (result == ContentDialogResult.Secondary)
                         {
+                            ShowModalUI(true, "Prepare to Show");
                             var view = new AlbumViewDialog(await Context.SearchItems[0].FindAssociatedAlbumAsync());
+                            ShowModalUI(false);
                             result = await view.ShowAsync();
                         }
                     }
@@ -796,17 +800,20 @@ namespace Aurora.Music
             });
         }
 
-        public void ShowModalUI(bool show, string title = "")
+        public async void ShowModalUI(bool show, string title = "")
         {
-            if (show)
+            await Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
             {
-                ModalIn.Begin();
-            }
-            else
-            {
-                ModalOut.Begin();
-            }
-            ModalText.Text = title;
+                if (show)
+                {
+                    ModalIn.Begin();
+                }
+                else
+                {
+                    ModalOut.Begin();
+                }
+                ModalText.Text = title;
+            });
         }
 
         public static async Task<IReadOnlyList<StorageFile>> ReadFilesAsync(IReadOnlyList<IStorageItem> p)
