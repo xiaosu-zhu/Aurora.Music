@@ -10,13 +10,15 @@ using Windows.UI.Xaml.Controls;
 
 namespace Aurora.Music.Core
 {
+    public enum SleepAction { Pause, Stop, Shutdown }
     public static class Consts
     {
+
         public static StorageFolder ArtworkFolder = AsyncHelper.RunSync(async () =>
         {
             return await ApplicationData.Current.LocalFolder.CreateFolderAsync("Artworks", CreationCollisionOption.OpenIfExists);
         });
-        
+
         public const string SONG = "SONG";
 
         public const string BlackPlaceholder = "ms-appx:///Assets/Images/placeholder_b.png";

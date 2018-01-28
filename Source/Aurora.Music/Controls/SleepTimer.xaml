@@ -1,0 +1,29 @@
+﻿<!--
+Copyright (c) Aurora Studio. All rights reserved.
+
+Licensed under the MIT License. See LICENSE in the project root for license information.
+-->
+<ContentDialog
+    x:Class="Aurora.Music.Controls.SleepTimer"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Aurora.Music.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="Sleep Timer"
+    PrimaryButtonText="Confirm"
+    CloseButtonText="Cancel"
+    DefaultButton="Primary"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick">
+
+    <StackPanel Padding="12,0" Orientation="Vertical">
+        <TimePicker x:Name="Time" Margin="0,8" MinuteIncrement="10" Header="When time arrives"/>
+        <StackPanel Margin="0,8" Orientation="Vertical">
+            <TextBlock Text="Performs:" Style="{ThemeResource BodyTextBlockStyle}"/>
+            <RadioButton IsThreeState="False" IsChecked="True" x:Name="PlayPause" Content="Toggle play/pause"/>
+            <RadioButton IsThreeState="False" x:Name="Stop" Content="Stop"/>
+            <RadioButton IsThreeState="False" x:Name="Shutdown" Content="Shutdown app"/>
+        </StackPanel>
+    </StackPanel>
+</ContentDialog>

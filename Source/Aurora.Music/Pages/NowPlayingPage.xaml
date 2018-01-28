@@ -1057,6 +1057,11 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
                                 <MenuFlyoutSeparator/>
+                                <MenuFlyoutItem Command="{x:Bind Context.ShowSleepTimer}" Text="Sleep Timer">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE916;" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
                                 <MenuFlyoutItem x:Uid="Share" Click="Share_Click" Text="Share">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE72D;" />

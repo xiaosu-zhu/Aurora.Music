@@ -862,7 +862,7 @@
     <comment>Update Note for Build {0}</comment>
   </data>
   <data name="UpdateNote" xml:space="preserve">
-    <value>* **改进**：略微更改歌曲和专辑列表样式&#xD;&#xA;* **修复**：多处错误&#xD;&#xA;* **修复**：补全翻译文本</value>
+    <value>* **新增**：睡眠定时器，可进入“正在播放 - 更多”菜单，进行设置&#xD;&#xA;* **改进**：略微更改歌曲列表和专辑列表样式&#xD;&#xA;* **修复**：多处错误&#xD;&#xA;* **修复**：补全翻译文本</value>
     <comment>Update Note</comment>
   </data>
   <data name="AddToCollectionTitle" xml:space="preserve">

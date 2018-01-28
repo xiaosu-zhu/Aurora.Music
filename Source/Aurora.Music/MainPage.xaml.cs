@@ -60,6 +60,38 @@ namespace Aurora.Music
             //Window.Current.CoreWindow.KeyUp += MainPage_KeyUp;
         }
 
+        internal void SetSleepTimer(DateTime t, SleepAction a)
+        {
+            sleepTimer?.Cancel();
+            sleepTime = t;
+            sleepAction = a;
+            var period = (t - DateTime.Now).Subtract(TimeSpan.FromSeconds(30));
+            sleepTimer = ThreadPoolTimer.CreateTimer(async work =>
+            {
+                await Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>
+                {
+                    PopMessage($"In {(sleepTime - DateTime.Now).TotalSeconds.ToString("0")} seconds sleep timer will activate");
+                    await Task.Delay(Convert.ToInt32((sleepTime - DateTime.Now).TotalMilliseconds));
+                    switch (sleepAction)
+                    {
+                        case SleepAction.Pause:
+                            MainPageViewModel.Current.PlayPause.Execute();
+                            break;
+                        case SleepAction.Stop:
+                            MainPageViewModel.Current.Stop.Execute();
+                            break;
+                        case SleepAction.Shutdown:
+                            Application.Current.Exit();
+                            break;
+                        default:
+                            break;
+                    }
+                });
+            }, period.TotalSeconds < 0 ? TimeSpan.FromSeconds(1) : period, destroy =>
+            {
+            });
+        }
+
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
@@ -201,7 +233,9 @@ namespace Aurora.Music
         private ThreadPoolTimer dismissTimer;
         private string shareTitle;
         private string shareDesc;
-
+        private DateTime sleepTime;
+        private SleepAction sleepAction;
+        private ThreadPoolTimer sleepTimer;
 
         public bool CanAdd { get; private set; }
         public bool IsCurrentDouban => MainFrame.Content is DoubanPage;

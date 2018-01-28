@@ -12,8 +12,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    d:DesignHeight="200"
-    d:DesignWidth="160">
+    d:DesignHeight="300"
+    d:DesignWidth="300">
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -210,7 +210,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         </Grid.RowDefinitions>
 
         <Grid x:Name="Arts" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <Grid Width="180" Height="180" x:Name="BlurBG" Margin="-30" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid Width="180" Height="180" Margin="-15" x:Name="BlurBG" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <interactivity:Interaction.Behaviors>
                     <behaviors:Blur x:Name="BlurBehavior" Value="0" Duration="200" Delay="0" AutomaticallyStart="True"/>
                     <behaviors:Offset x:Name="Offset" OffsetX="0" OffsetY="0" Duration="200" Delay="0" AutomaticallyStart="True"/>

@@ -145,6 +145,9 @@
     <Compile Include="Controls\SearchResultDialog.xaml.cs">
       <DependentUpon>SearchResultDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\SleepTimer.xaml.cs">
+      <DependentUpon>SleepTimer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\TagDialog.xaml.cs">
       <DependentUpon>TagDialog.xaml</DependentUpon>
     </Compile>
@@ -371,6 +374,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\SearchResultDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SleepTimer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

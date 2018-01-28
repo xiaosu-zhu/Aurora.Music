@@ -733,6 +733,17 @@ namespace Aurora.Music.ViewModels
                 });
             }
         }
+        public DelegateCommand ShowSleepTimer
+        {
+            get
+            {
+                return new DelegateCommand(async () =>
+                {
+                    SleepTimer s = new SleepTimer();
+                    await s.ShowAsync();
+                });
+            }
+        }
         public DelegateCommand ReturnNormal
         {
             get
