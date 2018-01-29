@@ -34,7 +34,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <ResourceDictionary x:Key="Light" Source="../Themes/Light.xaml"/>
                 <ResourceDictionary x:Key="Dark" Source="../Themes/Dark.xaml"/>
             </ResourceDictionary.ThemeDictionaries>
-            <CollectionViewSource x:Name="ArtistListSource" x:Key="ArtistListSource" IsSourceGrouped="True" Source="{x:Bind Context.ArtistList,Mode=OneWay}"/>
+            <CollectionViewSource x:Name="ArtistListSource" IsSourceGrouped="True" Source="{x:Bind Context.ArtistList,Mode=OneWay}"/>
 
         </ResourceDictionary>
     </Page.Resources>
@@ -86,9 +86,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                           FontSize="20" ItemsSource="{x:Bind ArtistListSource.View.CollectionGroups, Mode=OneWay}">
                     <GridView.ItemTemplate>
                         <DataTemplate x:DataType="wuxdata:ICollectionViewGroup">
-                            <Grid Background="{ThemeResource SystemControlAccentDark2AcrylicWindowAccentDark2MediumHighBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                <TextBlock Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Margin="12,4" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{x:Bind Group.ToString()}" Style="{StaticResource BaseTextBlockStyle}" TextWrapping="NoWrap"/>
-                            </Grid>
+                            <TextBlock Margin="12,4" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{x:Bind Group.ToString()}" Style="{StaticResource BaseTextBlockStyle}" MaxLines="1" TextWrapping="NoWrap"/>
                         </DataTemplate>
                     </GridView.ItemTemplate>
                     <GridView.ItemsPanel>

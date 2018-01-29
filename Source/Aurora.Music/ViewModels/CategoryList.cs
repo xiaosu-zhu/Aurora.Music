@@ -35,5 +35,15 @@ namespace Aurora.Music.ViewModels
             return b ? 0d : -250d;
         }
         public IList<ImageSource> HeroImages { get; set; }
+
+        public double BoolToOpacity(bool a)
+        {
+            return a ? 1.0 : 0.1;
+        }
+
+        public SolidColorBrush ChangeTextForeground(bool b)
+        {
+            return (SolidColorBrush)(b ? MainPage.Current.Resources["SystemControlForegroundBaseHighBrush"] : MainPage.Current.Resources["SystemControlDisabledBaseLowBrush"]);
+        }
     }
 }

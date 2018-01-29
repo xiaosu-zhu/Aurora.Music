@@ -1379,7 +1379,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     <Style TargetType="ListViewItem" x:Key="SongListOddStyle">
         <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
         <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
-        <Setter Property="Background" Value="{ThemeResource SongListEvenBrush}" />
+        <Setter Property="Background" Value="{ThemeResource SongListOddBrush}" />
         <Setter Property="Foreground" Value="{ThemeResource ListViewItemForeground}" />
         <Setter Property="TabNavigation" Value="Local" />
         <Setter Property="IsHoldingEnabled" Value="True" />
@@ -1486,7 +1486,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     <Style TargetType="ListViewItem" x:Key="SongListEvenStyle">
         <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
         <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
-        <Setter Property="Background" Value="{ThemeResource SongListOddBrush}" />
+        <Setter Property="Background" Value="{ThemeResource SongListEvenBrush}" />
         <Setter Property="Foreground" Value="{ThemeResource ListViewItemForeground}" />
         <Setter Property="TabNavigation" Value="Local" />
         <Setter Property="IsHoldingEnabled" Value="True" />
@@ -2685,8 +2685,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     <Style TargetType="GridViewItem" x:Key="SemanticOutItem">
         <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
         <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
-        <Setter Property="Background" Value="{ThemeResource GridViewItemBackground}" />
-        <Setter Property="Foreground" Value="{ThemeResource GridViewItemForeground}" />
+        <Setter Property="Background" Value="{ThemeResource SystemControlAccentDark2AcrylicWindowAccentDark2MediumHighBrush}" />
+        <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundAltHighBrush}" />
         <Setter Property="TabNavigation" Value="Local" />
         <Setter Property="IsHoldingEnabled" Value="True" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -2722,8 +2722,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         FocusBorderBrush="{ThemeResource GridViewItemFocusBorderBrush}"
                         FocusSecondaryBorderBrush="{ThemeResource GridViewItemFocusSecondaryBorderBrush}"
                         PlaceholderBackground="{ThemeResource GridViewItemPlaceholderBackground}"
-                        PointerOverBackground="{ThemeResource GridViewItemBackgroundPointerOver}"
-                        PointerOverForeground="{ThemeResource GridViewItemForegroundPointerOver}"
+                        PointerOverBackground="{ThemeResource SystemControlAccentDark1AcrylicWindowAccentDark1Brush}"
+                        PointerOverForeground="{ThemeResource SystemControlForegroundAltHighBrush}"
                         SelectedBackground="{ThemeResource GridViewItemBackgroundSelected}"
                         SelectedForeground="{ThemeResource GridViewItemForegroundSelected}"
                         SelectedPointerOverBackground="{ThemeResource GridViewItemBackgroundSelectedPointerOver}"

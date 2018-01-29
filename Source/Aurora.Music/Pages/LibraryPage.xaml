@@ -83,19 +83,16 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="vm:CategoryListItem">
                     <Grid x:Name="Panel" HorizontalAlignment="Stretch" Height="{x:Bind GetHeight(IsCurrent), Mode=OneWay}">
-                        <ParallaxView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                        <ParallaxView Opacity="{x:Bind BoolToOpacity(IsCurrent),Mode=OneWay}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                                       VerticalShift="{x:Bind GetVerticalShift(IsCurrent),Mode=OneWay}" Source="{Binding ElementName=Category}">
                             <controls:ImageGrid x:Name="CategoryBG" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                                                 ImageSources="{x:Bind HeroImages,Mode=OneWay}">
                             </controls:ImageGrid>
                         </ParallaxView>
-                        <Grid Background="{ThemeResource SystemControlBackgroundAltMediumBrush}" 
-                              Visibility="{x:Bind BoolNottoVisibility(IsCurrent),Mode=OneWay}" 
-                              HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                         <Grid Background="{ThemeResource SystemControlAltMediumLowAcrylicElementMediumBrush}" 
                               HorizontalAlignment="Right" VerticalAlignment="Bottom">
                             <TextBlock Margin="8" x:Name="Title" Text="{x:Bind Title}" 
-                                       Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" 
+                                       Foreground="{x:Bind ChangeTextForeground(IsCurrent), Mode=OneWay}" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center" 
                                        Style="{ThemeResource TitleTextBlockStyle}"/>
                         </Grid>

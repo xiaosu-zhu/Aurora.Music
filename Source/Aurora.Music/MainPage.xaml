@@ -29,7 +29,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                 <Setter Property="VerticalContentAlignment" Value="Stretch"/>
                 <Setter Property="OpenPaneLength" Value="{ThemeResource SplitViewOpenPaneThemeLength}"/>
-                <Setter Property="PaneBackground" Value="{ThemeResource SystemControlAltHighAcrylicElementBrush}"/>
+                <Setter Property="PaneBackground" Value="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}"/>
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="SplitView">
@@ -938,14 +938,12 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="180">
                         <Grid.Background>
-                            <ImageBrush Stretch="UniformToFill" AlignmentX="Center" AlignmentY="Center">
+                            <ImageBrush Opacity="0.1" Stretch="UniformToFill" AlignmentX="Center" AlignmentY="Center">
                                 <ImageBrush.ImageSource>
                                     <BitmapImage UriSource="{x:Bind Context.CurrentArtwork, Mode=OneWay, TargetNullValue=ms-appx:///Assets/Images/pane_placeholder.png}"/>
                                 </ImageBrush.ImageSource>
                             </ImageBrush>
                         </Grid.Background>
-                    </Grid>
-                    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="180" Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
                     </Grid>
                     <Button x:Uid="Collapse" Style="{ThemeResource MainPageHamStyle}" Background="Transparent" ToolTipService.ToolTip="Collapse"
                         HorizontalAlignment="Left" VerticalAlignment="Top" Click="Toggle_PaneOpened"
@@ -975,15 +973,14 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <DataTemplate x:DataType="vm:HamPanelItem">
                             <Grid Height="180">
                                 <Grid.Background>
-                                    <ImageBrush AlignmentX="Center" AlignmentY="Center" Stretch="UniformToFill">
+                                    <ImageBrush Opacity="{x:Bind BoolToOpacity(IsCurrent),Mode=OneWay}" AlignmentX="Center" AlignmentY="Center" Stretch="UniformToFill">
                                         <ImageBrush.ImageSource>
-                                            <BitmapImage UriSource="{x:Bind BG}"/>
+                                            <BitmapImage UriSource="{x:Bind BG}" DecodePixelHeight="180" DecodePixelType="Logical"/>
                                         </ImageBrush.ImageSource>
                                     </ImageBrush>
                                 </Grid.Background>
-                                <Grid Background="{ThemeResource SystemControlBackgroundAltMediumBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{x:Bind BoolNottoVisibility(IsCurrent), Mode=OneWay}"/>
                                 <StackPanel Background="{ThemeResource SystemControlAltMediumLowAcrylicElementMediumBrush}" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                                    <TextBlock Margin="8" TextAlignment="Right" Text="{x:Bind Title}" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="{x:Bind ChangeWeight(IsCurrent), Mode=OneWay}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                    <TextBlock Margin="8" TextAlignment="Right" Text="{x:Bind Title}" Foreground="{x:Bind ChangeTextForeground(IsCurrent), Mode=OneWay}" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="{x:Bind ChangeWeight(IsCurrent), Mode=OneWay}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Icon}" Margin="8" Foreground="{x:Bind ChangeForeground(IsCurrent), Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </Grid>
@@ -1050,7 +1047,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <Grid Visibility="{x:Bind Context.BooltoVisibility(Context.NeedShowPanel), Mode=OneWay}" 
                       HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="74" x:Name="NowPanel"
                       Background="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}">
-                    
+
                     <animations:Implicit.ShowAnimations>
                         <animations:TranslationAnimation Duration="0:0:1" From="0,96,0" To="0" ></animations:TranslationAnimation>
                     </animations:Implicit.ShowAnimations>
@@ -1058,8 +1055,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <animations:Implicit.HideAnimations>
                         <animations:TranslationAnimation Duration="0:0:1" From="0" To="0,96,0"></animations:TranslationAnimation>
                     </animations:Implicit.HideAnimations>
-                    
-                    
+
+
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="auto"/>
@@ -1206,7 +1203,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <ProgressRing Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" x:Name="ModalRing" HorizontalAlignment="Center" VerticalAlignment="Center" Width="48" Height="48" IsActive="False" IsEnabled="False"/>
                     <TextBlock x:Uid="Waiting"  Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" Text="Waiting" x:Name="ModalText" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,80,0,0"/>
                 </Grid>
-                
+
                 <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top" Background="Transparent" 
                       Height="32" x:Name="TitleBar" Loaded="TitleBar_Loaded">
                     <TextBlock x:Uid="AppName"  Style="{ThemeResource CaptionTextBlockStyle}" Visibility="{x:Bind Context.BooltoVisibility(Context.NeedShowTitle), Mode=OneWay}"
@@ -1227,7 +1224,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE11A;" FontSize="13"/>
                     </Button>
                 </Grid>
-                
+
                 <toolkit:InAppNotification x:Name="InAppNotify" Style="{ThemeResource ToastNotificationStyle}" Content=""
                                     AnimationDuration="00:00:00.72" VerticalOffset="16" HorizontalOffset="0"/>
 

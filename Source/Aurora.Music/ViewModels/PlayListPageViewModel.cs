@@ -105,6 +105,13 @@ namespace Aurora.Music.ViewModels
                 Description = Model.Description;
                 Title = Model.Title;
                 HeroImage = Array.ConvertAll(Model.HeroArtworks ?? new string[] { }, x => new Uri(x)).ToList();
+                foreach (var item in SongsList)
+                {
+                    foreach (var song in item)
+                    {
+                        song.RefreshFav();
+                    }
+                }
             });
         }
 
@@ -144,6 +151,13 @@ namespace Aurora.Music.ViewModels
                     return y;
                 });
                 SongsList.Add(item);
+            }
+            foreach (var item in SongsList)
+            {
+                foreach (var song in item)
+                {
+                    song.RefreshFav();
+                }
             }
         }
 

@@ -9,11 +9,21 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     xmlns:controls="using:Aurora.Music.Controls"
     xmlns:local="using:Aurora.Music">
 
+    <!-- Default Style of ImageGrid -->
     <Style TargetType="controls:ImageGrid">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:ImageGrid">
-                    <Grid x:Name="Main" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" FocusVisualMargin="{TemplateBinding FocusVisualMargin}" FocusVisualPrimaryBrush="{TemplateBinding FocusVisualPrimaryBrush}" FocusVisualSecondaryBrush="{TemplateBinding FocusVisualSecondaryBrush}" FocusVisualPrimaryThickness="{TemplateBinding FocusVisualPrimaryThickness}" FocusVisualSecondaryThickness="{TemplateBinding FocusVisualSecondaryThickness}" Margin="{TemplateBinding Margin}" Padding="{TemplateBinding Padding}">
+                    <Grid x:Name="Main" 
+                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
+                          Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" 
+                          BorderThickness="{TemplateBinding BorderThickness}" FocusVisualMargin="{TemplateBinding FocusVisualMargin}" 
+                          FocusVisualPrimaryBrush="{TemplateBinding FocusVisualPrimaryBrush}" 
+                          FocusVisualSecondaryBrush="{TemplateBinding FocusVisualSecondaryBrush}" 
+                          FocusVisualPrimaryThickness="{TemplateBinding FocusVisualPrimaryThickness}" 
+                          FocusVisualSecondaryThickness="{TemplateBinding FocusVisualSecondaryThickness}" 
+                          Margin="{TemplateBinding Margin}" Padding="{TemplateBinding Padding}">
 
                     </Grid>
                 </ControlTemplate>
