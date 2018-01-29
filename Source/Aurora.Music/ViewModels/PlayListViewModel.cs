@@ -102,9 +102,9 @@ namespace Aurora.Music.ViewModels
             list.AddRange(SongsID);
             SongsID = list.ToArray();
 
-            if (HeroArtworks.Count > 3)
+            if (HeroArtworks.Count > 4)
             {
-                HeroArtworks.RemoveRange(3, HeroArtworks.Count - 3);
+                HeroArtworks.RemoveRange(4, HeroArtworks.Count - 4);
             }
 
             await SaveAsync();

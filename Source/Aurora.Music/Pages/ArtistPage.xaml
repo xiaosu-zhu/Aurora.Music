@@ -93,12 +93,10 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         </GridView>
         <Grid Height="360" x:Name="Header" HorizontalAlignment="Stretch" VerticalAlignment="Top">
             <Grid x:Name="BGBlur" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="360" Background="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}"/>
-            <ParallaxView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="360" VerticalShift="-480" Source="{x:Bind AlbumList}">
-                <controls:ImageGrid x:Name="HeaderBG" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+            <controls:ImageGrid x:Name="HeaderBG" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                                         BorderBrush="{x:Null}" BorderThickness="0"  
-                                        ImageSources="{x:Bind Context.HeroImage, Mode=OneWay}"/>
-            </ParallaxView>
-
+                                        ImageSources="{x:Bind Context.HeroImage, Mode=OneWay}">
+            </controls:ImageGrid>
             <Grid x:Name="HeaderBGOverlay" HorizontalAlignment="Stretch" Height="360" Background="{ThemeResource ArtistsPageGradient}"/>
 
             <toolkit:ImageEx x:Name="AvatarImage" Style="{ThemeResource QuickLoadImageEx}" PlaceholderSource="/Assets/Images/artist_placeholder.png"

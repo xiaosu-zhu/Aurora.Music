@@ -12,6 +12,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:controls="using:Aurora.Music.Controls"
     xmlns:list="using:Aurora.Music.Controls.ListItems"
+    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
@@ -43,7 +44,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     </Page.Resources>
 
     <Grid>
-
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState x:Name="Narrow">
@@ -81,7 +81,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 
         <SemanticZoom ViewChangeCompleted="SemanticZoom_ViewChangeCompleted">
             <SemanticZoom.ZoomedOutView>
-                <GridView Padding="64,128,64,0" FontSize="20" ItemsSource="{x:Bind SongsListSource.View.CollectionGroups, Mode=OneWay}">
+                <GridView ItemContainerStyle="{ThemeResource GridViewItemRevealStyle}" Padding="64,128,64,0" FontSize="20" ItemsSource="{x:Bind SongsListSource.View.CollectionGroups, Mode=OneWay}">
                     <GridView.Header>
                         <Grid Height="280"/>
                     </GridView.Header>
@@ -113,11 +113,10 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         </SemanticZoom>
         <Grid Height="360" x:Name="Header" HorizontalAlignment="Stretch" VerticalAlignment="Top">
             <Grid x:Name="BGBlur" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="360" Background="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}"/>
-            <ParallaxView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="360" VerticalShift="-360" Source="{x:Bind AlbumList}">
-                <controls:ImageGrid x:Name="HeaderBG" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+            <controls:ImageGrid x:Name="HeaderBG" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                                         BorderBrush="{x:Null}" BorderThickness="0"  
-                                        ImageSources="{x:Bind Context.HeroImage, Mode=OneWay}"/>
-            </ParallaxView>
+                                        ImageSources="{x:Bind Context.HeroImage, Mode=OneWay}">
+            </controls:ImageGrid>
 
             <Grid x:Name="HeaderBGOverlay" HorizontalAlignment="Stretch" Height="360" Background="{ThemeResource ArtistsPageGradient}"/>
             <Grid x:Name="HeaderGroup" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="32">

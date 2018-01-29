@@ -92,7 +92,7 @@ namespace Aurora.Music.ViewModels
                 var aa = albums.ToList();
                 aa.Shuffle();
                 var list = new List<Uri>();
-                for (int j = 0; j < aa.Count && list.Count < 9; j++)
+                for (int j = 0; j < aa.Count && list.Count < 6; j++)
                 {
                     if (aa[j].PicturePath.IsNullorEmpty()) continue;
                     list.Add(new Uri(aa[j].PicturePath));

@@ -15,6 +15,10 @@ using Aurora.Shared.Helpers;
 
 namespace Aurora.Music.ViewModels
 {
+    public class SongGroup : GroupedItem<SongViewModel>
+    {
+    }
+
     public class SongViewModel : ViewModelBase, IKey
     {
         public SongViewModel()

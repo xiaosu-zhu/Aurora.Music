@@ -39,7 +39,7 @@ namespace Aurora.Music.Controls
         public static readonly DependencyProperty ImageSourcesProperty =
             DependencyProperty.Register("ImageSources", typeof(object), typeof(ImageGrid), new PropertyMetadata(null, ImageSourcesChanged));
 
-        private static async void ImageSourcesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void ImageSourcesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is ImageGrid imgGrid)
             {
@@ -48,16 +48,12 @@ namespace Aurora.Music.Controls
                 {
                     source = imgs.ToList();
                 }
-                else if (e.NewValue is IList<Uri> uris)
+                else if (e.NewValue is IList<Uri> u)
                 {
-                    foreach (var item in uris)
+                    for (int i = 0; i < u.Count; i++)
                     {
-                        source.Add(new BitmapImage(item));
+                        source.Add(new BitmapImage());
                     }
-                }
-                while (imgGrid.main == null)
-                {
-                    await Task.Delay(16);
                 }
                 var main = imgGrid.main;
                 main.Children.Clear();
@@ -229,6 +225,14 @@ namespace Aurora.Music.Controls
                         break;
                     default:
                         break;
+                }
+
+                if (e.NewValue is IList<Uri> uris)
+                {
+                    for (int i = 0; i < uris.Count; i++)
+                    {
+                        (source[i] as BitmapImage).UriSource = uris[i];
+                    }
                 }
             }
         }

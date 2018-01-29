@@ -104,7 +104,7 @@ namespace Aurora.Music.ViewModels
                 var aa = (from s in songs group s by s.Album).ToList();
                 aa.Shuffle();
                 var list = new List<Uri>();
-                for (int j = 0; j < aa.Count && list.Count < 9; j++)
+                for (int j = 0; j < aa.Count && list.Count < 6; j++)
                 {
                     if (aa[j].FirstOrDefault().PicturePath.IsNullorEmpty())
                     {

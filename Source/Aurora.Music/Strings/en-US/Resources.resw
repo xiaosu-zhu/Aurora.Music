@@ -862,7 +862,7 @@
     <comment>Update Note for Build {0}</comment>
   </data>
   <data name="UpdateNote" xml:space="preserve">
-    <value>* **NEW**: Added douban FM channels&#xD;&#xA;* **NEW**: Added Keyboard Accelerators and Access Keys, for more information please view in "Settings-Ease of Access" page&#xD;&#xA;* **FIX**: Back Navigation can't work properly in some cases</value>
+    <value>* **NEW**: Sleep timer, you can find it at "Now Playing - More" menu&#xD;&#xA;* **Improved**: Slightly changed layout of album list and song list&#xD;&#xA;* **Fixed**: Some bugs&#xD;&#xA;* **Fixed**: Translation complement</value>
     <comment>Update Note</comment>
   </data>
   <data name="AddToCollectionTitle" xml:space="preserve">

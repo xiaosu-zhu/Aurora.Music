@@ -104,10 +104,10 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <Grid x:Name="BGBlur" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="360" Background="Transparent"/>
             <Grid Height="360" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                 <animations:Implicit.ShowAnimations>
-                    <animations:OpacityAnimation Duration="0:0:2" From="0" To="1.0"></animations:OpacityAnimation>
+                    <animations:OpacityAnimation SetInitialValueBeforeDelay="True" Delay="0:0:1" Duration="0:0:2" From="0" To="1.0"></animations:OpacityAnimation>
                 </animations:Implicit.ShowAnimations>
                 <interactivity:Interaction.Behaviors>
-                    <behaviors:Blur x:Name="BlurBehavior" Value="64" Duration="2000" Delay="0" AutomaticallyStart="True"/>
+                    <behaviors:Blur x:Name="BlurBehavior" Value="64" Duration="2000" Delay="1000" AutomaticallyStart="True"/>
                 </interactivity:Interaction.Behaviors>
 
                 <Grid.Background>

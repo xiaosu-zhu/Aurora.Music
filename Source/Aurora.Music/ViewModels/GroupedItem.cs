@@ -1,22 +1,18 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
+using Aurora.Music.Core.Models;
+using Aurora.Shared.Extensions;
+using Aurora.Shared.Helpers;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Aurora.Music.Core.Models;
 using Windows.Globalization.Collation;
-using Aurora.Shared.Extensions;
-using System.Diagnostics;
-using Aurora.Shared.Helpers;
 
 namespace Aurora.Music.ViewModels
 {
-    class GroupedItem<T> : IGrouping<string, T>, IEnumerable<T> where T : IKey
+    public class GroupedItem<T> : IGrouping<string, T>, IEnumerable<T> where T : IKey
     {
         private List<T> list;
 
@@ -24,6 +20,10 @@ namespace Aurora.Music.ViewModels
 
         public override string ToString()
         {
+            if (Key.IsNullorEmpty())
+            {
+                return "?";
+            }
             return Key;
         }
 
@@ -37,11 +37,16 @@ namespace Aurora.Music.ViewModels
             return list?.GetEnumerator();
         }
 
-        public GroupedItem(string key, IEnumerable<T> items)
+        public GroupedItem()
         {
             list = new List<T>();
-            list.AddRange(items);
+        }
+
+        public GroupedItem(string key, IEnumerable<T> items)
+        {
             Key = key;
+            list = new List<T>();
+            list.AddRange(items);
         }
 
         public GroupedItem(IGrouping<string, T> group)
@@ -75,7 +80,6 @@ namespace Aurora.Music.ViewModels
         /// <returns>An items source for a LongListSelector</returns>
         public static IEnumerable<GroupedItem<T>> CreateGroupsByAlpha(IEnumerable<T> items)
         {
-
             var g = new CharacterGroupings("zh-CN");
             var groups = from i in items group i by RemovePinYin(g.Lookup(i.Key));
             var ordered = groups.OrderBy(z => z.Key, new StringHelper());

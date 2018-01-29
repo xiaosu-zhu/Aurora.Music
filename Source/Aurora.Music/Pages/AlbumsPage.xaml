@@ -12,6 +12,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:controls="using:Aurora.Music.Controls"
     xmlns:list="using:Aurora.Music.Controls.ListItems"
+    xmlns:wuxdata="using:Windows.UI.Xaml.Data"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -80,15 +81,22 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
-        <SemanticZoom x:Name="Root">
+        <SemanticZoom x:Name="Root" ViewChangeCompleted="SemanticZoom_ViewChangeCompleted">
             <SemanticZoom.ZoomedOutView>
-                <GridView Padding="64,128,64,0" FontSize="20" ItemsSource="{x:Bind AlbumListSource.View.CollectionGroups, Mode=OneWay}">
-                    <GridView.Header>
-                        <Grid Height="280"/>
-                    </GridView.Header>
-                    <GridView.Footer>
-                        <Grid Height="160"/>
-                    </GridView.Footer>
+                <GridView Margin="64,0" HorizontalAlignment="Center" VerticalAlignment="Center" ItemContainerStyle="{ThemeResource SemanticOutItem}"
+                          FontSize="20" ItemsSource="{x:Bind AlbumListSource.View.CollectionGroups, Mode=OneWay}">
+                    <GridView.ItemTemplate>
+                        <DataTemplate x:DataType="wuxdata:ICollectionViewGroup">
+                            <Grid Background="{ThemeResource SystemControlAccentDark2AcrylicWindowAccentDark2MediumHighBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <TextBlock Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Margin="12,4" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{x:Bind Group.ToString()}" Style="{StaticResource BaseTextBlockStyle}" TextWrapping="NoWrap"/>
+                            </Grid>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
+                    <GridView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <toolkit:WrapPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </GridView.ItemsPanel>
                 </GridView>
             </SemanticZoom.ZoomedOutView>
 
@@ -113,14 +121,13 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </GridView>
             </SemanticZoom.ZoomedInView>
         </SemanticZoom>
-        <Grid Height="360" x:Name="Header" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+        <Grid Visibility="{x:Bind Root.IsZoomedInViewActive, Mode=OneWay}" Height="360" x:Name="Header" HorizontalAlignment="Stretch" VerticalAlignment="Top">
             <Grid x:Name="BGBlur" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="360" 
                   Background="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}"/>
-            <ParallaxView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="360" VerticalShift="-360" Source="{x:Bind AlbumList}">
-                <controls:ImageGrid x:Name="HeaderBG" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+            <controls:ImageGrid x:Name="HeaderBG" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                                         BorderBrush="{x:Null}" BorderThickness="0"  
-                                        ImageSources="{x:Bind Context.HeroImage, Mode=OneWay}"/>
-            </ParallaxView>
+                                        ImageSources="{x:Bind Context.HeroImage, Mode=OneWay}">
+            </controls:ImageGrid>
 
             <Grid x:Name="HeaderBGOverlay" HorizontalAlignment="Stretch" Height="360" Background="{ThemeResource ArtistsPageGradient}"/>
             <Grid x:Name="HeaderGroup" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="32">
