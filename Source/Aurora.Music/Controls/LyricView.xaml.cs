@@ -26,7 +26,7 @@ namespace Aurora.Music.Controls
     {
         private SongViewModel model;
 
-        private Extension extension;
+        private LyricExtension extension;
 
         public LyricView()
         {
@@ -74,14 +74,7 @@ namespace Aurora.Music.Controls
                 extension = MainPageViewModel.Current.LyricExtension;
                 if (extension != null)
                 {
-                    var result = await extension.ExecuteAsync(new ValueSet()
-                    {
-                        ["q"] = "lyric",
-                        ["title"] = model.Title,
-                        ["artist"] = model.Song.Performers.IsNullorEmpty() ? null : model.Song.Performers[0],
-                        ["ID"] = model.IsOnline ? model.Song.OnlineID : null,
-                        ["album"] = model.Album
-                    });
+                    var result = await extension.GetLyricAsync(m.Song, MainPageViewModel.Current.OnlineMusicExtension?.ServiceName);
                     if (result != null)
                     {
                         var l = new Lyric(LrcParser.Parser.Parse((string)result, model.Song.Duration));
@@ -115,14 +108,7 @@ namespace Aurora.Music.Controls
                 Model = new SongViewModel(e.CurrentSong);
                 if (extension != null)
                 {
-                    var result = await extension.ExecuteAsync(new ValueSet()
-                    {
-                        ["q"] = "lyric",
-                        ["title"] = model.Title,
-                        ["artist"] = model.Song.Performers.IsNullorEmpty() ? null : model.Song.Performers[0],
-                        ["ID"] = model.IsOnline ? model.Song.OnlineID : null,
-                        ["album"] = model.Album
-                    });
+                    var result = await extension.GetLyricAsync(e.CurrentSong, MainPageViewModel.Current.OnlineMusicExtension?.ServiceName);
                     if (result != null)
                     {
                         var l = new Lyric(LrcParser.Parser.Parse((string)result, model.Song.Duration));

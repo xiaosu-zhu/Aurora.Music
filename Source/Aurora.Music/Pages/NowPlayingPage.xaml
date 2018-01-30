@@ -69,22 +69,22 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                                 <Setter Target="VerticalThumb.(RevealBrush.State)" Value="Normal" />
                                             </VisualState.Setters>
                                             <Storyboard>
-                                                <DoubleAnimation Storyboard.TargetName="HorizontalThumbScale" Storyboard.TargetProperty="ScaleX" To="1" EnableDependentAnimation="True">
+                                                <DoubleAnimation Storyboard.TargetName="HorizontalThumbScale" Storyboard.TargetProperty="ScaleX" To="1">
                                                     <DoubleAnimation.EasingFunction>
                                                         <QuinticEase/>
                                                     </DoubleAnimation.EasingFunction>
                                                 </DoubleAnimation>
-                                                <DoubleAnimation Storyboard.TargetName="VerticalThumbScale" Storyboard.TargetProperty="ScaleX" To="1" EnableDependentAnimation="True">
+                                                <DoubleAnimation Storyboard.TargetName="VerticalThumbScale" Storyboard.TargetProperty="ScaleX" To="1">
                                                     <DoubleAnimation.EasingFunction>
                                                         <QuinticEase/>
                                                     </DoubleAnimation.EasingFunction>
                                                 </DoubleAnimation>
-                                                <DoubleAnimation Storyboard.TargetName="HorizontalThumbScale" Storyboard.TargetProperty="ScaleY" To="1" EnableDependentAnimation="True">
+                                                <DoubleAnimation Storyboard.TargetName="HorizontalThumbScale" Storyboard.TargetProperty="ScaleY" To="1">
                                                     <DoubleAnimation.EasingFunction>
                                                         <QuinticEase/>
                                                     </DoubleAnimation.EasingFunction>
                                                 </DoubleAnimation>
-                                                <DoubleAnimation Storyboard.TargetName="VerticalThumbScale" Storyboard.TargetProperty="ScaleY" To="1" EnableDependentAnimation="True">
+                                                <DoubleAnimation Storyboard.TargetName="VerticalThumbScale" Storyboard.TargetProperty="ScaleY" To="1">
                                                     <DoubleAnimation.EasingFunction>
                                                         <QuinticEase/>
                                                     </DoubleAnimation.EasingFunction>
@@ -193,22 +193,22 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetName="VerticalDecreaseRect" Storyboard.TargetProperty="Fill">
                                                     <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SliderTrackValueFillPointerOver}"/>
                                                 </ObjectAnimationUsingKeyFrames>
-                                                <DoubleAnimation Storyboard.TargetName="HorizontalThumbScale" Storyboard.TargetProperty="ScaleX" To="1.5" EnableDependentAnimation="True">
+                                                <DoubleAnimation Storyboard.TargetName="HorizontalThumbScale" Storyboard.TargetProperty="ScaleX" To="1.5">
                                                     <DoubleAnimation.EasingFunction>
                                                         <QuinticEase/>
                                                     </DoubleAnimation.EasingFunction>
                                                 </DoubleAnimation>
-                                                <DoubleAnimation Storyboard.TargetName="VerticalThumbScale" Storyboard.TargetProperty="ScaleX" To="1.5" EnableDependentAnimation="True">
+                                                <DoubleAnimation Storyboard.TargetName="VerticalThumbScale" Storyboard.TargetProperty="ScaleX" To="1.5">
                                                     <DoubleAnimation.EasingFunction>
                                                         <QuinticEase/>
                                                     </DoubleAnimation.EasingFunction>
                                                 </DoubleAnimation>
-                                                <DoubleAnimation Storyboard.TargetName="HorizontalThumbScale" Storyboard.TargetProperty="ScaleY" To="1.5" EnableDependentAnimation="True">
+                                                <DoubleAnimation Storyboard.TargetName="HorizontalThumbScale" Storyboard.TargetProperty="ScaleY" To="1.5">
                                                     <DoubleAnimation.EasingFunction>
                                                         <QuinticEase/>
                                                     </DoubleAnimation.EasingFunction>
                                                 </DoubleAnimation>
-                                                <DoubleAnimation Storyboard.TargetName="VerticalThumbScale" Storyboard.TargetProperty="ScaleY" To="1.5" EnableDependentAnimation="True">
+                                                <DoubleAnimation Storyboard.TargetName="VerticalThumbScale" Storyboard.TargetProperty="ScaleY" To="1.5">
                                                     <DoubleAnimation.EasingFunction>
                                                         <QuinticEase/>
                                                     </DoubleAnimation.EasingFunction>
@@ -367,6 +367,17 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False"/>
                 <Setter Property="ScrollViewer.BringIntoViewOnFocusChange" Value="True"/>
                 <Setter Property="UseSystemFocusVisuals" Value="True"/>
+                <Setter Property="ItemContainerTransitions">
+                    <Setter.Value>
+                        <TransitionCollection>
+                            <AddDeleteThemeTransition/>
+                            <ContentThemeTransition/>
+                            <ReorderThemeTransition/>
+                            <EntranceThemeTransition IsStaggeringEnabled="False"/>
+                            <RepositionThemeTransition IsStaggeringEnabled="False"/>
+                        </TransitionCollection>
+                    </Setter.Value>
+                </Setter>
                 <Setter Property="ItemsPanel">
                     <Setter.Value>
                         <ItemsPanelTemplate>

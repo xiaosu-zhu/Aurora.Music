@@ -674,7 +674,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ModalOverlay" Storyboard.TargetProperty="Visibility">
                     <DiscreteObjectKeyFrame Value="Visible" KeyTime="0"/>
                 </ObjectAnimationUsingKeyFrames>
-                <DoubleAnimation Storyboard.TargetName="ModalOverlay" To="1" Storyboard.TargetProperty="Opacity" EnableDependentAnimation="False">
+                <DoubleAnimation Storyboard.TargetName="ModalOverlay" To="1" Storyboard.TargetProperty="Opacity">
                     <DoubleAnimation.EasingFunction>
                         <QuinticEase/>
                     </DoubleAnimation.EasingFunction>
@@ -694,7 +694,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ModalOverlay" Storyboard.TargetProperty="Visibility">
                     <DiscreteObjectKeyFrame Value="Collapsed" KeyTime="0:0:0.96"/>
                 </ObjectAnimationUsingKeyFrames>
-                <DoubleAnimation Storyboard.TargetName="ModalOverlay" To="0" Storyboard.TargetProperty="Opacity" EnableDependentAnimation="False">
+                <DoubleAnimation Storyboard.TargetName="ModalOverlay" To="0" Storyboard.TargetProperty="Opacity">
                     <DoubleAnimation.EasingFunction>
                         <QuinticEase/>
                     </DoubleAnimation.EasingFunction>

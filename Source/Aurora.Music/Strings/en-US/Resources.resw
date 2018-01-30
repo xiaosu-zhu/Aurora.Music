@@ -862,7 +862,7 @@
     <comment>Update Note for Build {0}</comment>
   </data>
   <data name="UpdateNote" xml:space="preserve">
-    <value>* **NEW**: Sleep timer, you can find it at "Now Playing - More" menu&#xD;&#xA;* **Improved**: Slightly changed layout of album list and song list&#xD;&#xA;* **Fixed**: Some bugs&#xD;&#xA;* **Fixed**: Translation complement</value>
+    <value>* **Improved**: Slightly changed layout of Homepage lists&#xD;&#xA;* **Fixed**: Some bugs</value>
     <comment>Update Note</comment>
   </data>
   <data name="AddToCollectionTitle" xml:space="preserve">

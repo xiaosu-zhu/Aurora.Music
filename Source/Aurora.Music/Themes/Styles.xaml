@@ -1780,7 +1780,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                                                     Value="False" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <DoubleAnimation AutoReverse="False"
-                                                         BeginTime="0" EnableDependentAnimation="True"
+                                                         BeginTime="0"
                                                          Storyboard.TargetName="Image"
                                                          Storyboard.TargetProperty="Opacity"
                                                          From="0"
@@ -1793,7 +1793,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                                          BeginTime="0"
                                                          Storyboard.TargetName="PlaceholderImage"
                                                          Storyboard.TargetProperty="Opacity"
-                                                             EnableDependentAnimation="True"
                                                          From="1"
                                                          To="0" >
                                             <DoubleAnimation.EasingFunction>

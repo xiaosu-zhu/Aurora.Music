@@ -374,7 +374,7 @@
     <comment>Output Endpoint</comment>
   </data>
   <data name="OutputDefaultHint.Text" xml:space="preserve">
-    <value>&#8220;系统默认&#8221;会在下次启动时应用</value>
+    <value>“系统默认”会在下次启动时应用</value>
     <comment>'System default' will be applied at next launch.</comment>
   </data>
   <data name="SystemDefault" xml:space="preserve">
@@ -464,10 +464,6 @@
   <data name="HomeText" xml:space="preserve">
     <value>主页</value>
     <comment>Home</comment>
-  </data>
-  <data name="LibraryText" xml:space="preserve">
-    <value>音乐库</value>
-    <comment>Library</comment>
   </data>
   <data name="LocaAlbumTitle" xml:space="preserve">
     <value>本地专辑</value>
@@ -862,7 +858,7 @@
     <comment>Update Note for Build {0}</comment>
   </data>
   <data name="UpdateNote" xml:space="preserve">
-    <value>* **新增**：睡眠定时器，可进入“正在播放 - 更多”菜单，进行设置&#xD;&#xA;* **改进**：略微更改歌曲列表和专辑列表样式&#xD;&#xA;* **修复**：多处错误&#xD;&#xA;* **修复**：补全翻译文本</value>
+    <value>* **改进**：略微更改首页项目样式&#xD;&#xA;* **修复**：多处错误</value>
     <comment>Update Note</comment>
   </data>
   <data name="AddToCollectionTitle" xml:space="preserve">
@@ -876,7 +872,7 @@
   <data name="AutoGen" xml:space="preserve">
     <value>自动生成</value>
     <comment>Automatically Generated</comment>
-  </data> 
+  </data>
   <data name="PlayingHistoryText" xml:space="preserve">
     <value>上次播放</value>
     <comment>Last Played</comment>
@@ -884,7 +880,7 @@
   <data name="LyricWindowFlyout.Text" xml:space="preserve">
     <value>歌词窗口</value>
     <comment>Lyric Window</comment>
-  </data> 
+  </data>
   <data name="SmallWindowFlyout.Text" xml:space="preserve">
     <value>小窗播放</value>
     <comment>Small Window</comment>
@@ -892,19 +888,19 @@
   <data name="Cast.Text" xml:space="preserve">
     <value>播放到</value>
     <comment>Cast</comment>
-  </data> 
+  </data>
   <data name="LyricWindow.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>歌词窗口</value>
     <comment>Lyric Window</comment>
-  </data> 
+  </data>
   <data name="SmallWindow.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>小窗播放</value>
     <comment>Small Window</comment>
-  </data> 
+  </data>
   <data name="TileDesc" xml:space="preserve">
     <value>{1} 创作的 {0}</value>
     <comment>{0} by {1}</comment>
-  </data> 
+  </data>
   <data name="WhatsNew.Content" xml:space="preserve">
     <value>这次更新了什么？</value>
     <comment>What's New?</comment>
@@ -912,7 +908,7 @@
   <data name="DropBtn.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>丢掉</value>
     <comment>Drop</comment>
-  </data> 
+  </data>
   <data name="DouText" xml:space="preserve">
     <value>豆瓣 FM</value>
     <comment>豆瓣 FM</comment>

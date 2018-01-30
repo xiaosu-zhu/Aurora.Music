@@ -15,18 +15,18 @@
                         <Grid.Resources>
                             <Storyboard x:Key="On">
                                 <ColorAnimation Storyboard.TargetName="Icon" Storyboard.TargetProperty="(FontIcon.Foreground).(SolidColorBrush.Color)" 
-                                                EnableDependentAnimation="True" Duration="0:0:1">
+                                                Duration="0:0:1">
                                     <ColorAnimation.EasingFunction>
                                         <QuinticEase EasingMode="EaseOut"/>
                                     </ColorAnimation.EasingFunction>
                                 </ColorAnimation>
                                 <ColorAnimation Storyboard.TargetName="Bloom" Storyboard.TargetProperty="(Ellipse.Stroke).(SolidColorBrush.Color)" 
-                                                EnableDependentAnimation="True" Duration="0:0:0.75">
+                                                Duration="0:0:0.75">
                                     <ColorAnimation.EasingFunction>
                                         <QuinticEase EasingMode="EaseInOut"/>
                                     </ColorAnimation.EasingFunction>
                                 </ColorAnimation>
-                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="IconScale" EnableDependentAnimation="True" Storyboard.TargetProperty="ScaleX">
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="IconScale" Storyboard.TargetProperty="ScaleX">
                                     <DiscreteDoubleKeyFrame KeyTime="0" Value="1"/>
                                     <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0">
                                         <EasingDoubleKeyFrame.EasingFunction>
@@ -39,7 +39,7 @@
                                         </EasingDoubleKeyFrame.EasingFunction>
                                     </EasingDoubleKeyFrame>
                                 </DoubleAnimationUsingKeyFrames>
-                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="IconScale" EnableDependentAnimation="True" Storyboard.TargetProperty="ScaleY">
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="IconScale" Storyboard.TargetProperty="ScaleY">
                                     <DiscreteDoubleKeyFrame KeyTime="0" Value="1"/>
                                     <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0">
                                         <EasingDoubleKeyFrame.EasingFunction>
@@ -52,12 +52,12 @@
                                         </EasingDoubleKeyFrame.EasingFunction>
                                     </EasingDoubleKeyFrame>
                                 </DoubleAnimationUsingKeyFrames>
-                                <DoubleAnimation Storyboard.TargetName="BloomScale" EnableDependentAnimation="True" Duration="0:0:0.5" From="0" To="2" Storyboard.TargetProperty="ScaleX">
+                                <DoubleAnimation Storyboard.TargetName="BloomScale" Duration="0:0:0.5" From="0" To="2" Storyboard.TargetProperty="ScaleX">
                                     <DoubleAnimation.EasingFunction>
                                         <QuinticEase EasingMode="EaseOut"/>
                                     </DoubleAnimation.EasingFunction>
                                 </DoubleAnimation>
-                                <DoubleAnimation Storyboard.TargetName="BloomScale" EnableDependentAnimation="True" Duration="0:0:0.5" From="0" To="2" Storyboard.TargetProperty="ScaleY">
+                                <DoubleAnimation Storyboard.TargetName="BloomScale" Duration="0:0:0.5" From="0" To="2" Storyboard.TargetProperty="ScaleY">
                                     <DoubleAnimation.EasingFunction>
                                         <QuinticEase EasingMode="EaseOut"/>
                                     </DoubleAnimation.EasingFunction>
@@ -71,167 +71,167 @@
                                         </EasingDoubleKeyFrame.EasingFunction>
                                     </EasingDoubleKeyFrame>
                                 </DoubleAnimationUsingKeyFrames>
-                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="L0Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="TranslateX" From="0">
+                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="L0Trans" Storyboard.TargetProperty="TranslateX" From="0">
                                     <DoubleAnimation.EasingFunction>
                                         <QuinticEase/>
                                     </DoubleAnimation.EasingFunction>
                                 </DoubleAnimation>
-                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="L1Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="TranslateX" From="0">
+                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="L1Trans" Storyboard.TargetProperty="TranslateX" From="0">
                                     <DoubleAnimation.EasingFunction>
                                         <QuinticEase/>
                                     </DoubleAnimation.EasingFunction>
                                 </DoubleAnimation>
-                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="L2Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="TranslateX" From="0">
+                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="L2Trans" Storyboard.TargetProperty="TranslateX" From="0">
                                     <DoubleAnimation.EasingFunction>
                                         <QuinticEase/>
                                     </DoubleAnimation.EasingFunction>
                                 </DoubleAnimation>
-                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="L3Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="TranslateX" From="0">
+                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="L3Trans" Storyboard.TargetProperty="TranslateX" From="0">
                                     <DoubleAnimation.EasingFunction>
                                         <QuinticEase/>
                                     </DoubleAnimation.EasingFunction>
                                 </DoubleAnimation>
-                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="L4Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="TranslateX" From="0">
+                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="L4Trans" Storyboard.TargetProperty="TranslateX" From="0">
                                     <DoubleAnimation.EasingFunction>
                                         <QuinticEase/>
                                     </DoubleAnimation.EasingFunction>
                                 </DoubleAnimation>
-                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="L5Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="TranslateX" From="0">
+                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="L5Trans" Storyboard.TargetProperty="TranslateX" From="0">
                                     <DoubleAnimation.EasingFunction>
                                         <QuinticEase/>
                                     </DoubleAnimation.EasingFunction>
                                 </DoubleAnimation>
-                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="L6Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="TranslateX" From="0">
+                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="L6Trans" Storyboard.TargetProperty="TranslateX" From="0">
                                     <DoubleAnimation.EasingFunction>
                                         <QuinticEase/>
                                     </DoubleAnimation.EasingFunction>
                                 </DoubleAnimation>
-                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="L7Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="TranslateX" From="0">
+                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="L7Trans" Storyboard.TargetProperty="TranslateX" From="0">
                                     <DoubleAnimation.EasingFunction>
                                         <QuinticEase/>
                                     </DoubleAnimation.EasingFunction>
                                 </DoubleAnimation>
-                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="R0Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="TranslateX" From="0">
+                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="R0Trans" Storyboard.TargetProperty="TranslateX" From="0">
                                     <DoubleAnimation.EasingFunction>
                                         <QuinticEase/>
                                     </DoubleAnimation.EasingFunction>
                                 </DoubleAnimation>
-                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="R1Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="TranslateX" From="0">
+                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="R1Trans" Storyboard.TargetProperty="TranslateX" From="0">
                                     <DoubleAnimation.EasingFunction>
                                         <QuinticEase/>
                                     </DoubleAnimation.EasingFunction>
                                 </DoubleAnimation>
-                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="R2Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="TranslateX" From="0">
+                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="R2Trans" Storyboard.TargetProperty="TranslateX" From="0">
                                     <DoubleAnimation.EasingFunction>
                                         <QuinticEase/>
                                     </DoubleAnimation.EasingFunction>
                                 </DoubleAnimation>
-                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="R3Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="TranslateX" From="0">
+                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="R3Trans" Storyboard.TargetProperty="TranslateX" From="0">
                                     <DoubleAnimation.EasingFunction>
                                         <QuinticEase/>
                                     </DoubleAnimation.EasingFunction>
                                 </DoubleAnimation>
-                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="R4Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="TranslateX" From="0">
+                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="R4Trans" Storyboard.TargetProperty="TranslateX" From="0">
                                     <DoubleAnimation.EasingFunction>
                                         <QuinticEase/>
                                     </DoubleAnimation.EasingFunction>
                                 </DoubleAnimation>
-                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="R5Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="TranslateX" From="0">
+                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="R5Trans" Storyboard.TargetProperty="TranslateX" From="0">
                                     <DoubleAnimation.EasingFunction>
                                         <QuinticEase/>
                                     </DoubleAnimation.EasingFunction>
                                 </DoubleAnimation>
-                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="R6Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="TranslateX" From="0">
+                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="R6Trans" Storyboard.TargetProperty="TranslateX" From="0">
                                     <DoubleAnimation.EasingFunction>
                                         <QuinticEase/>
                                     </DoubleAnimation.EasingFunction>
                                 </DoubleAnimation>
-                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="R7Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="TranslateX" From="0">
+                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="R7Trans" Storyboard.TargetProperty="TranslateX" From="0">
                                     <DoubleAnimation.EasingFunction>
                                         <QuinticEase/>
                                     </DoubleAnimation.EasingFunction>
                                 </DoubleAnimation>
-                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="L0Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="TranslateY" From="0">
+                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="L0Trans" Storyboard.TargetProperty="TranslateY" From="0">
                                     <DoubleAnimation.EasingFunction>
                                         <QuinticEase/>
                                     </DoubleAnimation.EasingFunction>
                                 </DoubleAnimation>
-                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="L1Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="TranslateY" From="0">
+                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="L1Trans" Storyboard.TargetProperty="TranslateY" From="0">
                                     <DoubleAnimation.EasingFunction>
                                         <QuinticEase/>
                                     </DoubleAnimation.EasingFunction>
                                 </DoubleAnimation>
-                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="L2Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="TranslateY" From="0">
+                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="L2Trans" Storyboard.TargetProperty="TranslateY" From="0">
                                     <DoubleAnimation.EasingFunction>
                                         <QuinticEase/>
                                     </DoubleAnimation.EasingFunction>
                                 </DoubleAnimation>
-                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="L3Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="TranslateY" From="0">
+                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="L3Trans" Storyboard.TargetProperty="TranslateY" From="0">
                                     <DoubleAnimation.EasingFunction>
                                         <QuinticEase/>
                                     </DoubleAnimation.EasingFunction>
                                 </DoubleAnimation>
-                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="L4Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="TranslateY" From="0">
+                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="L4Trans" Storyboard.TargetProperty="TranslateY" From="0">
                                     <DoubleAnimation.EasingFunction>
                                         <QuinticEase/>
                                     </DoubleAnimation.EasingFunction>
                                 </DoubleAnimation>
-                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="L5Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="TranslateY" From="0">
+                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="L5Trans" Storyboard.TargetProperty="TranslateY" From="0">
                                     <DoubleAnimation.EasingFunction>
                                         <QuinticEase/>
                                     </DoubleAnimation.EasingFunction>
                                 </DoubleAnimation>
-                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="L6Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="TranslateY" From="0">
+                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="L6Trans" Storyboard.TargetProperty="TranslateY" From="0">
                                     <DoubleAnimation.EasingFunction>
                                         <QuinticEase/>
                                     </DoubleAnimation.EasingFunction>
                                 </DoubleAnimation>
-                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="L7Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="TranslateY" From="0">
+                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="L7Trans" Storyboard.TargetProperty="TranslateY" From="0">
                                     <DoubleAnimation.EasingFunction>
                                         <QuinticEase/>
                                     </DoubleAnimation.EasingFunction>
                                 </DoubleAnimation>
-                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="R0Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="TranslateY" From="0">
+                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="R0Trans" Storyboard.TargetProperty="TranslateY" From="0">
                                     <DoubleAnimation.EasingFunction>
                                         <QuinticEase/>
                                     </DoubleAnimation.EasingFunction>
                                 </DoubleAnimation>
-                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="R1Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="TranslateY" From="0">
+                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="R1Trans" Storyboard.TargetProperty="TranslateY" From="0">
                                     <DoubleAnimation.EasingFunction>
                                         <QuinticEase/>
                                     </DoubleAnimation.EasingFunction>
                                 </DoubleAnimation>
-                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="R2Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="TranslateY" From="0">
+                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="R2Trans" Storyboard.TargetProperty="TranslateY" From="0">
                                     <DoubleAnimation.EasingFunction>
                                         <QuinticEase/>
                                     </DoubleAnimation.EasingFunction>
                                 </DoubleAnimation>
-                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="R3Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="TranslateY" From="0">
+                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="R3Trans" Storyboard.TargetProperty="TranslateY" From="0">
                                     <DoubleAnimation.EasingFunction>
                                         <QuinticEase/>
                                     </DoubleAnimation.EasingFunction>
                                 </DoubleAnimation>
-                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="R4Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="TranslateY" From="0">
+                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="R4Trans" Storyboard.TargetProperty="TranslateY" From="0">
                                     <DoubleAnimation.EasingFunction>
                                         <QuinticEase/>
                                     </DoubleAnimation.EasingFunction>
                                 </DoubleAnimation>
-                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="R5Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="TranslateY" From="0">
+                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="R5Trans" Storyboard.TargetProperty="TranslateY" From="0">
                                     <DoubleAnimation.EasingFunction>
                                         <QuinticEase/>
                                     </DoubleAnimation.EasingFunction>
                                 </DoubleAnimation>
-                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="R6Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="TranslateY" From="0">
+                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="R6Trans" Storyboard.TargetProperty="TranslateY" From="0">
                                     <DoubleAnimation.EasingFunction>
                                         <QuinticEase/>
                                     </DoubleAnimation.EasingFunction>
                                 </DoubleAnimation>
-                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="R7Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="TranslateY" From="0">
+                                <DoubleAnimation BeginTime="0:0:0.25" Duration="0:0:1.5" Storyboard.TargetName="R7Trans" Storyboard.TargetProperty="TranslateY" From="0">
                                     <DoubleAnimation.EasingFunction>
                                         <QuinticEase/>
                                     </DoubleAnimation.EasingFunction>
                                 </DoubleAnimation>
-                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="L0Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="ScaleX">
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="L0Trans" Storyboard.TargetProperty="ScaleX">
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.5"/>
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.75"/>
                                     <EasingDoubleKeyFrame Value="0" KeyTime="0:0:1.5">
@@ -240,7 +240,7 @@
                                         </EasingDoubleKeyFrame.EasingFunction>
                                     </EasingDoubleKeyFrame>
                                 </DoubleAnimationUsingKeyFrames>
-                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="L1Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="ScaleX">
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="L1Trans" Storyboard.TargetProperty="ScaleX">
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.5"/>
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.75"/>
                                     <EasingDoubleKeyFrame Value="0" KeyTime="0:0:1.5">
@@ -249,7 +249,7 @@
                                         </EasingDoubleKeyFrame.EasingFunction>
                                     </EasingDoubleKeyFrame>
                                 </DoubleAnimationUsingKeyFrames>
-                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="L2Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="ScaleX">
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="L2Trans" Storyboard.TargetProperty="ScaleX">
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.5"/>
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.75"/>
                                     <EasingDoubleKeyFrame Value="0" KeyTime="0:0:1.5">
@@ -258,7 +258,7 @@
                                         </EasingDoubleKeyFrame.EasingFunction>
                                     </EasingDoubleKeyFrame>
                                 </DoubleAnimationUsingKeyFrames>
-                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="L3Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="ScaleX">
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="L3Trans" Storyboard.TargetProperty="ScaleX">
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.5"/>
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.75"/>
                                     <EasingDoubleKeyFrame Value="0" KeyTime="0:0:1.5">
@@ -267,7 +267,7 @@
                                         </EasingDoubleKeyFrame.EasingFunction>
                                     </EasingDoubleKeyFrame>
                                 </DoubleAnimationUsingKeyFrames>
-                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="L4Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="ScaleX">
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="L4Trans" Storyboard.TargetProperty="ScaleX">
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.5"/>
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.75"/>
                                     <EasingDoubleKeyFrame Value="0" KeyTime="0:0:1.5">
@@ -276,7 +276,7 @@
                                         </EasingDoubleKeyFrame.EasingFunction>
                                     </EasingDoubleKeyFrame>
                                 </DoubleAnimationUsingKeyFrames>
-                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="L5Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="ScaleX">
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="L5Trans" Storyboard.TargetProperty="ScaleX">
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.5"/>
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.75"/>
                                     <EasingDoubleKeyFrame Value="0" KeyTime="0:0:1.5">
@@ -285,7 +285,7 @@
                                         </EasingDoubleKeyFrame.EasingFunction>
                                     </EasingDoubleKeyFrame>
                                 </DoubleAnimationUsingKeyFrames>
-                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="L6Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="ScaleX">
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="L6Trans" Storyboard.TargetProperty="ScaleX">
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.5"/>
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.75"/>
                                     <EasingDoubleKeyFrame Value="0" KeyTime="0:0:1.5">
@@ -294,7 +294,7 @@
                                         </EasingDoubleKeyFrame.EasingFunction>
                                     </EasingDoubleKeyFrame>
                                 </DoubleAnimationUsingKeyFrames>
-                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="L7Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="ScaleX">
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="L7Trans" Storyboard.TargetProperty="ScaleX">
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.5"/>
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.75"/>
                                     <EasingDoubleKeyFrame Value="0" KeyTime="0:0:1.5">
@@ -303,7 +303,7 @@
                                         </EasingDoubleKeyFrame.EasingFunction>
                                     </EasingDoubleKeyFrame>
                                 </DoubleAnimationUsingKeyFrames>
-                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="R0Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="ScaleX">
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="R0Trans" Storyboard.TargetProperty="ScaleX">
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.5"/>
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.75"/>
                                     <EasingDoubleKeyFrame Value="0" KeyTime="0:0:1.5">
@@ -312,7 +312,7 @@
                                         </EasingDoubleKeyFrame.EasingFunction>
                                     </EasingDoubleKeyFrame>
                                 </DoubleAnimationUsingKeyFrames>
-                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="R1Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="ScaleX">
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="R1Trans" Storyboard.TargetProperty="ScaleX">
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.5"/>
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.75"/>
                                     <EasingDoubleKeyFrame Value="0" KeyTime="0:0:1.5">
@@ -321,7 +321,7 @@
                                         </EasingDoubleKeyFrame.EasingFunction>
                                     </EasingDoubleKeyFrame>
                                 </DoubleAnimationUsingKeyFrames>
-                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="R2Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="ScaleX">
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="R2Trans" Storyboard.TargetProperty="ScaleX">
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.5"/>
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.75"/>
                                     <EasingDoubleKeyFrame Value="0" KeyTime="0:0:1.5">
@@ -330,7 +330,7 @@
                                         </EasingDoubleKeyFrame.EasingFunction>
                                     </EasingDoubleKeyFrame>
                                 </DoubleAnimationUsingKeyFrames>
-                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="R3Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="ScaleX">
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="R3Trans" Storyboard.TargetProperty="ScaleX">
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.5"/>
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.75"/>
                                     <EasingDoubleKeyFrame Value="0" KeyTime="0:0:1.5">
@@ -339,7 +339,7 @@
                                         </EasingDoubleKeyFrame.EasingFunction>
                                     </EasingDoubleKeyFrame>
                                 </DoubleAnimationUsingKeyFrames>
-                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="R4Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="ScaleX">
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="R4Trans" Storyboard.TargetProperty="ScaleX">
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.5"/>
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.75"/>
                                     <EasingDoubleKeyFrame Value="0" KeyTime="0:0:1.5">
@@ -348,7 +348,7 @@
                                         </EasingDoubleKeyFrame.EasingFunction>
                                     </EasingDoubleKeyFrame>
                                 </DoubleAnimationUsingKeyFrames>
-                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="R5Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="ScaleX">
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="R5Trans" Storyboard.TargetProperty="ScaleX">
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.5"/>
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.75"/>
                                     <EasingDoubleKeyFrame Value="0" KeyTime="0:0:1.5">
@@ -357,7 +357,7 @@
                                         </EasingDoubleKeyFrame.EasingFunction>
                                     </EasingDoubleKeyFrame>
                                 </DoubleAnimationUsingKeyFrames>
-                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="R6Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="ScaleX">
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="R6Trans" Storyboard.TargetProperty="ScaleX">
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.5"/>
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.75"/>
                                     <EasingDoubleKeyFrame Value="0" KeyTime="0:0:1.5">
@@ -366,7 +366,7 @@
                                         </EasingDoubleKeyFrame.EasingFunction>
                                     </EasingDoubleKeyFrame>
                                 </DoubleAnimationUsingKeyFrames>
-                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="R7Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="ScaleX">
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="R7Trans" Storyboard.TargetProperty="ScaleX">
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.5"/>
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.75"/>
                                     <EasingDoubleKeyFrame Value="0" KeyTime="0:0:1.5">
@@ -375,7 +375,7 @@
                                         </EasingDoubleKeyFrame.EasingFunction>
                                     </EasingDoubleKeyFrame>
                                 </DoubleAnimationUsingKeyFrames>
-                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="L0Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="ScaleY">
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="L0Trans" Storyboard.TargetProperty="ScaleY">
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.5"/>
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.75"/>
                                     <EasingDoubleKeyFrame Value="0" KeyTime="0:0:1.5">
@@ -384,7 +384,7 @@
                                         </EasingDoubleKeyFrame.EasingFunction>
                                     </EasingDoubleKeyFrame>
                                 </DoubleAnimationUsingKeyFrames>
-                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="L1Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="ScaleY">
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="L1Trans" Storyboard.TargetProperty="ScaleY">
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.5"/>
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.75"/>
                                     <EasingDoubleKeyFrame Value="0" KeyTime="0:0:1.5">
@@ -393,7 +393,7 @@
                                         </EasingDoubleKeyFrame.EasingFunction>
                                     </EasingDoubleKeyFrame>
                                 </DoubleAnimationUsingKeyFrames>
-                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="L2Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="ScaleY">
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="L2Trans" Storyboard.TargetProperty="ScaleY">
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.5"/>
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.75"/>
                                     <EasingDoubleKeyFrame Value="0" KeyTime="0:0:1.5">
@@ -402,7 +402,7 @@
                                         </EasingDoubleKeyFrame.EasingFunction>
                                     </EasingDoubleKeyFrame>
                                 </DoubleAnimationUsingKeyFrames>
-                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="L3Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="ScaleY">
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="L3Trans" Storyboard.TargetProperty="ScaleY">
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.5"/>
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.75"/>
                                     <EasingDoubleKeyFrame Value="0" KeyTime="0:0:1.5">
@@ -411,7 +411,7 @@
                                         </EasingDoubleKeyFrame.EasingFunction>
                                     </EasingDoubleKeyFrame>
                                 </DoubleAnimationUsingKeyFrames>
-                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="L4Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="ScaleY">
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="L4Trans" Storyboard.TargetProperty="ScaleY">
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.5"/>
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.75"/>
                                     <EasingDoubleKeyFrame Value="0" KeyTime="0:0:1.5">
@@ -420,7 +420,7 @@
                                         </EasingDoubleKeyFrame.EasingFunction>
                                     </EasingDoubleKeyFrame>
                                 </DoubleAnimationUsingKeyFrames>
-                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="L5Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="ScaleY">
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="L5Trans" Storyboard.TargetProperty="ScaleY">
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.5"/>
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.75"/>
                                     <EasingDoubleKeyFrame Value="0" KeyTime="0:0:1.5">
@@ -429,7 +429,7 @@
                                         </EasingDoubleKeyFrame.EasingFunction>
                                     </EasingDoubleKeyFrame>
                                 </DoubleAnimationUsingKeyFrames>
-                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="L6Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="ScaleY">
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="L6Trans" Storyboard.TargetProperty="ScaleY">
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.5"/>
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.75"/>
                                     <EasingDoubleKeyFrame Value="0" KeyTime="0:0:1.5">
@@ -438,7 +438,7 @@
                                         </EasingDoubleKeyFrame.EasingFunction>
                                     </EasingDoubleKeyFrame>
                                 </DoubleAnimationUsingKeyFrames>
-                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="L7Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="ScaleY">
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="L7Trans" Storyboard.TargetProperty="ScaleY">
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.5"/>
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.75"/>
                                     <EasingDoubleKeyFrame Value="0" KeyTime="0:0:1.5">
@@ -447,7 +447,7 @@
                                         </EasingDoubleKeyFrame.EasingFunction>
                                     </EasingDoubleKeyFrame>
                                 </DoubleAnimationUsingKeyFrames>
-                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="R0Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="ScaleY">
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="R0Trans" Storyboard.TargetProperty="ScaleY">
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.5"/>
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.75"/>
                                     <EasingDoubleKeyFrame Value="0" KeyTime="0:0:1.5">
@@ -456,7 +456,7 @@
                                         </EasingDoubleKeyFrame.EasingFunction>
                                     </EasingDoubleKeyFrame>
                                 </DoubleAnimationUsingKeyFrames>
-                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="R1Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="ScaleY">
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="R1Trans" Storyboard.TargetProperty="ScaleY">
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.5"/>
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.75"/>
                                     <EasingDoubleKeyFrame Value="0" KeyTime="0:0:1.5">
@@ -465,7 +465,7 @@
                                         </EasingDoubleKeyFrame.EasingFunction>
                                     </EasingDoubleKeyFrame>
                                 </DoubleAnimationUsingKeyFrames>
-                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="R2Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="ScaleY">
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="R2Trans" Storyboard.TargetProperty="ScaleY">
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.5"/>
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.75"/>
                                     <EasingDoubleKeyFrame Value="0" KeyTime="0:0:1.5">
@@ -474,7 +474,7 @@
                                         </EasingDoubleKeyFrame.EasingFunction>
                                     </EasingDoubleKeyFrame>
                                 </DoubleAnimationUsingKeyFrames>
-                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="R3Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="ScaleY">
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="R3Trans" Storyboard.TargetProperty="ScaleY">
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.5"/>
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.75"/>
                                     <EasingDoubleKeyFrame Value="0" KeyTime="0:0:1.5">
@@ -483,7 +483,7 @@
                                         </EasingDoubleKeyFrame.EasingFunction>
                                     </EasingDoubleKeyFrame>
                                 </DoubleAnimationUsingKeyFrames>
-                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="R4Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="ScaleY">
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="R4Trans" Storyboard.TargetProperty="ScaleY">
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.5"/>
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.75"/>
                                     <EasingDoubleKeyFrame Value="0" KeyTime="0:0:1.5">
@@ -492,7 +492,7 @@
                                         </EasingDoubleKeyFrame.EasingFunction>
                                     </EasingDoubleKeyFrame>
                                 </DoubleAnimationUsingKeyFrames>
-                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="R5Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="ScaleY">
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="R5Trans" Storyboard.TargetProperty="ScaleY">
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.5"/>
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.75"/>
                                     <EasingDoubleKeyFrame Value="0" KeyTime="0:0:1.5">
@@ -501,7 +501,7 @@
                                         </EasingDoubleKeyFrame.EasingFunction>
                                     </EasingDoubleKeyFrame>
                                 </DoubleAnimationUsingKeyFrames>
-                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="R6Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="ScaleY">
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="R6Trans" Storyboard.TargetProperty="ScaleY">
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.5"/>
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.75"/>
                                     <EasingDoubleKeyFrame Value="0" KeyTime="0:0:1.5">
@@ -510,7 +510,7 @@
                                         </EasingDoubleKeyFrame.EasingFunction>
                                     </EasingDoubleKeyFrame>
                                 </DoubleAnimationUsingKeyFrames>
-                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="R7Trans" EnableDependentAnimation="True" Storyboard.TargetProperty="ScaleY">
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="R7Trans" Storyboard.TargetProperty="ScaleY">
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.5"/>
                                     <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.75"/>
                                     <EasingDoubleKeyFrame Value="0" KeyTime="0:0:1.5">
@@ -546,12 +546,12 @@
                                 </ObjectAnimationUsingKeyFrames>
                             </Storyboard>
                             <Storyboard x:Key="Off">
-                                <ColorAnimation Storyboard.TargetName="Icon" EnableDependentAnimation="True" Storyboard.TargetProperty="(FontIcon.Foreground).(SolidColorBrush.Color)">
+                                <ColorAnimation Storyboard.TargetName="Icon" Storyboard.TargetProperty="(FontIcon.Foreground).(SolidColorBrush.Color)">
                                     <ColorAnimation.EasingFunction>
                                         <QuinticEase/>
                                     </ColorAnimation.EasingFunction>
                                 </ColorAnimation>
-                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="IconScale" EnableDependentAnimation="True" Storyboard.TargetProperty="ScaleX">
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="IconScale" Storyboard.TargetProperty="ScaleX">
                                     <DiscreteDoubleKeyFrame KeyTime="0" Value="1"/>
                                     <EasingDoubleKeyFrame KeyTime="0:0:0.25" Value="0.75">
                                         <EasingDoubleKeyFrame.EasingFunction>
@@ -564,7 +564,7 @@
                                         </EasingDoubleKeyFrame.EasingFunction>
                                     </EasingDoubleKeyFrame>
                                 </DoubleAnimationUsingKeyFrames>
-                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="IconScale" EnableDependentAnimation="True" Storyboard.TargetProperty="ScaleY">
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="IconScale" Storyboard.TargetProperty="ScaleY">
                                     <DiscreteDoubleKeyFrame KeyTime="0" Value="1"/>
                                     <EasingDoubleKeyFrame KeyTime="0:0:0.25" Value="0.75">
                                         <EasingDoubleKeyFrame.EasingFunction>

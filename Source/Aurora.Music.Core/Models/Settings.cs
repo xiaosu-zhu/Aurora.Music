@@ -4,6 +4,7 @@
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
 using System;
+using Windows.Networking.Connectivity;
 using Windows.UI.Xaml;
 
 namespace Aurora.Music.Core.Models
@@ -47,6 +48,12 @@ namespace Aurora.Music.Core.Models
 
     public class Settings
     {
+        public bool IsMeteredNetwork()
+        {
+            var connectionCost = NetworkInformation.GetInternetConnectionProfile().GetConnectionCost();
+            return !(connectionCost.NetworkCostType == NetworkCostType.Unknown || connectionCost.NetworkCostType == NetworkCostType.Unrestricted);
+        }
+
         public static event EventHandler SettingsChanged;
 
         private static object lockable = new object();
