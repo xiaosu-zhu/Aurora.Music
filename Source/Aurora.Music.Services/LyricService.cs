@@ -51,8 +51,10 @@ namespace Aurora.Music.Services
                     var title = message["title"] as string;
                     message.TryGetValue("artist", out object art);
                     var artists = art as string;
+                    message.TryGetValue("album", out object alb);
+                    var lyalbum = alb as string;
 
-                    var localLrc = await LyricSearcher.SearchLrcLocalAsync(title, artists);
+                    var localLrc = await LyricSearcher.SearchLrcLocalAsync(title, artists, lyalbum);
                     if (!localLrc.IsNullorEmpty())
                     {
                         returnData.Add("result", localLrc);
@@ -60,22 +62,38 @@ namespace Aurora.Music.Services
                         returnData.Add("status", 1);
                         break;
                     }
-
+                    if (message.ContainsKey("ID") && message.ContainsKey("service") && message["service"] as string == "Aurora.Music.Services")
+                    {
+                        var result = await LyricSearcher.GetSongLrcByID(message["ID"] as string);
+                        if (!result.IsNullorEmpty())
+                        {
+                            await LyricSearcher.SaveLrcLocalAsync(title, artists, lyalbum, result);
+                            returnData.Add("result", result);
+                            returnData.Add("status", 1);
+                            break;
+                        }
+                    }
                     var substitutes = await LyricSearcher.GetSongLrcListAsync(title, artists);
                     if (!substitutes.IsNullorEmpty())
                     {
                         var result = await ApiRequestHelper.HttpGet(substitutes.First().Value);
                         if (!result.IsNullorEmpty())
                         {
-                            await LyricSearcher.SaveLrcLocalAsync(title, artists, result);
+                            await LyricSearcher.SaveLrcLocalAsync(title, artists, lyalbum, result);
+                            returnData.Add("result", result);
+                            returnData.Add("status", 1);
                         }
-                        returnData.Add("result", result);
+                        else
+                        {
+                            returnData.Add("result", null);
+                            returnData.Add("status", 0);
+                        }
                     }
                     else
                     {
                         returnData.Add("result", null);
+                        returnData.Add("status", 0);
                     }
-                    returnData.Add("status", 1);
                     break;
 
                 case "online_music":

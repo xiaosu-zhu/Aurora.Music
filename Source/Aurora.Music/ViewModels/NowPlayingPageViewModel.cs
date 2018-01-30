@@ -124,14 +124,7 @@ namespace Aurora.Music.ViewModels
                 var ext = MainPageViewModel.Current.LyricExtension;
                 if (ext != null)
                 {
-                    var result = await ext.ExecuteAsync(new ValueSet()
-                    {
-                        new KeyValuePair<string, object>("q", "lyric"),
-                        new KeyValuePair<string, object>("title", Song.Title),
-                        new KeyValuePair<string, object>("album", song.Album),
-                        new KeyValuePair<string, object>("artist", Song.Song.Performers.IsNullorEmpty() ? null : Song.Song.Performers[0]),
-                        new KeyValuePair<string, object>("ID", song.IsOnline ? song.Song.OnlineID : null)
-                    });
+                    var result = await ext.GetLyricAsync(song.Song, MainPageViewModel.Current.OnlineMusicExtension?.ServiceName);
                     if (result != null)
                     {
                         var l = new Lyric(LrcParser.Parser.Parse((string)result, Song.Song.Duration));
@@ -192,44 +185,6 @@ namespace Aurora.Music.ViewModels
             MainPage.Current.PopMessage($"Casting Error: {args.ErrorStatus.ToString()}\r\n{args.Message}");
         }
 
-        public static void ColorToHSV(System.Drawing.Color color, out double hue, out double saturation, out double value)
-        {
-            int max = Math.Max(color.R, Math.Max(color.G, color.B));
-            int min = Math.Min(color.R, Math.Min(color.G, color.B));
-
-            hue = color.GetHue();
-            saturation = (max == 0) ? 0 : 1d - (1d * min / max);
-            value = max / 255d;
-        }
-
-
-        public static Color ColorFromHSV(double hue, double saturation, double value)
-        {
-            int hi = Convert.ToInt32(Math.Floor(hue / 60)) % 6;
-            double f = hue / 60 - Math.Floor(hue / 60);
-
-            value = value * 255;
-            if (value > 255)
-                value = 255;
-            var v = Convert.ToByte(value);
-            var p = Convert.ToByte(value * (1 - saturation));
-            var q = Convert.ToByte(value * (1 - f * saturation));
-            var t = Convert.ToByte(value * (1 - (1 - f) * saturation));
-
-            if (hi == 0)
-                return Color.FromArgb(255, v, t, p);
-            else if (hi == 1)
-                return Color.FromArgb(255, q, v, p);
-            else if (hi == 2)
-                return Color.FromArgb(255, p, v, t);
-            else if (hi == 3)
-                return Color.FromArgb(255, p, q, v);
-            else if (hi == 4)
-                return Color.FromArgb(255, t, p, v);
-            else
-                return Color.FromArgb(255, v, p, q);
-        }
-
         internal Task<AlbumViewModel> GetAlbumAsync()
         {
             return Song.GetAlbumAsync();
@@ -258,11 +213,10 @@ namespace Aurora.Music.ViewModels
             {
                 return new SolidColorBrush();
             }
-            System.Drawing.Color color = System.Drawing.Color.FromArgb(b.Color.R, b.Color.G, b.Color.B);
-            ColorToHSV(color, out var h, out var s, out var v);
+            b.Color.ColorToHSV(out var h, out var s, out var v);
             v *= d;
-            b.Color = ColorFromHSV(h, s, v);
-            return new SolidColorBrush(ColorFromHSV(h, s, v));
+            b.Color = ImagingHelper.ColorFromHSV(h, s, v);
+            return new SolidColorBrush(ImagingHelper.ColorFromHSV(h, s, v));
         }
 
         private Uri placeHolder = new Uri(Consts.NowPlaceholder);
@@ -351,6 +305,7 @@ namespace Aurora.Music.ViewModels
                     var lib = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Music);
                     folder = await lib.SaveFolder.CreateFolderAsync("Download", CreationCollisionOption.OpenIfExists);
                 }
+                MainPage.Current.PopMessage("Preparing to Download");
                 var progress = await FileTracker.DownloadMusic(Song.Song, folder);
                 progress.Progress = DownloadProgressChanged;
                 progress.Completed = DownloadCompleted;
@@ -857,14 +812,7 @@ namespace Aurora.Music.ViewModels
                     var ext = MainPageViewModel.Current.LyricExtension;
                     if (ext != null)
                     {
-                        var result = await ext.ExecuteAsync(new ValueSet()
-                        {
-                            new KeyValuePair<string, object>("q", "lyric"),
-                            new KeyValuePair<string, object>("title", Song.Title),
-                            new KeyValuePair<string, object>("album", song.Album),
-                            new KeyValuePair<string, object>("artist", Song.Song.Performers.IsNullorEmpty() ? null : Song.Song.Performers[0]),
-                            new KeyValuePair<string, object>("ID", song.IsOnline ? song.Song.OnlineID : null)
-                        });
+                        var result = await ext.GetLyricAsync(song.Song, MainPageViewModel.Current.OnlineMusicExtension?.ServiceName);
                         if (result != null)
                         {
                             var l = new Lyric(LrcParser.Parser.Parse((string)result, Song.Song.Duration));

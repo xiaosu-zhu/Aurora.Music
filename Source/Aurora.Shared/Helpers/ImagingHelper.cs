@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Numerics;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation;
@@ -21,6 +20,67 @@ namespace Aurora.Shared.Helpers
 {
     public static class ImagingHelper
     {
+        public static Color ColorFromHSV(double hue, double saturation, double value)
+        {
+            int hi = Convert.ToInt32(Math.Floor(hue / 60)) % 6;
+            double f = hue / 60 - Math.Floor(hue / 60);
+
+            value = value * 255;
+            if (value > 255)
+                value = 255;
+            var v = Convert.ToByte(value);
+            var p = Convert.ToByte(value * (1 - saturation));
+            var q = Convert.ToByte(value * (1 - f * saturation));
+            var t = Convert.ToByte(value * (1 - (1 - f) * saturation));
+
+            if (hi == 0)
+                return Color.FromArgb(255, v, t, p);
+            else if (hi == 1)
+                return Color.FromArgb(255, q, v, p);
+            else if (hi == 2)
+                return Color.FromArgb(255, p, v, t);
+            else if (hi == 3)
+                return Color.FromArgb(255, p, q, v);
+            else if (hi == 4)
+                return Color.FromArgb(255, t, p, v);
+            else
+                return Color.FromArgb(255, v, p, q);
+        }
+
+        public static void ColorToHSV(this Color color, out double hue, out double saturation, out double value)
+        {
+            int max = Math.Max(color.R, Math.Max(color.G, color.B));
+            int min = Math.Min(color.R, Math.Min(color.G, color.B));
+
+            float hsbB = max / 255.0f;
+            float hsbS = max == 0 ? 0 : (max - min) / (float)max;
+
+            float hsbH = 0;
+            if (max == min)
+            {
+                hsbH = 0;
+            }
+            else if (max == color.R && color.G >= color.B)
+            {
+                hsbH = (color.G - color.B) * 60f / (max - min) + 0;
+            }
+            else if (max == color.R && color.G < color.B)
+            {
+                hsbH = (color.G - color.B) * 60f / (max - min) + 360;
+            }
+            else if (max == color.G)
+            {
+                hsbH = (color.B - color.R) * 60f / (max - min) + 120;
+            }
+            else if (max == color.B)
+            {
+                hsbH = (color.R - color.G) * 60f / (max - min) + 240;
+            }
+            hue = hsbH;
+            saturation = hsbS;
+            value = hsbB;
+        }
+
         public static async Task<BitmapImage> ResizedImage(StorageFile ImageFile, float ratio)
         {
             IRandomAccessStream inputstream = await ImageFile.OpenReadAsync();

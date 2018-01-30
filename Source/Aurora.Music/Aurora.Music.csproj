@@ -136,6 +136,12 @@
     <Compile Include="Controls\BindedTemplates.xaml.cs">
       <DependentUpon>BindedTemplates.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ListItems\HeroItem.xaml.cs">
+      <DependentUpon>HeroItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ListItems\HomeItem.xaml.cs">
+      <DependentUpon>HomeItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ListItems\SongItem.xaml.cs">
       <DependentUpon>SongItem.xaml</DependentUpon>
     </Compile>
@@ -365,6 +371,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\BindedTemplates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ListItems\HeroItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ListItems\HomeItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

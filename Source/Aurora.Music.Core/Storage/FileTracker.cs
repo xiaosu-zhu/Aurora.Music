@@ -95,7 +95,7 @@ namespace Aurora.Music.Core.Storage
         {
             if (song.IsOnline && song.OnlineUri?.AbsolutePath != null)
             {
-                var fileName = Shared.Utils.InvalidFileNameChars.Aggregate($"{song.Album??""} - {song.Title}", (current, c) => current.Replace(c + "", "_"));
+                var fileName = Shared.Utils.InvalidFileNameChars.Aggregate($"{string.Join('/', (song.Performers ?? new string[] { song.Album ?? "" }))} - {song.Title}", (current, c) => current.Replace(c + "", "_"));
                 fileName += song.FileType;
                 if (folder == null)
                 {

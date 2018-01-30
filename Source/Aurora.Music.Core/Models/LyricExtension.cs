@@ -20,6 +20,24 @@ namespace Aurora.Music.Core.Models
 
         }
 
+
+        public async Task<string> GetLyricAsync(Song s, string online = null)
+        {
+            var args = new ValueSet()
+            {
+                new KeyValuePair<string, object>("q", "lyric"),
+                new KeyValuePair<string, object>("title", s.Title),
+                new KeyValuePair<string, object>("album", s.Album),
+                new KeyValuePair<string, object>("artist", s.Performers.IsNullorEmpty() ? null : s.Performers[0]),
+            };
+            if (s.IsOnline)
+            {
+                args.Add("service", online ?? "Aurora.Music.Services");
+                args.Add("ID", s.OnlineID);
+            }
+            return (await ExecuteAsync(args)) as string;
+        }
+
         public override async Task<object> ExecuteAsync(ValueSet parameters)
         {
             if (_serviceName.IsNullorEmpty())

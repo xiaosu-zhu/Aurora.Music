@@ -961,6 +961,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <ContentThemeTransition/>
                     <ReorderThemeTransition/>
                     <EntranceThemeTransition IsStaggeringEnabled="False"/>
+                    <RepositionThemeTransition IsStaggeringEnabled="False"/>
                 </TransitionCollection>
             </Setter.Value>
         </Setter>
@@ -1007,6 +1008,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <ContentThemeTransition/>
                     <ReorderThemeTransition/>
                     <EntranceThemeTransition IsStaggeringEnabled="False"/>
+                    <RepositionThemeTransition IsStaggeringEnabled="True"/>
                 </TransitionCollection>
             </Setter.Value>
         </Setter>

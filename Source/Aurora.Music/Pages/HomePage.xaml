@@ -10,8 +10,10 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     xmlns:local="using:Aurora.Music.Pages" SizeChanged="Page_SizeChanged"
     xmlns:vm="using:Aurora.Music.ViewModels"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
-    xmlns:ctrls="using:Aurora.Music.Controls"
+    xmlns:list="using:Aurora.Music.Controls.ListItems"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
@@ -271,7 +273,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <Setter Property="TabNavigation" Value="Local" />
                 <Setter Property="IsHoldingEnabled" Value="True" />
                 <Setter Property="Padding" Value="0" />
-                <Setter Property="Margin" Value="4,0" />
                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                 <Setter Property="VerticalContentAlignment" Value="Center" />
                 <Setter Property="MinWidth" Value="{ThemeResource ListViewItemMinWidth}" />
@@ -288,7 +289,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <ControlTemplate TargetType="ListViewItem">
                             <ListViewItemPresenter ContentTransitions="{TemplateBinding ContentTransitions}"
                         x:Name="Root" HorizontalAlignment="Stretch"
-                        Control.IsTemplateFocusTarget="True"
+                        Control.IsTemplateFocusTarget="True" Margin="0,0,8,0"
                         FocusVisualMargin="{TemplateBinding FocusVisualMargin}"
                         FocusVisualPrimaryBrush="{TemplateBinding FocusVisualPrimaryBrush}"
                         FocusVisualPrimaryThickness="{TemplateBinding FocusVisualPrimaryThickness}"
@@ -357,19 +358,43 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                             </VisualState.Setters>
                                         </VisualState>
                                     </VisualStateGroup>
+                                    <VisualStateGroup x:Name="Adaptive">
+                                        <VisualState x:Name="Wide">
+                                            <VisualState.StateTriggers>
+                                                <AdaptiveTrigger MinWindowWidth="1008"/>
+                                            </VisualState.StateTriggers>
+                                        </VisualState>
+                                        <VisualState x:Name="Medium">
+                                            <VisualState.StateTriggers>
+                                                <AdaptiveTrigger MinWindowWidth="641"/>
+                                            </VisualState.StateTriggers>
+                                            <VisualState.Setters>
+                                                <Setter Target="Root.Margin" Value="0,0,6,0"/>
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState x:Name="Narrow">
+                                            <VisualState.StateTriggers>
+                                                <AdaptiveTrigger MinWindowWidth="0"/>
+                                            </VisualState.StateTriggers>
+                                            <VisualState.Setters>
+                                                <Setter Target="Root.Margin" Value="0,0,4,0"/>
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
                                 </VisualStateManager.VisualStateGroups>
                             </ListViewItemPresenter>
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
             </Style>
-            <Style TargetType="GridViewItem" x:Key="HeroGridViewItemStyle">
+
+            <Style TargetType="GridViewItem" x:Key="HeroGridViewItem">
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="GridViewItem">
                             <ListViewItemPresenter ContentTransitions="{TemplateBinding ContentTransitions}"
-                        x:Name="Root" Margin="24,12"
-                        Control.IsTemplateFocusTarget="True" Background="{x:Null}"
+                        x:Name="Root" Margin="12" Background="{x:Null}" BorderBrush="{x:Null}"
+                        Control.IsTemplateFocusTarget="True"
                         FocusVisualMargin="{TemplateBinding FocusVisualMargin}"
                         FocusVisualPrimaryBrush="{TemplateBinding FocusVisualPrimaryBrush}"
                         FocusVisualPrimaryThickness="{TemplateBinding FocusVisualPrimaryThickness}"
@@ -382,7 +407,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         DragForeground="{ThemeResource GridViewItemDragForeground}"
                         FocusBorderBrush="{ThemeResource GridViewItemFocusBorderBrush}"
                         FocusSecondaryBorderBrush="{ThemeResource GridViewItemFocusSecondaryBorderBrush}"
-                        PlaceholderBackground="{x:Null}"
+                        PlaceholderBackground="{ThemeResource GridViewItemPlaceholderBackground}"
                         PointerOverBackground="{x:Null}"
                         PointerOverForeground="{ThemeResource GridViewItemForegroundPointerOver}"
                         SelectedBackground="{x:Null}"
@@ -393,11 +418,15 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}"
                         DragOpacity="{ThemeResource ListViewItemDragThemeOpacity}"
                         ReorderHintOffset="{ThemeResource GridViewItemReorderHintThemeOffset}"
-                        HorizontalContentAlignment="Center"
-                        VerticalContentAlignment="Center"
-                        ContentMargin="{TemplateBinding Padding}"
+                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                        ContentMargin="0"
                         CheckMode="{ThemeResource GridViewItemCheckMode}"
+                        RevealBackground="{ThemeResource GridViewItemRevealBackground}"
+                        RevealBorderThickness="0"
+                        RevealBorderBrush="{ThemeResource SystemControlTransparentRevealBorderBrush}"
                         RevealBackgroundShowsAboveContent="True">
+
                                 <VisualStateManager.VisualStateGroups>
                                     <VisualStateGroup x:Name="CommonStates">
                                         <VisualState x:Name="Normal" />
@@ -442,236 +471,35 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                             </VisualState.Setters>
                                         </VisualState>
                                     </VisualStateGroup>
-
+                                    <VisualStateGroup x:Name="Adaptive">
+                                        <VisualState x:Name="Wide">
+                                            <VisualState.StateTriggers>
+                                                <AdaptiveTrigger MinWindowWidth="1008"/>
+                                            </VisualState.StateTriggers>
+                                        </VisualState>
+                                        <VisualState x:Name="Medium">
+                                            <VisualState.StateTriggers>
+                                                <AdaptiveTrigger MinWindowWidth="641"/>
+                                            </VisualState.StateTriggers>
+                                            <VisualState.Setters>
+                                                <Setter Target="Root.Margin" Value="8"/>
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState x:Name="Narrow">
+                                            <VisualState.StateTriggers>
+                                                <AdaptiveTrigger MinWindowWidth="0"/>
+                                            </VisualState.StateTriggers>
+                                            <VisualState.Setters>
+                                                <Setter Target="Root.Margin" Value="4"/>
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
                                 </VisualStateManager.VisualStateGroups>
                             </ListViewItemPresenter>
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
             </Style>
-
-            <DataTemplate x:Key="NormalHeroItem" x:DataType="vm:GenericMusicItemViewModel">
-                <Grid Background="{x:Null}" BorderThickness="0" BorderBrush="{x:Null}" PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited" 
-                                  PointerPressed="Grid_PointerPressed" PointerReleased="Grid_PointerReleased" PointerCanceled="Grid_PointerExited"
-                                  PointerCaptureLost="Grid_PointerExited"
-                                  Height="160" Width="160">
-                    <Grid.Resources>
-                        <Storyboard x:Key="PointerOver">
-                            <DoubleAnimation Storyboard.TargetName="Title" Storyboard.TargetProperty="Opacity"
-                                                         EnableDependentAnimation="True" To="0" Duration="0:0:0.48">
-                                <DoubleAnimation.EasingFunction>
-                                    <QuinticEase/>
-                                </DoubleAnimation.EasingFunction>
-                            </DoubleAnimation>
-                            <DoubleAnimation Storyboard.TargetName="Icon" Storyboard.TargetProperty="Opacity"
-                                                         EnableDependentAnimation="True" To="1" Duration="0:0:0.48">
-                                <DoubleAnimation.EasingFunction>
-                                    <QuinticEase/>
-                                </DoubleAnimation.EasingFunction>
-                            </DoubleAnimation>
-                            <DoubleAnimation Storyboard.TargetName="Shadow" Storyboard.TargetProperty="BlurRadius"
-                                                         EnableDependentAnimation="True" To="32" Duration="0:0:0.48">
-                                <DoubleAnimation.EasingFunction>
-                                    <QuinticEase/>
-                                </DoubleAnimation.EasingFunction>
-                            </DoubleAnimation>
-                        </Storyboard>
-
-                        <Storyboard x:Key="Pressed">
-                            <DoubleAnimation Storyboard.TargetName="Shadow" Storyboard.TargetProperty="BlurRadius"
-                                                         EnableDependentAnimation="True" To="-4" Duration="0:0:0.48">
-                                <DoubleAnimation.EasingFunction>
-                                    <QuinticEase/>
-                                </DoubleAnimation.EasingFunction>
-                            </DoubleAnimation>
-                        </Storyboard>
-                        <Storyboard x:Key="Normal">
-                            <DoubleAnimation Storyboard.TargetName="Title" Storyboard.TargetProperty="Opacity"
-                                                         EnableDependentAnimation="True" To="1" Duration="0:0:0.48">
-                                <DoubleAnimation.EasingFunction>
-                                    <QuinticEase/>
-                                </DoubleAnimation.EasingFunction>
-                            </DoubleAnimation>
-                            <DoubleAnimation Storyboard.TargetName="Icon" Storyboard.TargetProperty="Opacity"
-                                                         EnableDependentAnimation="True" To="0" Duration="0:0:0.48">
-                                <DoubleAnimation.EasingFunction>
-                                    <QuinticEase/>
-                                </DoubleAnimation.EasingFunction>
-                            </DoubleAnimation>
-                            <DoubleAnimation Storyboard.TargetName="Shadow" Storyboard.TargetProperty="BlurRadius"
-                                                         EnableDependentAnimation="True" To="16" Duration="0:0:0.48">
-                                <DoubleAnimation.EasingFunction>
-                                    <QuinticEase/>
-                                </DoubleAnimation.EasingFunction>
-                            </DoubleAnimation>
-                        </Storyboard>
-                    </Grid.Resources>
-                    <Rectangle Stroke="{ThemeResource SystemControlHighlightAltTransparentRevealBorderBrush}" StrokeThickness="1" Height="112" Width="112" RenderTransformOrigin="0.5,0" HorizontalAlignment="Center" VerticalAlignment="Top" Fill="{x:Bind GetMainColorBrush(0.3)}">
-                        <Rectangle.RenderTransform>
-                            <CompositeTransform TranslateY="-10"/>
-                        </Rectangle.RenderTransform>
-                    </Rectangle>
-                    <Rectangle Stroke="{ThemeResource SystemControlHighlightAltTransparentRevealBorderBrush}" StrokeThickness="1" Height="128" Width="128" RenderTransformOrigin="0.5,0" HorizontalAlignment="Center" VerticalAlignment="Top" Fill="{x:Bind GetMainColorBrush(0.5)}">
-                        <Rectangle.RenderTransform>
-                            <CompositeTransform TranslateY="-8"/>
-                        </Rectangle.RenderTransform>
-                    </Rectangle>
-                    <Rectangle Stroke="{ThemeResource SystemControlHighlightAltTransparentRevealBorderBrush}" StrokeThickness="1" Fill="{x:Bind GetMainColorBrush(0.7)}" Height="144" Width="144" RenderTransformOrigin="0.5,0" HorizontalAlignment="Center" VerticalAlignment="Top">
-                        <Rectangle.RenderTransform>
-                            <CompositeTransform TranslateY="-4"/>
-                        </Rectangle.RenderTransform>
-                    </Rectangle>
-                    <toolkit:DropShadowPanel x:Name="Shadow" HorizontalAlignment="Center" VerticalAlignment="Center"
-                                    OffsetX="0" OffsetY="4" BlurRadius="16" ShadowOpacity="1" Color="{x:Bind GetMainColor(1)}">
-                        <Rectangle Stroke="{ThemeResource SystemControlHighlightAltTransparentRevealBorderBrush}" StrokeThickness="1" Height="160" Width="160">
-                            <Rectangle.Fill>
-                                <ImageBrush AlignmentX="Center" AlignmentY="Center" Stretch="UniformToFill">
-                                    <ImageBrush.ImageSource>
-                                        <BitmapImage UriSource="{x:Bind Artwork, TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png}"/>
-                                    </ImageBrush.ImageSource>
-                                </ImageBrush>
-                            </Rectangle.Fill>
-                        </Rectangle>
-                    </toolkit:DropShadowPanel>
-                    <Rectangle Height="160" Width="160" Stroke="{ThemeResource SystemControlHighlightAltTransparentRevealBorderBrush}" Fill="{ThemeResource SystemControlBackgroundAltMediumRevealBrush}">
-                    </Rectangle>
-                    <TextBlock x:Name="Title" Text="{x:Bind Title}" Style="{ThemeResource SubtitleTextBlockStyle}"
-                                           Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"
-                                           HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"
-                                           Margin="12" MaxLines="2" TextWrapping="WrapWholeWords" 
-                                               TextTrimming="CharacterEllipsis"/>
-                    <FontIcon x:Name="Icon" FontFamily="Segoe MDL2 Assets" Opacity="0"
-                                           Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"
-                                          Glyph="&#xE102;" FontSize="32"
-                                          HorizontalAlignment="Center" VerticalAlignment="Center" />
-                </Grid>
-            </DataTemplate>
-            <DataTemplate x:Key="NarrowHeroItem" x:DataType="vm:GenericMusicItemViewModel">
-                <Grid Background="{x:Null}" BorderThickness="0" BorderBrush="{x:Null}" PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited" 
-                                  PointerPressed="Grid_PointerPressed" PointerReleased="Grid_PointerReleased" PointerCanceled="Grid_PointerExited"
-                                  PointerCaptureLost="Grid_PointerExited"
-                                  Height="144" Width="144">
-                    <Grid.Resources>
-                        <Storyboard x:Key="PointerOver">
-                            <DoubleAnimation Storyboard.TargetName="Title" Storyboard.TargetProperty="Opacity"
-                                                         EnableDependentAnimation="True" To="0" Duration="0:0:0.48">
-                                <DoubleAnimation.EasingFunction>
-                                    <QuinticEase/>
-                                </DoubleAnimation.EasingFunction>
-                            </DoubleAnimation>
-                            <DoubleAnimation Storyboard.TargetName="Icon" Storyboard.TargetProperty="Opacity"
-                                                         EnableDependentAnimation="True" To="1" Duration="0:0:0.48">
-                                <DoubleAnimation.EasingFunction>
-                                    <QuinticEase/>
-                                </DoubleAnimation.EasingFunction>
-                            </DoubleAnimation>
-                            <DoubleAnimation Storyboard.TargetName="Shadow" Storyboard.TargetProperty="BlurRadius"
-                                                         EnableDependentAnimation="True" To="16" Duration="0:0:0.48">
-                                <DoubleAnimation.EasingFunction>
-                                    <QuinticEase/>
-                                </DoubleAnimation.EasingFunction>
-                            </DoubleAnimation>
-                        </Storyboard>
-                        <Storyboard x:Key="Pressed">
-                            <DoubleAnimation Storyboard.TargetName="Shadow" Storyboard.TargetProperty="BlurRadius"
-                                                         EnableDependentAnimation="True" To="-4" Duration="0:0:0.48">
-                                <DoubleAnimation.EasingFunction>
-                                    <QuinticEase/>
-                                </DoubleAnimation.EasingFunction>
-                            </DoubleAnimation>
-                        </Storyboard>
-                        <Storyboard x:Key="Normal">
-                            <DoubleAnimation Storyboard.TargetName="Title" Storyboard.TargetProperty="Opacity"
-                                                         EnableDependentAnimation="True" To="1" Duration="0:0:0.48">
-                                <DoubleAnimation.EasingFunction>
-                                    <QuinticEase/>
-                                </DoubleAnimation.EasingFunction>
-                            </DoubleAnimation>
-                            <DoubleAnimation Storyboard.TargetName="Icon" Storyboard.TargetProperty="Opacity"
-                                                         EnableDependentAnimation="True" To="0" Duration="0:0:0.48">
-                                <DoubleAnimation.EasingFunction>
-                                    <QuinticEase/>
-                                </DoubleAnimation.EasingFunction>
-                            </DoubleAnimation>
-                            <DoubleAnimation Storyboard.TargetName="Shadow" Storyboard.TargetProperty="BlurRadius"
-                                                         EnableDependentAnimation="True" To="8" Duration="0:0:0.48">
-                                <DoubleAnimation.EasingFunction>
-                                    <QuinticEase/>
-                                </DoubleAnimation.EasingFunction>
-                            </DoubleAnimation>
-                        </Storyboard>
-                    </Grid.Resources>
-                    <toolkit:DropShadowPanel x:Name="Shadow" HorizontalAlignment="Center" VerticalAlignment="Center"
-                                    OffsetX="0" OffsetY="4" BlurRadius="8" ShadowOpacity="1" Color="{x:Bind GetMainColor(1)}">
-                        <Rectangle Stroke="{ThemeResource SystemControlHighlightAltTransparentRevealBorderBrush}" StrokeThickness="1" Height="144" Width="144">
-                            <Rectangle.Fill>
-                                <ImageBrush AlignmentX="Center" AlignmentY="Center" Stretch="UniformToFill">
-                                    <ImageBrush.ImageSource>
-                                        <BitmapImage UriSource="{x:Bind Artwork, TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png}"/>
-                                    </ImageBrush.ImageSource>
-                                </ImageBrush>
-                            </Rectangle.Fill>
-                        </Rectangle>
-                    </toolkit:DropShadowPanel>
-                    <Rectangle Stroke="{ThemeResource SystemControlHighlightAltTransparentRevealBorderBrush}" 
-                               StrokeThickness="1" Height="144" Width="144" 
-                               Fill="{ThemeResource SystemControlBackgroundAltMediumRevealBrush}">
-                    </Rectangle>
-                    <TextBlock x:Name="Title" Text="{x:Bind Title}" Style="{ThemeResource SubtitleTextBlockStyle}"
-                                           Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" FontSize="16"
-                                           HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"
-                                           Margin="12" MaxLines="2" TextWrapping="WrapWholeWords" 
-                                               TextTrimming="CharacterEllipsis"/>
-                    <FontIcon x:Name="Icon" FontFamily="Segoe MDL2 Assets" Opacity="0"
-                                           Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"
-                                          Glyph="&#xE102;" FontSize="24"
-                                          HorizontalAlignment="Center" VerticalAlignment="Center" />
-                </Grid>
-            </DataTemplate>
-            <DataTemplate x:Key="NormalListItem" x:DataType="vm:GenericMusicItemViewModel">
-                <StackPanel Width="150" Background="{ThemeResource SystemControlBackgroundAltMediumLowBrush}" 
-                                        Orientation="Vertical">
-                    <toolkit:ImageEx x:Name="Artwork" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                                                 PlaceholderSource="/Assets/Images/placeholder_b.png"
-                                                 Style="{ThemeResource QuickLoadImageEx}" Width="150" Height="150" 
-                                                 Stretch="UniformToFill" PlaceholderStretch="UniformToFill">
-                        <toolkit:ImageEx.Source>
-                            <BitmapImage UriSource="{x:Bind Artwork,TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png}"/>
-                        </toolkit:ImageEx.Source>
-                    </toolkit:ImageEx>
-                    <TextBlock Text="{x:Bind Title}" Style="{ThemeResource BaseTextBlockStyle}" 
-                                           MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" 
-                                           Margin="8,8,8,0"/>
-                    <TextBlock Text="{x:Bind Description}" Style="{ThemeResource BodyTextBlockStyle}" 
-                                           MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" 
-                                           Margin="8,0,8,0"/>
-                    <TextBlock Text="{x:Bind Addtional}" Style="{ThemeResource BodyTextBlockStyle}" 
-                                           MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" 
-                                           Margin="8,0,8,8"/>
-                </StackPanel>
-            </DataTemplate>
-            <DataTemplate x:Key="NarrowListItem" x:DataType="vm:GenericMusicItemViewModel">
-                <StackPanel Width="120" Background="{ThemeResource SystemControlBackgroundAltMediumLowBrush}" 
-                                        Orientation="Vertical">
-                    <toolkit:ImageEx x:Name="Artwork" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                                                 PlaceholderSource="/Assets/Images/placeholder_b.png"
-                                                 Style="{ThemeResource QuickLoadImageEx}" Width="120" Height="120" 
-                                                 Stretch="UniformToFill" PlaceholderStretch="UniformToFill">
-                        <toolkit:ImageEx.Source>
-                            <BitmapImage UriSource="{x:Bind Artwork,TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png}"/>
-                        </toolkit:ImageEx.Source>
-                    </toolkit:ImageEx>
-                    <TextBlock Text="{x:Bind Title}" Style="{ThemeResource BaseTextBlockStyle}" 
-                                           MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" 
-                                           Margin="4,4,4,0"/>
-                    <TextBlock Text="{x:Bind Description}" Style="{ThemeResource BodyTextBlockStyle}" 
-                                           MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" 
-                                           Margin="4,0,4,0"/>
-                    <TextBlock Text="{x:Bind Addtional}" Style="{ThemeResource BodyTextBlockStyle}" 
-                                           MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" 
-                                           Margin="4,0,4,4"/>
-                </StackPanel>
-            </DataTemplate>
         </ResourceDictionary>
     </Page.Resources>
 
@@ -688,9 +516,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="HeroGrid.Padding" Value="16"/>
-                        <Setter Target="HeroGrid.ItemTemplate" Value="{StaticResource NarrowHeroItem}"/>
-                        <Setter Target="FavList.ItemTemplate" Value="{StaticResource NarrowListItem}"/>
-                        <Setter Target="LuckyList.ItemTemplate" Value="{StaticResource NarrowListItem}"/>
                         <Setter Target="RandomPanel.Margin" Value="16,16,16,8"/>
                         <Setter Target="FavoritPanel.Margin" Value="16,16,16,8"/>
                         <Setter Target="RandomHeader.Width" Value="16"/>
@@ -704,9 +529,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="HeroGrid.Padding" Value="32"/>
-                        <Setter Target="HeroGrid.ItemTemplate" Value="{StaticResource NormalHeroItem}"/>
-                        <Setter Target="FavList.ItemTemplate" Value="{StaticResource NormalListItem}"/>
-                        <Setter Target="LuckyList.ItemTemplate" Value="{StaticResource NormalListItem}"/>
                         <Setter Target="RandomPanel.Margin" Value="48,16,16,8"/>
                         <Setter Target="FavoritPanel.Margin" Value="48,16,16,8"/>
                         <Setter Target="RandomHeader.Width" Value="48"/>
@@ -721,9 +543,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="HeroGrid.Padding" Value="64"/>
-                        <Setter Target="HeroGrid.ItemTemplate" Value="{StaticResource NormalHeroItem}"/>
-                        <Setter Target="FavList.ItemTemplate" Value="{StaticResource NormalListItem}"/>
-                        <Setter Target="LuckyList.ItemTemplate" Value="{StaticResource NormalListItem}"/>
                         <Setter Target="RandomPanel.Margin" Value="60,16,16,8"/>
                         <Setter Target="FavoritPanel.Margin" Value="60,16,16,8"/>
                         <Setter Target="RandomHeader.Width" Value="60"/>
@@ -791,11 +610,16 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                       IsVerticalScrollChainingEnabled="True">
             <StackPanel Margin="0,144,0,160" Orientation="Vertical" x:Name="ContentPanel"
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <GridView animations:ReorderGridAnimation.Duration="360" SelectionMode="None" IsItemClickEnabled="True" ItemsSource="{x:Bind Context.HeroList}"
-                          ItemContainerStyle="{ThemeResource HeroGridViewItemStyle}" ItemTemplate="{StaticResource NormalHeroItem}" 
-                          ContextRequested="HeroGrid_ContextRequested" ContextCanceled="HeroGrid_ContextCanceled"
-                          HorizontalAlignment="Center" VerticalAlignment="Stretch" Padding="64" ItemClick="HeroGrid_ItemClick"
-                          Margin="0" Style="{ThemeResource HeroGridViewStyle}" x:Name="HeroGrid">
+                <GridView animations:ReorderGridAnimation.Duration="360" SelectionMode="None" IsItemClickEnabled="True" 
+                          ItemsSource="{x:Bind Context.HeroList}" HorizontalAlignment="Center" VerticalAlignment="Stretch"
+                          ItemContainerStyle="{ThemeResource HeroGridViewItem}" Padding="64" x:Name="HeroGrid"
+                          ContextRequested="HeroGrid_ContextRequested" ContextCanceled="HeroGrid_ContextCanceled" 
+                          ItemClick="HeroGrid_ItemClick" Margin="0" Style="{ThemeResource HeroGridViewStyle}">
+                    <GridView.ItemTemplate>
+                        <DataTemplate x:DataType="vm:GenericMusicItemViewModel">
+                            <list:HeroItem Data="{x:Bind }"/>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
                 </GridView>
                 <StackPanel x:Name="FavoritPanel" Orientation="Horizontal" Margin="60,16,16,8">
                     <TextBlock x:Uid="Favorite" Text="Your Favorite" x:Name="FavoritTitle" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold"/>
@@ -804,9 +628,10 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <ListView Margin="0,8" IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" ItemClick="FavList_ItemClick"
                           ScrollViewer.IsHorizontalScrollChainingEnabled="True" ScrollViewer.IsHorizontalRailEnabled="True"
                           ContextRequested="HeroGrid_ContextRequested" ContextCanceled="HeroGrid_ContextCanceled"
-                      SelectionMode="None" ItemsSource="{x:Bind Context.FavList}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                      ItemContainerStyle="{ThemeResource HomeListViewItemStyle}" ItemTemplate="{StaticResource NormalListItem}"
-                      Style="{StaticResource HorizontalListView}" x:Name="FavList">
+                          SelectionMode="None" ItemsSource="{x:Bind Context.FavList}" 
+                          HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                          ItemContainerStyle="{ThemeResource HomeListViewItemStyle}"
+                          Style="{StaticResource HorizontalListView}" x:Name="FavList">
                     <ListView.Header>
                         <Grid x:Name="FavHeader" VerticalAlignment="Stretch" Padding="60,0,0,0" MinWidth="60">
                             <TextBlock x:Uid="StatisticsUnAvaliabe" Visibility="{x:Bind Context.CollapseIfNotZero(Context.FavList.Count),Mode=OneWay,FallbackValue=Collapsed}" Text="No enough statistics" Style="{ThemeResource SubtitleTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -815,6 +640,11 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <ListView.Footer>
                         <Grid VerticalAlignment="Stretch" Width="60"/>
                     </ListView.Footer>
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="vm:GenericMusicItemViewModel">
+                            <list:HomeItem Data="{x:Bind }"/>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
                 </ListView>
                 <StackPanel x:Name="RandomPanel" Orientation="Horizontal" Margin="60,16,16,8">
                     <TextBlock x:Uid="Lucky" Text="Feeling Lucky" x:Name="RandomTitle" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold"/>
@@ -826,8 +656,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     </Button>
                 </StackPanel>
                 <ListView Margin="0,8" IsSynchronizedWithCurrentItem="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                          ScrollViewer.IsHorizontalScrollChainingEnabled="True" ContextRequested="HeroGrid_ContextRequested" ContextCanceled="HeroGrid_ContextCanceled"
-                          ScrollViewer.IsHorizontalRailEnabled="True" ItemTemplate="{StaticResource NormalListItem}"
+                          ScrollViewer.IsHorizontalScrollChainingEnabled="True" ContextRequested="HeroGrid_ContextRequested" 
+                          ContextCanceled="HeroGrid_ContextCanceled" ScrollViewer.IsHorizontalRailEnabled="True"
                           IsItemClickEnabled="True" SelectionMode="None" ItemClick="FavList_ItemClick"
                           ItemsSource="{x:Bind Context.RandomList}"
                           ItemContainerStyle="{ThemeResource HomeListViewItemStyle}" 
@@ -839,6 +669,12 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <ListView.Footer>
                         <Grid VerticalAlignment="Stretch" Width="60"/>
                     </ListView.Footer>
+
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="vm:GenericMusicItemViewModel">
+                            <list:HomeItem Data="{x:Bind }"/>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
                 </ListView>
             </StackPanel>
         </ScrollViewer>

@@ -7,6 +7,7 @@ using Aurora.Shared.MVVM;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Windows.UI.Text;
 
 namespace Aurora.Music.ViewModels
 {
@@ -168,6 +169,11 @@ namespace Aurora.Music.ViewModels
         public double CurrentOpacity(bool b)
         {
             return b ? 1d : 0.4d;
+        }
+
+        public FontWeight CurrentWeight(bool b)
+        {
+            return b ? FontWeights.Bold : FontWeights.Normal;
         }
     }
 }

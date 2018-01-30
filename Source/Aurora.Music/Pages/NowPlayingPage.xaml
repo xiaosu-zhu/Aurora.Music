@@ -307,7 +307,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
                 <Setter Property="Background" Value="{x:Null}" />
                 <Setter Property="Foreground" Value="{ThemeResource ListViewItemForeground}" />
-                <Setter Property="TabNavigation" Value="Local" />
                 <Setter Property="IsHoldingEnabled" Value="True" />
                 <Setter Property="Padding" Value="0" />
                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -316,38 +315,32 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <Setter Property="MinHeight" Value="{ThemeResource ListViewItemMinHeight}" />
                 <Setter Property="AllowDrop" Value="False" />
                 <Setter Property="UseSystemFocusVisuals" Value="True" />
-                <Setter Property="FocusVisualMargin" Value="0" />
-                <Setter Property="FocusVisualPrimaryBrush" Value="{ThemeResource ListViewItemFocusVisualPrimaryBrush}" />
-                <Setter Property="FocusVisualPrimaryThickness" Value="2" />
-                <Setter Property="FocusVisualSecondaryBrush" Value="{ThemeResource ListViewItemFocusVisualSecondaryBrush}" />
-                <Setter Property="FocusVisualSecondaryThickness" Value="1" />
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="ListViewItem">
                             <ListViewItemPresenter ContentTransitions="{TemplateBinding ContentTransitions}"
                         x:Name="Root" HorizontalAlignment="Stretch"
                         Control.IsTemplateFocusTarget="True"
-                        FocusVisualMargin="0"
-                                                   Margin="0"
+                        FocusVisualMargin="0" Margin="0" Background="{x:Null}"
                         FocusVisualPrimaryBrush="{TemplateBinding FocusVisualPrimaryBrush}"
                         FocusVisualPrimaryThickness="{TemplateBinding FocusVisualPrimaryThickness}"
                         FocusVisualSecondaryBrush="{TemplateBinding FocusVisualSecondaryBrush}"
                         FocusVisualSecondaryThickness="{TemplateBinding FocusVisualSecondaryThickness}"
                         SelectionCheckMarkVisualEnabled="{ThemeResource ListViewItemSelectionCheckMarkVisualEnabled}"
-                        CheckBrush="Transparent"
-                        CheckBoxBrush="Transparent"
-                        DragBackground="Transparent"
+                        CheckBrush="{x:Null}"
+                        CheckBoxBrush="{x:Null}"
+                        DragBackground="{x:Null}"
                         DragForeground="{ThemeResource ListViewItemDragForeground}"
                         FocusBorderBrush="{ThemeResource ListViewItemFocusBorderBrush}"
                         FocusSecondaryBorderBrush="{ThemeResource ListViewItemFocusSecondaryBorderBrush}"
-                        PlaceholderBackground="Transparent"
-                        PointerOverBackground="Transparent"
+                        PlaceholderBackground="{x:Null}"
+                        PointerOverBackground="{x:Null}"
                         PointerOverForeground="{ThemeResource ListViewItemForegroundPointerOver}"
-                        SelectedBackground="Transparent"
+                        SelectedBackground="{x:Null}"
                         SelectedForeground="{ThemeResource ListViewItemForegroundSelected}"
-                        SelectedPointerOverBackground="Transparent"
-                        PressedBackground="Transparent"
-                        SelectedPressedBackground="Transparent"
+                        SelectedPointerOverBackground="{x:Null}"
+                        PressedBackground="{x:Null}"
+                        SelectedPressedBackground="{x:Null}"
                         DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}"
                         DragOpacity="{ThemeResource ListViewItemDragThemeOpacity}"
                         ReorderHintOffset="{ThemeResource ListViewItemReorderHintThemeOffset}"
@@ -374,16 +367,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False"/>
                 <Setter Property="ScrollViewer.BringIntoViewOnFocusChange" Value="True"/>
                 <Setter Property="UseSystemFocusVisuals" Value="True"/>
-                <Setter Property="ItemContainerTransitions">
-                    <Setter.Value>
-                        <TransitionCollection>
-                            <AddDeleteThemeTransition/>
-                            <ContentThemeTransition/>
-                            <ReorderThemeTransition/>
-                            <EntranceThemeTransition IsStaggeringEnabled="False"/>
-                        </TransitionCollection>
-                    </Setter.Value>
-                </Setter>
                 <Setter Property="ItemsPanel">
                     <Setter.Value>
                         <ItemsPanelTemplate>
@@ -686,18 +669,39 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </Style>
 
             <DataTemplate x:Key="NormalLrc" x:DataType="vm:LrcContent">
-                <toolkit:DropShadowPanel Margin="0,20" HorizontalAlignment="Center" VerticalAlignment="Stretch" Color="{ThemeResource SystemAltHighColor}" ShadowOpacity="0.66" BlurRadius="8" OffsetX="0" OffsetY="0">
-                    <TextBlock Opacity="{x:Bind CurrentOpacity(IsCurrent),Mode=OneWay}" TextAlignment="Center" TextTrimming="None" TextWrapping="WrapWholeWords" FontSize="17" Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Content}"/>
+                <toolkit:DropShadowPanel HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                         HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                         Color="{ThemeResource SystemAltHighColor}" ShadowOpacity="0.66" 
+                                         BlurRadius="8" OffsetX="0" OffsetY="0">
+                    <TextBlock Opacity="{x:Bind CurrentOpacity(IsCurrent),Mode=OneWay}" TextAlignment="Center" 
+                               TextTrimming="None" TextWrapping="WrapWholeWords" FontSize="16"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"
+                               FontWeight="{x:Bind CurrentWeight(IsCurrent),Mode=OneWay}" 
+                               Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Content}"/>
                 </toolkit:DropShadowPanel>
             </DataTemplate>
             <DataTemplate x:Key="NarrowLrc" x:DataType="vm:LrcContent">
-                <toolkit:DropShadowPanel Margin="0,16" HorizontalAlignment="Center" VerticalAlignment="Stretch" Color="{ThemeResource SystemAltHighColor}" ShadowOpacity="0.66" BlurRadius="8" OffsetX="0" OffsetY="0">
-                    <TextBlock Opacity="{x:Bind CurrentOpacity(IsCurrent),Mode=OneWay}" TextAlignment="Center" TextTrimming="None" TextWrapping="WrapWholeWords" FontSize="15" Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Content}"/>
+                <toolkit:DropShadowPanel HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" 
+                                         HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                         Color="{ThemeResource SystemAltHighColor}" ShadowOpacity="0.66" 
+                                         BlurRadius="8" OffsetX="0" OffsetY="0">
+                    <TextBlock Opacity="{x:Bind CurrentOpacity(IsCurrent),Mode=OneWay}" TextAlignment="Center" 
+                               TextTrimming="None" TextWrapping="WrapWholeWords" FontSize="15" 
+                               HorizontalAlignment="Center" VerticalAlignment="Center"
+                               FontWeight="{x:Bind CurrentWeight(IsCurrent),Mode=OneWay}" 
+                               Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Content}"/>
                 </toolkit:DropShadowPanel>
             </DataTemplate>
             <DataTemplate x:Key="FullLrc" x:DataType="vm:LrcContent">
-                <toolkit:DropShadowPanel Margin="0,24" HorizontalAlignment="Center" VerticalAlignment="Stretch" Color="{ThemeResource SystemAltHighColor}" ShadowOpacity="0.66" BlurRadius="8" OffsetX="0" OffsetY="0">
-                    <TextBlock Opacity="{x:Bind CurrentOpacity(IsCurrent),Mode=OneWay}" TextAlignment="Center" TextTrimming="None" TextWrapping="WrapWholeWords" FontSize="19" Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Content}"/>
+                <toolkit:DropShadowPanel HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" 
+                                         HorizontalAlignment="Center" VerticalAlignment="Center"
+                                         Color="{ThemeResource SystemAltHighColor}" ShadowOpacity="0.66" 
+                                         BlurRadius="8" OffsetX="0" OffsetY="0">
+                    <TextBlock Opacity="{x:Bind CurrentOpacity(IsCurrent),Mode=OneWay}" 
+                               TextAlignment="Center" TextTrimming="None" TextWrapping="WrapWholeWords" FontSize="17"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"
+                               FontWeight="{x:Bind CurrentWeight(IsCurrent),Mode=OneWay}" 
+                               Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Content}"/>
                 </toolkit:DropShadowPanel>
             </DataTemplate>
         </ResourceDictionary>

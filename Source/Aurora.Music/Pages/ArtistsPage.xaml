@@ -82,7 +82,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 
         <SemanticZoom x:Name="Root" ViewChangeCompleted="SemanticZoom_ViewChangeCompleted">
             <SemanticZoom.ZoomedOutView>
-                <GridView Margin="64,0" HorizontalAlignment="Center" VerticalAlignment="Center" ItemContainerStyle="{ThemeResource SemanticOutItem}"
+                <GridView Margin="64" HorizontalAlignment="Center" VerticalAlignment="Center" ItemContainerStyle="{ThemeResource SemanticOutItem}"
                           FontSize="20" ItemsSource="{x:Bind ArtistListSource.View.CollectionGroups, Mode=OneWay}">
                     <GridView.ItemTemplate>
                         <DataTemplate x:DataType="wuxdata:ICollectionViewGroup">

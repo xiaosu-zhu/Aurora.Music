@@ -208,13 +208,13 @@ namespace StarButton
 
             (bloomColor as ColorAnimation).From = (Foreground as SolidColorBrush).Color;
 
-            ColorToHSV((Foreground as SolidColorBrush).Color, out var h, out var s, out var v);
+            (Foreground as SolidColorBrush).Color.ColorToHSV(out var h, out var s, out var v);
             h -= 60;
             if (h < 0)
             {
                 h += 360;
             }
-            (bloomColor as ColorAnimation).To = ColorFromHSV(h, s, v);
+            (bloomColor as ColorAnimation).To = E.ColorFromHSV(h, s, v);
 
 
             var stroke = ani.Children.First(x =>
@@ -265,7 +265,7 @@ namespace StarButton
                     le.Width = p / 4d;
                     le.Height = p / 4d;
 
-                    (le.Fill as SolidColorBrush).Color = ColorFromHSV(a, s, v);
+                    (le.Fill as SolidColorBrush).Color = E.ColorFromHSV(a, s, v);
                 }
                 else
                 {
@@ -276,7 +276,7 @@ namespace StarButton
                     re.Width = p / 3d;
                     re.Height = p / 3d;
 
-                    (re.Fill as SolidColorBrush).Color = ColorFromHSV(b, s, v);
+                    (re.Fill as SolidColorBrush).Color = E.ColorFromHSV(b, s, v);
                 }
             }
 
@@ -285,6 +285,10 @@ namespace StarButton
 
             ani.Begin();
         }
+    }
+
+    static class E
+    {
 
         public static Color ColorFromHSV(double hue, double saturation, double value)
         {
@@ -313,7 +317,7 @@ namespace StarButton
                 return Color.FromArgb(255, v, p, q);
         }
 
-        public static void ColorToHSV(Color color, out double hue, out double saturation, out double value)
+        public static void ColorToHSV(this Color color, out double hue, out double saturation, out double value)
         {
             int max = Math.Max(color.R, Math.Max(color.G, color.B));
             int min = Math.Min(color.R, Math.Min(color.G, color.B));
@@ -342,6 +346,5 @@ namespace StarButton
             saturation = hsbS;
             value = hsbB;
         }
-
     }
 }

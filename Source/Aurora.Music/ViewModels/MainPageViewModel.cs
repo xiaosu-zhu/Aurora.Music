@@ -83,9 +83,9 @@ namespace Aurora.Music.ViewModels
             }
         }
 
-        public Extension LyricExtension { get; private set; }
-        public Extension OnlineMusicExtension { get; private set; }
-        public Extension OnlineMetaExtension { get; private set; }
+        public LyricExtension LyricExtension { get; private set; }
+        public OnlineMusicExtension OnlineMusicExtension { get; private set; }
+        public OnlineMetaExtension OnlineMetaExtension { get; private set; }
 
         private bool needShowPanel = false;
         public bool NeedShowPanel

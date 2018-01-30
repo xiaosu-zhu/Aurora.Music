@@ -18,6 +18,12 @@ namespace Aurora.Music.Core.Models
     {
         protected PropertySet _properties;
         protected string _serviceName;
+
+        public string ServiceName
+        {
+            get => _serviceName;
+        }
+
         protected object lockable = new object();
 
 
@@ -71,7 +77,7 @@ namespace Aurora.Music.Core.Models
             }
         }
 
-        public static async Task<Extension> Load<T>(string lyricExtensionID) where T : Extension
+        public static async Task<T> Load<T>(string lyricExtensionID) where T : Extension
         {
             if (lyricExtensionID.IsNullorEmpty())
             {
@@ -95,15 +101,15 @@ namespace Aurora.Music.Core.Models
 
                         if (typeof(T) == typeof(LyricExtension) && categories.Contains("Lyric"))
                         {
-                            return new LyricExtension(ext, properties);
+                            return new LyricExtension(ext, properties) as T;
                         }
                         if (typeof(T) == typeof(OnlineMetaExtension) && categories.Contains("OnlineMeta"))
                         {
-                            return new OnlineMetaExtension(ext, properties);
+                            return new OnlineMetaExtension(ext, properties) as T;
                         }
                         if (typeof(T) == typeof(OnlineMusicExtension) && categories.Contains("OnlineMusic"))
                         {
-                            return new OnlineMusicExtension(ext, properties);
+                            return new OnlineMusicExtension(ext, properties) as T;
                         }
 
                         // we have the exact extension, but it don't provide this kind of extension, return null

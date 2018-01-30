@@ -218,7 +218,10 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <Image x:Name="BlurBGImg" HorizontalAlignment="Center" VerticalAlignment="Center" Height="150" Width="150" 
                        Source="{x:Bind Data.Artwork, Mode=OneWay, TargetNullValue=/Assets/Images/placeholder_b.png}"
                        Stretch="Uniform"/>
-                <Border x:Name="BlurBGImgOverlay" Width="150" Height="150" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{ThemeResource SystemControlBackgroundBaseLowBrush}"/>
+                <Border x:Name="BlurBGImgOverlay" Width="{Binding ActualWidth, ElementName=BlurBGImg}" 
+                        Height="{Binding ActualHeight, ElementName=BlurBGImg}" 
+                        HorizontalAlignment="Center" VerticalAlignment="Center" 
+                        Background="{ThemeResource SystemControlBackgroundBaseLowBrush}"/>
             </Grid>
             <Image x:Name="Artwork" Stretch="Uniform" Height="150" Width="150"
                    Source="{x:Bind Data.Artwork, Mode=OneWay, TargetNullValue=/Assets/Images/placeholder_b.png}" HorizontalAlignment="Center" VerticalAlignment="Center">

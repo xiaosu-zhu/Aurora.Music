@@ -601,12 +601,12 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         FocusBorderBrush="{ThemeResource ListViewItemFocusBorderBrush}"
                         FocusSecondaryBorderBrush="{ThemeResource ListViewItemFocusSecondaryBorderBrush}"
                         PlaceholderBackground="{ThemeResource ListViewItemPlaceholderBackground}"
-                        PointerOverBackground="{ThemeResource SystemControlBackgroundAccentBrush}"
+                        PointerOverBackground="{ThemeResource SystemControlHighlightAltTransparentBrush}"
                         PointerOverForeground="{ThemeResource SystemControlForegroundAltHighBrush}"
                         SelectedBackground="Transparent"
                         SelectedForeground="{ThemeResource ListViewItemForegroundSelected}"
                         SelectedPointerOverBackground="{ThemeResource SystemControlBackgroundAccentBrush}"
-                        PressedBackground="{ThemeResource SystemControlBackgroundAccentBrush}"
+                        PressedBackground="{ThemeResource SystemControlHighlightAltTransparentBrush}"
                         SelectedPressedBackground="{ThemeResource SystemControlBackgroundAccentBrush}"
                         DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}"
                         DragOpacity="{ThemeResource ListViewItemDragThemeOpacity}"
@@ -958,7 +958,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                            Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" 
                                HorizontalAlignment="Left" VerticalAlignment="Top" 
                            FontWeight="Bold" Text="Now"/>
-                    <StackPanel Visibility="{x:Bind Context.NullableBooltoVisibility(Context.IsPlaying), Mode=OneWay}" Background="{ThemeResource SystemControlAltMediumLowAcrylicElementMediumBrush}" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                    <StackPanel Visibility="{x:Bind Context.NullableBooltoVisibility(Context.IsPlaying), Mode=OneWay}" 
+                                Background="{ThemeResource SystemControlAltMediumLowAcrylicElementMediumBrush}" Orientation="Horizontal" 
+                                HorizontalAlignment="Right" VerticalAlignment="Bottom">
                         <TextBlock MaxLines="1" TextWrapping="NoWrap" TextTrimming="Clip" x:Name="NowPlayingTitle" 
                                    Margin="8" TextAlignment="Right" Text="{x:Bind Context.CurrentTitle, Mode=OneWay}" 
                                    Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" Style="{ThemeResource TitleTextBlockStyle}" 
@@ -968,7 +970,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </StackPanel>
                 </Grid>
-                <ListView x:Name="HamPane" SelectionMode="None" IsItemClickEnabled="True" ItemClick="ListView_ItemClick" ItemsSource="{x:Bind Context.HamList}" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemContainerStyle="{ThemeResource PaneListItemStyle}">
+                <ListView x:Name="HamPane" SelectionMode="None" IsItemClickEnabled="True" ItemClick="ListView_ItemClick" 
+                          ItemsSource="{x:Bind Context.HamList}" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                          ItemContainerStyle="{ThemeResource PaneListItemStyle}">
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="vm:HamPanelItem">
                             <Grid Height="180">
@@ -993,9 +997,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
                     <Button Height="48" Command="{x:Bind Context.GotoSettings}" Click="Button_Click" Padding="0" VerticalContentAlignment="Center"
-                            HorizontalContentAlignment="Left" Background="{ThemeResource SystemControlBackgroundAltHighRevealBrush}" 
-                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{ThemeResource RevealRectangleButton}" 
-                            BorderThickness="0" >
+                            HorizontalContentAlignment="Left" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                            Style="{ThemeResource RevealRectangleButton}" BorderThickness="0" >
                         <Grid HorizontalAlignment="Left" VerticalAlignment="Center" Height="48">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
@@ -1006,7 +1009,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                        Style="{ThemeResource SubtitleTextBlockStyle}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                         </Grid>
                     </Button>
-                    <Button x:Uid="About" ToolTipService.ToolTip="About" Click="Button_Click" Width="48" Height="48" Grid.Column="1" Command="{x:Bind Context.GotoAbout}" Background="{ThemeResource SystemControlBackgroundAltHighRevealBrush}" 
+                    <Button x:Uid="About" ToolTipService.ToolTip="About" Click="Button_Click" Width="48" Height="48" Grid.Column="1" Command="{x:Bind Context.GotoAbout}"
                             HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{ThemeResource RevealRectangleButton}" BorderThickness="0" >
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xED59;" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Button>
@@ -1197,7 +1200,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <Grid Visibility="Collapsed" Opacity="0" x:Name="ModalOverlay" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource SystemControlAltLowBrush}">
                         <interactivity:Interaction.Behaviors>
-                            <behaviors:Blur x:Name="BlurBehavior" Value="0" Delay="0" AutomaticallyStart="True"/>
+                            <behaviors:Blur x:Name="BlurBehavior" Duration="1000" Value="0" Delay="0" AutomaticallyStart="True"/>
                         </interactivity:Interaction.Behaviors>
                     </Grid>
                     <ProgressRing Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" x:Name="ModalRing" HorizontalAlignment="Center" VerticalAlignment="Center" Width="48" Height="48" IsActive="False" IsEnabled="False"/>
