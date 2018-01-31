@@ -118,8 +118,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <VisualState.Setters>
                         <Setter Target="BlurBehavior.Duration" Value="200"/>
                         <Setter Target="Offset.Duration" Value="200"/>
-                        <Setter Target="BlurBehavior.Value" Value="4"/>
-                        <Setter Target="Offset.OffsetY" Value="6"/>
+                        <Setter Target="BlurBehavior.Value" Value="6"/>
+                        <Setter Target="Offset.OffsetY" Value="8"/>
                         <Setter Target="FloatPanel.Visibility" Value="Visible"/>
                     </VisualState.Setters>
                 </VisualState>
@@ -147,8 +147,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <VisualState.Setters>
                         <Setter Target="BlurBehavior.Duration" Value="200"/>
                         <Setter Target="Offset.Duration" Value="200"/>
-                        <Setter Target="BlurBehavior.Value" Value="4"/>
-                        <Setter Target="Offset.OffsetY" Value="6"/>
+                        <Setter Target="BlurBehavior.Value" Value="6"/>
+                        <Setter Target="Offset.OffsetY" Value="8"/>
                         <Setter Target="FloatPanel.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
                 </VisualState>

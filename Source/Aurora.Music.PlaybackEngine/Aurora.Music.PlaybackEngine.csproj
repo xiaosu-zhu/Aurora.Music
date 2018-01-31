@@ -107,7 +107,6 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="AudioGraph.cs" />
     <Compile Include="IPlayer.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -121,6 +120,10 @@
     <ProjectReference Include="..\Aurora.Music.Core\Aurora.Music.Core.csproj">
       <Project>{F0DBB792-F15D-4C3E-A6FE-5B184251C802}</Project>
       <Name>Aurora.Music.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Aurora.Music.Effects\Aurora.Music.Effects.csproj">
+      <Project>{C9DE2B76-9D03-4F26-905D-5DEB3846257B}</Project>
+      <Name>Aurora.Music.Effects</Name>
     </ProjectReference>
     <ProjectReference Include="..\Aurora.Shared\Aurora.Shared.csproj">
       <Project>{026d99cf-1c25-4dcf-ad95-1070bba9f8a8}</Project>

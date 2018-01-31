@@ -213,9 +213,12 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
             <TextBlock x:Uid="Now" Margin="0,32" Visibility="{x:Bind Context.NullableBooltoVisibility(Context.IsPlaying), Mode=OneWay}" Text="正在播放" FontWeight="Bold" Style="{ThemeResource TitleTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <Grid Grid.Row="1" Margin="-40,-32,-40,-48" Width="320" Height="320" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid Grid.Row="1" Margin="-40" Width="320" Height="320" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Grid.RenderTransform>
+                    <TranslateTransform Y="16"/>
+                </Grid.RenderTransform>
                 <interactivity:Interaction.Behaviors>
-                    <behaviors:Blur Value="8" Duration="0" Delay="0" AutomaticallyStart="True"/>
+                    <behaviors:Blur Value="16" Duration="0" Delay="0" AutomaticallyStart="True"/>
                 </interactivity:Interaction.Behaviors>
                 <Grid Width="240" Height="240" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Image Stretch="UniformToFill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -223,6 +226,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                             <BitmapImage UriSource="{x:Bind Context.Artwork, Mode=OneWay,TargetNullValue=ms-appx:///Assets/Images/now_placeholder.png}" DecodePixelHeight="240" DecodePixelType="Logical"/>
                         </Image.Source>
                     </Image>
+                    <Border Background="{ThemeResource SystemControlBackgroundBaseLowBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                 </Grid>
             </Grid>
             <Grid Grid.Row="1" Width="240" Height="240" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -232,7 +236,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     </Image.Source>
                 </Image>
             </Grid>
-            <StackPanel Grid.Row="2" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12">
+            <StackPanel Grid.Row="2" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12,24,12,12">
                 <TextBlock Text="{x:Bind Context.Title, Mode=OneWay}" FontWeight="Bold" FontSize="32" Style="{ThemeResource TitleTextBlockStyle}" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 <TextBlock Text="{x:Bind Context.Description, Mode=OneWay}" FontSize="16" Style="{ThemeResource BodyTextBlockStyle}" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </StackPanel>

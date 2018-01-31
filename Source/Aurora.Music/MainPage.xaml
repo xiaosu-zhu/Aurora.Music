@@ -771,7 +771,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <TextBlock Style="{ThemeResource BodyTextBlockStyle}" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Margin="4,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Grid.Row="1">
                         <Run Text="{x:Bind Description}"/><Run Text=" - "/><Run Text="{x:Bind Addtional}"/>
                     </TextBlock>
-                    <TextBlock Text="Online Content" Grid.Row="2" Grid.Column="1"  Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource SystemControlHighlightAccent2RevealBackgroundBrush}" Margin="4,0,4,8" FontSize="10" Visibility="{x:Bind BooltoVisibility(IsOnline)}"/>
+                    <TextBlock Text="Online Content" Grid.Row="2" Grid.Column="1"  Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource SystemControlHighlightAccent2RevealBackgroundBrush}" Margin="4,0,4,8" FontSize="10" Visibility="{x:Bind IsOnline}"/>
                 </Grid>
             </DataTemplate>
 
@@ -1047,7 +1047,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     </Storyboard>
                 </Grid.Resources>
                 <Frame Visibility="Visible" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="MainFrame"/>
-                <Grid Visibility="{x:Bind Context.BooltoVisibility(Context.NeedShowPanel), Mode=OneWay}" 
+                <Grid Visibility="{x:Bind Context.NeedShowPanel, Mode=OneWay}" 
                       HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="74" x:Name="NowPanel"
                       Background="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}">
 
@@ -1191,7 +1191,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <KeyboardAccelerator Modifiers="Control" Key="M" />
                     </Button.KeyboardAccelerators>
                 </Button>
-                <TextBlock Visibility="{x:Bind Context.BooltoVisibility(Context.NeedShowTitle), Mode=OneWay}" 
+                <TextBlock Visibility="{x:Bind Context.NeedShowTitle, Mode=OneWay}" 
                            OpticalMarginAlignment="None" Margin="60,32,0,0" 
                            Style="{ThemeResource SubheaderTextBlockStyle}"
                            Foreground="{x:Bind Context.LeftTopColor, Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Top" 
@@ -1209,7 +1209,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 
                 <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top" Background="Transparent" 
                       Height="32" x:Name="TitleBar" Loaded="TitleBar_Loaded">
-                    <TextBlock x:Uid="AppName"  Style="{ThemeResource CaptionTextBlockStyle}" Visibility="{x:Bind Context.BooltoVisibility(Context.NeedShowTitle), Mode=OneWay}"
+                    <TextBlock x:Uid="AppName"  Style="{ThemeResource CaptionTextBlockStyle}" Visibility="{x:Bind Context.NeedShowTitle, Mode=OneWay}"
                                Margin="60,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" 
                                Foreground="{x:Bind Context.LeftTopColor, Mode=OneWay}"/>
                 </Grid>

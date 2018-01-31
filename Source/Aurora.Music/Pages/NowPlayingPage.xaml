@@ -9,6 +9,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Aurora.Music.Pages"
     xmlns:controls="using:Aurora.Music.Controls"
+    xmlns:list="using:Aurora.Music.Controls.ListItems"
     xmlns:vm="using:Aurora.Music.ViewModels"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:star="using:StarButton"
@@ -678,43 +679,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     </Setter.Value>
                 </Setter>
             </Style>
-
-            <DataTemplate x:Key="NormalLrc" x:DataType="vm:LrcContent">
-                <toolkit:DropShadowPanel HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
-                                         HorizontalAlignment="Center" VerticalAlignment="Center" 
-                                         Color="{ThemeResource SystemAltHighColor}" ShadowOpacity="0.66" 
-                                         BlurRadius="8" OffsetX="0" OffsetY="0">
-                    <TextBlock Opacity="{x:Bind CurrentOpacity(IsCurrent),Mode=OneWay}" TextAlignment="Center" 
-                               TextTrimming="None" TextWrapping="WrapWholeWords" FontSize="16"
-                               HorizontalAlignment="Center" VerticalAlignment="Center"
-                               FontWeight="{x:Bind CurrentWeight(IsCurrent),Mode=OneWay}" 
-                               Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Content}"/>
-                </toolkit:DropShadowPanel>
-            </DataTemplate>
-            <DataTemplate x:Key="NarrowLrc" x:DataType="vm:LrcContent">
-                <toolkit:DropShadowPanel HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" 
-                                         HorizontalAlignment="Center" VerticalAlignment="Center" 
-                                         Color="{ThemeResource SystemAltHighColor}" ShadowOpacity="0.66" 
-                                         BlurRadius="8" OffsetX="0" OffsetY="0">
-                    <TextBlock Opacity="{x:Bind CurrentOpacity(IsCurrent),Mode=OneWay}" TextAlignment="Center" 
-                               TextTrimming="None" TextWrapping="WrapWholeWords" FontSize="15" 
-                               HorizontalAlignment="Center" VerticalAlignment="Center"
-                               FontWeight="{x:Bind CurrentWeight(IsCurrent),Mode=OneWay}" 
-                               Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Content}"/>
-                </toolkit:DropShadowPanel>
-            </DataTemplate>
-            <DataTemplate x:Key="FullLrc" x:DataType="vm:LrcContent">
-                <toolkit:DropShadowPanel HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" 
-                                         HorizontalAlignment="Center" VerticalAlignment="Center"
-                                         Color="{ThemeResource SystemAltHighColor}" ShadowOpacity="0.66" 
-                                         BlurRadius="8" OffsetX="0" OffsetY="0">
-                    <TextBlock Opacity="{x:Bind CurrentOpacity(IsCurrent),Mode=OneWay}" 
-                               TextAlignment="Center" TextTrimming="None" TextWrapping="WrapWholeWords" FontSize="17"
-                               HorizontalAlignment="Center" VerticalAlignment="Center"
-                               FontWeight="{x:Bind CurrentWeight(IsCurrent),Mode=OneWay}" 
-                               Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Content}"/>
-                </toolkit:DropShadowPanel>
-            </DataTemplate>
         </ResourceDictionary>
     </Page.Resources>
 
@@ -725,13 +689,12 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     <Grid x:Name="Root" Padding="48,80,48,0" Background="{ThemeResource SystemControlAltTranslucentAcrylicWindowBrush}">
 
         <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup CurrentStateChanged="VisualStateGroup_CurrentStateChanged">
+            <VisualStateGroup>
                 <VisualState x:Name="Narrow">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="0"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="LrcView.ItemTemplate" Value="{StaticResource NarrowLrc}"/>
                         <Setter Target="LrcHeader.FontSize" Value="16"/>
 
                         <Setter Target="Previous.Margin" Value="2,4"/>
@@ -775,7 +738,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <AdaptiveTrigger MinWindowWidth="641"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="LrcView.ItemTemplate" Value="{StaticResource NormalLrc}"/>
                         <Setter Target="LrcHeader.FontSize" Value="18"/>
 
                         <Setter Target="Previous.Margin" Value="4"/>
@@ -815,7 +777,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <AdaptiveTrigger MinWindowWidth="1008"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="LrcView.ItemTemplate" Value="{StaticResource FullLrc}"/>
                         <Setter Target="LrcHeader.FontSize" Value="20"/>
 
                         <Setter Target="Previous.Margin" Value="4"/>
@@ -887,7 +848,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush), Mode=OneWay}" 
                                Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold" ToolTipService.ToolTip="{x:Bind Context.Song.Title,Mode=OneWay}"
                                Text="{x:Bind Context.Song.Title,Mode=OneWay}"/>
-                    <FontIcon Visibility="{x:Bind Context.BooltoVisibility(Context.Song.IsOnline),Mode=OneWay}"
+                    <FontIcon Visibility="{x:Bind Context.Song.IsOnline,Mode=OneWay}"
                               FontSize="24" Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush),Mode=OneWay}"
                               VerticalAlignment="Center" Margin="8,4,0,0" FontFamily="Segoe MDL2 Assets" Glyph="&#xE93E;" />
                 </StackPanel>
@@ -919,8 +880,13 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         <ListView x:Name="LrcView" Style="{ThemeResource LyricListView}" Grid.Row="1" Grid.ColumnSpan="2" IsItemClickEnabled="False"
                   HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="32,32,32,64"
                   IsSynchronizedWithCurrentItem="False" SelectionChanged="ListView_SelectionChanged"
-                  SelectedIndex="{x:Bind Context.Lyric.CurrentIndex,Mode=OneWay}" ItemTemplate="{StaticResource NormalLrc}"
+                  SelectedIndex="{x:Bind Context.Lyric.CurrentIndex,Mode=OneWay}"
                   ItemContainerStyle="{ThemeResource LyricListItem}" ItemsSource="{x:Bind Context.Lyric.Contents,Mode=OneWay}">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="vm:LrcContent">
+                    <list:LyricItem Data="{x:Bind }"/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
             <ListView.Header>
                 <Grid x:Name="LrcHeaderGrid" Loaded="LrcHeader_Loaded">
                     <toolkit:DropShadowPanel Visibility="{x:Bind Context.BoolNottoVisibility(Context.Lyric.HasLyric),Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Color="{ThemeResource SystemAltHighColor}" ShadowOpacity="0.66" BlurRadius="4" OffsetX="0" OffsetY="0">
@@ -947,7 +913,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </Grid.RowDefinitions>
             <ProgressBar Grid.Column="1" Style="{ThemeResource SlimProgressBar}" Height="2" Foreground="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" Background="{x:Null}" Value="{x:Bind Context.BufferProgress, Mode=OneWay}" HorizontalAlignment="Stretch" Margin="16,2,16,0"/>
             <Slider Grid.Column="1" Minimum="0" Maximum="100" 
-                    Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 1),Mode=OneWay}" 
+                    Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush),Mode=OneWay}" 
                     ThumbToolTipValueConverter="{StaticResource SliderToolTipConverter}" 
                     Value="{x:Bind Context.PositionToValue(Context.CurrentPosition, Context.TotalDuration), Mode=OneWay}" 
                     ValueChanged="Slider_ValueChanged" HorizontalAlignment="Stretch" Margin="4,8,4,0" VerticalAlignment="Center" 
@@ -959,7 +925,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <TextBlock Text="{x:Bind Context.TimeSpanFormat(Context.TotalDuration),Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource SystemControlBackgroundBaseHighRevealBorderBrush}"/>
             </toolkit:DropShadowPanel>
             <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="4" HorizontalAlignment="Left" VerticalAlignment="Stretch" Grid.ColumnSpan="2">
-                <Button AccessKey="[" x:Uid="Previous" x:Name="Previous" Style="{ThemeResource RevealRoundButton}" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 1),Mode=OneWay}" Command="{x:Bind Context.GoPrevious}" ToolTipService.ToolTip="Previous"
+                <Button AccessKey="[" x:Uid="Previous" x:Name="Previous" Style="{ThemeResource RevealRoundButton}" Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush),Mode=OneWay}" Command="{x:Bind Context.GoPrevious}" ToolTipService.ToolTip="Previous"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <Button.Content>
                         <SymbolIcon Symbol="Previous"/>
@@ -968,7 +934,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <KeyboardAccelerator Key="F1" />
                     </Button.KeyboardAccelerators>
                 </Button>
-                <Button AccessKey="P" x:Name="PlayPause" Style="{ThemeResource RevealRoundButton}" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 1),Mode=OneWay}" Command="{x:Bind Context.PlayPause}" ToolTipService.ToolTip="{x:Bind Context.NullableBoolToString(Context.IsPlaying), Mode=OneWay}"
+                <Button AccessKey="P" x:Name="PlayPause" Style="{ThemeResource RevealRoundButton}" Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush),Mode=OneWay}" Command="{x:Bind Context.PlayPause}" ToolTipService.ToolTip="{x:Bind Context.NullableBoolToString(Context.IsPlaying), Mode=OneWay}"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <Button.Content>
                         <SymbolIcon Symbol="{x:Bind Context.NullableBoolToSymbol(Context.IsPlaying), Mode=OneWay}"/>
@@ -978,7 +944,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <KeyboardAccelerator Key="F2" />
                     </Button.KeyboardAccelerators>
                 </Button>
-                <Button AccessKey="]" x:Uid="Next" x:Name="Next" Style="{ThemeResource RevealRoundButton}" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 1),Mode=OneWay}" Command="{x:Bind Context.GoNext}" ToolTipService.ToolTip="Next"
+                <Button AccessKey="]" x:Uid="Next" x:Name="Next" Style="{ThemeResource RevealRoundButton}" Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush),Mode=OneWay}" Command="{x:Bind Context.GoNext}" ToolTipService.ToolTip="Next"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <Button.Content>
                         <SymbolIcon Symbol="Next"/>
@@ -987,7 +953,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <KeyboardAccelerator Key="F3" />
                     </Button.KeyboardAccelerators>
                 </Button>
-                <Button AccessKey="E" x:Uid="Stop" x:Name="Stop" Style="{ThemeResource RevealRoundButton}" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 1),Mode=OneWay}" Command="{x:Bind Context.Stop}" ToolTipService.ToolTip="Stop"
+                <Button AccessKey="E" x:Uid="Stop" x:Name="Stop" Style="{ThemeResource RevealRoundButton}" Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush),Mode=OneWay}" Command="{x:Bind Context.Stop}" ToolTipService.ToolTip="Stop"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <Button.Content>
                         <SymbolIcon Symbol="Stop"/>
@@ -997,21 +963,21 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <KeyboardAccelerator Key="F4" />
                     </Button.KeyboardAccelerators>
                 </Button>
-                <ToggleButton x:Uid="Shuffle" x:Name="Shuffle" Style="{ThemeResource RevealRoundToggleButton}" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 1),Mode=OneWay}" IsChecked="{x:Bind Context.IsShuffle, Mode=TwoWay}"
+                <ToggleButton x:Uid="Shuffle" x:Name="Shuffle" Style="{ThemeResource RevealRoundToggleButton}" Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush),Mode=OneWay}" IsChecked="{x:Bind Context.IsShuffle, Mode=TwoWay}"
                               ToolTipService.ToolTip="Shuffle" Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <ToggleButton.Content>
                         <SymbolIcon Symbol="Shuffle"/>
                     </ToggleButton.Content>
                 </ToggleButton>
 
-                <ToggleButton x:Uid="Loop" x:Name="Refresh" Style="{ThemeResource RevealRoundToggleButton}" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 1),Mode=OneWay}" IsChecked="{x:Bind Context.IsLoop, Mode=TwoWay}"
+                <ToggleButton x:Uid="Loop" x:Name="Refresh" Style="{ThemeResource RevealRoundToggleButton}" Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush),Mode=OneWay}" IsChecked="{x:Bind Context.IsLoop, Mode=TwoWay}"
                               ToolTipService.ToolTip="Loop" Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <ToggleButton.Content>
                         <SymbolIcon Symbol="Refresh"/>
                     </ToggleButton.Content>
                 </ToggleButton>
 
-                <Button AccessKey="L" x:Uid="PlayList" x:Name="PlayListBtn" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 1),Mode=OneWay}" Style="{ThemeResource RevealRectangleButton}" ToolTipService.ToolTip="Playing list" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Button AccessKey="L" x:Uid="PlayList" x:Name="PlayListBtn" Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush),Mode=OneWay}" Style="{ThemeResource RevealRectangleButton}" ToolTipService.ToolTip="Playing list" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Button.Content>
                         <Grid>
                             <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="PlayListFull" Text="{x:Bind Context.NowListPreview,Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" Margin="12,8"/>
@@ -1040,7 +1006,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </StackPanel>
             <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="4">
                 <Button x:Uid="LyricWindow" x:Name="LrcBtn" Style="{ThemeResource RevealRoundButton}" 
-                        Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 1),Mode=OneWay}" 
+                        Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush),Mode=OneWay}" 
                         ToolTipService.ToolTip="Lyric Window" Command="{x:Bind Context.ShowLyricWindow}"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <Button.Content>
@@ -1048,14 +1014,14 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     </Button.Content>
                 </Button>
                 <Button x:Uid="SmallWindow" x:Name="SmallWindow" Style="{ThemeResource RevealRoundButton}" 
-                        Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 1),Mode=OneWay}" 
+                        Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush),Mode=OneWay}" 
                         Command="{x:Bind Context.CompactOverlay}" ToolTipService.ToolTip="Small Window"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <Button.Content>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE2B4;" />
                     </Button.Content>
                 </Button>
-                <Button AccessKey="." x:Name="More" Style="{ThemeResource RevealRoundButton}" Foreground="{x:Bind Context.AdjustBrightness(Context.CurrentColorBrush, 1),Mode=OneWay}" ToolTipService.ToolTip="More"
+                <Button AccessKey="." x:Name="More" Style="{ThemeResource RevealRoundButton}" Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush),Mode=OneWay}" ToolTipService.ToolTip="More"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <Button.Content>
                         <SymbolIcon Symbol="More"/>

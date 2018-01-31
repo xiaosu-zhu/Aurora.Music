@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MathNet.Filtering.IIR;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,9 +13,24 @@ namespace Aurora.Music.Effects
 {
     public sealed class SuperEQ : IBasicAudioEffect
     {
+        private AudioEncodingProperties currentEncodingProperties;
+        private OnlineIirFilter[] filter;
+        private IPropertySet configuration;
+
         public void SetEncodingProperties(AudioEncodingProperties encodingProperties)
         {
-            throw new NotImplementedException();
+            currentEncodingProperties = encodingProperties;
+            filter = new OnlineIirFilter[]
+            {
+                new OnlineIirFilter(IirCoefficients.BandPass(currentEncodingProperties.SampleRate, 20, 20000)),
+                new OnlineIirFilter(IirCoefficients.BandPass(currentEncodingProperties.SampleRate, 800, 1400)),
+                new OnlineIirFilter(IirCoefficients.BandPass(currentEncodingProperties.SampleRate, 1000, 1600)),
+                new OnlineIirFilter(IirCoefficients.BandPass(currentEncodingProperties.SampleRate, 1200, 1800)),
+                new OnlineIirFilter(IirCoefficients.BandPass(currentEncodingProperties.SampleRate, 1400, 2000)),
+                new OnlineIirFilter(IirCoefficients.BandPass(currentEncodingProperties.SampleRate, 1600, 2200)),
+                new OnlineIirFilter(IirCoefficients.BandPass(currentEncodingProperties.SampleRate, 1800, 2400)),
+                new OnlineIirFilter(IirCoefficients.BandPass(currentEncodingProperties.SampleRate, 2200, 2600))
+            };
         }
 
         public void ProcessFrame(ProcessAudioFrameContext context)
@@ -29,7 +45,6 @@ namespace Aurora.Music.Effects
                 using (IMemoryBufferReference inputReference = inputBuffer.CreateReference(),
                                                 outputReference = outputBuffer.CreateReference())
                 {
-
                     ((IMemoryBufferByteAccess)inputReference).GetBuffer(out byte* inputDataInBytes, out uint inputCapacity);
                     ((IMemoryBufferByteAccess)outputReference).GetBuffer(out byte* outputDataInBytes, out uint outputCapacity);
 
@@ -38,18 +53,46 @@ namespace Aurora.Music.Effects
 
                     // Process audio data
                     int dataInFloatLength = (int)inputBuffer.Length / sizeof(float);
+
+
+                    filter[0].ProcessSamples(ref inputDataInFloat, dataInFloatLength);
+
+
+                    for (int i = 0; i < dataInFloatLength; i++)
+                    {
+                        outputDataInFloat[i] = inputDataInFloat[i];
+                    }
                 }
             }
         }
 
         public void Close(MediaEffectClosedReason reason)
         {
-            throw new NotImplementedException();
+            switch (reason)
+            {
+                case MediaEffectClosedReason.Done:
+                    break;
+                case MediaEffectClosedReason.UnknownError:
+                    break;
+                case MediaEffectClosedReason.UnsupportedEncodingFormat:
+                    break;
+                case MediaEffectClosedReason.EffectCurrentlyUnloaded:
+                    break;
+                default:
+                    break;
+            }
+            foreach (var item in filter)
+            {
+                item.Reset();
+            }
         }
 
         public void DiscardQueuedFrames()
         {
-            throw new NotImplementedException();
+            foreach (var item in filter)
+            {
+                item.Reset();
+            }
         }
 
         public IReadOnlyList<AudioEncodingProperties> SupportedEncodingProperties
@@ -70,11 +113,11 @@ namespace Aurora.Music.Effects
             }
         }
 
-        public bool UseInputFrameForOutput => throw new NotImplementedException();
+        public bool UseInputFrameForOutput => false;
 
         public void SetProperties(IPropertySet configuration)
         {
-            throw new NotImplementedException();
+            this.configuration = configuration;
         }
     }
 }

@@ -142,6 +142,9 @@
     <Compile Include="Controls\ListItems\HomeItem.xaml.cs">
       <DependentUpon>HomeItem.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ListItems\LyricItem.xaml.cs">
+      <DependentUpon>LyricItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ListItems\SongItem.xaml.cs">
       <DependentUpon>SongItem.xaml</DependentUpon>
     </Compile>
@@ -379,6 +382,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\ListItems\HomeItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ListItems\LyricItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

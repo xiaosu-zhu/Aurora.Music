@@ -9,7 +9,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Aurora.Music.Pages"
     xmlns:vm="using:Aurora.Music.ViewModels"
-    xmlns:controls="using:Aurora.Music.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     RequestedTheme="{x:Bind Context.Foreground,Mode=OneWay}"
@@ -38,6 +37,15 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     HorizontalAlignment="Left" Margin="0,8" Style="{ThemeResource ButtonRevealStyle}" Content="Add a new folder to scan"/>
             <ListView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemContainerStyleSelector="{StaticResource SongListStyleSelector}"
                       SelectionMode="None" IsItemClickEnabled="True" ItemClick="ListView_ItemClick" Margin="0,8" ItemsSource="{x:Bind Context.Folders}">
+                <ListView.ItemContainerTransitions>
+                    <TransitionCollection>
+                        <AddDeleteThemeTransition/>
+                        <ContentThemeTransition/>
+                        <ReorderThemeTransition/>
+                        <EntranceThemeTransition IsStaggeringEnabled="False"/>
+                        <RepositionThemeTransition IsStaggeringEnabled="False"/>
+                    </TransitionCollection>
+                </ListView.ItemContainerTransitions>
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="vm:FolderViewModel">
                         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -59,7 +67,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                 <TextBlock Text="{x:Bind FolderName}" Style="{ThemeResource BaseTextBlockStyle}" Margin="8,4,8,0"/>
                                 <TextBlock Text="{x:Bind FormatCount(SongsCount)}" Style="{ThemeResource BodyTextBlockStyle}" FontSize="10" Margin="8,0,8,4"/>
                             </StackPanel>
-                            <Grid Visibility="{x:Bind BooltoVisibility(IsOpened), Mode=OneWay}" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                            <Grid Visibility="{x:Bind IsOpened, Mode=OneWay}" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="auto"/>

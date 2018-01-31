@@ -1,6 +1,7 @@
 ﻿using Aurora.Music.Core;
 using Aurora.Music.Core.Models;
 using Aurora.Music.Core.Storage;
+using Aurora.Music.Effects;
 using Aurora.Shared.Extensions;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.Devices.Enumeration;
 using Windows.Foundation;
+using Windows.Foundation.Collections;
 using Windows.Media.Core;
+using Windows.Media.Effects;
 using Windows.Media.Playback;
 using Windows.Storage;
 using Windows.Storage.Streams;
@@ -103,6 +106,8 @@ namespace Aurora.Music.PlaybackEngine
             mediaPlayer.PlaybackSession.PlaybackStateChanged += PlaybackSession_PlaybackStateChanged;
             //mediaPlayer.PlaybackSession.PositionChanged += PlaybackSession_PositionChangedAsync;
             positionUpdateTimer = ThreadPoolTimer.CreatePeriodicTimer(UpdatTimerHandler, TimeSpan.FromMilliseconds(250), UpdateTimerDestoyed);
+
+           //mediaPlayer.AddAudioEffect(typeof(SuperEQ).FullName, false, new PropertySet());
         }
 
         private void UpdateTimerDestoyed(ThreadPoolTimer timer)

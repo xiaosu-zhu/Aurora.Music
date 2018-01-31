@@ -137,7 +137,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <ToggleSwitch Visibility="Collapsed" IsOn="{x:Bind Context.DataPlayEnabled, Mode=TwoWay}" Header="Using metered connection to play online contents" Margin="0,8" />
                         <ToggleSwitch Visibility="Collapsed" IsOn="{x:Bind Context.DataDownloadEnabled, Mode=TwoWay}" Header="Using metered connection to download online contents"  Margin="0,8"/>
                         <Button x:Uid="DownloadPath" IsEnabled="{x:Bind Context.OnlinePurchase,Mode=OneWay}" Margin="0,8" Content="Download Path" Command="{x:Bind Context.DownloadPath}" Style="{ThemeResource ButtonRevealStyle}" />
-                        <TextBlock Visibility="{x:Bind Context.BooltoVisibility(Context.OnlinePurchase),Mode=OneWay}" Text="{x:Bind Context.DownloadPathText, Mode=OneWay}" Margin="0,8" Style="{ThemeResource BodyTextBlockStyle}"/>
+                        <TextBlock Visibility="{x:Bind Context.OnlinePurchase,Mode=OneWay}" Text="{x:Bind Context.DownloadPathText, Mode=OneWay}" Margin="0,8" Style="{ThemeResource BodyTextBlockStyle}"/>
                     </StackPanel>
                     <StackPanel BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" BorderThickness="0,0,0,1" Padding="8,0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <TextBlock Foreground="{ThemeResource SystemControlDisabledBaseLowBrush}" x:Uid="AudioGraph" Text="Audio Graph" TextDecorations="Strikethrough" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12"/>
