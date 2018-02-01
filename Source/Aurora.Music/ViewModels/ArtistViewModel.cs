@@ -48,7 +48,7 @@ namespace Aurora.Music.ViewModels
                 };
                 var t = ThreadPool.RunAsync(async x =>
                 {
-                    await Core.Storage.SQLOperator.Current().UpdateAvatarAsync(RawName, value.OriginalString);
+                    await SQLOperator.Current().UpdateAvatarAsync(RawName, value.OriginalString);
                 });
             }
         }

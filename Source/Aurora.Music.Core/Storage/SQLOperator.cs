@@ -1170,6 +1170,7 @@ namespace Aurora.Music.Core.Storage
                 }
                 res[0].Uri = originalString;
                 await conn.UpdateAsync(res[0]);
+                return;
             }
             await conn.InsertAsync(new AVATAR()
             {

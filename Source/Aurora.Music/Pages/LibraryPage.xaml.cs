@@ -37,7 +37,7 @@ namespace Aurora.Music.Pages
             this.InitializeComponent();
             Current = this;
 
-            MainPageViewModel.Current.Title = Consts.Localizer.GetString("LibraryText");
+            MainPageViewModel.Current.Title = string.Empty;
             MainPageViewModel.Current.NeedShowTitle = true;
             MainPageViewModel.Current.LeftTopColor = Resources["SystemControlForegroundBaseHighBrush"] as SolidColorBrush;
 

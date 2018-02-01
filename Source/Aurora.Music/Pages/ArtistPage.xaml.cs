@@ -31,9 +31,6 @@ namespace Aurora.Music.Pages
     /// </summary>
     public sealed partial class ArtistPage : Page, IRequestGoBack
     {
-        private CompositionPropertySet _scrollerPropertySet;
-        private Compositor _compositor;
-        private CompositionPropertySet _props;
         private AlbumViewModel _clickedAlbum;
         private string _lastParameter;
 
@@ -45,8 +42,9 @@ namespace Aurora.Music.Pages
 
         public void RequestGoBack()
         {
+            _lastParameter = Guid.NewGuid().ToString();
             ConnectedAnimationService.GetForCurrentView().PrepareToAnimate(Consts.ArtistPageInAnimation + "_1", Title);
-            ConnectedAnimationService.GetForCurrentView().PrepareToAnimate(Consts.ArtistPageInAnimation + "_2", AvatarImage);
+            ConnectedAnimationService.GetForCurrentView().PrepareToAnimate(Consts.ArtistPageInAnimation + "_2", Image);
             LibraryPage.Current.GoBack();
             UnloadObject(this);
         }
@@ -63,50 +61,59 @@ namespace Aurora.Music.Pages
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
             AppViewBackButtonVisibility.Visible;
 
-            if (!Context.AlbumList.IsNullorEmpty() && _clickedAlbum != null && ((ArtistViewModel)e.Parameter).RawName == _lastParameter)
+            try
             {
-                AlbumList.ScrollIntoView(_clickedAlbum);
-                var container = (AlbumList.ContainerFromItem(_clickedAlbum) as SelectorItem).ContentTemplateRoot as AlbumItem;
-                var ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.AlbumItemConnectedAnimation + "_1");
-                if (ani != null)
+                if (!Context.AlbumList.IsNullorEmpty() && _clickedAlbum != null && ((ArtistViewModel)e.Parameter).RawName == _lastParameter)
                 {
-                    container.StartConnectedAnimation(ani, "AlbumName");
+                    AlbumList.ScrollIntoView(_clickedAlbum);
+                    var container = (AlbumList.ContainerFromItem(_clickedAlbum) as SelectorItem).ContentTemplateRoot as AlbumItem;
+                    var ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.AlbumItemConnectedAnimation + "_1");
+                    if (ani != null)
+                    {
+                        container.StartConnectedAnimation(ani, "AlbumName");
+                    }
+                    ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.AlbumItemConnectedAnimation + "_2");
+                    if (ani != null)
+                    {
+                        container.StartConnectedAnimation(ani, "Arts");
+                    }
                 }
-                ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.AlbumItemConnectedAnimation + "_2");
-                if (ani != null)
+                else if (_clickedAlbum != null && ((ArtistViewModel)e.Parameter).RawName == _lastParameter)
                 {
-                    container.StartConnectedAnimation(ani, "Artwork");
+                    Context.Artist = (ArtistViewModel)e.Parameter;
+                    await Context.GetAlbums((ArtistViewModel)e.Parameter);
+                    AlbumList.ScrollIntoView(_clickedAlbum);
+                    var container = (AlbumList.ContainerFromItem(_clickedAlbum) as SelectorItem).ContentTemplateRoot as AlbumItem;
+                    var ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.AlbumItemConnectedAnimation + "_1");
+                    if (ani != null)
+                    {
+                        container.StartConnectedAnimation(ani, "AlbumName");
+                    }
+                    ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.AlbumItemConnectedAnimation + "_2");
+                    if (ani != null)
+                    {
+                        container.StartConnectedAnimation(ani, "Arts");
+                    }
                 }
-                return;
             }
-            else if (_clickedAlbum != null && ((ArtistViewModel)e.Parameter).RawName == _lastParameter)
+            catch (Exception)
             {
-                Context.Artist = (ArtistViewModel)e.Parameter;
-                await Context.GetAlbums((ArtistViewModel)e.Parameter);
-                AlbumList.ScrollIntoView(_clickedAlbum);
-                var container = (AlbumList.ContainerFromItem(_clickedAlbum) as SelectorItem).ContentTemplateRoot as AlbumItem;
-                var ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.AlbumItemConnectedAnimation + "_1");
-                if (ani != null)
-                {
-                    container.StartConnectedAnimation(ani, "AlbumName");
-                }
-                ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.AlbumItemConnectedAnimation + "_2");
-                if (ani != null)
-                {
-                    container.StartConnectedAnimation(ani, "Arts");
-                }
-                return;
             }
-            else if (e.Parameter is ArtistViewModel s)
+            if (e.Parameter is ArtistViewModel s && _lastParameter != s.RawName)
             {
                 _lastParameter = s.RawName;
                 Context.Artist = s;
-
+                var ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.ArtistPageInAnimation + "_1");
+                if (ani != null)
+                {
+                    ani.TryStart(Title, new UIElement[] { Details });
+                }
+                ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.ArtistPageInAnimation + "_2");
+                if (ani != null)
+                {
+                    ani.TryStart(Shadow, new UIElement[] { Image });
+                }
                 await Context.GetAlbums(s);
-            }
-            else
-            {
-                LibraryPage.Current.GoBack();
             }
         }
 
@@ -124,70 +131,6 @@ namespace Aurora.Music.Pages
             {
                 (s.Resources["PointerPressed"] as Storyboard).Begin();
             }
-        }
-
-        private void AlbumList_Loaded(object sender, RoutedEventArgs e)
-        {
-            var ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.ArtistPageInAnimation);
-            if (ani != null)
-            {
-                ani.TryStart(AvatarImage, new UIElement[] { Title, HeaderBG, Details });
-            }
-
-            var scrollviewer = AlbumList.GetScrollViewer();
-            _scrollerPropertySet = ElementCompositionPreview.GetScrollViewerManipulationPropertySet(scrollviewer);
-            _compositor = _scrollerPropertySet.Compositor;
-
-            _props = _compositor.CreatePropertySet();
-            _props.InsertScalar("progress", 0);
-            _props.InsertScalar("clampSize", (float)Title.ActualHeight + 64);
-            _props.InsertScalar("scaleFactor", 0.5f);
-
-            // Get references to our property sets for use with ExpressionNodes
-            var scrollingProperties = _scrollerPropertySet.GetSpecializedReference<ManipulationPropertySetReferenceNode>();
-            var props = _props.GetReference();
-            var progressNode = props.GetScalarProperty("progress");
-            var clampSizeNode = props.GetScalarProperty("clampSize");
-            var scaleFactorNode = props.GetScalarProperty("scaleFactor");
-
-            // Create and start an ExpressionAnimation to track scroll progress over the desired distance
-            ExpressionNode progressAnimation = EF.Clamp(-scrollingProperties.Translation.Y / ((float)Header.Height - clampSizeNode), 0, 1);
-            _props.StartAnimation("progress", progressAnimation);
-
-            // Get the backing visual for the header so that its properties can be animated
-            Visual headerVisual = ElementCompositionPreview.GetElementVisual(Header);
-
-            // Create and start an ExpressionAnimation to clamp the header's offset to keep it onscreen
-            ExpressionNode headerTranslationAnimation = EF.Conditional(progressNode < 1, scrollingProperties.Translation.Y, -(float)Header.Height + (float)Title.ActualHeight + 64);
-            headerVisual.StartAnimation("Offset.Y", headerTranslationAnimation);
-
-            //// Create and start an ExpressionAnimation to scale the header during overpan
-            //ExpressionNode headerScaleAnimation = EF.Lerp(1, 1.25f, EF.Clamp(scrollingProperties.Translation.Y / 50, 0, 1));
-            //headerVisual.StartAnimation("Scale.X", headerScaleAnimation);
-            //headerVisual.StartAnimation("Scale.Y", headerScaleAnimation);
-
-            ////Set the header's CenterPoint to ensure the overpan scale looks as desired
-            //headerVisual.CenterPoint = new Vector3((float)(Header.ActualWidth / 2), (float)Header.ActualHeight, 0);
-
-            var titleVisual = ElementCompositionPreview.GetElementVisual(Title);
-            var titleshrinkVisual = ElementCompositionPreview.GetElementVisual(TitleShrink);
-            var fixAnimation = EF.Conditional(progressNode < 1, -scrollingProperties.Translation.Y, (float)Header.Height - ((float)Title.ActualHeight + 64));
-            titleVisual.StartAnimation("Offset.Y", fixAnimation);
-            titleshrinkVisual.StartAnimation("Offset.Y", fixAnimation);
-            var detailsVisual = ElementCompositionPreview.GetElementVisual(Details);
-            var opacityAnimation = EF.Clamp(1 - (progressNode * 8), 0, 1);
-            detailsVisual.StartAnimation("Opacity", opacityAnimation);
-
-            var headerbgVisual = ElementCompositionPreview.GetElementVisual(HeaderBG);
-            var headerbgOverlayVisual = ElementCompositionPreview.GetElementVisual(HeaderBGOverlay);
-            var bgBlurVisual = ElementCompositionPreview.GetElementVisual(BGBlur);
-            var bgOpacityAnimation = EF.Clamp(1 - progressNode, 0, 1);
-            var bgblurOpacityAnimation = EF.Clamp(progressNode, 0, 1);
-            titleshrinkVisual.StartAnimation("Opacity", bgblurOpacityAnimation);
-            titleVisual.StartAnimation("Opacity", bgOpacityAnimation);
-            headerbgVisual.StartAnimation("Opacity", bgOpacityAnimation);
-            headerbgOverlayVisual.StartAnimation("Opacity", bgOpacityAnimation);
-            bgBlurVisual.StartAnimation("Opacity", bgblurOpacityAnimation);
         }
 
         private void Page_Unloaded(object sender, RoutedEventArgs e)
@@ -223,20 +166,6 @@ namespace Aurora.Music.Pages
                 }
 
                 MainPage.Current.SongFlyout.ShowAt(requestedElement);
-            }
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            if (DescriIndicator.Glyph == "\uE018")
-            {
-                DescriIndicator.Glyph = "\uE09D";
-                Descriptions.Height = 75;
-            }
-            else
-            {
-                DescriIndicator.Glyph = "\uE018";
-                Descriptions.Height = double.NaN;
             }
         }
 

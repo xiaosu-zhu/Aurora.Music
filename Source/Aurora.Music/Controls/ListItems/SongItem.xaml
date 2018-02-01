@@ -130,14 +130,14 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="32"/>
             <ColumnDefinition Width="8*"/>
             <ColumnDefinition x:Name="Col2" Width="6*"/>
             <ColumnDefinition x:Name="Col3" Width="2*"/>
             <ColumnDefinition x:Name="Col4" Width="3*"/>
         </Grid.ColumnDefinitions>
-        <TextBlock x:Name="Track" Grid.RowSpan="2" Margin="4" Text="{x:Bind Data.Track,Mode=OneWay}" TextWrapping="NoWrap" TextTrimming="Clip"
-                   HorizontalAlignment="Left" VerticalAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}"/>
+        <TextBlock Margin="0,0,12,0" x:Name="Track" Grid.RowSpan="2" Text="{x:Bind Data.Track,Mode=OneWay}" HorizontalTextAlignment="Right" TextWrapping="NoWrap" TextTrimming="Clip"
+                   HorizontalAlignment="Stretch" VerticalAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}"/>
         <Grid x:Name="InfoGrid" Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>

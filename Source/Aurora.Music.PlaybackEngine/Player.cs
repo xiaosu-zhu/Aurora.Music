@@ -1,7 +1,6 @@
 ﻿using Aurora.Music.Core;
 using Aurora.Music.Core.Models;
 using Aurora.Music.Core.Storage;
-using Aurora.Music.Effects;
 using Aurora.Shared.Extensions;
 using System;
 using System.Collections.Generic;
@@ -10,9 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.Devices.Enumeration;
 using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Media.Core;
-using Windows.Media.Effects;
 using Windows.Media.Playback;
 using Windows.Storage;
 using Windows.Storage.Streams;
@@ -44,7 +41,7 @@ namespace Aurora.Music.PlaybackEngine
         private TimeSpan _savedPosition;
         private uint _savedIndex;
 
-        public static IPlayer Current
+        public static Player Current
         {
             get
             {

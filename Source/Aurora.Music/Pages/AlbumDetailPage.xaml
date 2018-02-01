@@ -37,142 +37,111 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         </ResourceDictionary>
     </Page.Resources>
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
-                <VisualState x:Name="Narrow">
+                <VisualState x:Name="Full">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0"/>
+                        <AdaptiveTrigger MinWindowWidth="1008"/>
                     </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="HeaderGroup.Margin" Value="48,32"/>
-                        <Setter Target="SongList.Padding" Value="0,0,0,160"/>
-                        <Setter Target="HeaderBG.Visibility" Value="Collapsed"/>
-                    </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Medium">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="641"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="HeaderGroup.Margin" Value="32"/>
-                        <Setter Target="SongList.Padding" Value="16,0,16,160"/>
-                        <Setter Target="HeaderBG.Visibility" Value="Visible"/>
+                        <Setter Target="HeaderGroup.Margin" Value="20,32,20,20"/>
+                        <Setter Target="SongList.Padding" Value="20,0"/>
                     </VisualState.Setters>
                 </VisualState>
-                <VisualState x:Name="Full">
+                <VisualState x:Name="Narrow">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="1008"/>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="HeaderGroup.Margin" Value="32"/>
-                        <Setter Target="SongList.Padding" Value="32,0,32,160"/>
-                        <Setter Target="HeaderBG.Visibility" Value="Visible"/>
+                        <Setter Target="HeaderGroup.Margin" Value="48,32,12,12"/>
+                        <Setter Target="SongList.Padding" Value="0"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
+        <Grid x:Name="HeaderGroup" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="32">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Margin="-20,-16,-20,-24" x:Name="Shadow" HorizontalAlignment="Center" VerticalAlignment="Center" Height="140">
+                <interactivity:Interaction.Behaviors>
+                    <behaviors:Blur x:Name="BlurBehavior" Value="8" Duration="0" Delay="0" AutomaticallyStart="True"/>
+                </interactivity:Interaction.Behaviors>
+                <Image x:Name="ShadowImg" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="20,0" MaxWidth="144" Height="100" Stretch="Uniform">
+                    <Image.Source>
+                        <BitmapImage UriSource="{x:Bind Context.HeroImage, Mode=OneWay,TargetNullValue=/Assets/Images/placeholder_b.png}" DecodePixelHeight="100"/>
+                    </Image.Source>
+                </Image>
+                <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="20,0"
+                        Background="{ThemeResource SystemControlBackgroundBaseLowBrush}"
+                        Height="{Binding ActualHeight, ElementName=ShadowImg}" Width="{Binding ActualWidth, ElementName=ShadowImg}"/>
+            </Grid>
+            <Image x:Name="Image" HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="144" Height="100" Stretch="Uniform">
+                <Image.Source>
+                    <BitmapImage UriSource="{x:Bind Context.HeroImage, Mode=OneWay,TargetNullValue=/Assets/Images/placeholder_b.png}" DecodePixelHeight="100"/>
+                </Image.Source>
+            </Image>
+            <StackPanel Margin="12,0,0,0" Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Viewbox x:Name="Titlebox" HorizontalAlignment="Left" VerticalAlignment="Center" Height="48">
+                    <TextBlock x:Name="Title" Text="{x:Bind Context.Album.Name, Mode=OneWay}" HorizontalAlignment="Stretch" VerticalAlignment="Center" FontWeight="Bold"
+                               TextWrapping="WrapWholeWords" MaxLines="2" Style="{ThemeResource SubheaderTextBlockStyle}" TextTrimming="Clip"/>
+                </Viewbox>
+                <Rectangle Margin="0,8" Fill="{ThemeResource SystemControlBackgroundBaseLowBrush}" Height="0.5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <toolkit:WrapPanel HorizontalSpacing="8" VerticalSpacing="8" x:Name="Details" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                    <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Context.Album.GetFormattedArtists(),Mode=OneWay}"/>
+                    <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Context.SongsCount(Context.Album),Mode=OneWay}"/>
+                    <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Context.GenresToString(Context.Album),Mode=OneWay}"/>
+                    <Button Style="{ThemeResource TextBlockButtonStyle}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock>
+                        <Run FontFamily="Segoe MDL2 Assets" Text="&#xEC24;" />
+                        <Run Text="See Album Story"/>
+                        </TextBlock>
+                        <Button.Flyout>
+                            <Flyout FlyoutPresenterStyle="{ThemeResource HoriNoScrollFlyoutPresenter}">
+                                <StackPanel MinWidth="{ThemeResource FlyoutThemeMinWidth}" Padding="0,0,8,0" x:Name="ArtistFlyout" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                    <Image x:Name="Artwork" Stretch="Uniform" Margin="0,8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="120">
+                                        <Image.Source>
+                                            <BitmapImage UriSource="{x:Bind Context.HeroImage, Mode=OneWay,TargetNullValue=/Assets/Images/placeholder_b.png}" DecodePixelHeight="120"/>
+                                        </Image.Source>
+                                    </Image>
+                                    <toolkit:MarkdownTextBlock IsTextSelectionEnabled="False" LinkClicked="Descriptions_LinkClicked"
+                                                               Text="{x:Bind Context.Album.Description, Mode=OneWay}" x:Name="Descriptions"
+                                                               Height="75" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                                               TextWrapping="WrapWholeWords">
+                                    </toolkit:MarkdownTextBlock>
+                                </StackPanel>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+                    
+                    <Button Command="{x:Bind Context.PlayAll}" Style="{ThemeResource PlayAllButton}"/>
+                    
+                </toolkit:WrapPanel>
+            </StackPanel>
+        </Grid>
 
-        <ListView Loaded="SongList_Loaded" IsSynchronizedWithCurrentItem="False" ItemsSource="{x:Bind Context.SongList, Mode=OneWay}"
+        <ListView Grid.Row="1" IsSynchronizedWithCurrentItem="False" ItemsSource="{x:Bind Context.SongList, Mode=OneWay}"
                   ItemContainerStyleSelector="{StaticResource SongListStyleSelector}" Style="{ThemeResource GeneralListView}"
-                  Padding="32,0,32,160" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="SongList"
+                  Padding="32,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="SongList"
                   ContextRequested="SongList_ContextRequested" ContextCanceled="SongList_ContextCanceled">
-            <ListView.Header>
-                <Button Padding="0" Click="Button_Click" Margin="8,368,8,8" BorderThickness="0"
-                        HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" 
-                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                        Background="{ThemeResource SystemControlAcrylicWindowBrush}">
-                    <StackPanel Padding="8" Background="{ThemeResource SystemControlAcrylicWindowBrush}" 
-                                HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <toolkit:MarkdownTextBlock IsTextSelectionEnabled="False" LinkClicked="Descriptions_LinkClicked" 
-                                                   Text="{x:Bind Context.Album.Description, Mode=OneWay}" x:Name="Descriptions" 
-                                                   Height="75" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                                                   TextWrapping="WrapWholeWords">
-                        </toolkit:MarkdownTextBlock>
-                        <FontIcon x:Name="DescriIndicator" FontFamily="Segoe MDL2 Assets" 
-                                  HorizontalAlignment="Right" VerticalAlignment="Center" 
-                                  FontSize="10" Glyph="&#xE09D;" />
-                    </StackPanel>
-                </Button>
-            </ListView.Header>
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="vm:SongViewModel">
                     <list:SongItem Data="{x:Bind }" Play="PlayBtn_Click"/>
                 </DataTemplate>
             </ListView.ItemTemplate>
+            <ListView.Footer>
+                <Border Height="160"/>
+            </ListView.Footer>
         </ListView>
-        <Grid Height="360" x:Name="Header" HorizontalAlignment="Stretch" VerticalAlignment="Top">
-            <Grid x:Name="BGBlur" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="360" Background="Transparent"/>
-            <Grid Height="360" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
-                <animations:Implicit.ShowAnimations>
-                    <animations:OpacityAnimation Duration="0:0:2" From="0" To="1.0"></animations:OpacityAnimation>
-                </animations:Implicit.ShowAnimations>
-                <interactivity:Interaction.Behaviors>
-                    <behaviors:Blur x:Name="BlurBehavior" Value="64" Duration="2000" AutomaticallyStart="True"/>
-                </interactivity:Interaction.Behaviors>
-
-                <Grid.Background>
-                    <ImageBrush AlignmentX="Center" AlignmentY="Center" Stretch="UniformToFill">
-                        <ImageBrush.ImageSource>
-                            <BitmapImage DecodePixelHeight="160" DecodePixelType="Logical" 
-                                         UriSource="{x:Bind Context.HeroImage,Mode=OneWay,FallbackValue=ms-appx:///Assets/Images/welcom_bg.png}"/>
-                        </ImageBrush.ImageSource>
-                    </ImageBrush>
-                </Grid.Background>
-                <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource SystemControlBackgroundBaseMediumBrush}"/>
-            </Grid>
-            <Image x:Name="HeaderBG" HorizontalAlignment="Right" Margin="64" VerticalAlignment="Center" Stretch="Uniform" Height="160">
-                <Image.Source>
-                    <BitmapImage DecodePixelHeight="160" DecodePixelType="Logical" 
-                                     UriSource="{x:Bind Context.HeroImage,Mode=OneWay,FallbackValue=ms-appx:///Assets/Images/welcom_bg.png}"/>
-                </Image.Source>
-            </Image>
-            <Grid x:Name="HeaderGroup" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="32">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                </Grid.RowDefinitions>
-                <Grid Canvas.ZIndex="9999" x:Name="TitleShrink" Background="{x:Null}"
-                          HorizontalAlignment="Left" VerticalAlignment="Center" Height="48">
-                    <TextBlock Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Margin="12,0"
-                               Text="{x:Bind Context.Album.Name, Mode=OneWay}" 
-                                   HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"
-                                   TextWrapping="NoWrap" MaxLines="1" Style="{ThemeResource SubheaderTextBlockStyle}" 
-                                   TextTrimming="Clip"/>
-                </Grid>
-                <Grid Canvas.ZIndex="9999" x:Name="Title" Background="{ThemeResource SystemControlBackgroundAccentBrush}" 
-                          HorizontalAlignment="Left" VerticalAlignment="Center" Height="48">
-                    <TextBlock Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" 
-                               Margin="12,0" Text="{x:Bind Context.Album.Name, Mode=OneWay}" 
-                                   HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"
-                                   TextWrapping="NoWrap" MaxLines="1" Style="{ThemeResource SubheaderTextBlockStyle}" 
-                                   TextTrimming="Clip"/>
-                </Grid>
-                <StackPanel Grid.Row="1" x:Name="Details" Orientation="Horizontal" 
-                            HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,8">
-                    <Grid VerticalAlignment="Bottom" Margin="0,0,4,0" 
-                              Background="{ThemeResource SystemControlBackgroundAccentBrush}">
-                        <TextBlock Style="{ThemeResource BodyTextBlockStyle}" 
-                                       Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" 
-                                       Text="{x:Bind Context.Album.GetFormattedArtists(),Mode=OneWay}" Margin="12,8"/>
-                    </Grid>
-                    <Grid VerticalAlignment="Bottom" Margin="0,0,4,0" 
-                              Background="{ThemeResource SystemControlBackgroundAccentBrush}">
-                        <TextBlock Style="{ThemeResource BodyTextBlockStyle}" 
-                                       Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" 
-                                       Text="{x:Bind Context.SongsCount(Context.Album),Mode=OneWay}" Margin="12,8"/>
-                    </Grid>
-                    <Grid VerticalAlignment="Center" Margin="4,0,4,0"
-                              Background="{ThemeResource SystemControlBackgroundAccentBrush}">
-                        <TextBlock Style="{ThemeResource BodyTextBlockStyle}" 
-                                       Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" 
-                                       Text="{x:Bind Context.GenresToString(Context.Album),Mode=OneWay}" Margin="12,8"/>
-                    </Grid>
-                </StackPanel>
-            </Grid>
-            <StackPanel Height="48" HorizontalAlignment="Right" VerticalAlignment="Bottom" Orientation="Horizontal" Margin="32,0">
-                <Button Margin="8,0" Command="{x:Bind Context.PlayAll}" Style="{ThemeResource PlayAllButton}" 
-                        HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            </StackPanel>
-        </Grid>
     </Grid>
 </Page>

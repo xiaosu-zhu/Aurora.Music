@@ -77,7 +77,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <ColumnDefinition x:Name="LeftCol" Width="320"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <ListView Background="{ThemeResource SystemControlAltTranslucentAcrylicWindowBrush}" Grid.Column="0" x:Name="Category" 
+        <ListView Background="{ThemeResource SystemControlChromeMediumLowAcrylicWindowMediumBrush}" Grid.Column="0" x:Name="Category" 
                   IsItemClickEnabled="True" ItemsSource="{x:Bind CategoryList}" SelectionMode="None" ItemClick="ListView_ItemClick" 
                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemContainerStyle="{StaticResource GeneralListViewItemStyle}">
             <ListView.ItemTemplate>

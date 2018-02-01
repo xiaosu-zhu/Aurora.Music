@@ -42,18 +42,28 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     <Page.DataContext>
         <vm:ArtistsPageViewModel x:Name="Context"/>
     </Page.DataContext>
-    
-    <Grid>
 
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
+                <VisualState x:Name="Full">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1008"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="GroupStyle.HeaderTemplate" Value="{StaticResource NormalGroupHeader}"/>
+                    </VisualState.Setters>
+                </VisualState>
                 <VisualState x:Name="Narrow">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="0"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="HeaderGroup.Margin" Value="48,32"/>
-                        <Setter Target="ArtistList.Padding" Value="0,0,0,160"/>
+                        <Setter Target="HeaderGroup.Margin" Value="48,32,12,12"/>
                         <Setter Target="GroupStyle.HeaderTemplate" Value="{StaticResource NarrowGroupHeader}"/>
                     </VisualState.Setters>
                 </VisualState>
@@ -62,27 +72,28 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <AdaptiveTrigger MinWindowWidth="641"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="HeaderGroup.Margin" Value="32"/>
-                        <Setter Target="ArtistList.Padding" Value="16,0,16,160"/>
                         <Setter Target="GroupStyle.HeaderTemplate" Value="{StaticResource NormalGroupHeader}"/>
                     </VisualState.Setters>
                 </VisualState>
-                <VisualState x:Name="Full">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="1008"/>
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="HeaderGroup.Margin" Value="32"/>
-                        <Setter Target="ArtistList.Padding" Value="32,0,32,160"/>
-                        <Setter Target="GroupStyle.HeaderTemplate" Value="{StaticResource NormalGroupHeader}"/>
-                    </VisualState.Setters>
-                </VisualState>
+
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
-        <SemanticZoom x:Name="Root" ViewChangeCompleted="SemanticZoom_ViewChangeCompleted">
+        <StackPanel Orientation="Vertical" x:Name="HeaderGroup" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="32">
+            <Border x:Name="Title" HorizontalAlignment="Left" VerticalAlignment="Center" Height="48">
+                <TextBlock x:Uid="Artists" Text="Artists" HorizontalAlignment="Left" VerticalAlignment="Center"
+                           FontWeight="Bold" TextWrapping="NoWrap" MaxLines="1" Style="{ThemeResource SubheaderTextBlockStyle}" TextTrimming="Clip"/>
+            </Border>
+            <Rectangle Margin="0,8" Fill="{ThemeResource SystemControlBackgroundBaseLowBrush}" Height="0.5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <toolkit:WrapPanel HorizontalSpacing="8" VerticalSpacing="8" Grid.Row="1" x:Name="Details" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Context.ArtistsCount,Mode=OneWay}"/>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Context.SongsCount,Mode=OneWay}"/>
+                <Button Command="{x:Bind Context.PlayAll}" Style="{ThemeResource PlayAllButton}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </toolkit:WrapPanel>
+        </StackPanel>
+        <SemanticZoom Grid.Row="1" x:Name="Root">
             <SemanticZoom.ZoomedOutView>
-                <GridView Margin="64" HorizontalAlignment="Center" VerticalAlignment="Center" ItemContainerStyle="{ThemeResource SemanticOutItem}"
+                <GridView Margin="32" HorizontalAlignment="Center" VerticalAlignment="Center" ItemContainerStyle="{ThemeResource SemanticOutItem}"
                           FontSize="20" ItemsSource="{x:Bind ArtistListSource.View.CollectionGroups, Mode=OneWay}">
                     <GridView.ItemTemplate>
                         <DataTemplate x:DataType="wuxdata:ICollectionViewGroup">
@@ -94,22 +105,22 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                             <toolkit:WrapPanel Orientation="Horizontal"/>
                         </ItemsPanelTemplate>
                     </GridView.ItemsPanel>
+                    <GridView.Footer>
+                        <Border Height="160"/>
+                    </GridView.Footer>
                 </GridView>
             </SemanticZoom.ZoomedOutView>
 
             <SemanticZoom.ZoomedInView>
                 <GridView animations:ReorderGridAnimation.Duration="360" ItemClick="ArtistList_ItemClick" 
-                          IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" 
-              SelectionMode="None" ItemsSource="{x:Bind ArtistListSource.View, Mode=OneWay}" Loaded="ArtistList_Loaded"
-              Padding="32,0" ItemContainerStyle="{StaticResource GeneralGridViewItemStyle}" 
+                          IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" x:Name="ArtistList"
+                          SelectionMode="None" ItemsSource="{x:Bind ArtistListSource.View, Mode=OneWay}"
+                          ItemContainerStyle="{StaticResource GeneralGridViewItemStyle}" 
                           ContextRequested="ArtistList_ContextRequested" ContextCanceled="ArtistList_ContextCanceled"
-              Style="{StaticResource GeneralGridViewStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-              x:Name="ArtistList">
+                          Style="{StaticResource GeneralGridViewStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <GridView.GroupStyle>
-                        <GroupStyle x:Name="GroupStyle" HeaderTemplate="{StaticResource NormalGroupHeader}"/></GridView.GroupStyle>
-                    <GridView.Header>
-                        <Grid Height="400"/>
-                    </GridView.Header>
+                        <GroupStyle x:Name="GroupStyle" HeaderTemplate="{StaticResource NormalGroupHeader}"/>
+                    </GridView.GroupStyle>
                     <GridView.Footer>
                         <Grid Height="160"/>
                     </GridView.Footer>
@@ -134,7 +145,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                     <TextBlock x:Name="ArtistName" Text="{x:Bind Name}" HorizontalAlignment="Center" VerticalAlignment="Center" 
                                                MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" 
                                                Style="{ThemeResource BaseTextBlockStyle}" Margin="0,0"/>
-                                    <TextBlock Text="{x:Bind CountToString(SongsCount)}" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                    <TextBlock x:Name="ArtistDetail" Text="{x:Bind CountToString(SongsCount)}" HorizontalAlignment="Center" VerticalAlignment="Center" 
                                                MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" 
                                                Style="{ThemeResource BodyTextBlockStyle}" Margin="0,4"/>
                                 </StackPanel>
@@ -145,54 +156,5 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </SemanticZoom.ZoomedInView>
         </SemanticZoom>
 
-        <Grid Visibility="{x:Bind Root.IsZoomedInViewActive, Mode=OneWay}" Height="360" x:Name="Header" HorizontalAlignment="Stretch" VerticalAlignment="Top">
-            <Grid x:Name="BGBlur" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="360" Background="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}"/>
-            <Image x:Name="HeaderBG" Stretch="UniformToFill" 
-                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <Image.Source>
-                    <BitmapImage UriSource="/Assets/Images/artists_bg.png" DecodePixelHeight="360" DecodePixelType="Logical"/>
-                </Image.Source>
-            </Image>
-            <Grid x:Name="HeaderBGOverlay" HorizontalAlignment="Stretch" Height="360" Background="{ThemeResource ArtistsPageGradient}">
-            </Grid>
-            <Grid x:Name="HeaderGroup" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="32">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                </Grid.RowDefinitions>
-                <Grid Canvas.ZIndex="9999" x:Name="TitleShrink" Background="{x:Null}"
-                          HorizontalAlignment="Left" VerticalAlignment="Center" Height="48">
-                    <TextBlock x:Uid="Artists" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" Margin="12,0" Text="Artists" 
-                                   HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"
-                                   TextWrapping="NoWrap" MaxLines="1" Style="{ThemeResource SubheaderTextBlockStyle}" 
-                                   TextTrimming="Clip"/>
-                </Grid>
-                <Grid Canvas.ZIndex="9999" x:Name="Title" Background="{ThemeResource SystemControlBackgroundAccentBrush}" 
-                          HorizontalAlignment="Left" VerticalAlignment="Center" Height="48">
-                    <TextBlock x:Uid="Artists" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Margin="12,0" Text="Artists" 
-                                   HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"
-                                   TextWrapping="NoWrap" MaxLines="1" Style="{ThemeResource SubheaderTextBlockStyle}" 
-                                   TextTrimming="Clip"/>
-                </Grid>
-                <StackPanel Grid.Row="1" x:Name="Details" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,8">
-                    <Grid VerticalAlignment="Bottom" Margin="0,0,4,0" 
-                              Background="{ThemeResource SystemControlBackgroundAccentBrush}">
-                        <TextBlock Style="{ThemeResource BodyTextBlockStyle}" 
-                                       Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" 
-                                       Text="{x:Bind Context.ArtistsCount,Mode=OneWay}" Margin="12,8"/>
-                    </Grid>
-                    <Grid VerticalAlignment="Center" Margin="4,0,4,0" 
-                              Background="{ThemeResource SystemControlBackgroundAccentBrush}">
-                        <TextBlock Style="{ThemeResource BodyTextBlockStyle}" 
-                                       Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" 
-                                       Text="{x:Bind Context.SongsCount,Mode=OneWay}" Margin="12,8"/>
-                    </Grid>
-                </StackPanel>
-            </Grid>
-            <StackPanel Height="48" HorizontalAlignment="Right" VerticalAlignment="Bottom" Orientation="Horizontal" Margin="32,0">
-                <Button Margin="8,0" Command="{x:Bind Context.PlayAll}" Style="{ThemeResource PlayAllButton}" 
-                        HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            </StackPanel>
-        </Grid>
     </Grid>
 </Page>

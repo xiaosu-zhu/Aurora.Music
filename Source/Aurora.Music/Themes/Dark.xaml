@@ -35,4 +35,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     <SolidColorBrush x:Key="SongListOddPressedBrush" Color="{StaticResource SystemChromeDisabledHighColor}" Opacity="1"/>
     <SolidColorBrush x:Key="SongListEvenPointerOverBrush" Color="{StaticResource SystemChromeDisabledHighColor}" Opacity="0.666666"/>
     <SolidColorBrush x:Key="SongListOddPointerOverBrush" Color="{StaticResource SystemChromeDisabledHighColor}" Opacity="0.6666666"/>
+
+    <SolidColorBrush x:Key="AccentForText" Color="{ThemeResource SystemAccentColorLight2}"/>
+    <SolidColorBrush x:Key="AccentForTextPointerOver" Color="{ThemeResource SystemAccentColor}"/>
+    <SolidColorBrush x:Key="AccentForTextPressed" Color="{ThemeResource SystemAccentColorLight1}"/>
 </ResourceDictionary>

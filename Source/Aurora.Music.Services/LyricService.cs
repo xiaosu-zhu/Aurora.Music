@@ -244,7 +244,7 @@ namespace Aurora.Music.Services
                                 returnData.Add("artist_result", JsonConvert.SerializeObject(new PropertySet()
                                 {
                                     ["name"] = meta_artist.Name,
-                                    ["avatar"] = meta_artist.AvatarUri.OriginalString,
+                                    ["avatar"] = meta_artist.AvatarUri?.OriginalString,
                                     ["desc"] = meta_artist.Description,
                                 }));
                             }

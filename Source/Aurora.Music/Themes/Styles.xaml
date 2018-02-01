@@ -14,12 +14,12 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     </ResourceDictionary.ThemeDictionaries>
 
     <DataTemplate x:Key="NormalGroupHeader">
-        <TextBlock FontWeight="Bold" Text="{Binding Key}" Foreground="{ThemeResource SystemControlForegroundAccentBrush}"/>
+        <TextBlock FontWeight="Bold" Text="{Binding Key}" Foreground="{ThemeResource AccentForText}"/>
     </DataTemplate>
 
     <DataTemplate x:Key="NarrowGroupHeader">
         <TextBlock FontWeight="Bold" FontSize="15" Text="{Binding Key}" 
-                   Foreground="{ThemeResource SystemControlForegroundAccentBrush}"/>
+                   Foreground="{ThemeResource AccentForText}"/>
     </DataTemplate>
 
     <Style x:Key="DismissTextBlockButtonStyle" TargetType="ButtonBase">
@@ -676,19 +676,19 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         </Setter>
     </Style>
 
-    <Style TargetType="Button" BasedOn="{StaticResource RevealRectangleButton}" x:Key="PlayAllButton">
+    <Style TargetType="Button" BasedOn="{StaticResource TextBlockButtonStyle}" x:Key="PlayAllButton">
         <Setter Property="Content">
             <Setter.Value>
-                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
-                    <SymbolIcon Symbol="Play" Margin="4,6,0,6"/>
-                    <TextBlock x:Uid="PlayAll" Margin="4,6,8,6" Text="Play All"/>
-                </StackPanel>
+                <TextBlock>
+                    <Run FontFamily="Segoe MDL2 Assets" Text="&#xE8D6;" />
+                    <Run x:Uid="PlayAll"/>
+                </TextBlock>
             </Setter.Value>
         </Setter>
     </Style>
 
     <Style x:Key="GeneralGridViewStyle" TargetType="GridView">
-        <Setter Property="Padding" Value="0,0,0,10"/>
+        <Setter Property="Padding" Value="20,0"/>
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="TabNavigation" Value="Once"/>
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
@@ -725,7 +725,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <ControlTemplate TargetType="GridView">
                     <Border Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
                         <ScrollViewer Style="{ThemeResource NarrowScrollViewer}" x:Name="ScrollViewer" AutomationProperties.AccessibilityView="Raw" BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}" HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}" HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}" IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}" IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}" IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}" IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}" IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}" TabNavigation="{TemplateBinding TabNavigation}" VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}" VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}" ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
-                            <ItemsPresenter Footer="{TemplateBinding Footer}" FooterTransitions="{TemplateBinding FooterTransitions}" FooterTemplate="{TemplateBinding FooterTemplate}" Header="{TemplateBinding Header}" HeaderTransitions="{TemplateBinding HeaderTransitions}" HeaderTemplate="{TemplateBinding HeaderTemplate}" Padding="{TemplateBinding Padding}"/>
+                            <ItemsPresenter Footer="{TemplateBinding Footer}" FooterTransitions="{TemplateBinding FooterTransitions}" FooterTemplate="{TemplateBinding FooterTemplate}" Header="{TemplateBinding Header}" HeaderTransitions="{TemplateBinding HeaderTransitions}" HeaderTemplate="{TemplateBinding HeaderTemplate}" Margin="20,0"/>
                         </ScrollViewer>
                     </Border>
                 </ControlTemplate>
@@ -1603,8 +1603,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         <Setter Property="IsHoldingEnabled" Value="True"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
-        <Setter Property="Margin" Value="12"/>
-        <Setter Property="Padding" Value="0"/>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="Padding" Value="12"/>
         <Setter Property="MinWidth" Value="{ThemeResource GridViewItemMinWidth}"/>
         <Setter Property="MinHeight" Value="{ThemeResource GridViewItemMinHeight}"/>
         <Setter Property="Template">
@@ -1629,7 +1629,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                 <VisualState x:Name="PointerOver">
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlForegroundAccentBrush}" />
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AccentForTextPointerOver}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <PointerUpThemeAnimation Storyboard.TargetName="ContentPresenter" />
                                     </Storyboard>
@@ -1637,7 +1637,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                 <VisualState x:Name="Pressed">
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltListAccentMediumBrush}" />
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AccentForTextPressed}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <PointerDownThemeAnimation TargetName="ContentPresenter" />
                                     </Storyboard>
@@ -2429,7 +2429,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     </Style>
 
     <Style x:Key="HorizontalComboBox" TargetType="ComboBox">
-        <Setter Property="Padding" Value="12,5,0,7"/>
+        <Setter Property="Padding" Value="0"/>
         <Setter Property="MinWidth" Value="{ThemeResource ComboBoxThemeMinWidth}"/>
         <Setter Property="Foreground" Value="{ThemeResource ComboBoxForeground}"/>
         <Setter Property="Background" Value="{ThemeResource ComboBoxBackground}"/>
@@ -2476,7 +2476,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="32"/>
+                            <ColumnDefinition Width="auto"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
@@ -2486,21 +2486,21 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                 <VisualState x:Name="Normal"/>
                                 <VisualState x:Name="PointerOver">
                                     <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Background" Storyboard.TargetProperty="Background">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ComboBoxBackgroundPointerOver}"/>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AccentForTextPointerOver}"/>
                                         </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Background" Storyboard.TargetProperty="BorderBrush">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ComboBoxBorderBrushPointerOver}"/>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="DropDownGlyph" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AccentForTextPointerOver}"/>
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="Pressed">
                                     <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Background" Storyboard.TargetProperty="Background">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ComboBoxBackgroundPressed}"/>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AccentForTextPressed}"/>
                                         </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Background" Storyboard.TargetProperty="BorderBrush">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ComboBoxBorderBrushPressed}"/>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="DropDownGlyph" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AccentForTextPressed}"/>
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
@@ -2589,10 +2589,10 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="HeaderContentPresenter" ContentTemplate="{TemplateBinding HeaderTemplate}" Content="{TemplateBinding Header}" FlowDirection="{TemplateBinding FlowDirection}" FontWeight="{ThemeResource ComboBoxHeaderThemeFontWeight}" Margin="0,0,8,0" Visibility="Collapsed" x:DeferLoadStrategy="Lazy"/>
                         <Border x:Name="Background" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" Grid.Column="1" Grid.ColumnSpan="2"/>
                         <Border x:Name="HighlightBackground" Background="{ThemeResource ComboBoxBackgroundUnfocused}" BorderThickness="{TemplateBinding BorderThickness}" Grid.Column="1" BorderBrush="{ThemeResource ComboBoxBackgroundBorderBrushUnfocused}" Grid.ColumnSpan="2" Opacity="0"/>
-                        <ContentPresenter x:Name="ContentPresenter" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" Grid.Column="1" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
-                            <TextBlock x:Name="PlaceholderTextBlock" Foreground="{Binding PlaceholderForeground, RelativeSource={RelativeSource Mode=TemplatedParent}, TargetNullValue={ThemeResource ComboBoxPlaceHolderForeground}}" Text="{TemplateBinding PlaceholderText}"/>
+                        <ContentPresenter x:Name="ContentPresenter" Foreground="{ThemeResource AccentForText}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" Grid.Column="1" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                            <TextBlock x:Name="PlaceholderTextBlock" Foreground="{Binding PlaceholderForeground, RelativeSource={RelativeSource Mode=TemplatedParent}, TargetNullValue={ThemeResource ComboBoxPlaceHolderForegroundFocusedPressed}}" Text="{TemplateBinding PlaceholderText}"/>
                         </ContentPresenter>
-                        <FontIcon x:Name="DropDownGlyph" AutomationProperties.AccessibilityView="Raw" Grid.Column="2" FontFamily="{ThemeResource SymbolThemeFontFamily}" Foreground="{ThemeResource ComboBoxDropDownGlyphForeground}" FontSize="12" Glyph="&#xE0E5;" HorizontalAlignment="Right" IsHitTestVisible="False" Margin="0,10,10,10" VerticalAlignment="Center"/>
+                        <FontIcon x:Name="DropDownGlyph" AutomationProperties.AccessibilityView="Raw" Grid.Column="2" FontFamily="{ThemeResource SymbolThemeFontFamily}" Foreground="{ThemeResource AccentForText}" FontSize="12" Glyph="&#xE174;" HorizontalAlignment="Center" IsHitTestVisible="False" Margin="4,0" VerticalAlignment="Center"/>
                         <Popup Grid.ColumnSpan="3" x:Name="Popup">
                             <Border x:Name="PopupBorder" Background="{ThemeResource ComboBoxDropDownBackground}" BorderThickness="{ThemeResource ComboBoxDropdownBorderThickness}" BorderBrush="{ThemeResource ComboBoxDropDownBorderBrush}" HorizontalAlignment="Stretch" Margin="0,-1,0,-1">
                                 <ScrollViewer x:Name="ScrollViewer" AutomationProperties.AccessibilityView="Raw" BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}" Foreground="{ThemeResource ComboBoxDropDownForeground}" HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}" HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}" IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}" IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}" IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}" MinWidth="{Binding TemplateSettings.DropDownContentMinWidth, RelativeSource={RelativeSource Mode=TemplatedParent}}" VerticalSnapPointsType="OptionalSingle" VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}" VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}" VerticalSnapPointsAlignment="Near" ZoomMode="Disabled">
@@ -2609,7 +2609,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 
     <Style x:Key="TextBlockButtonStyle" TargetType="ButtonBase">
         <Setter Property="Background" Value="{ThemeResource HyperlinkButtonBackground}" />
-        <Setter Property="Foreground" Value="{ThemeResource HyperlinkButtonForeground}" />
+        <Setter Property="Foreground" Value="{ThemeResource AccentForText}" />
         <Setter Property="MinWidth" Value="0" />
         <Setter Property="MinHeight" Value="0" />
         <Setter Property="UseSystemFocusVisuals" Value="True" />
@@ -2631,7 +2631,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Text" Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource HyperlinkButtonForegroundPointerOver}" />
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AccentForTextPointerOver}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Text" Storyboard.TargetProperty="Background">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource HyperlinkButtonBackgroundPointerOver}" />
@@ -2646,7 +2646,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Text" Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource HyperlinkButtonForegroundPressed}" />
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AccentForTextPressed}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Text" Storyboard.TargetProperty="Background">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource HyperlinkButtonBackgroundPressed}" />
@@ -2792,4 +2792,50 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </Setter.Value>
         </Setter>
     </Style>
+
+    <!-- Default style for Windows.UI.Xaml.Controls.FlyoutPresenter -->
+    <Style x:Key="HoriNoScrollFlyoutPresenter" TargetType="FlyoutPresenter">
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="Background" Value="{ThemeResource SystemControlChromeMediumLowAcrylicElementMediumBrush}"/>
+        <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundChromeHighBrush}"/>
+        <Setter Property="BorderThickness" Value="{ThemeResource FlyoutBorderThemeThickness}"/>
+        <Setter Property="Padding" Value="{ThemeResource FlyoutContentThemePadding}"/>
+        <Setter Property="MinWidth" Value="{ThemeResource FlyoutThemeMinWidth}"/>
+        <Setter Property="MaxWidth" Value="{ThemeResource FlyoutThemeMaxWidth}"/>
+        <Setter Property="MinHeight" Value="{ThemeResource FlyoutThemeMinHeight}"/>
+        <Setter Property="MaxHeight" Value="{ThemeResource FlyoutThemeMaxHeight}"/>
+        <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Disabled" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden" />
+        <Setter Property="ScrollViewer.VerticalScrollMode" Value="Auto" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+        <Setter Property="ScrollViewer.ZoomMode" Value="Disabled" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="FlyoutPresenter">
+                    <Border Background="{TemplateBinding Background}"
+              BorderBrush="{TemplateBinding BorderBrush}"
+              BorderThickness="{TemplateBinding BorderThickness}">
+                        <ScrollViewer x:Name="ScrollViewer"
+            ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}"
+            HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
+            HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+            VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
+            VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
+            AutomationProperties.AccessibilityView="Raw">
+                            <ContentPresenter Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            ContentTransitions="{TemplateBinding ContentTransitions}"
+                            Padding="{TemplateBinding Padding}" MaxWidth="{TemplateBinding MaxWidth}"
+                                              MinWidth="{TemplateBinding MinWidth}"
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </ScrollViewer>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 </ResourceDictionary>

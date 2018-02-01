@@ -44,43 +44,56 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     </Page.Resources>
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
-                <VisualState x:Name="Narrow">
+                <VisualState x:Name="Full">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0"/>
+                        <AdaptiveTrigger MinWindowWidth="1008"/>
                     </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="HeaderGroup.Margin" Value="48,32"/>
-                        <Setter Target="AlbumList.Padding" Value="0,0,0,160"/>
-                        <Setter Target="GroupStyle.HeaderTemplate" Value="{StaticResource NarrowGroupHeader}"/>
-                    </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Medium">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="641"/>
                     </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="HeaderGroup.Margin" Value="32"/>
-                        <Setter Target="AlbumList.Padding" Value="16,0,16,160"/>
-                        <Setter Target="GroupStyle.HeaderTemplate" Value="{StaticResource NormalGroupHeader}"/>
-                    </VisualState.Setters>
                 </VisualState>
-                <VisualState x:Name="Full">
+                <VisualState x:Name="Narrow">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="1008"/>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="HeaderGroup.Margin" Value="32"/>
-                        <Setter Target="AlbumList.Padding" Value="32,0,32,160"/>
-                        <Setter Target="GroupStyle.HeaderTemplate" Value="{StaticResource NormalGroupHeader}"/>
+                        <Setter Target="AlbumList.Padding" Value="0"/>
+                        <Setter Target="HeaderGroup.Margin" Value="48,32,12,12"/>
+                        <Setter Target="GroupStyle.HeaderTemplate" Value="{StaticResource NarrowGroupHeader}"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <SemanticZoom x:Name="Main" ViewChangeCompleted="SemanticZoom_ViewChangeCompleted">
+        <StackPanel x:Name="HeaderGroup" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="32">
+            <Grid x:Name="Title" HorizontalAlignment="Left" VerticalAlignment="Center" Height="48">
+                <TextBlock x:Uid="Songs" Text="Songs" HorizontalAlignment="Left" VerticalAlignment="Center" 
+                           FontWeight="Bold" TextWrapping="NoWrap" MaxLines="1" TextTrimming="Clip"
+                           Style="{ThemeResource SubheaderTextBlockStyle}" />
+            </Grid>
+            <Rectangle Margin="0,8" Fill="{ThemeResource SystemControlBackgroundBaseLowBrush}" Height="0.5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <toolkit:WrapPanel HorizontalSpacing="8" VerticalSpacing="8" x:Name="Details" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Context.ArtistsCount,Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Context.SongsCount,Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Button Command="{x:Bind Context.PlayAll}" Style="{ThemeResource PlayAllButton}" FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <ComboBox x:Uid="SortBox" x:Name="SortBox" SelectedIndex="0" FontSize="15" BorderThickness="0" Style="{StaticResource HorizontalComboBox}" HorizontalAlignment="Center" VerticalAlignment="Center" Header="Sort by:">
+                    <ComboBoxItem x:Uid="TitleSort" Tag="Name">A-Z</ComboBoxItem>
+                    <ComboBoxItem x:Uid="Album" Tag="Album">Albums</ComboBoxItem>
+                    <ComboBoxItem x:Uid="Artist" Tag="Artists">Artists</ComboBoxItem>
+                    <ComboBoxItem x:Uid="Year" Tag="Year">Year</ComboBoxItem>
+                </ComboBox>
+            </toolkit:WrapPanel>
+        </StackPanel>
+        <SemanticZoom Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="Main">
             <SemanticZoom.ZoomedOutView>
-                <GridView Margin="64" HorizontalAlignment="Center" VerticalAlignment="Center" ItemContainerStyle="{ThemeResource SemanticOutItem}"
+                <GridView Margin="32" HorizontalAlignment="Center" VerticalAlignment="Center" ItemContainerStyle="{ThemeResource SemanticOutItem}"
                           FontSize="20" ItemsSource="{x:Bind SongsListSource.View.CollectionGroups, Mode=OneWay}">
                     <GridView.ItemTemplate>
                         <DataTemplate x:DataType="wuxdata:ICollectionViewGroup">
@@ -92,15 +105,18 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                             <toolkit:WrapPanel Orientation="Horizontal"/>
                         </ItemsPanelTemplate>
                     </GridView.ItemsPanel>
+                    <GridView.Footer>
+                        <Border Height="160"/>
+                    </GridView.Footer>
                 </GridView>
             </SemanticZoom.ZoomedOutView>
 
             <SemanticZoom.ZoomedInView>
-                <ListView ShowsScrollingPlaceholders="True" ItemClick="AlbumList_ItemClick" IsSynchronizedWithCurrentItem="False" 
+                <ListView ItemClick="AlbumList_ItemClick" IsSynchronizedWithCurrentItem="False" 
                           IsItemClickEnabled="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                          SelectionMode="None" ItemsSource="{x:Bind SongsListSource.View, Mode=OneWay}" Loaded="AlbumList_Loaded" 
+                          SelectionMode="None" ItemsSource="{x:Bind SongsListSource.View, Mode=OneWay}" Padding="20,0"
                           ContextRequested="AlbumList_ContextRequested" ContextCanceled="AlbumList_ContextCanceled"
-                          Padding="32,0,32,160" Style="{ThemeResource GeneralListView}" x:Name="AlbumList"
+                          Style="{ThemeResource GeneralListView}" x:Name="AlbumList"
                           ItemContainerStyleSelector="{StaticResource SongListStyleSelector}">
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="vm:SongViewModel">
@@ -110,63 +126,11 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <ListView.GroupStyle>
                         <GroupStyle x:Name="GroupStyle" HeaderTemplate="{StaticResource NormalGroupHeader}"/>
                     </ListView.GroupStyle>
-                    <ListView.Header>
-                        <Grid Height="400"/>
-                    </ListView.Header>
+                    <ListView.Footer>
+                        <Border Height="160"/>
+                    </ListView.Footer>
                 </ListView>
             </SemanticZoom.ZoomedInView>
         </SemanticZoom>
-        <Grid Visibility="{x:Bind Main.IsZoomedInViewActive, Mode=OneWay}" Height="360" x:Name="Header" HorizontalAlignment="Stretch" VerticalAlignment="Top">
-            <Grid x:Name="BGBlur" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="360" Background="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}"/>
-            <controls:ImageGrid x:Name="HeaderBG" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                                        BorderBrush="{x:Null}" BorderThickness="0"  
-                                        ImageSources="{x:Bind Context.HeroImage, Mode=OneWay}">
-            </controls:ImageGrid>
-
-            <Grid x:Name="HeaderBGOverlay" HorizontalAlignment="Stretch" Height="360" Background="{ThemeResource ArtistsPageGradient}"/>
-            <Grid x:Name="HeaderGroup" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="32">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                </Grid.RowDefinitions>
-                <Grid Canvas.ZIndex="9999" x:Name="TitleShrink" Background="{x:Null}"
-                          HorizontalAlignment="Left" VerticalAlignment="Center" Height="48">
-                    <TextBlock x:Uid="Songs" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" Margin="12,0" Text="Songs" 
-                                   HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"
-                                   TextWrapping="NoWrap" MaxLines="1" Style="{ThemeResource SubheaderTextBlockStyle}" 
-                                   TextTrimming="Clip"/>
-                </Grid>
-                <Grid Canvas.ZIndex="9999" x:Name="Title" Background="{ThemeResource SystemControlBackgroundAccentBrush}" 
-                          HorizontalAlignment="Left" VerticalAlignment="Center" Height="48">
-                    <TextBlock x:Uid="Songs" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Margin="12,0" Text="Songs" 
-                                   HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"
-                                   TextWrapping="NoWrap" MaxLines="1" Style="{ThemeResource SubheaderTextBlockStyle}" 
-                                   TextTrimming="Clip"/>
-                </Grid>
-                <StackPanel Grid.Row="1" x:Name="Details" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,8">
-                    <Grid VerticalAlignment="Bottom" Margin="0,0,4,0" 
-                              Background="{ThemeResource SystemControlBackgroundAccentBrush}">
-                        <TextBlock Style="{ThemeResource BodyTextBlockStyle}" 
-                                       Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" 
-                                       Text="{x:Bind Context.ArtistsCount,Mode=OneWay}" Margin="12,8"/>
-                    </Grid>
-                    <Grid VerticalAlignment="Center" Margin="4,0,4,0" 
-                              Background="{ThemeResource SystemControlBackgroundAccentBrush}">
-                        <TextBlock Style="{ThemeResource BodyTextBlockStyle}" 
-                                       Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" 
-                                       Text="{x:Bind Context.SongsCount,Mode=OneWay}" Margin="12,8"/>
-                    </Grid>
-                </StackPanel>
-            </Grid>
-            <StackPanel Height="48" HorizontalAlignment="Right" VerticalAlignment="Bottom" Orientation="Horizontal" Margin="32,0">
-                <Button Margin="8,0" Command="{x:Bind Context.PlayAll}" Style="{ThemeResource PlayAllButton}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                <ComboBox x:Uid="SortBox" x:Name="SortBox" Margin="8,0" BorderBrush="{x:Null}" SelectedIndex="0" BorderThickness="0" Style="{StaticResource HorizontalComboBox}" HorizontalAlignment="Left" VerticalAlignment="Center" Header="Sort by:">
-                    <ComboBoxItem x:Uid="TitleSort" Tag="Name">A-Z</ComboBoxItem>
-                    <ComboBoxItem x:Uid="Album" Tag="Album">Albums</ComboBoxItem>
-                    <ComboBoxItem x:Uid="Artist" Tag="Artists">Artists</ComboBoxItem>
-                    <ComboBoxItem x:Uid="Year" Tag="Year">Year</ComboBoxItem>
-                </ComboBox>
-            </StackPanel>
-        </Grid>
     </Grid>
 </Page>
