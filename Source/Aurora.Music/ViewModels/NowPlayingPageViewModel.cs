@@ -258,9 +258,16 @@ namespace Aurora.Music.ViewModels
 
         internal async Task WriteRatingValue(double value)
         {
-            await player.DetachCurrentItem();
-            await _lastSong.WriteRatingAsync(value);
-            await player.ReAttachCurrentItem();
+            if (Song.Song.IsOnline)
+            {
+                throw new NotImplementedException("WriteRatingAsync on online");
+            }
+            else
+            {
+                await player.DetachCurrentItem();
+                await Song.Song.WriteRatingAsync(value);
+                await player.ReAttachCurrentItem();
+            }
             CurrentRating = value;
         }
 

@@ -143,6 +143,7 @@
     <Compile Include="Helpers\Tools.cs" />
     <Compile Include="Helpers\UIHelper.cs" />
     <Compile Include="Extensions\VisualTreeHelperExtensions.cs" />
+    <Compile Include="Logging\LoggingDispatcher.cs" />
     <Compile Include="MVVM\DelegateCommand.cs" />
     <Compile Include="MVVM\Events\RefreshCompletedEventArgs.cs" />
     <Compile Include="MVVM\ILOCollection.cs" />

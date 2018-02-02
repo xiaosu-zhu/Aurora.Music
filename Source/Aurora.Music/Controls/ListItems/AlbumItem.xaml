@@ -111,8 +111,32 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <Setter Target="Offset.Duration" Value="200"/>
                         <Setter Target="BlurBehavior.Value" Value="0"/>
                         <Setter Target="Offset.OffsetY" Value="0"/>
-                        <Setter Target="FloatPanel.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
+                    <Storyboard>
+                        <DoubleAnimation Storyboard.TargetName="LeftBtn" Storyboard.TargetProperty="ScaleX" To="0" Duration="0:0:0.2">
+                            <DoubleAnimation.EasingFunction>
+                                <QuinticEase/>
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                        <DoubleAnimation Storyboard.TargetName="LeftBtn" Storyboard.TargetProperty="ScaleY" To="0" Duration="0:0:0.2">
+                            <DoubleAnimation.EasingFunction>
+                                <QuinticEase/>
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                        <DoubleAnimation Storyboard.TargetName="RightBtn" Storyboard.TargetProperty="ScaleX" To="0" Duration="0:0:0.2">
+                            <DoubleAnimation.EasingFunction>
+                                <QuinticEase/>
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                        <DoubleAnimation Storyboard.TargetName="RightBtn" Storyboard.TargetProperty="ScaleY" To="0" Duration="0:0:0.2">
+                            <DoubleAnimation.EasingFunction>
+                                <QuinticEase/>
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FloatPanel" Storyboard.TargetProperty="Visibility" BeginTime="0:0:0.2">
+                            <DiscreteObjectKeyFrame Value="Collapsed"/>
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
                 </VisualState>
                 <VisualState x:Name="PointerOver">
                     <VisualState.Setters>
@@ -122,6 +146,28 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <Setter Target="Offset.OffsetY" Value="8"/>
                         <Setter Target="FloatPanel.Visibility" Value="Visible"/>
                     </VisualState.Setters>
+                    <Storyboard>
+                        <DoubleAnimation Storyboard.TargetName="LeftBtn" Storyboard.TargetProperty="ScaleX" From="0" To="1" Duration="0:0:0.2">
+                            <DoubleAnimation.EasingFunction>
+                                <QuinticEase/>
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                        <DoubleAnimation Storyboard.TargetName="LeftBtn" Storyboard.TargetProperty="ScaleY" From="0" To="1" Duration="0:0:0.2">
+                            <DoubleAnimation.EasingFunction>
+                                <QuinticEase/>
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                        <DoubleAnimation Storyboard.TargetName="RightBtn" Storyboard.TargetProperty="ScaleX" From="0" To="1" Duration="0:0:0.2">
+                            <DoubleAnimation.EasingFunction>
+                                <QuinticEase/>
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                        <DoubleAnimation Storyboard.TargetName="RightBtn" Storyboard.TargetProperty="ScaleY" From="0" To="1" Duration="0:0:0.2">
+                            <DoubleAnimation.EasingFunction>
+                                <QuinticEase/>
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                    </Storyboard>
                 </VisualState>
                 <VisualState x:Name="Pressed">
                     <VisualState.Setters>
@@ -129,7 +175,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <Setter Target="Offset.Duration" Value="0"/>
                         <Setter Target="BlurBehavior.Value" Value="0"/>
                         <Setter Target="Offset.OffsetY" Value="0"/>
-                        <Setter Target="FloatPanel.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -140,7 +185,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <Setter Target="Offset.Duration" Value="200"/>
                         <Setter Target="BlurBehavior.Value" Value="0"/>
                         <Setter Target="Offset.OffsetY" Value="0"/>
-                        <Setter Target="FloatPanel.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="TouchPointerOver">
@@ -149,7 +193,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <Setter Target="Offset.Duration" Value="200"/>
                         <Setter Target="BlurBehavior.Value" Value="6"/>
                         <Setter Target="Offset.OffsetY" Value="8"/>
-                        <Setter Target="FloatPanel.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="TouchPressed">
@@ -158,7 +201,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <Setter Target="Offset.Duration" Value="0"/>
                         <Setter Target="BlurBehavior.Value" Value="0"/>
                         <Setter Target="Offset.OffsetY" Value="0"/>
-                        <Setter Target="FloatPanel.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -227,15 +269,21 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                    Source="{x:Bind Data.Artwork, Mode=OneWay, TargetNullValue=/Assets/Images/placeholder_b.png}" HorizontalAlignment="Center" VerticalAlignment="Center">
             </Image>
             <StackPanel Orientation="Horizontal" x:Load="False" x:Name="FloatPanel" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Button Margin="4" Click="Play_Click" Width="48" Height="48" Style="{ThemeResource RoundButton}" BorderThickness="0" Background="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}">
+                <Button RenderTransformOrigin="0.5,0.5" Margin="4" Click="Play_Click" Width="48" Height="48" Style="{ThemeResource RoundButton}" BorderThickness="0" Background="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}">
                     <Button.Content>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE102;" />
                     </Button.Content>
+                    <Button.RenderTransform>
+                        <ScaleTransform x:Name="LeftBtn" ScaleX="1" ScaleY="1"/>
+                    </Button.RenderTransform>
                 </Button>
-                <Button Margin="4" Click="Flyout_Click" Width="48" Height="48" Style="{ThemeResource RoundButton}" BorderThickness="0" Background="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}">
+                <Button RenderTransformOrigin="0.5,0.5" Margin="4" Click="Flyout_Click" Width="48" Height="48" Style="{ThemeResource RoundButton}" BorderThickness="0" Background="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}">
                     <Button.Content>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE712;" />
                     </Button.Content>
+                    <Button.RenderTransform>
+                        <ScaleTransform x:Name="RightBtn" ScaleX="1" ScaleY="1"/>
+                    </Button.RenderTransform>
                 </Button>
             </StackPanel>
         </Grid>

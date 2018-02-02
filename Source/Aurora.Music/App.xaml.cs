@@ -1,39 +1,29 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
+using Aurora.Music.Controls;
 using Aurora.Music.Core.Models;
 using Aurora.Music.Pages;
+using Aurora.Music.ViewModels;
 using Aurora.Shared.Controls;
+using Aurora.Shared.Helpers;
+using Aurora.Shared.Logging;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using System.Web;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.ApplicationModel.AppService;
-using Windows.ApplicationModel.Background;
 using Windows.ApplicationModel.Core;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.Storage;
+using Windows.System;
 using Windows.UI;
+using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using Windows.System;
-using Windows.UI.Core;
-using Aurora.Shared.Helpers;
-using System.Web;
-using Aurora.Music.Controls;
-using Windows.ApplicationModel.DataTransfer;
-using Windows.Storage;
-using Aurora.Music.ViewModels;
 
 namespace Aurora.Music
 {
@@ -56,6 +46,7 @@ namespace Aurora.Music
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            this.Resuming += App_Resuming;
             this.UnhandledException += App_UnhandledException;
             this.EnteredBackground += App_EnteredBackground;
             this.LeavingBackground += App_LeavingBackground;
@@ -70,6 +61,11 @@ namespace Aurora.Music
             // under a memory target to maintain priority to keep running.
             // Subscribe to the event that informs the app of this change.
             MemoryManager.AppMemoryUsageIncreased += MemoryManager_AppMemoryUsageIncreased;
+        }
+
+        private void App_Resuming(object sender, object e)
+        {
+            LoggingDispatcher.Current.Resume();
         }
 
         /// <summary>
@@ -475,7 +471,7 @@ namespace Aurora.Music
         {
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: 保存应用程序状态并停止任何后台活动
-
+            await LoggingDispatcher.Current.Suspend();
             if (MainPageViewModel.Current != null)
             {
                 await MainPageViewModel.Current.SavePointAsync();
