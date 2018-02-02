@@ -123,6 +123,7 @@ namespace Aurora.Music.ViewModels
 
         internal async void ChangeSort(int selectedIndex)
         {
+            SongsList.Clear();
             var songs = await SQLOperator.Current().GetSongsAsync(Model.SongsID);
             IEnumerable<GroupedItem<SongViewModel>> grouped;
 
@@ -141,8 +142,6 @@ namespace Aurora.Music.ViewModels
                     grouped = GroupedItem<SongViewModel>.CreateGroups(songs.ConvertAll(x => new SongViewModel(x)), x => x.Song.Year, true);
                     break;
             }
-
-            SongsList.Clear();
             foreach (var item in grouped)
             {
                 item.Aggregate((x, y) =>

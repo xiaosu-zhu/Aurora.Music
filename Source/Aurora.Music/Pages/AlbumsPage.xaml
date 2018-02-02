@@ -112,7 +112,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         </ItemsPanelTemplate>
                     </GridView.ItemsPanel>
                     <GridView.Footer>
-                        <Border Height="160"/>
+                        <Border Height="240" Width="2"/>
                     </GridView.Footer>
                 </GridView>
             </SemanticZoom.ZoomedOutView>
@@ -124,6 +124,10 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                           ContextRequested="AlbumList_ContextRequested" ContextCanceled="AlbumList_ContextCanceled"
                           ItemContainerStyle="{StaticResource GeneralGridViewItemStyle}" x:Name="AlbumList"
                           Style="{StaticResource GeneralGridViewStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <GridView.Header>
+                        <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Foreground="{ThemeResource AccentForText}" FontWeight="Bold"
+                                   Text="Retriving Database" Margin="12,0" Visibility="{x:Bind Context.CollapseIfNotZero(Context.AlbumList.Count),Mode=OneWay}"/>
+                    </GridView.Header>
                     <GridView.ItemTemplate>
                         <DataTemplate x:DataType="vm:AlbumViewModel">
                             <list:AlbumItem Data="{x:Bind }" PlayAlbum="PlayAlbum_Click" FlyoutRequired="Flyout_Click"/>

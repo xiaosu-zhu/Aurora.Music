@@ -101,35 +101,5 @@ namespace Aurora.Music.ViewModels
                 });
             });
         }
-
-        internal void ChangeSort(string p)
-        {
-            int sum = 0;
-
-            var artists = ArtistList.ToList();
-
-            var list = new List<ArtistViewModel>();
-
-            switch (p)
-            {
-                case "Name":
-                    ArtistList.Clear();
-                    foreach (var artist in artists)
-                    {
-                        list.AddRange(artist);
-                    }
-                    var grouped = GroupedItem<ArtistViewModel>.CreateGroupsByAlpha(list);
-                    foreach (var item in grouped)
-                    {
-                        ArtistList.Add(new GroupedItem<ArtistViewModel>(item.Key, item));
-                        sum += item.Sum(x => x.SongsCount);
-                    }
-                    ArtistsCount = SmartFormat.Smart.Format(Consts.Localizer.GetString("SmartArtists"), artists.Count);
-                    SongsCount = SmartFormat.Smart.Format(Consts.Localizer.GetString("SmartSongs"), sum);
-                    break;
-                default:
-                    break;
-            }
-        }
     }
 }

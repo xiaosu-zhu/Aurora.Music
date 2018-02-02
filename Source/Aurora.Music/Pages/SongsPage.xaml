@@ -106,7 +106,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         </ItemsPanelTemplate>
                     </GridView.ItemsPanel>
                     <GridView.Footer>
-                        <Border Height="160"/>
+                        <Border Height="240" Width="2"/>
                     </GridView.Footer>
                 </GridView>
             </SemanticZoom.ZoomedOutView>
@@ -118,6 +118,10 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                           ContextRequested="AlbumList_ContextRequested" ContextCanceled="AlbumList_ContextCanceled"
                           Style="{ThemeResource GeneralListView}" x:Name="AlbumList"
                           ItemContainerStyleSelector="{StaticResource SongListStyleSelector}">
+                    <ListView.Header>
+                        <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Foreground="{ThemeResource AccentForText}" FontWeight="Bold"
+                                   Text="Retriving Database" Margin="12,0" Visibility="{x:Bind Context.CollapseIfNotZero(Context.SongsList.Count),Mode=OneWay}"/>
+                    </ListView.Header>
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="vm:SongViewModel">
                             <list:SongItem Data="{x:Bind }" IsMultiSelect="{x:Bind ListMultiSelecting, Mode=OneWay}" Play="PlayBtn_Click" RequestMultiSelect="SongItem_RequestMultiSelect"/>

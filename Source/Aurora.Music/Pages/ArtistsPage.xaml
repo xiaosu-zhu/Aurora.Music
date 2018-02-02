@@ -106,7 +106,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         </ItemsPanelTemplate>
                     </GridView.ItemsPanel>
                     <GridView.Footer>
-                        <Border Height="160"/>
+                        <Border Height="240" Width="2"/>
                     </GridView.Footer>
                 </GridView>
             </SemanticZoom.ZoomedOutView>

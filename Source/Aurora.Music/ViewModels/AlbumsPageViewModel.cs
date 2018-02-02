@@ -113,6 +113,7 @@ namespace Aurora.Music.ViewModels
 
         internal async void ChangeSort(int selectedIndex)
         {
+            AlbumList.Clear();
             var albums = await FileReader.GetAllAlbumsAsync();
             IEnumerable<GroupedItem<AlbumViewModel>> grouped;
             switch (selectedIndex)
@@ -130,7 +131,6 @@ namespace Aurora.Music.ViewModels
                     grouped = GroupedItem<AlbumViewModel>.CreateGroups(albums.ConvertAll(x => new AlbumViewModel(x)), x => x.Year, true);
                     break;
             }
-            AlbumList.Clear();
             foreach (var item in grouped)
             {
                 AlbumList.Add(item);

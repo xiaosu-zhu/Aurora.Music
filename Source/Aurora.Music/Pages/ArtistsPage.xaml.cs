@@ -105,12 +105,6 @@ namespace Aurora.Music.Pages
         {
         }
 
-        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var p = (string)((sender as ComboBox).SelectedItem as ComboBoxItem).Tag;
-            Context.ChangeSort(p);
-        }
-
         private void ArtistList_ContextRequested(UIElement sender, ContextRequestedEventArgs args)
         {
             // Walk up the tree to find the ListViewItem.
