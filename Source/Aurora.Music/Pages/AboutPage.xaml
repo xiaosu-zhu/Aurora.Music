@@ -8,6 +8,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Aurora.Music.Pages"
+    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
@@ -68,6 +69,13 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <Run FontSize="24" FontWeight="Bold" Text="Aurora Studio's"/><LineBreak/>
                 <Run x:Uid="AppName" Text="Aurora Music"/>
             </TextBlock>
+            <Button Style="{ThemeResource TextBlockButtonStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Margin="12" Content="Contributors">
+                <Button.Flyout>
+                    <Flyout>
+                        <toolkit:MarkdownTextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MaxWidth="320" Text="* Thanks for the Destuch translation added by **Lucas Herr**"/>
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
             <TextBlock Text="{x:Bind BuildText, Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12,24,12,0"/>
             <TextBlock TextAlignment="Center" FontFamily="Consolas" Style="{ThemeResource SubtitleTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12,0" 
                        Text="Taglib-Sharp&#xD;&#xA;SQLite for Universal Windows Platform&#xD;&#xA;SQLite-net&#xD;&#xA;Microsoft.Toolkit.Uwp&#xD;&#xA;Newtonsoft.Json&#xD;&#xA;ExpressionBuilder&#xD;&#xA;ksemenenko.ColorThief&#xD;&#xA;SmartFormat.NET&#xD;&#xA;WriteableBitmapEx&#xD;&#xA;Win2D.uwp&#xD;&#xA;LrcParser"/>
@@ -90,11 +98,11 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <TextBlock TextAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12">
                 <Run Text="Also need your help to fix/improve UI issues (localization, translation),"/>
                 <Hyperlink Click="Hyperlink_Click_1">
-                    <Run Text="Open Feedback Hub"/>
+                    <Run Text="Open Link"/>
                 </Hyperlink><LineBreak/><LineBreak/>
                 <Run Text="需要你的帮助来解决翻译问题，不甚感激"/>
                 <Hyperlink Click="Hyperlink_Click_1">
-                    <Run Text="打开反馈中心"/>
+                    <Run Text="打开链接"/>
                 </Hyperlink>
             </TextBlock>
             <StackPanel x:Name="SomethingWeird" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">

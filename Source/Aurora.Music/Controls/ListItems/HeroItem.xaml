@@ -181,7 +181,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         <TextBlock x:Name="Title" Text="{x:Bind Data.Title, Mode=OneWay}" Style="{ThemeResource SubtitleTextBlockStyle}"
                    Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" TextAlignment="Center"
                    HorizontalAlignment="Center" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"
-                   Margin="12" MaxLines="2" TextWrapping="WrapWholeWords" FontWeight="Bold"/>
+                   Margin="12" MaxLines="2" TextWrapping="WrapWholeWords" FontWeight="Bold" MaxWidth="136" MaxHeight="136"/>
         <FontIcon x:Name="Icon" FontFamily="Segoe MDL2 Assets" Opacity="0" 
                   Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"
                   Glyph="&#xE102;" FontSize="32" HorizontalAlignment="Center" VerticalAlignment="Center" />

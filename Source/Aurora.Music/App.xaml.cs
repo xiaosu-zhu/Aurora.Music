@@ -477,6 +477,8 @@ namespace Aurora.Music
                 await MainPageViewModel.Current.SavePointAsync();
             }
 
+            Settings.Current.Save();
+
             deferral.Complete();
         }
     }

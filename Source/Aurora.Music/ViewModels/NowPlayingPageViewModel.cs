@@ -76,6 +76,18 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref currentColorBrush, value); }
         }
 
+        private double olume = Settings.Current.PlayerVolume;
+        public double Volume
+        {
+            get { return olume; }
+            set
+            {
+                SetProperty(ref olume, value);
+                Settings.Current.PlayerVolume = value;
+                player.ChangeVolume(value);
+            }
+        }
+
         public async void Init(SongViewModel song)
         {
             //Initialize our picker object
@@ -205,6 +217,28 @@ namespace Aurora.Music.ViewModels
             {
                 return AdjustBrightness(b, 0.5);
             }
+        }
+
+        public string VolumeToSymbol(double d)
+        {
+            if (d.AlmostEqualTo(0))
+            {
+                return "\uE992";
+            }
+            if (d < 33.333333)
+            {
+                return "\uE993";
+            }
+            if (d < 66.66666667)
+            {
+                return "\uE994";
+            }
+            return "\uE995";
+        }
+
+        public string VolumeToString(double d)
+        {
+            return d.ToString("0");
         }
 
         public SolidColorBrush AdjustBrightness(SolidColorBrush b, double d)
