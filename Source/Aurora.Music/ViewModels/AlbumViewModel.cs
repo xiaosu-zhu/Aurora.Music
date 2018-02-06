@@ -1,19 +1,16 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
+using Aurora.Music.Core;
+using Aurora.Music.Core.Models;
+using Aurora.Music.Core.Storage;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.MVVM;
-using Windows.UI.Xaml.Media.Imaging;
-using Aurora.Music.Core.Storage;
-using Aurora.Music.Core.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Windows.System.Threading;
-using Aurora.Music.Core;
-using Windows.UI.Xaml.Media;
 
 namespace Aurora.Music.ViewModels
 {
@@ -35,11 +32,6 @@ namespace Aurora.Music.ViewModels
             if (!album.PicturePath.IsNullorEmpty())
             {
                 ArtworkUri = new Uri(album.PicturePath);
-                Artwork = new BitmapImage(ArtworkUri)
-                {
-                    DecodePixelHeight = 160,
-                    DecodePixelType = DecodePixelType.Logical
-                };
             }
             Genres = album.Genres;
             Year = album.Year;
@@ -69,14 +61,8 @@ namespace Aurora.Music.ViewModels
         private Uri artworkUri;
         public Uri ArtworkUri
         {
-            get
-            {
-                return artworkUri;
-            }
-            set
-            {
-                artworkUri = value;
-            }
+            get { return artworkUri; }
+            set { SetProperty(ref artworkUri, value); }
         }
 
 
@@ -104,13 +90,6 @@ namespace Aurora.Music.ViewModels
                 b += SmartFormat.Smart.Format(Consts.Localizer.GetString("SmartSongs"), SongsID.Length);
             }
             return b;
-        }
-
-        private BitmapImage artwork;
-        public BitmapImage Artwork
-        {
-            get { return artwork; }
-            set { SetProperty(ref artwork, value); }
         }
 
         private string title;

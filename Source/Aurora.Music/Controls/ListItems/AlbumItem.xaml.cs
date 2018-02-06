@@ -7,6 +7,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Animation;
+using Windows.UI.Xaml.Media.Imaging;
 
 //https://go.microsoft.com/fwlink/?LinkId=234236 上介绍了“用户控件”项模板
 
@@ -103,6 +104,31 @@ namespace Aurora.Music.Controls.ListItems
             ConnectedAnimationService.GetForCurrentView().PrepareToAnimate(Consts.AlbumItemConnectedAnimation + "_1", AlbumName);
             ConnectedAnimationService.GetForCurrentView().PrepareToAnimate(Consts.AlbumItemConnectedAnimation + "_2", Arts);
             VisualStateManager.GoToState(this, "Normal", false);
+        }
+
+
+        public double ImageWidth
+        {
+            get { return (double)GetValue(ImageWidthProperty); }
+            set { SetValue(ImageWidthProperty, value); }
+        }
+        // Using a DependencyProperty as the backing store for ImageWidth.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ImageWidthProperty =
+            DependencyProperty.Register("ImageWidth", typeof(double), typeof(AlbumItem), new PropertyMetadata(150d));
+        public double ImageHeight
+        {
+            get { return (double)GetValue(ImageHeightProperty); }
+            set { SetValue(ImageHeightProperty, value); }
+        }
+        // Using a DependencyProperty as the backing store for ImageHeight.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ImageHeightProperty =
+            DependencyProperty.Register("ImageHeight", typeof(double), typeof(AlbumItem), new PropertyMetadata(150d));
+
+
+        private void BitmapImage_ImageOpened(object sender, RoutedEventArgs e)
+        {
+            ImageWidth = BlurBGImg.ActualWidth;
+            ImageHeight = BlurBGImg.ActualHeight;
         }
     }
 }

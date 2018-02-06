@@ -80,8 +80,14 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </Grid>
             <Rectangle Margin="0,8" Fill="{ThemeResource SystemControlBackgroundBaseLowBrush}" Height="0.5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
             <toolkit:WrapPanel HorizontalSpacing="8" VerticalSpacing="8" x:Name="Details" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
-                <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Context.ArtistsCount,Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Context.SongsCount,Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <TextBlock Style="{ThemeResource BodyTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Run FontFamily="Segoe MDL2 Assets" Text="&#xE77B;" />
+                    <Run Text="{x:Bind Context.ArtistsCount,Mode=OneWay,TargetNullValue=Loading,FallbackValue=Loading}"/>
+                </TextBlock>
+                <TextBlock Style="{ThemeResource BodyTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Run FontFamily="Segoe MDL2 Assets" Text="&#xE8D6;" />
+                    <Run Text="{x:Bind Context.SongsCount,Mode=OneWay,TargetNullValue=Loading,FallbackValue=Loading}"/>
+                </TextBlock>
                 <Button Command="{x:Bind Context.PlayAll}" Style="{ThemeResource PlayAllButton}" FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 <ComboBox x:Uid="SortBox" x:Name="SortBox" SelectedIndex="0" FontSize="15" BorderThickness="0" Style="{StaticResource HorizontalComboBox}" HorizontalAlignment="Center" VerticalAlignment="Center" Header="Sort by:">
                     <ComboBoxItem x:Uid="TitleSort" Tag="Name">A-Z</ComboBoxItem>

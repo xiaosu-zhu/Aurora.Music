@@ -858,7 +858,7 @@
     <comment>Update Note for Build {0}</comment>
   </data>
   <data name="UpdateNote" xml:space="preserve">
-    <value>* **改进**：略微更改首页项目样式&#xD;&#xA;* **修复**：多处错误</value>
+    <value>* Synced translation</value>
     <comment>Update Note</comment>
   </data>
   <data name="AddToCollectionTitle" xml:space="preserve">
@@ -932,5 +932,13 @@
   <data name="SmartDurationShort" xml:space="preserve">
     <value>{0}秒</value>
     <comment>{0} {0:sec|secs}</comment>
+  </data>
+  <data name="ArtistStory.Text" xml:space="preserve">
+    <value>查看歌手故事</value>
+    <comment>See Artist Story</comment>
+  </data>
+  <data name="AlbumStory.Text" xml:space="preserve">
+    <value>查看专辑故事</value>
+    <comment>See Album Story</comment>
   </data>
 </root>

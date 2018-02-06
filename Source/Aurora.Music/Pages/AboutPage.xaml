@@ -84,24 +84,24 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <TextBlock TextAlignment="Center" Style="{ThemeResource SubtitleTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12,0" Text="Jason Rosewell&#xD;&#xA;Kelly Sikkema&#xD;&#xA;Malte Wingen&#xD;&#xA;Namroud Gorguis&#xD;&#xA;Yvette de Wit&#xD;&#xA;Anthony Roberts"/>
             <TextBlock TextAlignment="Center" Margin="12,0,12,24" Style="{ThemeResource BodyTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Run Text="On"/>
-                <Hyperlink Click="Hyperlink_Click">
+                <Hyperlink Foreground="{ThemeResource AccentForText}" Click="Hyperlink_Click">
                     <Run Text="Unsplash"/>
                 </Hyperlink>
             </TextBlock>
 
             <TextBlock Style="{ThemeResource BodyTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12">
                 <Run x:Uid="GithubTitle" Text="Follow and get instructions of developing extensions on"/>
-                <Hyperlink NavigateUri="https://github.com/pkzxs/Aurora.Music">
+                <Hyperlink Foreground="{ThemeResource AccentForText}" NavigateUri="https://github.com/pkzxs/Aurora.Music">
                     <Run Text="Github"/>
                 </Hyperlink>
             </TextBlock>
             <TextBlock TextAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12">
                 <Run Text="Also need your help to fix/improve UI issues (localization, translation),"/>
-                <Hyperlink Click="Hyperlink_Click_1">
+                <Hyperlink Foreground="{ThemeResource AccentForText}" UnderlineStyle="Single" Click="Hyperlink_Click_1">
                     <Run Text="Open Link"/>
                 </Hyperlink><LineBreak/><LineBreak/>
                 <Run Text="需要你的帮助来解决翻译问题，不甚感激"/>
-                <Hyperlink Click="Hyperlink_Click_1">
+                <Hyperlink Foreground="{ThemeResource AccentForText}" Click="Hyperlink_Click_1">
                     <Run Text="打开链接"/>
                 </Hyperlink>
             </TextBlock>

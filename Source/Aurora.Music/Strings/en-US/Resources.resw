@@ -862,7 +862,7 @@
     <comment>Update Note for Build {0}</comment>
   </data>
   <data name="UpdateNote" xml:space="preserve">
-    <value>* Thanks for the Destuch translation added by **Lucas Herr**&#xD;&#xA;* **Fixed**: Some bugs</value>
+    <value>* Synced translation</value>
     <comment>Update Note</comment>
   </data>
   <data name="AddToCollectionTitle" xml:space="preserve">
@@ -937,5 +937,13 @@
   <data name="SmartDurationShort" xml:space="preserve">
     <value>{0} {0:sec|secs}</value>
     <comment>{0} {0:sec|secs}</comment>
+  </data>
+  <data name="ArtistStory.Text" xml:space="preserve">
+    <value>See Artist Story</value>
+    <comment>See Artist Story</comment>
+  </data>
+  <data name="AlbumStory.Text" xml:space="preserve">
+    <value>See Album Story</value>
+    <comment>See Album Story</comment>
   </data>
 </root>

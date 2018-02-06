@@ -83,7 +83,7 @@ namespace Aurora.Music.Controls
                     {
                         if (info != null)
                         {
-                            if (album.Artwork == null && info.AltArtwork != null)
+                            if (album.ArtworkUri == null && info.AltArtwork != null)
                             {
                                 Artwork.Source = new BitmapImage(info.AltArtwork);
                                 UpdateArtwork?.Invoke(this, info.AltArtwork);
