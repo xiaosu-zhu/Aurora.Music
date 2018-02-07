@@ -258,10 +258,10 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <behaviors:Offset x:Name="Offset" OffsetX="0" OffsetY="0" Duration="200" Delay="0" AutomaticallyStart="True"/>
                 </interactivity:Interaction.Behaviors>
                 <Image x:Name="BlurBGImg" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                       Height="150" Width="150" Stretch="Uniform">
+                       Height="150" Width="150" Stretch="Uniform" SizeChanged="BlurBGImg_SizeChanged">
                     <Image.Source>
                         <BitmapImage UriSource="{x:Bind Data.ArtworkUri, Mode=OneWay, TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png}" 
-                                     DecodePixelHeight="150" DecodePixelType="Logical" ImageOpened="BitmapImage_ImageOpened"/>
+                                     DecodePixelHeight="150" DecodePixelType="Logical"/>
                     </Image.Source>
                 </Image>
                 <Border x:Name="BlurBGImgOverlay" Width="{x:Bind ImageWidth,Mode=OneWay}" 

@@ -123,9 +123,9 @@ namespace Aurora.Music.Controls.ListItems
         // Using a DependencyProperty as the backing store for ImageHeight.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ImageHeightProperty =
             DependencyProperty.Register("ImageHeight", typeof(double), typeof(AlbumItem), new PropertyMetadata(150d));
+        
 
-
-        private void BitmapImage_ImageOpened(object sender, RoutedEventArgs e)
+        private void BlurBGImg_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             ImageWidth = BlurBGImg.ActualWidth;
             ImageHeight = BlurBGImg.ActualHeight;

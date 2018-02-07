@@ -18,7 +18,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     </DataTemplate>
 
     <DataTemplate x:Key="NarrowGroupHeader">
-        <TextBlock FontWeight="Bold" FontSize="15" Text="{Binding Key}" 
+        <TextBlock FontWeight="Bold" FontSize="15" Text="{Binding Key}"
                    Foreground="{ThemeResource AccentForText}"/>
     </DataTemplate>
 
@@ -2464,14 +2464,14 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <Grid.Resources>
                             <Storyboard x:Key="OverlayOpeningAnimation">
                                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity">
-                                    <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="0.0"/>
-                                    <SplineDoubleKeyFrame KeySpline="0.1,0.9 0.2,1.0" KeyTime="0:0:0.383" Value="1.0"/>
+                                    <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="0.0" />
+                                    <SplineDoubleKeyFrame KeyTime="0:0:0.383" KeySpline="0.1,0.9 0.2,1.0" Value="1.0" />
                                 </DoubleAnimationUsingKeyFrames>
                             </Storyboard>
                             <Storyboard x:Key="OverlayClosingAnimation">
                                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity">
-                                    <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1.0"/>
-                                    <SplineDoubleKeyFrame KeySpline="0.1,0.9 0.2,1.0" KeyTime="0:0:0.216" Value="0.0"/>
+                                    <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1.0" />
+                                    <SplineDoubleKeyFrame KeyTime="0:0:0.216" KeySpline="0.1,0.9 0.2,1.0" Value="0.0" />
                                 </DoubleAnimationUsingKeyFrames>
                             </Storyboard>
                         </Grid.Resources>
@@ -2578,12 +2578,18 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                             <VisualStateGroup x:Name="DropDownStates">
                                 <VisualState x:Name="Opened">
                                     <Storyboard>
-                                        <SplitOpenThemeAnimation ClosedTargetName="ContentPresenter" OpenedLength="{Binding TemplateSettings.DropDownOpenedHeight, RelativeSource={RelativeSource Mode=TemplatedParent}}" OffsetFromCenter="{Binding TemplateSettings.DropDownOffset, RelativeSource={RelativeSource Mode=TemplatedParent}}" OpenedTargetName="PopupBorder"/>
+                                        <SplitOpenThemeAnimation OpenedTargetName="PopupBorder"
+                                        ClosedTargetName="ContentPresenter"
+                                        OffsetFromCenter="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.DropDownOffset}"
+                                        OpenedLength="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.DropDownOpenedHeight}" />
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="Closed">
                                     <Storyboard>
-                                        <SplitCloseThemeAnimation ClosedTargetName="ContentPresenter" OpenedLength="{Binding TemplateSettings.DropDownOpenedHeight, RelativeSource={RelativeSource Mode=TemplatedParent}}" OffsetFromCenter="{Binding TemplateSettings.DropDownOffset, RelativeSource={RelativeSource Mode=TemplatedParent}}" OpenedTargetName="PopupBorder"/>
+                                        <SplitCloseThemeAnimation OpenedTargetName="PopupBorder"
+                                        ClosedTargetName="ContentPresenter"
+                                        OffsetFromCenter="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.DropDownOffset}"
+                                        OpenedLength="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.DropDownOpenedHeight}" />
                                     </Storyboard>
                                 </VisualState>
                             </VisualStateGroup>
@@ -2607,8 +2613,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </Setter.Value>
         </Setter>
     </Style>
-
-
+    
     <Style x:Key="TextBlockButtonStyle" TargetType="ButtonBase">
         <Setter Property="Background" Value="{ThemeResource HyperlinkButtonBackground}" />
         <Setter Property="Foreground" Value="{ThemeResource AccentForText}" />
