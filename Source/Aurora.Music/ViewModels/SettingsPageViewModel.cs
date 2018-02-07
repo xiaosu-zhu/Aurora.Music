@@ -253,6 +253,11 @@ namespace Aurora.Music.ViewModels
             }
         }
 
+        public string VolumeToString(double d)
+        {
+            return d.ToString("0");
+        }
+
         private int crrentLyricIndex = -1;
         public int CurrentLyricIndex
         {

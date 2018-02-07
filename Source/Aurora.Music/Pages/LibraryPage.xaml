@@ -39,7 +39,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
         <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup CurrentStateChanged="VisualStateGroup_CurrentStateChanged">
+            <VisualStateGroup>
                 <VisualState x:Name="Narrow">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="0"/>
@@ -78,8 +78,15 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <ListView Background="{ThemeResource SystemControlChromeMediumLowAcrylicWindowMediumBrush}" Grid.Column="0" x:Name="Category" 
-                  IsItemClickEnabled="True" ItemsSource="{x:Bind CategoryList}" SelectionMode="None" ItemClick="ListView_ItemClick" 
+                  IsItemClickEnabled="True" ItemsSource="{x:Bind CategoryList}" SelectionMode="None" ItemClick="ListView_ItemClick"
                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemContainerStyle="{StaticResource GeneralListViewItemStyle}">
+            <ListView.ItemContainerTransitions>
+                <TransitionCollection>
+                    <RepositionThemeTransition IsStaggeringEnabled="True"/>
+                    <AddDeleteThemeTransition/>
+                    <ReorderThemeTransition/>
+                </TransitionCollection>
+            </ListView.ItemContainerTransitions>
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="vm:CategoryListItem">
                     <Grid x:Name="Panel" HorizontalAlignment="Stretch" Height="{x:Bind GetHeight(IsCurrent), Mode=OneWay}">

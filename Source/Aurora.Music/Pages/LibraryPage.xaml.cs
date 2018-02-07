@@ -37,8 +37,7 @@ namespace Aurora.Music.Pages
             this.InitializeComponent();
             Current = this;
 
-            MainPageViewModel.Current.Title = string.Empty;
-            MainPageViewModel.Current.NeedShowTitle = true;
+            MainPageViewModel.Current.NeedShowTitle = false;
             MainPageViewModel.Current.LeftTopColor = Resources["SystemControlForegroundBaseHighBrush"] as SolidColorBrush;
 
             CategoryList = new ObservableCollection<CategoryListItem>() {
@@ -99,11 +98,6 @@ namespace Aurora.Music.Pages
             {
                 Navigate(CategoryList[0].NavigatType);
             }
-
-            if (Window.Current.Bounds.Width <= 640)
-            {
-                MainPageViewModel.Current.NeedShowTitle = false;
-            }
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -163,7 +157,14 @@ namespace Aurora.Music.Pages
                     if (i == 0)
                         return;
                     var item = CategoryList[i];
-                    PrepareAnimationWithItem();
+
+                    try
+                    {
+                        Category.PrepareConnectedAnimation(item.Title, item, "Panel");
+                    }
+                    catch (Exception)
+                    {
+                    }
                     CompleteAnimationWithItems(item);
                     break;
                 }
@@ -184,54 +185,22 @@ namespace Aurora.Music.Pages
 
             Settings.Current.CategoryLastClicked = (e.ClickedItem as CategoryListItem).Title;
             Settings.Current.Save();
-            PrepareAnimationWithItem();
+
             CompleteAnimationWithItems(e.ClickedItem as CategoryListItem);
         }
 
 
-        private async void CompleteAnimationWithItems(CategoryListItem item)
+        private void CompleteAnimationWithItems(CategoryListItem item)
         {
-            CategoryList.Remove(item);
-            CategoryList.Insert(0, item);
+            CategoryList.Move(CategoryList.IndexOf(item), 0);
 
-            await Task.Delay(100);
-
-            foreach (var cat in CategoryList)
+            foreach (var at in CategoryList)
             {
-                try
-                {
-                    var ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(cat.Title);
-                    if (ani != null)
-                    {
-                        await Category.TryStartConnectedAnimationAsync(ani, cat, "Panel");
-                    }
-                }
-                catch (Exception)
-                {
-                }
-            }
-            foreach (var cat in CategoryList)
-            {
-                cat.IsCurrent = false;
+                at.IsCurrent = false;
             }
 
             item.IsCurrent = true;
 
-        }
-
-        void PrepareAnimationWithItem()
-        {
-            foreach (var cat in CategoryList)
-            {
-                try
-                {
-                    Category.PrepareConnectedAnimation(cat.Title, cat, "Panel");
-                }
-                catch (Exception)
-                {
-                }
-                cat.IsCurrent = false;
-            }
         }
 
         private void Page_Unloaded(object sender, RoutedEventArgs e)
@@ -242,18 +211,6 @@ namespace Aurora.Music.Pages
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             base.OnNavigatedFrom(e);
-        }
-
-        private void VisualStateGroup_CurrentStateChanged(object sender, VisualStateChangedEventArgs e)
-        {
-            if (e.NewState.Name == "Narrow")
-            {
-                MainPageViewModel.Current.NeedShowTitle = false;
-            }
-            else
-            {
-                MainPageViewModel.Current.NeedShowTitle = true;
-            }
         }
 
         private void Grid_DragOver(object sender, DragEventArgs e)

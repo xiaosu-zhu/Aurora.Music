@@ -30,7 +30,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </ResourceDictionary.ThemeDictionaries>
             <controls:SliderToolTipConverter x:Key="SliderToolTipConverter"/>
 
-            <Style x:Key="SliderThumbStyleA" TargetType="Thumb">
+            <Style x:Key="ThumbStyleA" TargetType="Thumb">
                 <Setter Property="MinWidth" Value="4"/>
                 <Setter Property="Background" Value="{ThemeResource ComboBoxItemPressedBackgroundThemeBrush}"/>
                 <Setter Property="Template">
@@ -560,7 +560,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                         <Thumb x:Name="HorizontalThumb" RenderTransformOrigin="0.5,0.5"
                                                Margin="-24,0,0,0" AutomationProperties.AccessibilityView="Raw" Grid.Column="1" 
                                                DataContext="{TemplateBinding Value}" FocusVisualMargin="0" Height="24" Grid.RowSpan="3" 
-                                               Grid.Row="0" Style="{StaticResource SliderThumbStyle}" Width="24">
+                                               Grid.Row="0" Style="{StaticResource ThumbStyleA}" Width="24">
                                             <Thumb.RenderTransform>
                                                 <ScaleTransform x:Name="HorizontalThumbScale" ScaleX="1" ScaleY="1">
                                                 </ScaleTransform>
@@ -587,7 +587,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                                Margin="0,-24,0,0" AutomationProperties.AccessibilityView="Raw" RenderTransformOrigin="0.5,0.5"
                                                Grid.ColumnSpan="3" Grid.Column="0" DataContext="{TemplateBinding Value}" 
                                                FocusVisualMargin="0" Height="24" Grid.Row="1" 
-                                               Style="{StaticResource SliderThumbStyleA}" Width="24">
+                                               Style="{StaticResource ThumbStyleA}" Width="24">
                                             <Thumb.RenderTransform>
                                                 <ScaleTransform x:Name="VerticalThumbScale" ScaleX="1" ScaleY="1">
                                                 </ScaleTransform>
