@@ -3,7 +3,6 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using System;
 using System.Threading.Tasks;
-using Aurora.Shared.Extensions;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;

@@ -4,7 +4,6 @@
 using Aurora.Music.Core;
 using Aurora.Music.Core.Models;
 using Aurora.Music.Core.Storage;
-using Aurora.Music.PlaybackEngine;
 using Aurora.Shared;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
@@ -13,10 +12,8 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
-using Windows.Graphics.Imaging;
 using Windows.UI;
 
 namespace Aurora.Music.ViewModels
@@ -230,7 +227,7 @@ namespace Aurora.Music.ViewModels
         internal async Task RestorePlayerStatus()
         {
             await MainPageViewModel.Current.InstantPlay(playerStatus.Songs, playerStatus.Index);
-            Player.Current.Seek(playerStatus.Position);
+            PlaybackEngine.PlaybackEngine.Current.Seek(playerStatus.Position);
         }
     }
 }

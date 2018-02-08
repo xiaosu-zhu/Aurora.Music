@@ -1558,10 +1558,6 @@ namespace TagLib
         /// </remarks>
         public class LocalFileAbstraction : IFileAbstraction
         {
-            /// <summary>
-            ///    Contains the name used to open the file.
-            /// </summary>
-            private string name;
             private StorageFile file;
 
             /// <summary>
@@ -1579,16 +1575,13 @@ namespace TagLib
             /// </exception>
             public LocalFileAbstraction(string path)
             {
-                if (path == null)
-                    throw new ArgumentNullException("path");
-
-                name = path;
+                Name = path ?? throw new ArgumentNullException("path");
             }
 
             public LocalFileAbstraction(StorageFile file)
             {
                 this.file = file ?? throw new ArgumentNullException("file");
-                name = file.Path;
+                Name = file.Path;
             }
 
             /// <summary>
@@ -1600,21 +1593,18 @@ namespace TagLib
             ///    path of the file represented by the current
             ///    instance.
             /// </value>
-            public string Name
-            {
-                get { return name; }
-            }
+            public string Name { get; }
 
             /// <summary>
             ///    Gets a new readable, seekable stream from the
             ///    file represented by the current instance.
             /// </summary>
             /// <value>
-            ///    A new <see cref="System.IO.Stream" /> to be used
+            ///    A new <see cref="Stream" /> to be used
             ///    when reading the file represented by the current
             ///    instance.
             /// </value>
-            public System.IO.Stream ReadStream
+            public Stream ReadStream
             {
                 get
                 {

@@ -3,10 +3,8 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using Aurora.Shared.Helpers;
 using System;
-using System.Runtime.Serialization;
 using Windows.ApplicationModel.Resources;
 using Windows.Storage;
-using Windows.UI.Xaml.Controls;
 
 namespace Aurora.Music.Core
 {

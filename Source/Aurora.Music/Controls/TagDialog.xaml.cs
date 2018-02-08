@@ -2,9 +2,7 @@
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using Aurora.Music.Core;
-using Aurora.Music.Core.Models;
 using Aurora.Music.Core.Storage;
-using Aurora.Music.PlaybackEngine;
 using Aurora.Music.ViewModels;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
@@ -18,18 +16,12 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using TagLib;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System.Threading;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
-using Windows.UI.Xaml.Navigation;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“内容对话框”项模板
 
@@ -133,7 +125,7 @@ namespace Aurora.Music.Controls
 
         private async void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            await Player.Current.DetachCurrentItem();
+            await PlaybackEngine.PlaybackEngine.Current.DetachCurrentItem();
             using (var tagTemp = TagLib.File.Create(file.Path))
             {
                 tagTemp.Tag.Title = SongTitle;
@@ -178,7 +170,7 @@ namespace Aurora.Music.Controls
 
             await FileReader.UpdateSongAsync(Model.Song);
             await Model.Song.WriteRatingAsync(Rating);
-            await Player.Current.ReAttachCurrentItem();
+            await PlaybackEngine.PlaybackEngine.Current.ReAttachCurrentItem();
         }
 
         private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
@@ -202,7 +194,7 @@ namespace Aurora.Music.Controls
                   var img = await picker.PickSingleFileAsync();
                   if (img != null)
                   {
-                      await Player.Current.DetachCurrentItem();
+                      await PlaybackEngine.PlaybackEngine.Current.DetachCurrentItem();
 
                       Artwork = new BitmapImage(new Uri(img.Path));
 
@@ -245,7 +237,7 @@ namespace Aurora.Music.Controls
                           }
                       }
 
-                      await Player.Current.ReAttachCurrentItem();
+                      await PlaybackEngine.PlaybackEngine.Current.ReAttachCurrentItem();
                   }
                   else
                   {

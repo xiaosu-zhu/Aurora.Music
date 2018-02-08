@@ -6,7 +6,6 @@ using Aurora.Music.Core;
 using Aurora.Music.Core.Models;
 using Aurora.Music.Core.Storage;
 using Aurora.Music.Pages;
-using Aurora.Music.PlaybackEngine;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
 using Aurora.Shared.MVVM;
@@ -14,9 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppExtensions;
 using Windows.ApplicationModel.Core;
 using Windows.Devices.Enumeration;
@@ -43,7 +40,7 @@ namespace Aurora.Music.ViewModels
 
                 Settings.Current.OutputDeviceID = DevicList[value].ID;
                 Settings.Current.Save();
-                Player.Current.ChangeAudioEndPoint(Settings.Current.OutputDeviceID);
+                PlaybackEngine.PlaybackEngine.Current.ChangeAudioEndPoint(Settings.Current.OutputDeviceID);
             }
         }
 
@@ -244,7 +241,7 @@ namespace Aurora.Music.ViewModels
             {
                 if (!value.AlmostEqualTo(playerVolume))
                 {
-                    Player.Current.ChangeVolume(value);
+                    PlaybackEngine.PlaybackEngine.Current.ChangeVolume(value);
                     Settings.Current.PlayerVolume = value;
                     Settings.Current.Save();
                 }

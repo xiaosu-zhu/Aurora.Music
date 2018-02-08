@@ -1,17 +1,17 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
-using System;
-using Aurora.Music.Core.Storage;
-using Aurora.Shared.Extensions;
-using Aurora.Music.Core.Tools;
 using Aurora.Music.Core;
-using System.Linq;
 using Aurora.Music.Core.Models;
-using System.Collections.Generic;
-using Aurora.Shared.MVVM;
-using System.Threading.Tasks;
+using Aurora.Music.Core.Storage;
+using Aurora.Music.Core.Tools;
+using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
+using Aurora.Shared.MVVM;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Aurora.Music.ViewModels
 {

@@ -13,12 +13,9 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 
@@ -66,7 +63,7 @@ namespace Aurora.Music.ViewModels
                     var list = await Report(value ? ReportType.rate : ReportType.unrate, channel.ToString(), sid);
                     if (list.r == 0)
                     {
-                        await Player.Current.AddtoNextPlay(list.song.Select(a => new Core.Models.Song()
+                        await PlaybackEngine.PlaybackEngine.Current.AddtoNextPlay(list.song.Select(a => new Core.Models.Song()
                         {
                             Title = a.title,
                             Album = a.albumtitle,
@@ -78,7 +75,7 @@ namespace Aurora.Music.ViewModels
                             AlbumArtists = new string[] { a.artist },
                         }).ToList());
 
-                        Player.Current.Play();
+                        PlaybackEngine.PlaybackEngine.Current.Play();
                     }
                 });
 
@@ -105,8 +102,8 @@ namespace Aurora.Music.ViewModels
 
         internal void Detach()
         {
-            Player.Current.StatusChanged -= Current_StatusChanged;
-            Player.Current.PositionUpdated -= Current_PositionUpdated;
+            PlaybackEngine.PlaybackEngine.Current.ItemsChanged -= Current_StatusChanged;
+            PlaybackEngine.PlaybackEngine.Current.PositionUpdated -= Current_PositionUpdated;
             Palette?.Clear();
             Palette = null;
             Channels?.Clear();
@@ -120,7 +117,7 @@ namespace Aurora.Music.ViewModels
                 var list = await Report(ReportType.bye, channel.ToString(), sid);
                 if (list.r == 0)
                 {
-                    await Player.Current.NewPlayList(list.song.Select(a => new Core.Models.Song()
+                    await PlaybackEngine.PlaybackEngine.Current.NewPlayList(list.song.Select(a => new Core.Models.Song()
                     {
                         Title = a.title,
                         Album = a.albumtitle,
@@ -132,7 +129,7 @@ namespace Aurora.Music.ViewModels
                         AlbumArtists = new string[] { a.artist },
                     }).ToList());
 
-                    Player.Current.Play();
+                    PlaybackEngine.PlaybackEngine.Current.Play();
                 }
                 else
                 {
@@ -145,13 +142,13 @@ namespace Aurora.Music.ViewModels
         {
             get => new DelegateCommand(async () =>
             {
-                Player.Current?.Next();
+                PlaybackEngine.PlaybackEngine.Current?.Next();
                 if (lastProgress < 0.9)
                 {
                     var list = await Report(ReportType.skip, channel.ToString(), sid);
                     if (list.r == 0)
                     {
-                        await Player.Current.AddtoNextPlay(list.song.Select(a => new Core.Models.Song()
+                        await PlaybackEngine.PlaybackEngine.Current.AddtoNextPlay(list.song.Select(a => new Core.Models.Song()
                         {
                             Title = a.title,
                             Album = a.albumtitle,
@@ -162,9 +159,9 @@ namespace Aurora.Music.ViewModels
                             Performers = a.singers.Select(s => s.name).ToArray(),
                             AlbumArtists = new string[] { a.artist },
                         }).ToList());
-                        if (Player.Current?.IsPlaying == null || !(bool)Player.Current?.IsPlaying)
+                        if (PlaybackEngine.PlaybackEngine.Current?.IsPlaying == null || !(bool)PlaybackEngine.PlaybackEngine.Current?.IsPlaying)
                         {
-                            Player.Current?.Play();
+                            PlaybackEngine.PlaybackEngine.Current?.Play();
                         }
                     }
                 }
@@ -283,16 +280,16 @@ namespace Aurora.Music.ViewModels
                     {
                         if (b)
                         {
-                            Player.Current?.Pause();
+                            PlaybackEngine.PlaybackEngine.Current?.Pause();
                         }
                         else
                         {
-                            Player.Current?.Play();
+                            PlaybackEngine.PlaybackEngine.Current?.Play();
                         }
                     }
                     else
                     {
-                        Player.Current?.Play();
+                        PlaybackEngine.PlaybackEngine.Current?.Play();
                     }
                 });
             }
@@ -331,8 +328,8 @@ namespace Aurora.Music.ViewModels
             var result = await ApiRequestHelper.HttpGet("https://api.douban.com/v2/fm/app_channels?alt=json&apikey=02646d3fb69a52ff072d47bf23cef8fd&app_name=radio_iphone&client=s%3Amobile%7Cy%3AiOS%2010.2%7Cf%3A115%7Cd%3Ab88146214e19b8a8244c9bc0e2789da68955234d%7Ce%3AiPhone7%2C1%7Cm%3Aappstore&douban_udid=b635779c65b816b13b330b68921c0f8edc049590&icon_cate=xlarge&udid=b88146214e19b8a8244c9bc0e2789da68955234d&version=115");
             var douban = JsonConvert.DeserializeObject<Douban>(result);
 
-            Player.Current.StatusChanged += Current_StatusChanged;
-            Player.Current.PositionUpdated += Current_PositionUpdated;
+            PlaybackEngine.PlaybackEngine.Current.ItemsChanged += Current_StatusChanged;
+            PlaybackEngine.PlaybackEngine.Current.PositionUpdated += Current_PositionUpdated;
 
             await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
@@ -381,7 +378,7 @@ namespace Aurora.Music.ViewModels
                                 var list = await Report(ReportType.end, channel.ToString(), p);
                                 if (list.r == 0)
                                 {
-                                    await Player.Current.AddtoNextPlay(list.song.Select(a => new Core.Models.Song()
+                                    await PlaybackEngine.PlaybackEngine.Current.AddtoNextPlay(list.song.Select(a => new Core.Models.Song()
                                     {
                                         Title = a.title,
                                         Album = a.albumtitle,
@@ -393,9 +390,9 @@ namespace Aurora.Music.ViewModels
                                         AlbumArtists = new string[] { a.artist },
                                     }).ToList());
 
-                                    if (Player.Current?.IsPlaying == null || !(bool)Player.Current?.IsPlaying)
+                                    if (PlaybackEngine.PlaybackEngine.Current?.IsPlaying == null || !(bool)PlaybackEngine.PlaybackEngine.Current?.IsPlaying)
                                     {
-                                        Player.Current?.Play();
+                                        PlaybackEngine.PlaybackEngine.Current?.Play();
                                     }
                                 }
                             });
@@ -445,7 +442,7 @@ namespace Aurora.Music.ViewModels
                                 var list = await Report(ReportType.end, channel.ToString(), p);
                                 if (list.r == 0)
                                 {
-                                    await Player.Current.AddtoNextPlay(list.song.Select(a => new Core.Models.Song()
+                                    await PlaybackEngine.PlaybackEngine.Current.AddtoNextPlay(list.song.Select(a => new Core.Models.Song()
                                     {
                                         Title = a.title,
                                         Album = a.albumtitle,
@@ -457,9 +454,9 @@ namespace Aurora.Music.ViewModels
                                         AlbumArtists = new string[] { a.artist },
                                     }).ToList());
 
-                                    if (Player.Current?.IsPlaying == null || !(bool)Player.Current?.IsPlaying)
+                                    if (PlaybackEngine.PlaybackEngine.Current?.IsPlaying == null || !(bool)PlaybackEngine.PlaybackEngine.Current?.IsPlaying)
                                     {
-                                        Player.Current?.Play();
+                                        PlaybackEngine.PlaybackEngine.Current?.Play();
                                     }
                                 }
 
@@ -469,7 +466,7 @@ namespace Aurora.Music.ViewModels
                                 var list = await Report(ReportType.skip, channel.ToString(), sid);
                                 if (list.r == 0)
                                 {
-                                    await Player.Current.AddtoNextPlay(list.song.Select(a => new Core.Models.Song()
+                                    await PlaybackEngine.PlaybackEngine.Current.AddtoNextPlay(list.song.Select(a => new Core.Models.Song()
                                     {
                                         Title = a.title,
                                         Album = a.albumtitle,
@@ -480,16 +477,16 @@ namespace Aurora.Music.ViewModels
                                         Performers = a.singers.Select(s => s.name).ToArray(),
                                         AlbumArtists = new string[] { a.artist },
                                     }).ToList());
-                                    if (Player.Current?.IsPlaying == null || !(bool)Player.Current?.IsPlaying)
+                                    if (PlaybackEngine.PlaybackEngine.Current?.IsPlaying == null || !(bool)PlaybackEngine.PlaybackEngine.Current?.IsPlaying)
                                     {
-                                        Player.Current?.Play();
+                                        PlaybackEngine.PlaybackEngine.Current?.Play();
                                     }
                                 }
                             }
                         });
                     }
                 }
-                IsPlaying = Player.Current.IsPlaying;
+                IsPlaying = PlaybackEngine.PlaybackEngine.Current.IsPlaying;
             });
         }
 
@@ -516,7 +513,7 @@ namespace Aurora.Music.ViewModels
             var liat = await Report(ReportType.@new, model.ID.ToString());
             if (liat.r == 0)
             {
-                await Player.Current.NewPlayList(liat.song.Select(a => new Core.Models.Song()
+                await PlaybackEngine.PlaybackEngine.Current.NewPlayList(liat.song.Select(a => new Core.Models.Song()
                 {
                     Title = a.title,
                     Album = a.albumtitle,
@@ -528,7 +525,7 @@ namespace Aurora.Music.ViewModels
                     AlbumArtists = new string[] { a.artist },
                 }).ToList());
 
-                Player.Current.Play();
+                PlaybackEngine.PlaybackEngine.Current.Play();
             }
             else
             {

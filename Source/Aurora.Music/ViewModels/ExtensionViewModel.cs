@@ -2,19 +2,12 @@
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using Aurora.Music.Core;
-using Aurora.Music.Core.Models;
 using Aurora.Shared.MVVM;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppExtensions;
 using Windows.Foundation.Collections;
 using Windows.System;
-using Windows.UI.Core;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace Aurora.Music.ViewModels
@@ -160,22 +153,23 @@ namespace Aurora.Music.ViewModels
 
             if (properties.TryGetValue("LaunchUri", out object uri))
             {
-                if (string.IsNullOrEmpty(uri as string))
+                if (uri is PropertySet p && p["#text"] is string s)
                 {
-                    CanLaunch = false;
-                }
-                else
-                {
-                    if (Uri.TryCreate(uri as string, UriKind.Absolute, out var u))
+                    if (Uri.TryCreate(s, UriKind.Absolute, out var u))
                     {
                         CanLaunch = true;
-                        _launchUri = uri as string;
+                        _launchUri = s;
                     }
                     else
                     {
                         CanLaunch = false;
                     }
                 }
+                else
+                {
+                    CanLaunch = false;
+                }
+
             }
             else
             {

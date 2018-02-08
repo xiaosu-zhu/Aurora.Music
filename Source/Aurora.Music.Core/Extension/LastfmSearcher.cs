@@ -5,13 +5,9 @@ using Aurora.Music.Core.Models;
 using Aurora.Shared.Helpers;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using Windows.Data.Xml.Dom;
-using Windows.Foundation.Collections;
 
 namespace Aurora.Music.Core.Extension
 {

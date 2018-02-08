@@ -1281,5 +1281,15 @@ namespace Aurora.Music
         {
             await NowPlayingFlyout.ScrollToIndex(NowPlayingFlyout.SelectedIndex, ScrollPosition.Center);
         }
+
+        private void NowPanel_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            ProgressShow.Begin();
+        }
+
+        private void NowPanel_PointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            ProgressHide.Begin();
+        }
     }
 }

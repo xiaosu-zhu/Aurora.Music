@@ -8,7 +8,6 @@ using Aurora.Shared.Extensions;
 using Aurora.Shared.MVVM;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Windows.System.Threading;
 using Windows.UI.Xaml.Media.Imaging;

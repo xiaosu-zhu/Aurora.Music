@@ -8,9 +8,8 @@ using Aurora.Shared.Helpers.Crypto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Xml;
+using System.Web;
 using Windows.Storage;
 
 namespace Aurora.Music.Core.Extension
@@ -29,7 +28,7 @@ namespace Aurora.Music.Core.Extension
                     string result = await ApiRequestHelper.HttpGet(string.Format(qqLyric, s.DataItems[0].Id));
                     result = result.Split('(')[1].TrimEnd(')');
                     if (result != null)
-                        return CryptoHelper.FromBase64(Newtonsoft.Json.JsonConvert.DeserializeAnonymousType(result, new { lyric = "" }).lyric);
+                        return HttpUtility.HtmlDecode(CryptoHelper.FromBase64(Newtonsoft.Json.JsonConvert.DeserializeAnonymousType(result, new { lyric = "" }).lyric));
                 }
                 catch (Exception)
                 {

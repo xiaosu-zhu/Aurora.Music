@@ -271,7 +271,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <KeyboardAccelerator Key="F3" />
                     </Button.KeyboardAccelerators>
                 </Button>
-                <star:StarButton IsEnabled="{x:Bind Context.NullableBooltoBool(Context.IsPlaying), Mode=OneWay}" IsOn="{x:Bind Context.RateToggle, Mode=TwoWay}" FontSize="32" Margin="12,4" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <star:StarButton IsEnabled="{x:Bind Context.NullableBooltoBool(Context.IsPlaying), Mode=OneWay}" IsOn="{x:Bind Context.RateToggle, Mode=TwoWay}" FontSize="24" Margin="12,4" VerticalAlignment="Center" HorizontalAlignment="Center">
 
                 </star:StarButton>
             </StackPanel>

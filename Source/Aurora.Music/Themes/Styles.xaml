@@ -2321,20 +2321,13 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                 <VisualState x:Name="Portrait"/>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <TextBox x:Name="TextBox"
-                    Style="{TemplateBinding TextBoxStyle}"
-                    PlaceholderText="{TemplateBinding PlaceholderText}"
-                    Header="{TemplateBinding Header}"
-                    Width="{TemplateBinding Width}"
-                    ScrollViewer.BringIntoViewOnFocusChange="False"
-                    Canvas.ZIndex="0"
-                    Margin="0"
-                    DesiredCandidateWindowAlignment="BottomEdge"/>
+                        <TextBox x:Name="TextBox" Style="{TemplateBinding TextBoxStyle}" PlaceholderText="{TemplateBinding PlaceholderText}" Width="{TemplateBinding Width}"
+                                 ScrollViewer.BringIntoViewOnFocusChange="False" Canvas.ZIndex="0" Margin="0" DesiredCandidateWindowAlignment="BottomEdge"/>
                         <Popup x:Name="SuggestionsPopup">
                             <StackPanel x:Name="SuggestionsContainer" Orientation="Vertical"
-                                        Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
-                BorderThickness="{ThemeResource AutoSuggestListBorderThemeThickness}"
-                BorderBrush="{ThemeResource SystemControlForegroundChromeHighBrush}">
+                                        Background="{ThemeResource SystemControlBackgroundAltHighBrush}"
+                                        BorderThickness="{ThemeResource AutoSuggestListBorderThemeThickness}"
+                                        BorderBrush="{ThemeResource SystemControlForegroundChromeHighBrush}">
                                 <StackPanel.RenderTransform>
                                     <TranslateTransform x:Name="UpwardTransform"/>
                                 </StackPanel.RenderTransform>
@@ -2342,16 +2335,11 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                     <ProgressRing HorizontalAlignment="Left" Margin="12,8" Width="48" Height="24" IsActive="False" VerticalAlignment="Center"/>
                                     <TextBlock Text="Searching" HorizontalAlignment="Stretch" Margin="8" Style="{ThemeResource SubtitleTextBlockStyle}" VerticalAlignment="Center"/>
                                 </StackPanel>
-                                <ListView
-                x:Name="SuggestionsList"
-                DisplayMemberPath="{TemplateBinding DisplayMemberPath}"
-                IsItemClickEnabled="True"
-                ItemTemplate="{TemplateBinding ItemTemplate}"
-                ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}"
-                ItemContainerStyle="{TemplateBinding ItemContainerStyle}"
-                MaxHeight="{ThemeResource AutoSuggestListMaxHeight}"
-                Margin="{ThemeResource AutoSuggestListMargin}"
-                Padding="{ThemeResource AutoSuggestListPadding}">
+                                <ListView x:Name="SuggestionsList" DisplayMemberPath="{TemplateBinding DisplayMemberPath}" IsItemClickEnabled="True"
+                                          ItemTemplate="{TemplateBinding ItemTemplate}" ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                          ItemContainerStyle="{TemplateBinding ItemContainerStyle}" 
+                                          ItemContainerStyleSelector="{TemplateBinding ItemContainerStyleSelector}" MaxHeight="{ThemeResource AutoSuggestListMaxHeight}"
+                                          Margin="{ThemeResource AutoSuggestListMargin}" Padding="{ThemeResource AutoSuggestListPadding}">
                                     <ListView.ItemContainerTransitions>
                                         <TransitionCollection />
                                     </ListView.ItemContainerTransitions>

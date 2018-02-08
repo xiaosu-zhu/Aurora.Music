@@ -2,17 +2,13 @@
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using Aurora.Music.Core.Models;
-using Aurora.Music.PlaybackEngine;
 using Aurora.Music.ViewModels;
-using Aurora.Shared.Extensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Navigation;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
@@ -64,8 +60,8 @@ namespace Aurora.Music.Controls
 
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
-            Player.Current.PositionUpdated += LyricView_PositionUpdated;
-            Player.Current.StatusChanged += LyricView_StatusChanged;
+            PlaybackEngine.PlaybackEngine.Current.PositionUpdated += LyricView_PositionUpdated;
+            PlaybackEngine.PlaybackEngine.Current.ItemsChanged += LyricView_StatusChanged;
             base.OnNavigatedTo(e);
             if (e.Parameter is SongViewModel m)
             {
@@ -149,8 +145,8 @@ namespace Aurora.Music.Controls
 
         private void Page_Unloaded(object sender, RoutedEventArgs e)
         {
-            Player.Current.PositionUpdated -= LyricView_PositionUpdated;
-            Player.Current.StatusChanged -= LyricView_StatusChanged;
+            PlaybackEngine.PlaybackEngine.Current.PositionUpdated -= LyricView_PositionUpdated;
+            PlaybackEngine.PlaybackEngine.Current.ItemsChanged -= LyricView_StatusChanged;
         }
     }
 }

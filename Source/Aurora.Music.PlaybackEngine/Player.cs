@@ -1,6 +1,7 @@
 ﻿using Aurora.Music.Core;
 using Aurora.Music.Core.Models;
 using Aurora.Music.Core.Storage;
+using Aurora.Music.Core.Tools;
 using Aurora.Shared.Extensions;
 using System;
 using System.Collections.Generic;
@@ -34,29 +35,9 @@ namespace Aurora.Music.PlaybackEngine
         private ThreadPoolTimer positionUpdateTimer;
 
         public bool? IsPlaying { get => isPlaying; }
-
-
-        static Player current;
         private MediaPlaybackState _savedState;
         private TimeSpan _savedPosition;
         private uint _savedIndex;
-
-        public static Player Current
-        {
-            get
-            {
-                if (current != null && current.mediaPlayer != null)
-                {
-                    return current;
-                }
-                else
-                {
-                    var p = new Player();
-                    current = p;
-                    return p;
-                }
-            }
-        }
 
         public MediaPlayer MediaPlayer { get => mediaPlayer; }
 
@@ -78,7 +59,7 @@ namespace Aurora.Music.PlaybackEngine
             mediaPlayer.Volume = value / 100d;
         }
 
-        public event EventHandler<PlayingItemsChangedArgs> StatusChanged;
+        public event EventHandler<PlayingItemsChangedArgs> ItemsChanged;
         public event EventHandler<DownloadProgressChangedArgs> DownloadProgressChanged;
 
         public Player()
@@ -104,7 +85,7 @@ namespace Aurora.Music.PlaybackEngine
             //mediaPlayer.PlaybackSession.PositionChanged += PlaybackSession_PositionChangedAsync;
             positionUpdateTimer = ThreadPoolTimer.CreatePeriodicTimer(UpdatTimerHandler, TimeSpan.FromMilliseconds(250), UpdateTimerDestoyed);
 
-           //mediaPlayer.AddAudioEffect(typeof(SuperEQ).FullName, false, new PropertySet());
+            //mediaPlayer.AddAudioEffect(typeof(SuperEQ).FullName, false, new PropertySet());
         }
 
         private void UpdateTimerDestoyed(ThreadPoolTimer timer)
@@ -190,7 +171,7 @@ namespace Aurora.Music.PlaybackEngine
                 default:
                     break;
             }
-            StatusChanged?.Invoke(this, new PlayingItemsChangedArgs
+            ItemsChanged?.Invoke(this, new PlayingItemsChangedArgs
             {
                 IsShuffle = mediaPlaybackList.ShuffleEnabled,
                 IsLoop = mediaPlaybackList.AutoRepeatEnabled,
@@ -219,7 +200,7 @@ namespace Aurora.Music.PlaybackEngine
                     break;
             }
 
-            StatusChanged?.Invoke(this, new PlayingItemsChangedArgs
+            ItemsChanged?.Invoke(this, new PlayingItemsChangedArgs
             {
                 IsShuffle = mediaPlaybackList.ShuffleEnabled,
                 IsLoop = mediaPlaybackList.AutoRepeatEnabled,
@@ -270,7 +251,7 @@ namespace Aurora.Music.PlaybackEngine
                     {
                         StorageFile file = await StorageFile.GetFileFromPathAsync(item.FilePath);
 
-                        builtin = await GetBuiltInArtworkAsync(item.ID.ToString(), file);
+                        builtin = await Helper.GetBuiltInArtworkAsync(item.ID.ToString(), file);
 
                         mediaSource = MediaSource.CreateFromStorageFile(file);
                     }
@@ -326,7 +307,7 @@ namespace Aurora.Music.PlaybackEngine
                     /// **Local files can only create from <see cref="StorageFile"/>**
                     StorageFile file = await StorageFile.GetFileFromPathAsync(item.FilePath);
 
-                    builtin = await GetBuiltInArtworkAsync(item.ID.ToString(), file);
+                    builtin = await Helper.GetBuiltInArtworkAsync(item.ID.ToString(), file);
 
                     mediaSource = MediaSource.CreateFromStorageFile(file);
                 }
@@ -413,7 +394,7 @@ namespace Aurora.Music.PlaybackEngine
                             /// **Local files can only create from <see cref="StorageFile"/>**
                             StorageFile file = await StorageFile.GetFileFromPathAsync(item.FilePath);
 
-                            builtin = await GetBuiltInArtworkAsync(item.ID.ToString(), file);
+                            builtin = await Helper.GetBuiltInArtworkAsync(item.ID.ToString(), file);
 
                             mediaSource = MediaSource.CreateFromStorageFile(file);
                         }
@@ -467,7 +448,7 @@ namespace Aurora.Music.PlaybackEngine
                             /// **Local files can only create from <see cref="StorageFile"/>**
                             StorageFile file = await StorageFile.GetFileFromPathAsync(item.FilePath);
 
-                            builtin = await GetBuiltInArtworkAsync(item.ID.ToString(), file);
+                            builtin = await Helper.GetBuiltInArtworkAsync(item.ID.ToString(), file);
 
                             mediaSource = MediaSource.CreateFromStorageFile(file);
                         }
@@ -537,56 +518,6 @@ namespace Aurora.Music.PlaybackEngine
                 foreach (var g in item.Genres)
                 {
                     props.MusicProperties.Genres.Add(g);
-                }
-            }
-        }
-
-        private async Task<string> GetBuiltInArtworkAsync(string id, StorageFile file)
-        {
-            var options = new Windows.Storage.Search.QueryOptions(Windows.Storage.Search.CommonFileQuery.DefaultQuery, new string[] { ".jpg", ".png", ".bmp" })
-            {
-                ApplicationSearchFilter = $"System.FileName:{id}.*"
-            };
-
-            var query = ApplicationData.Current.TemporaryFolder.CreateFileQueryWithOptions(options);
-            var files = await query.GetFilesAsync();
-            if (id != "0" && files.Count > 0)
-            {
-                return files[0].Path;
-            }
-            else
-            {
-                using (var tag = TagLib.File.Create(file))
-                {
-                    var pictures = tag.Tag.Pictures;
-                    if (!pictures.IsNullorEmpty())
-                    {
-                        var fileName = $"{id}.{pictures[0].MimeType.Split('/').LastOrDefault().Replace("jpeg", "jpg")}";
-                        try
-                        {
-                            var s = await ApplicationData.Current.TemporaryFolder.GetFileAsync(fileName);
-                            if (id == "0" || s == null)
-                            {
-                                StorageFile cacheImg = await ApplicationData.Current.TemporaryFolder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
-                                await FileIO.WriteBytesAsync(cacheImg, pictures[0].Data.Data);
-                                return cacheImg.Path;
-                            }
-                            else
-                            {
-                                return s.Path;
-                            }
-                        }
-                        catch (FileNotFoundException)
-                        {
-                            StorageFile cacheImg = await ApplicationData.Current.TemporaryFolder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
-                            await FileIO.WriteBytesAsync(cacheImg, pictures[0].Data.Data);
-                            return cacheImg.Path;
-                        }
-                    }
-                    else
-                    {
-                        return string.Empty;
-                    }
                 }
             }
         }
@@ -668,7 +599,7 @@ namespace Aurora.Music.PlaybackEngine
             if (mediaPlayer.PlaybackSession.CanPause)
                 mediaPlayer.Pause();
             mediaPlayer.Source = null;
-            StatusChanged?.Invoke(this, new PlayingItemsChangedArgs() { CurrentSong = null, CurrentIndex = -1, Items = null });
+            ItemsChanged?.Invoke(this, new PlayingItemsChangedArgs() { CurrentSong = null, CurrentIndex = -1, Items = null });
         }
 
         public void Seek(TimeSpan position)
@@ -789,7 +720,7 @@ namespace Aurora.Music.PlaybackEngine
                     {
                         StorageFile file = await StorageFile.GetFileFromPathAsync(item.FilePath);
 
-                        builtin = await GetBuiltInArtworkAsync(item.ID.ToString(), file);
+                        builtin = await Helper.GetBuiltInArtworkAsync(item.ID.ToString(), file);
 
                         mediaSource = MediaSource.CreateFromStorageFile(file);
                     }
@@ -818,7 +749,7 @@ namespace Aurora.Music.PlaybackEngine
             {
                 mediaPlayer.Play();
             }
-            StatusChanged?.Invoke(this, new PlayingItemsChangedArgs
+            ItemsChanged?.Invoke(this, new PlayingItemsChangedArgs
             {
                 IsShuffle = mediaPlaybackList.ShuffleEnabled,
                 IsLoop = mediaPlaybackList.AutoRepeatEnabled,
@@ -882,7 +813,7 @@ namespace Aurora.Music.PlaybackEngine
                     {
                         StorageFile file = await StorageFile.GetFileFromPathAsync(item.FilePath);
 
-                        builtin = await GetBuiltInArtworkAsync(item.ID.ToString(), file);
+                        builtin = await Helper.GetBuiltInArtworkAsync(item.ID.ToString(), file);
 
                         mediaSource = MediaSource.CreateFromStorageFile(file);
                     }
@@ -911,7 +842,7 @@ namespace Aurora.Music.PlaybackEngine
             {
                 mediaPlayer.Play();
             }
-            StatusChanged?.Invoke(this, new PlayingItemsChangedArgs
+            ItemsChanged?.Invoke(this, new PlayingItemsChangedArgs
             {
                 IsShuffle = mediaPlaybackList.ShuffleEnabled,
                 IsLoop = mediaPlaybackList.AutoRepeatEnabled,
@@ -934,7 +865,7 @@ namespace Aurora.Music.PlaybackEngine
             // NOTE: add to current song list
             currentList.InsertRange(curIdx + 1, items);
 
-            StatusChanged?.Invoke(this, new PlayingItemsChangedArgs()
+            ItemsChanged?.Invoke(this, new PlayingItemsChangedArgs()
             {
                 CurrentSong = mediaPlaybackList.CurrentItem?.Source.CustomProperties[Consts.SONG] as Song,
                 CurrentIndex = mediaPlaybackList.CurrentItem == null ? -1 : (int)mediaPlaybackList.CurrentItemIndex,
@@ -962,7 +893,7 @@ namespace Aurora.Music.PlaybackEngine
                             /// **Local files can only create from <see cref="StorageFile"/>**
                             StorageFile file = await StorageFile.GetFileFromPathAsync(item.FilePath);
 
-                            builtin = await GetBuiltInArtworkAsync(item.ID.ToString(), file);
+                            builtin = await Helper.GetBuiltInArtworkAsync(item.ID.ToString(), file);
 
                             mediaSource = MediaSource.CreateFromStorageFile(file);
                         }

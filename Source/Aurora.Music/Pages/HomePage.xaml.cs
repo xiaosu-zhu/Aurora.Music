@@ -5,23 +5,20 @@ using Aurora.Music.Core;
 using Aurora.Music.ViewModels;
 using Aurora.Shared.Extensions;
 using ExpressionBuilder;
-using System.Numerics;
 using System;
-using System.Threading.Tasks;
+using System.Linq;
 using Windows.System.Threading;
 using Windows.UI.Composition;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using EF = ExpressionBuilder.ExpressionFunctions;
-using Windows.UI.Xaml.Media;
-using System.Drawing;
-using System.Linq;
-using Windows.UI.Xaml.Controls.Primitives;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 

@@ -6,7 +6,6 @@ using Aurora.Music.Core;
 using Aurora.Music.ViewModels;
 using Aurora.Shared.Helpers;
 using System;
-using System.Reflection;
 using Windows.System;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;

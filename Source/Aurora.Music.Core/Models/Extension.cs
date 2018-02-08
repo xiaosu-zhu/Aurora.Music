@@ -3,14 +3,10 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using Aurora.Shared.Extensions;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppExtensions;
-using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
-using Windows.System;
 
 namespace Aurora.Music.Core.Models
 {

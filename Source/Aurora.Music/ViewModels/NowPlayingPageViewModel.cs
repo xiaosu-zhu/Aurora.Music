@@ -1,9 +1,11 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
+using Aurora.Music.Controls;
 using Aurora.Music.Core;
 using Aurora.Music.Core.Models;
 using Aurora.Music.Core.Storage;
+using Aurora.Music.Pages;
 using Aurora.Music.PlaybackEngine;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
@@ -11,27 +13,21 @@ using Aurora.Shared.MVVM;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
-using Windows.Media.Playback;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.Foundation;
+using Windows.Media.Casting;
+using Windows.Networking.BackgroundTransfer;
+using Windows.Storage;
+using Windows.Storage.Streams;
+using Windows.System;
 using Windows.System.Threading;
 using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
-using System.Threading.Tasks;
-using Aurora.Music.Pages;
-using Windows.System;
-using Windows.Storage;
-using Windows.Foundation;
-using Windows.Networking.BackgroundTransfer;
-using Windows.ApplicationModel.DataTransfer;
-using Windows.Storage.Streams;
-using Windows.Media.Casting;
-using Aurora.Music.Controls;
-using Windows.Foundation.Collections;
 
 namespace Aurora.Music.ViewModels
 {
@@ -273,7 +269,7 @@ namespace Aurora.Music.ViewModels
         {
             player.DownloadProgressChanged -= Player_DownloadProgressChanged;
             player.PositionUpdated -= Player_PositionUpdated;
-            player.StatusChanged -= Player_StatusChanged;
+            player.ItemsChanged -= Player_StatusChanged;
 
             dataTransferManager.DataRequested -= DataTransferManager_DataRequested;
         }
@@ -333,7 +329,7 @@ namespace Aurora.Music.ViewModels
                     if (!Settings.Current.DownloadPathToken.IsNullorEmpty())
                     {
                         folder = await Windows.Storage.AccessCache.StorageApplicationPermissions.
-                FutureAccessList.GetFolderAsync(Settings.Current.DownloadPathToken);
+                            FutureAccessList.GetFolderAsync(Settings.Current.DownloadPathToken);
                     }
                     else
                     {
@@ -460,8 +456,8 @@ namespace Aurora.Music.ViewModels
 
         public NowPlayingPageViewModel()
         {
-            player = Player.Current;
-            player.StatusChanged += Player_StatusChanged;
+            player = PlaybackEngine.PlaybackEngine.Current;
+            player.ItemsChanged += Player_StatusChanged;
             player.PositionUpdated += Player_PositionUpdated;
             player.DownloadProgressChanged += Player_DownloadProgressChanged;
 
@@ -886,7 +882,7 @@ namespace Aurora.Music.ViewModels
         public void Dispose()
         {
             player.PositionUpdated -= Player_PositionUpdated;
-            player.StatusChanged -= Player_StatusChanged;
+            player.ItemsChanged -= Player_StatusChanged;
 
             dataTransferManager.DataRequested -= DataTransferManager_DataRequested;
             castingPicker.CastingDeviceSelected -= CastingPicker_CastingDeviceSelected;

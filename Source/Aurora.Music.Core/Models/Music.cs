@@ -1,25 +1,21 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
+using Aurora.Music.Core.Storage;
+using Aurora.Shared.Extensions;
+using Aurora.Shared.Helpers;
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Aurora.Shared.Extensions;
 using TagLib;
 using Windows.Storage;
-using System.IO;
 using Windows.Storage.FileProperties;
-using Aurora.Shared.Helpers;
-using System.Collections.Generic;
-using Aurora.Music.Core.Storage;
-using Windows.UI;
 using Windows.System.Threading;
-using System.Runtime.CompilerServices;
-using System.Diagnostics;
 
 namespace Aurora.Music.Core.Models
 {
-
     public enum MediaType
     {
         Song, Album, PlayList, Artist, Placeholder

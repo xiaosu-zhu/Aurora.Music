@@ -1,21 +1,11 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
-using Aurora.Music.Core.Models;
-using Aurora.Music.Core.Models.Json;
-using Aurora.Shared.Extensions;
-using Aurora.Shared.Helpers;
 using Aurora.Shared.MVVM;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
-using Windows.Foundation.Collections;
 
 namespace Aurora.Music.ViewModels
 {

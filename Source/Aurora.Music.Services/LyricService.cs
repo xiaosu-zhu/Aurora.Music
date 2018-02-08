@@ -1,6 +1,5 @@
 ﻿using Aurora.Music.Core.Extension;
 using Aurora.Music.Core.Models;
-using Aurora.Music.Core.Storage;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
 using Newtonsoft.Json;
@@ -9,11 +8,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Background;
-using Windows.Foundation;
 using Windows.Foundation.Collections;
 
 namespace Aurora.Music.Services

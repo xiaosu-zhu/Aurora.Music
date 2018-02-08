@@ -6,13 +6,9 @@ using Aurora.Music.Core.Storage;
 using Aurora.Shared.MVVM;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
-using Windows.Foundation;
 using Windows.Storage;
-using Windows.UI.Xaml;
 
 namespace Aurora.Music.ViewModels
 {

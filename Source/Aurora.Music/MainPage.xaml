@@ -711,7 +711,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </Storyboard>
 
             <DataTemplate x:Key="AlbumTemplate" x:DataType="vm:GenericMusicItemViewModel">
-                <Grid>
+                <Grid Margin="8,0" >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
@@ -732,13 +732,13 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </Grid>
             </DataTemplate>
             <DataTemplate x:Key="SearchSuggestionTemplate" x:DataType="vm:GenericMusicItemViewModel">
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <StackPanel Margin="8,0" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <FontIcon FontSize="15" FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Center" VerticalAlignment="Center" Glyph="{x:Bind Description}" Margin="0,0,4,0"/>
                     <TextBlock VerticalAlignment="Center" HorizontalAlignment="Stretch" Text="{x:Bind Title}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Margin="4,0"/>
                 </StackPanel>
             </DataTemplate>
             <DataTemplate x:Key="PlaceholderTemplate" x:DataType="vm:GenericMusicItemViewModel">
-                <Grid>
+                <Grid Margin="8,0" >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="*"/>
@@ -754,7 +754,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </DataTemplate>
 
             <DataTemplate x:Key="SongTemplate" x:DataType="vm:GenericMusicItemViewModel">
-                <Grid>
+                <Grid Margin="8,0" >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="*"/>
@@ -1045,10 +1045,35 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                             <DiscreteObjectKeyFrame KeyTime="0:0:0.5" Value="Visible"/>
                         </ObjectAnimationUsingKeyFrames>
                     </Storyboard>
+                    <Storyboard x:Name="ProgressShow">
+                        <DoubleAnimation Duration="0:0:0.64" To="3" Storyboard.TargetName="ProgressBG" Storyboard.TargetProperty="ScaleY">
+                            <DoubleAnimation.EasingFunction>
+                                <QuinticEase/>
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                        <DoubleAnimation Duration="0:0:0.64" To="3" Storyboard.TargetName="ProgressOV" Storyboard.TargetProperty="ScaleY">
+                            <DoubleAnimation.EasingFunction>
+                                <QuinticEase/>
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                    </Storyboard>
+                    <Storyboard x:Name="ProgressHide">
+                        <DoubleAnimation Duration="0:0:0.64" To="1" Storyboard.TargetName="ProgressBG" Storyboard.TargetProperty="ScaleY">
+                            <DoubleAnimation.EasingFunction>
+                                <QuinticEase/>
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                        <DoubleAnimation Duration="0:0:0.64" To="1" Storyboard.TargetName="ProgressOV" Storyboard.TargetProperty="ScaleY">
+                            <DoubleAnimation.EasingFunction>
+                                <QuinticEase/>
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                    </Storyboard>
                 </Grid.Resources>
                 <Frame Visibility="Visible" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="MainFrame"/>
-                <Grid Visibility="{x:Bind Context.NeedShowPanel, Mode=OneWay}" 
-                      HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="74" x:Name="NowPanel"
+                <Grid Visibility="{x:Bind Context.NeedShowPanel, Mode=OneWay}" PointerEntered="NowPanel_PointerEntered" PointerExited="NowPanel_PointerExited"
+                      PointerCanceled="Grid_PointerExited" PointerCaptureLost="Grid_PointerExited"
+                      HorizontalAlignment="Stretch" VerticalAlignment="Bottom" x:Name="NowPanel"
                       Background="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}">
 
                     <animations:Implicit.ShowAnimations>
@@ -1059,7 +1084,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <animations:TranslationAnimation Duration="0:0:1" From="0" To="0,96,0"></animations:TranslationAnimation>
                     </animations:Implicit.HideAnimations>
 
-
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="auto"/>
@@ -1068,8 +1092,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="2"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="72"/>
                     </Grid.RowDefinitions>
                     <Button Style="{ThemeResource RevealRectangleButton}" BorderThickness="0" Background="Transparent" Grid.Row="1" HorizontalContentAlignment="Left"
                             Click="NowPanel_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -1175,10 +1199,18 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                             </ToggleButton.Content>
                         </ToggleButton>
                     </StackPanel>
-                    <ProgressBar Background="{x:Null}" Foreground="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="5" 
-                                 Value="{x:Bind Context.BufferProgress, Mode=OneWay}"/>
-                    <ProgressBar Background="{x:Null}" Foreground="{ThemeResource SystemControlBackgroundBaseHighBrush}" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="5" 
-                                 Value="{x:Bind Context.PositionToValue(Context.CurrentPosition, Context.TotalDuration), Mode=OneWay}"/>
+                    <ProgressBar Background="{x:Null}" Foreground="{ThemeResource SystemControlBackgroundChromeMediumBrush}" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="5" 
+                                 Value="{x:Bind Context.BufferProgress, Mode=OneWay}" MinHeight="2" Height="2" RenderTransformOrigin="0.5,1">
+                        <ProgressBar.RenderTransform>
+                            <ScaleTransform x:Name="ProgressBG" ScaleX="1" ScaleY="1"/>
+                        </ProgressBar.RenderTransform>
+                    </ProgressBar>
+                    <ProgressBar Background="{x:Null}" Foreground="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="5" 
+                                 Value="{x:Bind Context.PositionToValue(Context.CurrentPosition, Context.TotalDuration), Mode=OneWay}" MinHeight="2" Height="2" RenderTransformOrigin="0.5,1">
+                        <ProgressBar.RenderTransform>
+                            <ScaleTransform x:Name="ProgressOV" ScaleX="1" ScaleY="1"/>
+                        </ProgressBar.RenderTransform>
+                    </ProgressBar>
                 </Grid>
                 <Frame x:Name="OverlayFrame" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                 <Button AccessKey="M" x:Uid="SplitPaneOpen" Style="{ThemeResource RevealRectangleButton}" Background="Transparent" Foreground="{x:Bind Context.LeftTopColor, Mode=OneWay}"
@@ -1218,7 +1250,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="1" BorderThickness="0" BorderBrush="{x:Null}" x:Name="TitlebarBtm" Background="{StaticResource SystemControlBackgroundTransparentRevealBorderBrush}"/>
                     <AutoSuggestBox AutoMaximizeSuggestionArea="True" Loaded="SearchBox_Loaded" LosingFocus="SearchBox_LosingFocus" Style="{ThemeResource BlockAutoSuggestBox}" QuerySubmitted="SearchBox_QuerySubmitted" SuggestionChosen="SearchBox_SuggestionChosen"
                                     PlaceholderText="{x:Bind Context.PlaceholderText,Mode=OneWay}" QueryIcon="Find" x:Name="SearchBox" TextChanged="SearchBox_TextChanged" ItemsSource="{x:Bind Context.SearchItems, Mode=OneWay}"
-                                    HorizontalAlignment="Right" Opacity="0" VerticalAlignment="Stretch" Width="48" ItemTemplateSelector="{StaticResource GenericItemSelector}">
+                                    HorizontalAlignment="Right" Opacity="0" VerticalAlignment="Stretch" Width="48" ItemTemplateSelector="{StaticResource GenericItemSelector}" ItemContainerStyleSelector="{StaticResource SongListStyleSelector}">
                     </AutoSuggestBox>
                     <Button AccessKey="F" Foreground="{x:Bind Context.LeftTopColor, Mode=OneWay}" x:Name="SearchButton" Click="SearchButton_Click" Background="Transparent" Style="{ThemeResource NoBorderButton}" Width="48" HorizontalAlignment="Right" VerticalAlignment="Stretch" BorderThickness="1,0,0,1" BorderBrush="{StaticResource SystemControlBackgroundTransparentRevealBorderBrush}">
                         <Button.KeyboardAccelerators>

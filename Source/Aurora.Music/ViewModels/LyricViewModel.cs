@@ -6,7 +6,6 @@ using Aurora.Music.Core.Models;
 using Aurora.Shared.MVVM;
 using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 using Windows.UI.Text;
 
 namespace Aurora.Music.ViewModels

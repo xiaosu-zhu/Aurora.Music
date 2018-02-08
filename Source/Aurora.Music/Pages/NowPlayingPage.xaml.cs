@@ -3,26 +3,17 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using Aurora.Music.Controls;
 using Aurora.Music.Core;
-using Aurora.Music.Core.Models;
 using Aurora.Music.ViewModels;
 using Aurora.Shared;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.System.Threading;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
@@ -100,7 +91,7 @@ namespace Aurora.Music.Pages
                         {
                             var sub = new MenuFlyoutSubItem()
                             {
-                                Text = $"{Consts.Localizer.GetString("PerformersText")}:",
+                                Text = $"{Consts.Localizer.GetString("PerformersText")}",
                                 Icon = new FontIcon()
                                 {
                                     Glyph = "\uE136"

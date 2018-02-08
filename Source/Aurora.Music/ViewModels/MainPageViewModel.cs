@@ -1,30 +1,28 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
+using Aurora.Music.Controls;
+using Aurora.Music.Core;
+using Aurora.Music.Core.Models;
+using Aurora.Music.Core.Storage;
+using Aurora.Music.Pages;
+using Aurora.Music.PlaybackEngine;
+using Aurora.Shared.Extensions;
+using Aurora.Shared.Helpers;
+using Aurora.Shared.MVVM;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using Aurora.Music.Core.Storage;
-using Aurora.Shared.MVVM;
-using Windows.Storage;
-using Aurora.Music.Pages;
-using Windows.UI.Text;
 using Windows.ApplicationModel.Core;
-using Windows.UI.Xaml.Media;
-using System.Collections.ObjectModel;
+using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.System.Threading;
-using Aurora.Shared.Extensions;
+using Windows.UI.Text;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml.Controls;
-using Aurora.Music.Core.Models;
-using Aurora.Music.PlaybackEngine;
-using Aurora.Music.Core;
-using Windows.Foundation.Collections;
-using Aurora.Music.Controls;
-using Aurora.Shared.Helpers;
-using Newtonsoft.Json;
-using System.Diagnostics;
+using Windows.UI.Xaml.Media;
 
 namespace Aurora.Music.ViewModels
 {
@@ -380,10 +378,10 @@ namespace Aurora.Music.ViewModels
 
         public MainPageViewModel()
         {
-            player = Player.Current;
+            player = PlaybackEngine.PlaybackEngine.Current;
             Current = this;
             player.DownloadProgressChanged += Player_DownloadProgressChanged;
-            player.StatusChanged += Player_StatusChanged;
+            player.ItemsChanged += Player_StatusChanged;
             player.PositionUpdated += Player_PositionUpdated;
             var t = ThreadPool.RunAsync(async x =>
             {

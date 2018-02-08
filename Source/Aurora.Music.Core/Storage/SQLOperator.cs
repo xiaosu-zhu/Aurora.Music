@@ -1,18 +1,15 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
+using Aurora.Music.Core.Models;
+using Aurora.Shared.Extensions;
+using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Aurora.Shared.Extensions;
-using SQLite;
-using Windows.Storage;
 using TagLib;
-using Aurora.Music.Core.Models;
-using Aurora.Shared.Helpers;
-using Windows.UI;
+using Windows.Storage;
 
 namespace Aurora.Music.Core.Storage
 {
