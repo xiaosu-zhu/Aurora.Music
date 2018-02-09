@@ -115,23 +115,18 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="EqualizerBand.cs" />
     <Compile Include="IMemoryBufferByteAccess.cs" />
     <Compile Include="SuperEQ.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="MathNet.Numerics">
-      <Version>3.20.2</Version>
-    </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.0.6</Version>
     </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Filter\Filter.csproj">
-      <Project>{7E16C9CB-C61A-439C-920F-4225DDF135CF}</Project>
-      <Name>Filter</Name>
-    </ProjectReference>
+    <PackageReference Include="NAudio">
+      <Version>1.8.4</Version>
+    </PackageReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

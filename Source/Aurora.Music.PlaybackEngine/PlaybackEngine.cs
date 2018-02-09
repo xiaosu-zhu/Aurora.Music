@@ -17,7 +17,7 @@ namespace Aurora.Music.PlaybackEngine
                 }
                 else
                 {
-                    var p = new NPlayer();
+                    var p = new Player();
                     current = p;
                     return p;
                 }

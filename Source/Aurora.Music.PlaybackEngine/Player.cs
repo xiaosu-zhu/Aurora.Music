@@ -1,7 +1,7 @@
 ﻿using Aurora.Music.Core;
 using Aurora.Music.Core.Models;
 using Aurora.Music.Core.Storage;
-using Aurora.Music.Core.Tools;
+using Aurora.Music.Effects;
 using Aurora.Shared.Extensions;
 using System;
 using System.Collections.Generic;
@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.Devices.Enumeration;
 using Windows.Foundation;
+using Windows.Foundation.Collections;
 using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.Storage;
@@ -64,14 +65,22 @@ namespace Aurora.Music.PlaybackEngine
 
         public Player()
         {
+            currentList = new List<Song>();
+
+            InitMediaPlayer();
+
+            mediaPlaybackList = new MediaPlaybackList();
+            mediaPlaybackList.CurrentItemChanged += MediaPlaybackList_CurrentItemChanged;
+            mediaPlayer.PlaybackSession.PlaybackStateChanged += PlaybackSession_PlaybackStateChanged;
+            //mediaPlayer.PlaybackSession.PositionChanged += PlaybackSession_PositionChangedAsync;
+        }
+
+        private void InitMediaPlayer()
+        {
             mediaPlayer = new MediaPlayer
             {
                 AudioCategory = MediaPlayerAudioCategory.Media,
             };
-
-            currentList = new List<Song>();
-
-
             ChangeAudioEndPoint(Settings.Current.OutputDeviceID);
             ChangeVolume(Settings.Current.PlayerVolume);
 
@@ -79,13 +88,23 @@ namespace Aurora.Music.PlaybackEngine
             var type = mediaPlayer.AudioDeviceType;
             var mgr = mediaPlayer.CommandManager;
             mgr.IsEnabled = true;
-            mediaPlaybackList = new MediaPlaybackList();
-            mediaPlaybackList.CurrentItemChanged += MediaPlaybackList_CurrentItemChanged;
-            mediaPlayer.PlaybackSession.PlaybackStateChanged += PlaybackSession_PlaybackStateChanged;
-            //mediaPlayer.PlaybackSession.PositionChanged += PlaybackSession_PositionChangedAsync;
             positionUpdateTimer = ThreadPoolTimer.CreatePeriodicTimer(UpdatTimerHandler, TimeSpan.FromMilliseconds(250), UpdateTimerDestoyed);
-
-            //mediaPlayer.AddAudioEffect(typeof(SuperEQ).FullName, false, new PropertySet());
+            mediaPlayer.AddAudioEffect(typeof(SuperEQ).FullName, false, new PropertySet()
+            {
+                ["EqualizerBand"] = new EqualizerBand[]
+                {
+                    new EqualizerBand {Bandwidth = 0.8f, Frequency = 30, Gain = Settings.Current.Gain[0]},
+                    new EqualizerBand {Bandwidth = 0.8f, Frequency = 75, Gain = Settings.Current.Gain[1]},
+                    new EqualizerBand {Bandwidth = 0.8f, Frequency = 150, Gain = Settings.Current.Gain[2]},
+                    new EqualizerBand {Bandwidth = 0.8f, Frequency = 30, Gain = Settings.Current.Gain[3]},
+                    new EqualizerBand {Bandwidth = 0.8f, Frequency = 600, Gain = Settings.Current.Gain[4]},
+                    new EqualizerBand {Bandwidth = 0.8f, Frequency = 1250, Gain = Settings.Current.Gain[5]},
+                    new EqualizerBand {Bandwidth = 0.8f, Frequency = 2500, Gain = Settings.Current.Gain[6]},
+                    new EqualizerBand {Bandwidth = 0.8f, Frequency = 5000, Gain = Settings.Current.Gain[7]},
+                    new EqualizerBand {Bandwidth = 0.8f, Frequency = 10000, Gain = Settings.Current.Gain[8]},
+                    new EqualizerBand {Bandwidth = 0.8f, Frequency = 20000, Gain = Settings.Current.Gain[9]},
+                }
+            });
         }
 
         private void UpdateTimerDestoyed(ThreadPoolTimer timer)
@@ -251,7 +270,7 @@ namespace Aurora.Music.PlaybackEngine
                     {
                         StorageFile file = await StorageFile.GetFileFromPathAsync(item.FilePath);
 
-                        builtin = await Helper.GetBuiltInArtworkAsync(item.ID.ToString(), file);
+                        builtin = await Core.Tools.Helper.GetBuiltInArtworkAsync(item.ID.ToString(), file);
 
                         mediaSource = MediaSource.CreateFromStorageFile(file);
                     }
@@ -307,7 +326,7 @@ namespace Aurora.Music.PlaybackEngine
                     /// **Local files can only create from <see cref="StorageFile"/>**
                     StorageFile file = await StorageFile.GetFileFromPathAsync(item.FilePath);
 
-                    builtin = await Helper.GetBuiltInArtworkAsync(item.ID.ToString(), file);
+                    builtin = await Core.Tools.Helper.GetBuiltInArtworkAsync(item.ID.ToString(), file);
 
                     mediaSource = MediaSource.CreateFromStorageFile(file);
                 }
@@ -394,7 +413,7 @@ namespace Aurora.Music.PlaybackEngine
                             /// **Local files can only create from <see cref="StorageFile"/>**
                             StorageFile file = await StorageFile.GetFileFromPathAsync(item.FilePath);
 
-                            builtin = await Helper.GetBuiltInArtworkAsync(item.ID.ToString(), file);
+                            builtin = await Core.Tools.Helper.GetBuiltInArtworkAsync(item.ID.ToString(), file);
 
                             mediaSource = MediaSource.CreateFromStorageFile(file);
                         }
@@ -448,7 +467,7 @@ namespace Aurora.Music.PlaybackEngine
                             /// **Local files can only create from <see cref="StorageFile"/>**
                             StorageFile file = await StorageFile.GetFileFromPathAsync(item.FilePath);
 
-                            builtin = await Helper.GetBuiltInArtworkAsync(item.ID.ToString(), file);
+                            builtin = await Core.Tools.Helper.GetBuiltInArtworkAsync(item.ID.ToString(), file);
 
                             mediaSource = MediaSource.CreateFromStorageFile(file);
                         }
@@ -720,7 +739,7 @@ namespace Aurora.Music.PlaybackEngine
                     {
                         StorageFile file = await StorageFile.GetFileFromPathAsync(item.FilePath);
 
-                        builtin = await Helper.GetBuiltInArtworkAsync(item.ID.ToString(), file);
+                        builtin = await Core.Tools.Helper.GetBuiltInArtworkAsync(item.ID.ToString(), file);
 
                         mediaSource = MediaSource.CreateFromStorageFile(file);
                     }
@@ -813,7 +832,7 @@ namespace Aurora.Music.PlaybackEngine
                     {
                         StorageFile file = await StorageFile.GetFileFromPathAsync(item.FilePath);
 
-                        builtin = await Helper.GetBuiltInArtworkAsync(item.ID.ToString(), file);
+                        builtin = await Core.Tools.Helper.GetBuiltInArtworkAsync(item.ID.ToString(), file);
 
                         mediaSource = MediaSource.CreateFromStorageFile(file);
                     }
@@ -893,7 +912,7 @@ namespace Aurora.Music.PlaybackEngine
                             /// **Local files can only create from <see cref="StorageFile"/>**
                             StorageFile file = await StorageFile.GetFileFromPathAsync(item.FilePath);
 
-                            builtin = await Helper.GetBuiltInArtworkAsync(item.ID.ToString(), file);
+                            builtin = await Core.Tools.Helper.GetBuiltInArtworkAsync(item.ID.ToString(), file);
 
                             mediaSource = MediaSource.CreateFromStorageFile(file);
                         }
@@ -928,19 +947,9 @@ namespace Aurora.Music.PlaybackEngine
             }
         }
 
-        public async Task UpdateComingItems(List<Song> list)
+        public void ChangeEQ(float[] gain)
         {
-            throw new NotImplementedException();
-            if (mediaPlaybackList.CurrentItem != null && mediaPlaybackList.CurrentItemIndex < currentList.Count - 1)
-            {
-                currentList.RemoveRange((int)mediaPlaybackList.CurrentItemIndex + 1, currentList.Count - (int)mediaPlaybackList.CurrentItemIndex);
-                for (int i = (int)mediaPlaybackList.CurrentItemIndex + 1; i < mediaPlaybackList.Items.Count; i++)
-                {
-                    mediaPlaybackList.Items.RemoveAt(i);
-                }
-            }
-            currentList.AddRange(list);
-            await AddtoPlayListAsync(list);
+            SuperEQ.Current.UpdateEqualizerBand(gain);
         }
     }
 }

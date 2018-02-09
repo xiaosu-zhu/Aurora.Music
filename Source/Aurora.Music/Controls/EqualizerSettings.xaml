@@ -3,29 +3,26 @@ Copyright (c) Aurora Studio. All rights reserved.
 
 Licensed under the MIT License. See LICENSE in the project root for license information.
 -->
-<Page
-    x:Class="Aurora.Music.Pages.SettingsPage"
+<ContentDialog
+    x:Class="Aurora.Music.Controls.EqualizerSettings"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Aurora.Music"
-    xmlns:vm="using:Aurora.Music.ViewModels"
+    xmlns:local="using:Aurora.Music.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    Title="Equalizer Settings"
+    CloseButtonText="Close">
 
-    <Page.Transitions>
-        <TransitionCollection>
-            <NavigationThemeTransition>
-            </NavigationThemeTransition>
-            <EntranceThemeTransition />
-        </TransitionCollection>
-    </Page.Transitions>
-
-    <Page.Resources>
+    <ContentDialog.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../Themes/Styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light" Source="../Themes/Light.xaml"/>
+                <ResourceDictionary x:Key="Dark" Source="../Themes/Dark.xaml"/>
+            </ResourceDictionary.ThemeDictionaries>
 
             <Style x:Key="SliderThumbStyle" TargetType="Thumb">
                 <Setter Property="MinWidth" Value="4"/>
@@ -251,7 +248,10 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                         </VisualState>
                                     </VisualStateGroup>
                                 </VisualStateManager.VisualStateGroups>
-                                <ContentPresenter x:Name="HeaderContentPresenter" ContentTemplate="{TemplateBinding HeaderTemplate}" Content="{TemplateBinding Header}" FontWeight="{ThemeResource SliderHeaderThemeFontWeight}" Foreground="{ThemeResource SliderHeaderForeground}" Margin="{ThemeResource SliderHeaderThemeMargin}" TextWrapping="Wrap" Visibility="Collapsed" x:DeferLoadStrategy="Lazy"/>
+                                <ContentPresenter x:Name="HeaderContentPresenter" ContentTemplate="{TemplateBinding HeaderTemplate}" 
+                                                  Content="{TemplateBinding Header}" FontWeight="{ThemeResource SliderHeaderThemeFontWeight}" 
+                                                  Foreground="{ThemeResource SliderHeaderForeground}" Margin="{ThemeResource SliderHeaderThemeMargin}" 
+                                                  TextWrapping="Wrap" Visibility="Collapsed" x:DeferLoadStrategy="Lazy"/>
                                 <Grid x:Name="SliderContainer" Background="{x:Null}" Control.IsTemplateFocusTarget="True" Grid.Row="1">
                                     <Grid x:Name="HorizontalTemplate" MinHeight="44">
                                         <Grid.ColumnDefinitions>
@@ -274,8 +274,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                                DataContext="{TemplateBinding Value}" FocusVisualMargin="0" Height="24" Grid.RowSpan="3" 
                                                Grid.Row="0" Style="{StaticResource SliderThumbStyle}" Width="24">
                                             <Thumb.RenderTransform>
-                                                <ScaleTransform x:Name="HorizontalThumbScale" ScaleX="1" ScaleY="1">
-                                                </ScaleTransform>
+                                                <ScaleTransform x:Name="HorizontalThumbScale" ScaleX="1" ScaleY="1"/>
                                             </Thumb.RenderTransform>
                                         </Thumb>
                                     </Grid>
@@ -301,8 +300,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                                FocusVisualMargin="0" Height="24" Grid.Row="1" 
                                                Style="{StaticResource SliderThumbStyle}" Width="24">
                                             <Thumb.RenderTransform>
-                                                <ScaleTransform x:Name="VerticalThumbScale" ScaleX="1" ScaleY="1">
-                                                </ScaleTransform>
+                                                <ScaleTransform x:Name="VerticalThumbScale" ScaleX="1" ScaleY="1"/>
                                             </Thumb.RenderTransform>
                                         </Thumb>
                                     </Grid>
@@ -313,207 +311,114 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </Setter>
             </Style>
 
-            <DataTemplate x:Key="ExtensionTemplate" x:DataType="vm:ExtensionViewModel">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <TextBlock Grid.Column="1" VerticalAlignment="Center" Style="{ThemeResource BaseTextBlockStyle}" Margin="8,0" Text="{x:Bind Name}"/>
-                    <TextBlock Grid.Row="1" TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis" MaxLines="3" Grid.Column="1" VerticalAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}" Margin="8,0" Text="{x:Bind Description}"/>
-                    <Image MaxHeight="48" Grid.RowSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="{x:Bind Logo, Mode=OneWay}" Stretch="Uniform"/>
-                </Grid>
-            </DataTemplate>
+            <local:EqualizerGainToolTipConverter x:Key="EqualizerGainToolTipConverter"/>
         </ResourceDictionary>
-    </Page.Resources>
+    </ContentDialog.Resources>
 
-    <Page.DataContext>
-        <vm:SettingsPageViewModel x:Name="Context"/>
-    </Page.DataContext>
-    <Grid MinWidth="0"  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup>
-                <VisualState x:Name="Full">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="1008"/>
-                    </VisualState.StateTriggers>
-                </VisualState>
-                <VisualState x:Name="Medium">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="641"/>
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="Main.Padding" Value="32,120,32,160"/>
-                        <Setter Target="SidePanel.(Grid.Column)" Value="0"/>
-                        <Setter Target="SidePanel.(Grid.Row)" Value="1"/>
-                        <Setter Target="SidePanel.MinWidth" Value="0"/>
-                    </VisualState.Setters>
-                </VisualState>
-                <VisualState x:Name="Narrow">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0"/>
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="Main.Padding" Value="12,120,12,160"/>
-                        <Setter Target="SidePanel.(Grid.Column)" Value="0"/>
-                        <Setter Target="SidePanel.(Grid.Row)" Value="1"/>
-                        <Setter Target="SidePanel.MinWidth" Value="0"/>
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
-        <ScrollViewer MinWidth="0"  HorizontalScrollBarVisibility="Hidden" Style="{ThemeResource NarrowScrollViewer}"
-                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalScrollMode="Disabled" VerticalScrollMode="Enabled">
-            <Grid x:Name="Main" Padding="60,120,60,160" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    <StackPanel Orientation="Vertical">
+        <StackPanel Margin="0,8" Orientation="Horizontal">
+            <ComboBox x:Name="Presets" SelectedIndex="0"
+                      BorderThickness="0" BorderBrush="{x:Null}" Style="{ThemeResource HorizontalComboBox}" Header="Presets">
+                <ComboBoxItem Content="Flat"/>
+                <ComboBoxItem Content="Custom"/>
+                <ComboBoxItem Content="Pop"/>
+                <ComboBoxItem Content="Rock"/>
+                <ComboBoxItem Content="Vocal"/>
+                <ComboBoxItem Content="Bass"/>
+                <ComboBoxItem Content="Air"/>
+            </ComboBox>
+            <Button Margin="12,0" Click="Button_Click" Style="{ThemeResource TextBlockButtonStyle}" Content="Reset"/>
+        </StackPanel>
+        <Grid Margin="0,8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="auto"/>
-                </Grid.ColumnDefinitions>
-                <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                    <StackPanel BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" BorderThickness="0,0,0,1" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <Frame x:Name="LoactionFrame" Height="360" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                    </StackPanel>
-                    <StackPanel BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" BorderThickness="0,0,0,1" Padding="8,0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <TextBlock x:Uid="Configuration" Text="Player Configuration" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12"/>
-                        <ComboBox x:Uid="OutputEndPoint" HorizontalAlignment="Left" VerticalAlignment="Center" IsSynchronizedWithCurrentItem="False" SelectedIndex="{x:Bind Context.AudioSelectedIndex,Mode=TwoWay}" Header="Output Endpoint" ItemsSource="{x:Bind Context.DevicList}" Margin="0,8"/>
-                        <TextBlock x:Uid="OutputDefaultHint" Style="{ThemeResource BodyTextBlockStyle}" Text="'System default' will be applied at next launch." HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,8"/>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,8,0,0">
-                            <Slider x:Uid="VolumeLevel" Style="{StaticResource RoundSlider}" 
-                                Foreground="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" 
-                                Background="{ThemeResource SystemControlAltTranslucentAcrylicWindowBrush}" 
-                                Value="{x:Bind Context.PlayerVolume,Mode=TwoWay}" IsThumbToolTipEnabled="False"
-                                HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                                Header="Volume Level" Width="240"/>
-                            <TextBlock Margin="0,10,0,0" Width="40" TextAlignment="Right" VerticalAlignment="Center" 
-                                       Style="{ThemeResource TitleTextBlockStyle}" TextWrapping="NoWrap" TextTrimming="None" 
-                                       MaxLines="1" HorizontalAlignment="Stretch" 
-                                       Text="{x:Bind Context.VolumeToString(Context.PlayerVolume), Mode=OneWay}"/>
-                        </StackPanel>
-                        <TextBlock x:Uid="VolumeHint" Style="{ThemeResource BodyTextBlockStyle}" FontSize="13" Foreground="{ThemeResource AppBarItemDisabledForegroundThemeBrush}" Text="We suggest you to control the system volume directly." HorizontalAlignment="Left" VerticalAlignment="Center" Margin="8,0,0,8"/>
-                    </StackPanel>
-                    <StackPanel BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" BorderThickness="0,0,0,1" Padding="8,0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <StackPanel Margin="0,12" Orientation="Horizontal">
-                            <TextBlock x:Uid="Extensions" Text="Extensions" VerticalAlignment="Center" Style="{ThemeResource TitleTextBlockStyle}"/>
-                            <Button x:Uid="Manage" Content="Manage" Command="{x:Bind Context.OpenExtensionManager}" VerticalAlignment="Center" Style="{ThemeResource ButtonRevealStyle}" Margin="8,0"/>
-                        </StackPanel>
-
-                        <ComboBox x:Uid="LyricExtension" x:Name="LrcCombo" HorizontalAlignment="Stretch" ItemTemplate="{StaticResource ExtensionTemplate}" SelectedIndex="{x:Bind Context.CurrentLyricIndex,Mode=OneWay}" ItemsSource="{x:Bind Context.LyricExts}" Header="Lyric Extension" Margin="0,8">
-                        </ComboBox>
-
-                        <ComboBox x:Uid="MetaExtension" x:Name="MetaCombo" HorizontalAlignment="Stretch" ItemTemplate="{StaticResource ExtensionTemplate}" SelectedIndex="{x:Bind Context.CurrentMetaIndex,Mode=OneWay}" ItemsSource="{x:Bind Context.MetaExts}" Header="MetaData Extension" Margin="0,8">
-                        </ComboBox>
-
-                        <ToggleSwitch Visibility="Collapsed" IsOn="{x:Bind Context.MetaDataEnabled, Mode=TwoWay}" Header="Automatically retrieve album/artist metadata" Margin="0,8" />
-
-                        <TextBlock Visibility="{x:Bind Context.BoolNottoVisibility(Context.OnlinePurchase),Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" IsTextSelectionEnabled="False" Margin="0,8">
-                                <Run x:Uid="ExtensionIntro" Text="You can enable or restore online extensibility from"/>
-                                <Hyperlink Foreground="{ThemeResource AccentForText}" Click="Hyperlink_Click">
-                                    <Run x:Uid="Here" Text="here"/>
-                                </Hyperlink>
-                        </TextBlock>
-
-                        <ComboBox x:Uid="OnlineExtension" x:Name="OnlineCombo" HorizontalAlignment="Stretch" ItemTemplate="{StaticResource ExtensionTemplate}" SelectedIndex="{x:Bind Context.CurrentOnlineIndex,Mode=OneWay}" IsEnabled="{x:Bind Context.OnlinePurchase,Mode=OneWay}" ItemsSource="{x:Bind Context.OnlineExts}" Header="Online Music Extension" Margin="0,8">
-
-                        </ComboBox>
-                        <ToggleSwitch Visibility="Collapsed" IsOn="{x:Bind Context.DataPlayEnabled, Mode=TwoWay}" Header="Using metered connection to play online contents" Margin="0,8" />
-                        <ToggleSwitch Visibility="Collapsed" IsOn="{x:Bind Context.DataDownloadEnabled, Mode=TwoWay}" Header="Using metered connection to download online contents"  Margin="0,8"/>
-                        <Button x:Uid="DownloadPath" IsEnabled="{x:Bind Context.OnlinePurchase,Mode=OneWay}" Margin="0,8" Content="Download Path" Command="{x:Bind Context.DownloadPath}" Style="{ThemeResource ButtonRevealStyle}" />
-                        <TextBlock Visibility="{x:Bind Context.OnlinePurchase,Mode=OneWay}" Text="{x:Bind Context.DownloadPathText, Mode=OneWay}" Margin="0,8" Style="{ThemeResource BodyTextBlockStyle}"/>
-                    </StackPanel>
-                    <StackPanel BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" BorderThickness="0,0,0,1" Padding="8,0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <TextBlock Foreground="{ThemeResource SystemControlDisabledBaseLowBrush}" x:Uid="AudioGraph" Text="Audio Graph" TextDecorations="Strikethrough" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12"/>
-                        <TextBlock x:Uid="NotImplement" Text="Coming Soon" Foreground="{ThemeResource SystemControlDisabledBaseLowBrush}" Margin="0,8"/>
-                        <TextBlock Visibility="Collapsed" TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis" MaxWidth="200" Foreground="{ThemeResource SystemControlDisabledBaseLowBrush}" Text="PLEASE NOTE: When audio graph are enabled, you can not use built-in mediaplayer's features." Margin="0,8" Style="{ThemeResource BodyTextBlockStyle}"/>
-                        <Button Visibility="Collapsed" Foreground="{ThemeResource SystemControlDisabledBaseLowBrush}" Content="See more" Style="{ThemeResource TextBlockButtonStyle}" Margin="0,8" />
-                        <Grid Visibility="Collapsed" Margin="0,8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="auto"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="auto"/>
-                            </Grid.RowDefinitions>
-                            <Grid Grid.Column="0" Margin="18,0" 
-                                  Grid.ColumnSpan="9" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                                  Background="{ThemeResource SystemControlBackgroundBaseHighRevealBorderBrush}" Height="2"/>
-                            <Ellipse Fill="{ThemeResource SystemControlAccentAcrylicWindowAccentMediumHighBrush}" Height="36" Width="36"/>
-                            <Ellipse Tag="Threshold" PointerEntered="Ellipse_PointerEntered" PointerPressed="Ellipse_PointerPressed" PointerReleased="Ellipse_PointerReleased"
-                                     PointerCanceled="Ellipse_PointerCanceled" PointerCaptureLost="Ellipse_PointerCanceled" PointerExited="Ellipse_PointerCanceled"
-                                     Grid.Column="2" Stroke="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" StrokeThickness="1" Fill="{x:Bind GetBrush(Context.ThresholdEnabled),Mode=OneWay}" Height="36" Width="36">
-                                <Ellipse.RenderTransform>
-                                    <TranslateTransform Y="{x:Bind GetPosition(Context.ThresholdEnabled), Mode=OneWay}"/>
-                                </Ellipse.RenderTransform>
-                            </Ellipse>
-                            <Ellipse Tag="Equalizer" PointerEntered="Ellipse_PointerEntered" PointerPressed="Ellipse_PointerPressed" PointerReleased="Ellipse_PointerReleased"
-                                     PointerCanceled="Ellipse_PointerCanceled" PointerCaptureLost="Ellipse_PointerCanceled" PointerExited="Ellipse_PointerCanceled"
-                                     Grid.Column="4" Stroke="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" StrokeThickness="1" Fill="{x:Bind GetBrush(Context.EqualizerEnabled),Mode=OneWay}"  Height="36" Width="36">
-                                <Ellipse.RenderTransform>
-                                    <TranslateTransform Y="{x:Bind GetPosition(Context.EqualizerEnabled), Mode=OneWay}"/>
-                                </Ellipse.RenderTransform>
-                            </Ellipse>
-                            <Ellipse Tag="Reverb" PointerEntered="Ellipse_PointerEntered" PointerPressed="Ellipse_PointerPressed" PointerReleased="Ellipse_PointerReleased"
-                                     PointerCanceled="Ellipse_PointerCanceled" PointerCaptureLost="Ellipse_PointerCanceled" PointerExited="Ellipse_PointerCanceled"
-                                Grid.Column="6" Stroke="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" StrokeThickness="1" Fill="{x:Bind GetBrush(Context.ReverbEnabled),Mode=OneWay}"  Height="36" Width="36">
-                                <Ellipse.RenderTransform>
-                                    <TranslateTransform Y="{x:Bind GetPosition(Context.ReverbEnabled), Mode=OneWay}"/>
-                                </Ellipse.RenderTransform>
-                            </Ellipse>
-                            <Ellipse Grid.Column="8" Fill="{ThemeResource SystemControlAccentAcrylicWindowAccentMediumHighBrush}" Height="36" Width="36"/>
-                            <TextBlock Margin="0,12" Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="1" Grid.Column="0" Text="Input" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            <TextBlock Margin="0,12" Style="{ThemeResource BaseTextBlockStyle}" Foreground="{x:Bind GetForeground(Context.ThresholdEnabled),Mode=OneWay}" Grid.Row="1" Grid.Column="2" Text="Threshold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            <TextBlock Margin="0,12" Style="{ThemeResource BaseTextBlockStyle}" Foreground="{x:Bind GetForeground(Context.EqualizerEnabled),Mode=OneWay}" Grid.Row="1" Grid.Column="4" Text="Equalizer" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            <TextBlock Margin="0,12" Style="{ThemeResource BaseTextBlockStyle}" Foreground="{x:Bind GetForeground(Context.ReverbEnabled),Mode=OneWay}" Grid.Row="1" Grid.Column="6" Text="Reverb" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            <TextBlock Margin="0,12" Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="1" Grid.Column="8" Text="Output" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="9" Grid.RowSpan="2" Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush}"/>
-                        </Grid>
-                    </StackPanel>
-                    <StackPanel BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" BorderThickness="0,0,0,1" Padding="8,0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <TextBlock x:Uid="Advance" Text="Advance" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12"/>
-                        <ToggleSwitch x:Uid="DebugMode" Header="Debug Mode" IsOn="{x:Bind Context.DebugModeEnabled,Mode=TwoWay}" Margin="0,8" />
-                        <StackPanel Padding="4" Margin="0,4" BorderBrush="#ff4343" BorderThickness="1" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                            <TextBlock x:Uid="DangerZone" Foreground="#ff4343" Text="Danger Zone" Margin="0,8"/>
-                            <Button x:Uid="ClearCache" IsEnabled="{x:Bind Context.CanClearCache,Mode=OneWay}" Command="{x:Bind Context.ClearCache}" Style="{ThemeResource ButtonRevealStyle}" Margin="0,8" Content="Clear Cache"/>
-                            <Button x:Uid="DeleteAll" Margin="0,8" Style="{ThemeResource ButtonRevealStyle}" Background="#ff4343" Content="Delete all and reload" Foreground="{StaticResource SystemControlForegroundAltHighBrush}">
-                                <Button.Flyout>
-                                    <Flyout>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Button x:Uid="DeleteAllHint" Command="{x:Bind Context.DeleteAll}" Content="I know this will clear all data and continue" Style="{ThemeResource ButtonRevealStyle}" Background="#ff4343" Foreground="{StaticResource SystemControlForegroundAltHighBrush}"/>
-                                        </StackPanel>
-                                    </Flyout>
-                                </Button.Flyout>
-                            </Button>
-                        </StackPanel>
-                    </StackPanel>
-                </StackPanel>
-                <StackPanel Padding="8,0" MinWidth="240" x:Name="SidePanel" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                    <TextBlock x:Uid="OtherInformation" Text="Other Information" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12"/>
-                    <Button x:Uid="OpenSource" Content="Open Source" Command="{x:Bind Context.Github}" Style="{ThemeResource TextBlockButtonStyle}" Margin="0,8"/>
-                    <Button x:Uid="Comment" Content="Comment in Store" Command="{x:Bind Context.CommentInStore}" Style="{ThemeResource TextBlockButtonStyle}" Margin="0,8"/>
-                    <Button x:Uid="ReportBug" Content="Report a Bug" Command="{x:Bind Context.ReportABug}" Style="{ThemeResource TextBlockButtonStyle}" Margin="0,8"/>
-                    <Button x:Uid="GetExtension" Content="Get Extensions" Command="{x:Bind Context.GetExtensions}" Style="{ThemeResource TextBlockButtonStyle}" Margin="0,8"/>
-                    <Button x:Uid="AboutBtn" Content="About" Command="{x:Bind Context.About}" Style="{ThemeResource TextBlockButtonStyle}" Margin="0,8"/>
-                    <Button x:Uid="Privacy" Content="Privacy Policy" Command="{x:Bind Context.NavigateToPrivacy}" Style="{ThemeResource TextBlockButtonStyle}" Margin="0,8"/>
-                    <Button x:Uid="EaseAccessBtn" Content="Ease of Access" Command="{x:Bind Context.ShowEaseAccess}" Style="{ThemeResource TextBlockButtonStyle}" Margin="0,8"/>
-                    <Button x:Uid="WhatsNew" Content="What's New?" Command="{x:Bind Context.ShowUpdateInfo}" Style="{ThemeResource TextBlockButtonStyle}" Margin="0,8"/>
-                </StackPanel>
+                <TextBlock Grid.Row="0" Text="+12" TextAlignment="Right" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <TextBlock Grid.Row="1" Text="+6" TextAlignment="Right" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <TextBlock Grid.Row="2" Text="0" TextAlignment="Right" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <TextBlock Grid.Row="3" Text="-6" TextAlignment="Right" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <TextBlock Grid.Row="4" Text="-12" TextAlignment="Right" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <TextBlock Grid.Row="5" Text="" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Grid>
-        </ScrollViewer>
-        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="96" Background="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}"/>
-    </Grid>
-</Page>
+            <StackPanel Orientation="Vertical" Grid.Column="1">
+                <Slider Height="200" Orientation="Vertical" Minimum="-12" Maximum="12" StepFrequency="0.1" Value="0"
+                        Style="{ThemeResource RoundSlider}" ThumbToolTipValueConverter="{StaticResource EqualizerGainToolTipConverter}"
+                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="Slider0" ValueChanged="Slider_ValueChanged"/>
+                <TextBlock Text="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Grid.Column="2">
+                <Slider Height="200" Orientation="Vertical" Minimum="-12" Maximum="12" StepFrequency="0.1" Value="0"
+                        Style="{ThemeResource RoundSlider}" ThumbToolTipValueConverter="{StaticResource EqualizerGainToolTipConverter}"
+                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="Slider1" ValueChanged="Slider_ValueChanged"/>
+                <TextBlock Text="75" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Grid.Column="3">
+                <Slider Height="200" Orientation="Vertical" Minimum="-12" Maximum="12" StepFrequency="0.1" Value="0"
+                        Style="{ThemeResource RoundSlider}" ThumbToolTipValueConverter="{StaticResource EqualizerGainToolTipConverter}"
+                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="Slider2" ValueChanged="Slider_ValueChanged"/>
+                <TextBlock Text="150" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Grid.Column="4">
+                <Slider Height="200" Orientation="Vertical" Minimum="-12" Maximum="12" StepFrequency="0.1" Value="0"
+                        Style="{ThemeResource RoundSlider}" ThumbToolTipValueConverter="{StaticResource EqualizerGainToolTipConverter}"
+                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="Slider3" ValueChanged="Slider_ValueChanged"/>
+                <TextBlock Text="300" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Grid.Column="5">
+                <Slider Height="200" Orientation="Vertical" Minimum="-12" Maximum="12" StepFrequency="0.1" Value="0"
+                        Style="{ThemeResource RoundSlider}" ThumbToolTipValueConverter="{StaticResource EqualizerGainToolTipConverter}"
+                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="Slider4" ValueChanged="Slider_ValueChanged"/>
+                <TextBlock Text="600" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Grid.Column="6">
+                <Slider Height="200" Orientation="Vertical" Minimum="-12" Maximum="12" StepFrequency="0.1" Value="0"
+                        Style="{ThemeResource RoundSlider}" ThumbToolTipValueConverter="{StaticResource EqualizerGainToolTipConverter}"
+                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="Slider5" ValueChanged="Slider_ValueChanged"/>
+                <TextBlock Text="1.2K" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Grid.Column="7">
+                <Slider Height="200" Orientation="Vertical" Minimum="-12" Maximum="12" StepFrequency="0.1" Value="0"
+                        Style="{ThemeResource RoundSlider}" ThumbToolTipValueConverter="{StaticResource EqualizerGainToolTipConverter}"
+                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="Slider6" ValueChanged="Slider_ValueChanged"/>
+                <TextBlock Text="2.5K" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Grid.Column="8">
+                <Slider Height="200" Orientation="Vertical" Minimum="-12" Maximum="12" StepFrequency="0.1" Value="0"
+                        Style="{ThemeResource RoundSlider}" ThumbToolTipValueConverter="{StaticResource EqualizerGainToolTipConverter}"
+                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="Slider7" ValueChanged="Slider_ValueChanged"/>
+                <TextBlock Text="5K" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Grid.Column="9">
+                <Slider Height="200" Orientation="Vertical" Minimum="-12" Maximum="12" StepFrequency="0.1" Value="0"
+                        Style="{ThemeResource RoundSlider}" ThumbToolTipValueConverter="{StaticResource EqualizerGainToolTipConverter}"
+                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="Slider8" ValueChanged="Slider_ValueChanged"/>
+                <TextBlock Text="10K" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Grid.Column="10">
+                <Slider Height="200" Orientation="Vertical" Minimum="-12" Maximum="12" StepFrequency="0.1" Value="0"
+                        Style="{ThemeResource RoundSlider}" ThumbToolTipValueConverter="{StaticResource EqualizerGainToolTipConverter}"
+                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="Slider9" ValueChanged="Slider_ValueChanged"/>
+                <TextBlock Text="20K" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </StackPanel>
+        </Grid>
+    </StackPanel>
+</ContentDialog>

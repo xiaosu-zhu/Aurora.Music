@@ -76,7 +76,7 @@ namespace Aurora.Music.PlaybackEngine
 
         private IWaveProvider CreateReader(IRandomAccessStream[] streams)
         {
-            return new ConcatenatingSampleProvider(streams.Select(a => new MediaFoundationReaderUniversal(a)));
+            return new WaveController(streams.Select(a => new MediaFoundationReaderUniversal(a)));
         }
 
         public Task NewPlayList(IList<StorageFile> list)
@@ -139,11 +139,6 @@ namespace Aurora.Music.PlaybackEngine
             throw new NotImplementedException();
         }
 
-        public Task UpdateComingItems(List<Song> list)
-        {
-            throw new NotImplementedException();
-        }
-
         #region IDisposable Support
         private bool disposedValue = false; // 要检测冗余调用
 
@@ -176,6 +171,11 @@ namespace Aurora.Music.PlaybackEngine
             Dispose(true);
             // TODO: 如果在以上内容中替代了终结器，则取消注释以下行。
             // GC.SuppressFinalize(this);
+        }
+
+        public void ChangeEQ(float[] gain)
+        {
+            throw new NotImplementedException();
         }
         #endregion
     }
@@ -314,31 +314,31 @@ namespace Aurora.Music.PlaybackEngine
         }
     }
 
-    static class ConcatenatingHelper
+    internal static class Helper
     {
-        public static ConcatenatingSampleProvider FollowedBy(this WaveStream a, WaveStream b)
+        public static WaveController FollowedBy(this WaveStream a, WaveStream b)
         {
-            return new ConcatenatingSampleProvider(new WaveStream[] { a, b });
+            return new WaveController(new WaveStream[] { a, b });
         }
     }
 
     /// <summary>
     /// Sample Provider to concatenate multiple sample providers together
     /// </summary>
-    class ConcatenatingSampleProvider : WaveStream
+    class WaveController : WaveStream
     {
-        private readonly WaveStream[] providers;
+        private readonly List<WaveStream> providers;
         private int currentProviderIndex;
 
         /// <summary>
         /// Creates a new ConcatenatingSampleProvider
         /// </summary>
         /// <param name="providers">The source providers to play one after the other. Must all share the same sample rate and channel count</param>
-        public ConcatenatingSampleProvider(IEnumerable<WaveStream> providers)
+        public WaveController(IEnumerable<WaveStream> providers)
         {
             if (providers == null) throw new ArgumentNullException(nameof(providers));
-            this.providers = providers.ToArray();
-            if (this.providers.Length == 0) throw new ArgumentException("Must provide at least one input", nameof(providers));
+            this.providers = new List<WaveStream>(providers);
+            if (this.providers.Count == 0) throw new ArgumentException("Must provide at least one input", nameof(providers));
             if (this.providers.Any(p => p.WaveFormat.Channels != WaveFormat.Channels)) throw new ArgumentException("All inputs must have the same channel count", nameof(providers));
             if (this.providers.Any(p => p.WaveFormat.SampleRate != WaveFormat.SampleRate)) throw new ArgumentException("All inputs must have the same sample rate", nameof(providers));
         }
@@ -358,7 +358,7 @@ namespace Aurora.Music.PlaybackEngine
         public override int Read(byte[] buffer, int offset, int count)
         {
             var read = 0;
-            while (read < count && currentProviderIndex < providers.Length)
+            while (read < count && currentProviderIndex < providers.Count)
             {
                 var needed = count - read;
                 var readThisTime = providers[currentProviderIndex].Read(buffer, read, needed);

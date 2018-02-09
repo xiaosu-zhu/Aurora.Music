@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Web;
 using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Background;
 using Windows.Foundation.Collections;
@@ -75,6 +76,7 @@ namespace Aurora.Music.Services
                         var result = await ApiRequestHelper.HttpGet(substitutes.First().Value);
                         if (!result.IsNullorEmpty())
                         {
+                            result = HttpUtility.HtmlDecode(result);
                             await LyricSearcher.SaveLrcLocalAsync(title, artists, lyalbum, result);
                             returnData.Add("result", result);
                             returnData.Add("status", 1);

@@ -11,6 +11,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     xmlns:controls="using:Aurora.Music.Controls"
     xmlns:list="using:Aurora.Music.Controls.ListItems"
     xmlns:vm="using:Aurora.Music.ViewModels"
+    xmlns:canvas="using:Microsoft.Graphics.Canvas.UI.Xaml"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:star="using:StarButton"
     Unloaded="Page_Unloaded"
@@ -312,7 +313,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                         <TickBar x:Name="VerticalInlineTickBar" Grid.Column="1" Fill="{ThemeResource SliderInlineTickBarFill}" Grid.RowSpan="3" Visibility="Collapsed" Width="{ThemeResource SliderTrackThemeHeight}"/>
                                         <TickBar x:Name="RightTickBar" Grid.Column="2" Fill="{ThemeResource SliderTickBarFill}" HorizontalAlignment="Left" Margin="4,0,0,0" Grid.RowSpan="3" Visibility="Collapsed" Width="{ThemeResource SliderOutsideTickBarThemeHeight}"/>
                                         <Thumb x:Name="VerticalThumb" Foreground="{TemplateBinding Foreground}"
-                                               Margin="0,-24,0,0" AutomationProperties.AccessibilityView="Raw" RenderTransformOrigin="0.5,0.5"
+                                               Margin="0,0,0,-24" AutomationProperties.AccessibilityView="Raw" RenderTransformOrigin="0.5,0.5"
                                                Grid.ColumnSpan="3" Grid.Column="0" DataContext="{TemplateBinding Value}" 
                                                FocusVisualMargin="0" Height="24" Grid.Row="1" 
                                                Style="{StaticResource SliderThumbStyle}" Width="24">
@@ -584,7 +585,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                         <TickBar x:Name="VerticalInlineTickBar" Grid.Column="1" Fill="{ThemeResource SliderInlineTickBarFill}" Grid.RowSpan="3" Visibility="Collapsed" Width="{ThemeResource SliderTrackThemeHeight}"/>
                                         <TickBar x:Name="RightTickBar" Grid.Column="2" Fill="{ThemeResource SliderTickBarFill}" HorizontalAlignment="Left" Margin="4,0,0,0" Grid.RowSpan="3" Visibility="Collapsed" Width="{ThemeResource SliderOutsideTickBarThemeHeight}"/>
                                         <Thumb x:Name="VerticalThumb" Foreground="{TemplateBinding Foreground}"
-                                               Margin="0,-24,0,0" AutomationProperties.AccessibilityView="Raw" RenderTransformOrigin="0.5,0.5"
+                                               Margin="0,0,0,-24" AutomationProperties.AccessibilityView="Raw" RenderTransformOrigin="0.5,0.5"
                                                Grid.ColumnSpan="3" Grid.Column="0" DataContext="{TemplateBinding Value}" 
                                                FocusVisualMargin="0" Height="24" Grid.Row="1" 
                                                Style="{StaticResource ThumbStyleA}" Width="24">
@@ -1127,7 +1128,10 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <toolkit:ImageEx Margin="0,12" x:Name="Artwork" Style="{ThemeResource QuickLoadImageEx}"
+            <Grid Margin="0,12" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <canvas:CanvasAnimatedControl Loaded="Canvas_Loaded" x:Name="Drawer" Draw="Canvas_Draw" CreateResources="Canvas_CreateResources"/>
+            </Grid>
+            <toolkit:ImageEx Margin="0,12" x:Name="Artwork" Style="{ThemeResource QuickLoadImageEx}" Visibility="Collapsed"
                              PlaceholderStretch="Uniform" Stretch="Uniform" HorizontalAlignment="Left" VerticalAlignment="Bottom">
                 <toolkit:ImageEx.PlaceholderSource>
                     <BitmapImage UriSource="{x:Bind Context.PlaceHolder,Mode=OneWay, TargetNullValue=ms-appx:///Assets/Images/now_placeholder.png}"/>
@@ -1352,6 +1356,11 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
                                 <MenuFlyoutSeparator/>
+                                <MenuFlyoutItem Command="{x:Bind Context.ShowEqualizer}" Text="Equalizer">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8F9;" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
                                 <MenuFlyoutItem Command="{x:Bind Context.ShowSleepTimer}" Text="Sleep Timer">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE916;" />

@@ -5,6 +5,7 @@ using Aurora.Music.Controls;
 using Aurora.Music.Core;
 using Aurora.Music.Core.Models;
 using Aurora.Music.Core.Storage;
+using Aurora.Music.Effects;
 using Aurora.Music.Pages;
 using Aurora.Music.PlaybackEngine;
 using Aurora.Shared.Extensions;
@@ -13,6 +14,7 @@ using Aurora.Shared.MVVM;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
@@ -471,6 +473,18 @@ namespace Aurora.Music.ViewModels
             {
                 NowPlayingList.Add(item);
             }
+
+            SuperEQ.Current.FFTCompleted += Current_FFTCompleted;
+        }
+
+        public readonly float[] Spectrum = new float[512];
+
+        private void Current_FFTCompleted(object sender, IReadOnlyList<float> args)
+        {
+            for (int i = 0; i < 512; i++)
+            {
+                Spectrum[i] = args[i];
+            }
         }
 
         // Share data can't wait
@@ -736,6 +750,19 @@ namespace Aurora.Music.ViewModels
                 });
             }
         }
+
+        public DelegateCommand ShowEqualizer
+        {
+            get
+            {
+                return new DelegateCommand(async () =>
+                {
+                    EqualizerSettings s = new EqualizerSettings();
+                    await s.ShowAsync();
+                });
+            }
+        }
+
         public DelegateCommand ReturnNormal
         {
             get
@@ -761,6 +788,8 @@ namespace Aurora.Music.ViewModels
                 });
             }
         }
+
+        public bool CanDraw { get; private set; }
 
         public string DownloadOrModify(bool b) => b ? Consts.Localizer.GetString("DownloadText") : Consts.Localizer.GetString("ModifyTagsText");
         public string DownloadOrModifyIcon(bool b) => b ? "\uE896" : "\uE929";

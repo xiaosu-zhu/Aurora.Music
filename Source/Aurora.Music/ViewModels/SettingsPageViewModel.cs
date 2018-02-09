@@ -302,13 +302,13 @@ namespace Aurora.Music.ViewModels
             switch (tag)
             {
                 case "Threshold":
-                    Settings.Current.AudioGraphEffects ^= Effects.Limiter;
+                    Settings.Current.AudioGraphEffects ^= Core.Models.Effects.Limiter;
                     break;
                 case "Equalizer":
-                    Settings.Current.AudioGraphEffects ^= Effects.Equalizer;
+                    Settings.Current.AudioGraphEffects ^= Core.Models.Effects.Equalizer;
                     break;
                 case "Reverb":
-                    Settings.Current.AudioGraphEffects ^= Effects.Reverb;
+                    Settings.Current.AudioGraphEffects ^= Core.Models.Effects.Reverb;
                     break;
                 default:
                     break;
@@ -316,9 +316,9 @@ namespace Aurora.Music.ViewModels
 
             Settings.Current.Save();
 
-            EqualizerEnabled = Settings.Current.AudioGraphEffects.HasFlag(Effects.Equalizer);
-            ThresholdEnabled = Settings.Current.AudioGraphEffects.HasFlag(Effects.Limiter);
-            ReverbEnabled = Settings.Current.AudioGraphEffects.HasFlag(Effects.Reverb);
+            EqualizerEnabled = Settings.Current.AudioGraphEffects.HasFlag(Core.Models.Effects.Equalizer);
+            ThresholdEnabled = Settings.Current.AudioGraphEffects.HasFlag(Core.Models.Effects.Limiter);
+            ReverbEnabled = Settings.Current.AudioGraphEffects.HasFlag(Core.Models.Effects.Reverb);
         }
 
         internal void ChangeLyricExt(object selectedItem)
@@ -413,21 +413,21 @@ namespace Aurora.Music.ViewModels
         public ObservableCollection<ExtensionViewModel> OnlineExts { get; set; } = new ObservableCollection<ExtensionViewModel>();
         public ObservableCollection<ExtensionViewModel> MetaExts { get; set; } = new ObservableCollection<ExtensionViewModel>();
 
-        private bool equalizerEnabled = Settings.Current.AudioGraphEffects.HasFlag(Effects.Equalizer);
+        private bool equalizerEnabled = Settings.Current.AudioGraphEffects.HasFlag(Core.Models.Effects.Equalizer);
         public bool EqualizerEnabled
         {
             get { return equalizerEnabled; }
             set { SetProperty(ref equalizerEnabled, value); }
         }
 
-        private bool threshold = Settings.Current.AudioGraphEffects.HasFlag(Effects.Limiter);
+        private bool threshold = Settings.Current.AudioGraphEffects.HasFlag(Core.Models.Effects.Limiter);
         public bool ThresholdEnabled
         {
             get { return threshold; }
             set { SetProperty(ref threshold, value); }
         }
 
-        private bool reverb = Settings.Current.AudioGraphEffects.HasFlag(Effects.Reverb);
+        private bool reverb = Settings.Current.AudioGraphEffects.HasFlag(Core.Models.Effects.Reverb);
         public bool ReverbEnabled
         {
             get { return reverb; }

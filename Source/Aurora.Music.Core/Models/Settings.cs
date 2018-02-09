@@ -4,6 +4,7 @@
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
 using System;
+using System.Collections.Generic;
 using Windows.Networking.Connectivity;
 using Windows.UI.Xaml;
 
@@ -21,30 +22,23 @@ namespace Aurora.Music.Core.Models
         _128, _192, _256, _320
     }
 
-    public class Band
+    public class Presets : Dictionary<string, float[]>
     {
-        //
-        // 摘要:
-        //     获取或设置均衡器频段的增益。
-        //
-        // 返回结果:
-        //     指示增益的值。
-        public double Gain { get; set; }
-        //
-        // 摘要:
-        //     获取或设置均衡器频段的频率中心。
-        //
-        // 返回结果:
-        //     一个指示频率中心的值。
-        public double FrequencyCenter { get; set; }
-        //
-        // 摘要:
-        //     获取或设置均衡器频段的带宽。
-        //
-        // 返回结果:
-        //     一个带宽值。
-        public double Bandwidth { get; set; }
+        public static readonly Presets Instance = new Presets();
+
+        public Presets()
+        {
+            //                             30-75-125-250
+            //                                         500-1  2  4  8  16
+            this["Flat"] =  new float[10] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+            this["Pop"] =   new float[10] { 6, 4, 2, 0, 2, 3, 0, 0, 0, 0 };
+            this["Rock"] =  new float[10] { 4, 3, 2, 1, 0, -1, 0, 1, 2, 3 };
+            this["Vocal"] = new float[10] { 0, 0, 0, 0, 2, 2, 1, 0, 0, 0 };
+            this["Bass"] =  new float[10] { 4, 3, 2, 1, 0, 0, 0, 0, 0, 0 };
+            this["Air"] =   new float[10] { 0, 0, 0, 0, 0, 0, 1, 2, 3, 4 };
+        }
     }
+
 
     public class Settings
     {
@@ -109,6 +103,8 @@ namespace Aurora.Music.Core.Models
         public bool MetaDataEnabled { get; set; } = true;
         public bool DataPlayEnabled { get; set; } = true;
         public bool DataDownloadEnabled { get; set; } = true;
+
+        public float[] Gain = new float[10] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
         public bool VerifyDoubanLogin()
         {

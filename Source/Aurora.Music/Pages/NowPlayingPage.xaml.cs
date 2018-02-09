@@ -7,6 +7,7 @@ using Aurora.Music.ViewModels;
 using Aurora.Shared;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
+using Microsoft.Graphics.Canvas.UI.Xaml;
 using System;
 using Windows.Foundation;
 using Windows.UI;
@@ -28,6 +29,10 @@ namespace Aurora.Music.Pages
     public sealed partial class NowPlayingPage : Page, IRequestGoBack
     {
         internal static NowPlayingPage Current;
+        private float canvasWidth;
+        private float canvasHeight;
+
+        public bool NewSpec { get; private set; }
 
         public NowPlayingPage()
         {
@@ -209,6 +214,8 @@ namespace Aurora.Music.Pages
         internal void Unload()
         {
             Context?.Unload();
+            Drawer.SizeChanged -= Drawer_SizeChanged;
+            Drawer = null;
             Context = null;
         }
 
@@ -291,6 +298,33 @@ namespace Aurora.Music.Pages
         private async void Flyout_Opened(object sender, object e)
         {
             await NowPlayingFlyout.ScrollToIndex(NowPlayingFlyout.SelectedIndex, ScrollPosition.Center);
+        }
+
+        private void Canvas_Draw(ICanvasAnimatedControl sender, CanvasAnimatedDrawEventArgs args)
+        {
+            float width = canvasWidth;
+            width /= 512f;
+            for (int i = 0; i < 511; i++)
+            {
+                args.DrawingSession.DrawLine(i * width, Context.Spectrum[i] * canvasHeight, (i + 1) * width, Context.Spectrum[i + 1] * canvasHeight, Colors.Red);
+            }
+        }
+
+        private void Canvas_CreateResources(CanvasAnimatedControl sender, Microsoft.Graphics.Canvas.UI.CanvasCreateResourcesEventArgs args)
+        {
+        }
+
+        private void Canvas_Loaded(object sender, RoutedEventArgs e)
+        {
+            canvasWidth = (float)Drawer.ActualWidth;
+            canvasHeight = (float)Drawer.ActualHeight;
+            Drawer.SizeChanged += Drawer_SizeChanged;
+        }
+
+        private void Drawer_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            canvasWidth = (float)Drawer.ActualWidth;
+            canvasHeight = (float)Drawer.ActualHeight;
         }
     }
 }

@@ -122,6 +122,9 @@
     <Compile Include="Controls\EaseAccess.xaml.cs">
       <DependentUpon>EaseAccess.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\EqualizerSettings.xaml.cs">
+      <DependentUpon>EqualizerSettings.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ExtensionsManager.xaml.cs">
       <DependentUpon>ExtensionsManager.xaml</DependentUpon>
     </Compile>
@@ -363,6 +366,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\EqualizerSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\ExtensionsManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -531,6 +538,10 @@
     <ProjectReference Include="..\Aurora.Music.Core\Aurora.Music.Core.csproj">
       <Project>{F0DBB792-F15D-4C3E-A6FE-5B184251C802}</Project>
       <Name>Aurora.Music.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Aurora.Music.Effects\Aurora.Music.Effects.csproj">
+      <Project>{C9DE2B76-9D03-4F26-905D-5DEB3846257B}</Project>
+      <Name>Aurora.Music.Effects</Name>
     </ProjectReference>
     <ProjectReference Include="..\Aurora.Music.PlaybackEngine\Aurora.Music.PlaybackEngine.csproj">
       <Project>{C26EE98C-CE7C-4819-85BB-56311BC59708}</Project>

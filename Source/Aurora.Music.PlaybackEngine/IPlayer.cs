@@ -34,7 +34,7 @@ namespace Aurora.Music.PlaybackEngine
         void RemoveCurrentItem();
         Task DetachCurrentItem();
         Task ReAttachCurrentItem();
-        Task UpdateComingItems(List<Song> list);
+        void ChangeEQ(float[] gain);
     }
 
     public class DownloadProgressChangedArgs
