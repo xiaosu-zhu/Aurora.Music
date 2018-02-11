@@ -3,7 +3,7 @@ Copyright (c) Aurora Studio. All rights reserved.
 
 Licensed under the MIT License. See LICENSE in the project root for license information.
 -->
-<ContentDialog
+<ContentDialog x:Uid="SleepTimerDialog"
     x:Class="Aurora.Music.Controls.SleepTimer"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -18,12 +18,12 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick">
 
     <StackPanel Padding="12,0" Orientation="Vertical">
-        <TimePicker x:Name="Time" Margin="0,8" MinuteIncrement="10" Header="When time arrives"/>
+        <TimePicker x:Uid="SleepTimerTimePicker" x:Name="Time" Margin="0,8" MinuteIncrement="10" Header="When time arrives"/>
         <StackPanel Margin="0,8" Orientation="Vertical">
-            <TextBlock Text="Performs:" Style="{ThemeResource BodyTextBlockStyle}"/>
-            <RadioButton IsThreeState="False" IsChecked="True" x:Name="PlayPause" Content="Toggle play/pause"/>
-            <RadioButton IsThreeState="False" x:Name="Stop" Content="Stop"/>
-            <RadioButton IsThreeState="False" x:Name="Shutdown" Content="Shutdown app"/>
+            <TextBlock x:Uid="SleepTimerPerform" Text="Performs:" Style="{ThemeResource BodyTextBlockStyle}"/>
+            <RadioButton x:Uid="SleepTimerPlayPause" IsThreeState="False" IsChecked="True" x:Name="PlayPause" Content="Toggle play/pause"/>
+            <RadioButton x:Uid="SleepTimerStop" IsThreeState="False" x:Name="Stop" Content="Stop"/>
+            <RadioButton x:Uid="SleepTimerShutdown" IsThreeState="False" x:Name="Shutdown" Content="Shutdown app"/>
         </StackPanel>
     </StackPanel>
 </ContentDialog>

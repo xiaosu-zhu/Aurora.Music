@@ -1200,7 +1200,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         </ToggleButton>
                     </StackPanel>
                     <ProgressBar Background="{x:Null}" Foreground="{ThemeResource SystemControlAltTranslucentAcrylicWindowBrush}" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="5" 
-                                 Value="{x:Bind Context.BufferProgress, Mode=OneWay}" MinHeight="2" Height="2" RenderTransformOrigin="0.5,1">
+                                 Visibility="Collapsed" Value="{x:Bind Context.BufferProgress, Mode=OneWay}" MinHeight="2" Height="2" RenderTransformOrigin="0.5,1">
                         <ProgressBar.RenderTransform>
                             <ScaleTransform x:Name="ProgressBG" ScaleX="1" ScaleY="1"/>
                         </ProgressBar.RenderTransform>

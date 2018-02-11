@@ -39,6 +39,26 @@ namespace Aurora.Music.Controls
             Slider8.Value = Settings.Current.Gain[8];
             Slider9.Value = Settings.Current.Gain[9];
             Presets.SelectionChanged += Presets_SelectionChanged;
+
+            if (Settings.Current.AudioGraphEffects.HasFlag(Aurora.Music.Core.Models.Effects.Equalizer))
+            {
+
+            }
+            else
+            {
+                Slider0.IsEnabled = false;
+                Slider1.IsEnabled = false;
+                Slider2.IsEnabled = false;
+                Slider3.IsEnabled = false;
+                Slider4.IsEnabled = false;
+                Slider5.IsEnabled = false;
+                Slider6.IsEnabled = false;
+                Slider7.IsEnabled = false;
+                Slider8.IsEnabled = false;
+                Slider9.IsEnabled = false;
+                Presets.IsEnabled = false;
+                Reset.IsEnabled = false;
+            }
         }
 
         private void Slider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)

@@ -35,6 +35,7 @@ namespace Aurora.Music.PlaybackEngine
         Task DetachCurrentItem();
         Task ReAttachCurrentItem();
         void ChangeEQ(float[] gain);
+        void ToggleEffect(Core.Models.Effects audioGraphEffects);
     }
 
     public class DownloadProgressChangedArgs

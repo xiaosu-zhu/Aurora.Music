@@ -1,20 +1,20 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
+using AudioVisualizer;
 using Aurora.Music.Controls;
 using Aurora.Music.Core;
 using Aurora.Music.Core.Models;
 using Aurora.Music.Core.Storage;
-using Aurora.Music.Effects;
 using Aurora.Music.Pages;
 using Aurora.Music.PlaybackEngine;
+using Aurora.Shared;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
 using Aurora.Shared.MVVM;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
@@ -67,11 +67,33 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref downloadProgress, value); }
         }
 
-        private SolidColorBrush currentColorBrush;
+        public Color[] CurrentColor = new Color[Consts.SpectrumBarCount];
+
+        private SolidColorBrush currentColorBrush = new SolidColorBrush();
         public SolidColorBrush CurrentColorBrush
         {
             get { return currentColorBrush; }
-            set { SetProperty(ref currentColorBrush, value); }
+            set
+            {
+                SetProperty(ref currentColorBrush, value);
+                var c = currentColorBrush.Color;
+                c.ColorToHSV(out var h, out var s, out var v);
+                if (NowPlayingPage.Current.IsDarkTheme())
+                {
+                    v = 1;
+                }
+                else
+                {
+                    v = 0.5;
+                }
+                h -= 4;
+                for (uint i = 0; i < Consts.SpectrumBarCount; i++)
+                {
+                    h += 4;
+                    if (h > 360) h = 0;
+                    CurrentColor[i] = ImagingHelper.ColorFromHSV(h, s, v);
+                }
+            }
         }
 
         private double olume = Settings.Current.PlayerVolume;
@@ -186,6 +208,25 @@ namespace Aurora.Music.ViewModels
 
         }
 
+        private bool sVisualizing = false;
+        public bool IsVisualizing
+        {
+            get { return sVisualizing; }
+            set
+            {
+                SetProperty(ref sVisualizing, value);
+                MainPageViewModel.Current.IsVisualizing = value;
+            }
+        }
+
+        public DelegateCommand ToggleVisualizing
+        {
+            get => new DelegateCommand(() =>
+            {
+                IsVisualizing = !IsVisualizing;
+            });
+        }
+
         private void Connection_StateChanged(CastingConnection sender, object args)
         {
         }
@@ -213,7 +254,7 @@ namespace Aurora.Music.ViewModels
             }
             else
             {
-                return AdjustBrightness(b, 0.5);
+                return AdjustBrightness(b, 0.3333);
             }
         }
 
@@ -246,8 +287,7 @@ namespace Aurora.Music.ViewModels
                 return new SolidColorBrush();
             }
             b.Color.ColorToHSV(out var h, out var s, out var v);
-            v *= d;
-            b.Color = ImagingHelper.ColorFromHSV(h, s, v);
+            v = d;
             return new SolidColorBrush(ImagingHelper.ColorFromHSV(h, s, v));
         }
 
@@ -473,21 +513,8 @@ namespace Aurora.Music.ViewModels
             {
                 NowPlayingList.Add(item);
             }
-
-            SuperEQ.Current.FFTCompleted += Current_FFTCompleted;
         }
 
-        public readonly float[] Spectrum = new float[512];
-
-        private void Current_FFTCompleted(object sender, IReadOnlyList<float> args)
-        {
-            for (int i = 0; i < 512; i++)
-            {
-                Spectrum[i] = args[i];
-            }
-        }
-
-        // Share data can't wait
         private async void DataTransferManager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
         {
             var d = args.Request.GetDeferral();
@@ -790,6 +817,26 @@ namespace Aurora.Music.ViewModels
         }
 
         public bool CanDraw { get; private set; }
+        private CustomVisualizer isualizer;
+        public CustomVisualizer Visualizer
+        {
+            get => isualizer;
+            set
+            {
+                isualizer = value;
+                MainPageViewModel.Current.VisualizerSource.SourceChanged += VisualizerSource_SourceChanged;
+                if (MainPageViewModel.Current.VisualizerSource.Source != null)
+                {
+                    isualizer.Source = MainPageViewModel.Current.VisualizerSource.Source;
+                }
+            }
+        }
+
+        private void VisualizerSource_SourceChanged(object sender, IVisualizationSource args)
+        {
+            if (isualizer != null)
+                isualizer.Source = MainPageViewModel.Current.VisualizerSource.Source;
+        }
 
         public string DownloadOrModify(bool b) => b ? Consts.Localizer.GetString("DownloadText") : Consts.Localizer.GetString("ModifyTagsText");
         public string DownloadOrModifyIcon(bool b) => b ? "\uE896" : "\uE929";

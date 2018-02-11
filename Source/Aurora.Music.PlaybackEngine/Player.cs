@@ -89,22 +89,23 @@ namespace Aurora.Music.PlaybackEngine
             var mgr = mediaPlayer.CommandManager;
             mgr.IsEnabled = true;
             positionUpdateTimer = ThreadPoolTimer.CreatePeriodicTimer(UpdatTimerHandler, TimeSpan.FromMilliseconds(250), UpdateTimerDestoyed);
-            mediaPlayer.AddAudioEffect(typeof(SuperEQ).FullName, false, new PropertySet()
-            {
-                ["EqualizerBand"] = new EqualizerBand[]
+            if (Settings.Current.AudioGraphEffects.HasFlag(Core.Models.Effects.Equalizer))
+                mediaPlayer.AddAudioEffect(typeof(SuperEQ).FullName, false, new PropertySet()
                 {
-                    new EqualizerBand {Bandwidth = 0.8f, Frequency = 30, Gain = Settings.Current.Gain[0]},
-                    new EqualizerBand {Bandwidth = 0.8f, Frequency = 75, Gain = Settings.Current.Gain[1]},
-                    new EqualizerBand {Bandwidth = 0.8f, Frequency = 150, Gain = Settings.Current.Gain[2]},
-                    new EqualizerBand {Bandwidth = 0.8f, Frequency = 30, Gain = Settings.Current.Gain[3]},
-                    new EqualizerBand {Bandwidth = 0.8f, Frequency = 600, Gain = Settings.Current.Gain[4]},
-                    new EqualizerBand {Bandwidth = 0.8f, Frequency = 1250, Gain = Settings.Current.Gain[5]},
-                    new EqualizerBand {Bandwidth = 0.8f, Frequency = 2500, Gain = Settings.Current.Gain[6]},
-                    new EqualizerBand {Bandwidth = 0.8f, Frequency = 5000, Gain = Settings.Current.Gain[7]},
-                    new EqualizerBand {Bandwidth = 0.8f, Frequency = 10000, Gain = Settings.Current.Gain[8]},
-                    new EqualizerBand {Bandwidth = 0.8f, Frequency = 20000, Gain = Settings.Current.Gain[9]},
-                }
-            });
+                    ["EqualizerBand"] = new EqualizerBand[]
+                    {
+                        new EqualizerBand {Bandwidth = 0.8f, Frequency = 30, Gain = Settings.Current.Gain[0]},
+                        new EqualizerBand {Bandwidth = 0.8f, Frequency = 75, Gain = Settings.Current.Gain[1]},
+                        new EqualizerBand {Bandwidth = 0.8f, Frequency = 150, Gain = Settings.Current.Gain[2]},
+                        new EqualizerBand {Bandwidth = 0.8f, Frequency = 30, Gain = Settings.Current.Gain[3]},
+                        new EqualizerBand {Bandwidth = 0.8f, Frequency = 600, Gain = Settings.Current.Gain[4]},
+                        new EqualizerBand {Bandwidth = 0.8f, Frequency = 1250, Gain = Settings.Current.Gain[5]},
+                        new EqualizerBand {Bandwidth = 0.8f, Frequency = 2500, Gain = Settings.Current.Gain[6]},
+                        new EqualizerBand {Bandwidth = 0.8f, Frequency = 5000, Gain = Settings.Current.Gain[7]},
+                        new EqualizerBand {Bandwidth = 0.8f, Frequency = 10000, Gain = Settings.Current.Gain[8]},
+                        new EqualizerBand {Bandwidth = 0.8f, Frequency = 20000, Gain = Settings.Current.Gain[9]},
+                    }
+                });
         }
 
         private void UpdateTimerDestoyed(ThreadPoolTimer timer)
@@ -950,6 +951,36 @@ namespace Aurora.Music.PlaybackEngine
         public void ChangeEQ(float[] gain)
         {
             SuperEQ.Current.UpdateEqualizerBand(gain);
+        }
+
+        public async void ToggleEffect(Core.Models.Effects audioGraphEffects)
+        {
+            mediaPlayer.RemoveAllEffects();
+            if (audioGraphEffects.HasFlag(Core.Models.Effects.Equalizer))
+            {
+                mediaPlayer.AddAudioEffect(typeof(SuperEQ).FullName, false, new PropertySet()
+                {
+                    ["EqualizerBand"] = new EqualizerBand[]
+                    {
+                        new EqualizerBand {Bandwidth = 0.8f, Frequency = 30, Gain = Settings.Current.Gain[0]},
+                        new EqualizerBand {Bandwidth = 0.8f, Frequency = 75, Gain = Settings.Current.Gain[1]},
+                        new EqualizerBand {Bandwidth = 0.8f, Frequency = 150, Gain = Settings.Current.Gain[2]},
+                        new EqualizerBand {Bandwidth = 0.8f, Frequency = 30, Gain = Settings.Current.Gain[3]},
+                        new EqualizerBand {Bandwidth = 0.8f, Frequency = 600, Gain = Settings.Current.Gain[4]},
+                        new EqualizerBand {Bandwidth = 0.8f, Frequency = 1250, Gain = Settings.Current.Gain[5]},
+                        new EqualizerBand {Bandwidth = 0.8f, Frequency = 2500, Gain = Settings.Current.Gain[6]},
+                        new EqualizerBand {Bandwidth = 0.8f, Frequency = 5000, Gain = Settings.Current.Gain[7]},
+                        new EqualizerBand {Bandwidth = 0.8f, Frequency = 10000, Gain = Settings.Current.Gain[8]},
+                        new EqualizerBand {Bandwidth = 0.8f, Frequency = 20000, Gain = Settings.Current.Gain[9]},
+                    }
+                });
+            }
+            if (mediaPlaybackList.CurrentItem == null)
+            {
+                return;
+            }
+            await DetachCurrentItem();
+            await ReAttachCurrentItem();
         }
     }
 }

@@ -34,27 +34,6 @@ namespace Aurora.Music.Pages
             MetaCombo.SelectionChanged -= MetaCombo_SelectionChanged;
         }
 
-        private void Ellipse_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
-
-        }
-
-        private void Ellipse_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
-
-        }
-
-        private void Ellipse_PointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
-            var el = sender as Ellipse;
-            Context.ToggleEffectState((string)el.Tag);
-        }
-
-        private void Ellipse_PointerCanceled(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
-
-        }
-
         double GetPosition(bool b)
         {
             return b ? 0d : -48d;
@@ -101,6 +80,17 @@ namespace Aurora.Music.Pages
             OnlineCombo.SelectionChanged += OnlineCombo_SelectionChanged;
             LrcCombo.SelectionChanged += LyricCombo_SelectionChanged;
             MetaCombo.SelectionChanged += MetaCombo_SelectionChanged;
+        }
+
+        private void ToggleSwitch_Toggled(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            var el = sender as ToggleSwitch;
+            Context.ToggleEffectState((string)el.Tag);
+        }
+
+        private void ToggleSwitch_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            (sender as ToggleSwitch).Toggled += ToggleSwitch_Toggled;
         }
     }
 }

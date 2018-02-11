@@ -11,6 +11,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
+    x:Uid="EqualizerSettings"
     Title="Equalizer Settings"
     CloseButtonText="Close">
 
@@ -154,6 +155,12 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                                     <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonRevealBackgroundDisabled}"/>
                                                 </ObjectAnimationUsingKeyFrames>
                                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetName="VerticalThumb" Storyboard.TargetProperty="Background">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonRevealBackgroundDisabled}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HorizontalThumb" Storyboard.TargetProperty="Foreground">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonRevealBackgroundDisabled}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="VerticalThumb" Storyboard.TargetProperty="Foreground">
                                                     <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonRevealBackgroundDisabled}"/>
                                                 </ObjectAnimationUsingKeyFrames>
                                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TopTickBar" Storyboard.TargetProperty="Fill">
@@ -317,8 +324,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 
     <StackPanel Orientation="Vertical">
         <StackPanel Margin="0,8" Orientation="Horizontal">
-            <ComboBox x:Name="Presets" SelectedIndex="0"
-                      BorderThickness="0" BorderBrush="{x:Null}" Style="{ThemeResource HorizontalComboBox}" Header="Presets">
+            <ComboBox x:Name="Presets" SelectedIndex="0" x:Uid="Presets"
+                      BorderThickness="0" BorderBrush="{x:Null}" Style="{ThemeResource HorizontalComboBox}" Header="Presets:">
                 <ComboBoxItem Content="Flat"/>
                 <ComboBoxItem Content="Custom"/>
                 <ComboBoxItem Content="Pop"/>
@@ -327,7 +334,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <ComboBoxItem Content="Bass"/>
                 <ComboBoxItem Content="Air"/>
             </ComboBox>
-            <Button Margin="12,0" Click="Button_Click" Style="{ThemeResource TextBlockButtonStyle}" Content="Reset"/>
+            <Button x:Name="Reset" x:Uid="Reset" Margin="12,0" Click="Button_Click" Style="{ThemeResource TextBlockButtonStyle}" Content="Reset"/>
         </StackPanel>
         <Grid Margin="0,8">
             <Grid.ColumnDefinitions>

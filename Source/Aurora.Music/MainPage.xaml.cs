@@ -240,6 +240,8 @@ namespace Aurora.Music
         public bool CanAdd { get; private set; }
         public bool IsCurrentDouban => MainFrame.Content is DoubanPage;
 
+        public bool CanShowPanel => !(OverlayFrame.Visibility == Visibility.Visible || MainFrame.Content is DoubanPage);
+
         string PositionToString(TimeSpan t1, TimeSpan total)
         {
             if (total == null || total == default(TimeSpan))

@@ -11,6 +11,7 @@ namespace Aurora.Music.Core
     public enum SleepAction { Pause, Stop, Shutdown }
     public static class Consts
     {
+        public const uint SpectrumBarCount = 16;
 
         public static StorageFolder ArtworkFolder = AsyncHelper.RunSync(async () =>
         {
@@ -50,7 +51,13 @@ namespace Aurora.Music.Core
 
         public static string CommaSeparator => localizer.GetString("CommaSeparator");
 
-        public static string UpdateNote => localizer.GetString("UpdateNote");
+        public static string UpdateNote =>
+                            $"* **Removed**: *Audio Graph* setion in Settings page.\r\n" +
+                            "* **New**: Added *Audio Effects* setion in Settings page.\r\n" +
+                            "* **New**: Added *Equalizer* and several presets, you can enable/disable in *Settings - Audio Effects*.\r\n" +
+                            "* **New**: Added a dialog to adjust *Equalizer*, find it in *Now Playing - \"More\" Menu - Equalizer*.\r\n" +
+                            "* **New**: Added simple audio visualization, find it in *Now Playing - \"Audio Visualization\" Button*.\r\n" +
+                            "* **Tranlation**: Synced translation.";
 
         public static string UpdateNoteTitle => localizer.GetString("UpdateNoteTitle");
 

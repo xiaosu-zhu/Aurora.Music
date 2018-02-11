@@ -20,17 +20,9 @@ namespace Aurora.Music.Effects
             }
         }
 
-        public event TypedEventHandler<object, IReadOnlyList<float>> FFTCompleted;
-
         public SuperEQ()
         {
             current = this;
-            fftData.Initialize();
-
-            for (int i = 0; i < 1024; i++)
-            {
-                hannWindow[i] = (float)FastFourierTransform.HannWindow(i, 1024);
-            }
         }
 
         public void UpdateEqualizerBand(IReadOnlyList<float> equalizerBand)
@@ -52,11 +44,6 @@ namespace Aurora.Music.Effects
         private int channels;
         private int bandCount;
         private IPropertySet configuration;
-
-        private readonly Complex[] fftData = new Complex[1024];
-        private int currentfftData = 0;
-        private readonly float[] hannWindow = new float[1024];
-        private readonly float[] fftMagnitude = new float[512];
 
         public void SetEncodingProperties(AudioEncodingProperties encodingProperties)
         {
@@ -132,34 +119,6 @@ namespace Aurora.Music.Effects
                     {
                         int ch = n % channels;
 
-                        if (ch == 0)
-                        {
-                            // stereo to mono
-                            float a = inputDataInFloat[n];
-                            for (int j = 1; j < channels; j++)
-                            {
-                                a += inputDataInFloat[n + j];
-                            }
-                            a /= channels;
-
-                            // apply a HannWindow
-                            fftData[currentfftData].X = a * hannWindow[currentfftData];
-                            fftData[currentfftData].Y = 0;
-
-                            currentfftData++;
-                            // when it hit 1024, perform a fft
-                            if (currentfftData == 1024)
-                            {
-                                currentfftData = 0;
-                                FastFourierTransform.FFT(true, 10, fftData);
-                                for (int i = 0; i < 512; i++)
-                                {
-                                    fftMagnitude[i] = MathF.Sqrt(fftData[i].X * fftData[i].X + fftData[i].Y * fftData[i].Y);
-                                }
-                                FFTCompleted?.Invoke(this, fftMagnitude);
-                            }
-                        }
-
                         // cascaded filter to perform eq
                         for (int band = 0; band < bandCount; band++)
                         {
@@ -181,14 +140,20 @@ namespace Aurora.Music.Effects
                 case MediaEffectClosedReason.UnsupportedEncodingFormat:
                     break;
                 case MediaEffectClosedReason.EffectCurrentlyUnloaded:
+                    if (filters != null)
+                        for (int i = 0; i < filters.Rank; i++)
+                        {
+                            for (int j = 0; j < filters.GetLength(i); j++)
+                            {
+                                filters[i, j] = null;
+                            }
+                        }
+                    channels = 0;
+                    bandCount = 0;
+                    filters = null;
                     break;
                 default:
                     break;
-            }
-
-            for (int i = 0; i < 1024; i++)
-            {
-                fftData[i] = new Complex();
             }
         }
 

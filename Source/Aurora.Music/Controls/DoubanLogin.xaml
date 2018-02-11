@@ -12,6 +12,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
     mc:Ignorable="d"
+    x:Uid="DoubanLogin"
     PrimaryButtonText="Login"
     IsPrimaryButtonEnabled="False"
     CloseButtonText="Cancel"
@@ -33,8 +34,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <Run Foreground="#ffad68" Text="n"/>
             </TextBlock>
         </StackPanel>
-        <TextBox IsSpellCheckEnabled="False" TextChanged="Account_TextChanged" x:Name="Account" Header="Account" Margin="0,8" BorderThickness="0,0,0,1" Background="{ThemeResource SystemControlTransparentRevealBorderBrush}" BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" VerticalContentAlignment="Center" PlaceholderText="E-mail/Phone" InputScope="EmailNameOrAddress"/>
-        <PasswordBox x:Name="Password" Header="Password" BorderThickness="0,0,0,1" Margin="0,8" Background="{ThemeResource SystemControlTransparentRevealBorderBrush}" BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" VerticalAlignment="Center" PasswordChanged="Password_PasswordChanged" PlaceholderText="8 or More Characters" InputScope="Password"/>
+        <TextBox x:Uid="AccountBox" IsSpellCheckEnabled="False" TextChanged="Account_TextChanged" x:Name="Account" Header="Account" Margin="0,8" BorderThickness="0,0,0,1" Background="{ThemeResource SystemControlTransparentRevealBorderBrush}" BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" VerticalContentAlignment="Center" PlaceholderText="E-mail/Phone" InputScope="EmailNameOrAddress"/>
+        <PasswordBox x:Uid="PasswordBox" x:Name="Password" Header="Password" BorderThickness="0,0,0,1" Margin="0,8" Background="{ThemeResource SystemControlTransparentRevealBorderBrush}" BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" VerticalAlignment="Center" PasswordChanged="Password_PasswordChanged" PlaceholderText="8 or More Characters" InputScope="Password"/>
         <TextBlock x:Name="FailText" Text="Error" Visibility="Collapsed" Style="{ThemeResource BaseTextBlockStyle}" Foreground="#ff4300" Margin="8"/>
     </StackPanel>
 </ContentDialog>

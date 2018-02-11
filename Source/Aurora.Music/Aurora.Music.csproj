@@ -21,7 +21,7 @@
     <PackageCertificateThumbprint>D409768E6DEB20117C5C34DD2AFD4A7D7C98B3D1</PackageCertificateThumbprint>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
-    <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
+    <AppxBundlePlatforms>x86|x64</AppxBundlePlatforms>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -521,6 +521,9 @@
     </PackageReference>
     <PackageReference Include="SmartFormat.NET">
       <Version>2.1.0.2</Version>
+    </PackageReference>
+    <PackageReference Include="UWPAudioVisualizer">
+      <Version>0.1.96</Version>
     </PackageReference>
     <PackageReference Include="Win2D.uwp">
       <Version>1.21.0</Version>

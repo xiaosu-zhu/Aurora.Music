@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
+using AudioVisualizer;
 using Aurora.Music.Controls;
 using Aurora.Music.Core;
 using Aurora.Music.Core.Models;
@@ -89,7 +90,15 @@ namespace Aurora.Music.ViewModels
         public bool NeedShowPanel
         {
             get { return needShowPanel; }
-            set { SetProperty(ref needShowPanel, value); }
+            set
+            {
+                if (MainPage.Current.CanShowPanel)
+                    SetProperty(ref needShowPanel, value);
+                else
+                {
+                    SetProperty(ref needShowPanel, false);
+                }
+            }
         }
 
         private Uri currentArtwork;
@@ -379,6 +388,15 @@ namespace Aurora.Music.ViewModels
         public MainPageViewModel()
         {
             player = PlaybackEngine.PlaybackEngine.Current;
+            if (player is Player p)
+            {
+                visualizerSource = new PlaybackSource(p.MediaPlayer);
+                visualizerSource.SourceChanged += VisualizerSource_SourceChanged;
+                if (visualizerSource.Source != null)
+                {
+                    visualizerSource.Source.IsSuspended = true;
+                }
+            }
             Current = this;
             player.DownloadProgressChanged += Player_DownloadProgressChanged;
             player.ItemsChanged += Player_StatusChanged;
@@ -422,9 +440,15 @@ namespace Aurora.Music.ViewModels
                 }
             });
         }
+        private void VisualizerSource_SourceChanged(object sender, IVisualizationSource args)
+        {
+            args.IsSuspended = !IsVisualizing;
+        }
 
         private double downloadProgress;
         private string _lastQuery;
+        private PlaybackSource visualizerSource;
+        public PlaybackSource VisualizerSource => visualizerSource;
 
         public double BufferProgress
         {
@@ -441,6 +465,15 @@ namespace Aurora.Music.ViewModels
         }
 
         public ObservableCollection<GenericMusicItemViewModel> SearchItems { get; set; } = new ObservableCollection<GenericMusicItemViewModel>();
+        private bool sVisualizing;
+        public bool IsVisualizing
+        {
+            get => sVisualizing; set
+            {
+                sVisualizing = value;
+                if (visualizerSource.Source != null) visualizerSource.Source.IsSuspended = !value;
+            }
+        }
 
         internal async Task Search(string text)
         {

@@ -728,7 +728,7 @@
   <data name="NotPlayingText" xml:space="preserve">
     <value>Not Playing</value>
     <comment>Not Playing</comment>
-  </data> 
+  </data>
   <data name="NotPlaying.Text" xml:space="preserve">
     <value>Not Playing</value>
     <comment>Not Playing</comment>
@@ -861,10 +861,6 @@
     <value>Update Note for Build {0}</value>
     <comment>Update Note for Build {0}</comment>
   </data>
-  <data name="UpdateNote" xml:space="preserve">
-    <value>* Synced translation</value>
-    <comment>Update Note</comment>
-  </data>
   <data name="AddToCollectionTitle" xml:space="preserve">
     <value>Add {0} into Collection</value>
     <comment>Add {0} into Collection</comment>
@@ -929,7 +925,7 @@
   <data name="SmartDuration" xml:space="preserve">
     <value>{0} {0:min|mins}, {1} {1:sec|secs}</value>
     <comment>{0} {0:min|mins}, {1} {1:sec|secs}</comment>
-  </data>  
+  </data>
   <data name="SmartDurationLong" xml:space="preserve">
     <value>{0} {0:hour|hours}, {1} {1:min|mins}</value>
     <comment>{0} {0:hour|hours}, {1} {1:min|mins}</comment>
@@ -945,5 +941,121 @@
   <data name="AlbumStory.Text" xml:space="preserve">
     <value>See Album Story</value>
     <comment>See Album Story</comment>
+  </data>
+  <data name="Equalizer.Text" xml:space="preserve">
+    <value>Equalizer</value>
+    <comment>Equalizer</comment>
+  </data>
+  <data name="Timer.Text" xml:space="preserve">
+    <value>Sleep Timer</value>
+    <comment>Sleep Timer</comment>
+  </data>
+  <data name="NotLogin" xml:space="preserve">
+    <value>Not Login</value>
+    <comment>NotLogin</comment>
+  </data>
+  <data name="UnknownError" xml:space="preserve">
+    <value>Unknown Error</value>
+    <comment>UnknownError</comment>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Password</value>
+    <comment>Password</comment>
+  </data>
+  <data name="Invalid" xml:space="preserve">
+    <value>Invalid</value>
+    <comment>Invalid</comment>
+  </data>
+  <data name="Account" xml:space="preserve">
+    <value>Account</value>
+    <comment>Account</comment>
+  </data>
+  <data name="PasswordBox.Header" xml:space="preserve">
+    <value>Password</value>
+    <comment>Password</comment>
+  </data>
+  <data name="PasswordBox.PlaceholderText" xml:space="preserve">
+    <value>8 or More Characters</value>
+    <comment>8 or More Characters</comment>
+  </data>
+  <data name="AccountBox.Header" xml:space="preserve">
+    <value>Account</value>
+    <comment>Account</comment>
+  </data>
+  <data name="AccountBox.PlaceholderText" xml:space="preserve">
+    <value>E-mail/Phone</value>
+    <comment>E-mail/Phone</comment>
+  </data>
+  <data name="DoubanLogin.PrimaryButtonText" xml:space="preserve">
+    <value>Login</value>
+    <comment>Login</comment>
+  </data>
+  <data name="DoubanLogin.CloseButtonText" xml:space="preserve">
+    <value>Close</value>
+    <comment>Close</comment>
+  </data>
+  <data name="EqualizerSettings.Title" xml:space="preserve">
+    <value>Equalizer Settings</value>
+    <comment>Equalizer Settings</comment>
+  </data>
+  <data name="EqualizerSettings.CloseButtonText" xml:space="preserve">
+    <value>Close</value>
+    <comment>Close</comment>
+  </data>
+  <data name="Presets.Header" xml:space="preserve">
+    <value>Presets:</value>
+    <comment>Presets:</comment>
+  </data>
+  <data name="Reset.Content" xml:space="preserve">
+    <value>Reset</value>
+    <comment>Reset</comment>
+  </data>
+  <data name="SleepTimerDialog.Title" xml:space="preserve">
+    <value>Sleep Timer</value>
+    <comment>Sleep Timer</comment>
+  </data>
+  <data name="SleepTimerDialog.CloseButtonText" xml:space="preserve">
+    <value>Cancel</value>
+    <comment>Cancel</comment>
+  </data>
+  <data name="SleepTimerDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Confirm</value>
+    <comment>Confirm</comment>
+  </data>
+  <data name="SleepTimerTimePicker.Header" xml:space="preserve">
+    <value>When time arrives</value>
+    <comment>When time arrives</comment>
+  </data>
+  <data name="SleepTimerPerform.Text" xml:space="preserve">
+    <value>Performs:</value>
+    <comment>Performs:</comment>
+  </data>
+  <data name="SleepTimerPlayPause.Content" xml:space="preserve">
+    <value>Toggle play/pause</value>
+    <comment>Toggle play/pause</comment>
+  </data>
+  <data name="SleepTimerStop.Content" xml:space="preserve">
+    <value>Stop</value>
+    <comment>Stop</comment>
+  </data>
+  <data name="SleepTimerShutdown.Content" xml:space="preserve">
+    <value>Shutdown app</value>
+    <comment>Shutdown app</comment>
+  </data>
+  <data name="AudioEffects.Text" xml:space="preserve">
+    <value>Audio Effects</value>
+    <comment>Audio Effects</comment>
+  </data>
+  <data name="EqualizerToggle.Header" xml:space="preserve">
+    <value>Equalizer</value>
+    <comment>Equalizer</comment>
+  </data>
+  <data name="VolumeButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Volume</value>
+    <comment>Volume</comment>
+  </data>
+  <data name="VisualizationButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Audio Visualization</value>
+    <comment>Audio Visualization</comment>
   </data>
 </root>

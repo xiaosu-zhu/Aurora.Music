@@ -11,7 +11,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     xmlns:controls="using:Aurora.Music.Controls"
     xmlns:list="using:Aurora.Music.Controls.ListItems"
     xmlns:vm="using:Aurora.Music.ViewModels"
-    xmlns:canvas="using:Microsoft.Graphics.Canvas.UI.Xaml"
+    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
+    xmlns:audio="using:AudioVisualizer"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:star="using:StarButton"
     Unloaded="Page_Unloaded"
@@ -1123,16 +1124,30 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-        <Grid x:Name="SongPanel" Margin="12,0" HorizontalAlignment="Left" VerticalAlignment="Stretch">
+        <Grid x:Name="SongPanel" Margin="12,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <Grid Margin="0,12" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <canvas:CanvasAnimatedControl Loaded="Canvas_Loaded" x:Name="Drawer" Draw="Canvas_Draw" CreateResources="Canvas_CreateResources"/>
-            </Grid>
-            <toolkit:ImageEx Margin="0,12" x:Name="Artwork" Style="{ThemeResource QuickLoadImageEx}" Visibility="Collapsed"
+            <audio:CustomVisualizer HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                                    Loaded="CustomVisualizer_Loaded" Visibility="{x:Bind Context.IsVisualizing,Mode=OneWay}"
+                                    CreateResources="CustomVisualizer_CreateResources"
+                                    x:Name="Visualizer" Draw="CustomVisualizer_Draw">
+                <animations:Implicit.ShowAnimations>
+                    <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.64"/>
+                </animations:Implicit.ShowAnimations>
+                <animations:Implicit.HideAnimations>
+                    <animations:OpacityAnimation From="1" To="0" Duration="0:0:0.64"/>
+                </animations:Implicit.HideAnimations>
+            </audio:CustomVisualizer>
+            <toolkit:ImageEx Margin="0,12" x:Name="Artwork" Style="{ThemeResource QuickLoadImageEx}" Visibility="{x:Bind Context.BoolNottoVisibility(Context.IsVisualizing),Mode=OneWay}"
                              PlaceholderStretch="Uniform" Stretch="Uniform" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+                <animations:Implicit.ShowAnimations>
+                    <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.64"/>
+                </animations:Implicit.ShowAnimations>
+                <animations:Implicit.HideAnimations>
+                    <animations:OpacityAnimation From="1" To="0" Duration="0:0:0.64"/>
+                </animations:Implicit.HideAnimations>
                 <toolkit:ImageEx.PlaceholderSource>
                     <BitmapImage UriSource="{x:Bind Context.PlaceHolder,Mode=OneWay, TargetNullValue=ms-appx:///Assets/Images/now_placeholder.png}"/>
                 </toolkit:ImageEx.PlaceholderSource>
@@ -1265,9 +1280,14 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <KeyboardAccelerator Key="F4" />
                     </Button.KeyboardAccelerators>
                 </Button>
-
+                <Button Style="{ThemeResource RevealRoundButton}" Width="48" Height="48" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush),Mode=OneWay}"
+                        x:Uid="VisualizationButton" ToolTipService.ToolTip="Audio Visualization" Command="{x:Bind Context.ToggleVisualizing}">
+                    <Button.Content>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE9D9;" />
+                    </Button.Content>
+                </Button>
                 <Button x:Name="Volume" Style="{ThemeResource RevealRoundButton}" Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush),Mode=OneWay}"
-                              ToolTipService.ToolTip="Volume" Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                        x:Uid="VolumeButton" ToolTipService.ToolTip="Volume" Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <Button.Content>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Context.VolumeToSymbol(Context.Volume), Mode=OneWay}" />
                     </Button.Content>
@@ -1356,12 +1376,12 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
                                 <MenuFlyoutSeparator/>
-                                <MenuFlyoutItem Command="{x:Bind Context.ShowEqualizer}" Text="Equalizer">
+                                <MenuFlyoutItem x:Uid="Equalizer" Command="{x:Bind Context.ShowEqualizer}" Text="Equalizer">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8F9;" />
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
-                                <MenuFlyoutItem Command="{x:Bind Context.ShowSleepTimer}" Text="Sleep Timer">
+                                <MenuFlyoutItem x:Uid="Timer" Command="{x:Bind Context.ShowSleepTimer}" Text="Sleep Timer">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE916;" />
                                     </MenuFlyoutItem.Icon>

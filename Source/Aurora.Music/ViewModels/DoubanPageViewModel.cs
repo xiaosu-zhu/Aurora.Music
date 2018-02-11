@@ -337,7 +337,7 @@ namespace Aurora.Music.ViewModels
                 {
                     var g = new ChannelGroup()
                     {
-                        Name = (item.group_name.IsNullorEmpty() ? (Settings.Current.VerifyDoubanLogin() ? Settings.Current.DoubanUserName : "Not Login") : item.group_name),
+                        Name = (item.group_name.IsNullorEmpty() ? (Settings.Current.VerifyDoubanLogin() ? Settings.Current.DoubanUserName : Consts.Localizer.GetString("NotLogin")) : item.group_name),
                         ID = item.group_id,
                     };
                     foreach (var c in item.chls)

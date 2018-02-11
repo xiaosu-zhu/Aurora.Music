@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppExtensions;
 using Windows.ApplicationModel.Core;
 using Windows.Devices.Enumeration;
@@ -233,7 +234,7 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref onlinePurchase, value); }
         }
 
-        private double playerVolume=Settings.Current.PlayerVolume;
+        private double playerVolume = Settings.Current.PlayerVolume;
         public double PlayerVolume
         {
             get { return playerVolume; }
@@ -417,7 +418,11 @@ namespace Aurora.Music.ViewModels
         public bool EqualizerEnabled
         {
             get { return equalizerEnabled; }
-            set { SetProperty(ref equalizerEnabled, value); }
+            set
+            {
+                SetProperty(ref equalizerEnabled, value);
+                PlaybackEngine.PlaybackEngine.Current.ToggleEffect(Settings.Current.AudioGraphEffects);
+            }
         }
 
         private bool threshold = Settings.Current.AudioGraphEffects.HasFlag(Core.Models.Effects.Limiter);

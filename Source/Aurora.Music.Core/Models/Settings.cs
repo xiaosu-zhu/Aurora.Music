@@ -14,7 +14,7 @@ namespace Aurora.Music.Core.Models
     [Flags]
     public enum Effects
     {
-        None = 0, Reverb = 2, Limiter = 4, Equalizer = 8, All = Reverb | Limiter | Equalizer
+        None = 0, Reverb = 1, Limiter = 2, Equalizer = 4, All = Reverb | Limiter | Equalizer
     }
 
     public enum Bitrate

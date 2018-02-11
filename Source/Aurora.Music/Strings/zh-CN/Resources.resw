@@ -857,10 +857,6 @@
     <value>{0} 版本更新日志</value>
     <comment>Update Note for Build {0}</comment>
   </data>
-  <data name="UpdateNote" xml:space="preserve">
-    <value>* Synced translation</value>
-    <comment>Update Note</comment>
-  </data>
   <data name="AddToCollectionTitle" xml:space="preserve">
     <value>将{0}添加到收藏</value>
     <comment>Add {0} into Collection</comment>
@@ -940,5 +936,121 @@
   <data name="AlbumStory.Text" xml:space="preserve">
     <value>查看专辑故事</value>
     <comment>See Album Story</comment>
+  </data>
+  <data name="Equalizer.Text" xml:space="preserve">
+    <value>均衡器</value>
+    <comment>Equalizer</comment>
+  </data>
+  <data name="Timer.Text" xml:space="preserve">
+    <value>睡眠定时器</value>
+    <comment>Sleep Timer</comment>
+  </data>
+  <data name="NotLogin" xml:space="preserve">
+    <value>未登录</value>
+    <comment>NotLogin</comment>
+  </data>
+  <data name="UnknownError" xml:space="preserve">
+    <value>未知错误</value>
+    <comment>UnknownError</comment>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>密码</value>
+    <comment>Password</comment>
+  </data>
+  <data name="Invalid" xml:space="preserve">
+    <value>无效</value>
+    <comment>Invalid</comment>
+  </data>
+  <data name="Account" xml:space="preserve">
+    <value>账号</value>
+    <comment>Account</comment>
+  </data>
+  <data name="PasswordBox.Header" xml:space="preserve">
+    <value>密码</value>
+    <comment>Password</comment>
+  </data>
+  <data name="PasswordBox.PlaceholderText" xml:space="preserve">
+    <value>至少8位字符</value>
+    <comment>8 or More Characters</comment>
+  </data>
+  <data name="AccountBox.Header" xml:space="preserve">
+    <value>账号</value>
+    <comment>Account</comment>
+  </data>
+  <data name="AccountBox.PlaceholderText" xml:space="preserve">
+    <value>电子邮箱/手机</value>
+    <comment>E-mail/Phone</comment>
+  </data>
+  <data name="DoubanLogin.PrimaryButtonText" xml:space="preserve">
+    <value>登录</value>
+    <comment>Login</comment>
+  </data>
+  <data name="DoubanLogin.CloseButtonText" xml:space="preserve">
+    <value>关闭</value>
+    <comment>Close</comment>
+  </data>
+  <data name="EqualizerSettings.Title" xml:space="preserve">
+    <value>均衡器设置</value>
+    <comment>Equalizer Settings</comment>
+  </data>
+  <data name="EqualizerSettings.CloseButtonText" xml:space="preserve">
+    <value>关闭</value>
+    <comment>Close</comment>
+  </data>
+  <data name="Presets.Header" xml:space="preserve">
+    <value>预设：</value>
+    <comment>Presets:</comment>
+  </data>
+  <data name="Reset.Content" xml:space="preserve">
+    <value>重置</value>
+    <comment>Reset</comment>
+  </data>
+  <data name="SleepTimerDialog.Title" xml:space="preserve">
+    <value>睡眠定时器</value>
+    <comment>Sleep Timer</comment>
+  </data>
+  <data name="SleepTimerDialog.CloseButtonText" xml:space="preserve">
+    <value>取消</value>
+    <comment>Cancel</comment>
+  </data>
+  <data name="SleepTimerDialog.PrimaryButtonText" xml:space="preserve">
+    <value>确定</value>
+    <comment>Confirm</comment>
+  </data>
+  <data name="SleepTimerTimePicker.Header" xml:space="preserve">
+    <value>当时间到达：</value>
+    <comment>When time arrives</comment>
+  </data>
+  <data name="SleepTimerPerform.Text" xml:space="preserve">
+    <value>进行以下操作：</value>
+    <comment>Performs:</comment>
+  </data>
+  <data name="SleepTimerPlayPause.Content" xml:space="preserve">
+    <value>切换播放/暂停</value>
+    <comment>Toggle play/pause</comment>
+  </data>
+  <data name="SleepTimerStop.Content" xml:space="preserve">
+    <value>停止播放</value>
+    <comment>Stop</comment>
+  </data>
+  <data name="SleepTimerShutdown.Content" xml:space="preserve">
+    <value>关闭应用</value>
+    <comment>Shutdown app</comment>
+  </data>
+  <data name="AudioEffects.Text" xml:space="preserve">
+    <value>音频效果</value>
+    <comment>Audio Effects</comment>
+  </data>
+  <data name="EqualizerToggle.Header" xml:space="preserve">
+    <value>均衡器</value>
+    <comment>Equalizer</comment>
+  </data>
+  <data name="VolumeButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>音量</value>
+    <comment>Volume</comment>
+  </data>
+  <data name="VisualizationButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>音频可视化</value>
+    <comment>Audio Visualization</comment>
   </data>
 </root>

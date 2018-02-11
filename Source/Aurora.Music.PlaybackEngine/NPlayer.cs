@@ -177,6 +177,11 @@ namespace Aurora.Music.PlaybackEngine
         {
             throw new NotImplementedException();
         }
+
+        public void ToggleEffect(Core.Models.Effects audioGraphEffects)
+        {
+            throw new NotImplementedException();
+        }
         #endregion
     }
 

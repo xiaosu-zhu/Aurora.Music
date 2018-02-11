@@ -1,14 +1,17 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
+using AudioVisualizer;
 using Aurora.Music.Controls;
 using Aurora.Music.Core;
 using Aurora.Music.ViewModels;
 using Aurora.Shared;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
+using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using System;
+using System.Numerics;
 using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Core;
@@ -176,6 +179,9 @@ namespace Aurora.Music.Pages
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             base.OnNavigatedFrom(e);
+            Visualizer.SizeChanged -= Visualizer_SizeChanged;
+            MainPageViewModel.Current.IsVisualizing = false;
+            Visualizer.Draw -= CustomVisualizer_Draw;
             MainPageViewModel.Current.RestoreLastTitle();
             SizeChanged -= NowPlayingPage_SizeChanged;
             Context.SongChanged -= Context_SongChanged;
@@ -214,8 +220,6 @@ namespace Aurora.Music.Pages
         internal void Unload()
         {
             Context?.Unload();
-            Drawer.SizeChanged -= Drawer_SizeChanged;
-            Drawer = null;
             Context = null;
         }
 
@@ -294,37 +298,85 @@ namespace Aurora.Music.Pages
             LrcHeaderGrid.Height = h;
         }
 
-
         private async void Flyout_Opened(object sender, object e)
         {
             await NowPlayingFlyout.ScrollToIndex(NowPlayingFlyout.SelectedIndex, ScrollPosition.Center);
         }
+        SpectrumData _emptySpectrum = SpectrumData.CreateEmpty(2, Consts.SpectrumBarCount, ScaleType.Linear, ScaleType.Linear, 0, 20000);
+        SpectrumData _previousSpectrum;
+        SpectrumData _previousPeakSpectrum;
 
-        private void Canvas_Draw(ICanvasAnimatedControl sender, CanvasAnimatedDrawEventArgs args)
+        TimeSpan _rmsRiseTime = TimeSpan.FromMilliseconds(50);
+        TimeSpan _rmsFallTime = TimeSpan.FromMilliseconds(50);
+        TimeSpan _peakRiseTime = TimeSpan.FromMilliseconds(50);
+        TimeSpan _peakFallTime = TimeSpan.FromMilliseconds(2000);
+        TimeSpan _frameDuration = TimeSpan.FromMilliseconds(16.7);
+
+        private void CustomVisualizer_Loaded(object sender, RoutedEventArgs e)
         {
-            float width = canvasWidth;
-            width /= 512f;
-            for (int i = 0; i < 511; i++)
+            canvasHeight = (float)Visualizer.ActualHeight;
+            canvasWidth = (float)Visualizer.ActualWidth;
+            Context.Visualizer = Visualizer;
+            Visualizer.SizeChanged += Visualizer_SizeChanged;
+        }
+
+        private void Visualizer_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            canvasHeight = (float)Visualizer.ActualHeight;
+            canvasWidth = (float)Visualizer.ActualWidth;
+        }
+
+        private void CustomVisualizer_CreateResources(object sender, CreateResourcesEventArgs args)
+        {
+
+        }
+
+        private void CustomVisualizer_Draw(IVisualizer sender, VisualizerDrawEventArgs args)
+        {
+            if (!MainPageViewModel.Current.IsVisualizing)
+                return;
+            var drawingSession = (CanvasDrawingSession)args.DrawingSession;
+
+            float barWidth = canvasWidth / (2 * Consts.SpectrumBarCount);
+            // Calculate spectum metrics
+            Vector2 barSize = new Vector2(barWidth, canvasHeight - 2 * barWidth);
+            // Top and bottom margins apply twice (as there are two spectrum displays)
+
+            // Get the data if data exists and source is in play state, else use empty
+            var spectrumData = args.Data != null && Visualizer.Source?.PlaybackState == SourcePlaybackState.Playing ?
+                                            args.Data.Spectrum.LogarithmicTransform(Consts.SpectrumBarCount, 20f, 20000f) : _emptySpectrum;
+
+            _previousSpectrum = spectrumData.ApplyRiseAndFall(_previousSpectrum, _rmsRiseTime, _rmsFallTime, _frameDuration);
+            _previousPeakSpectrum = spectrumData.ApplyRiseAndFall(_previousPeakSpectrum, _peakRiseTime, _peakFallTime, _frameDuration);
+
+            var logSpectrum = _previousSpectrum.ConvertToDecibels(-50, 0);
+            var logPeakSpectrum = _previousPeakSpectrum.ConvertToDecibels(-50, 0);
+
+            var step = canvasWidth / Consts.SpectrumBarCount;
+            var flaw = (step - barSize.X) / 2;
+            // Draw spectrum bars
+            for (int index = 0; index < Consts.SpectrumBarCount; index++)
             {
-                args.DrawingSession.DrawLine(i * width, Context.Spectrum[i] * canvasHeight, (i + 1) * width, Context.Spectrum[i + 1] * canvasHeight, Colors.Red);
+                float barX = step * index + flaw;
+
+                // use average of 2 channel
+                float spectrumBarHeight = barSize.Y * (1.0f - (logSpectrum[0][index] + logSpectrum[1][index]) / -100.0f);
+
+                drawingSession.FillRoundedRectangle(barX, canvasHeight - barWidth - spectrumBarHeight, barSize.X, spectrumBarHeight, barSize.X / 2, barSize.X / 2,
+                   Context.CurrentColor[index]);
             }
-        }
 
-        private void Canvas_CreateResources(CanvasAnimatedControl sender, Microsoft.Graphics.Canvas.UI.CanvasCreateResourcesEventArgs args)
-        {
-        }
+            // Spectrum points to draw a slow decay line
+            for (int index = 0; index < Consts.SpectrumBarCount; index++)
+            {
+                float X = (index + 0.5f) * step;
 
-        private void Canvas_Loaded(object sender, RoutedEventArgs e)
-        {
-            canvasWidth = (float)Drawer.ActualWidth;
-            canvasHeight = (float)Drawer.ActualHeight;
-            Drawer.SizeChanged += Drawer_SizeChanged;
-        }
+                float spectrumBarHeight = barSize.Y * (1.0f - (logPeakSpectrum[0][index] + logPeakSpectrum[1][index]) / -100.0f);
 
-        private void Drawer_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            canvasWidth = (float)Drawer.ActualWidth;
-            canvasHeight = (float)Drawer.ActualHeight;
+                Vector2 decayPoint = new Vector2(X, canvasHeight - barWidth - spectrumBarHeight);
+                drawingSession.FillCircle(decayPoint, barSize.X / 2,
+                   Context.CurrentColor[index]);
+            }
         }
     }
 }

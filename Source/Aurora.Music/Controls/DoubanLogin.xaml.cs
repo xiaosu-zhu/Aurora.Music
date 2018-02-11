@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
+using Aurora.Music.Core;
 using Aurora.Music.Core.Models;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
@@ -73,7 +74,7 @@ namespace Aurora.Music.Controls
                 if (json.IsNullorEmpty())
                 {
                     FailText.Visibility = Visibility.Visible;
-                    FailText.Text = $"Unknown Error";
+                    FailText.Text = Consts.Localizer.GetString("UnknownError");
                     return false;
                 }
 
@@ -113,14 +114,14 @@ namespace Aurora.Music.Controls
 
         private void Password_PasswordChanged(object sender, RoutedEventArgs e)
         {
-            Password.Header = Password.Password.Length >= 8 ? "Password" : "Not Valid";
+            Password.Header = Password.Password.Length >= 8 ? Consts.Localizer.GetString("Password") : Consts.Localizer.GetString("Invalid");
             IsPrimaryButtonEnabled = Password.Password.Length >= 8 && test.IsMatch(Account.Text);
         }
 
         private void Account_TextChanged(object sender, TextChangedEventArgs e)
         {
             var b = test.IsMatch(Account.Text);
-            Account.Header = b ? "Account" : "Not Valid";
+            Account.Header = b ? Consts.Localizer.GetString("Account") : Consts.Localizer.GetString("Invalid");
             IsPrimaryButtonEnabled = Password.Password.Length >= 8 && b;
         }
     }
