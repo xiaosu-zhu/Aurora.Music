@@ -9,6 +9,7 @@ using Aurora.Shared;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
 using Microsoft.Graphics.Canvas;
+using Microsoft.Graphics.Canvas.Brushes;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using System;
 using System.Numerics;
@@ -42,22 +43,6 @@ namespace Aurora.Music.Pages
             this.InitializeComponent();
             Current = this;
             Context.SongChanged += Context_SongChanged;
-        }
-
-        private void Grid_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
-            if (sender is Panel s)
-            {
-                (s.Resources["PointerOver"] as Storyboard).Begin();
-            }
-        }
-
-        private void Grid_PointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
-            if (sender is Panel s)
-            {
-                (s.Resources["Normal"] as Storyboard).Begin();
-            }
         }
 
         private void PlayBtn_Click(object sender, RoutedEventArgs e)
@@ -310,7 +295,7 @@ namespace Aurora.Music.Pages
         TimeSpan _rmsFallTime = TimeSpan.FromMilliseconds(50);
         TimeSpan _peakRiseTime = TimeSpan.FromMilliseconds(50);
         TimeSpan _peakFallTime = TimeSpan.FromMilliseconds(2000);
-        TimeSpan _frameDuration = TimeSpan.FromMilliseconds(16.7);
+        TimeSpan _frameDuration = TimeSpan.FromMilliseconds(16.66666666666666666666666667);
 
         private void CustomVisualizer_Loaded(object sender, RoutedEventArgs e)
         {
@@ -337,6 +322,12 @@ namespace Aurora.Music.Pages
                 return;
             var drawingSession = (CanvasDrawingSession)args.DrawingSession;
 
+            var brush = new CanvasLinearGradientBrush(drawingSession, new CanvasGradientStop[] { new CanvasGradientStop() { Color = Context.CurrentColor[0], Position = 0f }, new CanvasGradientStop() { Color = Context.CurrentColor[1], Position = 1f } })
+            {
+                StartPoint = new Vector2(canvasWidth, 0),
+                EndPoint = new Vector2(0, canvasHeight)
+            };
+
             float barWidth = canvasWidth / (2 * Consts.SpectrumBarCount);
             // Calculate spectum metrics
             Vector2 barSize = new Vector2(barWidth, canvasHeight - 2 * barWidth);
@@ -362,8 +353,7 @@ namespace Aurora.Music.Pages
                 // use average of 2 channel
                 float spectrumBarHeight = barSize.Y * (1.0f - (logSpectrum[0][index] + logSpectrum[1][index]) / -100.0f);
 
-                drawingSession.FillRoundedRectangle(barX, canvasHeight - barWidth - spectrumBarHeight, barSize.X, spectrumBarHeight, barSize.X / 2, barSize.X / 2,
-                   Context.CurrentColor[index]);
+                drawingSession.FillRoundedRectangle(barX, canvasHeight - barWidth - spectrumBarHeight, barSize.X, spectrumBarHeight, barSize.X / 2, barSize.X / 2, brush);
             }
 
             // Spectrum points to draw a slow decay line
@@ -374,8 +364,7 @@ namespace Aurora.Music.Pages
                 float spectrumBarHeight = barSize.Y * (1.0f - (logPeakSpectrum[0][index] + logPeakSpectrum[1][index]) / -100.0f);
 
                 Vector2 decayPoint = new Vector2(X, canvasHeight - barWidth - spectrumBarHeight);
-                drawingSession.FillCircle(decayPoint, barSize.X / 2,
-                   Context.CurrentColor[index]);
+                drawingSession.FillCircle(decayPoint, barSize.X / 2, brush);
             }
         }
     }

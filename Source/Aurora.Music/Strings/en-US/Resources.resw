@@ -178,7 +178,7 @@
     <comment>Shuffle ToolTip</comment>
   </data>
   <data name="Loop.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Loop</value>
+    <value>Repeat</value>
     <comment>Loop ToolTip</comment>
   </data>
   <data name="SplitPaneOpen.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
@@ -1057,5 +1057,17 @@
   <data name="VisualizationButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Audio Visualization</value>
     <comment>Audio Visualization</comment>
+  </data>
+  <data name="VisualizationFlyout.Text" xml:space="preserve">
+    <value>Audio Visualization</value>
+    <comment>Audio Visualization</comment>
+  </data>
+  <data name="ShuffleFlyout.Text" xml:space="preserve">
+    <value>Shuffle</value>
+    <comment>Shuffle</comment>
+  </data>
+  <data name="RepeatFlyout.Text" xml:space="preserve">
+    <value>Repeat</value>
+    <comment>Repeat</comment>
   </data>
 </root>

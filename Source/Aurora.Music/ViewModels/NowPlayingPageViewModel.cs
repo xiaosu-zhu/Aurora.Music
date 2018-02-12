@@ -36,6 +36,9 @@ namespace Aurora.Music.ViewModels
     class NowPlayingPageViewModel : ViewModelBase, IDisposable
     {
         internal event EventHandler SongChanged;
+        private Song _lastSong;
+        private DataTransferManager dataTransferManager;
+        private CastingDevicePicker castingPicker;
 
         private Uri artwork;
         public Uri CurrentArtwork
@@ -67,7 +70,7 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref downloadProgress, value); }
         }
 
-        public Color[] CurrentColor = new Color[Consts.SpectrumBarCount];
+        public Color[] CurrentColor = new Color[2];
 
         private SolidColorBrush currentColorBrush = new SolidColorBrush();
         public SolidColorBrush CurrentColorBrush
@@ -86,13 +89,8 @@ namespace Aurora.Music.ViewModels
                 {
                     v = 0.5;
                 }
-                h -= 4;
-                for (uint i = 0; i < Consts.SpectrumBarCount; i++)
-                {
-                    h += 4;
-                    if (h > 360) h = 0;
-                    CurrentColor[i] = ImagingHelper.ColorFromHSV(h, s, v);
-                }
+                CurrentColor[0] = ImagingHelper.ColorFromHSV(h, 1, 0.6666666666666666666666666667);
+                CurrentColor[1] = ImagingHelper.ColorFromHSV(h, s, 0.3333333333333333333333333333);
             }
         }
 
@@ -728,12 +726,21 @@ namespace Aurora.Music.ViewModels
                 player?.Shuffle(value);
             }
         }
+        public bool IsShuffleBool
+        {
+            get
+            {
+                return (isShuffle is bool a && a);
+            }
+            set
+            {
+                SetProperty(ref isShuffle, value);
+                RaisePropertyChanged("IsShuffle");
+                player?.Shuffle(value);
+            }
+        }
 
         private bool? isLoop = false;
-        private Song _lastSong;
-        private DataTransferManager dataTransferManager;
-        private CastingDevicePicker castingPicker;
-
         public bool? IsLoop
         {
             get { return isLoop; }
@@ -741,6 +748,19 @@ namespace Aurora.Music.ViewModels
             {
                 SetProperty(ref isLoop, value);
 
+                player?.Loop(value);
+            }
+        }
+        public bool IsLoopBool
+        {
+            get
+            {
+                return (isLoop is bool a && a);
+            }
+            set
+            {
+                SetProperty(ref isLoop, value);
+                RaisePropertyChanged("IsLoop");
                 player?.Loop(value);
             }
         }

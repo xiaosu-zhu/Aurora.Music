@@ -717,7 +717,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 
                                 <VisualStateManager.VisualStateGroups>
                                     <VisualStateGroup x:Name="CommonStates">
-
                                         <VisualStateGroup.Transitions>
                                             <VisualTransition From="Updating" To="Determinate">
                                                 <Storyboard>
@@ -738,6 +737,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                                 </Storyboard>
                                             </VisualTransition>
                                         </VisualStateGroup.Transitions>
+                                        <VisualState x:Name="Normal" />
                                         <VisualState x:Name="Determinate" />
                                         <VisualState x:Name="Updating" />
                                         <VisualState x:Name="Indeterminate">
@@ -990,47 +990,39 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
-                <VisualState x:Name="Narrow">
+                <VisualState x:Name="Full">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0"/>
+                        <AdaptiveTrigger MinWindowWidth="1008"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="LrcHeader.FontSize" Value="16"/>
 
-                        <Setter Target="Previous.Margin" Value="2,4"/>
-                        <Setter Target="PlayPause.Margin" Value="2,4"/>
-                        <Setter Target="Next.Margin" Value="2,4"/>
-                        <Setter Target="Shuffle.Margin" Value="2,4"/>
-                        <Setter Target="Refresh.Margin" Value="2,4"/>
-                        <Setter Target="LrcBtn.Margin" Value="2,4"/>
-                        <Setter Target="SmallWindow.Margin" Value="2,4"/>
-                        <Setter Target="More.Margin" Value="2,4"/>
-                        <Setter Target="Root.Padding" Value="12,80,12,0"/>
+                        <Setter Target="SongPanel.(Grid.ColumnSpan)" Value="1"/>
+                        <Setter Target="LrcView.(Grid.ColumnSpan)" Value="1"/>
+                        <Setter Target="LrcView.(Grid.Column)" Value="1"/>
+                        <Setter Target="LrcView.(Grid.Row)" Value="0"/>
+                        <Setter Target="LrcViewOverlay.(Grid.ColumnSpan)" Value="1"/>
+                        <Setter Target="LrcViewOverlay.(Grid.Column)" Value="1"/>
+                        <Setter Target="LrcViewOverlay.(Grid.Row)" Value="0"/>
 
-                        <Setter Target="SongPanel.(Grid.ColumnSpan)" Value="2"/>
-                        <Setter Target="LrcView.(Grid.ColumnSpan)" Value="2"/>
-                        <Setter Target="LrcView.(Grid.Column)" Value="0"/>
-                        <Setter Target="LrcView.(Grid.Row)" Value="1"/>
-                        <Setter Target="LrcViewOverlay.(Grid.ColumnSpan)" Value="2"/>
-                        <Setter Target="LrcViewOverlay.(Grid.Column)" Value="0"/>
-                        <Setter Target="LrcViewOverlay.(Grid.Row)" Value="1"/>
+                        <Setter Target="NarrowLrcBtn.Visibility" Value="Collapsed"/>
+                        <Setter Target="NarrowSmallWindow.Visibility" Value="Collapsed"/>
+                        <Setter Target="NarrowSplit.Visibility" Value="Collapsed"/>
+                        <Setter Target="LrcBtn.Visibility" Value="Visible"/>
+                        <Setter Target="SmallWindow.Visibility" Value="Visible"/>
+                        <Setter Target="Stop.Visibility" Value="Visible"/>
+                        <Setter Target="PlayListNarrow.Visibility" Value="Collapsed"/>
+                        <Setter Target="PlayListFull.Visibility" Value="Visible"/>
 
-                        <Setter Target="LrcBtn.Visibility" Value="Collapsed"/>
-                        <Setter Target="SmallWindow.Visibility" Value="Collapsed"/>
-                        <Setter Target="Stop.Visibility" Value="Collapsed"/>
-                        <Setter Target="PlayListNarrow.Visibility" Value="Visible"/>
-                        <Setter Target="PlayListFull.Visibility" Value="Collapsed"/>
-                        <Setter Target="NarrowLrcBtn.Visibility" Value="Visible"/>
-                        <Setter Target="NarrowSmallWindow.Visibility" Value="Visible"/>
-                        <Setter Target="NarrowSplit.Visibility" Value="Visible"/>
+                        <Setter Target="VisualizationMenu.Visibility" Value="Collapsed"/>
+                        <Setter Target="VisualizationBtn.Visibility" Value="Visible"/>
 
-                        <Setter Target="PlayListBtn.Width" Value="48"/>
-                        <Setter Target="PlayListBtn.Height" Value="48"/>
-                        <Setter Target="PlayListBtn.Style" Value="{ThemeResource RevealRoundButton}"/>
+                        <Setter Target="RepeatFlyout.Visibility" Value="Collapsed"/>
+                        <Setter Target="Repeat.Visibility" Value="Visible"/>
 
-                        <Setter Target="LrcView.Margin" Value="12"/>
-                        <Setter Target="LrcViewOverlay.Margin" Value="12"/>
-                        <Setter Target="RowOne.Height" Value="72"/>
+                        <Setter Target="ShuffleFlyout.Visibility" Value="Collapsed"/>
+                        <Setter Target="Shuffle.Visibility" Value="Visible"/>
+                        
+                        <Setter Target="RowOne.Height" Value="0"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Medium">
@@ -1039,15 +1031,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="LrcHeader.FontSize" Value="18"/>
-
-                        <Setter Target="Previous.Margin" Value="4"/>
-                        <Setter Target="PlayPause.Margin" Value="4"/>
-                        <Setter Target="Next.Margin" Value="4"/>
-                        <Setter Target="Shuffle.Margin" Value="4"/>
-                        <Setter Target="Refresh.Margin" Value="4"/>
-                        <Setter Target="LrcBtn.Margin" Value="4"/>
-                        <Setter Target="SmallWindow.Margin" Value="4"/>
-                        <Setter Target="More.Margin" Value="4"/>
                         <Setter Target="Root.Padding" Value="24,80,24,0"/>
 
                         <Setter Target="SongPanel.(Grid.ColumnSpan)" Value="1"/>
@@ -1067,48 +1050,76 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <Setter Target="NarrowSmallWindow.Visibility" Value="Visible"/>
                         <Setter Target="NarrowSplit.Visibility" Value="Visible"/>
 
+                        <Setter Target="VisualizationMenu.Visibility" Value="Collapsed"/>
+                        <Setter Target="VisualizationBtn.Visibility" Value="Visible"/>
+
+                        <Setter Target="RepeatFlyout.Visibility" Value="Collapsed"/>
+                        <Setter Target="Repeat.Visibility" Value="Visible"/>
+
+                        <Setter Target="ShuffleFlyout.Visibility" Value="Collapsed"/>
+                        <Setter Target="Shuffle.Visibility" Value="Visible"/>
+
                         <Setter Target="LrcView.Margin" Value="16,16,16,64"/>
                         <Setter Target="LrcViewOverlay.Margin" Value="16,16,16,64"/>
                         <Setter Target="RowOne.Height" Value="0"/>
                     </VisualState.Setters>
                 </VisualState>
-                <VisualState x:Name="Full">
+                <VisualState x:Name="Narrow">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="1008"/>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="LrcHeader.FontSize" Value="20"/>
+                        <Setter Target="LrcHeader.FontSize" Value="16"/>
 
-                        <Setter Target="Previous.Margin" Value="4"/>
-                        <Setter Target="PlayPause.Margin" Value="4"/>
-                        <Setter Target="Next.Margin" Value="4"/>
-                        <Setter Target="Shuffle.Margin" Value="4"/>
-                        <Setter Target="Refresh.Margin" Value="4"/>
-                        <Setter Target="LrcBtn.Margin" Value="4"/>
-                        <Setter Target="SmallWindow.Margin" Value="4"/>
-                        <Setter Target="More.Margin" Value="4"/>
-                        <Setter Target="Root.Padding" Value="48,80,48,0"/>
+                        <Setter Target="Previous.Margin" Value="2,4"/>
+                        <Setter Target="PlayPause.Margin" Value="2,4"/>
+                        <Setter Target="Next.Margin" Value="2,4"/>
+                        <Setter Target="Shuffle.Margin" Value="2,4"/>
+                        <Setter Target="Repeat.Margin" Value="2,4"/>
+                        <Setter Target="LrcBtn.Margin" Value="2,4"/>
+                        <Setter Target="SmallWindow.Margin" Value="2,4"/>
+                        <Setter Target="More.Margin" Value="2,4"/>
+                        <Setter Target="VisualizationBtn.Margin" Value="2,4"/>
+                        <Setter Target="Volume.Margin" Value="2,4"/>
+                        <Setter Target="Root.Padding" Value="12,80,12,0"/>
 
-                        <Setter Target="SongPanel.(Grid.ColumnSpan)" Value="1"/>
-                        <Setter Target="LrcView.(Grid.ColumnSpan)" Value="1"/>
-                        <Setter Target="LrcView.(Grid.Column)" Value="1"/>
-                        <Setter Target="LrcView.(Grid.Row)" Value="0"/>
-                        <Setter Target="LrcViewOverlay.(Grid.ColumnSpan)" Value="1"/>
-                        <Setter Target="LrcViewOverlay.(Grid.Column)" Value="1"/>
-                        <Setter Target="LrcViewOverlay.(Grid.Row)" Value="0"/>
+                        <Setter Target="SongPanel.(Grid.ColumnSpan)" Value="2"/>
+                        <Setter Target="LrcView.(Grid.ColumnSpan)" Value="2"/>
+                        <Setter Target="LrcView.(Grid.Column)" Value="0"/>
+                        <Setter Target="LrcView.(Grid.Row)" Value="1"/>
+                        <Setter Target="LrcViewOverlay.(Grid.ColumnSpan)" Value="2"/>
+                        <Setter Target="LrcViewOverlay.(Grid.Column)" Value="0"/>
+                        <Setter Target="LrcViewOverlay.(Grid.Row)" Value="1"/>
 
-                        <Setter Target="LrcBtn.Visibility" Value="Visible"/>
-                        <Setter Target="SmallWindow.Visibility" Value="Visible"/>
-                        <Setter Target="Stop.Visibility" Value="Visible"/>
-                        <Setter Target="PlayListNarrow.Visibility" Value="Collapsed"/>
-                        <Setter Target="PlayListFull.Visibility" Value="Visible"/>
-                        <Setter Target="NarrowLrcBtn.Visibility" Value="Collapsed"/>
-                        <Setter Target="NarrowSmallWindow.Visibility" Value="Collapsed"/>
-                        <Setter Target="NarrowSplit.Visibility" Value="Collapsed"/>
+                        <Setter Target="LrcBtn.Visibility" Value="Collapsed"/>
+                        <Setter Target="SmallWindow.Visibility" Value="Collapsed"/>
+                        
+                        <Setter Target="Stop.Visibility" Value="Collapsed"/>
+                        
+                        <Setter Target="PlayListNarrow.Visibility" Value="Visible"/>
+                        <Setter Target="PlayListFull.Visibility" Value="Collapsed"/>
+                        
+                        <Setter Target="NarrowLrcBtn.Visibility" Value="Visible"/>
+                        <Setter Target="NarrowSmallWindow.Visibility" Value="Visible"/>
 
-                        <Setter Target="LrcView.Margin" Value="32,32,32,64"/>
-                        <Setter Target="LrcViewOverlay.Margin" Value="32,32,32,64"/>
-                        <Setter Target="RowOne.Height" Value="0"/>
+                        <Setter Target="VisualizationMenu.Visibility" Value="Visible"/>
+                        <Setter Target="VisualizationBtn.Visibility" Value="Collapsed"/>
+
+                        <Setter Target="RepeatFlyout.Visibility" Value="Visible"/>
+                        <Setter Target="Repeat.Visibility" Value="Collapsed"/>
+
+                        <Setter Target="ShuffleFlyout.Visibility" Value="Visible"/>
+                        <Setter Target="Shuffle.Visibility" Value="Collapsed"/>
+
+                        <Setter Target="NarrowSplit.Visibility" Value="Visible"/>
+
+                        <Setter Target="PlayListBtn.Width" Value="48"/>
+                        <Setter Target="PlayListBtn.Height" Value="48"/>
+                        <Setter Target="PlayListBtn.Style" Value="{ThemeResource RevealRoundButton}"/>
+
+                        <Setter Target="LrcView.Margin" Value="12"/>
+                        <Setter Target="LrcViewOverlay.Margin" Value="12"/>
+                        <Setter Target="RowOne.Height" Value="72"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -1281,7 +1292,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     </Button.KeyboardAccelerators>
                 </Button>
                 <Button Style="{ThemeResource RevealRoundButton}" Width="48" Height="48" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush),Mode=OneWay}"
-                        x:Uid="VisualizationButton" ToolTipService.ToolTip="Audio Visualization" Command="{x:Bind Context.ToggleVisualizing}">
+                        x:Name="VisualizationBtn" x:Uid="VisualizationButton" ToolTipService.ToolTip="Audio Visualization" Command="{x:Bind Context.ToggleVisualizing}">
                     <Button.Content>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE9D9;" />
                     </Button.Content>
@@ -1308,8 +1319,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     </ToggleButton.Content>
                 </ToggleButton>
 
-                <ToggleButton x:Uid="Loop" x:Name="Refresh" Style="{ThemeResource RevealRoundToggleButton}" Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush),Mode=OneWay}" IsChecked="{x:Bind Context.IsLoop, Mode=TwoWay}"
-                              ToolTipService.ToolTip="Loop" Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                <ToggleButton x:Uid="Loop" x:Name="Repeat" Style="{ThemeResource RevealRoundToggleButton}" Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush),Mode=OneWay}" IsChecked="{x:Bind Context.IsLoop, Mode=TwoWay}"
+                              ToolTipService.ToolTip="Repeat" Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <ToggleButton.Content>
                         <SymbolIcon Symbol="Refresh"/>
                     </ToggleButton.Content>
@@ -1407,6 +1418,21 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE2B4;" />
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
+                                <MenuFlyoutItem x:Uid="VisualizationFlyout" x:Name="VisualizationMenu" Text="Audio Visualization" Command="{x:Bind Context.ToggleVisualizing}">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE9D9;" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <ToggleMenuFlyoutItem x:Uid="ShuffleFlyout" x:Name="ShuffleFlyout" Text="Shuffle" IsChecked="{x:Bind Context.IsShuffleBool, Mode=TwoWay}">
+                                    <ToggleMenuFlyoutItem.Icon>
+                                        <SymbolIcon Symbol="Shuffle"/>
+                                    </ToggleMenuFlyoutItem.Icon>
+                                </ToggleMenuFlyoutItem>
+                                <ToggleMenuFlyoutItem x:Uid="RepeatFlyout" x:Name="RepeatFlyout" Text="Repeat" IsChecked="{x:Bind Context.IsLoopBool, Mode=TwoWay}">
+                                    <ToggleMenuFlyoutItem.Icon>
+                                        <SymbolIcon Symbol="Refresh"/>
+                                    </ToggleMenuFlyoutItem.Icon>
+                                </ToggleMenuFlyoutItem>
                                 <MenuFlyoutSeparator x:Name="NarrowSplit"/>
                                 <MenuFlyoutItem Click="DownloadOrModify" Text="{x:Bind Context.DownloadOrModify(Context.Song.IsOnline),Mode=OneWay}" >
                                     <MenuFlyoutItem.Icon>

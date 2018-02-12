@@ -876,7 +876,6 @@ namespace Aurora.Music
             }
 
             SearchBoxShow.Begin();
-            SearchBox.Focus(FocusState.Programmatic);
 
             if (SearchBox.Text.IsNullorEmpty())
             {
@@ -916,6 +915,11 @@ namespace Aurora.Music
             {
                 SearchBox.IsSuggestionListOpen = false;
             }
+        }
+
+        private void SearchBoxShow_Completed(object sender, object e)
+        {
+            SearchBox.Focus(FocusState.Programmatic);
         }
 
         private void SearchBox_LosingFocus(UIElement sender, Windows.UI.Xaml.Input.LosingFocusEventArgs args)

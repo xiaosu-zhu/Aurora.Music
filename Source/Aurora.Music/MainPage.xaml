@@ -851,30 +851,10 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
-                <VisualState x:Name="Narrow">
+                <VisualState x:Name="Full">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0"/>
+                        <AdaptiveTrigger MinWindowWidth="1008"/>
                     </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="Artwork.Visibility" Value="Collapsed"/>
-                        <Setter Target="PositionNarrow.Visibility" Value="Visible"/>
-                        <Setter Target="PositionFull.Visibility" Value="Collapsed"/>
-                        <Setter Target="PlayListNarrow.Visibility" Value="Visible"/>
-                        <Setter Target="PlayListFull.Visibility" Value="Collapsed"/>
-                        <Setter Target="PlayListBtn.Margin" Value="4,0"/>
-                        <Setter Target="NowPanelTexts.Margin" Value="4,0"/>
-                        <Setter Target="SearchBoxWidth.To" Value="240"/>
-
-                        <Setter Target="Previous.Margin" Value="2"/>
-                        <Setter Target="PlayPause.Margin" Value="2"/>
-                        <Setter Target="Next.Margin" Value="2"/>
-                        <Setter Target="Stop.Margin" Value="2"/>
-                        <Setter Target="Shuffle.Margin" Value="2"/>
-                        <Setter Target="Refresh.Margin" Value="2"/>
-                        <Setter Target="Stop.Visibility" Value="Collapsed"/>
-                        <Setter Target="Shuffle.Visibility" Value="Collapsed"/>
-                        <Setter Target="Refresh.Visibility" Value="Collapsed"/>
-                    </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Medium">
                     <VisualState.StateTriggers>
@@ -888,8 +868,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <Setter Target="PlayListFull.Visibility" Value="Visible"/>
                         <Setter Target="PlayListBtn.Margin" Value="8,0"/>
                         <Setter Target="NowPanelTexts.Margin" Value="8,0"/>
-
-
                         <Setter Target="Previous.Margin" Value="4"/>
                         <Setter Target="PlayPause.Margin" Value="4"/>
                         <Setter Target="Next.Margin" Value="4"/>
@@ -901,28 +879,28 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <Setter Target="Refresh.Visibility" Value="Visible"/>
                     </VisualState.Setters>
                 </VisualState>
-                <VisualState x:Name="Full">
+                <VisualState x:Name="Narrow">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="1008"/>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="Artwork.Visibility" Value="Visible"/>
-                        <Setter Target="PositionNarrow.Visibility" Value="Collapsed"/>
-                        <Setter Target="PositionFull.Visibility" Value="Visible"/>
-                        <Setter Target="PlayListNarrow.Visibility" Value="Collapsed"/>
-                        <Setter Target="PlayListFull.Visibility" Value="Visible"/>
-                        <Setter Target="PlayListBtn.Margin" Value="12,0"/>
-                        <Setter Target="NowPanelTexts.Margin" Value="12,0"/>
-
-                        <Setter Target="Previous.Margin" Value="4"/>
-                        <Setter Target="PlayPause.Margin" Value="4"/>
-                        <Setter Target="Next.Margin" Value="4"/>
-                        <Setter Target="Stop.Margin" Value="4"/>
-                        <Setter Target="Shuffle.Margin" Value="4"/>
-                        <Setter Target="Refresh.Margin" Value="4"/>
-                        <Setter Target="Stop.Visibility" Value="Visible"/>
-                        <Setter Target="Shuffle.Visibility" Value="Visible"/>
-                        <Setter Target="Refresh.Visibility" Value="Visible"/>
+                        <Setter Target="Artwork.Visibility" Value="Collapsed"/>
+                        <Setter Target="PositionNarrow.Visibility" Value="Visible"/>
+                        <Setter Target="PositionFull.Visibility" Value="Collapsed"/>
+                        <Setter Target="PlayListNarrow.Visibility" Value="Visible"/>
+                        <Setter Target="PlayListFull.Visibility" Value="Collapsed"/>
+                        <Setter Target="PlayListBtn.Margin" Value="4,0"/>
+                        <Setter Target="NowPanelTexts.Margin" Value="4,0"/>
+                        <Setter Target="SearchBox.Width" Value="240"/>
+                        <Setter Target="Previous.Margin" Value="2"/>
+                        <Setter Target="PlayPause.Margin" Value="2"/>
+                        <Setter Target="Next.Margin" Value="2"/>
+                        <Setter Target="Stop.Margin" Value="2"/>
+                        <Setter Target="Shuffle.Margin" Value="2"/>
+                        <Setter Target="Refresh.Margin" Value="2"/>
+                        <Setter Target="Stop.Visibility" Value="Collapsed"/>
+                        <Setter Target="Shuffle.Visibility" Value="Collapsed"/>
+                        <Setter Target="Refresh.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -1019,30 +997,40 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         <SplitView.Content>
             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Grid.Resources>
-                    <Storyboard x:Name="SearchBoxShow">
-                        <DoubleAnimation x:Name="SearchBoxWidth" Duration="0:0:0.64" Storyboard.TargetName="SearchBox" EnableDependentAnimation="True" Storyboard.TargetProperty="Width" To="320">
+                    <Storyboard x:Name="SearchBoxShow" Completed="SearchBoxShow_Completed">
+                        <DoubleAnimation Duration="0:0:0.64" Storyboard.TargetName="SearchBoxTransform" Storyboard.TargetProperty="ScaleX" To="1">
                             <DoubleAnimation.EasingFunction>
                                 <QuinticEase/>
                             </DoubleAnimation.EasingFunction>
                         </DoubleAnimation>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SearchBox" Storyboard.TargetProperty="Opacity">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="1"/>
+                        <DoubleAnimation Duration="0:0:0.64" Storyboard.TargetName="SearchBox" Storyboard.TargetProperty="Opacity" To="1">
+                            <DoubleAnimation.EasingFunction>
+                                <QuinticEase/>
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SearchBox" Storyboard.TargetProperty="Visibility">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
                         </ObjectAnimationUsingKeyFrames>
                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SearchButton" Storyboard.TargetProperty="Visibility">
                             <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
                         </ObjectAnimationUsingKeyFrames>
                     </Storyboard>
                     <Storyboard x:Name="SearchBoxCollapse">
-                        <DoubleAnimation Duration="0:0:0.64" Storyboard.TargetName="SearchBox" EnableDependentAnimation="True" Storyboard.TargetProperty="Width" To="48">
+                        <DoubleAnimation Duration="0:0:0.64" Storyboard.TargetName="SearchBoxTransform" Storyboard.TargetProperty="ScaleX" To="0">
                             <DoubleAnimation.EasingFunction>
                                 <QuinticEase/>
                             </DoubleAnimation.EasingFunction>
                         </DoubleAnimation>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SearchBox" Storyboard.TargetProperty="Opacity">
-                            <DiscreteObjectKeyFrame KeyTime="0:0:0.5" Value="0"/>
+                        <DoubleAnimation Duration="0:0:0.64" Storyboard.TargetName="SearchBox" Storyboard.TargetProperty="Opacity" To="0">
+                            <DoubleAnimation.EasingFunction>
+                                <QuinticEase/>
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SearchBox" Storyboard.TargetProperty="Visibility">
+                            <DiscreteObjectKeyFrame KeyTime="0:0:0.64" Value="Collapsed"/>
                         </ObjectAnimationUsingKeyFrames>
                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SearchButton" Storyboard.TargetProperty="Visibility">
-                            <DiscreteObjectKeyFrame KeyTime="0:0:0.5" Value="Visible"/>
+                            <DiscreteObjectKeyFrame Value="Visible"/>
                         </ObjectAnimationUsingKeyFrames>
                     </Storyboard>
                     <Storyboard x:Name="ProgressShow">
@@ -1072,10 +1060,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </Grid.Resources>
                 <Frame Visibility="Visible" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="MainFrame"/>
                 <Grid Visibility="{x:Bind Context.NeedShowPanel, Mode=OneWay}" PointerEntered="NowPanel_PointerEntered" PointerExited="NowPanel_PointerExited"
-                      PointerCanceled="Grid_PointerExited" PointerCaptureLost="Grid_PointerExited"
-                      HorizontalAlignment="Stretch" VerticalAlignment="Bottom" x:Name="NowPanel"
-                      Background="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}">
-
+                      PointerCanceled="NowPanel_PointerExited" PointerCaptureLost="NowPanel_PointerExited" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" 
+                      x:Name="NowPanel" Background="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}">
                     <animations:Implicit.ShowAnimations>
                         <animations:TranslationAnimation Duration="0:0:1" From="0,96,0" To="0" ></animations:TranslationAnimation>
                     </animations:Implicit.ShowAnimations>
@@ -1249,8 +1235,11 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                       Height="32" x:Name="TitleBarOverlay" Visibility="Visible" >
                     <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="1" BorderThickness="0" BorderBrush="{x:Null}" x:Name="TitlebarBtm" Background="{StaticResource SystemControlBackgroundTransparentRevealBorderBrush}"/>
                     <AutoSuggestBox AutoMaximizeSuggestionArea="True" Loaded="SearchBox_Loaded" LosingFocus="SearchBox_LosingFocus" Style="{ThemeResource BlockAutoSuggestBox}" QuerySubmitted="SearchBox_QuerySubmitted" SuggestionChosen="SearchBox_SuggestionChosen"
-                                    PlaceholderText="{x:Bind Context.PlaceholderText,Mode=OneWay}" QueryIcon="Find" x:Name="SearchBox" TextChanged="SearchBox_TextChanged" ItemsSource="{x:Bind Context.SearchItems, Mode=OneWay}"
-                                    HorizontalAlignment="Right" Opacity="0" VerticalAlignment="Stretch" Width="48" ItemTemplateSelector="{StaticResource GenericItemSelector}" ItemContainerStyleSelector="{StaticResource SongListStyleSelector}">
+                                    PlaceholderText="{x:Bind Context.PlaceholderText,Mode=OneWay}" QueryIcon="Find" x:Name="SearchBox" TextChanged="SearchBox_TextChanged" ItemsSource="{x:Bind Context.SearchItems, Mode=OneWay}" RenderTransformOrigin="1,0.5"
+                                    HorizontalAlignment="Right" Opacity="0" VerticalAlignment="Stretch" Width="320" ItemTemplateSelector="{StaticResource GenericItemSelector}" ItemContainerStyleSelector="{StaticResource SongListStyleSelector}">
+                        <AutoSuggestBox.RenderTransform>
+                            <ScaleTransform ScaleX="0" ScaleY="1" x:Name="SearchBoxTransform"/>
+                        </AutoSuggestBox.RenderTransform>
                     </AutoSuggestBox>
                     <Button AccessKey="F" Foreground="{x:Bind Context.LeftTopColor, Mode=OneWay}" x:Name="SearchButton" Click="SearchButton_Click" Background="Transparent" Style="{ThemeResource NoBorderButton}" Width="48" HorizontalAlignment="Right" VerticalAlignment="Stretch" BorderThickness="1,0,0,1" BorderBrush="{StaticResource SystemControlBackgroundTransparentRevealBorderBrush}">
                         <Button.KeyboardAccelerators>

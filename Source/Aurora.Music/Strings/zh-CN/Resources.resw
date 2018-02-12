@@ -179,7 +179,7 @@
   </data>
   <data name="Loop.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>循环播放</value>
-    <comment>Loop ToolTip</comment>
+    <comment>Repeat ToolTip</comment>
   </data>
   <data name="SplitPaneOpen.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>展开</value>
@@ -1052,5 +1052,17 @@
   <data name="VisualizationButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>音频可视化</value>
     <comment>Audio Visualization</comment>
+  </data>
+  <data name="VisualizationFlyout.Text" xml:space="preserve">
+    <value>音频可视化</value>
+    <comment>Audio Visualization</comment>
+  </data>
+  <data name="ShuffleFlyout.Text" xml:space="preserve">
+    <value>随机播放</value>
+    <comment>Shuffle</comment>
+  </data>
+  <data name="RepeatFlyout.Text" xml:space="preserve">
+    <value>循环播放</value>
+    <comment>Repeat</comment>
   </data>
 </root>

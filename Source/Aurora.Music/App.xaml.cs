@@ -35,6 +35,7 @@ namespace Aurora.Music
         private UISettings ui;
         private Frame rootFrame;
         private bool _isInBackgroundMode;
+        private bool _previousVisualizing;
 
         public bool IsBlackTheme { get; set; } = false;
 
@@ -180,6 +181,11 @@ namespace Aurora.Music
             {
                 CreateRootFrame(ApplicationExecutionState.Running, string.Empty);
             }
+
+            if (MainPageViewModel.Current != null)
+            {
+                MainPageViewModel.Current.IsVisualizing = _previousVisualizing;
+            }
         }
 
         protected override async void OnActivated(IActivatedEventArgs args)
@@ -292,6 +298,14 @@ namespace Aurora.Music
             // defer unloading views until AppMemoryUsageLimitChanging or
             // AppMemoryUsageIncreased is raised with an indication that
             // the application is under memory pressure.
+
+
+
+            if (MainPageViewModel.Current != null)
+            {
+                _previousVisualizing = MainPageViewModel.Current.IsVisualizing;
+                MainPageViewModel.Current.IsVisualizing = false;
+            }
         }
 
         private void App_UnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
