@@ -595,8 +595,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         <Grid Grid.RowSpan="2" x:Name="LayerGradient" Opacity="0.5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Grid.Background>
                 <LinearGradientBrush EndPoint="0,0" StartPoint="1,0">
-                    <GradientStop Color="{x:Bind Context.LeftGradient, Mode=OneWay}"/>
-                    <GradientStop Color="{x:Bind Context.RightGradient, Mode=OneWay}" Offset="1"/>
+                    <GradientStop Color="#fdcbf1"/>
+                    <GradientStop Color="#e6dee9" Offset="1"/>
                 </LinearGradientBrush>
             </Grid.Background>
         </Grid>

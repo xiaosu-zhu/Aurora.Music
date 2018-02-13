@@ -27,6 +27,7 @@ namespace Aurora.Music.PlaybackEngine
 
         event EventHandler<PositionUpdatedArgs> PositionUpdated;
         event EventHandler<PlayingItemsChangedArgs> ItemsChanged;
+        event EventHandler<PlaybackStatusChangedArgs> PlaybackStatusChanged;
         event EventHandler<DownloadProgressChangedArgs> DownloadProgressChanged;
 
         void SkiptoIndex(uint index);
@@ -59,6 +60,8 @@ namespace Aurora.Music.PlaybackEngine
     public class PlaybackStatusChangedArgs
     {
         public MediaPlaybackState PlaybackStatus { get; set; }
+        public bool IsShuffle { get; set; }
+        public bool IsLoop { get; set; }
     }
 
     public class PositionUpdatedArgs

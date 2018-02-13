@@ -388,18 +388,11 @@ namespace Aurora.Music.ViewModels
         public MainPageViewModel()
         {
             player = PlaybackEngine.PlaybackEngine.Current;
-            if (player is Player p)
-            {
-                visualizerSource = new PlaybackSource(p.MediaPlayer);
-                visualizerSource.SourceChanged += VisualizerSource_SourceChanged;
-                if (visualizerSource.Source != null)
-                {
-                    visualizerSource.Source.IsSuspended = true;
-                }
-            }
+            AttachVisualizerSource();
             Current = this;
             player.DownloadProgressChanged += Player_DownloadProgressChanged;
             player.ItemsChanged += Player_StatusChanged;
+            player.PlaybackStatusChanged += Player_PlaybackStatusChanged;
             player.PositionUpdated += Player_PositionUpdated;
             var t = ThreadPool.RunAsync(async x =>
             {
@@ -415,6 +408,34 @@ namespace Aurora.Music.ViewModels
                 }
                 await ReloadExtensions();
                 await FindFileChanges();
+            });
+        }
+
+        public void AttachVisualizerSource()
+        {
+            if (visualizerSource != null)
+            {
+                visualizerSource.SourceChanged -= VisualizerSource_SourceChanged;
+                visualizerSource = null;
+            }
+            if (player is Player p)
+            {
+                visualizerSource = new PlaybackSource(p.MediaPlayer);
+                visualizerSource.SourceChanged += VisualizerSource_SourceChanged;
+                if (visualizerSource.Source != null)
+                {
+                    visualizerSource.Source.IsSuspended = true;
+                }
+            }
+        }
+
+        private async void Player_PlaybackStatusChanged(object sender, PlaybackStatusChangedArgs e)
+        {
+            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            {
+                IsPlaying = e.PlaybackStatus == Windows.Media.Playback.MediaPlaybackState.Playing;
+                IsLoop = e.IsLoop;
+                IsShuffle = e.IsShuffle;
             });
         }
 
@@ -477,12 +498,16 @@ namespace Aurora.Music.ViewModels
 
         internal async Task Search(string text)
         {
+            var dd = CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            {
+                MainPage.Current.ShowAutoSuggestPopup();
+            });
+            _lastQuery = string.Copy(text);
+            var s = string.Copy(_lastQuery);
+            List<Task> tasks = new List<Task>();
             if (OnlineMusicExtension != null)
             {
-                _lastQuery = string.Copy(text);
-                var s = string.Copy(_lastQuery);
-
-                var job = ThreadPool.RunAsync(async work =>
+                tasks.Add(Task.Run(async () =>
                 {
                     var querys = new ValueSet()
                     {
@@ -490,11 +515,6 @@ namespace Aurora.Music.ViewModels
                         new KeyValuePair<string, object>("action", "search"),
                         new KeyValuePair<string, object>("keyword", text)
                     };
-                    var dd = CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
-                    {
-                        await Task.Delay(200);
-                        MainPage.Current.ShowAutoSuggestPopup();
-                    });
                     var webResult = await OnlineMusicExtension.ExecuteAsync(querys);
                     if (webResult is IEnumerable<OnlineMusicItem> items)
                     {
@@ -511,31 +531,67 @@ namespace Aurora.Music.ViewModels
                                     {
                                         SearchItems.Insert(0, new GenericMusicItemViewModel(item));
                                     }
-                                    MainPage.Current.HideAutoSuggestPopup();
                                 }
                             });
                     }
-                });
+                }));
             }
-
-            var result = await FileReader.Search(text);
-
-            if (MainPage.Current.CanAdd && !result.IsNullorEmpty())
-                await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            tasks.Add(Task.Run(async () =>
+            {
+                await Task.Delay(1000);
+                if (!s.Equals(_lastQuery, StringComparison.Ordinal))
                 {
-                    lock (MainPage.Current.Lockable)
+                    return;
+                }
+                var podcasts = await SearchPodcasts(text);
+
+                if (MainPage.Current.CanAdd && !podcasts.IsNullorEmpty() && s.Equals(_lastQuery, StringComparison.Ordinal))
+                    await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                     {
-                        if (SearchItems.Count > 0 && SearchItems[0].InnerType == MediaType.Placeholder)
+                        lock (MainPage.Current.Lockable)
                         {
-                            SearchItems.Clear();
+                            if (SearchItems.Count > 0 && SearchItems[0].InnerType == MediaType.Placeholder)
+                            {
+                                SearchItems.Clear();
+                            }
+                            podcasts.Reverse();
+
+                            foreach (var item in podcasts)
+                            {
+                                SearchItems.Insert(0, new GenericMusicItemViewModel(item));
+                            }
                         }
-                        foreach (var item in result)
+                    });
+            }));
+            tasks.Add(Task.Run(async () =>
+            {
+                var result = await FileReader.Search(text);
+
+                if (MainPage.Current.CanAdd && !result.IsNullorEmpty() && s.Equals(_lastQuery, StringComparison.Ordinal))
+                    await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                    {
+                        lock (MainPage.Current.Lockable)
                         {
-                            SearchItems.Add(new GenericMusicItemViewModel(item));
+                            if (SearchItems.Count > 0 && SearchItems[0].InnerType == MediaType.Placeholder)
+                            {
+                                SearchItems.Clear();
+                            }
+                            foreach (var item in result)
+                            {
+                                SearchItems.Add(new GenericMusicItemViewModel(item));
+                            }
                         }
-                    }
-                    MainPage.Current.HideAutoSuggestPopup();
-                });
+
+                    });
+            }));
+            await Task.WhenAll(tasks);
+            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            { MainPage.Current.HideAutoSuggestPopup(); });
+        }
+
+        private async Task<List<GenericMusicItem>> SearchPodcasts(string text)
+        {
+            return await Podcast.SearchPodcasts(text);
         }
 
         public async Task FindFileChanges()
@@ -589,8 +645,6 @@ namespace Aurora.Music.ViewModels
         {
             await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
-                IsPlaying = player.IsPlaying;
-
                 if (e.CurrentIndex == -1)
                 {
                     NowPlayingList.Clear();
@@ -630,7 +684,7 @@ namespace Aurora.Music.ViewModels
                         Tile.SendNormal(CurrentTitle, CurrentAlbum, string.Join(Consts.CommaSeparator, p.Performers ?? new string[] { }), p.PicturePath);
                     });
                 }
-                if (e.Items is IList<Song> l)
+                if (e.Items is IReadOnlyList<Song> l)
                 {
                     NowListPreview = $"{e.CurrentIndex + 1}/{l.Count}";
                     NowPlayingList.Clear();
@@ -753,12 +807,12 @@ namespace Aurora.Music.ViewModels
 
         public SolidColorBrush ChangeForeground(bool b)
         {
-            return (SolidColorBrush)(b ? MainPage.Current.Resources["SystemControlBackgroundAccentBrush"] : MainPage.Current.Resources["SystemControlDisabledBaseLowBrush"]);
+            return (SolidColorBrush)(b ? MainPage.Current.Resources["SystemControlBackgroundAccentBrush"] : MainPage.Current.Resources["ButtonDisabledForegroundThemeBrush"]);
         }
 
         public SolidColorBrush ChangeTextForeground(bool b)
         {
-            return (SolidColorBrush)(b ? MainPage.Current.Resources["SystemControlForegroundBaseHighBrush"] : MainPage.Current.Resources["SystemControlDisabledBaseLowBrush"]);
+            return (SolidColorBrush)(b ? MainPage.Current.Resources["SystemControlForegroundBaseHighBrush"] : MainPage.Current.Resources["ButtonDisabledForegroundThemeBrush"]);
         }
 
         public double BoolToOpacity(bool b)

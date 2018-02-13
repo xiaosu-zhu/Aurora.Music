@@ -3,12 +3,20 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace Aurora.Shared.Extensions
 {
     public static class StringExtension
     {
+        static string[] formats = { @"m\:ss", @"h\:mm\:ss", @"m\:ss\.FFF", @"h\:mm\:ss\.FFF" };
+
+        public static TimeSpan ParseDuration(this string str)
+        {
+            return TimeSpan.ParseExact(str, formats, CultureInfo.InvariantCulture);
+        }
+
         public static string Combine(this IEnumerable<string> strArr)
         {
             return string.Join(":|:", strArr);

@@ -60,8 +60,9 @@ namespace Aurora.Music.PlaybackEngine
             mediaPlayer.Volume = value / 100d;
         }
 
-        public event EventHandler<PlayingItemsChangedArgs> ItemsChanged;
         public event EventHandler<DownloadProgressChangedArgs> DownloadProgressChanged;
+        public event EventHandler<PlaybackStatusChangedArgs> PlaybackStatusChanged;
+        public event EventHandler<PlayingItemsChangedArgs> ItemsChanged;
 
         public Player()
         {
@@ -191,13 +192,12 @@ namespace Aurora.Music.PlaybackEngine
                 default:
                     break;
             }
-            ItemsChanged?.Invoke(this, new PlayingItemsChangedArgs
+
+            PlaybackStatusChanged?.Invoke(this, new PlaybackStatusChangedArgs()
             {
-                IsShuffle = mediaPlaybackList.ShuffleEnabled,
+                PlaybackStatus = mediaPlayer.PlaybackSession.PlaybackState,
                 IsLoop = mediaPlaybackList.AutoRepeatEnabled,
-                CurrentSong = mediaPlaybackList.CurrentItem?.Source.CustomProperties[Consts.SONG] as Song,
-                CurrentIndex = mediaPlaybackList.CurrentItem == null ? -1 : (int)mediaPlaybackList.CurrentItemIndex,
-                Items = currentList
+                IsShuffle = mediaPlaybackList.ShuffleEnabled
             });
         }
 
@@ -769,14 +769,6 @@ namespace Aurora.Music.PlaybackEngine
             {
                 mediaPlayer.Play();
             }
-            ItemsChanged?.Invoke(this, new PlayingItemsChangedArgs
-            {
-                IsShuffle = mediaPlaybackList.ShuffleEnabled,
-                IsLoop = mediaPlaybackList.AutoRepeatEnabled,
-                CurrentSong = mediaPlaybackList.CurrentItem?.Source.CustomProperties[Consts.SONG] as Song,
-                CurrentIndex = mediaPlaybackList.CurrentItem == null ? -1 : (int)mediaPlaybackList.CurrentItemIndex,
-                Items = currentList
-            });
         }
 
         public void RemoveCurrentItem()
@@ -862,14 +854,6 @@ namespace Aurora.Music.PlaybackEngine
             {
                 mediaPlayer.Play();
             }
-            ItemsChanged?.Invoke(this, new PlayingItemsChangedArgs
-            {
-                IsShuffle = mediaPlaybackList.ShuffleEnabled,
-                IsLoop = mediaPlaybackList.AutoRepeatEnabled,
-                CurrentSong = mediaPlaybackList.CurrentItem?.Source.CustomProperties[Consts.SONG] as Song,
-                CurrentIndex = mediaPlaybackList.CurrentItem == null ? -1 : (int)mediaPlaybackList.CurrentItemIndex,
-                Items = currentList
-            });
         }
 
         public async Task AddtoNextPlay(IList<Song> items)
@@ -884,13 +868,6 @@ namespace Aurora.Music.PlaybackEngine
 
             // NOTE: add to current song list
             currentList.InsertRange(curIdx + 1, items);
-
-            ItemsChanged?.Invoke(this, new PlayingItemsChangedArgs()
-            {
-                CurrentSong = mediaPlaybackList.CurrentItem?.Source.CustomProperties[Consts.SONG] as Song,
-                CurrentIndex = mediaPlaybackList.CurrentItem == null ? -1 : (int)mediaPlaybackList.CurrentItemIndex,
-                Items = currentList
-            });
 
             for (int i = 0; i < items.Count; i++)
             {

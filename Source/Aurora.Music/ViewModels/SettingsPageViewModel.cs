@@ -35,13 +35,19 @@ namespace Aurora.Music.ViewModels
             get { return audioSelectedIndex; }
             set
             {
-                if (value == -1)
-                    return;
-                SetProperty(ref audioSelectedIndex, value);
+                try
+                {
+                    if (value == -1)
+                        return;
+                    SetProperty(ref audioSelectedIndex, value);
 
-                Settings.Current.OutputDeviceID = DevicList[value].ID;
-                Settings.Current.Save();
-                PlaybackEngine.PlaybackEngine.Current.ChangeAudioEndPoint(Settings.Current.OutputDeviceID);
+                    Settings.Current.OutputDeviceID = DevicList[value].ID;
+                    Settings.Current.Save();
+                    PlaybackEngine.PlaybackEngine.Current.ChangeAudioEndPoint(Settings.Current.OutputDeviceID);
+                }
+                catch (Exception)
+                {
+                }
             }
         }
 
@@ -422,6 +428,7 @@ namespace Aurora.Music.ViewModels
             {
                 SetProperty(ref equalizerEnabled, value);
                 PlaybackEngine.PlaybackEngine.Current.ToggleEffect(Settings.Current.AudioGraphEffects);
+                MainPageViewModel.Current.AttachVisualizerSource();
             }
         }
 
@@ -464,7 +471,7 @@ namespace Aurora.Music.ViewModels
                 MetaExts.ToList().ForEach(async (x) => { await x.Load(); });
                 try
                 {
-                    var f = LyricExts.First(x => x.UniqueId == (Settings.Current.LyricExtensionID.IsNullorEmpty() ? Consts.AppUserModelId + "$|$BuiltIn" : Settings.Current.LyricExtensionID));
+                    var f = LyricExts.First(x => x.UniqueId == (Settings.Current.LyricExtensionID.IsNullorEmpty() ? Consts.PackageFamilyName + "$|$BuiltIn" : Settings.Current.LyricExtensionID));
                     if (f != null)
                     {
                         CurrentLyricIndex = LyricExts.IndexOf(f);
@@ -480,7 +487,7 @@ namespace Aurora.Music.ViewModels
                 }
                 try
                 {
-                    var f = OnlineExts.First(x => x.UniqueId == (Settings.Current.OnlineMusicExtensionID.IsNullorEmpty() ? Consts.AppUserModelId + "$|$BuiltIn" : Settings.Current.OnlineMusicExtensionID));
+                    var f = OnlineExts.First(x => x.UniqueId == (Settings.Current.OnlineMusicExtensionID.IsNullorEmpty() ? Consts.PackageFamilyName + "$|$BuiltIn" : Settings.Current.OnlineMusicExtensionID));
                     if (f != null)
                     {
                         CurrentOnlineIndex = OnlineExts.IndexOf(f);
@@ -496,7 +503,7 @@ namespace Aurora.Music.ViewModels
                 }
                 try
                 {
-                    var f = MetaExts.First(x => x.UniqueId == (Settings.Current.MetaExtensionID.IsNullorEmpty() ? Consts.AppUserModelId + "$|$BuiltIn" : Settings.Current.MetaExtensionID));
+                    var f = MetaExts.First(x => x.UniqueId == (Settings.Current.MetaExtensionID.IsNullorEmpty() ? Consts.PackageFamilyName + "$|$BuiltIn" : Settings.Current.MetaExtensionID));
                     if (f != null)
                     {
                         CurrentMetaIndex = MetaExts.IndexOf(f);
@@ -517,7 +524,7 @@ namespace Aurora.Music.ViewModels
         public async Task LoadExtension(AppExtension ext)
         {
             // get unique identifier for this extension
-            string identifier = ext.AppInfo.AppUserModelId + Consts.ArraySeparator + ext.Id;
+            string identifier = ext.AppInfo.PackageFamilyName + Consts.ArraySeparator + ext.Id;
 
             // load the extension if the package is OK
             if (!(ext.Package.Status.VerifyIsOK()
@@ -667,64 +674,63 @@ namespace Aurora.Music.ViewModels
             await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
             {
                 DownloadPathText = downloadFolder.Path;
-
-                while (DevicList.Count < 1)
+                try
                 {
-                    string audioSelector = MediaDevice.GetAudioRenderSelector();
-                    var outputDevices = await DeviceInformation.FindAllAsync(audioSelector);
-                    foreach (var device in outputDevices)
+                    while (DevicList.Count < 1)
                     {
-                        //var deviceItem = new ComboBoxItem();
-                        //deviceItem.Content = device.Name;
-                        //deviceItem.Tag = device;
-                        //_audioDeviceComboBox.Items.Add(deviceItem);
-                        DevicList.Add(new DeviceInformationViewModel()
+                        string audioSelector = MediaDevice.GetAudioRenderSelector();
+                        var outputDevices = await DeviceInformation.FindAllAsync(audioSelector);
+                        foreach (var device in outputDevices)
                         {
-                            Name = device.Name,
-                            ID = device.Id,
-                            Tag = device
+                            DevicList.Add(new DeviceInformationViewModel()
+                            {
+                                Name = device.Name,
+                                ID = device.Id,
+                                Tag = device
+                            });
+                        }
+                    }
+
+                    DevicList.Insert(0, new DeviceInformationViewModel()
+                    {
+                        Name = Consts.Localizer.GetString("SystemDefault"),
+                        ID = null,
+                        Tag = null
+                    });
+
+                    if (Settings.Current.OutputDeviceID.IsNullorEmpty())
+                    {
+                        await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
+                        {
+                            // wating for listview updated, weird
+                            await Task.Delay(500);
+                            AudioSelectedIndex = 0;
+                        });
+                    }
+                    else
+                    {
+                        int index = -1;
+                        for (int i = 0; i < DevicList.Count; i++)
+                        {
+                            if (DevicList[i].ID == Settings.Current.OutputDeviceID)
+                            {
+                                index = i;
+                                break;
+                            }
+                        }
+                        await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
+                        {
+                            // wating for listview updated, weird
+                            await Task.Delay(500);
+                            AudioSelectedIndex = index;
                         });
                     }
                 }
-
-                DevicList.Insert(0, new DeviceInformationViewModel()
+                catch (Exception)
                 {
-                    Name = Consts.Localizer.GetString("SystemDefault"),
-                    ID = null,
-                    Tag = null
-                });
 
-                if (Settings.Current.OutputDeviceID.IsNullorEmpty())
-                {
-                    await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
-                    {
-                        // wating for listview updated, weird
-                        await Task.Delay(500);
-                        AudioSelectedIndex = 0;
-                    });
                 }
-                else
-                {
-                    int index = -1;
-                    for (int i = 0; i < DevicList.Count; i++)
-                    {
-                        if (DevicList[i].ID == Settings.Current.OutputDeviceID)
-                        {
-                            index = i;
-                            break;
-                        }
-                    }
-                    await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
-                    {
-                        // wating for listview updated, weird
-                        await Task.Delay(500);
-                        AudioSelectedIndex = index;
-                    });
-                }
-
             });
-
-
         }
 
         private async void _catalog_PackageStatusChanged(AppExtensionCatalog sender, AppExtensionPackageStatusChangedEventArgs args)

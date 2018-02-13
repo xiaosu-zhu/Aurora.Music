@@ -23,6 +23,7 @@ namespace Aurora.Music.Pages
             AddFolderFrame.Navigate(typeof(AddFoldersView), new object());
             Ani2.Stop();
             Ani1.Begin();
+            Main.SelectionChanged += Main_SelectionChanged;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

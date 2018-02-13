@@ -18,7 +18,7 @@
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
     <PackageCertificateKeyFile>Aurora.Music_StoreKey.pfx</PackageCertificateKeyFile>
-    <PackageCertificateThumbprint>D409768E6DEB20117C5C34DD2AFD4A7D7C98B3D1</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>9170EFC91A21505F1EA86CFEFD5D799B63345A39</PackageCertificateThumbprint>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
     <AppxBundlePlatforms>x86|x64</AppxBundlePlatforms>
@@ -157,6 +157,9 @@
     <Compile Include="Controls\OpenSource.xaml.cs">
       <DependentUpon>OpenSource.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\PodcastDialog.xaml.cs">
+      <DependentUpon>PodcastDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\SearchResultDialog.xaml.cs">
       <DependentUpon>SearchResultDialog.xaml</DependentUpon>
     </Compile>
@@ -207,6 +210,9 @@
     <Compile Include="Pages\PlayListPage.xaml.cs">
       <DependentUpon>PlayListPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\PodcastPage.xaml.cs">
+      <DependentUpon>PodcastPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
@@ -236,6 +242,7 @@
     <Compile Include="ViewModels\NowPlayingPageViewModel.cs" />
     <Compile Include="ViewModels\PlayListPageViewModel.cs" />
     <Compile Include="ViewModels\PlayListViewModel.cs" />
+    <Compile Include="ViewModels\PodcastPageViewModel.cs" />
     <Compile Include="ViewModels\SettingsPageViewModel.cs" />
     <Compile Include="ViewModels\SongsPageViewModel.cs" />
     <Compile Include="ViewModels\SongViewModel.cs" />
@@ -410,6 +417,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\PodcastDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\SearchResultDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -471,6 +482,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\PlayListPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\PodcastPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

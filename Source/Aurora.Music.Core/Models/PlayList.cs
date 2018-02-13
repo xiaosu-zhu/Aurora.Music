@@ -9,12 +9,11 @@ using System.Threading.Tasks;
 
 namespace Aurora.Music.Core.Models
 {
-    public class PlayList
+    public class PlayList : List<Song>
     {
         public string Title { get; set; }
         public string Description { get; set; }
         public string[] Tags { get; set; }
-        public List<Song> Songs { get; set; }
         public int ID { get; set; }
 
         /// <summary>
@@ -43,7 +42,7 @@ namespace Aurora.Music.Core.Models
         {
         }
 
-        public async Task<int> SaveAsync()
+        public virtual async Task<int> SaveAsync()
         {
             return await SQLOperator.Current().UpdatePlayListAsync(new PLAYLIST(this));
         }

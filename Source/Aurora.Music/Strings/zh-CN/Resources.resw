@@ -1065,4 +1065,16 @@
     <value>循环播放</value>
     <comment>Repeat</comment>
   </data>
+  <data name="DroptoPlay" xml:space="preserve">
+    <value>放下以播放</value>
+    <comment>Drop to Play</comment>
+  </data>
+  <data name="DroptoPlay" xml:space="preserve">
+    <value>放下以播放</value>
+    <comment>Drop to Play</comment>
+  </data>
+  <data name="NotSupport" xml:space="preserve">
+    <value>不支持</value>
+    <comment>Not Support</comment>
+  </data>
 </root>

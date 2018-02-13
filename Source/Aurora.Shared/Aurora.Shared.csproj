@@ -124,6 +124,7 @@
     <Compile Include="Extensions\FrameworkElementExtensions.cs" />
     <Compile Include="Extensions\IntExtension.cs" />
     <Compile Include="Extensions\StringExtension.cs" />
+    <Compile Include="Extensions\Times.cs" />
     <Compile Include="Extensions\TypeExtension.cs" />
     <Compile Include="Extensions\UIElementExtensions.cs" />
     <Compile Include="Helpers\AsyncHelper.cs" />

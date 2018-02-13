@@ -35,6 +35,8 @@ namespace Aurora.Music.ViewModels
 
         public bool IsOnline { get; set; }
 
+        public bool IsPodcast { get; set; }
+
         public string GetAddtionalDesc()
         {
             var descs = new List<string>();
@@ -103,6 +105,15 @@ namespace Aurora.Music.ViewModels
             Track = song.Track;
             Artwork = new Uri(song.PicturePath.IsNullorEmpty() ? Consts.NowPlaceholder : song.PicturePath);
             Duration = song.Duration;
+            PubDate = song.PubDate;
+            IsPodcast = song.IsPodcast;
+        }
+
+        private DateTime pubDate;
+        public DateTime PubDate
+        {
+            get { return pubDate; }
+            set { SetProperty(ref pubDate, value); }
         }
 
         private TimeSpan duration;
@@ -136,6 +147,60 @@ namespace Aurora.Music.ViewModels
         public string DurationtoString(TimeSpan t)
         {
             return t.ToString($@"m\{CultureInfoHelper.CurrentCulture.DateTimeFormat.TimeSeparator}ss", CultureInfoHelper.CurrentCulture);
+        }
+
+        public string PubDatetoString(DateTime d)
+        {
+            var a = DateTime.Today;
+            var k = (a - d);
+
+            if (d.Date == a)
+            {
+                return "Today";
+            }
+
+            if (d.Year != a.Year)
+            {
+                return d.ToString("yy/M/dd");
+            }
+            else
+            {
+                // use Date
+                if (Math.Abs(k.TotalDays) > 7)
+                {
+                    return d.ToString("M/dd ddd");
+                }
+                // use day of week
+                else
+                {
+                    if (d > a)
+                    {
+                        // this week
+                        if (d.DayOfWeek > a.DayOfWeek)
+                        {
+                            return d.ToString("dddd");
+                        }
+                        // next week
+                        else
+                        {
+                            return $"Next {d.ToString("dddd")}";
+                        }
+                    }
+                    else
+                    {
+                        // last week
+                        if (d.DayOfWeek >= a.DayOfWeek)
+                        {
+                            return $"Last {d.ToString("dddd")}";
+                        }
+                        // this week
+                        else
+                        {
+                            return d.ToString("dddd");
+                        }
+                    }
+                }
+            }
         }
 
         public string FormatDuration(TimeSpan t)

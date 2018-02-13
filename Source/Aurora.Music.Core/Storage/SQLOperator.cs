@@ -306,6 +306,36 @@ namespace Aurora.Music.Core.Storage
         }
     }
 
+    public class PODCAST
+    {
+        public PODCAST() { }
+        public PODCAST(Podcast podcast)
+        {
+            ID = podcast.ID;
+            Title = podcast.Title;
+            Author = podcast.Author;
+            Description = podcast.Description;
+            XMLPath = podcast.XMLPath;
+            LastUpdate = podcast.LastUpdate;
+            Subscribed = podcast.Subscribed;
+            HeroArtworks = string.Join(Consts.ArraySeparator, podcast.HeroArtworks ?? new string[] { });
+            XMLUrl = podcast.XMLUrl;
+        }
+
+        [PrimaryKey, AutoIncrement]
+        public int ID { get; set; }
+
+        [Unique]
+        public string Title { get; set; }
+        public string Author { get; set; }
+        public string Description { get; set; }
+        public string XMLPath { get; set; }
+        public string XMLUrl { get; set; }
+        public DateTime LastUpdate { get; set; }
+        public bool Subscribed { get; set; }
+        public string HeroArtworks { get; set; }
+    }
+
     public class ONLINESONG
     {
         [PrimaryKey, AutoIncrement]
@@ -447,7 +477,7 @@ namespace Aurora.Music.Core.Storage
 
         private void CreateTable()
         {
-            conn.GetConnection().CreateTables(CreateFlags.None, new Type[] { typeof(SONG), typeof(ALBUM), typeof(FOLDER), typeof(STATISTICS), typeof(PLAYSTATISTIC), typeof(AVATAR), typeof(PLAYLIST), typeof(SEARCHHISTORY) });
+            conn.GetConnection().CreateTables(CreateFlags.None, new Type[] { typeof(SONG), typeof(ALBUM), typeof(FOLDER), typeof(STATISTICS), typeof(PLAYSTATISTIC), typeof(AVATAR), typeof(PLAYLIST), typeof(SEARCHHISTORY), typeof(PODCAST) });
         }
 
         public async Task WriteFavoriteAsync(int id, bool isCurrentFavorite)
@@ -1202,6 +1232,7 @@ namespace Aurora.Music.Core.Storage
             await conn.DropTableAsync<AVATAR>();
             await conn.DropTableAsync<PLAYLIST>();
             await conn.DropTableAsync<SEARCHHISTORY>();
+            await conn.DropTableAsync<PODCAST>();
         }
 
         internal async Task UpdateSongAsync(Song model)
@@ -1270,6 +1301,11 @@ namespace Aurora.Music.Core.Storage
             return playlists;
         }
 
+        public async Task<List<PODCAST>> GetPodcastListBriefAsync()
+        {
+            return await conn.QueryAsync<PODCAST>("SELECT * FROM PODCAST WHERE Subscribed=1");
+        }
+
         internal async Task<int> UpdatePlayListAsync(PLAYLIST p)
         {
             var res = await conn.QueryAsync<PLAYLIST>("SELECT * FROM PLAYLIST WHERE TITLE=?", p.Title);
@@ -1305,6 +1341,30 @@ namespace Aurora.Music.Core.Storage
         public async Task<List<SEARCHHISTORY>> GetSearchHistoryAsync()
         {
             return await conn.QueryAsync<SEARCHHISTORY>("SELECT * FROM SEARCHHISTORY ORDER BY ID DESC LIMIT 10");
+        }
+
+        internal async Task<int> UpdatePodcastAsync(PODCAST p)
+        {
+            var res = await conn.QueryAsync<PODCAST>("SELECT * FROM PODCAST WHERE TITLE=? AND AUTHOR=?", p.Title, p.Author);
+            if (res.Count > 0)
+            {
+                p.ID = res[0].ID;
+                await conn.UpdateAsync(p);
+                return p.ID;
+            }
+            await conn.InsertAsync(p);
+
+            return p.ID;
+        }
+
+        internal async Task<PODCAST> TryGetPODCAST(string xMLUrl)
+        {
+            var res = await conn.QueryAsync<PODCAST>("SELECT * FROM PODCAST WHERE XMLUrl=?", xMLUrl);
+            if (res.Count > 0)
+            {
+                return res[0];
+            }
+            return null;
         }
     }
 }

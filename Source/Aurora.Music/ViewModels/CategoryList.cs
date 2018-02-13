@@ -23,14 +23,15 @@ namespace Aurora.Music.ViewModels
 
         public double GetHeight(bool b)
         {
-            return b ? 250d : 150d;
+            return b ? 240d : 96d;
         }
 
         public double GetVerticalShift(bool b)
         {
-            return b ? 0d : -250d;
+            return b ? 0d : -240d;
         }
         public IList<ImageSource> HeroImages { get; set; }
+        public int ID { get; internal set; }
 
         public double BoolToOpacity(bool a)
         {
@@ -39,7 +40,7 @@ namespace Aurora.Music.ViewModels
 
         public SolidColorBrush ChangeTextForeground(bool b)
         {
-            return (SolidColorBrush)(b ? MainPage.Current.Resources["SystemControlForegroundBaseHighBrush"] : MainPage.Current.Resources["SystemControlDisabledBaseLowBrush"]);
+            return (SolidColorBrush)(b ? MainPage.Current.Resources["SystemControlForegroundBaseHighBrush"] : MainPage.Current.Resources["ButtonDisabledForegroundThemeBrush"]);
         }
     }
 }

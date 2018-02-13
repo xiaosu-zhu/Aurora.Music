@@ -18,14 +18,21 @@ namespace Aurora.Shared.Helpers
 
     public class CultureInfoHelper
     {
-        public static CultureInfo CurrentCulture
-        { get; } = GetCurrentCulture();
+        public static CultureInfo CurrentCulture => GetCurrentCulture();
 
         private static CultureInfo GetCurrentCulture()
         {
             var cultureName = new DateTimeFormatter("longdate", new[] { "US" }).ResolvedLanguage;
 
             return new CultureInfo(cultureName);
+        }
+        public static string CurrentRegionISO => GetCurrentRegionISO();
+
+        private static string GetCurrentRegionISO()
+        {
+            // Get the user's geographic region and its two-letter identifier for this region.
+            var geographicRegion = new Windows.Globalization.GeographicRegion();
+            return geographicRegion.CodeTwoLetter;
         }
     }
 

@@ -104,6 +104,7 @@ namespace Aurora.Music.ViewModels
         {
             PlaybackEngine.PlaybackEngine.Current.ItemsChanged -= Current_StatusChanged;
             PlaybackEngine.PlaybackEngine.Current.PositionUpdated -= Current_PositionUpdated;
+            PlaybackEngine.PlaybackEngine.Current.PlaybackStatusChanged -= Current_PlaybackStatusChanged;
             Palette?.Clear();
             Palette = null;
             Channels?.Clear();
@@ -329,6 +330,7 @@ namespace Aurora.Music.ViewModels
             var douban = JsonConvert.DeserializeObject<Douban>(result);
 
             PlaybackEngine.PlaybackEngine.Current.ItemsChanged += Current_StatusChanged;
+            PlaybackEngine.PlaybackEngine.Current.PlaybackStatusChanged += Current_PlaybackStatusChanged;
             PlaybackEngine.PlaybackEngine.Current.PositionUpdated += Current_PositionUpdated;
 
             await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
@@ -355,6 +357,14 @@ namespace Aurora.Music.ViewModels
             });
         }
 
+        private async void Current_PlaybackStatusChanged(object sender, PlaybackStatusChangedArgs e)
+        {
+            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            {
+                IsPlaying = e.PlaybackStatus == Windows.Media.Playback.MediaPlaybackState.Playing;
+            });
+        }
+
         private void Current_PositionUpdated(object sender, PositionUpdatedArgs e)
         {
             lastProgress = e.Current / e.Total;
@@ -364,7 +374,6 @@ namespace Aurora.Music.ViewModels
         {
             await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
-
                 if (e.CurrentSong != null)
                 {
                     if (e.CurrentSong.OnlineID != sid)
@@ -416,8 +425,6 @@ namespace Aurora.Music.ViewModels
                                 Palette = list;
                             });
                         });
-
-
                         rateToggle = false;
                         RaisePropertyChanged("RateToggle");
 
@@ -486,7 +493,6 @@ namespace Aurora.Music.ViewModels
                         });
                     }
                 }
-                IsPlaying = PlaybackEngine.PlaybackEngine.Current.IsPlaying;
             });
         }
 

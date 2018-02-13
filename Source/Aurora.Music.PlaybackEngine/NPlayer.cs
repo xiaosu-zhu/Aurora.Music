@@ -28,6 +28,7 @@ namespace Aurora.Music.PlaybackEngine
         public event EventHandler<PositionUpdatedArgs> PositionUpdated;
         public event EventHandler<PlayingItemsChangedArgs> ItemsChanged;
         public event EventHandler<DownloadProgressChangedArgs> DownloadProgressChanged;
+        public event EventHandler<PlaybackStatusChangedArgs> PlaybackStatusChanged;
 
         public NPlayer()
         {

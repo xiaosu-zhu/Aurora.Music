@@ -34,7 +34,7 @@ namespace Aurora.Music.ViewModels
             Description = p.Description;
             Tags = p.Tags;
             HeroArtworks = p.HeroArtworks == null ? null : Array.ConvertAll(p.HeroArtworks, x => new Uri(x)).ToList();
-            Songs = p.Songs?.ConvertAll(x => new SongViewModel(x));
+            Songs = p?.ConvertAll(x => new SongViewModel(x));
             SongsID = p.SongsID;
         }
 

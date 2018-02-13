@@ -73,7 +73,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         </CheckBox>
                         <CheckBox Foreground="{ThemeResource SystemControlForegroundAccentBrush}" Grid.Column="1" IsChecked="{x:Bind MusicEnabled(ExtType), Mode=OneWay}">
                             <CheckBox.Content>
-                                <FontIcon Foreground="{ThemeResource SystemControlForegroundAccentBrush}" FontFamily="Segoe MDL2 Assets" Glyph="&#xE93E;" />
+                                <FontIcon Foreground="{ThemeResource SystemControlForegroundAccentBrush}" FontFamily="Segoe MDL2 Assets" Glyph="&#xE753;" />
                             </CheckBox.Content>
                         </CheckBox>
                         <CheckBox Foreground="{ThemeResource SystemControlForegroundAccentBrush}" Grid.Column="2" IsChecked="{x:Bind MetaEnabled(ExtType), Mode=OneWay}">

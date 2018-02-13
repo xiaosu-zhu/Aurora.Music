@@ -711,7 +711,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </Storyboard>
 
             <DataTemplate x:Key="AlbumTemplate" x:DataType="vm:GenericMusicItemViewModel">
-                <Grid Margin="8,0" >
+                <Grid Margin="0,0,8,0" >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
@@ -725,15 +725,16 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                             <BitmapImage DecodePixelWidth="80" UriSource="{x:Bind Artwork, TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png}"/>
                         </Image.Source>
                     </Image>
-                    <TextBlock Text="{x:Bind Title}" Style="{ThemeResource BaseTextBlockStyle}" MaxLines="2" TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis" Margin="12,8" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    <TextBlock Style="{ThemeResource BodyTextBlockStyle}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Margin="12,8" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center">
+                    <TextBlock Text="{x:Bind Title}" Style="{ThemeResource BaseTextBlockStyle}" MaxLines="2" TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis" Margin="8,8,8,0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <TextBlock Style="{ThemeResource BodyTextBlockStyle}" TextWrapping="NoWrap" MaxLines="1"
+                               TextTrimming="CharacterEllipsis" Margin="8,0,8,8" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center">
                         <Run Text="{x:Bind Description}"/><Run Text=" - "/><Run Text="{x:Bind Addtional}"/>
                     </TextBlock>
                 </Grid>
             </DataTemplate>
             <DataTemplate x:Key="SearchSuggestionTemplate" x:DataType="vm:GenericMusicItemViewModel">
                 <StackPanel Margin="8,0" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                    <FontIcon FontSize="15" FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Center" VerticalAlignment="Center" Glyph="{x:Bind Description}" Margin="0,0,4,0"/>
+                    <FontIcon Foreground="{ThemeResource AccentForText}" FontSize="15" FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Center" VerticalAlignment="Center" Glyph="{x:Bind Description}" Margin="0,0,4,0"/>
                     <TextBlock VerticalAlignment="Center" HorizontalAlignment="Stretch" Text="{x:Bind Title}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Margin="4,0"/>
                 </StackPanel>
             </DataTemplate>
@@ -752,7 +753,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <Grid Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" Height="9" Width="160" Margin="8,0,8,8" Background="{ThemeResource SystemControlBackgroundBaseLowBrush}"/>
                 </Grid>
             </DataTemplate>
-
             <DataTemplate x:Key="SongTemplate" x:DataType="vm:GenericMusicItemViewModel">
                 <Grid Margin="8,0" >
                     <Grid.ColumnDefinitions>
@@ -764,7 +764,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto" MinHeight="8"/>
                     </Grid.RowDefinitions>
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Grid.RowSpan="3" VerticalAlignment="Center" Glyph="{x:Bind OnlineToSymbol(IsOnline)}" Margin="0,0,8,0"/>
+                    <FontIcon Foreground="{ThemeResource AccentForText}" FontFamily="Segoe MDL2 Assets" Grid.RowSpan="3" VerticalAlignment="Center" Glyph="{x:Bind OnlineToSymbol(IsOnline)}" Margin="0,0,8,0"/>
                     <TextBlock Style="{ThemeResource BodyTextBlockStyle}" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Margin="4,8,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1">
                         <Run Text="{x:Bind Title}" FontWeight="Bold"/>
                     </TextBlock>
@@ -774,8 +774,33 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <TextBlock Text="Online Content" Grid.Row="2" Grid.Column="1"  Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource SystemControlHighlightAccent2RevealBackgroundBrush}" Margin="4,0,4,8" FontSize="10" Visibility="{x:Bind IsOnline}"/>
                 </Grid>
             </DataTemplate>
+            <DataTemplate x:Key="PodcastTemplate" x:DataType="vm:GenericMusicItemViewModel">
+                <Grid Margin="0,0,8,0" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.RowSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="Uniform">
+                        <Image.Source>
+                            <BitmapImage DecodePixelWidth="80" UriSource="{x:Bind Artwork, TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png}"/>
+                        </Image.Source>
+                    </Image>
+                    <TextBlock Style="{ThemeResource BaseTextBlockStyle}" MaxLines="2" TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis" Margin="8,8,8,0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <Run FontSize="13" FontFamily="Segoe MDL2 Assets" FontWeight="Normal" Foreground="{ThemeResource AccentForText}" Text="&#xE95A;" />
+                        <Run Text="{x:Bind Title}"/>
+                    </TextBlock>
+                    <TextBlock Style="{ThemeResource BodyTextBlockStyle}" TextWrapping="NoWrap" MaxLines="1"
+                                TextTrimming="CharacterEllipsis" Margin="8,0,8,8" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <Run Text="{x:Bind Description}"/>
+                    </TextBlock>
+                </Grid>
+            </DataTemplate>
 
-            <controls:HomePageTemplateSeletor x:Key="GenericItemSelector" SearchSuggestTemplate="{StaticResource SearchSuggestionTemplate}" PlaceholderTemplate="{StaticResource PlaceholderTemplate}" SongTemplate="{StaticResource SongTemplate}" AlbumTemplate="{StaticResource AlbumTemplate}"/>
+            <controls:HomePageTemplateSeletor x:Key="GenericItemSelector" PodcastTemplate="{StaticResource PodcastTemplate}" SearchSuggestTemplate="{StaticResource SearchSuggestionTemplate}" PlaceholderTemplate="{StaticResource PlaceholderTemplate}" SongTemplate="{StaticResource SongTemplate}" AlbumTemplate="{StaticResource AlbumTemplate}"/>
 
 
             <MenuFlyout x:Key="SongFlyout">

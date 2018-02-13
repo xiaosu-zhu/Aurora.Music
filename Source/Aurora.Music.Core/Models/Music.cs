@@ -18,7 +18,7 @@ namespace Aurora.Music.Core.Models
 {
     public enum MediaType
     {
-        Song, Album, PlayList, Artist, Placeholder
+        Song, Album, PlayList, Artist, Podcast, Placeholder
     }
 
     public sealed class Artist
@@ -442,12 +442,19 @@ namespace Aurora.Music.Core.Models
         public int ID { get; set; }
         public int SampleRate { get; set; }
         public int AudioChannels { get; private set; }
+
+
         public bool IsOnline { get; set; }
         public Uri OnlineUri { get; set; }
         public string OnlineID { get; set; }
         public double Rating { get; set; }
         public string OnlineAlbumID { get; set; }
+
+        public bool IsPodcast { get; set; }
+
+
         public string FileType { get; internal set; }
+        public DateTime PubDate { get; set; }
 
         public async Task<bool> GetFavoriteAsync()
         {

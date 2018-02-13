@@ -40,7 +40,7 @@ namespace Aurora.Music.Core.Models
             #endregion
 
             //AUMID + Extension ID is the unique identifier for an extension
-            UniqueId = ext.AppInfo.AppUserModelId + Consts.ArraySeparator + ext.Id;
+            UniqueId = ext.AppInfo.PackageFamilyName + Consts.ArraySeparator + ext.Id;
         }
 
         #region Properties
@@ -57,7 +57,7 @@ namespace Aurora.Music.Core.Models
 
         public void New(AppExtension ext)
         {
-            if (UniqueId == ext.AppInfo.AppUserModelId + Consts.ArraySeparator + ext.Id)
+            if (UniqueId == ext.AppInfo.PackageFamilyName + Consts.ArraySeparator + ext.Id)
             {
                 AppExtension = ext;
                 #region Properties
@@ -77,14 +77,14 @@ namespace Aurora.Music.Core.Models
         {
             if (lyricExtensionID.IsNullorEmpty())
             {
-                lyricExtensionID = Consts.AppUserModelId + "$|$BuiltIn";
+                lyricExtensionID = Consts.PackageFamilyName + "$|$BuiltIn";
             }
             var catalog = AppExtensionCatalog.Open(Consts.ExtensionContract);
             var extesions = await catalog.FindAllAsync();
             bool b = false;
             find: foreach (var ext in extesions)
             {
-                if (lyricExtensionID == ext.AppInfo.AppUserModelId + Consts.ArraySeparator + ext.Id)
+                if (lyricExtensionID == ext.AppInfo.PackageFamilyName + Consts.ArraySeparator + ext.Id)
                 {
                     try
                     {
@@ -121,7 +121,7 @@ namespace Aurora.Music.Core.Models
             if (!b)
             {
                 b = true;
-                lyricExtensionID = Consts.AppUserModelId + "$|$BuiltIn";
+                lyricExtensionID = Consts.PackageFamilyName + "$|$BuiltIn";
                 goto find;
             }
             else

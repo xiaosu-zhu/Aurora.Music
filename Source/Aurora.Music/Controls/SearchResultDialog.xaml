@@ -31,7 +31,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         <StackPanel Grid.Column="1" Margin="16" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Center">
             <StackPanel Orientation="Horizontal" Margin="4,0,4,4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MaxWidth="320">
                 <TextBlock x:Name="TitleText" Style="{ThemeResource TitleTextBlockStyle}" MaxLines="2" TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis"/>
-                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE93E;" Margin="8,0" Foreground="{ThemeResource SystemControlForegroundAccentBrush}" x:Name="OnlineIndicator"/>
+                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE753;" Margin="8,0" Foreground="{ThemeResource SystemControlForegroundAccentBrush}" x:Name="OnlineIndicator"/>
             </StackPanel>
             <TextBlock x:Name="Description" Style="{ThemeResource BodyTextBlockStyle}" Margin="4,0,4,4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MaxLines="2" MaxWidth="320"/>
             <TextBlock x:Name="Addtional" Style="{ThemeResource BodyTextBlockStyle}" Margin="4,0,4,4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MaxLines="2" MaxWidth="320"/>

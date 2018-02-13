@@ -81,16 +81,8 @@ namespace Aurora.Music.ViewModels
                 SetProperty(ref currentColorBrush, value);
                 var c = currentColorBrush.Color;
                 c.ColorToHSV(out var h, out var s, out var v);
-                if (NowPlayingPage.Current.IsDarkTheme())
-                {
-                    v = 1;
-                }
-                else
-                {
-                    v = 0.5;
-                }
-                CurrentColor[0] = ImagingHelper.ColorFromHSV(h, 1, 0.6666666666666666666666666667);
-                CurrentColor[1] = ImagingHelper.ColorFromHSV(h, s, 0.3333333333333333333333333333);
+                CurrentColor[0] = ImagingHelper.ColorFromHSV(h, s, 0.8);
+                CurrentColor[1] = ImagingHelper.ColorFromHSV(h, s, 0.6);
             }
         }
 
@@ -135,8 +127,7 @@ namespace Aurora.Music.ViewModels
             BufferProgress = MainPageViewModel.Current.BufferProgress;
             SongChanged?.Invoke(song, EventArgs.Empty);
             CurrentRating = song.Rating;
-            var brush = new SolidColorBrush(await ImagingHelper.GetMainColor(CurrentArtwork));
-            CurrentColorBrush = brush;
+            CurrentColorBrush = new SolidColorBrush(await ImagingHelper.GetMainColor(CurrentArtwork));
             MainPageViewModel.Current.LeftTopColor = AdjustColorbyTheme(CurrentColorBrush);
             CurrentIndex = MainPageViewModel.Current.CurrentIndex;
             var task = ThreadPool.RunAsync(async x =>
@@ -310,6 +301,7 @@ namespace Aurora.Music.ViewModels
             player.DownloadProgressChanged -= Player_DownloadProgressChanged;
             player.PositionUpdated -= Player_PositionUpdated;
             player.ItemsChanged -= Player_StatusChanged;
+            player.PlaybackStatusChanged -= Player_PlaybackStatusChanged;
 
             dataTransferManager.DataRequested -= DataTransferManager_DataRequested;
         }
@@ -498,6 +490,7 @@ namespace Aurora.Music.ViewModels
         {
             player = PlaybackEngine.PlaybackEngine.Current;
             player.ItemsChanged += Player_StatusChanged;
+            player.PlaybackStatusChanged += Player_PlaybackStatusChanged;
             player.PositionUpdated += Player_PositionUpdated;
             player.DownloadProgressChanged += Player_DownloadProgressChanged;
 
@@ -511,6 +504,16 @@ namespace Aurora.Music.ViewModels
             {
                 NowPlayingList.Add(item);
             }
+        }
+
+        private async void Player_PlaybackStatusChanged(object sender, PlaybackStatusChangedArgs e)
+        {
+            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            {
+                IsPlaying = e.PlaybackStatus == Windows.Media.Playback.MediaPlaybackState.Playing;
+                IsLoop = e.IsLoop;
+                IsShuffle = e.IsShuffle;
+            });
         }
 
         private async void DataTransferManager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
@@ -879,7 +882,6 @@ namespace Aurora.Music.ViewModels
         {
             await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
             {
-                IsPlaying = player.IsPlaying;
                 if (e.CurrentSong != null)
                 {
                     if (!_lastSong.IsIDEqual(e.CurrentSong))
@@ -911,7 +913,7 @@ namespace Aurora.Music.ViewModels
                             MainPageViewModel.Current.LeftTopColor = AdjustColorbyTheme(CurrentColorBrush);
                             lastUriPath = null;
                         }
-                        if (e.Items is IList<Song> l)
+                        if (e.Items is IReadOnlyList<Song> l)
                         {
                             NowListPreview = $"{e.CurrentIndex + 1}/{l.Count}";
                             NowPlayingList.Clear();
@@ -927,7 +929,6 @@ namespace Aurora.Music.ViewModels
                                 CurrentIndex = e.CurrentIndex;
                             }
                         }
-
                         IsCurrentFavorite = await e.CurrentSong.GetFavoriteAsync();
                     }
                 }
@@ -948,7 +949,7 @@ namespace Aurora.Music.ViewModels
                         var result = await ext.GetLyricAsync(song.Song, MainPageViewModel.Current.OnlineMusicExtension?.ServiceName);
                         if (result != null)
                         {
-                            var l = new Lyric(LrcParser.Parser.Parse((string)result, Song.Song.Duration));
+                            var l = new Lyric(LrcParser.Parser.Parse(result, Song.Song.Duration));
                             await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                             {
                                 Lyric.New(l);
@@ -979,7 +980,7 @@ namespace Aurora.Music.ViewModels
         {
             player.PositionUpdated -= Player_PositionUpdated;
             player.ItemsChanged -= Player_StatusChanged;
-
+            player.PlaybackStatusChanged -= Player_PlaybackStatusChanged;
             dataTransferManager.DataRequested -= DataTransferManager_DataRequested;
             castingPicker.CastingDeviceSelected -= CastingPicker_CastingDeviceSelected;
             castingPicker = null;

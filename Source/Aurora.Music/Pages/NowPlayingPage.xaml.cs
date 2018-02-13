@@ -291,9 +291,9 @@ namespace Aurora.Music.Pages
         SpectrumData _previousSpectrum;
         SpectrumData _previousPeakSpectrum;
 
-        TimeSpan _rmsRiseTime = TimeSpan.FromMilliseconds(50);
-        TimeSpan _rmsFallTime = TimeSpan.FromMilliseconds(50);
-        TimeSpan _peakRiseTime = TimeSpan.FromMilliseconds(50);
+        TimeSpan _rmsRiseTime = TimeSpan.FromMilliseconds(200);
+        TimeSpan _rmsFallTime = TimeSpan.FromMilliseconds(200);
+        TimeSpan _peakRiseTime = TimeSpan.FromMilliseconds(200);
         TimeSpan _peakFallTime = TimeSpan.FromMilliseconds(2000);
         TimeSpan _frameDuration = TimeSpan.FromMilliseconds(16.66666666666666666666666667);
 
@@ -331,7 +331,6 @@ namespace Aurora.Music.Pages
             float barWidth = canvasWidth / (2 * Consts.SpectrumBarCount);
             // Calculate spectum metrics
             Vector2 barSize = new Vector2(barWidth, canvasHeight - 2 * barWidth);
-            // Top and bottom margins apply twice (as there are two spectrum displays)
 
             // Get the data if data exists and source is in play state, else use empty
             var spectrumData = args.Data != null && Visualizer.Source?.PlaybackState == SourcePlaybackState.Playing ?
@@ -364,7 +363,7 @@ namespace Aurora.Music.Pages
                 float spectrumBarHeight = barSize.Y * (1.0f - (logPeakSpectrum[0][index] + logPeakSpectrum[1][index]) / -100.0f);
 
                 Vector2 decayPoint = new Vector2(X, canvasHeight - barWidth - spectrumBarHeight);
-                drawingSession.FillCircle(decayPoint, barSize.X / 2, brush);
+                drawingSession.FillCircle(decayPoint, barSize.X / 2, Context.CurrentColor[0]);
             }
         }
     }

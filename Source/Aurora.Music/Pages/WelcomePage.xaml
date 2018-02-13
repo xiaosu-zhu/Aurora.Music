@@ -364,7 +364,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#AA000000"/>
             </Grid>
         </ParallaxView>
-        <FlipView Style="{StaticResource WelcomPageFlipView}" Background="{x:Null}" SelectionChanged="Main_SelectionChanged"
+        <FlipView Style="{StaticResource WelcomPageFlipView}" Background="{x:Null}"
                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="Main">
             <Grid HorizontalAlignment="Center" VerticalAlignment="Stretch">
                 <Grid.RowDefinitions>

@@ -1070,4 +1070,12 @@
     <value>Repeat</value>
     <comment>Repeat</comment>
   </data>
+  <data name="DroptoPlay" xml:space="preserve">
+    <value>Drop to Play</value>
+    <comment>Drop to Play</comment>
+  </data>
+  <data name="NotSupport" xml:space="preserve">
+    <value>Not Support</value>
+    <comment>Not Support</comment>
+  </data>
 </root>

@@ -516,9 +516,14 @@ namespace Aurora.Music
                     SearchBox.Text = g.Title;
                     return;
                 }
-                if (g.InnerType == MediaType.Album)
+                else if (g.InnerType == MediaType.Album)
                 {
                     var view = new AlbumViewDialog(await g.FindAssociatedAlbumAsync());
+                    var result = await view.ShowAsync();
+                }
+                else if (g.InnerType == MediaType.Podcast)
+                {
+                    var view = new PodcastDialog(g);
                     var result = await view.ShowAsync();
                 }
                 else
@@ -616,30 +621,11 @@ namespace Aurora.Music
             var text = sender.Text;
 
             text = text.Replace('\'', ' ');
-
-            autoSuggestPopupPanel.Children[0].Visibility = Visibility.Visible;
-            ((autoSuggestPopupPanel.Children[0] as Panel).Children[0] as ProgressRing).IsActive = true;
-            searchTask = ThreadPool.RunAsync(async x =>
+            Task.Run(async () =>
             {
                 CanAdd = true;
                 await Context.Search(text);
             });
-        }
-
-        private void Grid_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
-            if (sender is Panel s)
-            {
-                (s.Resources["PointerOver"] as Storyboard).Begin();
-            }
-        }
-
-        private void Grid_PointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
-            if (sender is Panel s)
-            {
-                (s.Resources["Normal"] as Storyboard).Begin();
-            }
         }
 
         private void PlayBtn_Click(object sender, RoutedEventArgs e)
@@ -655,7 +641,7 @@ namespace Aurora.Music
             {
                 e.Handled = true;
                 e.DragUIOverride.IsGlyphVisible = true;
-                e.DragUIOverride.Caption = "Drop to Play";
+                e.DragUIOverride.Caption = Consts.Localizer.GetString("DroptoPlay");
                 e.DragUIOverride.IsCaptionVisible = true;
                 e.DragUIOverride.IsContentVisible = true;
                 e.AcceptedOperation = DataPackageOperation.None | DataPackageOperation.Copy | DataPackageOperation.Link | DataPackageOperation.Move;
@@ -663,7 +649,7 @@ namespace Aurora.Music
             else
             {
                 e.DragUIOverride.IsGlyphVisible = true;
-                e.DragUIOverride.Caption = "Not Support";
+                e.DragUIOverride.Caption = Consts.Localizer.GetString("NotSupport");
                 e.DragUIOverride.IsCaptionVisible = true;
                 e.DragUIOverride.IsContentVisible = false;
             }

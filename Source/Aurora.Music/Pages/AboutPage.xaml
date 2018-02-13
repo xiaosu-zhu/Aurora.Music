@@ -89,17 +89,17 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </Hyperlink>
             </TextBlock>
 
-            <TextBlock Style="{ThemeResource BodyTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12,12,12,0">
+            <TextBlock Style="{ThemeResource BodyTextBlockStyle}" MaxWidth="360" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12,12,12,0">
                 <Run x:Uid="GithubTitle" Text="Follow and get instructions of developing extensions on"/>
                 <Hyperlink Foreground="{ThemeResource AccentForText}" NavigateUri="https://github.com/pkzxs/Aurora.Music">
                     <Run Text="Github"/>
                 </Hyperlink>
             </TextBlock>
-            <TextBlock TextAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12,0,12,12">
+            <TextBlock TextAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}" MaxWidth="360" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12,0,12,12">
                 <Run Text="Also need your help to fix/improve UI issues (localization, translation),"/>
                 <Hyperlink Foreground="{ThemeResource AccentForText}" UnderlineStyle="Single" Click="Hyperlink_Click_1">
                     <Run Text="Open Link"/>
-                </Hyperlink>
+                </Hyperlink><LineBreak/>
                 <Run Text="需要你的帮助来解决翻译问题，不甚感激"/>
                 <Hyperlink Foreground="{ThemeResource AccentForText}" Click="Hyperlink_Click_1">
                     <Run Text="打开链接"/>

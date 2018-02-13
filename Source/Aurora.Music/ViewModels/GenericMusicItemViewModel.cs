@@ -53,7 +53,7 @@ namespace Aurora.Music.ViewModels
 
         public string OnlineToSymbol(bool b)
         {
-            return b ? "\uE93E" : "\uEC4F";
+            return b ? "\uE753" : "\uEC4F";
         }
 
         public MediaType InnerType { get; set; }

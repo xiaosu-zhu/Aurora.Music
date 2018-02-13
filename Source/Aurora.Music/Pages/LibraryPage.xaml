@@ -10,6 +10,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     xmlns:local="using:Aurora.Music.Pages"
     xmlns:controls="using:Aurora.Music.Controls"
     xmlns:vm="using:Aurora.Music.ViewModels"
+    xmlns:ani="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Unloaded="Page_Unloaded"
@@ -78,13 +79,11 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <ListView Background="{ThemeResource SystemControlChromeMediumLowAcrylicWindowMediumBrush}" Grid.Column="0" x:Name="Category" 
-                  IsItemClickEnabled="True" ItemsSource="{x:Bind CategoryList}" SelectionMode="None" ItemClick="ListView_ItemClick"
+                  IsItemClickEnabled="False" ItemsSource="{x:Bind CategoryList}" SelectionMode="Single"
                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemContainerStyle="{StaticResource GeneralListViewItemStyle}">
             <ListView.ItemContainerTransitions>
                 <TransitionCollection>
                     <RepositionThemeTransition IsStaggeringEnabled="True"/>
-                    <AddDeleteThemeTransition/>
-                    <ReorderThemeTransition/>
                 </TransitionCollection>
             </ListView.ItemContainerTransitions>
             <ListView.ItemTemplate>
@@ -96,7 +95,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                                 ImageSources="{x:Bind HeroImages,Mode=OneWay}">
                             </controls:ImageGrid>
                         </ParallaxView>
-                        <Grid Background="{ThemeResource SystemControlAltMediumLowAcrylicElementMediumBrush}" 
+                        <Grid Background="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}" 
                               HorizontalAlignment="Right" VerticalAlignment="Bottom">
                             <TextBlock Margin="8" x:Name="Title" Text="{x:Bind Title}" 
                                        Foreground="{x:Bind ChangeTextForeground(IsCurrent), Mode=OneWay}" 
@@ -125,8 +124,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </Button.Content>
             <Button.Flyout>
                 <Flyout>
-                    <ListView Grid.Column="0" x:Name="CategoryFlyout" IsItemClickEnabled="True" ItemsSource="{x:Bind CategoryList}" 
-                              SelectionMode="None" ItemClick="ListView_ItemClick" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                    <ListView Grid.Column="0" x:Name="CategoryFlyout" IsItemClickEnabled="False" ItemsSource="{x:Bind CategoryList}" 
+                              SelectionMode="Single" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                               ItemContainerStyle="{StaticResource GeneralListViewItemStyle}">
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="vm:CategoryListItem">

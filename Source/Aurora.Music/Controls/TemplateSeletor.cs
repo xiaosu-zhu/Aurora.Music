@@ -16,6 +16,7 @@ namespace Aurora.Music.Controls
         public DataTemplate PlayListTemplate { get; set; }
         public DataTemplate PlaceholderTemplate { get; set; }
         public DataTemplate SearchSuggestTemplate { get; set; }
+        public DataTemplate PodcastTemplate { get; set; }
 
         protected override DataTemplate SelectTemplateCore(object item)
         {
@@ -35,6 +36,8 @@ namespace Aurora.Music.Controls
                         return PlayListTemplate;
                     case MediaType.Placeholder:
                         return SearchSuggestTemplate;
+                    case MediaType.Podcast:
+                        return PodcastTemplate;
                     default:
                         return PlaceholderTemplate;
                 }
@@ -60,6 +63,8 @@ namespace Aurora.Music.Controls
                         return PlayListTemplate;
                     case MediaType.Placeholder:
                         return SearchSuggestTemplate;
+                    case MediaType.Podcast:
+                        return PodcastTemplate;
                     default:
                         return PlaceholderTemplate;
                 }

@@ -57,6 +57,11 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="auto"/>
                             </Grid.RowDefinitions>
+                            <Grid.ChildrenTransitions>
+                                <TransitionCollection>
+                                    <RepositionThemeTransition/>
+                                </TransitionCollection>
+                            </Grid.ChildrenTransitions>
                             <Grid x:Name="Symbol" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" 
                                   Background="{ThemeResource SystemControlBackgroundBaseLowRevealBackgroundBrush}"
                                   Width="36" Height="36" Margin="8" CornerRadius="999" BorderBrush="{x:Null}" BorderThickness="0">

@@ -74,29 +74,62 @@ namespace Aurora.Music.Pages
                             NavigatType = typeof(PlayListPage)
                         });
                     }
+                    var item = CategoryList.FirstOrDefault(x => x.Title == Settings.Current.CategoryLastClicked);
+                    if (item != default(CategoryListItem))
+                    {
+                        item.IsCurrent = true;
+                    }
+                    else
+                    {
+                        CategoryList[0].IsCurrent = true;
+                    }
+                    Category.SelectionChanged += Category_SelectionChanged;
+                    Category.SelectedItem = item ?? CategoryList[0];
                 });
             });
-
-            var item = CategoryList.FirstOrDefault(x => x.Title == Settings.Current.CategoryLastClicked);
-            if (item != default(CategoryListItem))
+            Task.Run(async () =>
             {
-                item.IsCurrent = true;
-                CategoryList.Remove(item);
-                CategoryList.Insert(0, item);
+                var podcasts = await SQLOperator.Current().GetPodcastListBriefAsync();
+                await Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+                {
+                    foreach (var podcast in podcasts)
+                    {
+                        CategoryList.Add(new CategoryListItem
+                        {
+                            Title = podcast.Title,
+                            HeroImages = podcast.HeroArtworks == null ? null : new ImageSource[] { new BitmapImage(new Uri(podcast.HeroArtworks)) },
+                            NavigatType = typeof(PodcastPage),
+                            ID = podcast.ID
+                        });
+                    }
+                });
+            });
+        }
+
+        private void Category_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var item = (Category.SelectedItem as CategoryListItem);
+            if (item == null)
+            {
+                item = CategoryList[0];
+            }
+            if (item.NavigatType == typeof(PlayListPage))
+            {
+                Navigate(item.NavigatType, playlists.Find(x => x.Title == (item.Title)));
             }
             else
             {
-                CategoryList[0].IsCurrent = true;
+                Navigate(item.NavigatType);
             }
 
-            if (CategoryList[0].NavigatType == typeof(PlayListPage))
+            Settings.Current.CategoryLastClicked = item.Title;
+            Settings.Current.Save();
+
+            foreach (var a in CategoryList)
             {
-                Navigate(CategoryList[0].NavigatType, playlists.Find(x => x.Title == (CategoryList[0].Title)));
+                a.IsCurrent = false;
             }
-            else
-            {
-                Navigate(CategoryList[0].NavigatType);
-            }
+            item.IsCurrent = true;
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -149,62 +182,18 @@ namespace Aurora.Music.Pages
 
         private void RefreshPaneCurrent()
         {
-            for (int i = 0; i < CategoryList.Count; i++)
+            var item = CategoryList.FirstOrDefault(a => a.NavigatType == MainFrame.Content.GetType()) ?? CategoryList[0];
+            foreach (var a in CategoryList)
             {
-                if (CategoryList[i].NavigatType == MainFrame.Content.GetType())
-                {
-                    if (i == 0)
-                        return;
-                    var item = CategoryList[i];
-
-                    try
-                    {
-                        Category.PrepareConnectedAnimation(item.Title, item, "Panel");
-                    }
-                    catch (Exception)
-                    {
-                    }
-                    CompleteAnimationWithItems(item);
-                    break;
-                }
+                a.IsCurrent = false;
             }
-        }
-
-        private void ListView_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            var item = (e.ClickedItem as CategoryListItem);
-            if (item.NavigatType == typeof(PlayListPage))
-            {
-                Navigate(item.NavigatType, playlists.Find(x => x.Title == (item.Title)));
-            }
-            else
-            {
-                Navigate(item.NavigatType);
-            }
-
-            Settings.Current.CategoryLastClicked = (e.ClickedItem as CategoryListItem).Title;
-            Settings.Current.Save();
-
-            CompleteAnimationWithItems(e.ClickedItem as CategoryListItem);
-        }
-
-
-        private void CompleteAnimationWithItems(CategoryListItem item)
-        {
-            CategoryList.Move(CategoryList.IndexOf(item), 0);
-
-            foreach (var at in CategoryList)
-            {
-                at.IsCurrent = false;
-            }
-
             item.IsCurrent = true;
-
         }
 
         private void Page_Unloaded(object sender, RoutedEventArgs e)
         {
             MainFrame.Content = null;
+            Category.SelectionChanged -= Category_SelectionChanged;
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
