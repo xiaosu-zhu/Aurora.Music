@@ -25,7 +25,7 @@ namespace Aurora.Music.Services
                 tasks.Add(Task.Run(async () =>
                 {
                     Podcast p = new Podcast(item);
-                    if (await p.FindUpdated())
+                    if (await p.FindUpdated() && Settings.Current.IsPodcastToast)
                     {
                         Toast.SendPodcast(p);
                     }

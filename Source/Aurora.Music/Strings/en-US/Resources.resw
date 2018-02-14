@@ -1082,4 +1082,84 @@
     <value>Playback Rate</value>
     <comment>Playback Rate</comment>
   </data>
+  <data name="LastUpdatePost.Text" xml:space="preserve">
+    <value>Last Updated:</value>
+    <comment>Last Updated:</comment>
+  </data>
+  <data name="RefreshPost.Text" xml:space="preserve">
+    <value>Refresh</value>
+    <comment>Refresh</comment>
+  </data>
+  <data name="UnSubscribe.Text" xml:space="preserve">
+    <value>Un-Subscribe</value>
+    <comment>Un-Subscribe</comment>
+  </data>
+  <data name="Subscribe.Text" xml:space="preserve">
+    <value>Subscribe</value>
+    <comment>Subscribe</comment>
+  </data>
+  <data name="Retriving.Text" xml:space="preserve">
+    <value>Retriving Database</value>
+    <comment>Retriving Database</comment>
+  </data>
+  <data name="TodayText" xml:space="preserve">
+    <value>'Today'</value>
+    <comment>Today</comment>
+  </data>
+  <data name="NextDayText" xml:space="preserve">
+    <value>Next </value>
+    <comment>Next </comment>
+  </data>
+  <data name="LastDayText" xml:space="preserve">
+    <value>Last </value>
+    <comment>Last </comment>
+  </data>
+  <data name="SubscribeText" xml:space="preserve">
+    <value>Subscribed</value>
+    <comment>Subscribed</comment>
+  </data>
+  <data name="UnSubscribeText" xml:space="preserve">
+    <value>Un-Subscribed</value>
+    <comment>Un-Subscribed</comment>
+  </data>
+  <data name="UndoSubscribeText" xml:space="preserve">
+    <value>Undo Subscribe</value>
+    <comment>Undo Subscribe</comment>
+  </data>
+  <data name="Fetching.Text" xml:space="preserve">
+    <value>Fetching</value>
+    <comment>Fetching</comment>
+  </data>
+  <data name="PodcastDialog.Title" xml:space="preserve">
+    <value>Podcast Details</value>
+    <comment>Podcast Details</comment>
+  </data>
+  <data name="PodcastDialog.CloseButtonText" xml:space="preserve">
+    <value>Close</value>
+    <comment>Close</comment>
+  </data>
+  <data name="PodcastDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Subscribe</value>
+    <comment>Subscribe</comment>
+  </data>
+  <data name="Podcast.Text" xml:space="preserve">
+    <value>Podcast</value>
+    <comment>Podcast</comment>
+  </data>
+  <data name="ShowPodcastsWhenSearch.Header" xml:space="preserve">
+    <value>Show podcasts when search</value>
+    <comment>Show podcasts when search</comment>
+  </data>
+  <data name="SendPodcastToast.Header" xml:space="preserve">
+    <value>Send toast when new-coming</value>
+    <comment>Send toast when new-coming</comment>
+  </data>
+  <data name="FetchInterval.Header" xml:space="preserve">
+    <value>Refresh Interval</value>
+    <comment>Refresh Interval</comment>
+  </data>
+  <data name="MinText" xml:space="preserve">
+    <value>min</value>
+    <comment>min</comment>
+  </data>
 </root>

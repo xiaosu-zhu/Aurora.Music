@@ -682,7 +682,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         <Setter Property="Content">
             <Setter.Value>
                 <TextBlock>
-                    <Run FontFamily="Segoe MDL2 Assets" Text="&#xE142;" />
+                    <Run FontSize="13" FontFamily="Segoe MDL2 Assets" Text="&#xE142;" />
                     <Run x:Uid="PlayAll"/>
                 </TextBlock>
             </Setter.Value>

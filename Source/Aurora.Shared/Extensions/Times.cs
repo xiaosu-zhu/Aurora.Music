@@ -45,7 +45,7 @@ namespace Aurora.Shared.Extensions
                         // next week
                         else
                         {
-                            return $"{nextString} {d.ToString(dayPattern)}";
+                            return $"{nextString}{d.ToString(dayPattern)}";
                         }
                     }
                     else
@@ -53,7 +53,7 @@ namespace Aurora.Shared.Extensions
                         // last week
                         if (d.DayOfWeek >= a.DayOfWeek)
                         {
-                            return $"{lastString} {d.ToString(dayPattern)}";
+                            return $"{lastString}{d.ToString(dayPattern)}";
                         }
                         // this week
                         else

@@ -91,16 +91,16 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <Rectangle Margin="0,8" Fill="{ThemeResource SystemControlBackgroundBaseLowBrush}" Height="0.5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                 <toolkit:WrapPanel HorizontalSpacing="8" VerticalSpacing="8" x:Name="Details" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
                     <TextBlock Style="{ThemeResource BodyTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Run FontFamily="Segoe MDL2 Assets" Text="&#xEC26;" />
+                        <Run FontSize="13" FontFamily="Segoe MDL2 Assets" Text="&#xEC26;" />
                         <Run Text="{x:Bind Context.Genres,Mode=OneWay,TargetNullValue=Loading,FallbackValue=Loading}"/>
                     </TextBlock>
                     <TextBlock Style="{ThemeResource BodyTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Run FontFamily="Segoe MDL2 Assets" Text="&#xE93C;" />
+                        <Run FontSize="13" FontFamily="Segoe MDL2 Assets" Text="&#xE93C;" />
                         <Run Text="{x:Bind Context.SongsCount,Mode=OneWay,TargetNullValue=Loading,FallbackValue=Loading}"/>
                     </TextBlock>
                     <Button Style="{ThemeResource TextBlockButtonStyle}" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <TextBlock>
-                            <Run FontFamily="Segoe MDL2 Assets" Text="&#xEC24;" />
+                            <Run FontSize="13" FontFamily="Segoe MDL2 Assets" Text="&#xEC24;" />
                             <Run x:Uid="ArtistStory" Text="See Artist Story"/>
                         </TextBlock>
                         <Button.Flyout>

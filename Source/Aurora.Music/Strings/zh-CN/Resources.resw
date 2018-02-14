@@ -1081,4 +1081,84 @@
     <value>回放速率</value>
     <comment>Playback Rate</comment>
   </data>
+  <data name="LastUpdatePost.Text" xml:space="preserve">
+    <value>最后更新：</value>
+    <comment>Last Updated:</comment>
+  </data>
+  <data name="RefreshPost.Text" xml:space="preserve">
+    <value>刷新</value>
+    <comment>Refresh</comment>
+  </data>
+  <data name="UnSubscribe.Text" xml:space="preserve">
+    <value>取消订阅</value>
+    <comment>Un-Subscribe</comment>
+  </data>
+  <data name="Subscribe.Text" xml:space="preserve">
+    <value>开始订阅</value>
+    <comment>Subscribe</comment>
+  </data>
+  <data name="Retriving.Text" xml:space="preserve">
+    <value>检索数据库</value>
+    <comment>Retriving Database</comment>
+  </data>
+  <data name="TodayText" xml:space="preserve">
+    <value>'今天'</value>
+    <comment>Today</comment>
+  </data>
+  <data name="NextDayText" xml:space="preserve">
+    <value>下个</value>
+    <comment>Next </comment>
+  </data>
+  <data name="LastDayText" xml:space="preserve">
+    <value>上个</value>
+    <comment>Last </comment>
+  </data>
+  <data name="SubscribeText" xml:space="preserve">
+    <value>已订阅</value>
+    <comment>Subscribed</comment>
+  </data>
+  <data name="UnSubscribeText" xml:space="preserve">
+    <value>已取消订阅</value>
+    <comment>Un-Subscribed</comment>
+  </data>
+  <data name="UndoSubscribeText" xml:space="preserve">
+    <value>取消订阅</value>
+    <comment>Undo Subscribe</comment>
+  </data>
+  <data name="Fetching.Text" xml:space="preserve">
+    <value>拉取中</value>
+    <comment>Fetching</comment>
+  </data>
+  <data name="PodcastDialog.Title" xml:space="preserve">
+    <value>播客详情</value>
+    <comment>Podcast Details</comment>
+  </data>
+  <data name="PodcastDialog.CloseButtonText" xml:space="preserve">
+    <value>关闭</value>
+    <comment>Close</comment>
+  </data>
+  <data name="PodcastDialog.PrimaryButtonText" xml:space="preserve">
+    <value>订阅</value>
+    <comment>Subscribe</comment>
+  </data>
+  <data name="Podcast.Text" xml:space="preserve">
+    <value>播客</value>
+    <comment>Podcast</comment>
+  </data>
+  <data name="ShowPodcastsWhenSearch.Header" xml:space="preserve">
+    <value>搜索时包含播客结果</value>
+    <comment>Show podcasts when search</comment>
+  </data>
+  <data name="SendPodcastToast.Header" xml:space="preserve">
+    <value>播客更新时发送通知</value>
+    <comment>Send toast when new-coming</comment>
+  </data>
+  <data name="FetchInterval.Header" xml:space="preserve">
+    <value>更新间隔</value>
+    <comment>Refresh Interval</comment>
+  </data>
+  <data name="MinText" xml:space="preserve">
+    <value>分</value>
+    <comment>min</comment>
+  </data>
 </root>

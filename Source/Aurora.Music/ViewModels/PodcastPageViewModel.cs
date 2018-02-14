@@ -108,7 +108,7 @@ namespace Aurora.Music.ViewModels
                             Index = ++i
                         });
                     }
-                    LastUpdate = Model.LastUpdate.PubDatetoString("'Today'", "ddd", "M/dd ddd", "yy/M/dd", "Next", "Last");
+                    LastUpdate = Model.LastUpdate.PubDatetoString($"'{Consts.Today}'", "ddd", "M/dd ddd", "yy/M/dd", Consts.Next, Consts.Last);
                     Description = Model.Description;
                     Title = Model.Title;
                     HeroImage = new Uri(Model.HeroArtworks[0]);
@@ -139,7 +139,7 @@ namespace Aurora.Music.ViewModels
                         Index = ++i
                     });
                 }
-                LastUpdate = Model.LastUpdate.PubDatetoString("'Today'", "ddd", "M/dd ddd", "yy/M/dd", "Next", "Last");
+                LastUpdate = Model.LastUpdate.PubDatetoString($"'{Consts.Today}'", "ddd", "M/dd ddd", "yy/M/dd", Consts.Next, Consts.Last);
                 Description = Model.Description;
                 IsSubscribe = Model.Subscribed;
                 Title = Model.Title;
@@ -152,7 +152,9 @@ namespace Aurora.Music.ViewModels
             var i = (int)songViewModel.Index - 1;
             if (Model.Count < i + 20)
             {
-                await MainPageViewModel.Current.InstantPlay(Model, i);
+                var s = Model[i];
+                var k = Model.Count < 20 ? Model.ToList() : Model.GetRange(Model.Count - 20, 20);
+                await MainPageViewModel.Current.InstantPlay(k, k.IndexOf(s));
             }
             else
             {

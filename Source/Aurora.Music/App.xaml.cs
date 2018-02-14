@@ -2,18 +2,22 @@
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using Aurora.Music.Controls;
+using Aurora.Music.Core;
 using Aurora.Music.Core.Models;
 using Aurora.Music.Pages;
+using Aurora.Music.Services;
 using Aurora.Music.ViewModels;
 using Aurora.Shared.Controls;
 using Aurora.Shared.Helpers;
 using Aurora.Shared.Logging;
+using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.Background;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
@@ -247,7 +251,20 @@ namespace Aurora.Music
                     }
                 }
             }
+            var t = Task.Run(async () =>
+            {
+                  if (BackgroundTaskHelper.IsBackgroundTaskRegistered(Consts.PodcastTaskName))
+                  {
+                    // Background task already registered.
+                    //Unregister
+                    BackgroundTaskHelper.Unregister(Consts.PodcastTaskName);
+                  }
+                // Check for background access (optional)
+                await BackgroundExecutionManager.RequestAccessAsync();
 
+                // Register (Multi Process) w/ Conditions.
+                BackgroundTaskHelper.Register(Consts.PodcastTaskName, typeof(PodcastsFetcher).FullName, new TimeTrigger(Settings.Current.FetchInterval, false), true, true, new SystemCondition(SystemConditionType.InternetAvailable));
+            });
         }
 
         private void CreateRootFrame(ApplicationExecutionState previousExecutionState, string arguments)

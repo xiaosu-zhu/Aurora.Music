@@ -401,22 +401,13 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <TextBlock x:Uid="VolumeHint" Style="{ThemeResource BodyTextBlockStyle}" FontSize="13" Foreground="{ThemeResource AppBarItemDisabledForegroundThemeBrush}" Text="We suggest you to control the system volume directly." HorizontalAlignment="Left" VerticalAlignment="Center" Margin="8,0,0,8"/>
                     </StackPanel>
                     <StackPanel BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" BorderThickness="0,0,0,1" Padding="8,0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <TextBlock Text="Podcast" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12"/>
-                        <ToggleSwitch Header="Show podcasts when search" IsOn="{x:Bind Context.ShowPodcastsWhenSearch,Mode=TwoWay}" Margin="0,8"/>
-                        <ToggleSwitch Header="Send toast when new-coming" Margin="0,8" IsOn="{x:Bind Context.IsPodcastToast,Mode=TwoWay}"/>
-                        <StackPanel Visibility="{x:Bind Context.IsPodcastToast,Mode=OneWay}" 
-                                    Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,8">
-                            <animation:Implicit.ShowAnimations>
-                                <animation:TranslationAnimation Duration="0:0:0.64" From="0,-80,0" To="0"/>
-                                <animation:OpacityAnimation Duration="0:0:0.64" From="0" To="1"/>
-                            </animation:Implicit.ShowAnimations>
-                            <animation:Implicit.HideAnimations>
-                                <animation:TranslationAnimation Duration="0:0:0.64" To="0,-80,0" From="0"/>
-                                <animation:OpacityAnimation Duration="0:0:0.64" To="0" From="1"/>
-                            </animation:Implicit.HideAnimations>
+                        <TextBlock x:Uid="Podcast" Text="Podcast" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12"/>
+                        <ToggleSwitch x:Uid="ShowPodcastsWhenSearch" Header="Show podcasts when search" IsOn="{x:Bind Context.ShowPodcastsWhenSearch,Mode=TwoWay}" Margin="0,8"/>
+                        <ToggleSwitch x:Uid="SendPodcastToast" Header="Send toast when new-coming" Margin="0,8" IsOn="{x:Bind Context.IsPodcastToast,Mode=TwoWay}"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,8">
                             <Slider Style="{ThemeResource RoundSlider}" HorizontalAlignment="Stretch" VerticalContentAlignment="Stretch" Margin="0,8"
                                     Foreground="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" IsThumbToolTipEnabled="False"
-                                    Background="{ThemeResource SystemControlAltTranslucentAcrylicWindowBrush}" Width="240"
+                                    x:Uid="FetchInterval" Background="{ThemeResource SystemControlAltTranslucentAcrylicWindowBrush}" Width="240"
                                     Header="Refresh Interval" Minimum="15" Maximum="150" StepFrequency="15" Value="{x:Bind Context.FetchInterval,Mode=TwoWay}"/>
                             <TextBlock Margin="0,10,0,0" Width="96" TextAlignment="Right" VerticalAlignment="Center" 
                                        Style="{ThemeResource TitleTextBlockStyle}" TextWrapping="NoWrap" TextTrimming="None" 

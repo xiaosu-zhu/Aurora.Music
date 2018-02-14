@@ -84,11 +84,11 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <Rectangle Margin="0,8" Fill="{ThemeResource SystemControlBackgroundBaseLowBrush}" Height="0.5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
             <toolkit:WrapPanel HorizontalSpacing="8" VerticalSpacing="8" x:Name="Details" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}">
-                    <Run FontFamily="Segoe MDL2 Assets" Text="&#xE77B;" />
+                    <Run FontSize="13" FontFamily="Segoe MDL2 Assets" Text="&#xE77B;" />
                     <Run Text="{x:Bind Context.ArtistsCount,Mode=OneWay,TargetNullValue=Loading,FallbackValue=Loading}"/>
                 </TextBlock>
                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}">
-                    <Run FontFamily="Segoe MDL2 Assets" Text="&#xE93C;" />
+                    <Run FontSize="13" FontFamily="Segoe MDL2 Assets" Text="&#xE93C;" />
                     <Run Text="{x:Bind Context.SongsCount,Mode=OneWay,TargetNullValue=Loading,FallbackValue=Loading}"/>
                 </TextBlock>
                 <Button Command="{x:Bind Context.PlayAll}" Style="{ThemeResource PlayAllButton}" 
@@ -131,7 +131,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                           ItemContainerStyle="{StaticResource GeneralGridViewItemStyle}" x:Name="AlbumList"
                           Style="{StaticResource GeneralGridViewStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <GridView.Header>
-                        <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Foreground="{ThemeResource AccentForText}" FontWeight="Bold"
+                        <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Foreground="{ThemeResource AccentForText}" FontWeight="Bold" x:Uid="Retriving"
                                    Text="Retriving Database" Margin="12,0" Visibility="{x:Bind Context.CollapseIfNotZero(Context.AlbumList.Count),Mode=OneWay}"/>
                     </GridView.Header>
                     <GridView.ItemTemplate>

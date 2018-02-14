@@ -66,7 +66,7 @@ namespace Aurora.Music.ViewModels
         {
             if (IsPodcast)
             {
-                return $"Podcast Posted @ {song.PubDate.PubDatetoString("'Today' H:mm", "ddd H:mm", "M/dd H:mm", "yy/M/dd", "Next", "Last")}";
+                return $"Podcast Posted @ {song.PubDate.PubDatetoString($"'{Consts.Today}' H:mm", "ddd H:mm", "M/dd H:mm", "yy/M/dd", Consts.Next, Consts.Last)}";
             }
             if (IsOnline)
             {
@@ -155,7 +155,7 @@ namespace Aurora.Music.ViewModels
 
         public string PubDatetoString(DateTime d)
         {
-            return d.PubDatetoString("'Today'", "ddd", "M/dd ddd", "yy/MM/dd", "Next", "Last");
+            return d.PubDatetoString($"'{Consts.Today}'", "ddd", "M/dd ddd", "yy/M/dd", Consts.Next, Consts.Last);
         }
 
         public string FormatDuration(TimeSpan t)

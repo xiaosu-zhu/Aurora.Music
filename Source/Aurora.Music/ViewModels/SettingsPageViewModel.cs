@@ -174,25 +174,23 @@ namespace Aurora.Music.ViewModels
                 Settings.Current.IsPodcastToast = value;
                 Settings.Current.Save();
                 SetProperty(ref isPodcastToast, value);
-
-                Task.Run(async () =>
-                {
-                    if (BackgroundTaskHelper.IsBackgroundTaskRegistered(Consts.PodcastTaskName))
-                    {
-                        // Background task already registered.
-                        //Unregister
-                        BackgroundTaskHelper.Unregister(Consts.PodcastTaskName);
-                    }
-                    if (Settings.Current.IsPodcastToast)
-                    {
-                        // Check for background access (optional)
-                        await BackgroundExecutionManager.RequestAccessAsync();
-
-                        // Register (Multi Process) w/ Conditions.
-                        BackgroundTaskHelper.Register(Consts.PodcastTaskName, typeof(PodcastsFetcher).FullName, new TimeTrigger(Settings.Current.FetchInterval, false), true, true, new SystemCondition(SystemConditionType.InternetAvailable));
-                    }
-                });
+                RegisterPodcastTask();
             }
+        }
+
+        private static async void RegisterPodcastTask()
+        {
+            if (BackgroundTaskHelper.IsBackgroundTaskRegistered(Consts.PodcastTaskName))
+            {
+                // Background task already registered.
+                //Unregister
+                BackgroundTaskHelper.Unregister(Consts.PodcastTaskName);
+            }
+            // Check for background access (optional)
+            await BackgroundExecutionManager.RequestAccessAsync();
+
+            // Register (Multi Process) w/ Conditions.
+            BackgroundTaskHelper.Register(Consts.PodcastTaskName, typeof(PodcastsFetcher).FullName, new TimeTrigger(Settings.Current.FetchInterval, false), true, true, new SystemCondition(SystemConditionType.InternetAvailable));
         }
 
         private bool showPodcastsWhenSearch = Settings.Current.ShowPodcastsWhenSearch;
@@ -215,6 +213,7 @@ namespace Aurora.Music.ViewModels
             {
                 SetProperty(ref fetchInterval, value);
                 Settings.Current.FetchInterval = Convert.ToUInt32(value);
+                RegisterPodcastTask();
             }
         }
 
@@ -322,7 +321,7 @@ namespace Aurora.Music.ViewModels
 
         public string IntervalToString(double d)
         {
-            return $"{d.ToString("0")} min";
+            return $"{d.ToString("0")} {Consts.Localizer.GetString("MinText")}";
         }
 
         private int crrentLyricIndex = -1;

@@ -20,8 +20,6 @@ namespace Aurora.Music.Core
 
         public const string SONG = "SONG";
 
-
-
         public const string PodcastTaskName = "Aurora Music Podcasts Fetcher";
 
         public const string BlackPlaceholder = "ms-appx:///Assets/Images/placeholder_b.png";
@@ -53,7 +51,8 @@ namespace Aurora.Music.Core
             get => localizer;
         }
 
-        public static string CommaSeparator => localizer.GetString("CommaSeparator");
+        private static string ommaSeparator = localizer.GetString("CommaSeparator");
+        public static string CommaSeparator => ommaSeparator;
 
         public static string UpdateNote =>
                             $"* **Removed**: *Audio Graph* setion in Settings page.\r\n" +
@@ -64,6 +63,13 @@ namespace Aurora.Music.Core
                             "* **Tranlation**: Synced translation.";
 
         public static string UpdateNoteTitle => localizer.GetString("UpdateNoteTitle");
+
+        private static string today = localizer.GetString("TodayText");
+        public static string Today => today;
+        private static string next = localizer.GetString("NextDayText");
+        public static string Next => next;
+        private static string last = localizer.GetString("LastDayText");
+        public static string Last => last;
 
         public const string ArraySeparator = "$|$";
 

@@ -318,7 +318,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     </Button>
                 </StackPanel>
                 <TextBlock Style="{ThemeResource BodyTextBlockStyle}">
-                    <Run FontFamily="Segoe MDL2 Assets" Text="&#xE8D6;" />
+                    <Run FontSize="13" FontFamily="Segoe MDL2 Assets" Text="&#xE8D6;" />
                     <Run Text="{x:Bind Context.SongsCount,Mode=OneWay,TargetNullValue=Loading,FallbackValue=Loading}"/>
                 </TextBlock>
                 <Button Command="{x:Bind Context.PlayAll}" Style="{ThemeResource PlayAllButton}"/>
@@ -360,7 +360,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                           ItemContainerStyleSelector="{StaticResource SongListStyleSelector}" Style="{ThemeResource GeneralListView}"
                           HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="AlbumList">
                     <ListView.Header>
-                        <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Foreground="{ThemeResource AccentForText}" FontWeight="Bold"
+                        <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Foreground="{ThemeResource AccentForText}" FontWeight="Bold" x:Uid="Retriving"
                                    Text="Retriving Database" Margin="12,0" Visibility="{x:Bind Context.CollapseIfNotZero(Context.SongsList.Count),Mode=OneWay}"/>
                     </ListView.Header>
                     <ListView.GroupStyle>

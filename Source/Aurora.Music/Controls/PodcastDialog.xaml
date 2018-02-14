@@ -13,6 +13,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
+    x:Uid="PodcastDialog"
     Title="Podcast Details"
     PrimaryButtonText="Subscribe"
     IsPrimaryButtonEnabled="False"
@@ -51,7 +52,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <TextBlock x:Name="Description" Style="{ThemeResource BodyTextBlockStyle}" Text=""
                            TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis" MaxLines="4"/>
                 <TextBlock Style="{ThemeResource BodyTextBlockStyle}" TextWrapping="WrapWholeWords">
-                    <Run Text="Last Updated:"/>
+                    <Run x:Uid="LastUpdatePost" Text="Last Updated:"/>
                     <Run x:Name="Updated"/>
                 </TextBlock>
             </StackPanel>
@@ -61,7 +62,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <ListView.Header>
                 <StackPanel>
                     <ProgressBar x:Name="FetchingProgress" IsIndeterminate="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                    <TextBlock Style="{ThemeResource TitleTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,12" Text="Fetching" x:Name="FetchingHeader"/>
+                    <TextBlock x:Uid="Fetching" Style="{ThemeResource TitleTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,12" Text="Fetching" x:Name="FetchingHeader"/>
                 </StackPanel>
             </ListView.Header>
             <ListView.ItemTemplate>
@@ -75,9 +76,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                             <ColumnDefinition Width="80"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Margin="0,0,12,0" Foreground="{ThemeResource AccentForText}" Text="{x:Bind PubDatetoString(PubDate)}" Style="{ThemeResource BodyTextBlockStyle}" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        <TextBlock Text="{x:Bind Title}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                        <TextBlock Text="{x:Bind Album}" Style="{ThemeResource BodyTextBlockStyle}" FontSize="13" MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"
+                        <TextBlock Margin="8,0,0,0" Foreground="{ThemeResource AccentForText}" Text="{x:Bind PubDatetoString(PubDate)}" Style="{ThemeResource BodyTextBlockStyle}" Grid.RowSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <TextBlock Margin="8,0,0,0" Text="{x:Bind Title}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <TextBlock Margin="8,0,0,0" Text="{x:Bind Album}" Style="{ThemeResource BodyTextBlockStyle}" FontSize="13" MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"
                                    Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"/>
                     </Grid>
                 </DataTemplate>

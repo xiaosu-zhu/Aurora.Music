@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
+using Aurora.Music.Core;
 using Aurora.Music.Core.Models;
 using Aurora.Music.ViewModels;
 using Aurora.Shared.Extensions;
@@ -55,7 +56,7 @@ namespace Aurora.Music.Controls
                     FetchingProgress.Visibility = Visibility.Collapsed;
                     if (pod.Subscribed)
                     {
-                        PrimaryButtonText = "Undo Subscribe";
+                        PrimaryButtonText = Consts.Localizer.GetString("UndoSubscribeText");
                         DefaultButton = ContentDialogButton.Close;
                     }
                     else
@@ -68,14 +69,14 @@ namespace Aurora.Music.Controls
 
         public string PubDatetoString(DateTime d)
         {
-            return d.PubDatetoString("'Today'", "ddd", "M/dd ddd", "yy/M/dd", "Next", "Last");
+            return d.PubDatetoString($"'{Consts.Today}'", "ddd", "M/dd ddd", "yy/M/dd", Consts.Next, Consts.Last);
         }
 
         private async void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
             podcast.Subscribed = !podcast.Subscribed;
             await podcast.SaveAsync();
-            MainPage.Current.PopMessage((podcast.Subscribed ? "Subscribed" : "Un-Subscribed") + (podcast.Subscribed ? ", You can find it in music library now" : ""));
+            MainPage.Current.PopMessage((podcast.Subscribed ? Consts.Localizer.GetString("SubscribeText") : Consts.Localizer.GetString("UnSubscribeText")) + (podcast.Subscribed ? ", You can find it in music library now" : ""));
         }
     }
 }

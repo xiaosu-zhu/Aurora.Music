@@ -108,7 +108,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 
             <ListView.Footer>
                 <Grid Height="240">
-                    <Button Style="{ThemeResource TextBlockButtonStyle}" Margin="0,24" FontSize="20" Content="Manage Items" HorizontalAlignment="Center" VerticalContentAlignment="Top"/>
+                    <Button Style="{ThemeResource TextBlockButtonStyle}" Margin="0,24" FontSize="20" Content="Manage Items" HorizontalAlignment="Center" VerticalAlignment="Top"/>
                 </Grid>
             </ListView.Footer>
         </ListView>

@@ -20,7 +20,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-
     <Page.Transitions>
         <TransitionCollection>
             <NavigationThemeTransition>
@@ -331,15 +330,15 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <TextBlock VerticalAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}" x:Name="DescriptionText"
                            Text="{x:Bind Context.Description,Mode=OneWay,TargetNullValue=No&#x20;descriptions}"/>
                     <TextBlock Style="{ThemeResource BodyTextBlockStyle}">
-                        <Run FontFamily="Segoe MDL2 Assets" Text="&#xE1DC;" />
-                        <Run Text="Last Updated:"/>
+                        <Run FontSize="13" FontFamily="Segoe MDL2 Assets" Text="&#xE1DC;" />
+                        <Run x:Uid="LastUpdatePost" Text="Last Updated:"/>
                         <Run Text="{x:Bind Context.LastUpdate,Mode=OneWay,TargetNullValue=Loading,FallbackValue=Loading}"/>
                     </TextBlock>
                     <Button Command="{x:Bind Context.Refresh}" Style="{ThemeResource TextBlockButtonStyle}">
                         <Button.Content>
                             <TextBlock>
-                                <Run FontFamily="Segoe MDL2 Assets" Text="&#xE895;" />
-                                <Run Text="Refresh"/>
+                                <Run FontSize="13" FontFamily="Segoe MDL2 Assets" Text="&#xE895;" />
+                                <Run x:Uid="RefreshPost" Text="Refresh"/>
                             </TextBlock>
                         </Button.Content>
                     </Button>
@@ -347,16 +346,16 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <Button Visibility="{x:Bind Context.IsSubscribe,Mode=OneWay}" Command="{x:Bind Context.ToggleSubscribe}" Style="{ThemeResource TextBlockButtonStyle}">
                         <Button.Content>
                             <TextBlock>
-                                <Run FontFamily="Segoe MDL2 Assets" Text="&#xE8D9;" />
-                                <Run Text="Un-Subscribe"/>
+                                <Run FontSize="13" FontFamily="Segoe MDL2 Assets" Text="&#xE8D9;" />
+                                <Run x:Uid="UnSubscribe" Text="Un-Subscribe"/>
                             </TextBlock>
                         </Button.Content>
                     </Button>
                     <Button Visibility="{x:Bind Context.BoolNottoVisibility(Context.IsSubscribe),Mode=OneWay}" Command="{x:Bind Context.ToggleSubscribe}" Style="{ThemeResource TextBlockButtonStyle}">
                         <Button.Content>
                             <TextBlock>
-                                <Run FontFamily="Segoe MDL2 Assets" Text="&#xE735;" />
-                                <Run Text="Subscribe"/>
+                                <Run FontSize="13" FontFamily="Segoe MDL2 Assets" Text="&#xE735;" />
+                                <Run x:Uid="Subscribe" Text="Subscribe"/>
                             </TextBlock>
                         </Button.Content>
                     </Button>
@@ -371,7 +370,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                   ItemContainerStyleSelector="{StaticResource SongListStyleSelector}" Style="{ThemeResource GeneralListView}"
                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="AlbumList">
             <ListView.Header>
-                <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Foreground="{ThemeResource AccentForText}" FontWeight="Bold"
+                <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Foreground="{ThemeResource AccentForText}" FontWeight="Bold" x:Uid="Retriving"
                            Text="Retriving Database" Margin="12,0" Visibility="{x:Bind Context.CollapseIfNotZero(Context.SongsList.Count),Mode=OneWay}"/>
             </ListView.Header>
             <ListView.GroupStyle>
@@ -389,9 +388,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="80"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Margin="0,0,12,0" Foreground="{ThemeResource AccentForText}" Text="{x:Bind PubDatetoString(PubDate)}" Style="{ThemeResource BodyTextBlockStyle}" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        <TextBlock Text="{x:Bind Title}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                        <TextBlock Text="{x:Bind Album}" Style="{ThemeResource BodyTextBlockStyle}" FontSize="13" MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"
+                        <TextBlock Margin="12,0,0,0" Foreground="{ThemeResource AccentForText}" Text="{x:Bind PubDatetoString(PubDate)}" Style="{ThemeResource BodyTextBlockStyle}" Grid.RowSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <TextBlock Margin="12,0,0,0" Text="{x:Bind Title}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <TextBlock Margin="12,0,0,0" Text="{x:Bind Album}" Style="{ThemeResource BodyTextBlockStyle}" FontSize="13" MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"
                                    Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"/>
                         <TextBlock Text="{x:Bind DurationtoString(Duration)}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"
                                    Grid.RowSpan="2" Margin="12,0,0,0" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center"/>
