@@ -6,9 +6,11 @@ using Aurora.Music.Core;
 using Aurora.Music.Core.Models;
 using Aurora.Music.Core.Storage;
 using Aurora.Music.Pages;
+using Aurora.Music.Services;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
 using Aurora.Shared.MVVM;
+using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,6 +18,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppExtensions;
+using Windows.ApplicationModel.Background;
 using Windows.ApplicationModel.Core;
 using Windows.Devices.Enumeration;
 using Windows.Foundation.Collections;
@@ -161,6 +164,61 @@ namespace Aurora.Music.ViewModels
                 SetProperty(ref metaDataEnabled, value);
             }
         }
+
+        private bool isPodcastToast = Settings.Current.IsPodcastToast;
+        public bool IsPodcastToast
+        {
+            get { return isPodcastToast; }
+            set
+            {
+                Settings.Current.IsPodcastToast = value;
+                Settings.Current.Save();
+                SetProperty(ref isPodcastToast, value);
+
+                Task.Run(async () =>
+                {
+                    if (BackgroundTaskHelper.IsBackgroundTaskRegistered(Consts.PodcastTaskName))
+                    {
+                        // Background task already registered.
+                        //Unregister
+                        BackgroundTaskHelper.Unregister(Consts.PodcastTaskName);
+                    }
+                    if (Settings.Current.IsPodcastToast)
+                    {
+                        // Check for background access (optional)
+                        await BackgroundExecutionManager.RequestAccessAsync();
+
+                        // Register (Multi Process) w/ Conditions.
+                        BackgroundTaskHelper.Register(Consts.PodcastTaskName, typeof(PodcastsFetcher).FullName, new TimeTrigger(Settings.Current.FetchInterval, false), true, true, new SystemCondition(SystemConditionType.InternetAvailable));
+                    }
+                });
+            }
+        }
+
+        private bool showPodcastsWhenSearch = Settings.Current.ShowPodcastsWhenSearch;
+        public bool ShowPodcastsWhenSearch
+        {
+            get { return showPodcastsWhenSearch; }
+            set
+            {
+                Settings.Current.ShowPodcastsWhenSearch = value;
+                Settings.Current.Save();
+                SetProperty(ref showPodcastsWhenSearch, value);
+            }
+        }
+
+        private double fetchInterval = Settings.Current.FetchInterval;
+        public double FetchInterval
+        {
+            get { return fetchInterval; }
+            set
+            {
+                SetProperty(ref fetchInterval, value);
+                Settings.Current.FetchInterval = Convert.ToUInt32(value);
+            }
+        }
+
+
         private bool dataPlayEnabled = Settings.Current.DataPlayEnabled;
         public bool DataPlayEnabled
         {
@@ -260,6 +318,11 @@ namespace Aurora.Music.ViewModels
         public string VolumeToString(double d)
         {
             return d.ToString("0");
+        }
+
+        public string IntervalToString(double d)
+        {
+            return $"{d.ToString("0")} min";
         }
 
         private int crrentLyricIndex = -1;

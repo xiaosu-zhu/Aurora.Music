@@ -15,7 +15,7 @@ using Windows.Foundation.Collections;
 
 namespace Aurora.Music.Services
 {
-    public sealed class LyricService : IBackgroundTask
+    public sealed class ExtensionService : IBackgroundTask
     {
         private BackgroundTaskDeferral backgroundTaskDeferral;
         private AppServiceConnection appServiceconnection;

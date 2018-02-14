@@ -25,6 +25,8 @@ namespace Aurora.Music.PlaybackEngine
 
         public bool? IsPlaying => throw new NotImplementedException();
 
+        public double PlaybackRate { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
         public event EventHandler<PositionUpdatedArgs> PositionUpdated;
         public event EventHandler<PlayingItemsChangedArgs> ItemsChanged;
         public event EventHandler<DownloadProgressChangedArgs> DownloadProgressChanged;
@@ -180,6 +182,11 @@ namespace Aurora.Music.PlaybackEngine
         }
 
         public void ToggleEffect(Core.Models.Effects audioGraphEffects)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Backward(TimeSpan timeSpan)
         {
             throw new NotImplementedException();
         }

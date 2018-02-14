@@ -171,6 +171,7 @@ namespace Aurora.Music.Controls
             await FileReader.UpdateSongAsync(Model.Song);
             await Model.Song.WriteRatingAsync(Rating);
             await PlaybackEngine.PlaybackEngine.Current.ReAttachCurrentItem();
+            MainPage.Current.PopMessage("Succeed");
         }
 
         private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
@@ -243,6 +244,7 @@ namespace Aurora.Music.Controls
                   {
 
                   }
+                  MainPage.Current.PopMessage("Succeed");
               });
         }
 

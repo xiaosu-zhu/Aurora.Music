@@ -1077,4 +1077,8 @@
     <value>不支持</value>
     <comment>Not Support</comment>
   </data>
+  <data name="SpeedBtn.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>回放速率</value>
+    <comment>Playback Rate</comment>
+  </data>
 </root>

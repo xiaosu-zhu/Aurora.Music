@@ -137,6 +137,7 @@
     <Compile Include="Storage\SQLOperator.cs" />
     <Compile Include="Tools\FormatHelper.cs" />
     <Compile Include="Tools\Helper.cs" />
+    <Compile Include="Tools\Toast.cs" />
     <EmbeddedResource Include="Properties\Aurora.Music.Core.rd.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -145,6 +146,9 @@
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.0.6</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications">
+      <Version>2.1.1</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>10.0.3</Version>

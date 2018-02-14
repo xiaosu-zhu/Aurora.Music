@@ -536,33 +536,34 @@ namespace Aurora.Music.ViewModels
                     }
                 }));
             }
-            tasks.Add(Task.Run(async () =>
-            {
-                await Task.Delay(1000);
-                if (!s.Equals(_lastQuery, StringComparison.Ordinal))
+            if (Settings.Current.ShowPodcastsWhenSearch)
+                tasks.Add(Task.Run(async () =>
                 {
-                    return;
-                }
-                var podcasts = await SearchPodcasts(text);
-
-                if (MainPage.Current.CanAdd && !podcasts.IsNullorEmpty() && s.Equals(_lastQuery, StringComparison.Ordinal))
-                    await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                    await Task.Delay(1000);
+                    if (!s.Equals(_lastQuery, StringComparison.Ordinal))
                     {
-                        lock (MainPage.Current.Lockable)
-                        {
-                            if (SearchItems.Count > 0 && SearchItems[0].InnerType == MediaType.Placeholder)
-                            {
-                                SearchItems.Clear();
-                            }
-                            podcasts.Reverse();
+                        return;
+                    }
+                    var podcasts = await SearchPodcasts(text);
 
-                            foreach (var item in podcasts)
+                    if (MainPage.Current.CanAdd && !podcasts.IsNullorEmpty() && s.Equals(_lastQuery, StringComparison.Ordinal))
+                        await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                        {
+                            lock (MainPage.Current.Lockable)
                             {
-                                SearchItems.Insert(0, new GenericMusicItemViewModel(item));
+                                if (SearchItems.Count > 0 && SearchItems[0].InnerType == MediaType.Placeholder)
+                                {
+                                    SearchItems.Clear();
+                                }
+                                podcasts.Reverse();
+
+                                foreach (var item in podcasts)
+                                {
+                                    SearchItems.Insert(0, new GenericMusicItemViewModel(item));
+                                }
                             }
-                        }
-                    });
-            }));
+                        });
+                }));
             tasks.Add(Task.Run(async () =>
             {
                 var result = await FileReader.Search(text);

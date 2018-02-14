@@ -65,43 +65,44 @@ namespace Aurora.Music.Pages
                     {
                         MoreMenu.Items.RemoveAt(1);
                     }
-                    if (!s.Song.Performers.IsNullorEmpty())
-                    {
-                        if (s.Song.Performers.Length == 1)
+                    if (!s.Song.IsPodcast)
+                        if (!s.Song.Performers.IsNullorEmpty())
                         {
-                            var menuItem = new MenuFlyoutItem()
-                            {
-                                Text = $"{s.Song.Performers[0]}",
-                                Icon = new FontIcon()
-                                {
-                                    Glyph = "\uE136"
-                                }
-                            };
-                            menuItem.Click += OpenArtistViewDialog;
-                            MoreMenu.Items.Insert(1, menuItem);
-                        }
-                        else
-                        {
-                            var sub = new MenuFlyoutSubItem()
-                            {
-                                Text = $"{Consts.Localizer.GetString("PerformersText")}",
-                                Icon = new FontIcon()
-                                {
-                                    Glyph = "\uE136"
-                                }
-                            };
-                            foreach (var item in s.Song.Performers)
+                            if (s.Song.Performers.Length == 1)
                             {
                                 var menuItem = new MenuFlyoutItem()
                                 {
-                                    Text = item
+                                    Text = $"{s.Song.Performers[0]}",
+                                    Icon = new FontIcon()
+                                    {
+                                        Glyph = "\uE136"
+                                    }
                                 };
                                 menuItem.Click += OpenArtistViewDialog;
-                                sub.Items.Add(menuItem);
+                                MoreMenu.Items.Insert(1, menuItem);
                             }
-                            MoreMenu.Items.Insert(1, sub);
+                            else
+                            {
+                                var sub = new MenuFlyoutSubItem()
+                                {
+                                    Text = $"{Consts.Localizer.GetString("PerformersText")}",
+                                    Icon = new FontIcon()
+                                    {
+                                        Glyph = "\uE136"
+                                    }
+                                };
+                                foreach (var item in s.Song.Performers)
+                                {
+                                    var menuItem = new MenuFlyoutItem()
+                                    {
+                                        Text = item
+                                    };
+                                    menuItem.Click += OpenArtistViewDialog;
+                                    sub.Items.Add(menuItem);
+                                }
+                                MoreMenu.Items.Insert(1, sub);
+                            }
                         }
-                    }
                 }
             });
         }
@@ -230,7 +231,7 @@ namespace Aurora.Music.Pages
 
         private async void Delete_Click_1(object sender, RoutedEventArgs e)
         {
-            await Context.DeleteCurrentAsync(Windows.Storage.StorageDeleteOption.Default);
+            await Context.DeleteCurrentAsync(Windows.Storage.StorageDeleteOption.PermanentDelete);
         }
 
         private async void RatingControl_ValueChanged(RatingControl sender, object args)

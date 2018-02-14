@@ -3,6 +3,7 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using Aurora.Music.Core.Models;
 using Aurora.Music.ViewModels;
+using Aurora.Shared.Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -49,6 +50,9 @@ namespace Aurora.Music.Controls
                     Posts.AddRange(pod.Select(a => new SongViewModel(a)));
                     Posts.OrderByDescending(a => a.PubDate);
                     PodList.ItemsSource = Posts;
+                    FetchingHeader.Visibility = Visibility.Collapsed;
+                    FetchingProgress.IsIndeterminate = false;
+                    FetchingProgress.Visibility = Visibility.Collapsed;
                     if (pod.Subscribed)
                     {
                         PrimaryButtonText = "Undo Subscribe";
@@ -62,61 +66,16 @@ namespace Aurora.Music.Controls
             });
         }
 
-
-
         public string PubDatetoString(DateTime d)
         {
-            var a = DateTime.Now;
-            var k = (a - d);
-
-            if (d.Year != d.Year)
-            {
-                return d.ToString("yy-M-dd ddd");
-            }
-            else
-            {
-                // use Date
-                if (Math.Abs(k.TotalDays) > 7)
-                {
-                    return d.ToString("M-dd ddd");
-                }
-                // use day of week
-                else
-                {
-                    if (d > a)
-                    {
-                        // this week
-                        if (d.DayOfWeek > a.DayOfWeek)
-                        {
-                            return d.ToString("dddd");
-                        }
-                        // next week
-                        else
-                        {
-                            return $"Next {d.ToString("dddd")}";
-                        }
-                    }
-                    else
-                    {
-                        // last week
-                        if (d.DayOfWeek > a.DayOfWeek)
-                        {
-                            return $"Last {d.ToString("dddd")}";
-                        }
-                        // this week
-                        else
-                        {
-                            return d.ToString("dddd");
-                        }
-                    }
-                }
-            }
+            return d.PubDatetoString("'Today'", "ddd", "M/dd ddd", "yy/M/dd", "Next", "Last");
         }
 
         private async void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
             podcast.Subscribed = !podcast.Subscribed;
             await podcast.SaveAsync();
+            MainPage.Current.PopMessage((podcast.Subscribed ? "Subscribed" : "Un-Subscribed") + (podcast.Subscribed ? ", You can find it in music library now" : ""));
         }
     }
 }

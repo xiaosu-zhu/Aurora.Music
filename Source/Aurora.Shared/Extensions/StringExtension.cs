@@ -14,7 +14,15 @@ namespace Aurora.Shared.Extensions
 
         public static TimeSpan ParseDuration(this string str)
         {
-            return TimeSpan.ParseExact(str, formats, CultureInfo.InvariantCulture);
+            if (TimeSpan.TryParseExact(str, formats, CultureInfo.InvariantCulture, out TimeSpan t))
+            {
+                return t;
+            }
+            if (double.TryParse(str, out double d))
+            {
+                return TimeSpan.FromSeconds(d);
+            }
+            return default(TimeSpan);
         }
 
         public static string Combine(this IEnumerable<string> strArr)

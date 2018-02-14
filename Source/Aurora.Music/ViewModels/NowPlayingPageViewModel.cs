@@ -86,6 +86,17 @@ namespace Aurora.Music.ViewModels
             }
         }
 
+        private double playbackRate = PlaybackEngine.PlaybackEngine.Current.PlaybackRate;
+        public double PlaybackRate
+        {
+            get { return playbackRate; }
+            set
+            {
+                SetProperty(ref playbackRate, value);
+                PlaybackEngine.PlaybackEngine.Current.PlaybackRate = value;
+            }
+        }
+
         private double olume = Settings.Current.PlayerVolume;
         public double Volume
         {
@@ -143,7 +154,15 @@ namespace Aurora.Music.ViewModels
             var t = ThreadPool.RunAsync(async x =>
             {
                 var ext = MainPageViewModel.Current.LyricExtension;
-                if (ext != null)
+                if (song.IsPodcast)
+                {
+                    var l = new Lyric(LrcParser.Parser.Parse(song.Album, Song.Song.Duration));
+                    await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
+                    {
+                        Lyric.New(l);
+                    });
+                }
+                else if (ext != null)
                 {
                     var result = await ext.GetLyricAsync(song.Song, MainPageViewModel.Current.OnlineMusicExtension?.ServiceName);
                     if (result != null)
@@ -247,6 +266,16 @@ namespace Aurora.Music.ViewModels
             }
         }
 
+        public string GlyphOfOnline(SongViewModel s)
+        {
+            return s.IsPodcast ? "\uE95A" : "\uE753";
+        }
+
+        public string GlyphPreOfOnline(SongViewModel s)
+        {
+            return s.IsPodcast ? "\uED3C" : "\uE100";
+        }
+
         public string VolumeToSymbol(double d)
         {
             if (d.AlmostEqualTo(0))
@@ -267,6 +296,11 @@ namespace Aurora.Music.ViewModels
         public string VolumeToString(double d)
         {
             return d.ToString("0");
+        }
+
+        public string PlaybackRateToString(double d)
+        {
+            return $"{d.ToString("0.##")}\u00D7";
         }
 
         public SolidColorBrush AdjustBrightness(SolidColorBrush b, double d)
@@ -344,6 +378,7 @@ namespace Aurora.Music.ViewModels
 
             var file = await StorageFile.GetFileFromPathAsync(s);
             await file.DeleteAsync(op);
+            MainPage.Current.PopMessage("Deleted");
         }
 
         internal void ShareCurrentAsync()
@@ -657,7 +692,14 @@ namespace Aurora.Music.ViewModels
             {
                 return new DelegateCommand(() =>
                 {
-                    player?.Previous();
+                    if (song.IsPodcast)
+                    {
+                        player?.Backward(TimeSpan.FromSeconds(10));
+                    }
+                    else
+                    {
+                        player?.Previous();
+                    }
                 });
             }
         }
@@ -944,7 +986,15 @@ namespace Aurora.Music.ViewModels
                     });
                     _lastSong = e.CurrentSong;
                     var ext = MainPageViewModel.Current.LyricExtension;
-                    if (ext != null)
+                    if (song.IsPodcast)
+                    {
+                        var l = new Lyric(LrcParser.Parser.Parse(song.Album, Song.Song.Duration));
+                        await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
+                        {
+                            Lyric.New(l);
+                        });
+                    }
+                    else if (ext != null)
                     {
                         var result = await ext.GetLyricAsync(song.Song, MainPageViewModel.Current.OnlineMusicExtension?.ServiceName);
                         if (result != null)

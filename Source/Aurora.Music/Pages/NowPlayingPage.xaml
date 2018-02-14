@@ -1021,7 +1021,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 
                         <Setter Target="ShuffleFlyout.Visibility" Value="Collapsed"/>
                         <Setter Target="Shuffle.Visibility" Value="Visible"/>
-                        
+
                         <Setter Target="RowOne.Height" Value="0"/>
                     </VisualState.Setters>
                 </VisualState>
@@ -1079,6 +1079,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <Setter Target="LrcBtn.Margin" Value="2,4"/>
                         <Setter Target="SmallWindow.Margin" Value="2,4"/>
                         <Setter Target="More.Margin" Value="2,4"/>
+                        <Setter Target="SpeedBtn.Margin" Value="2,4"/>
                         <Setter Target="VisualizationBtn.Margin" Value="2,4"/>
                         <Setter Target="Volume.Margin" Value="2,4"/>
                         <Setter Target="Root.Padding" Value="12,80,12,0"/>
@@ -1093,12 +1094,12 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 
                         <Setter Target="LrcBtn.Visibility" Value="Collapsed"/>
                         <Setter Target="SmallWindow.Visibility" Value="Collapsed"/>
-                        
+
                         <Setter Target="Stop.Visibility" Value="Collapsed"/>
-                        
+
                         <Setter Target="PlayListNarrow.Visibility" Value="Visible"/>
                         <Setter Target="PlayListFull.Visibility" Value="Collapsed"/>
-                        
+
                         <Setter Target="NarrowLrcBtn.Visibility" Value="Visible"/>
                         <Setter Target="NarrowSmallWindow.Visibility" Value="Visible"/>
 
@@ -1178,7 +1179,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                Text="{x:Bind Context.Song.Title,Mode=OneWay}"/>
                     <FontIcon Visibility="{x:Bind Context.Song.IsOnline,Mode=OneWay}"
                               FontSize="24" Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush),Mode=OneWay}"
-                              VerticalAlignment="Center" Margin="8,4,0,0" FontFamily="Segoe MDL2 Assets" Glyph="&#xE753;" />
+                              VerticalAlignment="Center" Margin="8,4,0,0" FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Context.GlyphOfOnline(Context.Song),Mode=OneWay}" />
                 </StackPanel>
                 <TextBlock Margin="0,4,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" x:Name="Album"
                             TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" MaxLines="1" ToolTipService.ToolTip="{x:Bind Context.Song.Album,Mode=OneWay}"
@@ -1199,7 +1200,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <Run Text="256 Kbps"/-->
                     </TextBlock>
                 </toolkit:DropShadowPanel>
-                <StackPanel Margin="0,12,0,0" Orientation="Horizontal">
+                <StackPanel Visibility="{x:Bind Context.BoolNottoVisibility(Context.Song.IsPodcast),Mode=OneWay}" Margin="0,12,0,0" Orientation="Horizontal">
                     <RatingControl Value="{x:Bind Context.CurrentRating,Mode=OneWay}" ValueChanged="RatingControl_ValueChanged" IsClearEnabled="True" VerticalAlignment="Center" IsReadOnly="False"/>
                     <star:StarButton IsOn="{x:Bind Context.IsCurrentFavorite, Mode=TwoWay}"  HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" Margin="8,4,8,8"/>
                 </StackPanel>
@@ -1256,7 +1257,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <Button AccessKey="[" x:Uid="Previous" x:Name="Previous" Style="{ThemeResource RevealRoundButton}" Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush),Mode=OneWay}" Command="{x:Bind Context.GoPrevious}" ToolTipService.ToolTip="Previous"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <Button.Content>
-                        <SymbolIcon Symbol="Previous"/>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Context.GlyphPreOfOnline(Context.Song),Mode=OneWay}" />
                     </Button.Content>
                     <Button.KeyboardAccelerators>
                         <KeyboardAccelerator Key="F1" />
@@ -1275,7 +1276,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <Button AccessKey="]" x:Uid="Next" x:Name="Next" Style="{ThemeResource RevealRoundButton}" Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush),Mode=OneWay}" Command="{x:Bind Context.GoNext}" ToolTipService.ToolTip="Next"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <Button.Content>
-                        <SymbolIcon Symbol="Next"/>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE101;" />
                     </Button.Content>
                     <Button.KeyboardAccelerators>
                         <KeyboardAccelerator Key="F3" />
@@ -1312,14 +1313,14 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     </Button.Flyout>
                 </Button>
 
-                <ToggleButton x:Uid="Shuffle" x:Name="Shuffle" Style="{ThemeResource RevealRoundToggleButton}" Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush),Mode=OneWay}" IsChecked="{x:Bind Context.IsShuffle, Mode=TwoWay}"
+                <ToggleButton x:Uid="Shuffle" IsEnabled="{x:Bind Context.BoolNot(Context.Song.IsPodcast),Mode=OneWay}" x:Name="Shuffle" Style="{ThemeResource RevealRoundToggleButton}" Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush),Mode=OneWay}" IsChecked="{x:Bind Context.IsShuffle, Mode=TwoWay}"
                               ToolTipService.ToolTip="Shuffle" Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <ToggleButton.Content>
                         <SymbolIcon Symbol="Shuffle"/>
                     </ToggleButton.Content>
                 </ToggleButton>
 
-                <ToggleButton x:Uid="Loop" x:Name="Repeat" Style="{ThemeResource RevealRoundToggleButton}" Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush),Mode=OneWay}" IsChecked="{x:Bind Context.IsLoop, Mode=TwoWay}"
+                <ToggleButton x:Uid="Loop" x:Name="Repeat" IsEnabled="{x:Bind Context.BoolNot(Context.Song.IsPodcast),Mode=OneWay}" Style="{ThemeResource RevealRoundToggleButton}" Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush),Mode=OneWay}" IsChecked="{x:Bind Context.IsLoop, Mode=TwoWay}"
                               ToolTipService.ToolTip="Repeat" Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <ToggleButton.Content>
                         <SymbolIcon Symbol="Refresh"/>
@@ -1354,7 +1355,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </Button>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="4">
-                <Button x:Uid="LyricWindow" x:Name="LrcBtn" Style="{ThemeResource RevealRoundButton}" 
+                <Button x:Uid="LyricWindow" IsEnabled="{x:Bind Context.BoolNot(Context.Song.IsPodcast),Mode=OneWay}" x:Name="LrcBtn" Style="{ThemeResource RevealRoundButton}" 
                         Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush),Mode=OneWay}" 
                         ToolTipService.ToolTip="Lyric Window" Command="{x:Bind Context.ShowLyricWindow}"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
@@ -1370,6 +1371,21 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE2B4;" />
                     </Button.Content>
                 </Button>
+                <Button x:Uid="SpeedBtn" Visibility="{x:Bind Context.Song.IsPodcast,Mode=OneWay}" x:Name="SpeedBtn" Style="{ThemeResource RevealRoundButton}" 
+                        Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush),Mode=OneWay}" 
+                        ToolTipService.ToolTip="Playback Rate" Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                    <Button.Content>
+                        <TextBlock Style="{ThemeResource BodyTextBlockStyle}"><Run Text="{x:Bind Context.PlaybackRateToString(Context.PlaybackRate),Mode=OneWay}"/></TextBlock>
+                    </Button.Content>
+                    <Button.Flyout>
+                        <Flyout FlyoutPresenterStyle="{ThemeResource HoriNoScrollFlyoutPresenter}">
+                            <StackPanel Padding="4,4,4,-4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Orientation="Horizontal">
+                                <Slider Style="{ThemeResource RoundSlider1}" IsThumbToolTipEnabled="False" MinWidth="240" HorizontalAlignment="Stretch" VerticalAlignment="Center" Minimum="0.25" Maximum="2.5" StepFrequency="0.25" Value="{x:Bind Context.PlaybackRate, Mode=TwoWay}"/>
+                                <TextBlock Margin="0,0,0,10" Width="54" TextAlignment="Right" VerticalAlignment="Center" Style="{ThemeResource TitleTextBlockStyle}" TextWrapping="NoWrap" TextTrimming="None" MaxLines="1" HorizontalAlignment="Stretch" Text="{x:Bind Context.PlaybackRateToString(Context.PlaybackRate), Mode=OneWay}"/>
+                            </StackPanel>
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
                 <Button AccessKey="." x:Name="More" Style="{ThemeResource RevealRoundButton}" Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush),Mode=OneWay}" ToolTipService.ToolTip="More"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <Button.Content>
@@ -1381,7 +1397,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <Button.Flyout>
                         <MenuFlyout x:Name="MoreMenu">
                             <MenuFlyout.Items>
-                                <MenuFlyoutItem Click="OpenAlbumViewDialog" Text="{x:Bind Context.Song.Album, Mode=OneWay}">
+                                <MenuFlyoutItem Visibility="{x:Bind Context.BoolNottoVisibility(Context.Song.IsPodcast),Mode=OneWay}" Click="OpenAlbumViewDialog" Text="{x:Bind Context.Song.Album, Mode=OneWay}">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE93C;" />
                                     </MenuFlyoutItem.Icon>
@@ -1408,7 +1424,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
                                 <MenuFlyoutSeparator/>
-                                <MenuFlyoutItem x:Uid="LyricWindowFlyout" x:Name="NarrowLrcBtn" Text="Lyric Window" Command="{x:Bind Context.ShowLyricWindow}">
+                                <MenuFlyoutItem IsEnabled="{x:Bind Context.BoolNot(Context.Song.IsPodcast),Mode=OneWay}" x:Uid="LyricWindowFlyout" x:Name="NarrowLrcBtn" Text="Lyric Window" Command="{x:Bind Context.ShowLyricWindow}">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEA4B;"/>
                                     </MenuFlyoutItem.Icon>
@@ -1423,18 +1439,18 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE9D9;" />
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
-                                <ToggleMenuFlyoutItem x:Uid="ShuffleFlyout" x:Name="ShuffleFlyout" Text="Shuffle" IsChecked="{x:Bind Context.IsShuffleBool, Mode=TwoWay}">
+                                <ToggleMenuFlyoutItem IsEnabled="{x:Bind Context.BoolNot(Context.Song.IsPodcast),Mode=OneWay}" x:Uid="ShuffleFlyout" x:Name="ShuffleFlyout" Text="Shuffle" IsChecked="{x:Bind Context.IsShuffleBool, Mode=TwoWay}">
                                     <ToggleMenuFlyoutItem.Icon>
                                         <SymbolIcon Symbol="Shuffle"/>
                                     </ToggleMenuFlyoutItem.Icon>
                                 </ToggleMenuFlyoutItem>
-                                <ToggleMenuFlyoutItem x:Uid="RepeatFlyout" x:Name="RepeatFlyout" Text="Repeat" IsChecked="{x:Bind Context.IsLoopBool, Mode=TwoWay}">
+                                <ToggleMenuFlyoutItem IsEnabled="{x:Bind Context.BoolNot(Context.Song.IsPodcast),Mode=OneWay}" x:Uid="RepeatFlyout" x:Name="RepeatFlyout" Text="Repeat" IsChecked="{x:Bind Context.IsLoopBool, Mode=TwoWay}">
                                     <ToggleMenuFlyoutItem.Icon>
                                         <SymbolIcon Symbol="Refresh"/>
                                     </ToggleMenuFlyoutItem.Icon>
                                 </ToggleMenuFlyoutItem>
                                 <MenuFlyoutSeparator x:Name="NarrowSplit"/>
-                                <MenuFlyoutItem Click="DownloadOrModify" Text="{x:Bind Context.DownloadOrModify(Context.Song.IsOnline),Mode=OneWay}" >
+                                <MenuFlyoutItem IsEnabled="{x:Bind Context.BoolNot(Context.Song.IsPodcast),Mode=OneWay}" Click="DownloadOrModify" Text="{x:Bind Context.DownloadOrModify(Context.Song.IsOnline),Mode=OneWay}" >
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Context.DownloadOrModifyIcon(Context.Song.IsOnline),Mode=OneWay}" />
                                     </MenuFlyoutItem.Icon>

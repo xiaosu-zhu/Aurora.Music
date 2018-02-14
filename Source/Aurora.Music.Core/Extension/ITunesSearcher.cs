@@ -13,7 +13,8 @@ namespace Aurora.Music.Core.Extension
     class ITunesSearcher
     {
         private const string queryUrl = "https://itunes.apple.com/search";
-        private const string topUrl = "https://itunes.apple.com/{0}/rss/toppodcasts/limit={1}/genre={2}/json";
+        private const string topUrl = "https://itunes.apple.com/{0}/rss/toppodcasts/limit={1}/offset={2}/genre={3}/json";
+        private const string topAllUrl = "https://itunes.apple.com/{0}/rss/toppodcasts/limit={1}/offset={1}/json";
 
         /// <summary>
         /// <see cref="https://affiliate.itunes.apple.com/resources/documentation/genre-mapping/"/>

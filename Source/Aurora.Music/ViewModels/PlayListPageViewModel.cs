@@ -82,10 +82,6 @@ namespace Aurora.Music.ViewModels
 
             var grouped = GroupedItem<SongViewModel>.CreateGroupsByAlpha(songs.ConvertAll(x => new SongViewModel(x)));
 
-            //var grouped = GroupedItem<AlbumViewModel>.CreateGroups(albums.ConvertAll(x => new AlbumViewModel(x)), x => x.GetFormattedArtists());
-
-            //var grouped = GroupedItem<SongViewModel>.CreateGroups(songs.ConvertAll(x => new SongViewModel(x)), x => x.Year, true);
-
             await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
                 SongsList.Clear();
@@ -111,13 +107,7 @@ namespace Aurora.Music.ViewModels
                 }
             });
         }
-
-        internal async Task PlayAlbumAsync(AlbumViewModel album)
-        {
-            var songs = await album.GetSongsAsync();
-            await MainPageViewModel.Current.InstantPlay(songs);
-        }
-
+        
         internal async void ChangeSort(int selectedIndex)
         {
             SongsList.Clear();

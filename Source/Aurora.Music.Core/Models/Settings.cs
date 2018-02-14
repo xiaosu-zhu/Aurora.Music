@@ -30,12 +30,12 @@ namespace Aurora.Music.Core.Models
         {
             //                             30-75-125-250
             //                                         500-1  2  4  8  16
-            this["Flat"] =  new float[10] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-            this["Pop"] =   new float[10] { 6, 4, 2, 0, 2, 3, 0, 0, 0, 0 };
-            this["Rock"] =  new float[10] { 4, 3, 2, 1, 0, -1, 0, 1, 2, 3 };
+            this["Flat"] = new float[10] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+            this["Pop"] = new float[10] { 6, 4, 2, 0, 2, 3, 0, 0, 0, 0 };
+            this["Rock"] = new float[10] { 4, 3, 2, 1, 0, -1, 0, 1, 2, 3 };
             this["Vocal"] = new float[10] { 0, 0, 0, 0, 2, 2, 1, 0, 0, 0 };
-            this["Bass"] =  new float[10] { 4, 3, 2, 1, 0, 0, 0, 0, 0, 0 };
-            this["Air"] =   new float[10] { 0, 0, 0, 0, 0, 0, 1, 2, 3, 4 };
+            this["Bass"] = new float[10] { 4, 3, 2, 1, 0, 0, 0, 0, 0, 0 };
+            this["Air"] = new float[10] { 0, 0, 0, 0, 0, 0, 1, 2, 3, 4 };
         }
     }
 
@@ -103,6 +103,9 @@ namespace Aurora.Music.Core.Models
         public bool MetaDataEnabled { get; set; } = true;
         public bool DataPlayEnabled { get; set; } = true;
         public bool DataDownloadEnabled { get; set; } = true;
+        public bool IsPodcastToast { get; set; } = true;
+        public uint FetchInterval { get; set; } = 30;
+        public bool ShowPodcastsWhenSearch { get; set; } = true;
 
         public float[] Gain = new float[10] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 

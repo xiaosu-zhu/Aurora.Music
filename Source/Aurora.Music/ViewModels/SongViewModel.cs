@@ -64,6 +64,10 @@ namespace Aurora.Music.ViewModels
 
         private string GetFileType()
         {
+            if (IsPodcast)
+            {
+                return $"Podcast Posted @ {song.PubDate.PubDatetoString("'Today' H:mm", "ddd H:mm", "M/dd H:mm", "yy/M/dd", "Next", "Last")}";
+            }
             if (IsOnline)
             {
                 return Consts.Localizer.GetString("OnlineContentText");
@@ -151,56 +155,7 @@ namespace Aurora.Music.ViewModels
 
         public string PubDatetoString(DateTime d)
         {
-            var a = DateTime.Today;
-            var k = (a - d);
-
-            if (d.Date == a)
-            {
-                return "Today";
-            }
-
-            if (d.Year != a.Year)
-            {
-                return d.ToString("yy/M/dd");
-            }
-            else
-            {
-                // use Date
-                if (Math.Abs(k.TotalDays) > 7)
-                {
-                    return d.ToString("M/dd ddd");
-                }
-                // use day of week
-                else
-                {
-                    if (d > a)
-                    {
-                        // this week
-                        if (d.DayOfWeek > a.DayOfWeek)
-                        {
-                            return d.ToString("dddd");
-                        }
-                        // next week
-                        else
-                        {
-                            return $"Next {d.ToString("dddd")}";
-                        }
-                    }
-                    else
-                    {
-                        // last week
-                        if (d.DayOfWeek >= a.DayOfWeek)
-                        {
-                            return $"Last {d.ToString("dddd")}";
-                        }
-                        // this week
-                        else
-                        {
-                            return d.ToString("dddd");
-                        }
-                    }
-                }
-            }
+            return d.PubDatetoString("'Today'", "ddd", "M/dd ddd", "yy/MM/dd", "Next", "Last");
         }
 
         public string FormatDuration(TimeSpan t)
@@ -228,7 +183,12 @@ namespace Aurora.Music.ViewModels
 
         internal string GetFormattedArtists()
         {
-            return Song.AlbumArtists.IsNullorEmpty() ? Consts.UnknownArtists : string.Join(Consts.CommaSeparator, Song.AlbumArtists);
+            if (Song.Performers.IsNullorEmpty())
+                return Song.AlbumArtists.IsNullorEmpty() ? Consts.UnknownArtists : string.Join(Consts.CommaSeparator, Song.AlbumArtists);
+            else
+            {
+                return string.Join(Consts.CommaSeparator, Song.Performers);
+            }
         }
 
         private string title;

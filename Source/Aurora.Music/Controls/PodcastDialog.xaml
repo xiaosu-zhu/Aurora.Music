@@ -58,6 +58,12 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         </Grid>
         <ListView ItemContainerStyleSelector="{StaticResource SongListStyleSelector}"
                   x:Name="PodList" Grid.Row="1" HorizontalAlignment="Stretch" VerticalContentAlignment="Stretch">
+            <ListView.Header>
+                <StackPanel>
+                    <ProgressBar x:Name="FetchingProgress" IsIndeterminate="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                    <TextBlock Style="{ThemeResource TitleTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,12" Text="Fetching" x:Name="FetchingHeader"/>
+                </StackPanel>
+            </ListView.Header>
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="vm:SongViewModel">
                     <Grid Margin="4,8">

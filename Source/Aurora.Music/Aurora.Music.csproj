@@ -210,6 +210,9 @@
     <Compile Include="Pages\PlayListPage.xaml.cs">
       <DependentUpon>PlayListPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\PodcastMarket.xaml.cs">
+      <DependentUpon>PodcastMarket.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\PodcastPage.xaml.cs">
       <DependentUpon>PodcastPage.xaml</DependentUpon>
     </Compile>
@@ -482,6 +485,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\PlayListPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\PodcastMarket.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

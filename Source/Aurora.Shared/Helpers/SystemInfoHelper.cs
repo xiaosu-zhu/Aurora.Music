@@ -18,7 +18,8 @@ namespace Aurora.Shared.Helpers
 
     public class CultureInfoHelper
     {
-        public static CultureInfo CurrentCulture => GetCurrentCulture();
+        private static CultureInfo currentCulture = GetCurrentCulture();
+        public static CultureInfo CurrentCulture => currentCulture;
 
         private static CultureInfo GetCurrentCulture()
         {
@@ -26,7 +27,9 @@ namespace Aurora.Shared.Helpers
 
             return new CultureInfo(cultureName);
         }
-        public static string CurrentRegionISO => GetCurrentRegionISO();
+
+        private static string urrentRegionISO = GetCurrentRegionISO();
+        public static string CurrentRegionISO => urrentRegionISO;
 
         private static string GetCurrentRegionISO()
         {

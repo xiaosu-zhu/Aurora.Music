@@ -24,6 +24,7 @@ namespace Aurora.Music.PlaybackEngine
         void Shuffle(bool? isOn);
 
         bool? IsPlaying { get; }
+        double PlaybackRate { get; set; }
 
         event EventHandler<PositionUpdatedArgs> PositionUpdated;
         event EventHandler<PlayingItemsChangedArgs> ItemsChanged;
@@ -37,6 +38,7 @@ namespace Aurora.Music.PlaybackEngine
         Task ReAttachCurrentItem();
         void ChangeEQ(float[] gain);
         void ToggleEffect(Core.Models.Effects audioGraphEffects);
+        void Backward(TimeSpan timeSpan);
     }
 
     public class DownloadProgressChangedArgs

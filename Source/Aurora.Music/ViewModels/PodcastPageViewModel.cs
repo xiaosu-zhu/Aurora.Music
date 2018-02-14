@@ -4,6 +4,7 @@
 using Aurora.Music.Core;
 using Aurora.Music.Core.Models;
 using Aurora.Music.Core.Storage;
+using Aurora.Shared.Extensions;
 using Aurora.Shared.MVVM;
 using System;
 using System.Collections.Generic;
@@ -12,21 +13,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Aurora.Music.ViewModels
 {
     class PodcastPageViewModel : ViewModelBase
     {
 
-        private ObservableCollection<GroupedItem<SongViewModel>> songsList;
-        public ObservableCollection<GroupedItem<SongViewModel>> SongsList
+        private ObservableCollection<SongViewModel> songsList;
+        public ObservableCollection<SongViewModel> SongsList
         {
             get { return songsList; }
             set { SetProperty(ref songsList, value); }
         }
 
-        private List<Uri> heroImage;
-        public List<Uri> HeroImage
+        private Uri heroImage;
+        public Uri HeroImage
         {
             get { return heroImage; }
             set { SetProperty(ref heroImage, value); }
@@ -55,7 +57,7 @@ namespace Aurora.Music.ViewModels
 
         public PodcastPageViewModel()
         {
-            SongsList = new ObservableCollection<GroupedItem<SongViewModel>>();
+            SongsList = new ObservableCollection<SongViewModel>();
         }
 
         public DelegateCommand PlayAll
@@ -64,111 +66,98 @@ namespace Aurora.Music.ViewModels
             {
                 return new DelegateCommand(async () =>
                 {
-                    await MainPageViewModel.Current.InstantPlay(await SQLOperator.Current().GetSongsAsync(Model.SongsID));
+                    await MainPageViewModel.Current.InstantPlay(Model);
+                });
+            }
+        }
+
+        private bool isSubscribe;
+        public bool IsSubscribe
+        {
+            get { return isSubscribe; }
+            set { SetProperty(ref isSubscribe, value); }
+        }
+
+        public DelegateCommand ToggleSubscribe
+        {
+            get
+            {
+                return new DelegateCommand(async () =>
+                {
+                    Model.Subscribed = !Model.Subscribed;
+                    await Model.SaveAsync();
+                    IsSubscribe = Model.Subscribed;
+                    MainPage.Current.PopMessage(Model.Subscribed ? "Subscribed" : "Un-Subscribed");
+                });
+            }
+        }
+
+        public DelegateCommand Refresh
+        {
+            get
+            {
+                return new DelegateCommand(async () =>
+                {
+                    await Model.Refresh();
+                    SongsList.Clear();
+                    uint i = 0;
+                    foreach (var item in Model)
+                    {
+                        SongsList.Add(new SongViewModel(item)
+                        {
+                            Index = ++i
+                        });
+                    }
+                    LastUpdate = Model.LastUpdate.PubDatetoString("'Today'", "ddd", "M/dd ddd", "yy/M/dd", "Next", "Last");
+                    Description = Model.Description;
+                    Title = Model.Title;
+                    HeroImage = new Uri(Model.HeroArtworks[0]);
+                    IsSubscribe = Model.Subscribed;
+                    MainPage.Current.PopMessage("Refreshed");
                 });
             }
         }
 
         public Podcast Model { get; private set; }
 
-        public async Task GetSongsAsync(Podcast model)
+        public async Task Init(int ID)
         {
-            Model = await SQLOperator.Current().GetPlayListAsync(model.ID);
+            Model = await Podcast.ReadFromLocalAsync(ID);
             if (Model == null)
             {
                 return;
             }
 
-            var songs = await SQLOperator.Current().GetSongsAsync(Model.SongsID);
-
-            var grouped = GroupedItem<SongViewModel>.CreateGroupsByAlpha(songs.ConvertAll(x => new SongViewModel(x)));
-
-            //var grouped = GroupedItem<AlbumViewModel>.CreateGroups(albums.ConvertAll(x => new AlbumViewModel(x)), x => x.GetFormattedArtists());
-
-            //var grouped = GroupedItem<SongViewModel>.CreateGroups(songs.ConvertAll(x => new SongViewModel(x)), x => x.Year, true);
-
             await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
                 SongsList.Clear();
-                foreach (var item in grouped)
+                uint i = 0;
+                foreach (var item in Model)
                 {
-                    item.Aggregate((x, y) =>
+                    SongsList.Add(new SongViewModel(item)
                     {
-                        y.Index = x.Index + 1;
-                        return y;
+                        Index = ++i
                     });
-                    SongsList.Add(item);
                 }
-                LastUpdate = SmartFormat.Smart.Format(Consts.Localizer.GetString("SmartSongs"), songs.Count);
+                LastUpdate = Model.LastUpdate.PubDatetoString("'Today'", "ddd", "M/dd ddd", "yy/M/dd", "Next", "Last");
                 Description = Model.Description;
+                IsSubscribe = Model.Subscribed;
                 Title = Model.Title;
-                HeroImage = Array.ConvertAll(Model.HeroArtworks ?? new string[] { }, x => new Uri(x)).ToList();
-                foreach (var item in SongsList)
-                {
-                    foreach (var song in item)
-                    {
-                        song.RefreshFav();
-                    }
-                }
+                HeroImage = new Uri(Model.HeroArtworks[0]);
             });
-        }
-
-        internal async Task PlayAlbumAsync(AlbumViewModel album)
-        {
-            var songs = await album.GetSongsAsync();
-            await MainPageViewModel.Current.InstantPlay(songs);
-        }
-
-        internal async void ChangeSort(int selectedIndex)
-        {
-            SongsList.Clear();
-            var songs = await SQLOperator.Current().GetSongsAsync(Model.SongsID);
-            IEnumerable<GroupedItem<SongViewModel>> grouped;
-
-            switch (selectedIndex)
-            {
-                case 0:
-                    grouped = GroupedItem<SongViewModel>.CreateGroupsByAlpha(songs.ConvertAll(x => new SongViewModel(x)));
-                    break;
-                case 1:
-                    grouped = GroupedItem<SongViewModel>.CreateGroups(songs.ConvertAll(x => new SongViewModel(x)), x => x.FormattedAlbum);
-                    break;
-                case 2:
-                    grouped = GroupedItem<SongViewModel>.CreateGroups(songs.ConvertAll(x => new SongViewModel(x)), x => x.GetFormattedArtists());
-                    break;
-                default:
-                    grouped = GroupedItem<SongViewModel>.CreateGroups(songs.ConvertAll(x => new SongViewModel(x)), x => x.Song.Year, true);
-                    break;
-            }
-            foreach (var item in grouped)
-            {
-                item.Aggregate((x, y) =>
-                {
-                    y.Index = x.Index + 1;
-                    return y;
-                });
-                SongsList.Add(item);
-            }
-            foreach (var item in SongsList)
-            {
-                foreach (var song in item)
-                {
-                    song.RefreshFav();
-                }
-            }
         }
 
         internal async Task PlayAt(SongViewModel songViewModel)
         {
-            var list = await SQLOperator.Current().GetSongsAsync(Model.SongsID);
-            await MainPageViewModel.Current.InstantPlay(list, list.FindIndex(x => x.ID == songViewModel.ID));
-        }
-
-        internal async Task EditDescription(string text)
-        {
-            Model.Description = text;
-            await Model.SaveAsync();
-            Description = text;
+            var i = (int)songViewModel.Index - 1;
+            if (Model.Count < i + 20)
+            {
+                await MainPageViewModel.Current.InstantPlay(Model, i);
+            }
+            else
+            {
+                await MainPageViewModel.Current.InstantPlay(Model.GetRange(i, 20), 0);
+            }
         }
     }
 }

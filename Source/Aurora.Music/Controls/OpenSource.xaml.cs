@@ -29,6 +29,10 @@ namespace Aurora.Music.Controls
             name = typeof(Microsoft.Toolkit.Uwp.UI.AdvancedCollectionView).Assembly.GetName();
             Main.Text += string.Format(form, "`Json.NET`", $"`{name.Version.ToVersionString()}`", "[`MIT License`](https://github.com/JamesNK/Newtonsoft.Json/blob/master/LICENSE.md)", "[`newtonsoft.com`](https://www.newtonsoft.com/json)");
 
+            Main.Text += string.Format(form, "`NAudio`", $"`1.8.4`", "[`MS-PL`](https://github.com/naudio/NAudio/blob/master/license.txt)", "[`github.com/naudio/NAudio`](https://github.com/naudio/NAudio)");
+            
+            Main.Text += string.Format(form, "`UWPAudioVisualizer`", $"`0.1.96`", "[`MIT License`](https://github.com/clarkezone/audiovisualizer/blob/master/LICENSE)", "[`github.com/clarkezone/audiovisualizer`](https://github.com/clarkezone/audiovisualizer)");
+            
             name = typeof(ExpressionBuilder.ColorNode).Assembly.GetName();
             Main.Text += string.Format(form, "`ExpressionBuilder`", $"`{name.Version.ToVersionString()}`", "[`MIT License`](https://github.com/Microsoft/WindowsUIDevLabs/blob/master/LICENSE.txt)", "[`github.com/Microsoft/ExpressionBuilder`](https://github.com/Microsoft/WindowsUIDevLabs/tree/master/ExpressionBuilder)");
 

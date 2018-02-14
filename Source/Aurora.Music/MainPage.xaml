@@ -832,7 +832,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE72D;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
-                <MenuFlyoutItem x:Uid="ModifyTag" Visibility="Collapsed" Click="MenuFlyoutModify_Click" Text="Modify Tag">
+                <MenuFlyoutItem x:Uid="ModifyTag" Click="MenuFlyoutModify_Click" Text="Modify Tag">
                     <MenuFlyoutItem.Icon>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE929;" />
                     </MenuFlyoutItem.Icon>

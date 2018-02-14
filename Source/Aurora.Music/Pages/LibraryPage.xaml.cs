@@ -5,6 +5,7 @@ using Aurora.Music.Core;
 using Aurora.Music.Core.Models;
 using Aurora.Music.Core.Storage;
 using Aurora.Music.ViewModels;
+using Aurora.Shared.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -63,6 +64,7 @@ namespace Aurora.Music.Pages
             Task.Run(async () =>
             {
                 playlists = await SQLOperator.Current().GetPlayListBriefAsync();
+                var podcasts = await SQLOperator.Current().GetPodcastListBriefAsync();
                 await Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
                 {
                     foreach (var playlist in playlists)
@@ -70,8 +72,18 @@ namespace Aurora.Music.Pages
                         CategoryList.Add(new CategoryListItem
                         {
                             Title = playlist.Title,
-                            HeroImages = playlist.HeroArtworks == null ? null : Array.ConvertAll(playlist.HeroArtworks, x => (ImageSource)new BitmapImage(new Uri(x))).ToList(),
+                            HeroImages = playlist.HeroArtworks == null ? null : Array.ConvertAll(playlist.HeroArtworks, x => (ImageSource)new BitmapImage(new Uri(x.IsNullorEmpty() ? Consts.BlackPlaceholder : x))).ToList(),
                             NavigatType = typeof(PlayListPage)
+                        });
+                    }
+                    foreach (var podcast in podcasts)
+                    {
+                        CategoryList.Add(new CategoryListItem
+                        {
+                            Title = podcast.Title,
+                            HeroImages = podcast.HeroArtworks == null ? null : new ImageSource[] { new BitmapImage(new Uri(podcast.HeroArtworks)) },
+                            NavigatType = typeof(PodcastPage),
+                            ID = podcast.ID
                         });
                     }
                     var item = CategoryList.FirstOrDefault(x => x.Title == Settings.Current.CategoryLastClicked);
@@ -87,23 +99,6 @@ namespace Aurora.Music.Pages
                     Category.SelectedItem = item ?? CategoryList[0];
                 });
             });
-            Task.Run(async () =>
-            {
-                var podcasts = await SQLOperator.Current().GetPodcastListBriefAsync();
-                await Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
-                {
-                    foreach (var podcast in podcasts)
-                    {
-                        CategoryList.Add(new CategoryListItem
-                        {
-                            Title = podcast.Title,
-                            HeroImages = podcast.HeroArtworks == null ? null : new ImageSource[] { new BitmapImage(new Uri(podcast.HeroArtworks)) },
-                            NavigatType = typeof(PodcastPage),
-                            ID = podcast.ID
-                        });
-                    }
-                });
-            });
         }
 
         private void Category_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -116,6 +111,10 @@ namespace Aurora.Music.Pages
             if (item.NavigatType == typeof(PlayListPage))
             {
                 Navigate(item.NavigatType, playlists.Find(x => x.Title == (item.Title)));
+            }
+            else if (item.NavigatType == typeof(PodcastPage))
+            {
+                Navigate(item.NavigatType, item.ID);
             }
             else
             {

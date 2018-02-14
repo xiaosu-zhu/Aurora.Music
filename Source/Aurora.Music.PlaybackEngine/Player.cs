@@ -42,6 +42,13 @@ namespace Aurora.Music.PlaybackEngine
 
         public MediaPlayer MediaPlayer { get => mediaPlayer; }
 
+        public double PlaybackRate
+        {
+            get => mediaPlayer.PlaybackSession.PlaybackRate;
+            set => mediaPlayer.PlaybackSession.PlaybackRate = value;
+        }
+
+
         public event EventHandler<PositionUpdatedArgs> PositionUpdated;
 
         public async void ChangeAudioEndPoint(string outputDeviceID)
@@ -958,6 +965,20 @@ namespace Aurora.Music.PlaybackEngine
             }
             await DetachCurrentItem();
             await ReAttachCurrentItem();
+        }
+
+        public void Backward(TimeSpan timeSpan)
+        {
+            var p = mediaPlayer.PlaybackSession.Position - timeSpan;
+            if (p.TotalMilliseconds < 0)
+            {
+                mediaPlayer.PlaybackSession.Position = TimeSpan.Zero;
+                Previous();
+            }
+            else
+            {
+                mediaPlayer.PlaybackSession.Position -= timeSpan;
+            }
         }
     }
 }

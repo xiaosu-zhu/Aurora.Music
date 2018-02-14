@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using System.Xml;
 using Windows.Storage;
 
@@ -25,11 +26,63 @@ namespace Aurora.Music.Core.Models
 
         public Podcast() { }
 
-        private async Task InitFromXMLAsync()
+        public async Task<bool> FindUpdated()
         {
-            var file = await StorageFile.GetFileFromPathAsync(XMLPath);
-            var res = await FileIO.ReadTextAsync(file);
-            ReadXML(res);
+            var resXML = await ApiRequestHelper.HttpGet(XMLUrl);
+            FindUpdated(resXML);
+            await SaveAsync();
+            return Count > 0;
+        }
+
+        private void FindUpdated(string resXML)
+        {
+            var ment = new XmlDocument(); ment.LoadXml(resXML);
+
+            XmlNamespaceManager ns = new XmlNamespaceManager(ment.NameTable);
+            ns.AddNamespace("itunes", "http://www.itunes.com/dtds/podcast-1.0.dtd");
+
+            Title = ment.SelectSingleNode("/rss/channel/title").InnerText;
+            Description = ment.SelectSingleNode("/rss/channel/description").InnerText;
+            HeroArtworks = new string[] { (ment.SelectSingleNode("/rss/channel/image/url") ?? ment.SelectSingleNode($"/rss/channel/itunes:image/@href", ns))?.InnerText ?? Consts.BlackPlaceholder };
+            Author = ment.SelectSingleNode($"/rss/channel/itunes:author", ns)?.InnerText;
+
+            var items = ment.SelectNodes("/rss/channel/item");
+
+            for (int i = 0; i < items.Count; i++)
+            {
+                var d = DateTime.Parse(items[i].SelectSingleNode("./pubDate")?.InnerText ?? DateTime.Now.ToString());
+                if (LastUpdate < d)
+                {
+                    LastUpdate = d;
+                }
+                else
+                {
+                    continue;
+                }
+                Add(new Song()
+                {
+                    Title = items[i].SelectSingleNode("./title").InnerText,
+                    FilePath = items[i].SelectSingleNode("./enclosure/@url").InnerText,
+                    Performers = new string[] { (items[i].SelectSingleNode("./author") ?? items[i].SelectSingleNode($"./itunes:author", ns))?.InnerText },
+                    AlbumArtists = new string[] { (items[i].SelectSingleNode("./author") ?? items[i].SelectSingleNode($"./itunes:author", ns))?.InnerText },
+                    Duration = (items[i].SelectSingleNode($"./itunes:duration", ns)?.InnerText ?? "0:00").ParseDuration(),
+                    Album = HttpUtility.HtmlDecode((items[i].SelectSingleNode("./description")?.InnerText ?? Title)).Replace("<br>", Environment.NewLine),
+                    IsOnline = true,
+                    OnlineUri = new Uri(items[i].SelectSingleNode("./enclosure/@url").InnerText),
+                    OnlineID = items[i].SelectSingleNode("./guid").InnerText,
+                    IsPodcast = true,
+                    PubDate = d,
+                    PicturePath = items[i].SelectSingleNode("./itunes:image/@href", ns)?.InnerText ?? HeroArtworks[0]
+                });
+            }
+        }
+
+        public Podcast(PODCAST p)
+        {
+            XMLUrl = p.XMLUrl;
+            XMLPath = p.XMLPath;
+            Subscribed = p.Subscribed;
+            LastUpdate = p.LastUpdate;
         }
 
         internal static async Task<Podcast> BuildFromXMLAsync(string resXML, string XMLUrl)
@@ -63,6 +116,37 @@ namespace Aurora.Music.Core.Models
             await a.SaveAsync();
 
             return a;
+        }
+
+        public async static Task<Podcast> ReadFromLocalAsync(int iD)
+        {
+            var p = await SQLOperator.Current().GetItemByIDAsync<PODCAST>(iD);
+            var fileName = p.XMLPath;
+            try
+            {
+                var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Podcasts", CreationCollisionOption.OpenIfExists);
+                var file = await folder.GetFileAsync($"{fileName}.xml");
+                var str = await FileIO.ReadTextAsync(file);
+                var a = new Podcast
+                {
+                    XMLUrl = p.XMLUrl,
+                    XMLPath = p.XMLPath,
+                    Subscribed = p.Subscribed
+                };
+                a.ReadXML(str);
+                return a;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public async Task Refresh()
+        {
+            var resXML = await ApiRequestHelper.HttpGet(XMLUrl);
+            ReadXML(resXML);
+            await SaveAsync();
         }
 
         public static async Task<Podcast> GetiTunesPodcast(string url)
@@ -102,13 +186,15 @@ namespace Aurora.Music.Core.Models
                     Title = items[i].SelectSingleNode("./title").InnerText,
                     FilePath = items[i].SelectSingleNode("./enclosure/@url").InnerText,
                     Performers = new string[] { (items[i].SelectSingleNode("./author") ?? items[i].SelectSingleNode($"./itunes:author", ns))?.InnerText },
+                    AlbumArtists = new string[] { (items[i].SelectSingleNode("./author") ?? items[i].SelectSingleNode($"./itunes:author", ns))?.InnerText },
                     Duration = (items[i].SelectSingleNode($"./itunes:duration", ns)?.InnerText ?? "0:00").ParseDuration(),
-                    Album = (items[i].SelectSingleNode("./description")?.InnerText ?? Title),
+                    Album = HttpUtility.HtmlDecode((items[i].SelectSingleNode("./description")?.InnerText ?? Title)).Replace("<br>", Environment.NewLine),
                     IsOnline = true,
                     OnlineUri = new Uri(items[i].SelectSingleNode("./enclosure/@url").InnerText),
                     OnlineID = items[i].SelectSingleNode("./guid").InnerText,
                     IsPodcast = true,
-                    PubDate = d
+                    PubDate = d,
+                    PicturePath = items[i].SelectSingleNode("./itunes:image/@href", ns)?.InnerText ?? HeroArtworks[0]
                 });
             }
         }

@@ -81,6 +81,7 @@ namespace Aurora.Music.Controls
                     await Playlists[Main.SelectedIndex].AddAsync(songID);
                 }
             }
+            MainPage.Current.PopMessage($"Added {SmartFormat.Smart.Format(Consts.Localizer.GetString("SmartSongs"), songID.Length)} into collection");
         }
 
         private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)

@@ -1078,4 +1078,8 @@
     <value>Not Support</value>
     <comment>Not Support</comment>
   </data>
+  <data name="SpeedBtn.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Playback Rate</value>
+    <comment>Playback Rate</comment>
+  </data>
 </root>

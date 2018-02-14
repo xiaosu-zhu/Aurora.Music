@@ -14,6 +14,7 @@ using Aurora.Shared.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
@@ -228,7 +229,7 @@ namespace Aurora.Music
         }
 
         private int lyricViewID;
-        private IAsyncAction searchTask;
+        private CancellationTokenSource searchTask;
         private StackPanel autoSuggestPopupPanel;
         private ThreadPoolTimer dismissTimer;
         private string shareTitle;
@@ -616,8 +617,10 @@ namespace Aurora.Music
                 return;
             }
             CanAdd = false;
-            searchTask?.Cancel();
 
+            searchTask?.Cancel(); searchTask?.Dispose();
+
+            searchTask = new CancellationTokenSource();
             var text = sender.Text;
 
             text = text.Replace('\'', ' ');
@@ -625,7 +628,7 @@ namespace Aurora.Music
             {
                 CanAdd = true;
                 await Context.Search(text);
-            });
+            }, searchTask.Token);
         }
 
         private void PlayBtn_Click(object sender, RoutedEventArgs e)
@@ -1080,9 +1083,49 @@ namespace Aurora.Music
             }
             DataTransferManager.ShowShareUI();
         }
-        private void MenuFlyoutModify_Click(object sender, RoutedEventArgs e)
+        private async void MenuFlyoutModify_Click(object sender, RoutedEventArgs e)
         {
+            if (SongFlyout.Target is SelectorItem s)
+            {
+                switch (s.Content)
+                {
+                    case GenericMusicItemViewModel g:
+                        switch (g.InnerType)
+                        {
+                            case MediaType.Song:
+                                if (g.IsOnline)
+                                {
+                                    throw new InvalidOperationException("Can't open an online file");
+                                }
+                                await new TagDialog(new SongViewModel((await g.GetSongsAsync())[0])).ShowAsync();
+                                break;
+                            case MediaType.Album:
+                                PopMessage("Not support for this kind");
+                                break;
+                            case MediaType.PlayList:
+                                PopMessage("Not support for this kind");
+                                break;
+                            case MediaType.Artist:
+                                PopMessage("Not support for this kind");
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    case SongViewModel song:
+                        await new TagDialog(song).ShowAsync();
+                        break;
+                    case AlbumViewModel album:
+                        PopMessage("Not support for this kind");
+                        break;
+                    case ArtistViewModel artist:
+                        PopMessage("Not support for this kind");
+                        break;
 
+                    default:
+                        break;
+                }
+            }
         }
         private async void MenuFlyoutRevealExplorer_Click(object sender, RoutedEventArgs e)
         {
@@ -1185,6 +1228,8 @@ namespace Aurora.Music
                     }
                 }
             }
+
+            PopMessage("Deleted");
         }
         private async void MenuFlyoutTrash_Click(object sender, RoutedEventArgs e)
         {
@@ -1241,6 +1286,7 @@ namespace Aurora.Music
                     }
                 }
             }
+            PopMessage("Deleted");
         }
 
         private async void MenuFlyoutCollection_Click(object sender, RoutedEventArgs e)

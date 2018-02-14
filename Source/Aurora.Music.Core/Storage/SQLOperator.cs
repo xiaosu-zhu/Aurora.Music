@@ -1366,5 +1366,15 @@ namespace Aurora.Music.Core.Storage
             }
             return null;
         }
+
+        internal async Task<T> GetItemByIDAsync<T>(int iD) where T : new()
+        {
+            var res = await conn.QueryAsync<T>($"SELECT * FROM {typeof(T).Name} WHERE ID=?", iD);
+            if (res.Count > 0)
+            {
+                return res[0];
+            }
+            return default(T);
+        }
     }
 }
