@@ -14,8 +14,10 @@ using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppExtensions;
 using Windows.ApplicationModel.Background;
@@ -204,6 +206,112 @@ namespace Aurora.Music.ViewModels
                 SetProperty(ref showPodcastsWhenSearch, value);
             }
         }
+
+        public DelegateCommand ImportOPML { get; } = new DelegateCommand(async () =>
+        {
+            var picker = new Windows.Storage.Pickers.FileOpenPicker
+            {
+                ViewMode = Windows.Storage.Pickers.PickerViewMode.List,
+                SuggestedStartLocation =
+                Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary
+            };
+            picker.FileTypeFilter.Add(".opml");
+            picker.FileTypeFilter.Add(".OPML");
+
+            var files = await picker.PickMultipleFilesAsync();
+
+
+            if (files != null && files.Count > 0)
+            {
+                var tasks = new List<Task<bool>>();
+                foreach (var item in files)
+                {
+                    var str = await FileIO.ReadTextAsync(item);
+                    var res = new XmlDocument(); res.LoadXml(str);
+                    var items = res.SelectNodes("//outline[@type='rss']");
+                    for (int i = 0; i < items.Count; i++)
+                    {
+                        var xml = items[i].SelectSingleNode("./@xmlUrl").InnerText;
+                        tasks.Add(Task.Run(async () =>
+                        {
+                            try
+                            {
+                                var p = await Podcast.GetiTunesPodcast(xml);
+                                p.Subscribed = true;
+                                await p.SaveAsync();
+                                MainPage.Current.PopMessage(string.Format(Consts.Localizer.GetString("PodcastSubscribe"), p.Title));
+                                return true;
+                            }
+                            catch (Exception)
+                            {
+                                return false;
+                            }
+                        }));
+                    }
+                }
+                var results = await Task.WhenAll(tasks);
+                MainPage.Current.PopMessage(SmartFormat.Smart.Format(Consts.Localizer.GetString("ImportSucceed"), results.Length, results.Sum(a => a ? 1 : 0)));
+            }
+            else
+            {
+            }
+        });
+
+        public DelegateCommand ExportOPML { get; } = new DelegateCommand(async () =>
+        {
+            var savePicker = new Windows.Storage.Pickers.FileSavePicker
+            {
+                SuggestedStartLocation =
+                Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary
+            };
+            // Dropdown of file types the user can save the file as
+            savePicker.FileTypeChoices.Add(Consts.Localizer.GetString("OPMLDesc"), new List<string>() { ".opml", ".OPML" });
+            // Default file name if the user does not type one in or select a file to replace
+            savePicker.SuggestedFileName = Consts.Localizer.GetString("ExportOPMLName");
+            savePicker.DefaultFileExtension = ".opml";
+            var file = await savePicker.PickSaveFileAsync();
+            if (file != null)
+            {
+                // Prevent updates to the remote version of the file until
+                // we finish making changes and call CompleteUpdatesAsync.
+                Windows.Storage.CachedFileManager.DeferUpdates(file);
+
+                var template = await FileIOHelper.ReadStringFromAssetsAsync(Consts.OPMLTemplate);
+                var res = new XmlDocument(); res.LoadXml(template);
+                res.SelectSingleNode("/opml/head/dateCreated").InnerText = DateTime.Now.ToString("R");
+                var pods = await SQLOperator.Current().GetPodcastListBriefAsync();
+
+                var body = res.SelectSingleNode("/opml/body");
+                foreach (var pod in pods)
+                {
+                    var node = res.CreateElement("outline");
+                    node.SetAttribute("text", pod.Title);
+                    node.SetAttribute("type", "rss");
+                    node.SetAttribute("xmlUrl", pod.XMLUrl);
+                    node.SetAttribute("htmlUrl", pod.XMLUrl);
+                    body.AppendChild(node);
+                }
+                using (var stream = await file.OpenAsync(FileAccessMode.ReadWrite))
+                {
+                    res.Save(stream.AsStreamForWrite());
+                }
+
+                // Let Windows know that we're finished changing the file so
+                // the other app can update the remote version of the file.
+                // Completing updates may require Windows to ask for user input.
+                Windows.Storage.Provider.FileUpdateStatus status =
+                    await Windows.Storage.CachedFileManager.CompleteUpdatesAsync(file);
+                if (status == Windows.Storage.Provider.FileUpdateStatus.Complete)
+                {
+                    MainPage.Current.PopMessage(Consts.Localizer.GetString("OPMLExport"));
+                }
+                else
+                {
+                    MainPage.Current.PopMessage(status.ToString());
+                }
+
+            }
+        });
 
         private double fetchInterval = Settings.Current.FetchInterval;
         public double FetchInterval

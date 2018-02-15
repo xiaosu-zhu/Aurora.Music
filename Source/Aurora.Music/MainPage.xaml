@@ -939,11 +939,12 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
                 <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="180">
+                    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="160">
                         <Grid.Background>
                             <ImageBrush Opacity="0.1" Stretch="UniformToFill" AlignmentX="Center" AlignmentY="Center">
                                 <ImageBrush.ImageSource>
-                                    <BitmapImage UriSource="{x:Bind Context.CurrentArtwork, Mode=OneWay, TargetNullValue=ms-appx:///Assets/Images/pane_placeholder.png}"/>
+                                    <BitmapImage DecodePixelHeight="160" DecodePixelType="Logical"
+                                                 UriSource="{x:Bind Context.CurrentArtwork, Mode=OneWay, TargetNullValue=ms-appx:///Assets/Images/pane_placeholder.png}"/>
                                 </ImageBrush.ImageSource>
                             </ImageBrush>
                         </Grid.Background>
@@ -978,11 +979,11 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                           ItemContainerStyle="{ThemeResource PaneListItemStyle}">
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="vm:HamPanelItem">
-                            <Grid Height="180">
+                            <Grid Height="160">
                                 <Grid.Background>
                                     <ImageBrush Opacity="{x:Bind BoolToOpacity(IsCurrent),Mode=OneWay}" AlignmentX="Center" AlignmentY="Center" Stretch="UniformToFill">
                                         <ImageBrush.ImageSource>
-                                            <BitmapImage UriSource="{x:Bind BG}" DecodePixelHeight="180" DecodePixelType="Logical"/>
+                                            <BitmapImage UriSource="{x:Bind BG}" DecodePixelHeight="160" DecodePixelType="Logical"/>
                                         </ImageBrush.ImageSource>
                                     </ImageBrush>
                                 </Grid.Background>

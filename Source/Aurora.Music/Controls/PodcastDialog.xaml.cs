@@ -76,7 +76,7 @@ namespace Aurora.Music.Controls
         {
             podcast.Subscribed = !podcast.Subscribed;
             await podcast.SaveAsync();
-            MainPage.Current.PopMessage((podcast.Subscribed ? Consts.Localizer.GetString("SubscribeText") : Consts.Localizer.GetString("UnSubscribeText")) + (podcast.Subscribed ? ", You can find it in music library now" : ""));
+            MainPage.Current.PopMessage(string.Format(podcast.Subscribed ? Consts.Localizer.GetString("PodcastSubscribe") : Consts.Localizer.GetString("PodcastUnSubscribe"), podcast.Title));
         }
     }
 }

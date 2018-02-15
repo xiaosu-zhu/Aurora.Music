@@ -332,6 +332,7 @@ namespace Aurora.Music.Core.Storage
         public string XMLPath { get; set; }
         public string XMLUrl { get; set; }
         public DateTime LastUpdate { get; set; }
+        public DateTime ReadBefore { get; set; }
         public bool Subscribed { get; set; }
         public string HeroArtworks { get; set; }
     }

@@ -324,9 +324,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Grid.Column="1" VerticalAlignment="Center" Style="{ThemeResource BaseTextBlockStyle}" Margin="8,0" Text="{x:Bind Name}"/>
-                    <TextBlock Grid.Row="1" TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis" MaxLines="3" Grid.Column="1" VerticalAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}" Margin="8,0" Text="{x:Bind Description}"/>
-                    <Image MaxHeight="48" Grid.RowSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="{x:Bind Logo, Mode=OneWay}" Stretch="Uniform"/>
+                    <TextBlock Grid.Column="1" VerticalAlignment="Center" Style="{ThemeResource BaseTextBlockStyle}" Margin="8,-2" Text="{x:Bind Name}"/>
+                    <TextBlock Foreground="{ThemeResource ButtonDisabledForegroundThemeBrush}" Grid.Row="1" FontSize="13" TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis" MaxLines="3" Grid.Column="1" VerticalAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}" Margin="8,-2" Text="{x:Bind Description}"/>
+                    <Image MaxHeight="48" Margin="-8" Grid.RowSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="{x:Bind Logo, Mode=OneWay}" Stretch="Uniform"/>
                 </Grid>
             </DataTemplate>
         </ResourceDictionary>
@@ -384,7 +384,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     </StackPanel>
                     <StackPanel BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" BorderThickness="0,0,0,1" Padding="8,0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <TextBlock x:Uid="Configuration" Text="Player Configuration" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12"/>
-                        <ComboBox x:Uid="OutputEndPoint" HorizontalAlignment="Left" VerticalAlignment="Center" IsSynchronizedWithCurrentItem="False" SelectedIndex="{x:Bind Context.AudioSelectedIndex,Mode=TwoWay}" Header="Output Endpoint" ItemsSource="{x:Bind Context.DevicList}" Margin="0,8"/>
+                        <ComboBox x:Uid="OutputEndPoint" BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" BorderThickness="1" HorizontalAlignment="Left" VerticalAlignment="Center" IsSynchronizedWithCurrentItem="False" SelectedIndex="{x:Bind Context.AudioSelectedIndex,Mode=TwoWay}" Header="Output Endpoint" ItemsSource="{x:Bind Context.DevicList}" Margin="0,8"/>
                         <TextBlock x:Uid="OutputDefaultHint" Style="{ThemeResource BodyTextBlockStyle}" Text="'System default' will be applied at next launch." HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,8"/>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,8,0,0">
                             <Slider x:Uid="VolumeLevel" Style="{StaticResource RoundSlider}" 
@@ -405,17 +405,17 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <ToggleSwitch x:Uid="ShowPodcastsWhenSearch" Header="Show podcasts when search" IsOn="{x:Bind Context.ShowPodcastsWhenSearch,Mode=TwoWay}" Margin="0,8"/>
                         <ToggleSwitch x:Uid="SendPodcastToast" Header="Send toast when new-coming" Margin="0,8" IsOn="{x:Bind Context.IsPodcastToast,Mode=TwoWay}"/>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,8">
-                            <Slider Style="{ThemeResource RoundSlider}" HorizontalAlignment="Stretch" VerticalContentAlignment="Stretch" Margin="0,8"
+                            <Slider Style="{ThemeResource RoundSlider}" HorizontalAlignment="Stretch" VerticalContentAlignment="Stretch"
                                     Foreground="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" IsThumbToolTipEnabled="False"
                                     x:Uid="FetchInterval" Background="{ThemeResource SystemControlAltTranslucentAcrylicWindowBrush}" Width="240"
                                     Header="Refresh Interval" Minimum="15" Maximum="150" StepFrequency="15" Value="{x:Bind Context.FetchInterval,Mode=TwoWay}"/>
-                            <TextBlock Margin="0,10,0,0" Width="96" TextAlignment="Right" VerticalAlignment="Center" 
+                            <TextBlock Margin="0,10,0,0" Width="70" TextAlignment="Right" VerticalAlignment="Center" 
                                        Style="{ThemeResource TitleTextBlockStyle}" TextWrapping="NoWrap" TextTrimming="None" 
                                        MaxLines="1" HorizontalAlignment="Stretch" 
                                        Text="{x:Bind Context.IntervalToString(Context.FetchInterval), Mode=OneWay}"/>
                         </StackPanel>
-                        <Button Content="Import OPML" Style="{ThemeResource TextBlockButtonStyle}" Margin="0,8"/>
-                        <Button Content="Export OPML" Style="{ThemeResource TextBlockButtonStyle}" Margin="0,8"/>
+                        <Button x:Uid="ImportOPMLBtn" Content="Import OPML" Command="{x:Bind Context.ImportOPML}" Style="{ThemeResource TextBlockButtonStyle}" Margin="0,0,0,8"/>
+                        <Button x:Uid="ExportOPMLBtn" Content="Export OPML" Command="{x:Bind Context.ExportOPML}" Style="{ThemeResource TextBlockButtonStyle}" Margin="0,8"/>
                     </StackPanel>
                     <StackPanel BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" BorderThickness="0,0,0,1" Padding="8,0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <StackPanel Margin="0,12" Orientation="Horizontal">
@@ -423,17 +423,15 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                             <Button x:Uid="Manage" Content="Manage" Command="{x:Bind Context.OpenExtensionManager}" VerticalAlignment="Center" Style="{ThemeResource ButtonRevealStyle}" Margin="8,0"/>
                         </StackPanel>
 
-                        <ComboBox x:Uid="LyricExtension"
-                                  Background="{ThemeResource SystemControlAltHighAcrylicWindowBrush}" Padding="8"
-                                  BorderBrush="{x:Null}" BorderThickness="0" x:Name="LrcCombo" VerticalAlignment="Stretch"
+                        <ComboBox x:Uid="LyricExtension" Padding="8"
+                                  BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" BorderThickness="1" x:Name="LrcCombo" VerticalAlignment="Stretch"
                                   HorizontalAlignment="Left" ItemTemplate="{StaticResource ExtensionTemplate}" 
                                   SelectedIndex="{x:Bind Context.CurrentLyricIndex,Mode=OneWay}" 
                                   ItemsSource="{x:Bind Context.LyricExts}" Header="Lyric Extension" Margin="0,8">
                         </ComboBox>
 
-                        <ComboBox x:Uid="MetaExtension" x:Name="MetaCombo"
-                                  Background="{ThemeResource SystemControlAltHighAcrylicWindowBrush}" Padding="8"
-                                  BorderBrush="{x:Null}" BorderThickness="0" VerticalAlignment="Stretch"
+                        <ComboBox x:Uid="MetaExtension" x:Name="MetaCombo" Padding="8"
+                                  BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" BorderThickness="1" VerticalAlignment="Stretch"
                                   HorizontalAlignment="Left" ItemTemplate="{StaticResource ExtensionTemplate}" SelectedIndex="{x:Bind Context.CurrentMetaIndex,Mode=OneWay}" ItemsSource="{x:Bind Context.MetaExts}" Header="MetaData Extension" Margin="0,8">
                         </ComboBox>
 
@@ -446,9 +444,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                 </Hyperlink>
                         </TextBlock>
 
-                        <ComboBox x:Uid="OnlineExtension" x:Name="OnlineCombo"
-                                  Background="{ThemeResource SystemControlAltHighAcrylicWindowBrush}" Padding="8"
-                                  BorderBrush="{x:Null}" BorderThickness="0" VerticalAlignment="Stretch"
+                        <ComboBox x:Uid="OnlineExtension" x:Name="OnlineCombo" Padding="8"
+                                  BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" BorderThickness="1" VerticalAlignment="Stretch"
                                   HorizontalAlignment="Left" ItemTemplate="{StaticResource ExtensionTemplate}" SelectedIndex="{x:Bind Context.CurrentOnlineIndex,Mode=OneWay}" IsEnabled="{x:Bind Context.OnlinePurchase,Mode=OneWay}" ItemsSource="{x:Bind Context.OnlineExts}" Header="Online Music Extension" Margin="0,8">
 
                         </ComboBox>

@@ -245,6 +245,7 @@
     <Compile Include="ViewModels\NowPlayingPageViewModel.cs" />
     <Compile Include="ViewModels\PlayListPageViewModel.cs" />
     <Compile Include="ViewModels\PlayListViewModel.cs" />
+    <Compile Include="ViewModels\PodcastMarketViewModel.cs" />
     <Compile Include="ViewModels\PodcastPageViewModel.cs" />
     <Compile Include="ViewModels\SettingsPageViewModel.cs" />
     <Compile Include="ViewModels\SongsPageViewModel.cs" />
@@ -280,6 +281,7 @@
     <Content Include="Assets\Images\placeholder_b.scale-150.png" />
     <Content Include="Assets\Images\placeholder_b.scale-200.png" />
     <Content Include="Assets\Images\placeholder_b.scale-400.png" />
+    <Content Include="Assets\Images\podcast.png" />
     <Content Include="Assets\Images\radio.png" />
     <Content Include="Assets\Images\songs.png" />
     <Content Include="Assets\Images\welcome_bg.png" />
@@ -289,6 +291,7 @@
     <Content Include="Assets\LargeTile.scale-200.png" />
     <Content Include="Assets\LargeTile.scale-400.png" />
     <Content Include="Assets\logo.svg" />
+    <Content Include="Assets\OPMLTemplate.xml" />
     <Content Include="Assets\SmallTile.scale-100.png" />
     <Content Include="Assets\SmallTile.scale-125.png" />
     <Content Include="Assets\SmallTile.scale-150.png" />

@@ -1162,4 +1162,48 @@
     <value>min</value>
     <comment>min</comment>
   </data>
+  <data name="PodcastSubscribe" xml:space="preserve">
+    <value>"{0}" Subscribed, You can find it in music library now</value>
+    <comment>"{0}" Subscribed, You can find it in music library now</comment>
+  </data>
+  <data name="PodcastUnSubscribe" xml:space="preserve">
+    <value>"{0}" is no longer in your music library</value>
+    <comment>"{0}" is no longer in your music library</comment>
+  </data>
+  <data name="ImportSucceed" xml:space="preserve">
+    <value>{1} of {0} {1:Podcast|Podcasts} successfully imported</value>
+    <comment>{1} of {0} {1:Podcast|Podcasts} successfully imported</comment>
+  </data>
+  <data name="OPMLDesc" xml:space="preserve">
+    <value>Outline Processor Markup Language Document</value>
+    <comment>Outline Processor Markup Language Document</comment>
+  </data>
+  <data name="ExportOPMLName" xml:space="preserve">
+    <value>Podcasts Export</value>
+    <comment>Podcasts Export</comment>
+  </data>
+  <data name="OPMLExport" xml:space="preserve">
+    <value>Podcasts successfully exported</value>
+    <comment>Podcasts successfully exported</comment>
+  </data>
+  <data name="ImportOPMLBtn.Content" xml:space="preserve">
+    <value>Import OPML Doc</value>
+    <comment>Import OPML Doc</comment>
+  </data>
+  <data name="ExportOPMLBtn.Content" xml:space="preserve">
+    <value>Export OPML Doc</value>
+    <comment>Export OPML Doc</comment>
+  </data>
+  <data name="PodcastToastTitle" xml:space="preserve">
+    <value>{0} has updated!</value>
+    <comment>{0} has updated!</comment>
+  </data>
+  <data name="PodcastToastDesc" xml:space="preserve">
+    <value>Click to listen {0}</value>
+    <comment>Click to listen {0}</comment>
+  </data>
+  <data name="AndMore" xml:space="preserve">
+    <value>And {0} more</value>
+    <comment>And {0} more</comment>
+  </data>
 </root>

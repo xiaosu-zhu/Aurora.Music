@@ -13,8 +13,8 @@ namespace Aurora.Music.Core.Extension
     class ITunesSearcher
     {
         private const string queryUrl = "https://itunes.apple.com/search";
-        private const string topUrl = "https://itunes.apple.com/{0}/rss/toppodcasts/limit={1}/offset={2}/genre={3}/json";
-        private const string topAllUrl = "https://itunes.apple.com/{0}/rss/toppodcasts/limit={1}/offset={1}/json";
+        private const string topUrl = "https://itunes.apple.com/{0}/rss/toppodcasts/limit={1}/genre={3}/json";
+        private const string topAllUrl = "https://itunes.apple.com/{0}/rss/toppodcasts/limit={1}/json";
 
         /// <summary>
         /// <see cref="https://affiliate.itunes.apple.com/resources/documentation/genre-mapping/"/>
@@ -57,6 +57,19 @@ namespace Aurora.Music.Core.Extension
                 return null;
             }
         }
+
+        public static async Task<ITunesTop> TopCharts()
+        {
+            try
+            {
+                var res = await ApiRequestHelper.HttpGet(string.Format(topAllUrl, CultureInfoHelper.CurrentRegionISO, 15));
+                return JsonConvert.DeserializeObject<ITunesTop>(res);
+            }
+            catch (System.Exception)
+            {
+                return null;
+            }
+        }
     }
 
     class ITunesSearchResult
@@ -81,5 +94,30 @@ namespace Aurora.Music.Core.Extension
         public string feedUrl { get; set; }
         public string trackViewUrl { get; set; }
         public string artworkUrl100 { get; set; }
+    }
+
+    class ITunesTop
+    {
+        public List<TopEntry> entry { get; set; }
+    }
+    class TopEntry
+    {
+        [JsonProperty("im:name")]
+        public TopObject Name { get; set; }
+        [JsonProperty("im:image")]
+        public TopObject Image { get; set; }
+        [JsonProperty("summary")]
+        public TopObject Summary { get; set; }
+        [JsonProperty("id")]
+        public TopObject ID { get; set; }
+        [JsonProperty("im:artist")]
+        public TopObject Artist { get; set; }
+        [JsonProperty("category")]
+        public TopObject Category { get; set; }
+    }
+    class TopObject
+    {
+        public string label { get; set; }
+        public Dictionary<string, string> attributes { get; set; }
     }
 }

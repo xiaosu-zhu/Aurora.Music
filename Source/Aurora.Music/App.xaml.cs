@@ -251,20 +251,7 @@ namespace Aurora.Music
                     }
                 }
             }
-            var t = Task.Run(async () =>
-            {
-                  if (BackgroundTaskHelper.IsBackgroundTaskRegistered(Consts.PodcastTaskName))
-                  {
-                    // Background task already registered.
-                    //Unregister
-                    BackgroundTaskHelper.Unregister(Consts.PodcastTaskName);
-                  }
-                // Check for background access (optional)
-                await BackgroundExecutionManager.RequestAccessAsync();
-
-                // Register (Multi Process) w/ Conditions.
-                BackgroundTaskHelper.Register(Consts.PodcastTaskName, typeof(PodcastsFetcher).FullName, new TimeTrigger(Settings.Current.FetchInterval, false), true, true, new SystemCondition(SystemConditionType.InternetAvailable));
-            });
+            
         }
 
         private void CreateRootFrame(ApplicationExecutionState previousExecutionState, string arguments)
@@ -465,6 +452,21 @@ namespace Aurora.Music
                 // 确保当前窗口处于活动状态
                 Window.Current.Activate();
             }
+
+            var t = Task.Run(async () =>
+            {
+                if (BackgroundTaskHelper.IsBackgroundTaskRegistered(Consts.PodcastTaskName))
+                {
+                    // Background task already registered.
+                    //Unregister
+                    BackgroundTaskHelper.Unregister(Consts.PodcastTaskName);
+                }
+                // Check for background access (optional)
+                await BackgroundExecutionManager.RequestAccessAsync();
+
+                // Register (Multi Process) w/ Conditions.
+                BackgroundTaskHelper.Register(Consts.PodcastTaskName, typeof(PodcastsFetcher).FullName, new TimeTrigger(Settings.Current.FetchInterval, false), true, true, new SystemCondition(SystemConditionType.InternetAvailable));
+            });
         }
 
         private async void Ui_ColorValuesChanged(UISettings sender, object args)

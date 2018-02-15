@@ -58,8 +58,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                             <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE107;" />
                         </Button>
                     </Grid>
-                    <TextBlock Text="{x:Bind Name, Mode=OneWay}" FontSize="16" Grid.Column="1" VerticalAlignment="Center" Margin="4,0" Style="{ThemeResource BaseTextBlockStyle}"/>
-                    <TextBlock Text="{x:Bind Description, Mode=OneWay}" Grid.Column="1" Grid.Row="1" Margin="4,0" VerticalAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}"/>
+                    <TextBlock Text="{x:Bind Name, Mode=OneWay}" Grid.Column="1" VerticalAlignment="Center" Margin="4,0,4,-4" Style="{ThemeResource TitleTextBlockStyle}"/>
+                    <TextBlock FontSize="13" Text="{x:Bind Description, Mode=OneWay}" Grid.Column="1" Grid.Row="1" Margin="4,-4,4,0" VerticalAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}"/>
                     <Grid Margin="4,0" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>

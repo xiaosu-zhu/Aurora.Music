@@ -1161,4 +1161,48 @@
     <value>分</value>
     <comment>min</comment>
   </data>
+  <data name="PodcastSubscribe" xml:space="preserve">
+    <value>已订阅“{0}”，你可在音乐库中找到它</value>
+    <comment>"{0}" Subscribed, You can find it in music library now</comment>
+  </data>
+  <data name="PodcastUnSubscribe" xml:space="preserve">
+    <value>“{0}”已从音乐库移除</value>
+    <comment>"{0}" is no longer in your music library</comment>
+  </data>
+  <data name="ImportSucceed" xml:space="preserve">
+    <value>共计{0}个播客，{1}个已成功导入</value>
+    <comment>{1} of {0} {1:Podcast|Podcasts} successfully imported</comment>
+  </data>
+  <data name="OPMLDesc" xml:space="preserve">
+    <value>大纲处理标记语言文档</value>
+    <comment>Outline Processor Markup Language Document</comment>
+  </data>
+  <data name="ExportOPMLName" xml:space="preserve">
+    <value>导出的播客</value>
+    <comment>Podcasts exported</comment>
+  </data>
+  <data name="OPMLExport" xml:space="preserve">
+    <value>播客成功导出</value>
+    <comment>Podcasts successfully exported</comment>
+  </data>
+  <data name="ImportOPMLBtn.Content" xml:space="preserve">
+    <value>导入 OPML 文件</value>
+    <comment>Import OPML Doc</comment>
+  </data>
+  <data name="ExportOPMLBtn.Content" xml:space="preserve">
+    <value>导出 OPML 文件</value>
+    <comment>Export OPML Doc</comment>
+  </data>
+  <data name="PodcastToastTitle" xml:space="preserve">
+    <value>{0} 更新啦！</value>
+    <comment>{0} has updated!</comment>
+  </data>
+  <data name="PodcastToastDesc" xml:space="preserve">
+    <value>点击收听：{0}</value>
+    <comment>Click to listen {0}</comment>
+  </data>
+  <data name="AndMore" xml:space="preserve">
+    <value>以及{0}个</value>
+    <comment>And {0} more</comment>
+  </data>
 </root>

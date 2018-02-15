@@ -55,11 +55,10 @@ namespace Aurora.Music.Core
         public static string CommaSeparator => ommaSeparator;
 
         public static string UpdateNote =>
-                            $"* **Removed**: *Audio Graph* setion in Settings page.\r\n" +
-                            "* **New**: Added *Audio Effects* setion in Settings page.\r\n" +
-                            "* **New**: Added *Equalizer* and several presets, you can enable/disable in *Settings - Audio Effects*.\r\n" +
-                            "* **New**: Added a dialog to adjust *Equalizer*, find it in *Now Playing - \"More\" Menu - Equalizer*.\r\n" +
-                            "* **New**: Added simple audio visualization, find it in *Now Playing - \"Audio Visualization\" Button*.\r\n" +
+                            "* **New**: Added **Podcast** support.\r\n" +
+                            "* **New**: Added *Podcast* section *Settings - Podcast*.\r\n" +
+                            "* **Improve**: UI layout.\r\n" +
+                            "* **Improve**: Performance enhanced.\r\n" +
                             "* **Tranlation**: Synced translation.";
 
         public static string UpdateNoteTitle => localizer.GetString("UpdateNoteTitle");
@@ -70,6 +69,8 @@ namespace Aurora.Music.Core
         public static string Next => next;
         private static string last = localizer.GetString("LastDayText");
         public static string Last => last;
+
+        public const string OPMLTemplate = "OPMLTemplate.xml";
 
         public const string ArraySeparator = "$|$";
 

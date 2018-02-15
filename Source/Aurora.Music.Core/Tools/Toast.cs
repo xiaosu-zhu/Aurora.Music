@@ -26,12 +26,12 @@ namespace Aurora.Music.Core.Tools
                         {
                             new AdaptiveText()
                             {
-                                Text = $"{p.Title} has updated!",
+                                Text = string.Format(Consts.Localizer.GetString("PodcastToastTitle"), p.Title),
                                 HintMaxLines = 1
                             },
                             new AdaptiveText()
                             {
-                                Text = $"Click to listen the newest posts of {p.Title}"
+                                Text = string.Format(Consts.Localizer.GetString("PodcastToastDesc"), string.Join(Consts.CommaSeparator, p.Select(a=>a.Title)))
                             },
                             new AdaptiveGroup()
                             {
@@ -48,7 +48,7 @@ namespace Aurora.Music.Core.Tools
                                             },
                                             new AdaptiveText()
                                             {
-                                                Text = p[0].Album,
+                                                Text = p[0].Album.Replace('\r', ' ').Replace('\n', ' '),
                                                 HintStyle = AdaptiveTextStyle.CaptionSubtle
                                             }
                                         }
@@ -59,7 +59,7 @@ namespace Aurora.Music.Core.Tools
                                         {
                                             new AdaptiveText()
                                             {
-                                                Text = p.Count > 1 ? $"And {p.Count - 1} More" : string.Empty,
+                                                Text = p.Count > 1 ? string.Format(Consts.Localizer.GetString("AndMore"), p.Count - 1) : string.Empty,
                                                 HintStyle = AdaptiveTextStyle.CaptionSubtle
                                             }
                                         }

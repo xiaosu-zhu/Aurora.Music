@@ -8,6 +8,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Aurora.Music.Pages"
+    xmlns:vm="using:Aurora.Music.ViewModels"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
@@ -33,10 +34,33 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 
     <ScrollViewer Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Hidden">
         <StackPanel Margin="48,60,0,0">
+            <StackPanel.ChildrenTransitions>
+                <TransitionCollection>
+                    <RepositionThemeTransition IsStaggeringEnabled="False"/>
+                </TransitionCollection>
+            </StackPanel.ChildrenTransitions>
             <TextBlock Text="Top Charts" Style="{ThemeResource HeaderTextBlockStyle}" FontWeight="Bold"/>
             <ListView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{ThemeResource HorizontalListView}">
-                
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="vm:GenericMusicItemViewModel">
+                        <StackPanel>
+                            <TextBlock Style="{ThemeResource BaseTextBlockStyle}" Text="{x:Bind Addtional}"/>
+                            <TextBlock Style="{ThemeResource TitleTextBlockStyle}" Text="{x:Bind Title}"/>
+                            <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Description}"
+                                       Foreground="{ThemeResource ButtonDisabledForegroundThemeBrush}"/>
+                            <Image Stretch="UniformToFill" Width="320" Height="320">
+                                <Image.Source>
+                                    <BitmapImage DecodePixelHeight="320" DecodePixelType="Logical" UriSource="{x:Bind Artwork}"/>
+                                </Image.Source>
+                            </Image>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
             </ListView>
+            <TextBlock Text="Feature 1" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold"/>
+            <GridView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{ThemeResource HorizontalGridViewStyle}">
+                
+            </GridView>
         </StackPanel>
     </ScrollViewer>
 </Page>
