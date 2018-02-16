@@ -4,43 +4,57 @@
 using Aurora.Music.Core.Models;
 using Aurora.Shared.Helpers;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using Windows.Foundation.Collections;
 
 namespace Aurora.Music.Core.Extension
 {
-    class ITunesSearcher
+    public static class ITunesSearcher
     {
         private const string queryUrl = "https://itunes.apple.com/search";
-        private const string topUrl = "https://itunes.apple.com/{0}/rss/toppodcasts/limit={1}/genre={3}/json";
+        private const string topUrl = "https://itunes.apple.com/{0}/rss/toppodcasts/limit={1}/genre={2}/json";
         private const string topAllUrl = "https://itunes.apple.com/{0}/rss/toppodcasts/limit={1}/json";
+        private const string lookupUrl = "https://itunes.apple.com/lookup?id={0}";
 
         /// <summary>
         /// <see cref="https://affiliate.itunes.apple.com/resources/documentation/genre-mapping/"/>
         /// </summary>
-        private static readonly Dictionary<string, string> genres =
-            new Dictionary<string, string>()
+        private static readonly List<KeyValuePair<string, string>> genres =
+            new List<KeyValuePair<string, string>>()
             {
-                ["Arts"] = "1301",
-                ["Comedy"] = "1303",
-                ["Education"] = "1304",
-                ["Kids & Family"] = "1305",
-                ["Health"] = "1307",
-                ["TV & Film"] = "1309",
-                ["Music"] = "1310",
-                ["News & Politics"] = "1311",
-                ["Religion & Spirituality"] = "1314",
-                ["Science & Medicine"] = "1315",
-                ["Sports & Recreation"] = "1316",
-                ["Technology"] = "1318",
-                ["Business"] = "1321",
-                ["Games & Hobbies"] = "1323",
-                ["Society & Culture"] = "1324",
-                ["Government & Organizations"] = "1325"
+                new KeyValuePair<string, string>("Arts", "1301"),
+                new KeyValuePair<string, string>("Comedy", "1303"),
+                new KeyValuePair<string, string>("Education", "1304"),
+                new KeyValuePair<string, string>("Kids & Family", "1305"),
+                new KeyValuePair<string, string>("Health", "1307"),
+                new KeyValuePair<string, string>("TV & Film", "1309"),
+                new KeyValuePair<string, string>("Music", "1310"),
+                new KeyValuePair<string, string>("News & Politics", "1311"),
+                new KeyValuePair<string, string>("Religion & Spirituality", "1314"),
+                new KeyValuePair<string, string>("Science & Medicine", "1315"),
+                new KeyValuePair<string, string>("Sports & Recreation", "1316"),
+                new KeyValuePair<string, string>("Technology", "1318"),
+                new KeyValuePair<string, string>("Business", "1321"),
+                new KeyValuePair<string, string>("Games & Hobbies", "1323"),
+                new KeyValuePair<string, string>("Society & Culture", "1324"),
+                new KeyValuePair<string, string>("Government & Organizations", "1325")
             };
 
-        public static async Task<ITunesSearchResult> Search(string keyword)
+        public static async Task<List<OnlineMusicItem>> LookUp(string onlineAlbumID)
+        {
+            var res = await ApiRequestHelper.HttpGet(string.Format(lookupUrl, onlineAlbumID));
+            var result = JsonConvert.DeserializeObject<ITunesSearchResult>(res);
+            return result.results.ConvertAll(a => new OnlineMusicItem(a.trackName, a.artistName, a.feedUrl, null, a.feedUrl, a.artworkUrl100)
+            {
+                InnerType = MediaType.Podcast,
+            });
+        }
+
+        internal static async Task<ITunesSearchResult> Search(string keyword)
         {
             var parameter = HttpUtility.ParseQueryString("");
             parameter["term"] = keyword;
@@ -58,11 +72,23 @@ namespace Aurora.Music.Core.Extension
             }
         }
 
-        public static async Task<ITunesTop> TopCharts()
+        public static async Task<ITunesTop> TopCharts(int count)
         {
             try
             {
-                var res = await ApiRequestHelper.HttpGet(string.Format(topAllUrl, CultureInfoHelper.CurrentRegionISO, 15));
+                var res = await ApiRequestHelper.HttpGet(string.Format(topAllUrl, CultureInfoHelper.CurrentRegionISO, count));
+                return JsonConvert.DeserializeObject<ITunesTop>(res);
+            }
+            catch (System.Exception)
+            {
+                return null;
+            }
+        }
+        public static async Task<ITunesTop> TopGenres(string key, int count)
+        {
+            try
+            {
+                var res = await ApiRequestHelper.HttpGet(string.Format(topUrl, CultureInfoHelper.CurrentRegionISO, count, key));
                 return JsonConvert.DeserializeObject<ITunesTop>(res);
             }
             catch (System.Exception)
@@ -96,16 +122,23 @@ namespace Aurora.Music.Core.Extension
         public string artworkUrl100 { get; set; }
     }
 
-    class ITunesTop
+
+
+    class ITunesTopGroup : List<ITunesTop>
     {
-        public List<TopEntry> entry { get; set; }
+        public string Key { get; set; }
     }
-    class TopEntry
+
+    public class ITunesTop
+    {
+        public Feed feed { get; set; }
+    }
+    public class TopEntry
     {
         [JsonProperty("im:name")]
         public TopObject Name { get; set; }
         [JsonProperty("im:image")]
-        public TopObject Image { get; set; }
+        public List<TopObject> Image { get; set; }
         [JsonProperty("summary")]
         public TopObject Summary { get; set; }
         [JsonProperty("id")]
@@ -115,7 +148,11 @@ namespace Aurora.Music.Core.Extension
         [JsonProperty("category")]
         public TopObject Category { get; set; }
     }
-    class TopObject
+    public class Feed
+    {
+        public List<TopEntry> entry { get; set; }
+    }
+    public class TopObject
     {
         public string label { get; set; }
         public Dictionary<string, string> attributes { get; set; }

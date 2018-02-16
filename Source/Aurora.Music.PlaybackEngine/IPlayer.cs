@@ -39,6 +39,7 @@ namespace Aurora.Music.PlaybackEngine
         void ChangeEQ(float[] gain);
         void ToggleEffect(Core.Models.Effects audioGraphEffects);
         void Backward(TimeSpan timeSpan);
+        void Forward(TimeSpan timeSpan);
     }
 
     public class DownloadProgressChangedArgs

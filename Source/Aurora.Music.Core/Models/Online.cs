@@ -6,10 +6,10 @@ namespace Aurora.Music.Core.Models
 {
     public class OnlineMusicItem : GenericMusicItem
     {
-        public string[] OnlineID { get; private set; }
+        public string[] OnlineID { get; }
         public string OnlineAlbumId { get; }
 
-        public OnlineMusicItem(string title, string description, string addtional, string[] id, string albumId)
+        public OnlineMusicItem(string title, string description, string addtional, string[] id, string albumId, string pi = null)
         {
             Title = title;
             Description = description;
@@ -17,6 +17,7 @@ namespace Aurora.Music.Core.Models
             OnlineID = id;
             IsOnline = true;
             OnlineAlbumId = albumId;
+            PicturePath = pi;
         }
     }
 }

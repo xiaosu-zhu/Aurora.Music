@@ -190,6 +190,11 @@ namespace Aurora.Music.PlaybackEngine
         {
             throw new NotImplementedException();
         }
+
+        public void Forward(TimeSpan timeSpan)
+        {
+            throw new NotImplementedException();
+        }
         #endregion
     }
 

@@ -20,6 +20,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <EntranceThemeTransition />
         </TransitionCollection>
     </Page.Transitions>
+    <Page.DataContext>
+        <vm:PodcastMarketViewModel x:Name="Context"/>
+    </Page.DataContext>
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -29,38 +32,79 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <ResourceDictionary x:Key="Light" Source="../Themes/Light.xaml"/>
                 <ResourceDictionary x:Key="Dark" Source="../Themes/Dark.xaml"/>
             </ResourceDictionary.ThemeDictionaries>
+            <CollectionViewSource x:Name="GenresGroup" IsSourceGrouped="True" Source="{x:Bind Context.Genres}" ItemsPath="Items"/>
         </ResourceDictionary>
     </Page.Resources>
 
-    <ScrollViewer Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Hidden">
-        <StackPanel Margin="48,60,0,0">
+    <ScrollViewer Style="{ThemeResource NarrowScrollViewer}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" SizeChanged="ScrollViewer_SizeChanged"
+                  HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Hidden">
+        <StackPanel x:Name="Main" Margin="0,80,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <StackPanel.ChildrenTransitions>
                 <TransitionCollection>
                     <RepositionThemeTransition IsStaggeringEnabled="False"/>
                 </TransitionCollection>
             </StackPanel.ChildrenTransitions>
-            <TextBlock Text="Top Charts" Style="{ThemeResource HeaderTextBlockStyle}" FontWeight="Bold"/>
-            <ListView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{ThemeResource HorizontalListView}">
+            <TextBlock Margin="60,0,0,0" Text="Top Charts" Style="{ThemeResource HeaderTextBlockStyle}" FontWeight="Bold"/>
+            <ListView Padding="0,0,0,32" SelectionMode="None" IsItemClickEnabled="True" ItemClick="ListView_ItemClick" ItemContainerStyle="{ThemeResource ListViewItemRevealBackgroundShowsAboveContentStyle}" HorizontalAlignment="Stretch" ItemsSource="{x:Bind Context.TopList}" VerticalAlignment="Stretch" Style="{ThemeResource HorizontalListView}">
+                <ListView.Header>
+                    <Border Width="48"/>
+                </ListView.Header>
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="vm:GenericMusicItemViewModel">
-                        <StackPanel>
-                            <TextBlock Style="{ThemeResource BaseTextBlockStyle}" Text="{x:Bind Addtional}"/>
-                            <TextBlock Style="{ThemeResource TitleTextBlockStyle}" Text="{x:Bind Title}"/>
-                            <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Description}"
-                                       Foreground="{ThemeResource ButtonDisabledForegroundThemeBrush}"/>
-                            <Image Stretch="UniformToFill" Width="320" Height="320">
+                        <Grid Height="160">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="160"/>
+                                <ColumnDefinition Width="240"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Margin="16,0" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                                <TextBlock Style="{ThemeResource BaseTextBlockStyle}" Text="{x:Bind Addtional}"/>
+                                <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" FontSize="18" Text="{x:Bind Title}" MaxLines="2" TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis"/>
+                                <TextBlock FontSize="13" Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Description}"
+                                           Foreground="{ThemeResource ButtonDisabledForegroundThemeBrush}" MaxLines="2" TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis"/>
+                            </StackPanel>
+                            <Image Margin="12" Stretch="Uniform" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                 <Image.Source>
-                                    <BitmapImage DecodePixelHeight="320" DecodePixelType="Logical" UriSource="{x:Bind Artwork}"/>
+                                    <BitmapImage DecodePixelHeight="160" DecodePixelType="Logical" UriSource="{x:Bind Artwork}"/>
                                 </Image.Source>
                             </Image>
-                        </StackPanel>
+                        </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <TextBlock Text="Feature 1" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold"/>
-            <GridView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{ThemeResource HorizontalGridViewStyle}">
-                
+            <GridView Margin="48,0,0,0" SelectionMode="None" IsItemClickEnabled="True" ItemClick="ListView_ItemClick" HorizontalAlignment="Stretch" ItemContainerStyle="{ThemeResource GridViewItemRevealBackgroundShowsAboveContentStyle}" VerticalAlignment="Stretch" ItemsSource="{x:Bind GenresGroup.View, Mode=OneWay}">
+                <GridView.ItemTemplate>
+                    <DataTemplate x:DataType="vm:GenericMusicItemViewModel">
+                        <Grid Height="160">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="160"/>
+                                <ColumnDefinition Width="240"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Margin="16,0" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                                <TextBlock Style="{ThemeResource BaseTextBlockStyle}" Text="{x:Bind Addtional}"/>
+                                <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" FontSize="18" Text="{x:Bind Title}" MaxLines="2" TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis"/>
+                                <TextBlock FontSize="13" Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Description}"
+                                           Foreground="{ThemeResource ButtonDisabledForegroundThemeBrush}" MaxLines="2" TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis"/>
+                            </StackPanel>
+                            <Image Margin="12" Stretch="Uniform" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <Image.Source>
+                                    <BitmapImage DecodePixelHeight="160" DecodePixelType="Logical" UriSource="{x:Bind Artwork}"/>
+                                </Image.Source>
+                            </Image>
+                        </Grid>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+                <GridView.GroupStyle>
+                    <GroupStyle x:Name="GroupStyle">
+                        <GroupStyle.HeaderTemplate>
+                            <DataTemplate x:DataType="vm:PodcastGroup">
+                                <TextBlock Text="{x:Bind Title}" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold"/>
+                            </DataTemplate>
+                        </GroupStyle.HeaderTemplate>
+                    </GroupStyle>
+                </GridView.GroupStyle>
             </GridView>
+            <Border Height="160"/>
         </StackPanel>
     </ScrollViewer>
 </Page>

@@ -43,7 +43,7 @@ namespace Aurora.Music.ViewModels
 
         public int[] IDs { get; set; }
         public string[] OnlineIDs { get; set; }
-        public string OnlineAlbumID { get; }
+        public string OnlineAlbumID { get; set; }
         public int ContextualID { get; set; }
 
         public GenericMusicItemViewModel()

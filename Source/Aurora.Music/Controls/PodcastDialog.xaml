@@ -50,7 +50,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <TextBlock x:Name="TitleText" Style="{ThemeResource TitleTextBlockStyle}" Text="Podcast Title"/>
                 <TextBlock x:Name="Author" Style="{ThemeResource BaseTextBlockStyle}" Text="Podcast Author"/>
                 <TextBlock x:Name="Description" Style="{ThemeResource BodyTextBlockStyle}" Text=""
-                           TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis" MaxLines="4"/>
+                           TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis" MaxLines="3"/>
                 <TextBlock Style="{ThemeResource BodyTextBlockStyle}" TextWrapping="WrapWholeWords">
                     <Run x:Uid="LastUpdatePost" Text="Last Updated:"/>
                     <Run x:Name="Updated"/>

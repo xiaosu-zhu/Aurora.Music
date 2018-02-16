@@ -34,6 +34,12 @@ namespace Aurora.Music.Core.Models
             return Count > 0;
         }
 
+        public static async Task<IEnumerable<OnlineMusicItem>> GetiTunesTop(int count)
+        {
+            var res = await ITunesSearcher.TopCharts(count);
+            return res.feed.entry.Select(a => new OnlineMusicItem(a.Name.label, a.Summary?.label, a.Artist.label, null, a.ID.attributes["im:id"], a.Image[2].label));
+        }
+
         private void FindUpdated(string resXML)
         {
             var ment = new XmlDocument(); ment.LoadXml(resXML);
@@ -199,20 +205,16 @@ namespace Aurora.Music.Core.Models
             }
         }
 
-        public async static Task<List<GenericMusicItem>> SearchPodcasts(string text)
+        public async static Task<List<OnlineMusicItem>> SearchPodcasts(string text)
         {
             var result = await ITunesSearcher.Search(text);
             if (result == null)
             {
                 return null;
             }
-            return result.results.ConvertAll(a => new GenericMusicItem()
+            return result.results.ConvertAll(a => new OnlineMusicItem(a.trackName, a.artistName, a.feedUrl, null, a.feedUrl, a.artworkUrl100)
             {
                 InnerType = MediaType.Podcast,
-                Title = a.trackName,
-                Description = a.artistName,
-                PicturePath = a.artworkUrl100,
-                Addtional = a.feedUrl
             });
         }
     }

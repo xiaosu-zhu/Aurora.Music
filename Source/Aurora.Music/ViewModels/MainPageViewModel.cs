@@ -157,6 +157,13 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref currentTitle, value); }
         }
 
+        private bool isPodcast;
+        public bool IsPodcast
+        {
+            get { return isPodcast; }
+            set { SetProperty(ref isPodcast, value); }
+        }
+
         private string currentAlbum;
         private string lastUriPath;
 
@@ -278,7 +285,12 @@ namespace Aurora.Music.ViewModels
             {
                 return new DelegateCommand(() =>
                 {
-                    player?.Previous();
+                    if (IsPodcast)
+                    {
+                        player?.Backward(TimeSpan.FromSeconds(10));
+                    }
+                    else
+                        player?.Previous();
                 });
             }
         }
@@ -289,7 +301,12 @@ namespace Aurora.Music.ViewModels
             {
                 return new DelegateCommand(() =>
                 {
-                    player?.Next();
+                    if (IsPodcast)
+                    {
+                        player?.Forward(TimeSpan.FromSeconds(30));
+                    }
+                    else
+                        player?.Next();
                 });
             }
         }
@@ -590,7 +607,7 @@ namespace Aurora.Music.ViewModels
             { MainPage.Current.HideAutoSuggestPopup(); });
         }
 
-        private async Task<List<GenericMusicItem>> SearchPodcasts(string text)
+        private async Task<List<OnlineMusicItem>> SearchPodcasts(string text)
         {
             return await Podcast.SearchPodcasts(text);
         }
@@ -642,6 +659,16 @@ namespace Aurora.Music.ViewModels
             });
         }
 
+        public string GlyphPreOfOnline(bool s)
+        {
+            return s ? "\uED3C" : "\uE100";
+        }
+
+        public string GlyphNextOfOnline(bool s)
+        {
+            return s ? "\uED3D" : "\uE101";
+        }
+
         private async void Player_StatusChanged(object sender, PlayingItemsChangedArgs e)
         {
             await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
@@ -656,6 +683,7 @@ namespace Aurora.Music.ViewModels
                     lastUriPath = null;
                     CurrentIndex = -1;
                     NeedShowPanel = false;
+                    IsPodcast = false;
                     return;
                 }
 
@@ -663,6 +691,7 @@ namespace Aurora.Music.ViewModels
                 {
                     var p = e.CurrentSong;
                     CurrentTitle = p.Title.IsNullorEmpty() ? p.FilePath.Split('\\').LastOrDefault() : p.Title;
+                    IsPodcast = p.IsPodcast;
                     CurrentAlbum = p.Album.IsNullorEmpty() ? (p.Performers.IsNullorEmpty() ? Consts.UnknownAlbum : string.Join(Consts.CommaSeparator, p.Performers)) : p.Album;
                     if (!p.PicturePath.IsNullorEmpty())
                     {

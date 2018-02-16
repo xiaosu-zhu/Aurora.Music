@@ -55,6 +55,7 @@ namespace Aurora.Music.Core
         public static string CommaSeparator => ommaSeparator;
 
         public static string UpdateNote =>
+                            "* **New**: Added **Explore Podcast** page.\r\n" +
                             "* **New**: Added **Podcast** support.\r\n" +
                             "* **New**: Added *Podcast* section *Settings - Podcast*.\r\n" +
                             "* **Improve**: UI layout.\r\n" +

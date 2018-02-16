@@ -39,7 +39,7 @@ namespace Aurora.Music.Controls
             Artwork.Source = new BitmapImage(g.Artwork);
             Task.Run(async () =>
             {
-                var pod = await Podcast.GetiTunesPodcast(g.Addtional);
+                var pod = await Podcast.GetiTunesPodcast(g.OnlineAlbumID);
                 podcast = pod;
                 await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                 {

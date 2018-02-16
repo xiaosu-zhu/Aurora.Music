@@ -1160,7 +1160,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <Button AccessKey="[" x:Uid="Previous" x:Name="Previous" Style="{ThemeResource RevealRoundButton}" Command="{x:Bind Context.GoPrevious}" ToolTipService.ToolTip="Previous"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                             <Button.Content>
-                                <SymbolIcon Symbol="Previous"/>
+                                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Context.GlyphPreOfOnline(Context.IsPodcast),Mode=OneWay}" />
                             </Button.Content>
                             <Button.KeyboardAccelerators>
                                 <KeyboardAccelerator Key="F1" />
@@ -1179,7 +1179,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <Button AccessKey="]" x:Uid="Next" x:Name="Next" Style="{ThemeResource RevealRoundButton}" Command="{x:Bind Context.GoNext}" ToolTipService.ToolTip="Next"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                             <Button.Content>
-                                <SymbolIcon Symbol="Next"/>
+                                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Context.GlyphNextOfOnline(Context.IsPodcast),Mode=OneWay}" />
                             </Button.Content>
                             <Button.KeyboardAccelerators>
                                 <KeyboardAccelerator Key="F3" />
@@ -1197,14 +1197,14 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                             </Button.KeyboardAccelerators>
                         </Button>
 
-                        <ToggleButton x:Uid="Shuffle" x:Name="Shuffle" Style="{ThemeResource RevealRoundToggleButton}" IsChecked="{x:Bind Context.IsShuffle, Mode=TwoWay}" ToolTipService.ToolTip="Shuffle"
+                        <ToggleButton x:Uid="Shuffle" IsEnabled="{x:Bind Context.BoolNot(Context.IsPodcast),Mode=OneWay}" x:Name="Shuffle" Style="{ThemeResource RevealRoundToggleButton}" IsChecked="{x:Bind Context.IsShuffle, Mode=TwoWay}" ToolTipService.ToolTip="Shuffle"
                                       Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                             <ToggleButton.Content>
                                 <SymbolIcon Symbol="Shuffle"/>
                             </ToggleButton.Content>
                         </ToggleButton>
 
-                        <ToggleButton x:Uid="Loop" x:Name="Refresh" Style="{ThemeResource RevealRoundToggleButton}" IsChecked="{x:Bind Context.IsLoop, Mode=TwoWay}" ToolTipService.ToolTip="Loop"
+                        <ToggleButton x:Uid="Loop" x:Name="Refresh" IsEnabled="{x:Bind Context.BoolNot(Context.IsPodcast),Mode=OneWay}" Style="{ThemeResource RevealRoundToggleButton}" IsChecked="{x:Bind Context.IsLoop, Mode=TwoWay}" ToolTipService.ToolTip="Loop"
                                       Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                             <ToggleButton.Content>
                                 <SymbolIcon Symbol="Refresh"/>

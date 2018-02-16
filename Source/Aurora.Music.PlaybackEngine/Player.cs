@@ -980,5 +980,18 @@ namespace Aurora.Music.PlaybackEngine
                 mediaPlayer.PlaybackSession.Position -= timeSpan;
             }
         }
+
+        public void Forward(TimeSpan timeSpan)
+        {
+            var p = mediaPlayer.PlaybackSession.Position + timeSpan;
+            if (p > mediaPlayer.PlaybackSession.NaturalDuration)
+            {
+                Next();
+            }
+            else
+            {
+                mediaPlayer.PlaybackSession.Position += timeSpan;
+            }
+        }
     }
 }

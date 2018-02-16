@@ -1381,7 +1381,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <Flyout FlyoutPresenterStyle="{ThemeResource HoriNoScrollFlyoutPresenter}">
                             <StackPanel Padding="4,4,4,-4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Orientation="Horizontal">
                                 <Slider Style="{ThemeResource RoundSlider1}" IsThumbToolTipEnabled="False" MinWidth="240" HorizontalAlignment="Stretch" VerticalAlignment="Center" Minimum="0.25" Maximum="2.5" StepFrequency="0.25" Value="{x:Bind Context.PlaybackRate, Mode=TwoWay}"/>
-                                <TextBlock Margin="0,0,0,10" Width="54" TextAlignment="Right" VerticalAlignment="Center" Style="{ThemeResource TitleTextBlockStyle}" TextWrapping="NoWrap" TextTrimming="None" MaxLines="1" HorizontalAlignment="Stretch" Text="{x:Bind Context.PlaybackRateToString(Context.PlaybackRate), Mode=OneWay}"/>
+                                <TextBlock Margin="0,0,0,10" Width="60" TextAlignment="Right" VerticalAlignment="Center" Style="{ThemeResource TitleTextBlockStyle}" TextWrapping="NoWrap" TextTrimming="None" MaxLines="1" HorizontalAlignment="Stretch" Text="{x:Bind Context.PlaybackRateToString(Context.PlaybackRate), Mode=OneWay}"/>
                             </StackPanel>
                         </Flyout>
                     </Button.Flyout>
