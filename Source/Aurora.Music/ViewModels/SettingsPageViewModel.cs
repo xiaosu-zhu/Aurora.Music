@@ -180,6 +180,18 @@ namespace Aurora.Music.ViewModels
             }
         }
 
+        private bool preventScreenLock = Settings.Current.PreventLockscreen;
+        public bool PreventScreenLock
+        {
+            get { return preventScreenLock; }
+            set
+            {
+                Settings.Current.PreventLockscreen = value;
+                Settings.Current.Save();
+                SetProperty(ref preventScreenLock, value);
+            }
+        }
+
         private static async void RegisterPodcastTask()
         {
             if (BackgroundTaskHelper.IsBackgroundTaskRegistered(Consts.PodcastTaskName))

@@ -81,6 +81,7 @@ namespace Aurora.Music.Core.Models
                     PicturePath = items[i].SelectSingleNode("./itunes:image/@href", ns)?.InnerText ?? HeroArtworks[0]
                 });
             }
+            Sort((a, s) => -1 * (a.PubDate.CompareTo(s.PubDate)));
         }
 
         public Podcast(PODCAST p)
@@ -203,6 +204,7 @@ namespace Aurora.Music.Core.Models
                     PicturePath = items[i].SelectSingleNode("./itunes:image/@href", ns)?.InnerText ?? HeroArtworks[0]
                 });
             }
+            Sort((a, s) => -1 * (a.PubDate.CompareTo(s.PubDate)));
         }
 
         public async static Task<List<OnlineMusicItem>> SearchPodcasts(string text)

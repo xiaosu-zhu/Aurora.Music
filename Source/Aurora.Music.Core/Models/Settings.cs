@@ -106,6 +106,7 @@ namespace Aurora.Music.Core.Models
         public bool IsPodcastToast { get; set; } = true;
         public uint FetchInterval { get; set; } = 30;
         public bool ShowPodcastsWhenSearch { get; set; } = true;
+        public bool PreventLockscreen { get; set; } = false;
 
         public float[] Gain = new float[10] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 

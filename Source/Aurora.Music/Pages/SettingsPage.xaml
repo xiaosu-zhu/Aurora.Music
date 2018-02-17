@@ -399,6 +399,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                        Text="{x:Bind Context.VolumeToString(Context.PlayerVolume), Mode=OneWay}"/>
                         </StackPanel>
                         <TextBlock x:Uid="VolumeHint" Style="{ThemeResource BodyTextBlockStyle}" FontSize="13" Foreground="{ThemeResource AppBarItemDisabledForegroundThemeBrush}" Text="We suggest you to control the system volume directly." HorizontalAlignment="Left" VerticalAlignment="Center" Margin="8,0,0,8"/>
+                        <ToggleSwitch Header="Prevent screen locks when playing" IsOn="{x:Bind Context.PreventScreenLock, Mode=TwoWay}"/>
                     </StackPanel>
                     <StackPanel BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" BorderThickness="0,0,0,1" Padding="8,0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <TextBlock x:Uid="Podcast" Text="Podcast" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12"/>

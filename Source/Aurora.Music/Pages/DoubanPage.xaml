@@ -11,12 +11,14 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     xmlns:vm="using:Aurora.Music.ViewModels"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:controls="using:Aurora.Music.Controls"
+    xmlns:audio="using:AudioVisualizer"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
     xmlns:star="using:StarButton"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Unloaded="Page_Unloaded"
     mc:Ignorable="d">
 
 
@@ -164,47 +166,10 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <GroupStyle x:Name="GroupStyle" HeaderTemplate="{StaticResource NormalGroupHeader}"/>
             </GridView.GroupStyle>
         </GridView>
-        <Viewbox Stretch="Uniform" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top">
-            <StackPanel x:Name="TopPanel" Margin="0,-16,0,0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Stretch">
-                <StackPanel.ChildrenTransitions>
-                    <TransitionCollection>
-                        <RepositionThemeTransition IsStaggeringEnabled="False"/>
-                    </TransitionCollection>
-                </StackPanel.ChildrenTransitions>
-                <Grid Width="32" Height="72" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[0],Mode=OneWay}"/>
-                <Grid Width="32" Height="76" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[1],Mode=OneWay}"/>
-                <Grid Width="32" Height="80" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[2],Mode=OneWay}"/>
-                <Grid Width="32" Height="84" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[3],Mode=OneWay}"/>
-                <Grid Width="32" Height="88" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[4],Mode=OneWay}"/>
-                <Grid Width="32" Height="92" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[5],Mode=OneWay}"/>
-                <Grid Width="32" Height="96" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[6],Mode=OneWay}"/>
-                <Grid Width="32" Height="92" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[7],Mode=OneWay}"/>
-                <Grid Width="32" Height="88" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[8],Mode=OneWay}"/>
-                <Grid Width="32" Height="84" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[9],Mode=OneWay}"/>
-                <Grid Width="32" Height="80" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[10],Mode=OneWay}"/>
-                <Grid Width="32" Height="76" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[11],Mode=OneWay}"/>
-                <Grid Width="32" Height="72" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[12],Mode=OneWay}"/>
-                <Grid Width="32" Height="68" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[13],Mode=OneWay}"/>
-                <Grid Width="32" Height="64" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[14],Mode=OneWay}"/>
-                <Grid Width="32" Height="60" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[15],Mode=OneWay}"/>
-                <Grid Width="32" Height="56" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[16],Mode=OneWay}"/>
-                <Grid Width="32" Height="52" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[17],Mode=OneWay}"/>
-                <Grid Width="32" Height="48" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[18],Mode=OneWay}"/>
-                <Grid Width="32" Height="52" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[19],Mode=OneWay}"/>
-                <Grid Width="32" Height="56" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[20],Mode=OneWay}"/>
-                <Grid Width="32" Height="60" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[21],Mode=OneWay}"/>
-                <Grid Width="32" Height="64" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[22],Mode=OneWay}"/>
-                <Grid Width="32" Height="68" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[23],Mode=OneWay}"/>
-                <Grid Width="32" Height="72" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[24],Mode=OneWay}"/>
-                <Grid Width="32" Height="80" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[25],Mode=OneWay}"/>
-                <Grid Width="32" Height="84" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[26],Mode=OneWay}"/>
-                <Grid Width="32" Height="88" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[27],Mode=OneWay}"/>
-                <Grid Width="32" Height="92" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[28],Mode=OneWay}"/>
-                <Grid Width="32" Height="96" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[29],Mode=OneWay}"/>
-                <Grid Width="32" Height="92" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[30],Mode=OneWay}"/>
-                <Grid Width="32" Height="88" CornerRadius="16" VerticalAlignment="Top" Background="{x:Bind Context.Palette[31],Mode=OneWay}"/>
-            </StackPanel>
-        </Viewbox>
+        <audio:CustomVisualizer Loaded="CustomVisualizer_Loaded"  Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                                    CreateResources="CustomVisualizer_CreateResources"
+                                    x:Name="Visualizer" Draw="CustomVisualizer_Draw">
+        </audio:CustomVisualizer>
         <Grid Grid.Column="1" Padding="64" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Grid.RowDefinitions>
                 <RowDefinition Height="36"/>

@@ -2,6 +2,7 @@
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using Aurora.Music.Controls;
+using Aurora.Music.Core;
 using Aurora.Music.Core.Extension;
 using Aurora.Music.ViewModels;
 using System;
@@ -45,8 +46,10 @@ namespace Aurora.Music.Pages
 
         private async void ListView_ItemClick(object sender, ItemClickEventArgs e)
         {
+            MainPage.Current.ShowModalUI(true, Consts.Localizer.GetString("WaitingResultText"));
             var res = await ITunesSearcher.LookUp((e.ClickedItem as GenericMusicItemViewModel).OnlineAlbumID);
             var dialog = new PodcastDialog(new GenericMusicItemViewModel(res.First()));
+            MainPage.Current.ShowModalUI(false);
             await dialog.ShowAsync();
         }
     }

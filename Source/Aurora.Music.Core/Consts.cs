@@ -55,10 +55,10 @@ namespace Aurora.Music.Core
         public static string CommaSeparator => ommaSeparator;
 
         public static string UpdateNote =>
+                            "* **Improve**: UI layout.\r\n" +
                             "* **New**: Added **Explore Podcast** page.\r\n" +
                             "* **New**: Added **Podcast** support.\r\n" +
                             "* **New**: Added *Podcast* section *Settings - Podcast*.\r\n" +
-                            "* **Improve**: UI layout.\r\n" +
                             "* **Improve**: Performance enhanced.\r\n" +
                             "* **Tranlation**: Synced translation.";
 

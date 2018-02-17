@@ -79,7 +79,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <ListView Background="{ThemeResource SystemControlChromeMediumLowAcrylicWindowMediumBrush}" Grid.Column="0" x:Name="Category" 
-                  IsItemClickEnabled="False" ItemsSource="{x:Bind CategoryList}" SelectionMode="Single"
+                  IsItemClickEnabled="False" ItemsSource="{x:Bind CategoryList}" SelectionMode="Single" Style="{ThemeResource GeneralListView}"
                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemContainerStyle="{StaticResource GeneralListViewItemStyle}">
             <ListView.ItemContainerTransitions>
                 <TransitionCollection>
@@ -108,7 +108,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 
             <ListView.Footer>
                 <Grid Height="240">
-                    <Button Style="{ThemeResource TextBlockButtonStyle}" Margin="0,24" FontSize="20" Content="Manage Items" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    <Button Visibility="Collapsed" Style="{ThemeResource TextBlockButtonStyle}" Margin="0,24" FontSize="20" Content="Manage Items" HorizontalAlignment="Center" VerticalAlignment="Top"/>
                 </Grid>
             </ListView.Footer>
         </ListView>

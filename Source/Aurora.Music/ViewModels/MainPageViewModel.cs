@@ -29,6 +29,29 @@ namespace Aurora.Music.ViewModels
 {
     class MainPageViewModel : ViewModelBase, IDisposable
     {
+        private Windows.System.Display.DisplayRequest _displayRequest;
+
+        public void ActivateDisplay()
+        {
+            //create the request instance if needed
+            if (_displayRequest == null)
+                _displayRequest = new Windows.System.Display.DisplayRequest();
+
+            //make request to put in active state
+            _displayRequest.RequestActive();
+        }
+
+        public void ReleaseDisplay()
+        {
+            //must be same instance, so quit if it doesn't exist
+            if (_displayRequest == null)
+                return;
+
+            //undo the request
+            _displayRequest.RequestRelease();
+        }
+
+
         public static MainPageViewModel Current;
 
         public List<HamPanelItem> HamList { get; set; } = new List<HamPanelItem>()
@@ -454,6 +477,10 @@ namespace Aurora.Music.ViewModels
                 IsLoop = e.IsLoop;
                 IsShuffle = e.IsShuffle;
             });
+            if (e.PlaybackStatus == Windows.Media.Playback.MediaPlaybackState.Playing && Settings.Current.PreventLockscreen)
+            {
+                ActivateDisplay();
+            }
         }
 
         public async Task ReloadExtensions()
@@ -684,6 +711,7 @@ namespace Aurora.Music.ViewModels
                     CurrentIndex = -1;
                     NeedShowPanel = false;
                     IsPodcast = false;
+                    ReleaseDisplay();
                     return;
                 }
 

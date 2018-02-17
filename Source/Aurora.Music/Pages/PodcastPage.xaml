@@ -331,8 +331,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                            Text="{x:Bind Context.Description,Mode=OneWay,TargetNullValue=No&#x20;descriptions}"/>
                     <TextBlock Style="{ThemeResource BodyTextBlockStyle}">
                         <Run FontSize="13" FontFamily="Segoe MDL2 Assets" Text="&#xE1DC;" />
-                        <Run x:Uid="LastUpdatePost" Text="Last Updated:"/>
-                        <Run Text="{x:Bind Context.LastUpdate,Mode=OneWay,TargetNullValue=Loading,FallbackValue=Loading}"/>
+                        <Run x:Uid="LastUpdatePost" Text="Last Updated: "/><Run Text="{x:Bind Context.LastUpdate,Mode=OneWay,TargetNullValue=Loading,FallbackValue=Loading}"/>
                     </TextBlock>
                     <Button Command="{x:Bind Context.Refresh}" Style="{ThemeResource TextBlockButtonStyle}">
                         <Button.Content>

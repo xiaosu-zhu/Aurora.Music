@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
+using AudioVisualizer;
 using Aurora.Music.Controls;
 using Aurora.Music.Core;
 using Aurora.Music.Core.Models;
@@ -16,6 +17,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
+using Windows.UI;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 
@@ -45,8 +47,8 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref title, value); }
         }
 
-        private List<SolidColorBrush> palette;
-        public List<SolidColorBrush> Palette
+        private List<Color> palette;
+        public List<Color> Palette
         {
             get { return palette; }
             set { SetProperty(ref palette, value); }
@@ -306,6 +308,29 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref isPlaying, value); }
         }
 
+        private CustomVisualizer isualizer;
+        public CustomVisualizer Visualizer
+        {
+            get => isualizer;
+            set
+            {
+                isualizer = value;
+                MainPageViewModel.Current.VisualizerSource.SourceChanged += VisualizerSource_SourceChanged;
+                if (MainPageViewModel.Current.VisualizerSource.Source != null)
+                {
+                    isualizer.Source = MainPageViewModel.Current.VisualizerSource.Source;
+                }
+            }
+        }
+
+
+
+        private void VisualizerSource_SourceChanged(object sender, IVisualizationSource args)
+        {
+            if (isualizer != null)
+                isualizer.Source = MainPageViewModel.Current.VisualizerSource.Source;
+        }
+
         public Symbol NullableBoolToSymbol(bool? b)
         {
             if (b is bool bb)
@@ -412,7 +437,7 @@ namespace Aurora.Music.ViewModels
                             var pal = await ImagingHelper.GetColorPalette(e.CurrentSong.PicturePath.IsNullorEmpty() ? new Uri(Consts.NowPlaceholder) : new Uri(e.CurrentSong.PicturePath));
                             await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                             {
-                                var list = new List<SolidColorBrush>();
+                                var list = new List<Color>();
                                 for (int i = 0; i < 32; i++)
                                 {
                                     int j = i;
@@ -420,8 +445,9 @@ namespace Aurora.Music.ViewModels
                                     {
                                         j -= pal.Count;
                                     }
-                                    list.Add(new SolidColorBrush(pal[j]));
+                                    list.Add(pal[j]);
                                 }
+                                list.Shuffle();
                                 Palette = list;
                             });
                         });

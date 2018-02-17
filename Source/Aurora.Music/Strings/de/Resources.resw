@@ -1083,8 +1083,8 @@
     <comment>Playback Rate</comment>
   </data>
   <data name="LastUpdatePost.Text" xml:space="preserve">
-    <value>Last Updated:</value>
-    <comment>Last Updated:</comment>
+    <value>Last Updated: </value>
+    <comment>Last Updated: </comment>
   </data>
   <data name="RefreshPost.Text" xml:space="preserve">
     <value>Refresh</value>

@@ -189,6 +189,7 @@ namespace Aurora.Music.Pages
         {
             MainPageViewModel.Current.RestoreLastTitle();
             Context?.Dispose();
+            MainPageViewModel.Current.IsVisualizing = false;
             Unload();
         }
 
@@ -288,15 +289,19 @@ namespace Aurora.Music.Pages
         {
             await NowPlayingFlyout.ScrollToIndex(NowPlayingFlyout.SelectedIndex, ScrollPosition.Center);
         }
+
+
         SpectrumData _emptySpectrum = SpectrumData.CreateEmpty(2, Consts.SpectrumBarCount, ScaleType.Linear, ScaleType.Linear, 0, 20000);
         SpectrumData _previousSpectrum;
         SpectrumData _previousPeakSpectrum;
 
-        TimeSpan _rmsRiseTime = TimeSpan.FromMilliseconds(200);
-        TimeSpan _rmsFallTime = TimeSpan.FromMilliseconds(200);
-        TimeSpan _peakRiseTime = TimeSpan.FromMilliseconds(200);
-        TimeSpan _peakFallTime = TimeSpan.FromMilliseconds(2000);
-        TimeSpan _frameDuration = TimeSpan.FromMilliseconds(16.66666666666666666666666667);
+        const double fps = 1000d / 60d;
+
+        static readonly TimeSpan _rmsRiseTime = TimeSpan.FromMilliseconds(12 * fps);
+        static readonly TimeSpan _rmsFallTime = TimeSpan.FromMilliseconds(12 * fps);
+        static readonly TimeSpan _peakRiseTime = TimeSpan.FromMilliseconds(12 * fps);
+        static readonly TimeSpan _peakFallTime = TimeSpan.FromMilliseconds(120 * fps);
+        static readonly TimeSpan _frameDuration = TimeSpan.FromMilliseconds(fps);
 
         private void CustomVisualizer_Loaded(object sender, RoutedEventArgs e)
         {

@@ -105,6 +105,16 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <Run Text="打开链接"/>
                 </Hyperlink>
             </TextBlock>
+            <StackPanel Padding="32" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FFFF8A83"/>
+                        <GradientStop Color="#FFD33D71" Offset="1"/>
+                    </LinearGradientBrush>
+                </StackPanel.Background>
+                <TextBlock FontWeight="Bold" Foreground="White" TextWrapping="WrapWholeWords" HorizontalAlignment="Center" VerticalAlignment="Center" Text="Donate via PayPal" Style="{ThemeResource TitleTextBlockStyle}"/>
+                <HyperlinkButton Foreground="White" Content="Using PayPal.me to donate" HorizontalAlignment="Center" VerticalAlignment="Center" NavigateUri="https://www.paypal.me/aurorastu"/>
+            </StackPanel>
             <StackPanel x:Name="SomethingWeird" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Image MaxHeight="320" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Uniform" Source="/Assets/ali.png" Margin="8"/>
                 <Image MaxHeight="320" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Uniform" Source="/Assets/wechat.png" Margin="8"/>
