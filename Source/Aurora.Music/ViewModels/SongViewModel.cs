@@ -8,6 +8,7 @@ using Aurora.Music.Core.Tools;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
 using Aurora.Shared.MVVM;
+using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -107,7 +108,7 @@ namespace Aurora.Music.ViewModels
             Album = song.Album;
             Title = song.Title;
             Track = song.Track;
-            Artwork = new Uri(song.PicturePath.IsNullorEmpty() ? Consts.NowPlaceholder : song.PicturePath);
+            Artwork = song.PicturePath.IsNullorEmpty() ? null : new Uri(song.PicturePath);
             Duration = song.Duration;
             PubDate = song.PubDate;
             IsPodcast = song.IsPodcast;

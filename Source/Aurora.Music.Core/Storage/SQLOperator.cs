@@ -991,7 +991,7 @@ namespace Aurora.Music.Core.Storage
 
         internal async Task<List<GenericMusicItem>> GetRecentListAsync(int count = 50)
         {
-            var res = await conn.QueryAsync<STATISTICS>("SELECT * FROM STATISTICS WHERE TARGETTYPE=0 ORDER BY LASTPLAY DESC LIMIT ?", count);
+            var res = await conn.QueryAsync<STATISTICS>("SELECT * FROM STATISTICS WHERE TARGETTYPE=0 AND LASTPLAY>0 ORDER BY LASTPLAY DESC LIMIT ?", count);
             var alist = await conn.QueryAsync<SONG>($"SELECT * FROM SONG WHERE ID IN ({string.Join(',', res.Select(x => x.TargetID))})");
 
             var final = new List<GenericMusicItem>();
@@ -1376,6 +1376,11 @@ namespace Aurora.Music.Core.Storage
                 return res[0];
             }
             return default(T);
+        }
+
+        internal async Task RemoveEmptyAlbumAsync()
+        {
+            await conn.QueryAsync<int>("DELETE FROM ALBUM WHERE SONGS IS NULL");
         }
     }
 }

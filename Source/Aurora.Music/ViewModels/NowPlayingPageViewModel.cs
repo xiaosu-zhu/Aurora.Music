@@ -16,7 +16,9 @@ using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Threading.Tasks;
+using TagLib;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
@@ -31,6 +33,7 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Aurora.Music.ViewModels
 {
@@ -41,8 +44,8 @@ namespace Aurora.Music.ViewModels
         private DataTransferManager dataTransferManager;
         private CastingDevicePicker castingPicker;
 
-        private Uri artwork;
-        public Uri CurrentArtwork
+        private BitmapImage artwork;
+        public BitmapImage CurrentArtwork
         {
             get { return artwork; }
             set { SetProperty(ref artwork, value); }
@@ -133,14 +136,26 @@ namespace Aurora.Music.ViewModels
                 OnlineAlbumID = song.Song.OnlineAlbumID,
                 OnlineID = song.Song.OnlineID
             };
-            CurrentArtwork = song.Artwork;
-            lastUriPath = song.Artwork?.AbsolutePath;
+
+            if (Song.Artwork != null)
+            {
+                CurrentArtwork = song.Artwork.IsLoopback ? new BitmapImage(song.Artwork) : await ImageCache.Instance.GetFromCacheAsync(song.Artwork);
+                CurrentColorBrush = new SolidColorBrush(await ImagingHelper.GetMainColor(Song.Artwork));
+                MainPageViewModel.Current.LeftTopColor = AdjustColorbyTheme(CurrentColorBrush);
+                lastUriPath = Song.Artwork.AbsolutePath;
+            }
+            else
+            {
+                CurrentArtwork = null;
+                CurrentColorBrush = new SolidColorBrush(new UISettings().GetColorValue(UIColorType.Accent));
+                MainPageViewModel.Current.LeftTopColor = AdjustColorbyTheme(CurrentColorBrush);
+                lastUriPath = null;
+            }
+
             IsPlaying = player.IsPlaying;
             BufferProgress = MainPageViewModel.Current.BufferProgress;
             SongChanged?.Invoke(song, EventArgs.Empty);
             CurrentRating = song.Rating;
-            CurrentColorBrush = new SolidColorBrush(await ImagingHelper.GetMainColor(CurrentArtwork));
-            MainPageViewModel.Current.LeftTopColor = AdjustColorbyTheme(CurrentColorBrush);
             CurrentIndex = MainPageViewModel.Current.CurrentIndex;
             var task = ThreadPool.RunAsync(async x =>
             {
@@ -168,7 +183,7 @@ namespace Aurora.Music.ViewModels
                     var result = await ext.GetLyricAsync(song.Song, MainPageViewModel.Current.OnlineMusicExtension?.ServiceName);
                     if (result != null)
                     {
-                        var l = new Lyric(LrcParser.Parser.Parse((string)result, Song.Song.Duration));
+                        var l = new Lyric(LrcParser.Parser.Parse(result, Song.Song.Duration));
                         await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
                         {
                             Lyric.New(l);
@@ -414,6 +429,7 @@ namespace Aurora.Music.ViewModels
                 var progress = await FileTracker.DownloadMusic(Song.Song, folder);
                 progress.Progress = DownloadProgressChanged;
                 progress.Completed = DownloadCompleted;
+                downloadSong = song.Song;
             }
             else
             {
@@ -426,6 +442,9 @@ namespace Aurora.Music.ViewModels
         {
             MainPage.Current.PopMessage(Consts.Localizer.GetString("DownloadCompletedText"));
             MainPage.Current.ProgressUpdate(Consts.Localizer.GetString("CompletedText"), Consts.Localizer.GetString("DownloadCompletedText"));
+            var r = asyncInfo.GetResults();
+            asyncInfo.Close();
+            AddTags(r.ResultFile, downloadSong);
         }
 
         private void DownloadProgressChanged(IAsyncOperationWithProgress<DownloadOperation, DownloadOperation> asyncInfo, DownloadOperation progressInfo)
@@ -460,6 +479,53 @@ namespace Aurora.Music.ViewModels
                     break;
             }
 
+        }
+
+        private async void AddTags(IStorageFile resultFile, Song downloadSong)
+        {
+            using (var tagTemp = TagLib.File.Create(resultFile.Path))
+            {
+                tagTemp.Tag.Title = downloadSong.Title;
+                tagTemp.Tag.Album = downloadSong.Album;
+                tagTemp.Tag.AlbumArtists = downloadSong.AlbumArtists;
+                tagTemp.Tag.AlbumArtistsSort = downloadSong.AlbumArtistsSort;
+                tagTemp.Tag.AlbumSort = downloadSong.AlbumSort;
+                tagTemp.Tag.TitleSort = downloadSong.TitleSort;
+                tagTemp.Tag.Track = downloadSong.Track;
+                tagTemp.Tag.TrackCount = downloadSong.TrackCount;
+                tagTemp.Tag.Disc = downloadSong.Disc;
+                tagTemp.Tag.Composers = downloadSong.Composers;
+                tagTemp.Tag.ComposersSort = downloadSong.ComposersSort;
+                tagTemp.Tag.Conductor = downloadSong.Conductor;
+                tagTemp.Tag.DiscCount = downloadSong.DiscCount;
+                tagTemp.Tag.Copyright = downloadSong.Copyright;
+                tagTemp.Tag.PerformersSort = downloadSong.Genres;
+                tagTemp.Tag.Lyrics = downloadSong.Lyrics;
+                tagTemp.Tag.Performers = downloadSong.Performers;
+                tagTemp.Tag.PerformersSort = downloadSong.PerformersSort;
+                tagTemp.Tag.Year = downloadSong.Year;
+                if (downloadSong.PicturePath != null)
+                    using (var referen = await (RandomAccessStreamReference.CreateFromUri(new Uri(downloadSong.PicturePath))).OpenReadAsync())
+                    {
+                        if (tagTemp.Tag.Pictures != null && tagTemp.Tag.Pictures.Length > 0)
+                        {
+                            var p = new List<IPicture>();
+                            p.AddRange(tagTemp.Tag.Pictures);
+                            p.RemoveAt(0);
+                            p.Insert(0, new Picture(ByteVector.FromStream(referen.AsStream())));
+                            tagTemp.Tag.Pictures = p.ToArray();
+                        }
+                        else
+                        {
+                            var p = new List<Picture>
+                            {
+                                new Picture(ByteVector.FromStream(referen.AsStream()))
+                            };
+                            tagTemp.Tag.Pictures = p.ToArray();
+                        }
+                    }
+                tagTemp.Save();
+            }
         }
 
         public TimeSpan TotalDuration
@@ -884,6 +950,8 @@ namespace Aurora.Music.ViewModels
 
         public bool CanDraw { get; private set; }
         private CustomVisualizer isualizer;
+        private Song downloadSong;
+
         public CustomVisualizer Visualizer
         {
             get => isualizer;
@@ -943,8 +1011,8 @@ namespace Aurora.Music.ViewModels
                             }
                             else
                             {
-                                CurrentArtwork = Song.Artwork;
-                                CurrentColorBrush = new SolidColorBrush(await ImagingHelper.GetMainColor(CurrentArtwork));
+                                CurrentArtwork = song.Artwork.IsLoopback ? new BitmapImage(song.Artwork) : await ImageCache.Instance.GetFromCacheAsync(song.Artwork);
+                                CurrentColorBrush = new SolidColorBrush(await ImagingHelper.GetMainColor(Song.Artwork));
                                 MainPageViewModel.Current.LeftTopColor = AdjustColorbyTheme(CurrentColorBrush);
                                 lastUriPath = Song.Artwork.AbsolutePath;
                             }

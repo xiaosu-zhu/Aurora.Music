@@ -208,7 +208,7 @@ namespace Aurora.Music.Controls
                                   var p = new List<IPicture>();
                                   p.AddRange(tagTemp.Tag.Pictures);
                                   p.RemoveAt(0);
-                                  p.Add(new Picture(ByteVector.FromStream(stream.AsStream())));
+                                  p.Insert(0, new Picture(ByteVector.FromStream(stream.AsStream())));
                                   tagTemp.Tag.Pictures = p.ToArray();
                               }
                               else

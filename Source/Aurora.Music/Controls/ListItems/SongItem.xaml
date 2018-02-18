@@ -44,7 +44,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <Setter Target="HeaderBtn.Visibility" Value="Visible"/>
                         <Setter Target="Track.Visibility" Value="Collapsed"/>
                         <Setter Target="PlayBtn.Visibility" Value="Visible"/>
-                        <Setter Target="FavBtn.Visibility" Value="Visible"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Pressed">
@@ -52,7 +51,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <Setter Target="HeaderBtn.Visibility" Value="Visible"/>
                         <Setter Target="Track.Visibility" Value="Collapsed"/>
                         <Setter Target="PlayBtn.Visibility" Value="Visible"/>
-                        <Setter Target="FavBtn.Visibility" Value="Visible"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -153,7 +151,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <Button Click="PlayBtn_Click" x:Load="False" Visibility="Collapsed" Grid.RowSpan="2" x:Name="PlayBtn" Grid.Column="1" Style="{ThemeResource NoBorderButton}" Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="48">
                 <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE102;" />
             </Button>
-            <star:StarButton x:Load="False" Visibility="Collapsed" Grid.RowSpan="2" x:Name="FavBtn" Grid.Column="2" IsOn="{x:Bind Data.Favorite, Mode=TwoWay}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" Margin="12,0"/>
+            <star:StarButton Grid.RowSpan="2" x:Name="FavBtn" Grid.Column="2" IsThreeState="False"
+                             IsChecked="{x:Bind Data.Favorite, Mode=TwoWay}" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                             FontSize="18" Margin="12,0"/>
         </Grid>
         <TextBlock x:Name="Album" Grid.Column="2" Margin="4" Text="{x:Bind Data.Album,Mode=OneWay}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"
                    Foreground="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}"

@@ -23,19 +23,19 @@ namespace Aurora.Music.ViewModels
 
         public double GetHeight(bool b)
         {
-            return b ? 240d : 96d;
+            return b ? 240d : 120d;
         }
 
         public double GetVerticalShift(bool b)
         {
-            return b ? 0d : -240d;
+            return b ? 0d : -320d;
         }
         public IList<ImageSource> HeroImages { get; set; }
         public int ID { get; internal set; }
 
         public double BoolToOpacity(bool a)
         {
-            return a ? 1.0 : 0.1;
+            return a ? 1.0 : 0.333333333333;
         }
 
         public SolidColorBrush ChangeTextForeground(bool b)

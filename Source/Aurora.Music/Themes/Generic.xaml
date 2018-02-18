@@ -14,7 +14,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:ImageGrid">
-                    <Grid x:Name="Main" 
+                    <Grid x:Name="Main" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}"
                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
                           Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" 

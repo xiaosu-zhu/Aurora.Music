@@ -18,6 +18,8 @@ namespace Aurora.Music.Core.Tools
         {
             var toastContent = new ToastContent()
             {
+                Header = new ToastHeader("Podcast", string.Format(Consts.Localizer.GetString("PodcastToastTitle"), ""), null),
+                ActivationType = ToastActivationType.Foreground,
                 Visual = new ToastVisual()
                 {
                     BindingGeneric = new ToastBindingGeneric()
@@ -81,8 +83,12 @@ namespace Aurora.Music.Core.Tools
             };
 
             // Create the toast notification
-            var toastNotif = new ToastNotification(toastContent.GetXml());
-
+            var toastNotif = new ToastNotification(toastContent.GetXml())
+            {
+                Tag = p.ID.ToString()
+            };
+            // Remove old (if have)
+            ToastNotificationManager.History.Remove(p.ID.ToString());
             // And send the notification
             ToastNotificationManager.CreateToastNotifier().Show(toastNotif);
         }

@@ -4,6 +4,7 @@
 using Aurora.Music.Controls;
 using Aurora.Music.Core;
 using Aurora.Music.Core.Models;
+using Aurora.Music.Core.Storage;
 using Aurora.Music.Pages;
 using Aurora.Music.Services;
 using Aurora.Music.ViewModels;
@@ -11,8 +12,11 @@ using Aurora.Shared.Controls;
 using Aurora.Shared.Helpers;
 using Aurora.Shared.Logging;
 using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using Windows.ApplicationModel;
@@ -183,7 +187,7 @@ namespace Aurora.Music
             // Restore view content if it was previously unloaded
             if (Window.Current.Content == null)
             {
-                CreateRootFrame(ApplicationExecutionState.Running, string.Empty);
+                CreateRootFrame(ApplicationExecutionState.Running);
             }
 
             if (MainPageViewModel.Current != null)
@@ -199,11 +203,23 @@ namespace Aurora.Music
                 ProtocolActivatedEventArgs eventArgs = args as ProtocolActivatedEventArgs;
                 // TODO: Handle URI activation
                 // The received URI is eventArgs.Uri.AbsoluteUri
-                if (string.IsNullOrEmpty(eventArgs.Uri.Query))
+                if (eventArgs.Uri.Segments.Length == 0)
                 {
                     if (Window.Current.Content == null)
                     {
-                        OnLaunched(null);
+                        CreateRootFrame(ApplicationExecutionState.NotRunning);
+                        if (rootFrame.Content == null)
+                        {
+                            // When the navigation stack isn't restored navigate to the first page,
+                            // configuring the new page by passing required information as a navigation
+                            // parameter
+                            if (Settings.Current.WelcomeFinished)
+                                rootFrame.Navigate(typeof(MainPage));
+                            else
+                                rootFrame.Navigate(typeof(WelcomePage));
+                        }
+                        // 确保当前窗口处于活动状态
+                        Window.Current.Activate();
                     }
                     else
                     {
@@ -213,50 +229,83 @@ namespace Aurora.Music
                 }
                 else
                 {
-                    var query = HttpUtility.ParseQueryString(eventArgs.Uri.Query);
-                    if (query["action"] != null)
+                    var segments = eventArgs.Uri.Segments.Select(x => x.TrimEnd('/')).Skip(1).ToArray();
+                    switch (segments[0])
                     {
-                        switch (query["action"])
-                        {
-                            case "ext-setting":
-                                if (Window.Current.Content == null)
+                        case "settings":
+                            if (Window.Current.Content == null)
+                            {
+                                // 将框架放在当前窗口中
+                                Window.Current.Content = new ExtSettings();
+                                Window.Current.Activate();
+                            }
+                            else
+                            {
+                                CoreApplicationView newView = CoreApplication.CreateNewView();
+                                int newViewId = 0;
+                                await newView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                                 {
-                                    // 创建要充当导航上下文的框架，并导航到第一页
-                                    rootFrame = new Frame();
+                                    Frame frame = new Frame();
+                                    frame.Navigate(typeof(ExtSettings));
+                                    Window.Current.Content = frame;
+                                    // You have to activate the window in order to show it later.
+                                    Window.Current.Activate();
 
-                                    // 将框架放在当前窗口中
-                                    Window.Current.Content = rootFrame;
-                                    rootFrame.Navigate(typeof(AboutPage));
-                                }
-                                else
-                                {
-                                    CoreApplicationView newView = CoreApplication.CreateNewView();
-                                    int newViewId = 0;
-                                    await newView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                                    {
-                                        Frame frame = new Frame();
-                                        frame.Navigate(typeof(ExtSettings));
-                                        Window.Current.Content = frame;
-                                        // You have to activate the window in order to show it later.
-                                        Window.Current.Activate();
-
-                                        newViewId = ApplicationView.GetForCurrentView().Id;
-                                    });
-                                    bool viewShown = await ApplicationViewSwitcher.TryShowAsStandaloneAsync(newViewId);
-                                }
-                                break;
-                            default:
-                                break;
-                        }
+                                    newViewId = ApplicationView.GetForCurrentView().Id;
+                                });
+                                bool viewShown = await ApplicationViewSwitcher.TryShowAsStandaloneAsync(newViewId);
+                            }
+                            break;
+                        default:
+                            break;
                     }
                 }
             }
-            
+            else if (args.Kind == ActivationKind.ToastNotification)
+            {
+                ToastNotificationActivatedEventArgs a = args as ToastNotificationActivatedEventArgs;
+                var query = HttpUtility.ParseQueryString(a.Argument);
+                if (MainPage.Current == null)
+                {
+                    CreateRootFrame(ApplicationExecutionState.NotRunning);
+                    // When the navigation stack isn't restored navigate to the first page,
+                    // configuring the new page by passing required information as a navigation
+                    // parameter
+                    if (Settings.Current.WelcomeFinished)
+                        rootFrame.Navigate(typeof(MainPage), query);
+                    else
+                        rootFrame.Navigate(typeof(WelcomePage), query);
+                }
+                else if (query["Action"] == "ShowPodcast")
+                {
+                    MainPage.Current.ShowPodcast(query["ID"]);
+                }
+            }
         }
 
-        private void CreateRootFrame(ApplicationExecutionState previousExecutionState, string arguments)
+        private async void CreateRootFrame(ApplicationExecutionState previousExecutionState)
         {
-            Frame rootFrame = Window.Current.Content as Frame;
+            CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
+            ApplicationViewTitleBar titleBar = ApplicationView.GetForCurrentView().TitleBar;
+            titleBar.ButtonBackgroundColor = Colors.Transparent;
+            titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+            titleBar.ButtonHoverBackgroundColor = Color.FromArgb(0x33, 0x00, 0x00, 0x00);
+            titleBar.ButtonForegroundColor = Colors.Black;
+            titleBar.ButtonHoverForegroundColor = Colors.White;
+            titleBar.ButtonInactiveForegroundColor = Color.FromArgb(0x55, 0x00, 0x00, 0x00);
+
+            if (ui != null) ui.ColorValuesChanged -= Ui_ColorValuesChanged;
+            ui = new UISettings();
+            ui.ColorValuesChanged += Ui_ColorValuesChanged;
+            ApplicationView.GetForCurrentView().SetDesiredBoundsMode(ApplicationViewBoundsMode.UseVisible);
+
+            var s = Settings.Current;
+            SQLOperator.Current();
+            ImageCache.Instance.CacheDuration = TimeSpan.MaxValue;
+            ImageCache.Instance.RetryCount = 1;
+            await ImageCache.Instance.InitializeAsync(ApplicationData.Current.LocalFolder, "Cache");
+
+            rootFrame = Window.Current.Content as Frame;
 
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
@@ -269,9 +318,7 @@ namespace Aurora.Music
                     // Language = Windows.Globalization.ApplicationLanguages.Languages[0]
                 };
 
-                rootFrame.NavigationFailed -= OnNavigationFailed;
                 rootFrame.NavigationFailed += OnNavigationFailed;
-
                 if (previousExecutionState == ApplicationExecutionState.Terminated)
                 {
                     //TODO: Load state from previously suspended application
@@ -279,14 +326,6 @@ namespace Aurora.Music
 
                 // Place the frame in the current Window
                 Window.Current.Content = rootFrame;
-            }
-
-            if (rootFrame.Content == null)
-            {
-                // When the navigation stack isn't restored navigate to the first page,
-                // configuring the new page by passing required information as a navigation
-                // parameter
-                rootFrame.Navigate(typeof(MainPage), arguments);
             }
         }
 
@@ -395,62 +434,66 @@ namespace Aurora.Music
         }
 
         /// <summary>
+        /// Encapsulates the call to CoreApplication.EnablePrelaunch() so that the JIT
+        /// won't encounter that call (and prevent the app from running when it doesn't
+        /// find it), unless this method gets called. This method should only
+        /// be called when the caller determines that we are running on a system that
+        /// supports CoreApplication.EnablePrelaunch().
+        /// </summary>
+        private void TryEnablePrelaunch()
+        {
+            CoreApplication.EnablePrelaunch(true);
+        }
+
+        /// <summary>
         /// 在应用程序由最终用户正常启动时进行调用。
         /// 将在启动应用程序以打开特定文件等情况下使用。
         /// </summary>
         /// <param name="e">有关启动请求和过程的详细信息。</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-            CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
-            ApplicationViewTitleBar titleBar = ApplicationView.GetForCurrentView().TitleBar;
-            titleBar.ButtonBackgroundColor = Colors.Transparent;
-            titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-            titleBar.ButtonHoverBackgroundColor = Color.FromArgb(0x33, 0x00, 0x00, 0x00);
-            titleBar.ButtonForegroundColor = Colors.Black;
-            titleBar.ButtonHoverForegroundColor = Colors.White;
-            titleBar.ButtonInactiveForegroundColor = Colors.Gray;
-
-            ui = new UISettings();
-            ui.ColorValuesChanged += Ui_ColorValuesChanged;
-
-            rootFrame = Window.Current.Content as Frame;
-
-            // 不要在窗口已包含内容时重复应用程序初始化，
-            // 只需确保窗口处于活动状态
-            if (rootFrame == null)
+            if (e.PrelaunchActivated == false)
             {
-                // 创建要充当导航上下文的框架，并导航到第一页
-                rootFrame = new Frame();
-
-                rootFrame.NavigationFailed -= OnNavigationFailed;
-                rootFrame.NavigationFailed += OnNavigationFailed;
-
-                if (e?.PreviousExecutionState == ApplicationExecutionState.Terminated)
+                TryEnablePrelaunch();
+                if (Window.Current.Content == null)
                 {
-                    //TODO: 从之前挂起的应用程序加载状态
+                    CreateRootFrame(e.PreviousExecutionState);
                 }
-
-                // 将框架放在当前窗口中
-                Window.Current.Content = rootFrame;
-            }
-
-            //ApplicationView.GetForCurrentView().SetDesiredBoundsMode(ApplicationViewBoundsMode.UseVisible);
-
-
-            if (e == null || e.PrelaunchActivated == false)
-            {
                 if (rootFrame.Content == null)
                 {
-                    // 当导航堆栈尚未还原时，导航到第一页，
-                    // 并通过将所需信息作为导航参数传入来配置
-                    // 参数
+                    // When the navigation stack isn't restored navigate to the first page,
+                    // configuring the new page by passing required information as a navigation
+                    // parameter
                     if (Settings.Current.WelcomeFinished)
-                        rootFrame.Navigate(typeof(MainPage), e?.Arguments);
+                        rootFrame.Navigate(typeof(MainPage), e.Arguments);
                     else
-                        rootFrame.Navigate(typeof(WelcomePage), e?.Arguments);
+                        rootFrame.Navigate(typeof(WelcomePage), e.Arguments);
                 }
                 // 确保当前窗口处于活动状态
                 Window.Current.Activate();
+            }
+            else
+            {
+                CreateRootFrame(e.PreviousExecutionState);
+                if (rootFrame.Content == null)
+                {
+                    // When the navigation stack isn't restored navigate to the first page,
+                    // configuring the new page by passing required information as a navigation
+                    // parameter
+                    if (Settings.Current.WelcomeFinished)
+                        rootFrame.Navigate(typeof(MainPage), e.Arguments);
+                    else
+                        rootFrame.Navigate(typeof(WelcomePage), e.Arguments);
+                }
+            }
+
+            if (e.Kind == ActivationKind.ToastNotification)
+            {
+                var query = HttpUtility.ParseQueryString(e.Arguments);
+                if (query["Action"] == "ShowPodcast")
+                {
+                    MainPage.Current.ShowPodcast(query["ID"]);
+                }
             }
 
             var t = Task.Run(async () =>

@@ -6,9 +6,11 @@ using Aurora.Music.Core.Models;
 using Aurora.Music.Core.Storage;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.MVVM;
+using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
 using Windows.System.Threading;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -36,15 +38,19 @@ namespace Aurora.Music.ViewModels
                     return;
                 }
                 SetProperty(ref avatar, value);
-                if (avatar == null)
+#pragma warning disable CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
+                CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
                 {
-                    AvatarImage = null;
-                }
-                AvatarImage = new BitmapImage(avatar)
-                {
-                    DecodePixelHeight = 128,
-                    DecodePixelType = DecodePixelType.Logical
-                };
+                    if (value == null)
+                    {
+                        AvatarImage = null;
+                    }
+                    else
+                    {
+                        AvatarImage = await ImageCache.Instance.GetFromCacheAsync(value);
+                    }
+                });
+#pragma warning restore CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
                 var t = ThreadPool.RunAsync(async x =>
                 {
                     await SQLOperator.Current().UpdateAvatarAsync(RawName, value.OriginalString);

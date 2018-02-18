@@ -30,6 +30,7 @@ namespace Aurora.Music.Pages
         public static LibraryPage Current;
 
         internal ObservableCollection<CategoryListItem> CategoryList;
+        private Task launchTask;
         private List<PlayList> playlists;
 
         public LibraryPage()
@@ -61,7 +62,7 @@ namespace Aurora.Music.Pages
                 }
             };
 
-            Task.Run(async () =>
+            launchTask = Task.Run(async () =>
             {
                 playlists = await SQLOperator.Current().GetPlayListBriefAsync();
                 var podcasts = await SQLOperator.Current().GetPodcastListBriefAsync();
@@ -99,6 +100,16 @@ namespace Aurora.Music.Pages
                     Category.SelectedItem = item ?? CategoryList[0];
                 });
             });
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            if (e.Parameter is string s && int.TryParse(s, out int i))
+            {
+                launchTask.Wait();
+                Category.SelectedIndex = CategoryList.IndexOf(CategoryList.First(a => a.ID == i));
+            }
         }
 
         private void Category_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -208,6 +219,12 @@ namespace Aurora.Music.Pages
         private void Grid_Drop(object sender, DragEventArgs e)
         {
 
+        }
+
+        internal void ShowPodcast(string iD)
+        {
+            if (int.TryParse(iD, out int i))
+                Category.SelectedIndex = CategoryList.IndexOf(CategoryList.First(a => a.ID == i));
         }
     }
 }

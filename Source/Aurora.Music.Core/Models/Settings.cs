@@ -108,7 +108,7 @@ namespace Aurora.Music.Core.Models
         public bool ShowPodcastsWhenSearch { get; set; } = true;
         public bool PreventLockscreen { get; set; } = false;
 
-        public float[] Gain = new float[10] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        public float[] Gain { get; set; } = new float[10] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
         public bool VerifyDoubanLogin()
         {

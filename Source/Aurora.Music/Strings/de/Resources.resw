@@ -117,6 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+
   <data name="AboutText" xml:space="preserve">
     <value>Über</value>
     <comment>AboutPage Title</comment>
@@ -495,7 +496,7 @@
   </data>
   <data name="SearchFailedText" xml:space="preserve">
     <value>Leider haben wir hier nichts gefunden…</value>
-    <comment>We can't find anything...</comment>
+    <comment>We couldn't find anything...</comment>
   </data>
   <data name="CreateCollection.Text" xml:space="preserve">
     <value>Eine neue Sammlung anlegen</value>
@@ -539,7 +540,7 @@
   </data>
   <data name="DropSongDialog.Title" xml:space="preserve">
     <value>Lassen Sie uns etwas finden…</value>
-    <comment>We find something...</comment>
+    <comment>We found something...</comment>
   </data>
   <data name="DropSongDialog.PrimaryButtonText" xml:space="preserve">
     <value>Zur Datenbank hinzufügen</value>
@@ -947,23 +948,23 @@
     <comment>Equalizer</comment>
   </data>
   <data name="Timer.Text" xml:space="preserve">
-    <value>Sleep Timer</value>
+    <value>Wiedergabe automatisch stoppen</value>
     <comment>Sleep Timer</comment>
   </data>
   <data name="NotLogin" xml:space="preserve">
-    <value>Not Login</value>
+    <value>Nicht eingeloggt</value>
     <comment>NotLogin</comment>
   </data>
   <data name="UnknownError" xml:space="preserve">
-    <value>Unknown Error</value>
+    <value>Unbekannter Fehler</value>
     <comment>UnknownError</comment>
   </data>
   <data name="Password" xml:space="preserve">
-    <value>Password</value>
+    <value>Passwort</value>
     <comment>Password</comment>
   </data>
   <data name="Invalid" xml:space="preserve">
-    <value>Invalid</value>
+    <value>Ungültig</value>
     <comment>Invalid</comment>
   </data>
   <data name="Account" xml:space="preserve">
@@ -971,11 +972,11 @@
     <comment>Account</comment>
   </data>
   <data name="PasswordBox.Header" xml:space="preserve">
-    <value>Password</value>
+    <value>Passwort</value>
     <comment>Password</comment>
   </data>
   <data name="PasswordBox.PlaceholderText" xml:space="preserve">
-    <value>8 or More Characters</value>
+    <value>Acht oder mehr Zeichen</value>
     <comment>8 or More Characters</comment>
   </data>
   <data name="AccountBox.Header" xml:space="preserve">
@@ -983,67 +984,67 @@
     <comment>Account</comment>
   </data>
   <data name="AccountBox.PlaceholderText" xml:space="preserve">
-    <value>E-mail/Phone</value>
+    <value>E-Mail-Adresse / Telefonnummer</value>
     <comment>E-mail/Phone</comment>
   </data>
   <data name="DoubanLogin.PrimaryButtonText" xml:space="preserve">
-    <value>Login</value>
+    <value>Log-In</value>
     <comment>Login</comment>
   </data>
   <data name="DoubanLogin.CloseButtonText" xml:space="preserve">
-    <value>Close</value>
+    <value>Schließen</value>
     <comment>Close</comment>
   </data>
   <data name="EqualizerSettings.Title" xml:space="preserve">
-    <value>Equalizer Settings</value>
+    <value>Equalizer-Einstellungen</value>
     <comment>Equalizer Settings</comment>
   </data>
   <data name="EqualizerSettings.CloseButtonText" xml:space="preserve">
-    <value>Close</value>
+    <value>Schließen</value>
     <comment>Close</comment>
   </data>
   <data name="Presets.Header" xml:space="preserve">
-    <value>Presets:</value>
+    <value>Voreinstellungen:</value>
     <comment>Presets:</comment>
   </data>
   <data name="Reset.Content" xml:space="preserve">
-    <value>Reset</value>
+    <value>Zurücksetzen</value>
     <comment>Reset</comment>
   </data>
   <data name="SleepTimerDialog.Title" xml:space="preserve">
-    <value>Sleep Timer</value>
+    <value>Wiedergabe automatisch stoppen</value>
     <comment>Sleep Timer</comment>
   </data>
   <data name="SleepTimerDialog.CloseButtonText" xml:space="preserve">
-    <value>Cancel</value>
+    <value>Abbrechen</value>
     <comment>Cancel</comment>
   </data>
   <data name="SleepTimerDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Confirm</value>
+    <value>Bestätigen</value>
     <comment>Confirm</comment>
   </data>
   <data name="SleepTimerTimePicker.Header" xml:space="preserve">
-    <value>When time arrives</value>
+    <value>Zu dieser Uhrzeit</value>
     <comment>When time arrives</comment>
   </data>
   <data name="SleepTimerPerform.Text" xml:space="preserve">
-    <value>Performs:</value>
+    <value>Aktiviert sich:</value>
     <comment>Performs:</comment>
   </data>
   <data name="SleepTimerPlayPause.Content" xml:space="preserve">
-    <value>Toggle play/pause</value>
+    <value>Zwischen Wiedergabe / Pause wechseln</value>
     <comment>Toggle play/pause</comment>
   </data>
   <data name="SleepTimerStop.Content" xml:space="preserve">
-    <value>Stop</value>
+    <value>Stoppen</value>
     <comment>Stop</comment>
   </data>
   <data name="SleepTimerShutdown.Content" xml:space="preserve">
-    <value>Shutdown app</value>
+    <value>App schließen</value>
     <comment>Shutdown app</comment>
   </data>
   <data name="AudioEffects.Text" xml:space="preserve">
-    <value>Audio Effects</value>
+    <value>Ton-Effekte</value>
     <comment>Audio Effects</comment>
   </data>
   <data name="EqualizerToggle.Header" xml:space="preserve">
@@ -1051,11 +1052,11 @@
     <comment>Equalizer</comment>
   </data>
   <data name="VolumeButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Volume</value>
+    <value>Lautstärke</value>
     <comment>Volume</comment>
   </data>
   <data name="VisualizationButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Audio Visualization</value>
+    <value>Ton-Visualisierung</value>
     <comment>Audio Visualization</comment>
   </data>
   <data name="VisualizationFlyout.Text" xml:space="preserve">

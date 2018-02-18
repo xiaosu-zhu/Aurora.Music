@@ -1153,19 +1153,14 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </animations:Implicit.HideAnimations>
             </audio:CustomVisualizer>
             <toolkit:ImageEx Margin="0,12" x:Name="Artwork" Style="{ThemeResource QuickLoadImageEx}" Visibility="{x:Bind Context.BoolNottoVisibility(Context.IsVisualizing),Mode=OneWay}"
-                             PlaceholderStretch="Uniform" Stretch="Uniform" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+                             PlaceholderStretch="Uniform" Stretch="Uniform" HorizontalAlignment="Left" VerticalAlignment="Bottom" PlaceholderSource="/Assets/Images/now_placeholder.png"
+                             Source="{x:Bind Context.CurrentArtwork,Mode=OneWay}">
                 <animations:Implicit.ShowAnimations>
                     <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.64"/>
                 </animations:Implicit.ShowAnimations>
                 <animations:Implicit.HideAnimations>
                     <animations:OpacityAnimation From="1" To="0" Duration="0:0:0.64"/>
                 </animations:Implicit.HideAnimations>
-                <toolkit:ImageEx.PlaceholderSource>
-                    <BitmapImage UriSource="{x:Bind Context.PlaceHolder,Mode=OneWay, TargetNullValue=ms-appx:///Assets/Images/now_placeholder.png}"/>
-                </toolkit:ImageEx.PlaceholderSource>
-                <toolkit:ImageEx.Source>
-                    <BitmapImage UriSource="{x:Bind Context.CurrentArtwork,Mode=OneWay, TargetNullValue=ms-appx:///Assets/Images/now_placeholder.png}"/>
-                </toolkit:ImageEx.Source>
             </toolkit:ImageEx>
             <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Stretch" Grid.Row="1">
                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" MaxLines="1"
@@ -1202,7 +1197,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </toolkit:DropShadowPanel>
                 <StackPanel Visibility="{x:Bind Context.BoolNottoVisibility(Context.Song.IsPodcast),Mode=OneWay}" Margin="0,12,0,0" Orientation="Horizontal">
                     <RatingControl Value="{x:Bind Context.CurrentRating,Mode=OneWay}" ValueChanged="RatingControl_ValueChanged" IsClearEnabled="True" VerticalAlignment="Center" IsReadOnly="False"/>
-                    <star:StarButton IsOn="{x:Bind Context.IsCurrentFavorite, Mode=TwoWay}"  HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" Margin="8,4,8,8"/>
+                    <star:StarButton IsThreeState="False" IsChecked="{x:Bind Context.IsCurrentFavorite, Mode=TwoWay}" Background="{ThemeResource SystemControlBackgroundBaseLowBrush}"
+                        Foreground="#ff4343" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" Margin="8,4,8,8"/>
                 </StackPanel>
             </StackPanel>
         </Grid>

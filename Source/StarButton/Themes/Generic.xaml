@@ -9,9 +9,106 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:StarButton">
-                    <Grid x:Name="Root" Background="{x:Null}" BorderBrush="{x:Null}" 
+                    <Grid x:Name="RootGrid" Background="{x:Null}" BorderBrush="{x:Null}" 
                           MinHeight="{TemplateBinding MinHeight}" MinWidth="{TemplateBinding MinWidth}"
                           Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" BorderThickness="0">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Icon" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame Value="{ThemeResource SystemControlBackgroundBaseLowBrush}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="PointerOver">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Icon" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame Value="{ThemeResource SystemControlHighlightBaseMediumLowBrush}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Icon" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame Value="{ThemeResource SystemControlHighlightBaseHighBrush}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Icon" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Checked">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Icon" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame Value="#ff4343"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Icon" Storyboard.TargetProperty="Opacity">
+                                            <DiscreteObjectKeyFrame Value="1"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="CheckedPointerOver">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Icon" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame Value="#ff4343"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Icon" Storyboard.TargetProperty="Opacity">
+                                            <DiscreteObjectKeyFrame Value="0.666666666"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="CheckedPressed">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Icon" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame Value="{ThemeResource SystemControlHighlightBaseMediumLowBrush}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Icon" Storyboard.TargetProperty="Opacity">
+                                            <DiscreteObjectKeyFrame Value="1"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="CheckedDisabled">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Icon"
+                                               Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Icon" Storyboard.TargetProperty="Opacity">
+                                            <DiscreteObjectKeyFrame Value="1"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Indeterminate">
+                                    <Storyboard>
+                                        <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="IndeterminatePointerOver">
+                                    <Storyboard>
+                                        <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="IndeterminatePressed">
+                                    <Storyboard>
+                                        <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="IndeterminateDisabled">
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+
                         <Grid.Resources>
                             <Storyboard x:Key="On">
                                 <ColorAnimation Storyboard.TargetName="Icon" Storyboard.TargetProperty="(FontIcon.Foreground).(SolidColorBrush.Color)" 
@@ -520,33 +617,10 @@
                                     </EasingDoubleKeyFrame>
                                 </DoubleAnimationUsingKeyFrames>
                             </Storyboard>
-                            <Storyboard x:Key="Pressed">
-                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Icon" Storyboard.TargetProperty="Foreground">
-                                    <DiscreteObjectKeyFrame Value="{ThemeResource SystemControlBackgroundBaseMediumBrush}"/>
-                                </ObjectAnimationUsingKeyFrames>
-                            </Storyboard>
-                            <Storyboard x:Key="PointerOverOff">
-                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Icon" Storyboard.TargetProperty="Foreground">
-                                    <DiscreteObjectKeyFrame Value="{ThemeResource SystemControlBackgroundBaseMediumHighBrush}"/>
-                                </ObjectAnimationUsingKeyFrames>
-                            </Storyboard>
-                            <Storyboard x:Key="PointerOverOn">
-                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Icon" Storyboard.TargetProperty="Foreground">
-                                    <DiscreteObjectKeyFrame/>
-                                </ObjectAnimationUsingKeyFrames>
-                            </Storyboard>
-                            <Storyboard x:Key="NormalOff">
-                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Icon" Storyboard.TargetProperty="Foreground">
-                                    <DiscreteObjectKeyFrame/>
-                                </ObjectAnimationUsingKeyFrames>
-                            </Storyboard>
-                            <Storyboard x:Key="NormalOn">
-                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Icon" Storyboard.TargetProperty="Foreground">
-                                    <DiscreteObjectKeyFrame/>
-                                </ObjectAnimationUsingKeyFrames>
-                            </Storyboard>
+
                             <Storyboard x:Key="Off">
-                                <ColorAnimation Storyboard.TargetName="Icon" Storyboard.TargetProperty="(FontIcon.Foreground).(SolidColorBrush.Color)">
+                                <ColorAnimation To="{ThemeResource SystemBaseLowColor}" Storyboard.TargetName="Icon" 
+                                                        Storyboard.TargetProperty="(FontIcon.Foreground).(SolidColorBrush.Color)">
                                     <ColorAnimation.EasingFunction>
                                         <QuinticEase/>
                                     </ColorAnimation.EasingFunction>
@@ -577,6 +651,7 @@
                                         </EasingDoubleKeyFrame.EasingFunction>
                                     </EasingDoubleKeyFrame>
                                 </DoubleAnimationUsingKeyFrames>
+                                <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
                             </Storyboard>
                         </Grid.Resources>
                         <FontIcon x:Name="Icon" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"

@@ -10,6 +10,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     xmlns:local="using:Aurora.Music.Controls"
     xmlns:model="using:Aurora.Music.Core.Models"
     xmlns:vm="using:Aurora.Music.ViewModels"
+    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
@@ -169,13 +170,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         </Grid.ColumnDefinitions>
 
         <Grid x:Name="ArtworkBG" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="2" Grid.RowSpan="3" Opacity="0.5">
-
             <Grid.Background>
-                <ImageBrush AlignmentX="Center" AlignmentY="Center" Stretch="UniformToFill">
-                    <ImageBrush.ImageSource>
-                        <BitmapImage DecodePixelHeight="320" DecodePixelType="Logical" UriSource="{x:Bind Context.CurrentArtwork, Mode=OneWay, TargetNullValue=ms-appx:///Assets/Images/now_placeholder.png}"/>
-                    </ImageBrush.ImageSource>
-                </ImageBrush>
+                <ImageBrush AlignmentX="Center" AlignmentY="Center" Stretch="UniformToFill" ImageSource="{x:Bind Context.CurrentArtwork, Mode=OneWay, TargetNullValue=ms-appx:///Assets/Images/now_placeholder.png}"/>
             </Grid.Background>
         </Grid>
 
@@ -185,11 +181,10 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </interactivity:Interaction.Behaviors>
         </Grid>
 
-        <Image x:Name="Artwork" Stretch="Uniform" Grid.RowSpan="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="16">
-            <Image.Source>
-                <BitmapImage UriSource="{x:Bind Context.CurrentArtwork, Mode=OneWay, TargetNullValue=ms-appx:///Assets/Images/now_placeholder.png}"/>
-            </Image.Source>
-        </Image>
+        <toolkit:ImageEx Style="{ThemeResource QuickLoadImageEx}" x:Name="Artwork" Stretch="Uniform" Grid.RowSpan="3"
+                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch" PlaceholderStretch="Uniform"
+                         PlaceholderSource="/Assets/Images/placeholder_b.png"
+                         Margin="16" Source="{x:Bind Context.CurrentArtwork, Mode=OneWay}"/>
 
         <StackPanel x:Name="ContentPanel" Grid.Row="1" Grid.Column="1" Margin="0,0,0,8" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
             <TextBlock x:Name="Title" FontWeight="Bold"

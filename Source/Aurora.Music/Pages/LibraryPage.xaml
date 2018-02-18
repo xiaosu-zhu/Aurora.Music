@@ -88,24 +88,15 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </ListView.ItemContainerTransitions>
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="vm:CategoryListItem">
-                    <Grid x:Name="Panel" HorizontalAlignment="Stretch" Height="{x:Bind GetHeight(IsCurrent), Mode=OneWay}">
-                        <ParallaxView Opacity="{x:Bind BoolToOpacity(IsCurrent),Mode=OneWay}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                                      VerticalShift="{x:Bind GetVerticalShift(IsCurrent),Mode=OneWay}" Source="{Binding ElementName=Category}">
-                            <controls:ImageGrid x:Name="CategoryBG" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                                                ImageSources="{x:Bind HeroImages,Mode=OneWay}">
-                            </controls:ImageGrid>
-                        </ParallaxView>
-                        <Grid Background="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}" 
-                              HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                            <TextBlock Margin="8" x:Name="Title" Text="{x:Bind Title}" 
-                                       Foreground="{x:Bind ChangeTextForeground(IsCurrent), Mode=OneWay}" 
-                                       HorizontalAlignment="Right" VerticalAlignment="Center" 
-                                       Style="{ThemeResource TitleTextBlockStyle}"/>
-                        </Grid>
+                    <Grid Padding="48,0,0,0" x:Name="Panel" HorizontalAlignment="Stretch" Width="320">
+                        <TextBlock x:Name="Title" Text="{x:Bind Title}" Foreground="{x:Bind ChangeTextForeground(IsCurrent), Mode=OneWay}"
+                                   HorizontalAlignment="Left" VerticalAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}"/>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
-
+            <ListView.Header>
+                <Border Height="80"/>
+            </ListView.Header>
             <ListView.Footer>
                 <Grid Height="240">
                     <Button Visibility="Collapsed" Style="{ThemeResource TextBlockButtonStyle}" Margin="0,24" FontSize="20" Content="Manage Items" HorizontalAlignment="Center" VerticalAlignment="Top"/>
@@ -128,6 +119,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <Flyout>
                     <ListView Grid.Column="0" x:Name="CategoryFlyout" IsItemClickEnabled="False" ItemsSource="{x:Bind CategoryList}" 
                               SelectionMode="Single" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                              SelectedIndex="{x:Bind Category.SelectedIndex,Mode=TwoWay}"
                               ItemContainerStyle="{StaticResource GeneralListViewItemStyle}">
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="vm:CategoryListItem">

@@ -4,6 +4,7 @@ using System.Windows.Input;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Shapes;
@@ -12,7 +13,7 @@ using Windows.UI.Xaml.Shapes;
 
 namespace StarButton
 {
-    public sealed class StarButton : Control
+    public sealed class StarButton : ToggleButton
     {
 
         public StarButton()
@@ -42,83 +43,23 @@ namespace StarButton
         {
             base.OnApplyTemplate();
             Icon = GetTemplateChild("Icon") as FontIcon;
-            Root = GetTemplateChild("Root") as Grid;
+            Root = GetTemplateChild("RootGrid") as Grid;
             Icon.Glyph = string.IsNullOrWhiteSpace(IconSymbol) ? "\uE00B" : IconSymbol.First().ToString();
             Bloom = GetTemplateChild("Bloom") as Ellipse;
-
-            Root.PointerEntered += Root_PointerEntered;
-            Root.PointerExited += Root_PointerExited;
-            Root.PointerCanceled += Root_PointerExited;
-            Root.PointerCaptureLost += Root_PointerExited;
-            Root.PointerReleased += Root_PointerReleased;
-            Root.PointerPressed += Root_PointerPressed;
         }
 
-        private void Root_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        protected override void OnToggle()
         {
-            lock (lockable)
-            {
-                (Root.Resources["Pressed"] as Storyboard).Begin();
-            }
-        }
-
-        private void Root_PointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
-            IsOn = !IsOn;
-            lock (lockable)
-            {
-                if (IsOn)
+            if (Visibility == Visibility.Visible)
+                if (IsChecked is bool b && b)
                 {
-                    var brush = new SolidColorBrush((Foreground as SolidColorBrush).Color)
-                    {
-                        Opacity = 0.666666
-                    };
-                    ((Root.Resources["PointerOverOn"] as Storyboard).Children[0] as ObjectAnimationUsingKeyFrames).KeyFrames[0].Value = brush;
-                    (Root.Resources["PointerOverOn"] as Storyboard).Begin();
+                    BeginToOff();
                 }
                 else
                 {
-                    (Root.Resources["PointerOverOff"] as Storyboard).Begin();
+                    BeginToOn();
                 }
-            }
-            Command?.Execute(null);
-        }
-
-        private void Root_PointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
-            lock (lockable)
-            {
-                if (IsOn)
-                {
-                    ((Root.Resources["NormalOn"] as Storyboard).Children[0] as ObjectAnimationUsingKeyFrames).KeyFrames[0].Value = (Foreground as SolidColorBrush);
-                    (Root.Resources["NormalOn"] as Storyboard).Begin();
-                }
-                else
-                {
-                    ((Root.Resources["NormalOff"] as Storyboard).Children[0] as ObjectAnimationUsingKeyFrames).KeyFrames[0].Value = (Background as SolidColorBrush);
-                    (Root.Resources["NormalOff"] as Storyboard).Begin();
-                }
-            }
-        }
-
-        private void Root_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
-            lock (lockable)
-            {
-                if (IsOn)
-                {
-                    var brush = new SolidColorBrush((Foreground as SolidColorBrush).Color)
-                    {
-                        Opacity = 0.666666
-                    };
-                    ((Root.Resources["PointerOverOn"] as Storyboard).Children[0] as ObjectAnimationUsingKeyFrames).KeyFrames[0].Value = brush;
-                    (Root.Resources["PointerOverOn"] as Storyboard).Begin();
-                }
-                else
-                {
-                    (Root.Resources["PointerOverOff"] as Storyboard).Begin();
-                }
-            }
+            base.OnToggle();
         }
 
         /// <summary>
@@ -142,43 +83,10 @@ namespace StarButton
             btn.Icon.Glyph = string.IsNullOrWhiteSpace(e.NewValue as string) ? "\uE00B" : (e.NewValue as string).First().ToString();
         }
 
-        public bool IsOn
-        {
-            get { return (bool)GetValue(IsOnProperty); }
-            set { SetValue(IsOnProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for IsOn.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty IsOnProperty =
-            DependencyProperty.Register("IsOn", typeof(bool), typeof(StarButton), new PropertyMetadata(false, OnIsOnChanged));
-
-        public ICommand Command { get; set; }
-
-        private static void OnIsOnChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var btn = d as StarButton;
-            if (btn.Icon == null)
-            {
-                return;
-            }
-            lock (btn.lockable)
-            {
-                if ((bool)e.NewValue)
-                {
-                    btn.BeginToOn();
-                }
-                else
-                {
-                    btn.BeginToOff();
-                }
-            }
-        }
-
-        private void BeginToOff()
+        public void BeginToOff()
         {
             var ani = Root.Resources["Off"] as Storyboard;
-            var color = ani.Children[0] as ColorAnimation;
-            color.To = (Background as SolidColorBrush).Color;
+            (ani.Children[0] as ColorAnimation).To = (Background as SolidColorBrush).Color;
             ani.Begin();
         }
 

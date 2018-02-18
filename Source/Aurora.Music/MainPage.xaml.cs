@@ -13,6 +13,7 @@ using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -53,7 +54,6 @@ namespace Aurora.Music
             this.InitializeComponent();
 
             Current = this;
-            MainFrame.Navigate(typeof(HomePage));
             SongFlyout = (Resources["SongFlyout"] as MenuFlyout);
 
             dataTransferManager = DataTransferManager.GetForCurrentView();
@@ -99,6 +99,15 @@ namespace Aurora.Music
             dataTransferManager.DataRequested += DataTransferManager_DataRequested;
 
             SystemNavigationManager.GetForCurrentView().BackRequested += MaiPage_BackRequested;
+
+            if (e.Parameter is NameValueCollection n)
+            {
+
+            }
+            else
+            {
+                MainFrame.Navigate(typeof(HomePage));
+            }
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -209,8 +218,6 @@ namespace Aurora.Music
             }
         }
 
-        private Type[] navigateOptions = { typeof(HomePage), typeof(LibraryPage) };
-
         internal async void ThrowException(Windows.UI.Xaml.UnhandledExceptionEventArgs e)
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
@@ -275,8 +282,6 @@ namespace Aurora.Music
 
         private void Toggle_PaneOpened(object sender, RoutedEventArgs e) => Root.IsPaneOpen = !Root.IsPaneOpen;
 
-        public SolidColorBrush TitleForeground(bool b) => (SolidColorBrush)(b ? Resources["SystemControlForegroundAltHighBrush"] : Resources["SystemControlForegroundBaseHighBrush"]);
-
         public void ChangeTheme()
         {
             if (MainFrame.Content is IChangeTheme iT)
@@ -285,24 +290,6 @@ namespace Aurora.Music
             }
             var ui = new UISettings();
             Context.IsDarkAccent = Palette.IsDarkColor(ui.GetColorValue(UIColorType.Accent));
-        }
-
-        private void StackPanel_PointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
-            if (Context.NowPlayingList.Count > 0 && Context.CurrentIndex >= 0)
-            {
-                OverlayFrame.Visibility = Visibility.Visible;
-                MainFrame.Visibility = Visibility.Collapsed;
-                ConnectedAnimationService.GetForCurrentView().PrepareToAnimate(Consts.NowPlayingPageInAnimation, Artwork);
-                ConnectedAnimationService.GetForCurrentView().PrepareToAnimate($"{Consts.NowPlayingPageInAnimation}_1", Title);
-                ConnectedAnimationService.GetForCurrentView().PrepareToAnimate($"{Consts.NowPlayingPageInAnimation}_2", Album).Completed += MainPage_Completed; ;
-                OverlayFrame.Navigate(typeof(NowPlayingPage), Context.NowPlayingList[Context.CurrentIndex]);
-            }
-            if (sender is Panel s)
-            {
-                (s.Resources["PointerOver"] as Storyboard).Begin();
-                e.Handled = true;
-            }
         }
 
         private void MainPage_Completed(ConnectedAnimation sender, object args)
@@ -349,14 +336,6 @@ namespace Aurora.Music
             OverlayFrame.Visibility = Visibility.Collapsed;
         }
 
-        private void StackPanel_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
-            if (sender is Panel s)
-            {
-                (s.Resources["PointerOver"] as Storyboard).Begin();
-                e.Handled = true;
-            }
-        }
 
         internal async void PopMessage(string msg)
         {
@@ -374,28 +353,6 @@ namespace Aurora.Music
                 });
             }, TimeSpan.FromMilliseconds(3000));
         }
-
-        private void StackPanel_PointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
-            if (sender is Panel s)
-            {
-                (s.Resources["Normal"] as Storyboard).Begin();
-                e.Handled = true;
-
-                s.SetValue(RevealBrush.StateProperty, RevealBrushState.Normal);
-            }
-        }
-
-        private void NavigatePanel_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
-            if (sender is Panel s)
-            {
-                (s.Resources["PointerPressed"] as Storyboard).Begin();
-                e.Handled = true;
-                s.SetValue(RevealBrush.StateProperty, RevealBrushState.Pressed);
-            }
-        }
-
         private void TitleBar_Loaded(object sender, RoutedEventArgs e)
         {
             var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
@@ -502,6 +459,18 @@ namespace Aurora.Music
             TitlebarBtm.Width = sender.SystemOverlayRightInset;
             TitleBar.Height = sender.Height;
             TitleBarOverlay.Height = sender.Height;
+        }
+
+        internal void ShowPodcast(string ID)
+        {
+            if (MainFrame.Content is LibraryPage l)
+            {
+                l.ShowPodcast(ID);
+            }
+            else
+            {
+                MainFrame.Navigate(typeof(LibraryPage), ID);
+            }
         }
 
         private async void SearchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)

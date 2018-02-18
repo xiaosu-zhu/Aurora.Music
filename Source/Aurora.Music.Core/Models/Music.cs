@@ -441,7 +441,7 @@ namespace Aurora.Music.Core.Models
         public string Comment { get; set; }
         public int ID { get; set; }
         public int SampleRate { get; set; }
-        public int AudioChannels { get; private set; }
+        public int AudioChannels { get; set; }
 
 
         public bool IsOnline { get; set; }
@@ -453,7 +453,7 @@ namespace Aurora.Music.Core.Models
         public bool IsPodcast { get; set; }
 
 
-        public string FileType { get; internal set; }
+        public string FileType { get; set; }
         public DateTime PubDate { get; set; }
 
         public async Task<bool> GetFavoriteAsync()
@@ -552,10 +552,10 @@ namespace Aurora.Music.Core.Models
         public double ReplayGainAlbumGain { get; set; }
         public double ReplayGainAlbumPeak { get; set; }
         public int ID { get; }
-        public string Desription { get; internal set; }
-        public bool IsOnline { get; internal set; }
-        public string[] OnlineIDs { get; internal set; }
-        public List<Song> SongItems { get; internal set; }
-        public string[] OnlineArtistIDs { get; internal set; }
+        public string Desription { get; set; }
+        public bool IsOnline { get; set; }
+        public string[] OnlineIDs { get; set; }
+        public List<Song> SongItems { get; set; }
+        public string[] OnlineArtistIDs { get; set; }
     }
 }

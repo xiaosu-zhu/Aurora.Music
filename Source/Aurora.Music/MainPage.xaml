@@ -941,11 +941,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="160">
                         <Grid.Background>
-                            <ImageBrush Opacity="0.1" Stretch="UniformToFill" AlignmentX="Center" AlignmentY="Center">
-                                <ImageBrush.ImageSource>
-                                    <BitmapImage DecodePixelHeight="160" DecodePixelType="Logical"
-                                                 UriSource="{x:Bind Context.CurrentArtwork, Mode=OneWay, TargetNullValue=ms-appx:///Assets/Images/pane_placeholder.png}"/>
-                                </ImageBrush.ImageSource>
+                            <ImageBrush ImageSource="{x:Bind Context.CurrentArtwork, Mode=OneWay, TargetNullValue=ms-appx:///Assets/Images/pane_placeholder.png}" 
+                                        Opacity="0.33333333" Stretch="UniformToFill" AlignmentX="Center" AlignmentY="Center">
                             </ImageBrush>
                         </Grid.Background>
                     </Grid>
@@ -1111,11 +1108,10 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                             Click="NowPanel_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <Button.Content>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Stretch">
-                                <Image Grid.Row="1" x:Name="Artwork" HorizontalAlignment="Left" VerticalAlignment="Stretch" Stretch="Uniform">
-                                    <Image.Source>
-                                        <BitmapImage DecodePixelHeight="72" DecodePixelType="Logical" UriSource="{x:Bind Context.CurrentArtwork, Mode=OneWay, TargetNullValue=ms-appx:///Assets/Images/now_placeholder.png}"/>
-                                    </Image.Source>
-                                </Image>
+                                <toolkit:ImageEx Style="{ThemeResource QuickLoadImageEx}" PlaceholderStretch="Uniform" PlaceholderSource="/Assets/Images/placeholder_b.png"
+                                                 Grid.Row="1" x:Name="Artwork" HorizontalAlignment="Left" VerticalAlignment="Stretch" Stretch="Uniform"
+                                                 Source="{x:Bind Context.CurrentArtwork,Mode=OneWay}">
+                                </toolkit:ImageEx>
                                 <StackPanel x:Name="NowPanelTexts" Margin="12,0" Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
                                     <TextBlock x:Name="Title" Text="{x:Bind Context.CurrentTitle, Mode=OneWay}" Style="{ThemeResource BaseTextBlockStyle}" MaxLines="2" TextTrimming="CharacterEllipsis" Margin="4"/>
                                     <TextBlock x:Name="Album" Text="{x:Bind Context.CurrentAlbum, Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Margin="4,0,4,4"/>

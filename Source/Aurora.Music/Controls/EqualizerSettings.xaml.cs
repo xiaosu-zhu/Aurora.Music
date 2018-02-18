@@ -40,7 +40,7 @@ namespace Aurora.Music.Controls
             Slider9.Value = Settings.Current.Gain[9];
             Presets.SelectionChanged += Presets_SelectionChanged;
 
-            if (Settings.Current.AudioGraphEffects.HasFlag(Aurora.Music.Core.Models.Effects.Equalizer))
+            if (Settings.Current.AudioGraphEffects.HasFlag(Core.Models.Effects.Equalizer))
             {
 
             }
@@ -103,6 +103,11 @@ namespace Aurora.Music.Controls
             Settings.Current.Gain = set;
 
             PlaybackEngine.PlaybackEngine.Current.ChangeEQ(set);
+        }
+
+        private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+            Settings.Current.Save();
         }
     }
 }

@@ -11,6 +11,7 @@ using Aurora.Music.PlaybackEngine;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
 using Aurora.Shared.MVVM;
+using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -24,6 +25,7 @@ using Windows.UI.Text;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Aurora.Music.ViewModels
 {
@@ -124,8 +126,8 @@ namespace Aurora.Music.ViewModels
             }
         }
 
-        private Uri currentArtwork;
-        public Uri CurrentArtwork
+        private BitmapImage currentArtwork;
+        public BitmapImage CurrentArtwork
         {
             get { return currentArtwork; }
             set { SetProperty(ref currentArtwork, value); }
@@ -698,7 +700,7 @@ namespace Aurora.Music.ViewModels
 
         private async void Player_StatusChanged(object sender, PlayingItemsChangedArgs e)
         {
-            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
             {
                 if (e.CurrentIndex == -1)
                 {
@@ -729,15 +731,16 @@ namespace Aurora.Music.ViewModels
                         }
                         else
                         {
-                            CurrentArtwork = new Uri(p.PicturePath);
+                            var u = new Uri(p.PicturePath);
+                            CurrentArtwork = u.IsLoopback ? new BitmapImage(u) : await ImageCache.Instance.GetFromCacheAsync(u);
                             lastUriPath = p.PicturePath;
                         }
                     }
                     else
                     {
-                        CurrentArtwork = null;
+                        CurrentArtwork = null; lastUriPath = string.Empty;
                     }
-                    Task.Run(() =>
+                    var task = Task.Run(() =>
                     {
                         Tile.SendNormal(CurrentTitle, CurrentAlbum, string.Join(Consts.CommaSeparator, p.Performers ?? new string[] { }), p.PicturePath);
                     });
@@ -875,7 +878,7 @@ namespace Aurora.Music.ViewModels
 
         public double BoolToOpacity(bool b)
         {
-            return b ? 1.0 : 0.1;
+            return b ? 1.0 : 0.333333333333;
         }
     }
 }

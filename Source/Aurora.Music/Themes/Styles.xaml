@@ -1785,7 +1785,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                                          BeginTime="0"
                                                          Storyboard.TargetName="Image"
                                                          Storyboard.TargetProperty="Opacity"
-                                                         From="0"
+                                                         From="0" Duration="0:0:0.64"
                                                          To="1" >
                                             <DoubleAnimation.EasingFunction>
                                                 <QuinticEase/>
@@ -1795,7 +1795,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                                          BeginTime="0"
                                                          Storyboard.TargetName="PlaceholderImage"
                                                          Storyboard.TargetProperty="Opacity"
-                                                         From="1"
+                                                         From="1" Duration="0:0:0.64"
                                                          To="0" >
                                             <DoubleAnimation.EasingFunction>
                                                 <QuinticEase/>
@@ -1803,7 +1803,35 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                         </DoubleAnimation>
                                     </Storyboard>
                                 </VisualState>
-                                <VisualState x:Name="Unloaded" />
+                                <VisualState x:Name="Unloaded">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Progress"
+                                                                       Storyboard.TargetProperty="IsActive">
+                                            <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="False" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <DoubleAnimation AutoReverse="False"
+                                                         BeginTime="0"
+                                                         Storyboard.TargetName="Image"
+                                                         Storyboard.TargetProperty="Opacity"
+                                                         From="1" Duration="0:0:0.64"
+                                                         To="0" >
+                                            <DoubleAnimation.EasingFunction>
+                                                <QuinticEase/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                        <DoubleAnimation AutoReverse="False"
+                                                         BeginTime="0"
+                                                         Storyboard.TargetName="PlaceholderImage"
+                                                         Storyboard.TargetProperty="Opacity"
+                                                         From="0" Duration="0:0:0.64"
+                                                         To="1" >
+                                            <DoubleAnimation.EasingFunction>
+                                                <QuinticEase/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
                     </Grid>

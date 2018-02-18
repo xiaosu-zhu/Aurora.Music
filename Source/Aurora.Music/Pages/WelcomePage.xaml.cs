@@ -5,6 +5,7 @@ using Aurora.Music.Core.Models;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -16,6 +17,7 @@ namespace Aurora.Music.Pages
     public sealed partial class WelcomePage : Page
     {
         private bool searchBegined;
+        private object parameter;
 
         public WelcomePage()
         {
@@ -24,6 +26,12 @@ namespace Aurora.Music.Pages
             Ani2.Stop();
             Ani1.Begin();
             Main.SelectionChanged += Main_SelectionChanged;
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            parameter = e.Parameter;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -73,7 +81,7 @@ namespace Aurora.Music.Pages
         {
             Frame rootFrame = Window.Current.Content as Frame;
 
-            rootFrame.Navigate(typeof(MainPage));
+            rootFrame.Navigate(typeof(MainPage), parameter);
         }
 
         private void Skip_Click(object sender, RoutedEventArgs e)
@@ -82,7 +90,7 @@ namespace Aurora.Music.Pages
             Settings.Current.Save();
             Frame rootFrame = Window.Current.Content as Frame;
 
-            rootFrame.Navigate(typeof(MainPage));
+            rootFrame.Navigate(typeof(MainPage), parameter);
         }
     }
 }

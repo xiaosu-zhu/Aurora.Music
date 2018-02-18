@@ -55,6 +55,9 @@ namespace Aurora.Music.Core
         public static string CommaSeparator => ommaSeparator;
 
         public static string UpdateNote =>
+                            "* **Improve**: Enabled image cache.\r\n" +
+                            "* **Improve**: Performance enhanced.\r\n" +
+                            "* **Tranlation**: Synced translation.\r\n" +
                             "* **Improve**: UI layout.\r\n" +
                             "* **New**: Added **Explore Podcast** page.\r\n" +
                             "* **New**: Added **Podcast** support.\r\n" +
