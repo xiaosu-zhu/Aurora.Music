@@ -3,16 +3,26 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using Aurora.Music.ViewModels;
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using Windows.Foundation;
+using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Navigation;
 
 //https://go.microsoft.com/fwlink/?LinkId=234236 上介绍了“用户控件”项模板
 
 namespace Aurora.Music.Controls.ListItems
 {
-    public sealed partial class SongItem : UserControl
+    public sealed partial class PlayListItem : UserControl
     {
         public SongViewModel Data
         {
@@ -35,7 +45,7 @@ namespace Aurora.Music.Controls.ListItems
 
         private static void IsMultiSelectChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is SongItem s)
+            if (d is PlayListItem s)
             {
                 s.Root.PointerCanceled -= s.Grid_PointerExited;
                 s.Root.PointerCaptureLost -= s.Grid_PointerExited;
@@ -60,7 +70,7 @@ namespace Aurora.Music.Controls.ListItems
             }
         }
 
-        public SongItem()
+        public PlayListItem()
         {
             this.InitializeComponent();
         }
@@ -135,6 +145,7 @@ namespace Aurora.Music.Controls.ListItems
 
         public event RoutedEventHandler Play;
         public event RoutedEventHandler RequestMultiSelect;
+        public event RoutedEventHandler Delete;
 
         private void PlayBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -153,6 +164,11 @@ namespace Aurora.Music.Controls.ListItems
                     PlayBtn.Visibility = Visibility.Collapsed;
                 });
             });
+        }
+
+        private void DelBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Delete?.Invoke(Data, e);
         }
     }
 }

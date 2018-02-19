@@ -46,5 +46,10 @@ namespace Aurora.Music.Core.Models
         {
             return await SQLOperator.Current().UpdatePlayListAsync(new PLAYLIST(this));
         }
+
+        public override string ToString()
+        {
+            return $"{Title} - " + (Description.IsNullorEmpty() ? "No Desc" : Description);
+        }
     }
 }

@@ -76,7 +76,23 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <Grid x:Name="Title" HorizontalAlignment="Left" VerticalAlignment="Center" Height="48">
                 <TextBlock x:Uid="Songs" Text="Songs" HorizontalAlignment="Left" VerticalAlignment="Center" 
                            FontWeight="Bold" TextWrapping="NoWrap" MaxLines="1" TextTrimming="Clip"
-                           Style="{ThemeResource SubheaderTextBlockStyle}" />
+                           Style="{ThemeResource SubheaderTextBlockStyle}" Visibility="{x:Bind SelectionModeToTitle(AlbumList.SelectionMode),Mode=OneWay}"/>
+                <CommandBar HorizontalAlignment="Left" VerticalAlignment="Stretch" 
+                            Background="Transparent" IsOpen="False" DefaultLabelPosition="Right" Visibility="{x:Bind SelectionModeToOther(AlbumList.SelectionMode),Mode=OneWay}">
+                    <AppBarButton Click="PlayAppBarButton_Click" Label="Play">
+                        <AppBarButton.Icon>
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE768;" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                    <AppBarButton Click="PlayNextAppBarButton_Click" Label="Play Next">
+                        <AppBarButton.Icon>
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE298;" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                    <AppBarButton Click="AddCollectionAppBarButton_Click" Icon="Add" Label="Add to Collection"/>
+                    <AppBarButton Click="ShareAppBarButton_Click" Icon="Share" Label="Share"/>
+                    <AppBarButton Click="CancelButton_Click" Icon="Cancel" Label="Cancel"/>
+                </CommandBar>
             </Grid>
             <Rectangle Margin="0,8" Fill="{ThemeResource SystemControlBackgroundBaseLowBrush}" Height="0.5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
             <toolkit:WrapPanel HorizontalSpacing="8" VerticalSpacing="8" x:Name="Details" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">

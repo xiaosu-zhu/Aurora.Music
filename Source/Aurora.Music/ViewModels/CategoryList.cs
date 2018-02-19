@@ -11,6 +11,7 @@ namespace Aurora.Music.ViewModels
     public class CategoryListItem : ViewModelBase
     {
         public string Title { get; set; }
+        public string Glyph { get; set; }
 
         private bool isCurrent;
         public bool IsCurrent
@@ -30,7 +31,6 @@ namespace Aurora.Music.ViewModels
         {
             return b ? 0d : -320d;
         }
-        public IList<ImageSource> HeroImages { get; set; }
         public int ID { get; internal set; }
 
         public double BoolToOpacity(bool a)

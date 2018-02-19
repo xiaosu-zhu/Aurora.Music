@@ -169,6 +169,7 @@ namespace Aurora.Music.Core.Models
 
         public void ReadXML(string res)
         {
+            Clear();
             var ment = new XmlDocument(); ment.LoadXml(res);
 
             XmlNamespaceManager ns = new XmlNamespaceManager(ment.NameTable);

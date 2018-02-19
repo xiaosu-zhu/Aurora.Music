@@ -59,7 +59,6 @@ namespace Aurora.Music.Pages
             Context.Visualizer = Visualizer;
             Visualizer.SizeChanged += Visualizer_SizeChanged;
             Visualizer.Height = 0.25 * ActualHeight;
-            MainPageViewModel.Current.IsVisualizing = true;
         }
 
         private void Visualizer_SizeChanged(object sender, SizeChangedEventArgs e)

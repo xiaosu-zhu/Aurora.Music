@@ -38,26 +38,27 @@ namespace Aurora.Music.Pages
             this.InitializeComponent();
             Current = this;
 
-            MainPageViewModel.Current.NeedShowTitle = false;
+            MainPageViewModel.Current.NeedShowTitle = Window.Current.Bounds.Width > 640;
+            MainPageViewModel.Current.Title = Consts.Localizer.GetString("LibraryText");
             MainPageViewModel.Current.LeftTopColor = Resources["SystemControlForegroundBaseHighBrush"] as SolidColorBrush;
 
             CategoryList = new ObservableCollection<CategoryListItem>() {
                 new CategoryListItem
                 {
                     Title = Consts.Localizer.GetString("SongsText"),
-                    HeroImages = new List<ImageSource>() { new BitmapImage(new Uri("ms-appx:///Assets/Images/songs.png")) },
+                    Glyph = "\uE189",
                     NavigatType = typeof(SongsPage)
                 },
                 new CategoryListItem
                 {
                     Title = Consts.Localizer.GetString("AlbumsText"),
-                    HeroImages = new List<ImageSource>() { new BitmapImage(new Uri("ms-appx:///Assets/Images/albums.png")) },
+                    Glyph = "\uE93C",
                     NavigatType = typeof(AlbumsPage)
                 },
                 new CategoryListItem
                 {
                     Title = Consts.Localizer.GetString("ArtistsText"),
-                    HeroImages = new List<ImageSource>() { new BitmapImage(new Uri("ms-appx:///Assets/Images/artists.png")) },
+                    Glyph = "\uE77B",
                     NavigatType = typeof(ArtistsPage)
                 }
             };
@@ -72,9 +73,10 @@ namespace Aurora.Music.Pages
                     {
                         CategoryList.Add(new CategoryListItem
                         {
-                            Title = playlist.Title,
-                            HeroImages = playlist.HeroArtworks == null ? null : Array.ConvertAll(playlist.HeroArtworks, x => (ImageSource)new BitmapImage(new Uri(x.IsNullorEmpty() ? Consts.BlackPlaceholder : x))).ToList(),
-                            NavigatType = typeof(PlayListPage)
+                            Title = playlist.ToString(),
+                            Glyph = "\uE142",
+                            NavigatType = typeof(PlayListPage),
+                            ID = playlist.ID
                         });
                     }
                     foreach (var podcast in podcasts)
@@ -82,7 +84,7 @@ namespace Aurora.Music.Pages
                         CategoryList.Add(new CategoryListItem
                         {
                             Title = podcast.Title,
-                            HeroImages = podcast.HeroArtworks == null ? null : new ImageSource[] { new BitmapImage(new Uri(podcast.HeroArtworks)) },
+                            Glyph = "\uE95A",
                             NavigatType = typeof(PodcastPage),
                             ID = podcast.ID
                         });
@@ -100,6 +102,72 @@ namespace Aurora.Music.Pages
                     Category.SelectedItem = item ?? CategoryList[0];
                 });
             });
+        }
+
+        internal void RemovePlayList(PlayList model)
+        {
+            var i = Category.SelectedIndex;
+            CategoryList.Remove(CategoryList.First(a => a.Title == model.Title && a.NavigatType == typeof(PlayListPage)));
+            playlists.Remove(model);
+        }
+
+        internal async Task AddPlayList(PlayListViewModel p)
+        {
+            Category.SelectionChanged -= Category_SelectionChanged;
+
+
+            CategoryList.Clear();
+            CategoryList.Add(new CategoryListItem
+            {
+                Title = Consts.Localizer.GetString("SongsText"),
+                Glyph = "\uE189",
+                NavigatType = typeof(SongsPage)
+            });
+            CategoryList.Add(new CategoryListItem
+            {
+                Title = Consts.Localizer.GetString("AlbumsText"),
+                Glyph = "\uE93C",
+                NavigatType = typeof(AlbumsPage)
+            });
+            CategoryList.Add(new CategoryListItem
+            {
+                Title = Consts.Localizer.GetString("ArtistsText"),
+                Glyph = "\uE77B",
+                NavigatType = typeof(ArtistsPage)
+            });
+
+            playlists = await SQLOperator.Current().GetPlayListBriefAsync();
+            var podcasts = await SQLOperator.Current().GetPodcastListBriefAsync();
+
+            foreach (var playlist in playlists)
+            {
+                CategoryList.Add(new CategoryListItem
+                {
+                    Title = playlist.ToString(),
+                    Glyph = "\uE142",
+                    NavigatType = typeof(PlayListPage)
+                });
+            }
+            foreach (var podcast in podcasts)
+            {
+                CategoryList.Add(new CategoryListItem
+                {
+                    Title = podcast.Title,
+                    Glyph = "\uE95A",
+                    NavigatType = typeof(PodcastPage),
+                    ID = podcast.ID
+                });
+            }
+            var item = CategoryList.FirstOrDefault(x => x.Title == Settings.Current.CategoryLastClicked);
+            if (item != default(CategoryListItem))
+            {
+                item.IsCurrent = true;
+            }
+            else
+            {
+                CategoryList[0].IsCurrent = true;
+            }
+            Category.SelectionChanged += Category_SelectionChanged;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -121,7 +189,7 @@ namespace Aurora.Music.Pages
             }
             if (item.NavigatType == typeof(PlayListPage))
             {
-                Navigate(item.NavigatType, playlists.Find(x => x.Title == (item.Title)));
+                Navigate(item.NavigatType, playlists.Find(x => x.ID == (item.ID)));
             }
             else if (item.NavigatType == typeof(PodcastPage))
             {
@@ -225,6 +293,11 @@ namespace Aurora.Music.Pages
         {
             if (int.TryParse(iD, out int i))
                 Category.SelectedIndex = CategoryList.IndexOf(CategoryList.First(a => a.ID == i));
+        }
+
+        private void VisualStateGroup_CurrentStateChanged(object sender, VisualStateChangedEventArgs e)
+        {
+            MainPageViewModel.Current.NeedShowTitle = e.NewState.Name != "Narrow";
         }
     }
 }

@@ -131,6 +131,7 @@
     <Compile Include="Models\Podcast.cs" />
     <Compile Include="Models\Settings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Storage\Downloader.cs" />
     <Compile Include="Storage\Events.cs" />
     <Compile Include="Storage\FileReader.cs" />
     <Compile Include="Storage\FileTracker.cs" />

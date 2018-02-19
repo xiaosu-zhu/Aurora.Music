@@ -1382,5 +1382,10 @@ namespace Aurora.Music.Core.Storage
         {
             await conn.QueryAsync<int>("DELETE FROM ALBUM WHERE SONGS IS NULL");
         }
+
+        public async Task RemovePlayListAsync(int iD)
+        {
+            await conn.QueryAsync<int>("DELETE FROM PLAYLIST WHERE ID=?",iD);
+        }
     }
 }

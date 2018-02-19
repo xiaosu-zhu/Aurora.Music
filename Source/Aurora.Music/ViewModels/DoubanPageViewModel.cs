@@ -387,6 +387,10 @@ namespace Aurora.Music.ViewModels
             await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
                 IsPlaying = e.PlaybackStatus == Windows.Media.Playback.MediaPlaybackState.Playing;
+                if (e.PlaybackStatus == Windows.Media.Playback.MediaPlaybackState.Playing)
+                {
+                    MainPageViewModel.Current.IsVisualizing = true;
+                }
             });
         }
 
@@ -517,6 +521,10 @@ namespace Aurora.Music.ViewModels
                                 }
                             }
                         });
+                    }
+                    else
+                    {
+                        MainPageViewModel.Current.IsVisualizing = false;
                     }
                 }
             });

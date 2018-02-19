@@ -4,7 +4,7 @@ Copyright (c) Aurora Studio. All rights reserved.
 Licensed under the MIT License. See LICENSE in the project root for license information.
 -->
 <UserControl
-    x:Class="Aurora.Music.Controls.ListItems.SongItem"
+    x:Class="Aurora.Music.Controls.ListItems.PlayListItem"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Aurora.Music.Controls.ListItems"
@@ -142,9 +142,10 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <Button Click="PlayBtn_Click" x:Load="False" Visibility="Collapsed" Grid.RowSpan="2" x:Name="PlayBtn" Grid.Column="1" Style="{ThemeResource NoBorderButton}" Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="48">
                 <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE102;" />
             </Button>
-            <star:StarButton Grid.RowSpan="2" x:Name="FavBtn" Grid.Column="2" IsThreeState="False"
-                             IsChecked="{x:Bind Data.Favorite, Mode=TwoWay}" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                             FontSize="18" Margin="12,0"/>
+            <Button Click="DelBtn_Click" Grid.RowSpan="2" x:Name="DelBtn" Grid.Column="2" Foreground="{ThemeResource ButtonDisabledForegroundThemeBrush}" 
+                    Style="{ThemeResource NoBorderButton}" Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="48">
+                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xECC9;" />
+            </Button>
         </Grid>
         <TextBlock x:Name="Album" Grid.Column="2" Margin="4" Text="{x:Bind Data.Album,Mode=OneWay}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"
                    Foreground="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}"

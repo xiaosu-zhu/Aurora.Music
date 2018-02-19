@@ -4,6 +4,7 @@
 using Aurora.Music.Core;
 using Aurora.Music.Core.Models;
 using Aurora.Music.Core.Storage;
+using Aurora.Music.Pages;
 using Aurora.Shared.MVVM;
 using System;
 using System.Collections.Generic;
@@ -68,6 +69,18 @@ namespace Aurora.Music.ViewModels
             }
         }
 
+        public DelegateCommand Delete
+        {
+            get
+            {
+                return new DelegateCommand(async () =>
+                {
+                    await SQLOperator.Current().RemovePlayListAsync(Model.ID);
+                    LibraryPage.Current.RemovePlayList(Model);
+                });
+            }
+        }
+
         public PlayList Model { get; private set; }
 
         public async Task GetSongsAsync(PlayList model)
@@ -107,7 +120,13 @@ namespace Aurora.Music.ViewModels
                 }
             });
         }
-        
+
+        internal async Task DeleteSong(SongViewModel songViewModel)
+        {
+            Model.SongsID = Model.SongsID.Where(a => a != songViewModel.ID).ToArray();
+            await Model.SaveAsync();
+        }
+
         internal async void ChangeSort(int selectedIndex)
         {
             SongsList.Clear();

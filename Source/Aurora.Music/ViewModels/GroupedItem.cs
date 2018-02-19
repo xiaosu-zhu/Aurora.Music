@@ -7,15 +7,14 @@ using Aurora.Shared.Helpers;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Windows.Globalization.Collation;
 
 namespace Aurora.Music.ViewModels
 {
-    public class GroupedItem<T> : IGrouping<string, T>, IEnumerable<T> where T : IKey
+    public class GroupedItem<T> : ObservableCollection<T>, IGrouping<string, T> where T : IKey
     {
-        private List<T> list;
-
         public string Key { get; }
 
         public override string ToString()
@@ -27,47 +26,33 @@ namespace Aurora.Music.ViewModels
             return Key;
         }
 
-        public IEnumerator<T> GetEnumerator()
-        {
-            return list?.GetEnumerator();
-        }
-
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return list?.GetEnumerator();
+            return GetEnumerator();
         }
 
         public GroupedItem()
         {
-            list = new List<T>();
         }
 
-        public GroupedItem(string key, IEnumerable<T> items)
+        public GroupedItem(string key, IEnumerable<T> items) : base(items)
         {
             Key = key;
-            list = new List<T>();
-            list.AddRange(items);
         }
 
-        public GroupedItem(IGrouping<string, T> group)
+        public GroupedItem(IGrouping<string, T> group) : base(group)
         {
             Key = group.Key;
-            list = new List<T>();
-            list.AddRange(group);
         }
 
-        public GroupedItem(IGrouping<int, T> group)
+        public GroupedItem(IGrouping<int, T> group) : base(group)
         {
             Key = group.Key.ToString("#", CultureInfoHelper.CurrentCulture);
-            list = new List<T>();
-            list.AddRange(group);
         }
 
-        public GroupedItem(IGrouping<uint, T> group)
+        public GroupedItem(IGrouping<uint, T> group) : base(group)
         {
             Key = group.Key.ToString("#", CultureInfoHelper.CurrentCulture);
-            list = new List<T>();
-            list.AddRange(group);
         }
 
         /// <summary>

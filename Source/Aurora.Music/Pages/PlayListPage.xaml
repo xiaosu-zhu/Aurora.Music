@@ -300,7 +300,24 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         <StackPanel Orientation="Vertical" x:Name="HeaderGroup" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="32">
             <Grid x:Name="Title" HorizontalAlignment="Left" VerticalAlignment="Center" Height="48">
                 <TextBlock Text="{x:Bind Context.Title,Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold"
-                           TextWrapping="NoWrap" MaxLines="1" Style="{ThemeResource SubheaderTextBlockStyle}" TextTrimming="Clip"/>
+                           TextWrapping="NoWrap" MaxLines="1" Style="{ThemeResource SubheaderTextBlockStyle}" TextTrimming="Clip" 
+                           Visibility="{x:Bind SelectionModeToTitle(AlbumList.SelectionMode),Mode=OneWay}"/>
+                <CommandBar HorizontalAlignment="Left" VerticalAlignment="Stretch" 
+                            Background="Transparent" IsOpen="False" DefaultLabelPosition="Right" Visibility="{x:Bind SelectionModeToOther(AlbumList.SelectionMode),Mode=OneWay}">
+                    <AppBarButton Click="PlayAppBarButton_Click" Label="Play">
+                        <AppBarButton.Icon>
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE768;" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                    <AppBarButton Click="PlayNextAppBarButton_Click" Label="Play Next">
+                        <AppBarButton.Icon>
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE298;" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                    <AppBarButton Click="AddCollectionAppBarButton_Click" Icon="Add" Label="Add to Collection"/>
+                    <AppBarButton Click="ShareAppBarButton_Click" Icon="Share" Label="Share"/>
+                    <AppBarButton Click="CancelButton_Click" Icon="Cancel" Label="Cancel"/>
+                </CommandBar>
             </Grid>
             <Rectangle Margin="0,8" Fill="{ThemeResource SystemControlBackgroundBaseLowBrush}" Height="0.5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
             <toolkit:WrapPanel HorizontalSpacing="8" VerticalSpacing="8" Grid.Row="1" x:Name="Details" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
@@ -328,6 +345,22 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <ComboBoxItem x:Uid="Artist" Tag="Artists">Artist</ComboBoxItem>
                     <ComboBoxItem x:Uid="Year" Tag="Year">Year</ComboBoxItem>
                 </ComboBox>
+                <Button x:Name="DeleteBtn" Style="{ThemeResource TextBlockButtonStyle}">
+                    <Button.Content>
+                        <TextBlock>
+                            <Run FontSize="13" FontFamily="Segoe MDL2 Assets" Text="&#xE107;" />
+                            <Run Text="Delete"/>
+                        </TextBlock>
+                    </Button.Content>
+                    <Button.Flyout>
+                        <Flyout>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="This action can't restore"/>
+                                <Button Background="#ff4343" Foreground="White" Content="Confirm Delete" Command="{x:Bind Context.Delete}"/>
+                            </StackPanel>
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
             </toolkit:WrapPanel>
         </StackPanel>
         <SemanticZoom Grid.Row="1">
@@ -368,7 +401,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     </ListView.GroupStyle>
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="vm:SongViewModel">
-                            <list:SongItem Data="{x:Bind }" Play="PlayBtn_Click"/>
+                            <list:PlayListItem Data="{x:Bind }" Play="PlayBtn_Click" Delete="DelBtn_Click" RequestMultiSelect="SongItem_RequestMultiSelect"/>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                     <ListView.Footer>

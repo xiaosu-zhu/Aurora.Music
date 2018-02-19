@@ -55,15 +55,18 @@ namespace Aurora.Music.Core
         public static string CommaSeparator => ommaSeparator;
 
         public static string UpdateNote =>
+                            "* **New**: Added a simple share function.\r\n" +
+                            "* **New**: Added multi-select support in *Songs* and *Playlist* pages.\r\n" +
+                            "* **Improve**: Now you can delete items in *Playlit*, or delete a whole *Playlit*.\r\n" +
+                            "* **Improve**: UI layout.\r\n" +
+                            "* **Fix**: Fixed an issue that equalizer settings don't restore after re-launching app.\r\n" +
+                            "* **Fix**: Fixed an issue when applying equalizer on music that higher than 96KHz causes output weird.\r\n" +
                             "* **Improve**: Enabled image cache.\r\n" +
                             "* **Improve**: Performance enhanced.\r\n" +
                             "* **Tranlation**: Synced translation.\r\n" +
-                            "* **Improve**: UI layout.\r\n" +
                             "* **New**: Added **Explore Podcast** page.\r\n" +
                             "* **New**: Added **Podcast** support.\r\n" +
-                            "* **New**: Added *Podcast* section *Settings - Podcast*.\r\n" +
-                            "* **Improve**: Performance enhanced.\r\n" +
-                            "* **Tranlation**: Synced translation.";
+                            "* **New**: Added *Podcast* section *Settings - Podcast*.\r\n";
 
         public static string UpdateNoteTitle => localizer.GetString("UpdateNoteTitle");
 

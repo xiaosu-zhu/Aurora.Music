@@ -28,8 +28,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <Style x:Key="MainPageSplitViewStyle" TargetType="SplitView">
                 <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                 <Setter Property="VerticalContentAlignment" Value="Stretch"/>
-                <Setter Property="OpenPaneLength" Value="{ThemeResource SplitViewOpenPaneThemeLength}"/>
-                <Setter Property="PaneBackground" Value="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}"/>
+                <Setter Property="OpenPaneLength" Value="320"/>
+                <Setter Property="PaneBackground" Value="{ThemeResource SystemControlAltTranslucentAcrylicWindowBrush}"/>
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="SplitView">
@@ -51,18 +51,18 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                                     </ObjectAnimationUsingKeyFrames>
                                                     <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PaneTransform" Storyboard.TargetProperty="TranslateX">
                                                         <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="{Binding TemplateSettings.NegativeOpenPaneLength, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
-                                                        <SplineDoubleKeyFrame KeySpline="0.23,1 0.32,1" KeyTime="0:0:0.35" Value="0"/>
+                                                        <SplineDoubleKeyFrame KeySpline="0.23,1 0.32,1" KeyTime="0:0:0.64" Value="0"/>
                                                     </DoubleAnimationUsingKeyFrames>
                                                     <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PaneClipRectangleTransform" Storyboard.TargetProperty="TranslateX">
                                                         <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="{Binding TemplateSettings.OpenPaneLength, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
-                                                        <SplineDoubleKeyFrame KeySpline="0.23,1 0.32,1" KeyTime="0:0:0.35" Value="0"/>
+                                                        <SplineDoubleKeyFrame KeySpline="0.23,1 0.32,1" KeyTime="0:0:0.64" Value="0"/>
                                                     </DoubleAnimationUsingKeyFrames>
                                                     <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LightDismissLayer" Storyboard.TargetProperty="Visibility">
                                                         <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible"/>
                                                     </ObjectAnimationUsingKeyFrames>
                                                     <DoubleAnimationUsingKeyFrames Storyboard.TargetName="LightDismissLayer" Storyboard.TargetProperty="Opacity">
                                                         <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="0.0"/>
-                                                        <SplineDoubleKeyFrame KeySpline="0.23,1 0.32,1" KeyTime="0:0:0.35" Value="1.0"/>
+                                                        <SplineDoubleKeyFrame KeySpline="0.23,1 0.32,1" KeyTime="0:0:0.64" Value="1.0"/>
                                                     </DoubleAnimationUsingKeyFrames>
                                                 </Storyboard>
                                             </VisualTransition>
@@ -82,18 +82,18 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                                     </ObjectAnimationUsingKeyFrames>
                                                     <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PaneTransform" Storyboard.TargetProperty="TranslateX">
                                                         <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="{Binding TemplateSettings.OpenPaneLength, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
-                                                        <SplineDoubleKeyFrame KeySpline="0.23,1 0.32,1" KeyTime="0:0:0.35" Value="0"/>
+                                                        <SplineDoubleKeyFrame KeySpline="0.23,1 0.32,1" KeyTime="0:0:0.64" Value="0"/>
                                                     </DoubleAnimationUsingKeyFrames>
                                                     <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PaneClipRectangleTransform" Storyboard.TargetProperty="TranslateX">
                                                         <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="{Binding TemplateSettings.NegativeOpenPaneLength, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
-                                                        <SplineDoubleKeyFrame KeySpline="0.23,1 0.32,1" KeyTime="0:0:0.35" Value="0"/>
+                                                        <SplineDoubleKeyFrame KeySpline="0.23,1 0.32,1" KeyTime="0:0:0.64" Value="0"/>
                                                     </DoubleAnimationUsingKeyFrames>
                                                     <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LightDismissLayer" Storyboard.TargetProperty="Visibility">
                                                         <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible"/>
                                                     </ObjectAnimationUsingKeyFrames>
                                                     <DoubleAnimationUsingKeyFrames Storyboard.TargetName="LightDismissLayer" Storyboard.TargetProperty="Opacity">
                                                         <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="0.0"/>
-                                                        <SplineDoubleKeyFrame KeySpline="0.23,1 0.32,1" KeyTime="0:0:0.35" Value="1.0"/>
+                                                        <SplineDoubleKeyFrame KeySpline="0.23,1 0.32,1" KeyTime="0:0:0.64" Value="1.0"/>
                                                     </DoubleAnimationUsingKeyFrames>
                                                 </Storyboard>
                                             </VisualTransition>
@@ -116,14 +116,14 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                                     </ObjectAnimationUsingKeyFrames>
                                                     <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PaneClipRectangleTransform" Storyboard.TargetProperty="TranslateX">
                                                         <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="{Binding TemplateSettings.NegativeOpenPaneLengthMinusCompactLength, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
-                                                        <SplineDoubleKeyFrame KeySpline="0.23,1 0.32,1" KeyTime="0:0:0.35" Value="0"/>
+                                                        <SplineDoubleKeyFrame KeySpline="0.23,1 0.32,1" KeyTime="0:0:0.64" Value="0"/>
                                                     </DoubleAnimationUsingKeyFrames>
                                                     <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LightDismissLayer" Storyboard.TargetProperty="Visibility">
                                                         <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible"/>
                                                     </ObjectAnimationUsingKeyFrames>
                                                     <DoubleAnimationUsingKeyFrames Storyboard.TargetName="LightDismissLayer" Storyboard.TargetProperty="Opacity">
                                                         <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="0.0"/>
-                                                        <SplineDoubleKeyFrame KeySpline="0.23,1 0.32,1" KeyTime="0:0:0.35" Value="1.0"/>
+                                                        <SplineDoubleKeyFrame KeySpline="0.23,1 0.32,1" KeyTime="0:0:0.64" Value="1.0"/>
                                                     </DoubleAnimationUsingKeyFrames>
                                                 </Storyboard>
                                             </VisualTransition>
@@ -152,14 +152,14 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                                     </ObjectAnimationUsingKeyFrames>
                                                     <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PaneClipRectangleTransform" Storyboard.TargetProperty="TranslateX">
                                                         <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="{Binding TemplateSettings.OpenPaneLengthMinusCompactLength, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
-                                                        <SplineDoubleKeyFrame KeySpline="0.23,1 0.32,1" KeyTime="0:0:0.35" Value="0"/>
+                                                        <SplineDoubleKeyFrame KeySpline="0.23,1 0.32,1" KeyTime="0:0:0.64" Value="0"/>
                                                     </DoubleAnimationUsingKeyFrames>
                                                     <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LightDismissLayer" Storyboard.TargetProperty="Visibility">
                                                         <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible"/>
                                                     </ObjectAnimationUsingKeyFrames>
                                                     <DoubleAnimationUsingKeyFrames Storyboard.TargetName="LightDismissLayer" Storyboard.TargetProperty="Opacity">
                                                         <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="0.0"/>
-                                                        <SplineDoubleKeyFrame KeySpline="0.23,1 0.32,1" KeyTime="0:0:0.35" Value="1.0"/>
+                                                        <SplineDoubleKeyFrame KeySpline="0.23,1 0.32,1" KeyTime="0:0:0.64" Value="1.0"/>
                                                     </DoubleAnimationUsingKeyFrames>
                                                 </Storyboard>
                                             </VisualTransition>
@@ -172,17 +172,17 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                                         <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible"/>
                                                     </ObjectAnimationUsingKeyFrames>
                                                     <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PaneTransform" Storyboard.TargetProperty="TranslateX">
-                                                        <SplineDoubleKeyFrame KeySpline="0.23,1 0.32,1" KeyTime="0:0:0.12" Value="{Binding TemplateSettings.NegativeOpenPaneLength, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+                                                        <SplineDoubleKeyFrame KeySpline="0.23,1 0.32,1" KeyTime="0:0:0.16" Value="{Binding TemplateSettings.NegativeOpenPaneLength, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
                                                     </DoubleAnimationUsingKeyFrames>
                                                     <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PaneClipRectangleTransform" Storyboard.TargetProperty="TranslateX">
-                                                        <SplineDoubleKeyFrame KeySpline="0.23,1 0.32,1" KeyTime="0:0:0.12" Value="{Binding TemplateSettings.OpenPaneLength, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+                                                        <SplineDoubleKeyFrame KeySpline="0.23,1 0.32,1" KeyTime="0:0:0.16" Value="{Binding TemplateSettings.OpenPaneLength, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
                                                     </DoubleAnimationUsingKeyFrames>
                                                     <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LightDismissLayer" Storyboard.TargetProperty="Visibility">
                                                         <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible"/>
                                                     </ObjectAnimationUsingKeyFrames>
                                                     <DoubleAnimationUsingKeyFrames Storyboard.TargetName="LightDismissLayer" Storyboard.TargetProperty="Opacity">
                                                         <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1.0"/>
-                                                        <SplineDoubleKeyFrame KeySpline="0.23,1 0.32,1" KeyTime="0:0:0.12" Value="0.0"/>
+                                                        <SplineDoubleKeyFrame KeySpline="0.23,1 0.32,1" KeyTime="0:0:0.16" Value="0.0"/>
                                                     </DoubleAnimationUsingKeyFrames>
                                                 </Storyboard>
                                             </VisualTransition>
@@ -201,17 +201,17 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                                         <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible"/>
                                                     </ObjectAnimationUsingKeyFrames>
                                                     <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PaneTransform" Storyboard.TargetProperty="TranslateX">
-                                                        <SplineDoubleKeyFrame KeySpline="0.23,1 0.32,1" KeyTime="0:0:0.12" Value="{Binding TemplateSettings.OpenPaneLength, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+                                                        <SplineDoubleKeyFrame KeySpline="0.23,1 0.32,1" KeyTime="0:0:0.16" Value="{Binding TemplateSettings.OpenPaneLength, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
                                                     </DoubleAnimationUsingKeyFrames>
                                                     <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PaneClipRectangleTransform" Storyboard.TargetProperty="TranslateX">
-                                                        <SplineDoubleKeyFrame KeySpline="0.23,1 0.32,1" KeyTime="0:0:0.12" Value="{Binding TemplateSettings.NegativeOpenPaneLength, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+                                                        <SplineDoubleKeyFrame KeySpline="0.23,1 0.32,1" KeyTime="0:0:0.16" Value="{Binding TemplateSettings.NegativeOpenPaneLength, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
                                                     </DoubleAnimationUsingKeyFrames>
                                                     <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LightDismissLayer" Storyboard.TargetProperty="Visibility">
                                                         <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible"/>
                                                     </ObjectAnimationUsingKeyFrames>
                                                     <DoubleAnimationUsingKeyFrames Storyboard.TargetName="LightDismissLayer" Storyboard.TargetProperty="Opacity">
                                                         <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1.0"/>
-                                                        <SplineDoubleKeyFrame KeySpline="0.23,1 0.32,1" KeyTime="0:0:0.12" Value="0.0"/>
+                                                        <SplineDoubleKeyFrame KeySpline="0.23,1 0.32,1" KeyTime="0:0:0.16" Value="0.0"/>
                                                     </DoubleAnimationUsingKeyFrames>
                                                 </Storyboard>
                                             </VisualTransition>
@@ -234,14 +234,14 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                                     </ObjectAnimationUsingKeyFrames>
                                                     <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PaneClipRectangleTransform" Storyboard.TargetProperty="TranslateX">
                                                         <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="0"/>
-                                                        <SplineDoubleKeyFrame KeySpline="0.23,1 0.32,1" KeyTime="0:0:0.12" Value="{Binding TemplateSettings.NegativeOpenPaneLengthMinusCompactLength, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+                                                        <SplineDoubleKeyFrame KeySpline="0.23,1 0.32,1" KeyTime="0:0:0.16" Value="{Binding TemplateSettings.NegativeOpenPaneLengthMinusCompactLength, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
                                                     </DoubleAnimationUsingKeyFrames>
                                                     <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LightDismissLayer" Storyboard.TargetProperty="Visibility">
                                                         <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible"/>
                                                     </ObjectAnimationUsingKeyFrames>
                                                     <DoubleAnimationUsingKeyFrames Storyboard.TargetName="LightDismissLayer" Storyboard.TargetProperty="Opacity">
                                                         <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1.0"/>
-                                                        <SplineDoubleKeyFrame KeySpline="0.23,1 0.32,1" KeyTime="0:0:0.12" Value="0.0"/>
+                                                        <SplineDoubleKeyFrame KeySpline="0.23,1 0.32,1" KeyTime="0:0:0.16" Value="0.0"/>
                                                     </DoubleAnimationUsingKeyFrames>
                                                 </Storyboard>
                                             </VisualTransition>
@@ -270,14 +270,14 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                                     </ObjectAnimationUsingKeyFrames>
                                                     <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PaneClipRectangleTransform" Storyboard.TargetProperty="TranslateX">
                                                         <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="0"/>
-                                                        <SplineDoubleKeyFrame KeySpline="0.23,1 0.32,1" KeyTime="0:0:0.12" Value="{Binding TemplateSettings.OpenPaneLengthMinusCompactLength, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+                                                        <SplineDoubleKeyFrame KeySpline="0.23,1 0.32,1" KeyTime="0:0:0.16" Value="{Binding TemplateSettings.OpenPaneLengthMinusCompactLength, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
                                                     </DoubleAnimationUsingKeyFrames>
                                                     <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LightDismissLayer" Storyboard.TargetProperty="Visibility">
                                                         <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible"/>
                                                     </ObjectAnimationUsingKeyFrames>
                                                     <DoubleAnimationUsingKeyFrames Storyboard.TargetName="LightDismissLayer" Storyboard.TargetProperty="Opacity">
                                                         <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1.0"/>
-                                                        <SplineDoubleKeyFrame KeySpline="0.23,1 0.32,1" KeyTime="0:0:0.12" Value="0.0"/>
+                                                        <SplineDoubleKeyFrame KeySpline="0.23,1 0.32,1" KeyTime="0:0:0.16" Value="0.0"/>
                                                     </DoubleAnimationUsingKeyFrames>
                                                 </Storyboard>
                                             </VisualTransition>
@@ -594,17 +594,17 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         FocusVisualSecondaryBrush="{TemplateBinding FocusVisualSecondaryBrush}"
                         FocusVisualSecondaryThickness="{TemplateBinding FocusVisualSecondaryThickness}"
                         SelectionCheckMarkVisualEnabled="{ThemeResource ListViewItemSelectionCheckMarkVisualEnabled}"
-                        CheckBrush="Transparent"
+                        CheckBrush="{ThemeResource ListViewItemCheckThemeBrush}"
                         CheckBoxBrush="{ThemeResource ListViewItemCheckBoxBrush}"
                         DragBackground="{ThemeResource ListViewItemDragBackground}"
                         DragForeground="{ThemeResource ListViewItemDragForeground}"
                         FocusBorderBrush="{ThemeResource ListViewItemFocusBorderBrush}"
                         FocusSecondaryBorderBrush="{ThemeResource ListViewItemFocusSecondaryBorderBrush}"
                         PlaceholderBackground="{ThemeResource ListViewItemPlaceholderBackground}"
-                        PointerOverBackground="{ThemeResource SystemControlHighlightAltTransparentBrush}"
-                        PointerOverForeground="{ThemeResource SystemControlForegroundAltHighBrush}"
-                        SelectedBackground="Transparent"
-                        SelectedForeground="{ThemeResource ListViewItemForegroundSelected}"
+                        PointerOverBackground="Transparent"
+                        PointerOverForeground="{ThemeResource AccentForText}"
+                        SelectedBackground="{ThemeResource SystemControlAccentDark2AcrylicWindowAccentDark2MediumHighBrush}"
+                        SelectedForeground="{ThemeResource SystemControlForegroundAltHighBrush}"
                         SelectedPointerOverBackground="{ThemeResource SystemControlBackgroundAccentBrush}"
                         PressedBackground="{ThemeResource SystemControlHighlightAltTransparentBrush}"
                         SelectedPressedBackground="{ThemeResource SystemControlBackgroundAccentBrush}"
@@ -872,7 +872,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         </TransitionCollection>
     </Page.Transitions>
 
-    <SplitView AllowDrop="True" DragOver="Root_DragOver" Drop="Root_Drop" OpenPaneLength="320" x:Name="Root" Background="{x:Null}" Style="{StaticResource MainPageSplitViewStyle}" DisplayMode="Overlay" >
+    <SplitView AllowDrop="True" DragOver="Root_DragOver" Drop="Root_Drop" OpenPaneLength="320" x:Name="Root" Background="{x:Null}" 
+               Style="{StaticResource MainPageSplitViewStyle}" DisplayMode="CompactOverlay" >
 
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
@@ -938,83 +939,86 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="160">
-                        <Grid.Background>
+                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="80">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="48"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Border Visibility="{x:Bind Root.IsPaneOpen,Mode=OneWay}" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <animations:Implicit.ShowAnimations>
+                            <animations:TranslationAnimation From="-320,0,0" To="0,0,0" Duration="0:0:0.64"/>
+                        </animations:Implicit.ShowAnimations>
+                        <animations:Implicit.HideAnimations>
+                            <animations:TranslationAnimation To="-320,0,0" From="0,0,0" Duration="0:0:0.16"/>
+                        </animations:Implicit.HideAnimations>
+                        <Border.Background>
                             <ImageBrush ImageSource="{x:Bind Context.CurrentArtwork, Mode=OneWay, TargetNullValue=ms-appx:///Assets/Images/pane_placeholder.png}" 
                                         Opacity="0.33333333" Stretch="UniformToFill" AlignmentX="Center" AlignmentY="Center">
                             </ImageBrush>
-                        </Grid.Background>
-                    </Grid>
-                    <Button x:Uid="Collapse" Style="{ThemeResource MainPageHamStyle}" Background="Transparent" ToolTipService.ToolTip="Collapse"
+                        </Border.Background>
+                    </Border>
+                    <Border Visibility="{x:Bind Root.IsPaneOpen,Mode=OneWay}" Background="{ThemeResource SystemControlBackgroundAltMediumLowBrush}" 
+                            Grid.ColumnSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <animations:Implicit.ShowAnimations>
+                            <animations:TranslationAnimation From="-320,0,0" To="0,0,0" Duration="0:0:0.64"/>
+                        </animations:Implicit.ShowAnimations>
+                        <animations:Implicit.HideAnimations>
+                            <animations:TranslationAnimation To="-320,0,0" From="0,0,0" Duration="0:0:0.16"/>
+                        </animations:Implicit.HideAnimations>
+                    </Border>
+                    <Button Style="{ThemeResource MainPageHamStyle}" Background="Transparent" ToolTipService.ToolTip="{x:Bind Context.CurrentTitle, Mode=OneWay}"
                         HorizontalAlignment="Left" VerticalAlignment="Top" Click="Toggle_PaneOpened"
                         Margin="0,32,0,0" Width="48" Height="48">
                         <Button.Content>
-                            <FontIcon Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" FontFamily="Segoe MDL2 Assets" Glyph="&#xE112;" />
+                            <FontIcon Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" FontFamily="Segoe MDL2 Assets" Glyph="&#xE700;" />
                         </Button.Content>
                     </Button>
-                    <TextBlock x:Uid="Now" Visibility="{x:Bind Context.NullableBooltoVisibility(Context.IsPlaying), Mode=OneWay}" 
-                           OpticalMarginAlignment="None" Margin="60,32,0,0" 
-                           Style="{ThemeResource SubheaderTextBlockStyle}"
-                           Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" 
-                               HorizontalAlignment="Left" VerticalAlignment="Top" 
-                           FontWeight="Bold" Text="Now"/>
-                    <StackPanel Visibility="{x:Bind Context.NullableBooltoVisibility(Context.IsPlaying), Mode=OneWay}" 
-                                Background="{ThemeResource SystemControlAltMediumLowAcrylicElementMediumBrush}" Orientation="Horizontal" 
-                                HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                        <TextBlock MaxLines="1" TextWrapping="NoWrap" TextTrimming="Clip" x:Name="NowPlayingTitle" 
-                                   Margin="8" TextAlignment="Right" Text="{x:Bind Context.CurrentTitle, Mode=OneWay}" 
+                    <Viewbox Grid.Column="1" Margin="8,32,8,0" Height="48" HorizontalAlignment="Left" VerticalAlignment="Stretch" Stretch="Uniform">
+                        <TextBlock MaxLines="1" TextWrapping="NoWrap" TextTrimming="None" x:Name="NowPlayingTitle" Margin="0,8"
+                                   TextAlignment="Left" Text="{x:Bind Context.CurrentTitle, Mode=OneWay}" FontWeight="Bold"
                                    Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" Style="{ThemeResource TitleTextBlockStyle}" 
-                                   HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE189;" Margin="8" 
-                                  Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" 
-                                  HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </StackPanel>
+                                   HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+                    </Viewbox>
                 </Grid>
                 <ListView x:Name="HamPane" SelectionMode="None" IsItemClickEnabled="True" ItemClick="ListView_ItemClick" 
                           ItemsSource="{x:Bind Context.HamList}" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                           ItemContainerStyle="{ThemeResource PaneListItemStyle}">
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="vm:HamPanelItem">
-                            <Grid Height="160">
-                                <Grid.Background>
-                                    <ImageBrush Opacity="{x:Bind BoolToOpacity(IsCurrent),Mode=OneWay}" AlignmentX="Center" AlignmentY="Center" Stretch="UniformToFill">
-                                        <ImageBrush.ImageSource>
-                                            <BitmapImage UriSource="{x:Bind BG}" DecodePixelHeight="160" DecodePixelType="Logical"/>
-                                        </ImageBrush.ImageSource>
-                                    </ImageBrush>
-                                </Grid.Background>
-                                <StackPanel Background="{ThemeResource SystemControlAltMediumLowAcrylicElementMediumBrush}" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                                    <TextBlock Margin="8" TextAlignment="Right" Text="{x:Bind Title}" Foreground="{x:Bind ChangeTextForeground(IsCurrent), Mode=OneWay}" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="{x:Bind ChangeWeight(IsCurrent), Mode=OneWay}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Icon}" Margin="8" Foreground="{x:Bind ChangeForeground(IsCurrent), Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </StackPanel>
+                            <Grid Background="{ThemeResource SystemControlTransparentBrush}" 
+                                  Height="48" x:Name="Panel" HorizontalAlignment="Stretch" Width="320" 
+                                  ToolTipService.ToolTip="{x:Bind Title}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="48"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <FontIcon HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Icon}" Foreground="{x:Bind ChangeForeground(IsCurrent),Mode=OneWay}"/>
+                                <TextBlock Margin="8,0" Grid.Column="1" x:Name="Title" Text="{x:Bind Title}" Foreground="{x:Bind ChangeForeground(IsCurrent),Mode=OneWay}"
+                                   HorizontalAlignment="Left" VerticalAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}"/>
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-                <Grid Grid.Row="2" >
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="auto"/>
-                    </Grid.ColumnDefinitions>
-                    <Button Height="48" Command="{x:Bind Context.GotoSettings}" Click="Button_Click" Padding="0" VerticalContentAlignment="Center"
-                            HorizontalContentAlignment="Left" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                            Style="{ThemeResource RevealRectangleButton}" BorderThickness="0" >
+                <StackPanel HorizontalAlignment="Left" VerticalAlignment="Stretch" Grid.Row="2" Orientation="{x:Bind PaneToOrientation(Root.IsPaneOpen),Mode=OneWay}" Width="320">
+                    <Button Height="48" Command="{x:Bind Context.GotoSettings}" Click="Button_Click" Padding="0" VerticalContentAlignment="Center" BorderBrush="{ThemeResource ListViewItemRevealBorderBrush}"
+                            HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Stretch" ToolTipService.ToolTip="Settings"
+                            Style="{ThemeResource RevealRectangleButton}" BorderThickness="1" Width="272" Background="{ThemeResource SystemControlTransparentBrush}">
                         <Grid HorizontalAlignment="Left" VerticalAlignment="Center" Height="48">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="48"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE115;" Width="48" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE115;" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             <TextBlock x:Uid="Settings" Grid.Column="1" Margin="8,0" Text="Settings"
-                                       Style="{ThemeResource SubtitleTextBlockStyle}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                       Style="{ThemeResource BodyTextBlockStyle}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                         </Grid>
                     </Button>
                     <Button x:Uid="About" ToolTipService.ToolTip="About" Click="Button_Click" Width="48" Height="48" Grid.Column="1" Command="{x:Bind Context.GotoAbout}"
-                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{ThemeResource RevealRectangleButton}" BorderThickness="0" >
+                            HorizontalAlignment="Left" VerticalAlignment="Stretch" Background="{ThemeResource SystemControlTransparentBrush}" 
+                            Style="{ThemeResource RevealRectangleButton}" BorderThickness="1" BorderBrush="{ThemeResource ListViewItemRevealBorderBrush}">
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xED59;" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Button>
-                </Grid>
+                </StackPanel>
             </Grid>
         </SplitView.Pane>
         <SplitView.Content>
@@ -1223,7 +1227,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <Frame x:Name="OverlayFrame" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                 <Button AccessKey="M" x:Uid="SplitPaneOpen" Style="{ThemeResource RevealRectangleButton}" Background="Transparent" Foreground="{x:Bind Context.LeftTopColor, Mode=OneWay}"
                         HorizontalAlignment="Left" VerticalAlignment="Top" Click="Toggle_PaneOpened" ToolTipService.ToolTip="Open"
-                        Margin="0,32,0,0" Width="48" Height="48">
+                        Margin="0,32,0,0" Width="48" Height="48" Visibility="Collapsed">
                     <Button.Content>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE700;" />
                     </Button.Content>
@@ -1232,7 +1236,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     </Button.KeyboardAccelerators>
                 </Button>
                 <TextBlock Visibility="{x:Bind Context.NeedShowTitle, Mode=OneWay}" 
-                           OpticalMarginAlignment="None" Margin="60,32,0,0" 
+                           OpticalMarginAlignment="None" Margin="16,32,0,0" 
                            Style="{ThemeResource SubheaderTextBlockStyle}"
                            Foreground="{x:Bind Context.LeftTopColor, Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Top" 
                            FontWeight="Bold" Text="{x:Bind Context.Title,Mode=OneWay}"/>
@@ -1250,7 +1254,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top" Background="Transparent" 
                       Height="32" x:Name="TitleBar" Loaded="TitleBar_Loaded">
                     <TextBlock x:Uid="AppName"  Style="{ThemeResource CaptionTextBlockStyle}" Visibility="{x:Bind Context.NeedShowTitle, Mode=OneWay}"
-                               Margin="60,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" 
+                               Margin="16,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" 
                                Foreground="{x:Bind Context.LeftTopColor, Mode=OneWay}"/>
                 </Grid>
                 <Grid HorizontalAlignment="Right" VerticalAlignment="Top" 

@@ -3,6 +3,7 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using Aurora.Music.Core;
 using Aurora.Music.Core.Storage;
+using Aurora.Music.Pages;
 using Aurora.Music.ViewModels;
 using Aurora.Shared.Extensions;
 using System;
@@ -112,6 +113,7 @@ namespace Aurora.Music.Controls
             AddBtn.Visibility = Visibility.Visible;
             PlaylistTitle.Text = string.Empty;
             AddPanel.Visibility = Visibility.Collapsed;
+            await LibraryPage.Current?.AddPlayList(p);
         }
 
         private void PlaylistTitle_TextChanged(object sender, TextChangedEventArgs e)

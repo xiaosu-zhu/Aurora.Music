@@ -138,7 +138,9 @@ namespace Aurora.Music
 
         private void DataTransferManager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
         {
-            args.Request.FailWithDisplayText("Not Implement");
+            args.Request.Data.SetText($"{shareTitle} - {shareDesc}");
+            args.Request.Data.Properties.Title = shareTitle;
+            args.Request.Data.Properties.Description = shareDesc;
         }
 
         public async void ProgressUpdate(string title, string content)
@@ -278,6 +280,11 @@ namespace Aurora.Music
                 return;
             MainFrame.Navigate(type, parameter);
             RefreshPaneCurrent();
+        }
+
+        public Orientation PaneToOrientation(bool a)
+        {
+            return a ? Orientation.Horizontal : Orientation.Vertical;
         }
 
         private void Toggle_PaneOpened(object sender, RoutedEventArgs e) => Root.IsPaneOpen = !Root.IsPaneOpen;
@@ -916,19 +923,16 @@ namespace Aurora.Music
             if (MainFrame.Content is SettingsPage || MainFrame.Content is AboutPage)
             {
                 MainFrame.Navigate((e.ClickedItem as HamPanelItem).TargetType);
-                Root.IsPaneOpen = false;
                 RefreshPaneCurrent();
                 return;
             }
 
             if ((e.ClickedItem as HamPanelItem) == Context.HamList.Find(x => x.IsCurrent))
             {
-                Root.IsPaneOpen = false;
                 RefreshPaneCurrent();
                 return;
             }
             MainFrame.Navigate((e.ClickedItem as HamPanelItem).TargetType);
-            Root.IsPaneOpen = false;
 
 
             RefreshPaneCurrent();
@@ -1031,27 +1035,41 @@ namespace Aurora.Music
                 {
                     case GenericMusicItemViewModel g:
                         shareTitle = $"I'm sharing {g.Title} to you";
-                        shareDesc = $"I'm sharing {g.Title} to you";
+                        shareDesc = $"{g.ToString()}";
                         break;
                     case SongViewModel song:
                         shareTitle = $"I'm sharing {song.Title} to you";
-                        shareDesc = $"I'm sharing {song.Title} to you";
+                        shareDesc = $"{song.ToString()}";
                         break;
                     case AlbumViewModel album:
                         shareTitle = $"I'm sharing {album.Name} to you";
-                        shareDesc = $"I'm sharing {album.Name} to you";
+                        shareDesc = string.Format(Consts.Localizer.GetString("TileDesc"), album.Name, album.GetFormattedArtists());
                         break;
                     case ArtistViewModel artist:
                         shareTitle = $"I'm sharing {artist.Name} to you";
-                        shareDesc = $"I'm sharing {artist.Name} to you";
+                        shareDesc = $"";
                         break;
-
                     default:
                         break;
                 }
             }
             DataTransferManager.ShowShareUI();
         }
+
+        public void Share(SongViewModel g)
+        {
+            shareTitle = $"I'm sharing {g.Title} to you";
+            shareDesc = $"{g.ToString()}";
+            DataTransferManager.ShowShareUI();
+        }
+
+        internal void Share(List<SongViewModel> s)
+        {
+            shareTitle = $"I'm sharing {SmartFormat.Smart.Format(Consts.Localizer.GetString("SmartSongs"), s.Count)} to you";
+            shareDesc = string.Join(Environment.NewLine, s.Select(m => m.ToString()));
+            DataTransferManager.ShowShareUI();
+        }
+
         private async void MenuFlyoutModify_Click(object sender, RoutedEventArgs e)
         {
             if (SongFlyout.Target is SelectorItem s)

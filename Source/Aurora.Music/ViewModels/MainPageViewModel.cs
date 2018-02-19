@@ -63,29 +63,25 @@ namespace Aurora.Music.ViewModels
                 Title = Consts.Localizer.GetString("HomeText"),
                 TargetType = typeof(HomePage),
                 Icon="\uE80F",
-                IsCurrent = true,
-                BG = new Uri("ms-appx:///Assets/Images/albums.png")
+                IsCurrent = true
             },
             new HamPanelItem
             {
                 Title = Consts.Localizer.GetString("LibraryText"),
                 Icon="\uE2AC",
-                TargetType = typeof(LibraryPage),
-                BG = new Uri("ms-appx:///Assets/Images/songs.png")
+                TargetType = typeof(LibraryPage)
             },
             new HamPanelItem
             {
                 Title = Consts.Localizer.GetString("DouText"),
-                Icon = "\uE2AC",
-                TargetType = typeof(DoubanPage),
-                BG = new Uri("ms-appx:///Assets/Images/radio.png")
+                Icon = "\uEFA9",
+                TargetType = typeof(DoubanPage)
             },
             new HamPanelItem
             {
                 Title = "Explorer Podcasts",
-                Icon="\uE95A",
-                TargetType = typeof(PodcastMarket),
-                BG = new Uri("ms-appx:///Assets/Images/podcast.png")
+                Icon="\uE774",
+                TargetType = typeof(PodcastMarket)
             },
         };
 
@@ -868,7 +864,7 @@ namespace Aurora.Music.ViewModels
 
         public SolidColorBrush ChangeForeground(bool b)
         {
-            return (SolidColorBrush)(b ? MainPage.Current.Resources["SystemControlBackgroundAccentBrush"] : MainPage.Current.Resources["ButtonDisabledForegroundThemeBrush"]);
+            return (SolidColorBrush)(b ? MainPage.Current.Resources["AccentForText"] : MainPage.Current.Resources["SystemControlForegroundBaseHighBrush"]);
         }
 
         public SolidColorBrush ChangeTextForeground(bool b)

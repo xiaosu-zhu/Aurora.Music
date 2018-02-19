@@ -148,6 +148,9 @@
     <Compile Include="Controls\ListItems\LyricItem.xaml.cs">
       <DependentUpon>LyricItem.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ListItems\PlayListItem.xaml.cs">
+      <DependentUpon>PlayListItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ListItems\SongItem.xaml.cs">
       <DependentUpon>SongItem.xaml</DependentUpon>
     </Compile>
@@ -236,6 +239,7 @@
     <Compile Include="ViewModels\CategoryList.cs" />
     <Compile Include="ViewModels\ChannelViewModel.cs" />
     <Compile Include="ViewModels\DoubanPageViewModel.cs" />
+    <Compile Include="ViewModels\DownloadPageViewModel.cs" />
     <Compile Include="ViewModels\ExtensionViewModel.cs" />
     <Compile Include="ViewModels\GenericMusicItemViewModel.cs" />
     <Compile Include="ViewModels\GroupedItem.cs" />
@@ -336,6 +340,9 @@
     <Content Include="Assets\Square44x44Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+    <PRIResource Include="Strings\ru\Resources.resw">
+      <SubType>Designer</SubType>
+    </PRIResource>
     <PRIResource Include="Strings\de\Resources.resw">
       <SubType>Designer</SubType>
     </PRIResource>
@@ -408,6 +415,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\ListItems\LyricItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ListItems\PlayListItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

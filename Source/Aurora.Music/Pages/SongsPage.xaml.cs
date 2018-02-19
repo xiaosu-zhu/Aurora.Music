@@ -5,6 +5,7 @@ using Aurora.Music.Controls;
 using Aurora.Music.Core;
 using Aurora.Music.ViewModels;
 using Aurora.Shared.Extensions;
+using System;
 using System.Linq;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -174,6 +175,58 @@ namespace Aurora.Music.Pages
                     song.ListMultiSelecting = true;
                 }
             }
+        }
+
+        public Visibility SelectionModeToTitle(ListViewSelectionMode s)
+        {
+            if (s == ListViewSelectionMode.Multiple)
+            {
+                return Visibility.Collapsed;
+            }
+            return Visibility.Visible;
+        }
+
+        public Visibility SelectionModeToOther(ListViewSelectionMode s)
+        {
+            if (s != ListViewSelectionMode.Multiple)
+            {
+                return Visibility.Collapsed;
+            }
+            return Visibility.Visible;
+        }
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            AlbumList.SelectionMode = ListViewSelectionMode.Single;
+            foreach (var item in Context.SongsList)
+            {
+                foreach (var song in item)
+                {
+                    song.ListMultiSelecting = false;
+                }
+            }
+        }
+
+        private async void PlayAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            await MainPageViewModel.Current.InstantPlay(AlbumList.SelectedItems.Select(a => (a as SongViewModel).Song).ToList());
+        }
+
+        private async void PlayNextAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            await MainPageViewModel.Current.PlayNext(AlbumList.SelectedItems.Select(a => (a as SongViewModel).Song).ToList());
+        }
+
+        private async void AddCollectionAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            var s = new AddPlayList(AlbumList.SelectedItems.Select(a => (a as SongViewModel).ID).ToList());
+            await s.ShowAsync();
+        }
+
+        private void ShareAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            var s = AlbumList.SelectedItems.Select(a => (a as SongViewModel)).ToList();
+            MainPage.Current.Share(s);
         }
     }
 }

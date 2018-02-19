@@ -49,7 +49,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <StackPanel Margin="8" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <TextBlock x:Name="TitleText" Style="{ThemeResource TitleTextBlockStyle}" Text="Podcast Title"/>
                 <TextBlock x:Name="Author" Style="{ThemeResource BaseTextBlockStyle}" Text="Podcast Author"/>
-                <TextBlock x:Name="Description" Style="{ThemeResource BodyTextBlockStyle}" Text=""
+                <TextBlock x:Name="Description" Style="{ThemeResource BodyTextBlockStyle}" Text="" 
+                           Foreground="{ThemeResource ButtonDisabledForegroundThemeBrush}" FontSize="13"
                            TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis" MaxLines="3"/>
                 <TextBlock Style="{ThemeResource BodyTextBlockStyle}" TextWrapping="WrapWholeWords">
                     <Run x:Uid="LastUpdatePost" Text="Last Updated: "/><Run x:Name="Updated"/>

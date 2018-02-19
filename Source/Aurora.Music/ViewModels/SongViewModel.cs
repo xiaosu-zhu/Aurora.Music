@@ -34,6 +34,11 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref listMultiSelecting, value); }
         }
 
+        public override string ToString()
+        {
+            return $"{Title} - {string.Format(Consts.Localizer.GetString("TileDesc"), album, GetFormattedArtists())}, {GetAddtionalDesc()}";
+        }
+
         public bool IsOnline { get; set; }
 
         public bool IsPodcast { get; set; }

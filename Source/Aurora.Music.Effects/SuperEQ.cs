@@ -178,9 +178,9 @@ namespace Aurora.Music.Effects
                 encodingProps4.Subtype = MediaEncodingSubtypes.Float;
 
                 AudioEncodingProperties encodingProps5 = AudioEncodingProperties.CreatePcm(96000, 2, 32);
-                encodingProps3.Subtype = MediaEncodingSubtypes.Float;
+                encodingProps5.Subtype = MediaEncodingSubtypes.Float;
                 AudioEncodingProperties encodingProps6 = AudioEncodingProperties.CreatePcm(192000, 2, 32);
-                encodingProps4.Subtype = MediaEncodingSubtypes.Float;
+                encodingProps6.Subtype = MediaEncodingSubtypes.Float;
 
                 supportedEncodingProperties.Add(encodingProps1);
                 supportedEncodingProperties.Add(encodingProps2);

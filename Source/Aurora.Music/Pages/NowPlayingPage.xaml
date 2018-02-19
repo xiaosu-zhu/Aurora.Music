@@ -986,7 +986,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         <vm:NowPlayingPageViewModel x:Name="Context"/>
     </Page.DataContext>
 
-    <Grid x:Name="Root" Padding="48,80,48,0" Background="{ThemeResource SystemControlAltTranslucentAcrylicWindowBrush}">
+    <Grid x:Name="Root" Padding="4,80,4,0" Background="{ThemeResource SystemControlAltTranslucentAcrylicWindowBrush}">
 
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
@@ -1031,7 +1031,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="LrcHeader.FontSize" Value="18"/>
-                        <Setter Target="Root.Padding" Value="24,80,24,0"/>
 
                         <Setter Target="SongPanel.(Grid.ColumnSpan)" Value="1"/>
                         <Setter Target="LrcView.(Grid.ColumnSpan)" Value="1"/>
@@ -1082,7 +1081,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <Setter Target="SpeedBtn.Margin" Value="2,4"/>
                         <Setter Target="VisualizationBtn.Margin" Value="2,4"/>
                         <Setter Target="Volume.Margin" Value="2,4"/>
-                        <Setter Target="Root.Padding" Value="12,80,12,0"/>
 
                         <Setter Target="SongPanel.(Grid.ColumnSpan)" Value="2"/>
                         <Setter Target="LrcView.(Grid.ColumnSpan)" Value="2"/>

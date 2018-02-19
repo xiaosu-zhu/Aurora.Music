@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
+using Aurora.Music.Controls;
 using Aurora.Music.Core;
 using Aurora.Music.Core.Models;
 using Aurora.Music.ViewModels;
@@ -64,10 +65,12 @@ namespace Aurora.Music.Pages
             if ((e.Parameter as PlayList).Title == Consts.Localizer.GetString("Favorites"))
             {
                 DescriptionBtn.Visibility = Visibility.Collapsed;
+                DeleteBtn.Visibility = Visibility.Collapsed;
             }
             else
             {
                 DescriptionBtn.Visibility = Visibility.Visible;
+                DeleteBtn.Visibility = Visibility.Visible;
             }
 
             SortBox.SelectionChanged -= ComboBox_SelectionChanged;
@@ -81,6 +84,26 @@ namespace Aurora.Music.Pages
         private async void PlayBtn_Click(object sender, RoutedEventArgs e)
         {
             await Context.PlayAt(sender as SongViewModel);
+        }
+        private async void DelBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (DescriptionBtn.Visibility == Visibility.Collapsed)
+            {
+                (sender as SongViewModel).Favorite = false;
+            }
+            else
+            {
+                await Context.DeleteSong(sender as SongViewModel);
+            }
+            var groups = Context.SongsList.Where(a => a.Contains((sender as SongViewModel)));
+            foreach (var item in groups)
+            {
+                item.Remove((sender as SongViewModel));
+                if (item.Count == 0)
+                {
+                    Context.SongsList.Remove(item);
+                }
+            }
         }
 
         private void Page_Unloaded(object sender, RoutedEventArgs e)
@@ -189,6 +212,70 @@ namespace Aurora.Music.Pages
                 await Context.EditDescription(DescriptionEditor.Text);
                 DescriptionEditor.Text = string.Empty;
             }
+        }
+
+        private void SongItem_RequestMultiSelect(object sender, RoutedEventArgs e)
+        {
+            AlbumList.SelectionMode = ListViewSelectionMode.Multiple;
+            foreach (var item in Context.SongsList)
+            {
+                foreach (var song in item)
+                {
+                    song.ListMultiSelecting = true;
+                }
+            }
+        }
+
+        public Visibility SelectionModeToTitle(ListViewSelectionMode s)
+        {
+            if (s == ListViewSelectionMode.Multiple)
+            {
+                return Visibility.Collapsed;
+            }
+            return Visibility.Visible;
+        }
+
+        public Visibility SelectionModeToOther(ListViewSelectionMode s)
+        {
+            if (s != ListViewSelectionMode.Multiple)
+            {
+                return Visibility.Collapsed;
+            }
+            return Visibility.Visible;
+        }
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            AlbumList.SelectionMode = ListViewSelectionMode.Single;
+            foreach (var item in Context.SongsList)
+            {
+                foreach (var song in item)
+                {
+                    song.ListMultiSelecting = false;
+                }
+            }
+        }
+
+        private async void PlayAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            await MainPageViewModel.Current.InstantPlay(AlbumList.SelectedItems.Select(a => (a as SongViewModel).Song).ToList());
+        }
+
+        private async void PlayNextAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            await MainPageViewModel.Current.PlayNext(AlbumList.SelectedItems.Select(a => (a as SongViewModel).Song).ToList());
+        }
+
+        private async void AddCollectionAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            var s = new AddPlayList(AlbumList.SelectedItems.Select(a => (a as SongViewModel).ID).ToList());
+            await s.ShowAsync();
+        }
+
+        private void ShareAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            var s = AlbumList.SelectedItems.Select(a => (a as SongViewModel)).ToList();
+            MainPage.Current.Share(s);
         }
     }
 }

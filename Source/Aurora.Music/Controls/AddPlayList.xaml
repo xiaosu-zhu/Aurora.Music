@@ -145,7 +145,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <controls:ImageGrid Grid.RowSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ImageSources="{x:Bind HeroArtworks}"/>
-                    <Grid BorderBrush="{x:Null}" BorderThickness="0" Background="{ThemeResource SystemControlBackgroundAltMediumBrush}" Grid.RowSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Grid BorderBrush="{x:Null}" BorderThickness="0" Background="{ThemeResource SystemControlBackgroundAltMediumHighBrush}" Grid.RowSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     </Grid>
                     <TextBlock Margin="0,8" Style="{ThemeResource SubtitleTextBlockStyle}" VerticalAlignment="Center">
                         <Run Text="{x:Bind Title}"/>

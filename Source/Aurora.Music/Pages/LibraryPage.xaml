@@ -38,9 +38,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 
 
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-
         <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup>
+            <VisualStateGroup CurrentStateChanged="VisualStateGroup_CurrentStateChanged">
                 <VisualState x:Name="Narrow">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="0"/>
@@ -78,7 +77,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <ColumnDefinition x:Name="LeftCol" Width="320"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <ListView Background="{ThemeResource SystemControlChromeMediumLowAcrylicWindowMediumBrush}" Grid.Column="0" x:Name="Category" 
+        <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource SystemControlAltHighAcrylicWindowBrush}"/>
+        <ListView Grid.Column="0" x:Name="Category" Margin="0,80,0,0"
                   IsItemClickEnabled="False" ItemsSource="{x:Bind CategoryList}" SelectionMode="Single" Style="{ThemeResource GeneralListView}"
                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemContainerStyle="{StaticResource GeneralListViewItemStyle}">
             <ListView.ItemContainerTransitions>
@@ -88,15 +88,17 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </ListView.ItemContainerTransitions>
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="vm:CategoryListItem">
-                    <Grid Padding="48,0,0,0" x:Name="Panel" HorizontalAlignment="Stretch" Width="320">
-                        <TextBlock x:Name="Title" Text="{x:Bind Title}" Foreground="{x:Bind ChangeTextForeground(IsCurrent), Mode=OneWay}"
+                    <Grid Height="48" x:Name="Panel" HorizontalAlignment="Stretch" Width="320">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="48"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <FontIcon HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Glyph}" />
+                        <TextBlock Margin="8,0" Grid.Column="1" x:Name="Title" Text="{x:Bind Title}"
                                    HorizontalAlignment="Left" VerticalAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}"/>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
-            <ListView.Header>
-                <Border Height="80"/>
-            </ListView.Header>
             <ListView.Footer>
                 <Grid Height="240">
                     <Button Visibility="Collapsed" Style="{ThemeResource TextBlockButtonStyle}" Margin="0,24" FontSize="20" Content="Manage Items" HorizontalAlignment="Center" VerticalAlignment="Top"/>
@@ -109,8 +111,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 
         </Frame>
 
-        <Button x:Name="CategoryBtn" Style="{ThemeResource RevealRectangleButton}" Grid.Column="1" 
-                HorizontalAlignment="Left" Width="48" Height="32" VerticalAlignment="Top" Margin="0,80,0,0" 
+        <Button x:Name="CategoryBtn" Style="{ThemeResource RevealRectangleButton}" BorderThickness="1" Grid.Column="1" 
+                BorderBrush="{ThemeResource ListViewItemRevealBorderBrush}"
+                HorizontalAlignment="Left" Width="48" Height="48" VerticalAlignment="Top" Margin="0,32,0,0" 
                 Background="Transparent" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}">
             <Button.Content>
                 <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE712;" />
