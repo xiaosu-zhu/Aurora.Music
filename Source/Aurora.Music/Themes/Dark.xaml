@@ -27,7 +27,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     <RevealBorderBrush x:Key="SystemControlBackgroundAltMediumHighRevealBrush" TargetTheme="Dark" Color="{StaticResource SystemRevealAltMediumHighColor}" FallbackColor="{StaticResource SystemAltHighColor}" />
 
     <SolidColorBrush x:Key="SystemControlAltLowBrush" Color="{StaticResource SystemAltLowColor}"/>
-    <SolidColorBrush x:Key="RevealRoundBackground" Color="{StaticResource SystemChromeMediumColor}" Opacity="0.33"/>
+    <RevealBackgroundBrush x:Key="RevealRoundBackground" FallbackColor="{StaticResource SystemChromeMediumColor}" Color="{StaticResource SystemChromeMediumColor}" Opacity="0.33"/>
 
     <SolidColorBrush x:Key="SongListEvenBrush" Color="{StaticResource SystemChromeMediumLowColor}" Opacity="0.3333"/>
     <SolidColorBrush x:Key="SongListOddBrush" Color="{StaticResource SystemAltHighColor}" Opacity="0.3333"/>

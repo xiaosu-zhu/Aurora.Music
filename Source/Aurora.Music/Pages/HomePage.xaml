@@ -503,7 +503,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     </Page.Resources>
 
     <Grid x:Name="Main" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource HomePageBackground}">
-
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState x:Name="Tablets">
@@ -514,6 +513,19 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <AdaptiveTrigger MinWindowWidth="0"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
+                        <Setter Target="HeroGrid.Padding" Value="8"/>
+                        <Setter Target="RandomPanel.Margin" Value="8,16,8,8"/>
+                        <Setter Target="FavoritPanel.Margin" Value="8,16,8,8"/>
+                        <Setter Target="RandomHeader.Width" Value="8"/>
+                        <Setter Target="FavHeader.MinWidth" Value="8"/>
+                        <Setter Target="FavHeader.Padding" Value="8,0,0,0"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Medium">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="641"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
                         <Setter Target="HeroGrid.Padding" Value="16"/>
                         <Setter Target="RandomPanel.Margin" Value="16,16,16,8"/>
                         <Setter Target="FavoritPanel.Margin" Value="16,16,16,8"/>
@@ -522,31 +534,18 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <Setter Target="FavHeader.Padding" Value="16,0,0,0"/>
                     </VisualState.Setters>
                 </VisualState>
-                <VisualState x:Name="Medium">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="641"/>
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="HeroGrid.Padding" Value="32"/>
-                        <Setter Target="RandomPanel.Margin" Value="48,16,16,8"/>
-                        <Setter Target="FavoritPanel.Margin" Value="48,16,16,8"/>
-                        <Setter Target="RandomHeader.Width" Value="48"/>
-                        <Setter Target="FavHeader.MinWidth" Value="48"/>
-                        <Setter Target="FavHeader.Padding" Value="48,0,0,0"/>
-                    </VisualState.Setters>
-                </VisualState>
 
                 <VisualState x:Name="Full">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="1008"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="HeroGrid.Padding" Value="64"/>
-                        <Setter Target="RandomPanel.Margin" Value="60,16,16,8"/>
-                        <Setter Target="FavoritPanel.Margin" Value="60,16,16,8"/>
-                        <Setter Target="RandomHeader.Width" Value="60"/>
-                        <Setter Target="FavHeader.MinWidth" Value="60"/>
-                        <Setter Target="FavHeader.Padding" Value="60,0,0,0"/>
+                        <Setter Target="HeroGrid.Padding" Value="32"/>
+                        <Setter Target="RandomPanel.Margin" Value="32,16,32,8"/>
+                        <Setter Target="FavoritPanel.Margin" Value="32,16,32,8"/>
+                        <Setter Target="RandomHeader.Width" Value="32"/>
+                        <Setter Target="FavHeader.MinWidth" Value="32"/>
+                        <Setter Target="FavHeader.Padding" Value="32,0,0,0"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -556,10 +555,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <AdaptiveTrigger MinWindowHeight="641"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="Header.Visibility" Value="Visible"/>
-                        <Setter Target="HeaderBG.Visibility" Value="Visible"/>
-                        <Setter Target="Subtitle.Visibility" Value="Visible"/>
-                        <Setter Target="Header.Height" Value="120"/>
                         <Setter Target="HeaderBG.Height" Value="120"/>
                     </VisualState.Setters>
                 </VisualState>
@@ -568,10 +563,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <AdaptiveTrigger MinWindowHeight="321"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="Header.Visibility" Value="Visible"/>
-                        <Setter Target="HeaderBG.Visibility" Value="Visible"/>
-                        <Setter Target="Subtitle.Visibility" Value="Collapsed"/>
-                        <Setter Target="Header.Height" Value="80"/>
                         <Setter Target="HeaderBG.Height" Value="80"/>
                     </VisualState.Setters>
                 </VisualState>
@@ -580,9 +571,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <AdaptiveTrigger MinWindowHeight="0"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="Header.Visibility" Value="Collapsed"/>
-                        <Setter Target="HeaderBG.Visibility" Value="Collapsed"/>
-                        <Setter Target="Subtitle.Visibility" Value="Collapsed"/>
+                        <Setter Target="HeaderBG.Height" Value="80"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -677,14 +666,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </ListView>
             </StackPanel>
         </ScrollViewer>
-        <StackPanel Loaded="Header_Loaded" x:Name="HeaderBG" Height="120" Padding="0,32,0,0" VerticalAlignment="Top" HorizontalAlignment="Stretch" Background="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}" Orientation="Vertical">
-        </StackPanel>
-        <StackPanel Loaded="Header_Loaded" x:Name="Header" Height="120" Padding="0,32,0,0" VerticalAlignment="Top" HorizontalAlignment="Stretch" Orientation="Vertical">
-            <TextBlock OpticalMarginAlignment="None" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                       Style="{ThemeResource SubheaderTextBlockStyle}" FontWeight="Bold" 
-                       Text="{x:Bind Context.WelcomeTitle, Mode=OneWay}"/>
-            <TextBlock x:Uid="HomeSubtitle" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="Subtitle"
-                       Style="{ThemeResource SubtitleTextBlockStyle}" Text="Let's Play Something..."/>
+        <StackPanel Loaded="Header_Loaded" x:Name="HeaderBG" Height="120" VerticalAlignment="Top" HorizontalAlignment="Stretch" Background="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}" Orientation="Vertical">
         </StackPanel>
     </Grid>
 </Page>

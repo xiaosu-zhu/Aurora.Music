@@ -95,7 +95,7 @@ namespace Aurora.Music.Core.Models
         internal static async Task<Podcast> BuildFromXMLAsync(string resXML, string XMLUrl)
         {
             var a = new Podcast();
-            a.ReadXML(resXML);
+            await a.ReadXML(resXML);
 
             var p = await SQLOperator.Current().TryGetPODCAST(XMLUrl);
 
@@ -140,7 +140,7 @@ namespace Aurora.Music.Core.Models
                     XMLPath = p.XMLPath,
                     Subscribed = p.Subscribed
                 };
-                a.ReadXML(str);
+                await a.ReadXML(str);
                 return a;
             }
             catch (Exception)
@@ -152,7 +152,7 @@ namespace Aurora.Music.Core.Models
         public async Task Refresh()
         {
             var resXML = await ApiRequestHelper.HttpGet(XMLUrl);
-            ReadXML(resXML);
+            await ReadXML(resXML);
             await SaveAsync();
         }
 
@@ -167,7 +167,7 @@ namespace Aurora.Music.Core.Models
             return await SQLOperator.Current().UpdatePodcastAsync(new PODCAST(this));
         }
 
-        public void ReadXML(string res)
+        public async Task ReadXML(string res)
         {
             Clear();
             var ment = new XmlDocument(); ment.LoadXml(res);
@@ -180,6 +180,8 @@ namespace Aurora.Music.Core.Models
             HeroArtworks = new string[] { (ment.SelectSingleNode("/rss/channel/image/url") ?? ment.SelectSingleNode($"/rss/channel/itunes:image/@href", ns))?.InnerText ?? Consts.BlackPlaceholder };
             Author = ment.SelectSingleNode($"/rss/channel/itunes:author", ns)?.InnerText;
 
+            var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Podcasts", CreationCollisionOption.OpenIfExists);
+
             var items = ment.SelectNodes("/rss/channel/item");
 
             for (int i = 0; i < items.Count; i++)
@@ -189,7 +191,7 @@ namespace Aurora.Music.Core.Models
                 {
                     LastUpdate = d;
                 }
-                Add(new Song()
+                var s = new Song()
                 {
                     Title = items[i].SelectSingleNode("./title").InnerText,
                     FilePath = items[i].SelectSingleNode("./enclosure/@url").InnerText,
@@ -203,7 +205,15 @@ namespace Aurora.Music.Core.Models
                     IsPodcast = true,
                     PubDate = d,
                     PicturePath = items[i].SelectSingleNode("./itunes:image/@href", ns)?.InnerText ?? HeroArtworks[0]
-                });
+                };
+                var fileName = s.GetFileName();
+                var file = await folder.TryGetItemAsync(fileName);
+                if (file != null)
+                {
+                    s.IsOnline = false;
+                    s.FilePath = file.Path;
+                }
+                Add(s);
             }
             Sort((a, s) => -1 * (a.PubDate.CompareTo(s.PubDate)));
         }

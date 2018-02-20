@@ -39,4 +39,1094 @@
 	<resheader name="writer">
 		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
 	</resheader>
+  <data name="AboutText" xml:space="preserve">
+    <value>О приложении</value>
+    <comment>AboutPage Title</comment>
+  </data>
+  <data name="AppName.Text" xml:space="preserve">
+    <value>Aurora Music</value>
+    <comment>App Name for Textblock</comment>
+  </data>
+  <data name="BuildText" xml:space="preserve">
+    <value>Билд {0} , Помогло при Разработке:</value>
+    <comment>AboutPage Build Text</comment>
+  </data>
+  <data name="GithubTitle.Text" xml:space="preserve">
+    <value>Следуйте инструкции по разработке расширений</value>
+    <comment>AboutPage Github Title</comment>
+  </data>
+  <data name="UnSplashTitle.Text" xml:space="preserve">
+    <value>И Фотографии от</value>
+    <comment>AboutPage Unsplash Title</comment>
+  </data>
+  <data name="Now.Text" xml:space="preserve">
+    <value>Сейчас Играет</value>
+    <comment>Now Playing Title</comment>
+  </data>
+  <data name="Settings.Text" xml:space="preserve">
+    <value>Настройки</value>
+    <comment>Settings</comment>
+  </data>
+  <data name="Waiting.Text" xml:space="preserve">
+    <value>Подождите</value>
+    <comment>Waiting</comment>
+  </data>
+  <data name="Collapse.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Свернуть</value>
+    <comment>MainPage SplitView Pane Collapse</comment>
+  </data>
+  <data name="PlayList.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Список Проигрываемых</value>
+    <comment>Playing list ToolTip</comment>
+  </data>
+  <data name="About.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>О приложении</value>
+    <comment>About ToolTip</comment>
+  </data>
+  <data name="Previous.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Предыдущий</value>
+    <comment>Previous Song ToolTip</comment>
+  </data>
+  <data name="Next.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Далее</value>
+    <comment>Next Song ToolTip</comment>
+  </data>
+  <data name="Stop.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Стоп</value>
+    <comment>Stop ToolTip</comment>
+  </data>
+  <data name="Shuffle.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Случайный Порядок</value>
+    <comment>Shuffle ToolTip</comment>
+  </data>
+  <data name="Loop.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Повтор</value>
+    <comment>Loop ToolTip</comment>
+  </data>
+  <data name="SplitPaneOpen.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Открыть</value>
+    <comment>SplitPaneOpen ToolTip</comment>
+  </data>
+  <data name="Welcome.Text" xml:space="preserve">
+    <value>Добро пожаловать!</value>
+    <comment>WelcomPage Title</comment>
+  </data>
+  <data name="WelcomeNext.Text" xml:space="preserve">
+    <value>Далее</value>
+    <comment>WelcomPage Next</comment>
+  </data>
+  <data name="Favorite.Text" xml:space="preserve">
+    <value>Твой Фаворит</value>
+    <comment>Your Favorites</comment>
+  </data>
+  <data name="StatisticsUnAvaliabe.Text" xml:space="preserve">
+    <value>Не хватает статистики</value>
+    <comment>No enough statistics</comment>
+  </data>
+  <data name="Lucky.Text" xml:space="preserve">
+    <value>Тебе Повезёт</value>
+    <comment>Feeling Lucky</comment>
+  </data>
+  <data name="HomeSubtitle.Text" xml:space="preserve">
+    <value>Давайте Сыграем Что-Нибудь...</value>
+    <comment>HomePage Subtitle</comment>
+  </data>
+  <data name="PlayAllBtn.Content" xml:space="preserve">
+    <value>Проиграть Всё</value>
+    <comment>Play All</comment>
+  </data>
+  <data name="PlayAll.Text" xml:space="preserve">
+    <value>Проиграть Всё</value>
+    <comment>Play All</comment>
+  </data>
+  <data name="ScanFolder.Text" xml:space="preserve">
+    <value>Вот Сканирующие Папки</value>
+    <comment>Here's Scanning Folders</comment>
+  </data>
+  <data name="AddNewFolder.Content" xml:space="preserve">
+    <value>Добавить новую папку для сканирования</value>
+    <comment>Add a new folder to scan</comment>
+  </data>
+  <data name="PerformersText" xml:space="preserve">
+    <value>Исполнители</value>
+    <comment>Performers</comment>
+  </data>
+  <data name="Albums.Text" xml:space="preserve">
+    <value>Альбомы</value>
+    <comment>Albums</comment>
+  </data>
+  <data name="SortBox.Header" xml:space="preserve">
+    <value>Сортировать по:</value>
+    <comment>SortBox Cotent</comment>
+  </data>
+  <data name="Artist.Content" xml:space="preserve">
+    <value>Автор</value>
+    <comment>Artist</comment>
+  </data>
+  <data name="Year.Content" xml:space="preserve">
+    <value>Год</value>
+    <comment>Year</comment>
+  </data>
+  <data name="TitleSort.Content" xml:space="preserve">
+    <value>Алфавиту</value>
+    <comment>A-Z</comment>
+  </data>
+  <data name="Album.Content" xml:space="preserve">
+    <value>Альбом</value>
+    <comment>Album</comment>
+  </data>
+  <data name="Play.Text" xml:space="preserve">
+    <value>Играть</value>
+    <comment>Play</comment>
+  </data>
+  <data name="PlayNext.Text" xml:space="preserve">
+    <value>Играть Далее</value>
+    <comment>Play Next</comment>
+  </data>
+  <data name="AddCollection.Text" xml:space="preserve">
+    <value>Добавить в Коллекцию</value>
+    <comment>Add to Collection</comment>
+  </data>
+  <data name="Share.Text" xml:space="preserve">
+    <value>Поделиться</value>
+    <comment>Share</comment>
+  </data>
+  <data name="ModifyTag.Text" xml:space="preserve">
+    <value>Изменить Теги</value>
+    <comment>Modify Tags</comment>
+  </data>
+  <data name="OpenExplorer.Text" xml:space="preserve">
+    <value>Открыть в Проводнике</value>
+    <comment>Open in Explorer</comment>
+  </data>
+  <data name="Delete.Text" xml:space="preserve">
+    <value>Удалить</value>
+    <comment>Delete</comment>
+  </data>
+  <data name="DeleteTrash.Text" xml:space="preserve">
+    <value>Перенести в Корзину</value>
+    <comment>Move to Trash</comment>
+  </data>
+  <data name="DeletePerm.Text" xml:space="preserve">
+    <value>Полное Удаление</value>
+    <comment>Permanent Delete</comment>
+  </data>
+  <data name="Artists.Text" xml:space="preserve">
+    <value>Авторы</value>
+    <comment>Artists</comment>
+  </data>
+  <data name="LibraryText" xml:space="preserve">
+    <value>Библиотека</value>
+    <comment>Library</comment>
+  </data>
+  <data name="SongsText" xml:space="preserve">
+    <value>Песни</value>
+    <comment>Songs</comment>
+  </data>
+  <data name="Songs.Text" xml:space="preserve">
+    <value>Песни</value>
+    <comment>Songs</comment>
+  </data>
+  <data name="AlbumsText" xml:space="preserve">
+    <value>Альбомы</value>
+    <comment>Albums</comment>
+  </data>
+  <data name="ArtistsText" xml:space="preserve">
+    <value>Авторы</value>
+    <comment>Artists</comment>
+  </data>
+  <data name="NowPlayingText" xml:space="preserve">
+    <value>Сейчас Играет</value>
+    <comment>Now Playing</comment>
+  </data>
+  <data name="DescriptionPlaceholder.PlaceholderText" xml:space="preserve">
+    <value>Введите описание</value>
+    <comment>Type some descriptions</comment>
+  </data>
+  <data name="IncludeLibrary.Text" xml:space="preserve">
+    <value>Включая Музыкальную Библиотеку</value>
+    <comment>Including Music Library</comment>
+  </data>
+  <data name="Configuration.Text" xml:space="preserve">
+    <value>Параметры Плеера</value>
+    <comment>Player Configuration</comment>
+  </data>
+  <data name="Extensions.Text" xml:space="preserve">
+    <value>Дополнения</value>
+    <comment>Extensions</comment>
+  </data>
+  <data name="ExtensionIntro.Text" xml:space="preserve">
+    <value>Вы можете включить или восстановить дополнение из сети</value>
+    <comment>ExtensionIntro</comment>
+  </data>
+  <data name="Here.Text" xml:space="preserve">
+    <value>Здесь</value>
+    <comment>here</comment>
+  </data>
+  <data name="DownloadPath.Content" xml:space="preserve">
+    <value>Путь Скачивания</value>
+    <comment>Download Path</comment>
+  </data>
+  <data name="AudioGraph.Text" xml:space="preserve">
+    <value>Аудио График</value>
+    <comment>Audio Graph</comment>
+  </data>
+  <data name="NotImplement.Text" xml:space="preserve">
+    <value>Скоро</value>
+    <comment>Coming Soon</comment>
+  </data>
+  <data name="AppNameText" xml:space="preserve">
+    <value>Aurora Music</value>
+    <comment>App Name</comment>
+  </data>
+  <data name="MusicText" xml:space="preserve">
+    <value>Музыка</value>
+    <comment>Music</comment>
+  </data>
+  <data name="NativeText" xml:space="preserve">
+    <value>Нативные Дополнения</value>
+    <comment>Native Extension</comment>
+  </data>
+  <data name="BuiltInText" xml:space="preserve">
+    <value>Встроенный Поставщик Данных</value>
+    <comment>Built-In Data Provider</comment>
+  </data>
+  <data name="OutputEndPoint.Header" xml:space="preserve">
+    <value>Конечная Точка Вывода</value>
+    <comment>Output Endpoint</comment>
+  </data>
+  <data name="OutputDefaultHint.Text" xml:space="preserve">
+    <value>"Система по умолчанию" будет приминён при следующем запуске</value>
+    <comment>'System default' will be applied at next launch.</comment>
+  </data>
+  <data name="SystemDefault" xml:space="preserve">
+    <value>Система по умолчанию</value>
+    <comment>System default</comment>
+  </data>
+  <data name="VolumeLevel.Header" xml:space="preserve">
+    <value>Уровень Громкости</value>
+    <comment>Volume Level</comment>
+  </data>
+  <data name="VolumeHint.Text" xml:space="preserve">
+    <value>Мы предлагаем вам контролировать громкость системы непосредственно.</value>
+    <comment>We suggest you to control the system volume directly.</comment>
+  </data>
+  <data name="Manage.Content" xml:space="preserve">
+    <value>Управлять</value>
+    <comment>Manage</comment>
+  </data>
+  <data name="LyricExtension.Header" xml:space="preserve">
+    <value>Дополнение Лирики</value>
+    <comment>Lyric Extension</comment>
+  </data>
+  <data name="MetaExtension.Header" xml:space="preserve">
+    <value>Дополнение Мета-Данных</value>
+    <comment>MetaData Extension</comment>
+  </data>
+  <data name="OnlineExtension.Header" xml:space="preserve">
+    <value>Дополнение Онлайн-Музыки</value>
+    <comment>Online Music Extension</comment>
+  </data>
+  <data name="Advance.Text" xml:space="preserve">
+    <value>Предварительный</value>
+    <comment>Advance</comment>
+  </data>
+  <data name="DebugMode.Header" xml:space="preserve">
+    <value>Режим Разработчика</value>
+    <comment>Debug Mode</comment>
+  </data>
+  <data name="DangerZone.Text" xml:space="preserve">
+    <value>Опасная Зона</value>
+    <comment>Danger Zone</comment>
+  </data>
+  <data name="ClearCache.Content" xml:space="preserve">
+    <value>Очистить Кэш</value>
+    <comment>Clear Cache</comment>
+  </data>
+  <data name="DeleteAll.Content" xml:space="preserve">
+    <value>Удалить всё и перезагрузить</value>
+    <comment>Delete all and reload</comment>
+  </data>
+  <data name="DeleteAllHint.Content" xml:space="preserve">
+    <value>Я знаю, что это очистит все данные и хочу продолжить</value>
+    <comment>I know this will clear all data and continue</comment>
+  </data>
+  <data name="OtherInformation.Text" xml:space="preserve">
+    <value>Другая информация</value>
+    <comment>Other Information</comment>
+  </data>
+  <data name="OpenSource.Content" xml:space="preserve">
+    <value>Открытый Исходный Код</value>
+    <comment>Open Source</comment>
+  </data>
+  <data name="Comment.Content" xml:space="preserve">
+    <value>Написать Отзыв в Store</value>
+    <comment>Comment in Store</comment>
+  </data>
+  <data name="ReportBug.Content" xml:space="preserve">
+    <value>Сообщить об Ошибке</value>
+    <comment>Report a Bug</comment>
+  </data>
+  <data name="GetExtension.Content" xml:space="preserve">
+    <value>Получить Дополнение</value>
+    <comment>Get Extensions</comment>
+  </data>
+  <data name="AboutBtn.Content" xml:space="preserve">
+    <value>О приложении</value>
+    <comment>About</comment>
+  </data>
+  <data name="Privacy.Content" xml:space="preserve">
+    <value>Политика Конфиденциальности</value>
+    <comment>Privacy Policy</comment>
+  </data>
+  <data name="SettingsText" xml:space="preserve">
+    <value>Настройки</value>
+    <comment>Settings</comment>
+  </data>
+  <data name="HomeText" xml:space="preserve">
+    <value>Домашняя Страница</value>
+    <comment>Home</comment>
+  </data>
+  <data name="LibraryText" xml:space="preserve">
+    <value>Библиотека</value>
+    <comment>Library</comment>
+  </data>
+  <data name="LocaAlbumTitle" xml:space="preserve">
+    <value>Локальный Альбом</value>
+    <comment>Local Album</comment>
+  </data>
+  <data name="VariousGenresText" xml:space="preserve">
+    <value>Различные Жанры</value>
+    <comment>Various Genres</comment>
+  </data>
+  <data name="SmartSongs" xml:space="preserve">
+    <value>{0} {0:Песня|Песни}</value>
+    <comment>{0} {0:Song|Songs}</comment>
+  </data>
+  <data name="SmartAlbums" xml:space="preserve">
+    <value>{0} {0:Альбом|Альбомы}</value>
+    <comment>{0} {0:Album|Albums}</comment>
+  </data>
+  <data name="SmartArtists" xml:space="preserve">
+    <value>{0} {0:Автор|Авторы}</value>
+    <comment>{0} {0:Artist|Artists}</comment>
+  </data>
+  <data name="OopsText" xml:space="preserve">
+    <value>Упс!</value>
+    <comment>Ooops!</comment>
+  </data>
+  <data name="SearchFailedText" xml:space="preserve">
+    <value>Мы ничего не смогли найти...</value>
+    <comment>We couldn't find anything...</comment>
+  </data>
+  <data name="CreateCollection.Text" xml:space="preserve">
+    <value>Создать новую коллекцию</value>
+    <comment>Create a new collection</comment>
+  </data>
+  <data name="AddPlayListDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Подтвердить</value>
+    <comment>Confirm</comment>
+  </data>
+  <data name="AddPlayListDialog.CloseButtonText" xml:space="preserve">
+    <value>Отменить</value>
+    <comment>Cancel</comment>
+  </data>
+  <data name="AddPlayListDialog.Title" xml:space="preserve">
+    <value>Добавить в Коллекцию</value>
+    <comment>Add to Collection</comment>
+  </data>
+  <data name="AlbumViewDialog.Title" xml:space="preserve">
+    <value>Детали Альбома</value>
+    <comment>Album Details</comment>
+  </data>
+  <data name="AlbumViewDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Играть</value>
+    <comment>Play</comment>
+  </data>
+  <data name="AlbumViewDialog.CloseButtonText" xml:space="preserve">
+    <value>Закрыть</value>
+    <comment>Close</comment>
+  </data>
+  <data name="ArtistDialog.Title" xml:space="preserve">
+    <value>Детали Автора</value>
+    <comment>Artist Details</comment>
+  </data>
+  <data name="ArtistDialog.CloseButtonText" xml:space="preserve">
+    <value>Закрыть</value>
+    <comment>Close</comment>
+  </data>
+  <data name="GoBack.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Вернуться назад</value>
+    <comment>Go Back</comment>
+  </data>
+  <data name="DropSongDialog.Title" xml:space="preserve">
+    <value>Мы что-то нашли...</value>
+    <comment>We found something...</comment>
+  </data>
+  <data name="DropSongDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Сохранить в базу данных</value>
+    <comment>Save to Database</comment>
+  </data>
+  <data name="DropSongDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Просто Играть</value>
+    <comment>Just Play</comment>
+  </data>
+  <data name="DropSongDialogDesc.Text" xml:space="preserve">
+    <value>Вы можете сохранить их навсегда или просто играть сразу.</value>
+    <comment>You can choose to save them permanently, or just play instantly.</comment>
+  </data>
+  <data name="DontShow.Content" xml:space="preserve">
+    <value>Не Показывать Снова,  Запомнить Мой Выбор.</value>
+    <comment>Don't Show Again, Remember My Choice.</comment>
+  </data>
+  <data name="ExtensionManager.Title" xml:space="preserve">
+    <value>Менеджер Дополнений</value>
+    <comment>Extension Manager</comment>
+  </data>
+  <data name="ExtensionManager.CloseButtonText" xml:space="preserve">
+    <value>Закрыть</value>
+    <comment>Close</comment>
+  </data>
+  <data name="ExtensionDesc.Text" xml:space="preserve">
+    <value>Наведите курсор на значки, чтобы увидить подсказку, нажмите, чтобы показать больше действий.</value>
+    <comment>Hover over icons to see tips, click to show more actions</comment>
+  </data>
+  <data name="ExtensionLaunch.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Запустить</value>
+    <comment>Launch</comment>
+  </data>
+  <data name="ExtensionRemove.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Удалить</value>
+    <comment>Remove</comment>
+  </data>
+  <data name="LyricProvider.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Поставщик текста песен</value>
+    <comment>Lyric Provider</comment>
+  </data>
+  <data name="OnlineProvider.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Музыкальный Онлайн Поставщик</value>
+    <comment>Online Music Provider</comment>
+  </data>
+  <data name="MetaProvider.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Поставщик Мета-Данные</value>
+    <comment>Meta-data Provider</comment>
+  </data>
+  <data name="SearchResultDialog.Title" xml:space="preserve">
+    <value>Результаты поиска</value>
+    <comment>Search Result</comment>
+  </data>
+  <data name="SearchResultDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Играть</value>
+    <comment>Play</comment>
+  </data>
+  <data name="SearchResultDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Посмотреть</value>
+    <comment>View</comment>
+  </data>
+  <data name="SearchResultDialog.CloseButtonText" xml:space="preserve">
+    <value>Закрыть</value>
+    <comment>Close</comment>
+  </data>
+  <data name="TagDialog.Title" xml:space="preserve">
+    <value>Параметры</value>
+    <comment>Properties</comment>
+  </data>
+  <data name="TagDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Подтвердить</value>
+    <comment>Confirm</comment>
+  </data>
+  <data name="TagDialog.CloseButtonText" xml:space="preserve">
+    <value>Отмена</value>
+    <comment>Cancel</comment>
+  </data>
+  <data name="MidnightText" xml:space="preserve">
+    <value>Полночь</value>
+    <comment>Midnight</comment>
+  </data>
+  <data name="MorningText" xml:space="preserve">
+    <value>Утро</value>
+    <comment>Morning</comment>
+  </data>
+  <data name="NoonText" xml:space="preserve">
+    <value>Полдень</value>
+    <comment>Noon</comment>
+  </data>
+  <data name="AfternoonText" xml:space="preserve">
+    <value>Полуденный</value>
+    <comment>Afternoon</comment>
+  </data>
+  <data name="EveningText" xml:space="preserve">
+    <value>Вечер</value>
+    <comment>Evening</comment>
+  </data>
+  <data name="WelcomeTitleText" xml:space="preserve">
+    <value>Хороший {0}</value>
+    <comment>Good {0}</comment>
+  </data>
+  <data name="ValentineWelcome" xml:space="preserve">
+    <value>С Днём Святого Валентина!</value>
+    <comment>Happy Valentine's Day</comment>
+  </data>
+  <data name="HalloweenWelcome" xml:space="preserve">
+    <value>Кошелёк или Жизнь?</value>
+    <comment>Trick or Treat?</comment>
+  </data>
+  <data name="ChristmasWelcome" xml:space="preserve">
+    <value>Счастливого Рождества!</value>
+    <comment>Merry Christmas!</comment>
+  </data>
+  <data name="Title.Text" xml:space="preserve">
+    <value>Название</value>
+    <comment>Title</comment>
+  </data>
+  <data name="AlbumName.Text" xml:space="preserve">
+    <value>Название Альбома</value>
+    <comment>Album Name</comment>
+  </data>
+  <data name="Instantly.Text" xml:space="preserve">
+    <value>Немедленно</value>
+    <comment>Instantly</comment>
+  </data>
+  <data name="Performers.Text" xml:space="preserve">
+    <value>Исполнители</value>
+    <comment>Performers</comment>
+  </data>
+  <data name="AlbumArtists.Text" xml:space="preserve">
+    <value>Авторы Альбома</value>
+    <comment>Album Artists</comment>
+  </data>
+  <data name="Genres.Text" xml:space="preserve">
+    <value>Жанры</value>
+    <comment>Genres</comment>
+  </data>
+  <data name="Track.Text" xml:space="preserve">
+    <value>Трек</value>
+    <comment>Track</comment>
+  </data>
+  <data name="Disc.Text" xml:space="preserve">
+    <value>Диск</value>
+    <comment>Disc</comment>
+  </data>
+  <data name="Rating.Text" xml:space="preserve">
+    <value>Рейтинг</value>
+    <comment>Rating</comment>
+  </data>
+  <data name="YearText.Text" xml:space="preserve">
+    <value>Год</value>
+    <comment>Year</comment>
+  </data>
+  <data name="BitRate.Text" xml:space="preserve">
+    <value>Битрейт</value>
+    <comment>Bit Rate</comment>
+  </data>
+  <data name="Duration.Text" xml:space="preserve">
+    <value>Продолжительность</value>
+    <comment>Duration</comment>
+  </data>
+  <data name="NotAvaliableText" xml:space="preserve">
+    <value>Не Доступно</value>
+    <comment>Not Avaliable</comment>
+  </data>
+  <data name="NeedScanText" xml:space="preserve">
+    <value>Нужно Сканировать</value>
+    <comment>Need Scan</comment>
+  </data>
+  <data name="CommaSeparator" xml:space="preserve">
+    <value>, </value>
+    <comment>, </comment>
+  </data>
+  <data name="NoLyricText" xml:space="preserve">
+    <value>Текст Песни Отсутствует</value>
+    <comment>No Lyrics</comment>
+  </data>
+  <data name="EndText" xml:space="preserve">
+    <value>Конец</value>
+    <comment>End</comment>
+  </data>
+  <data name="SearchInLibraryText" xml:space="preserve">
+    <value>Поиск в Библиотеке</value>
+    <comment>Search in library</comment>
+  </data>
+  <data name="NotPlayingText" xml:space="preserve">
+    <value>Не Играть</value>
+    <comment>Not Playing</comment>
+  </data>
+  <data name="NotPlaying.Text" xml:space="preserve">
+    <value>Не Играть</value>
+    <comment>Not Playing</comment>
+  </data>
+  <data name="SearchInWebText" xml:space="preserve">
+    <value>Поиск в Библиотеке и Сети</value>
+    <comment>Search in Library and Web</comment>
+  </data>
+  <data name="FileUpdatingText" xml:space="preserve">
+    <value>Обновление файлов</value>
+    <comment>File Updating</comment>
+  </data>
+  <data name="CompletedText" xml:space="preserve">
+    <value>Завершенно</value>
+    <comment>Completed</comment>
+  </data>
+  <data name="PauseText" xml:space="preserve">
+    <value>Пауза</value>
+    <comment>Pause</comment>
+  </data>
+  <data name="PlayText" xml:space="preserve">
+    <value>Играть</value>
+    <comment>Play</comment>
+  </data>
+  <data name="LoadingLyricsText" xml:space="preserve">
+    <value>Загрузка текст песни</value>
+    <comment>Loading lyrics...</comment>
+  </data>
+  <data name="DownloadCompletedText" xml:space="preserve">
+    <value>Скачивание Завершенно</value>
+    <comment>Download Completed</comment>
+  </data>
+  <data name="IdleText" xml:space="preserve">
+    <value>Простой</value>
+    <comment>Idle</comment>
+  </data>
+  <data name="DownloadingIdleText" xml:space="preserve">
+    <value>Скачивание Простого</value>
+    <comment>Downloading Idle</comment>
+  </data>
+  <data name="ProcessingText" xml:space="preserve">
+    <value>Обработка</value>
+    <comment>Processing</comment>
+  </data>
+  <data name="DownloadinginProgressText" xml:space="preserve">
+    <value>Скачивание в Процессе</value>
+    <comment>Downloading in Progress</comment>
+  </data>
+  <data name="DownloadingPausedText" xml:space="preserve">
+    <value>Скачивание на Паузе</value>
+    <comment>Downloading Paused</comment>
+  </data>
+  <data name="DownloadingCanceledText" xml:space="preserve">
+    <value>Скачивание Отменено</value>
+    <comment>Downloading Canceled</comment>
+  </data>
+  <data name="DownloadingErrorText" xml:space="preserve">
+    <value>Ошибка Скачивания</value>
+    <comment>Downloading Error</comment>
+  </data>
+  <data name="DownloadText" xml:space="preserve">
+    <value>Скачать</value>
+    <comment>Download</comment>
+  </data>
+  <data name="ModifyTagsText" xml:space="preserve">
+    <value>Изменить Теги</value>
+    <comment>Modify Tags</comment>
+  </data>
+  <data name="ClearCacheText" xml:space="preserve">
+    <value>Удалена временная папка</value>
+    <comment>Temporary folder cleared</comment>
+  </data>
+  <data name="WaitingResultText" xml:space="preserve">
+    <value>Ожидание Результатов</value>
+    <comment>Waiting for Result</comment>
+  </data>
+  <data name="OnlineContentText" xml:space="preserve">
+    <value>Онлайн Контент</value>
+    <comment>Online Content</comment>
+  </data>
+  <data name="VariousText" xml:space="preserve">
+    <value>Несколько</value>
+    <comment>Various</comment>
+  </data>
+  <data name="RencentlyPlayedText" xml:space="preserve">
+    <value>Недавно Играл</value>
+    <comment>Rencently Played</comment>
+  </data>
+  <data name="TodayFavText" xml:space="preserve">
+    <value>{0} Избранное</value>
+    <comment>{0}'s Favorites</comment>
+  </data>
+  <data name="DayOfWeek_Sunday" xml:space="preserve">
+    <value>Воскресенье</value>
+    <comment>Sunday</comment>
+  </data>
+  <data name="DayOfWeek_Monday" xml:space="preserve">
+    <value>Понедельник</value>
+    <comment>Monday</comment>
+  </data>
+  <data name="DayOfWeek_Tuesday" xml:space="preserve">
+    <value>Вторник</value>
+    <comment>Tuesday</comment>
+  </data>
+  <data name="DayOfWeek_Wednesday" xml:space="preserve">
+    <value>Среда</value>
+    <comment>Wednesday</comment>
+  </data>
+  <data name="DayOfWeek_Thursday" xml:space="preserve">
+    <value>Четверг</value>
+    <comment>Thursday</comment>
+  </data>
+  <data name="DayOfWeek_Friday" xml:space="preserve">
+    <value>Пятница</value>
+    <comment>Friday</comment>
+  </data>
+  <data name="DayOfWeek_Saturday" xml:space="preserve">
+    <value>Суббота</value>
+    <comment>Saturday</comment>
+  </data>
+  <data name="TodaySuggestionText" xml:space="preserve">
+    <value>{0} Строк</value>
+    <comment>{0}'s Suggestion</comment>
+  </data>
+  <data name="UpdateNoteDialog.CloseButtonText" xml:space="preserve">
+    <value>Закрыть</value>
+    <comment>Close</comment>
+  </data>
+  <data name="UpdateNoteTitle" xml:space="preserve">
+    <value>Примечание обновления для сборки {0}</value>
+    <comment>Update Note for Build {0}</comment>
+  </data>
+  <data name="AddToCollectionTitle" xml:space="preserve">
+    <value>Добавить {0} в Коллекцию</value>
+    <comment>Add {0} into Collection</comment>
+  </data>
+  <data name="Favorites" xml:space="preserve">
+    <value>Фавориты</value>
+    <comment>Favorites</comment>
+  </data>
+  <data name="AutoGen" xml:space="preserve">
+    <value>Автоматически Создано</value>
+    <comment>Automatically Generated</comment>
+  </data>
+  <data name="PlayingHistoryText" xml:space="preserve">
+    <value>Последний Играл</value>
+    <comment>Last Played</comment>
+  </data>
+
+  <data name="Cast.Text" xml:space="preserve">
+    <value>Транслировать</value>
+    <comment>Cast</comment>
+  </data>
+  <data name="LyricWindowFlyout.Text" xml:space="preserve">
+    <value>Окно Текста</value>
+    <comment>Lyric Window</comment>
+  </data>
+  <data name="SmallWindowFlyout.Text" xml:space="preserve">
+    <value>Маленькое Окно</value>
+    <comment>Small Window</comment>
+  </data>
+  <data name="LyricWindow.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Окно Текста</value>
+    <comment>Lyric Window</comment>
+  </data>
+  <data name="SmallWindow.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Маленькое Окно</value>
+    <comment>Small Window</comment>
+  </data>
+  <data name="TileDesc" xml:space="preserve">
+    <value>{0} от {1}</value>
+    <comment>{0} by {1}</comment>
+  </data>
+  <data name="WhatsNew.Content" xml:space="preserve">
+    <value>Что нового?</value>
+    <comment>What's New?</comment>
+  </data>
+  <data name="DropBtn.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Сбрасывать</value>
+    <comment>Drop</comment>
+  </data>
+  <data name="DouText" xml:space="preserve">
+    <value>Douban FM</value>
+    <comment>豆瓣 FM</comment>
+  </data>
+  <data name="EaseAccess.CloseButtonText" xml:space="preserve">
+    <value>Закрыть</value>
+    <comment>Close</comment>
+  </data>
+  <data name="EaseAccessBtn.Content" xml:space="preserve">
+    <value>Простой Доступ</value>
+    <comment>Ease of Access</comment>
+  </data>
+  <data name="SmartDuration" xml:space="preserve">
+    <value>{0} {0:мин|минуты}, {1} {1:сек|секунды}</value>
+    <comment>{0} {0:min|mins}, {1} {1:sec|secs}</comment>
+  </data>
+  <data name="SmartDurationLong" xml:space="preserve">
+    <value>{0} {0:час|часы}, {1} {1:мин|минуты}</value>
+    <comment>{0} {0:hour|hours}, {1} {1:min|mins}</comment>
+  </data>
+  <data name="SmartDurationShort" xml:space="preserve">
+    <value>{0} {0:сек|секунды}</value>
+    <comment>{0} {0:sec|secs}</comment>
+  </data>
+  <data name="ArtistStory.Text" xml:space="preserve">
+    <value>Показать Историю Автора</value>
+    <comment>See Artist Story</comment>
+  </data>
+  <data name="AlbumStory.Text" xml:space="preserve">
+    <value>Показать Историю Альбома</value>
+    <comment>See Album Story</comment>
+  </data>
+  <data name="Equalizer.Text" xml:space="preserve">
+    <value>Эквалайзер</value>
+    <comment>Equalizer</comment>
+  </data>
+  <data name="Timer.Text" xml:space="preserve">
+    <value>Таймер Сна</value>
+    <comment>Sleep Timer</comment>
+  </data>
+  <data name="NotLogin" xml:space="preserve">
+    <value>Не Войти</value>
+    <comment>NotLogin</comment>
+  </data>
+  <data name="UnknownError" xml:space="preserve">
+    <value>Неизвестная Ошибка</value>
+    <comment>UnknownError</comment>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Пароль</value>
+    <comment>Password</comment>
+  </data>
+  <data name="Invalid" xml:space="preserve">
+    <value>Недействительный</value>
+    <comment>Invalid</comment>
+  </data>
+  <data name="Account" xml:space="preserve">
+    <value>Аккаунт</value>
+    <comment>Account</comment>
+  </data>
+  <data name="PasswordBox.Header" xml:space="preserve">
+    <value>Пароль</value>
+    <comment>Password</comment>
+  </data>
+  <data name="PasswordBox.PlaceholderText" xml:space="preserve">
+    <value>8 и больше символов</value>
+    <comment>8 or More Characters</comment>
+  </data>
+  <data name="AccountBox.Header" xml:space="preserve">
+    <value>Аккаунт</value>
+    <comment>Account</comment>
+  </data>
+  <data name="AccountBox.PlaceholderText" xml:space="preserve">
+    <value>E-mail/Номер Телефона</value>
+    <comment>E-mail/Phone</comment>
+  </data>
+  <data name="DoubanLogin.PrimaryButtonText" xml:space="preserve">
+    <value>Логин</value>
+    <comment>Login</comment>
+  </data>
+  <data name="DoubanLogin.CloseButtonText" xml:space="preserve">
+    <value>Закрыть</value>
+    <comment>Close</comment>
+  </data>
+  <data name="EqualizerSettings.Title" xml:space="preserve">
+    <value>Настройки Эквалайзера</value>
+    <comment>Equalizer Settings</comment>
+  </data>
+  <data name="EqualizerSettings.CloseButtonText" xml:space="preserve">
+    <value>Закрыть</value>
+    <comment>Close</comment>
+  </data>
+  <data name="Presets.Header" xml:space="preserve">
+    <value>Пресеты:</value>
+    <comment>Presets:</comment>
+  </data>
+  <data name="Reset.Content" xml:space="preserve">
+    <value>Сбросить</value>
+    <comment>Reset</comment>
+  </data>
+  <data name="SleepTimerDialog.Title" xml:space="preserve">
+    <value>Таймер Сна</value>
+    <comment>Sleep Timer</comment>
+  </data>
+  <data name="SleepTimerDialog.CloseButtonText" xml:space="preserve">
+    <value>Отменить</value>
+    <comment>Cancel</comment>
+  </data>
+  <data name="SleepTimerDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Подтвердить</value>
+    <comment>Confirm</comment>
+  </data>
+  <data name="SleepTimerTimePicker.Header" xml:space="preserve">
+    <value>Когда придёт время</value>
+    <comment>When time arrives</comment>
+  </data>
+  <data name="SleepTimerPerform.Text" xml:space="preserve">
+    <value>Играть:</value>
+    <comment>Performs:</comment>
+  </data>
+  <data name="SleepTimerPlayPause.Content" xml:space="preserve">
+    <value>Переключение Воспроизведения/Паузы</value>
+    <comment>Toggle play/pause</comment>
+  </data>
+  <data name="SleepTimerStop.Content" xml:space="preserve">
+    <value>Стоп</value>
+    <comment>Stop</comment>
+  </data>
+  <data name="SleepTimerShutdown.Content" xml:space="preserve">
+    <value>Завершение работы приложения</value>
+    <comment>Shutdown app</comment>
+  </data>
+  <data name="AudioEffects.Text" xml:space="preserve">
+    <value>Аудио Эффекты</value>
+    <comment>Audio Effects</comment>
+  </data>
+  <data name="EqualizerToggle.Header" xml:space="preserve">
+    <value>Эквалайзер</value>
+    <comment>Equalizer</comment>
+  </data>
+  <data name="VolumeButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Громкость</value>
+    <comment>Volume</comment>
+  </data>
+  <data name="VisualizationButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Визуализация</value>
+    <comment>Audio Visualization</comment>
+  </data>
+  <data name="VisualizationFlyout.Text" xml:space="preserve">
+    <value>Визуализация</value>
+    <comment>Audio Visualization</comment>
+  </data>
+  <data name="ShuffleFlyout.Text" xml:space="preserve">
+    <value>Случайный Порядок</value>
+    <comment>Shuffle</comment>
+  </data>
+  <data name="RepeatFlyout.Text" xml:space="preserve">
+    <value>Повтор</value>
+    <comment>Repeat</comment>
+  </data>
+  <data name="DroptoPlay" xml:space="preserve">
+    <value>Кидай и Слушай</value>
+    <comment>Drop to Play</comment>
+  </data>
+  <data name="NotSupport" xml:space="preserve">
+    <value>Не поддерживается</value>
+    <comment>Not Support</comment>
+  </data>
+  <data name="SpeedBtn.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Скорость Воспроизведения</value>
+    <comment>Playback Rate</comment>
+  </data>
+  <data name="LastUpdatePost.Text" xml:space="preserve">
+    <value>Последнее Обновление: </value>
+    <comment>Last Updated: </comment>
+  </data>
+  <data name="RefreshPost.Text" xml:space="preserve">
+    <value>Обновить</value>
+    <comment>Refresh</comment>
+  </data>
+  <data name="UnSubscribe.Text" xml:space="preserve">
+    <value>Отписаться</value>
+    <comment>Un-Subscribe</comment>
+  </data>
+  <data name="Subscribe.Text" xml:space="preserve">
+    <value>Подписаться</value>
+    <comment>Subscribe</comment>
+  </data>
+  <data name="Retriving.Text" xml:space="preserve">
+    <value>Получение Базы Данных</value>
+    <comment>Retriving Database</comment>
+  </data>
+  <data name="TodayText" xml:space="preserve">
+    <value>'Сегодня'</value>
+    <comment>Today</comment>
+  </data>
+  <data name="NextDayText" xml:space="preserve">
+    <value>Далее </value>
+    <comment>Next </comment>
+  </data>
+  <data name="LastDayText" xml:space="preserve">
+    <value>Назад </value>
+    <comment>Last </comment>
+  </data>
+  <data name="SubscribeText" xml:space="preserve">
+    <value>Подписанный</value>
+    <comment>Subscribed</comment>
+  </data>
+  <data name="UnSubscribeText" xml:space="preserve">
+    <value>Отписаться</value>
+    <comment>Un-Subscribed</comment>
+  </data>
+  <data name="UndoSubscribeText" xml:space="preserve">
+    <value>Отменить Подписку</value>
+    <comment>Undo Subscribe</comment>
+  </data>
+  <data name="Fetching.Text" xml:space="preserve">
+    <value>Получение данных</value>
+    <comment>Fetching</comment>
+  </data>
+  <data name="PodcastDialog.Title" xml:space="preserve">
+    <value>Детали Подкаста</value>
+    <comment>Podcast Details</comment>
+  </data>
+  <data name="PodcastDialog.CloseButtonText" xml:space="preserve">
+    <value>Закрыть</value>
+    <comment>Close</comment>
+  </data>
+  <data name="PodcastDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Подписаться</value>
+    <comment>Subscribe</comment>
+  </data>
+  <data name="Podcast.Text" xml:space="preserve">
+    <value>Подкаст</value>
+    <comment>Podcast</comment>
+  </data>
+  <data name="ShowPodcastsWhenSearch.Header" xml:space="preserve">
+    <value>Показывать подкасты при поиске</value>
+    <comment>Show podcasts when search</comment>
+  </data>
+  <data name="SendPodcastToast.Header" xml:space="preserve">
+    <value>Отправлять уведомления о новых поступлениях</value>
+    <comment>Send toast when new-coming</comment>
+  </data>
+  <data name="FetchInterval.Header" xml:space="preserve">
+    <value>Интервал обновления</value>
+    <comment>Refresh Interval</comment>
+  </data>
+  <data name="MinText" xml:space="preserve">
+    <value>мин</value>
+    <comment>min</comment>
+  </data>
+  <data name="PodcastSubscribe" xml:space="preserve">
+    <value>"{0}" Подписан, вы можете найти его в музыкальной библиотеке</value>
+    <comment>"{0}" Subscribed, You can find it in music library now</comment>
+  </data>
+  <data name="PodcastUnSubscribe" xml:space="preserve">
+    <value>"{0}" больше нет в вашей музыкальной библиотеке</value>
+    <comment>"{0}" is no longer in your music library</comment>
+  </data>
+  <data name="ImportSucceed" xml:space="preserve">
+    <value>{1} из {0} {1:Подкаст|Подкасты} успешно импортирован</value>
+    <comment>{1} of {0} {1:Podcast|Podcasts} successfully imported</comment>
+  </data>
+  <data name="OPMLDesc" xml:space="preserve">
+    <value>Документ Outline Processor Markup Language</value>
+    <comment>Outline Processor Markup Language Document</comment>
+  </data>
+  <data name="ExportOPMLName" xml:space="preserve">
+    <value>Экспортировать Подкаст</value>
+    <comment>Podcasts Export</comment>
+  </data>
+  <data name="OPMLExport" xml:space="preserve">
+    <value>Подкасты успешно экспортированы</value>
+    <comment>Podcasts successfully exported</comment>
+  </data>
+  <data name="ImportOPMLBtn.Content" xml:space="preserve">
+    <value>Импортировать OPML документ</value>
+    <comment>Import OPML Doc</comment>
+  </data>
+  <data name="ExportOPMLBtn.Content" xml:space="preserve">
+    <value>Экспортировать OPML документ</value>
+    <comment>Export OPML Doc</comment>
+  </data>
+  <data name="PodcastToastTitle" xml:space="preserve">
+    <value>{0} обновлено!</value>
+    <comment>{0} has updated!</comment>
+  </data>
+  <data name="PodcastToastDesc" xml:space="preserve">
+    <value>Нажмите, чтобы прослушать {0}</value>
+    <comment>Click to listen {0}</comment>
+  </data>
+  <data name="AndMore" xml:space="preserve">
+    <value>И {0} больше</value>
+    <comment>And {0} more</comment>
+  </data>
+
 </root>

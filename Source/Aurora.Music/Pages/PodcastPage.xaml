@@ -385,14 +385,22 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="80"/>
                             <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="48"/>
                             <ColumnDefinition Width="80"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Foreground="{ThemeResource AccentForText}" Text="{x:Bind PubDatetoString(PubDate)}" Style="{ThemeResource BodyTextBlockStyle}" Grid.RowSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                         <TextBlock Margin="12,0,0,0" Text="{x:Bind Title}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                         <TextBlock Margin="12,0,0,0" Text="{x:Bind Album}" Style="{ThemeResource BodyTextBlockStyle}" FontSize="13" MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"
                                    Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"/>
+                        <Button IsEnabled="{x:Bind And(IsOnline,CanDownload),Mode=OneWay}"
+                                Style="{ThemeResource NoBorderButton}" Background="{ThemeResource RevealRoundBackground}"
+                                Command="{x:Bind DownloadPodcast}" Grid.Column="2" Grid.RowSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <Button.Content>
+                                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind IsPodcastDownloadable(IsOnline),Mode=OneWay}" />
+                            </Button.Content>
+                        </Button>
                         <TextBlock Text="{x:Bind DurationtoString(Duration)}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"
-                                   Grid.RowSpan="2" Margin="12,0,0,0" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                   Grid.RowSpan="2" Margin="12,0,0,0" Grid.Column="3" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>

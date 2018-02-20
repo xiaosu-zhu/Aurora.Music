@@ -174,6 +174,16 @@ namespace Aurora.Music
 
         }
 
+        public double PaneLength(bool a)
+        {
+            return a ? Root.OpenPaneLength : Root.CompactPaneLength;
+        }
+
+        public double PaneLength1(bool a)
+        {
+            return a ? Root.OpenPaneLength - 48d : Root.CompactPaneLength;
+        }
+
         /// <summary>
         /// 0 to 100
         /// </summary>
@@ -1315,6 +1325,27 @@ namespace Aurora.Music
         private void NowPanel_PointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             ProgressHide.Begin();
+        }
+
+        private void Download_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Root_PaneOpening(SplitView sender, object args)
+        {
+            foreach (var item in Context.HamList)
+            {
+                item.IsPaneOpen = true;
+            }
+        }
+
+        private void Root_PaneClosing(SplitView sender, SplitViewPaneClosingEventArgs args)
+        {
+            foreach (var item in Context.HamList)
+            {
+                item.IsPaneOpen = false;
+            }
         }
     }
 }

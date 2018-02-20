@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3" xmlns:uap4="http://schemas.microsoft.com/appx/manifest/uap/windows10/4" IgnorableNamespaces="uap mp uap3 uap4">
-  <Identity Name="6727Aurora-ZXS.10476770C0EE5" Publisher="CN=C726CFE3-60F0-4B5C-8D98-3381263565AE" Version="2.0.25.0" />
+  <Identity Name="6727Aurora-ZXS.10476770C0EE5" Publisher="CN=C726CFE3-60F0-4B5C-8D98-3381263565AE" Version="2.0.26.0" />
   <mp:PhoneIdentity PhoneProductId="743dcb49-5f9d-472b-996d-be7602b35973" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>ms-resource:AppNameText</DisplayName>
@@ -26,41 +26,11 @@
         <uap:SplashScreen Image="Assets\SplashScreen.png" BackgroundColor="#ea884b" />
       </uap:VisualElements>
       <Extensions>
-        <Extension Category="windows.backgroundTasks" EntryPoint="Aurora.Music.Services.PodcastsFetcher">
+        <Extension Category="windows.backgroundTasks" EntryPoint="Aurora.Music.Services.DownloadCompletor">
           <BackgroundTasks>
-            <Task Type="timer" />
+            <Task Type="systemEvent" />
           </BackgroundTasks>
         </Extension>
-        <uap:Extension Category="windows.protocol">
-          <uap:Protocol Name="as-music">
-            <uap:Logo>Assets\Square44x44Logo.png</uap:Logo>
-            <uap:DisplayName>Aurora Music</uap:DisplayName>
-          </uap:Protocol>
-        </uap:Extension>
-        <uap3:Extension Category="windows.appExtensionHost">
-          <uap3:AppExtensionHost>
-            <uap3:Name>Aurora.Music.Extensions</uap3:Name>
-          </uap3:AppExtensionHost>
-        </uap3:Extension>
-        <uap:Extension Category="windows.fileTypeAssociation">
-          <uap:FileTypeAssociation Name="aurora_music" DesiredView="default">
-            <uap:DisplayName>Aurora Music</uap:DisplayName>
-            <uap:Logo>Assets\StoreLogo.png</uap:Logo>
-            <uap:InfoTip>Play in Aurora Music</uap:InfoTip>
-            <uap:EditFlags OpenIsSafe="true" />
-            <uap:SupportedFileTypes>
-              <uap:FileType ContentType="audio/mpeg">.mp3</uap:FileType>
-              <uap:FileType ContentType="audio/mp4">.m4a</uap:FileType>
-              <uap:FileType ContentType="audio/wav">.wav</uap:FileType>
-              <uap:FileType ContentType="audio/x-ms-wma">.wma</uap:FileType>
-              <uap:FileType ContentType="audio/flac">.flac</uap:FileType>
-              <uap:FileType ContentType="audio/aac">.aac</uap:FileType>
-            </uap:SupportedFileTypes>
-          </uap:FileTypeAssociation>
-        </uap:Extension>
-        <uap:Extension Category="windows.appService" EntryPoint="Aurora.Music.Services.ExtensionService">
-          <uap:AppService Name="Aurora.Music.Services" />
-        </uap:Extension>
         <uap:Extension Category="windows.shareTarget">
           <uap:ShareTarget Description="Copy to Aurora Music">
             <uap:SupportedFileTypes>
@@ -74,6 +44,41 @@
             <uap:DataFormat>StorageItems</uap:DataFormat>
           </uap:ShareTarget>
         </uap:Extension>
+        <uap:Extension Category="windows.appService" EntryPoint="Aurora.Music.Services.ExtensionService">
+          <uap:AppService Name="Aurora.Music.Services" />
+        </uap:Extension>
+        <uap:Extension Category="windows.fileTypeAssociation">
+          <uap:FileTypeAssociation Name="aurora_music" DesiredView="default">
+            <uap:DisplayName>Aurora Music</uap:DisplayName>
+            <uap:Logo>Assets\file.png</uap:Logo>
+            <uap:InfoTip>Play in Aurora Music</uap:InfoTip>
+            <uap:EditFlags OpenIsSafe="true" />
+            <uap:SupportedFileTypes>
+              <uap:FileType ContentType="audio/mpeg">.mp3</uap:FileType>
+              <uap:FileType ContentType="audio/mp4">.m4a</uap:FileType>
+              <uap:FileType ContentType="audio/wav">.wav</uap:FileType>
+              <uap:FileType ContentType="audio/x-ms-wma">.wma</uap:FileType>
+              <uap:FileType ContentType="audio/flac">.flac</uap:FileType>
+              <uap:FileType ContentType="audio/aac">.aac</uap:FileType>
+            </uap:SupportedFileTypes>
+          </uap:FileTypeAssociation>
+        </uap:Extension>
+        <uap3:Extension Category="windows.appExtensionHost">
+          <uap3:AppExtensionHost>
+            <uap3:Name>Aurora.Music.Extensions</uap3:Name>
+          </uap3:AppExtensionHost>
+        </uap3:Extension>
+        <uap:Extension Category="windows.protocol">
+          <uap:Protocol Name="as-music">
+            <uap:Logo>Assets\Square44x44Logo.png</uap:Logo>
+            <uap:DisplayName>Aurora Music</uap:DisplayName>
+          </uap:Protocol>
+        </uap:Extension>
+        <Extension Category="windows.backgroundTasks" EntryPoint="Aurora.Music.Services.PodcastsFetcher">
+          <BackgroundTasks>
+            <Task Type="timer" />
+          </BackgroundTasks>
+        </Extension>
         <uap3:Extension Category="windows.appExtension">
           <uap3:AppExtension Name="Aurora.Music.Extensions" Id="BuiltIn" PublicFolder="Public" DisplayName="ms-resource:NativeText" Description="ms-resource:BuiltInText">
             <uap3:Properties>

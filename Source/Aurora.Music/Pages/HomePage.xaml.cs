@@ -36,10 +36,6 @@ namespace Aurora.Music.Pages
         public HomePage()
         {
             this.InitializeComponent();
-            var t = ThreadPool.RunAsync(async x =>
-            {
-                await Context.Load();
-            });
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -50,7 +46,8 @@ namespace Aurora.Music.Pages
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            MainPageViewModel.Current.NeedShowTitle = false;
+            MainPageViewModel.Current.NeedShowTitle = true;
+            MainPageViewModel.Current.Title = Context.WelcomeTitle;
             MainPageViewModel.Current.LeftTopColor = Resources["SystemControlForegroundBaseHighBrush"] as SolidColorBrush;
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
             AppViewBackButtonVisibility.Collapsed;
@@ -101,7 +98,7 @@ namespace Aurora.Music.Pages
             var progressNode = props.GetScalarProperty("progress");
 
             // Create and start an ExpressionAnimation to track scroll progress over the desired distance
-            ExpressionNode progressAnimation = EF.Clamp(-scrollingProperties.Translation.Y / ((float)Header.Height), 0, 1);
+            ExpressionNode progressAnimation = EF.Clamp(-scrollingProperties.Translation.Y / ((float)HeaderBG.Height), 0, 1);
             _props.StartAnimation("progress", progressAnimation);
 
             var headerbgVisual = ElementCompositionPreview.GetElementVisual(HeaderBG);

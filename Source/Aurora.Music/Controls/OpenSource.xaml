@@ -16,6 +16,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     CloseButtonText="Close"
     DefaultButton="Close">
     <ScrollViewer x:Name="Root" HorizontalScrollMode="Disabled">
-        <toolkit:MarkdownTextBlock Loaded="Main_Loaded" LinkClicked="Main_LinkClicked" x:Name="Main" Text="You can explorer currently using open source libraries below:&#xD;&#xA;&#xD;&#xA;| `Name` | `Version` | `License` | `Site` |&#xD;&#xA;| --- | --- | --- | ---|&#xD;&#xA;"></toolkit:MarkdownTextBlock>
+        <toolkit:MarkdownTextBlock Loaded="Main_Loaded" LinkClicked="Main_LinkClicked" 
+                                   x:Name="Main" Text="You can explorer currently using open source libraries below:&#xD;&#xA;&#xD;&#xA;| `Name` | `Version` | `License` | `Site` |&#xD;&#xA;| --- | --- | --- | ---|&#xD;&#xA;"></toolkit:MarkdownTextBlock>
     </ScrollViewer>
     </ContentDialog>

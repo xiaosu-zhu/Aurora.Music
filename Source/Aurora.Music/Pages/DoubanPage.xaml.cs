@@ -115,8 +115,8 @@ namespace Aurora.Music.Pages
             {
                 float barX = step * index + flaw;
 
-                // use average of 2 channel
-                float spectrumBarHeight = barSize.Y * (1.0f - (logSpectrum[0][index] + logSpectrum[1][index]) / -100.0f);
+                // use average of 2 channel and add a offset to pretty
+                float spectrumBarHeight = barSize.Y * (1.0f - (logSpectrum[0][index] + logSpectrum[1][index]) / -100.0f) + barSize.X;
 
                 drawingSession.FillRoundedRectangle(barX, 0, barSize.X, spectrumBarHeight, barSize.X / 2, barSize.X / 2, Context.Palette[index]);
                 drawingSession.FillRectangle(barX, 0, barSize.X, spectrumBarHeight - barSize.X / 2, Context.Palette[index]);

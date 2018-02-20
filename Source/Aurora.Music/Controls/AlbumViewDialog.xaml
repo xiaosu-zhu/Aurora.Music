@@ -20,6 +20,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     MinWidth="240"
     PrimaryButtonText="Play"
     DefaultButton="Primary"
+    SecondaryButtonText="Download All"
     CloseButtonText="Close"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
     SecondaryButtonClick="ContentDialog_SecondaryButtonClick">

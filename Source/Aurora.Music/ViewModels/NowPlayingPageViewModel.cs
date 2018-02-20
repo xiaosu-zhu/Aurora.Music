@@ -426,105 +426,26 @@ namespace Aurora.Music.ViewModels
                     folder = await lib.SaveFolder.CreateFolderAsync("Download", CreationCollisionOption.OpenIfExists);
                 }
                 MainPage.Current.PopMessage("Preparing to Download");
-                var progress = await FileTracker.DownloadMusic(Song.Song, folder);
-                progress.Progress = DownloadProgressChanged;
-                progress.Completed = DownloadCompleted;
                 downloadSong = song.Song;
+                await Task.Run(async () =>
+                {
+                    try
+                    {
+                        var resultFile = await FileTracker.DownloadMusic(Song.Song, folder);
+                        MainPage.Current.PopMessage(Consts.Localizer.GetString("DownloadCompletedText"));
+                        MainPage.Current.ProgressUpdate(Consts.Localizer.GetString("CompletedText"), Consts.Localizer.GetString("DownloadCompletedText"));
+                        await FileTracker.AddTags(resultFile, downloadSong);
+                    }
+                    catch (Exception)
+                    {
+                        throw;
+                    }
+                });
             }
             else
             {
                 var dialog = new TagDialog(Song);
                 await dialog.ShowAsync();
-            }
-        }
-
-        private void DownloadCompleted(IAsyncOperationWithProgress<DownloadOperation, DownloadOperation> asyncInfo, AsyncStatus asyncStatus)
-        {
-            MainPage.Current.PopMessage(Consts.Localizer.GetString("DownloadCompletedText"));
-            MainPage.Current.ProgressUpdate(Consts.Localizer.GetString("CompletedText"), Consts.Localizer.GetString("DownloadCompletedText"));
-            var r = asyncInfo.GetResults();
-            asyncInfo.Close();
-            AddTags(r.ResultFile, downloadSong);
-        }
-
-        private void DownloadProgressChanged(IAsyncOperationWithProgress<DownloadOperation, DownloadOperation> asyncInfo, DownloadOperation progressInfo)
-        {
-            MainPage.Current.ProgressUpdate(true);
-            switch (progressInfo.Progress.Status)
-            {
-                case BackgroundTransferStatus.Idle:
-                    MainPage.Current.ProgressUpdate(Consts.Localizer.GetString("IdleText"), Consts.Localizer.GetString("DownloadingIdleText"));
-                    break;
-                case BackgroundTransferStatus.Running:
-                    MainPage.Current.ProgressUpdate(100 * (Convert.ToDouble(progressInfo.Progress.BytesReceived) / Convert.ToDouble(progressInfo.Progress.TotalBytesToReceive)));
-                    MainPage.Current.ProgressUpdate(Consts.Localizer.GetString("ProcessingText"), Consts.Localizer.GetString("DownloadinginProgressText"));
-                    break;
-                case BackgroundTransferStatus.PausedByApplication:
-                case BackgroundTransferStatus.PausedCostedNetwork:
-                case BackgroundTransferStatus.PausedNoNetwork:
-                case BackgroundTransferStatus.PausedSystemPolicy:
-                case BackgroundTransferStatus.PausedRecoverableWebErrorStatus:
-                    MainPage.Current.ProgressUpdate(Consts.Localizer.GetString("ProcessingText"), Consts.Localizer.GetString("DownloadingPausedText"));
-                    break;
-                case BackgroundTransferStatus.Completed:
-                    MainPage.Current.ProgressUpdate(Consts.Localizer.GetString("CompletedText"), Consts.Localizer.GetString("DownloadCompletedText"));
-                    break;
-                case BackgroundTransferStatus.Canceled:
-                    MainPage.Current.ProgressUpdate(Consts.Localizer.GetString("ProcessingText"), Consts.Localizer.GetString("DownloadingCanceledText"));
-                    break;
-                case BackgroundTransferStatus.Error:
-                    MainPage.Current.ProgressUpdate(Consts.Localizer.GetString("ProcessingText"), Consts.Localizer.GetString("DownloadingErrorText"));
-                    break;
-                default:
-                    break;
-            }
-
-        }
-
-        private async void AddTags(IStorageFile resultFile, Song downloadSong)
-        {
-            using (var tagTemp = TagLib.File.Create(resultFile.Path))
-            {
-                tagTemp.Tag.Title = downloadSong.Title;
-                tagTemp.Tag.Album = downloadSong.Album;
-                tagTemp.Tag.AlbumArtists = downloadSong.AlbumArtists;
-                tagTemp.Tag.AlbumArtistsSort = downloadSong.AlbumArtistsSort;
-                tagTemp.Tag.AlbumSort = downloadSong.AlbumSort;
-                tagTemp.Tag.TitleSort = downloadSong.TitleSort;
-                tagTemp.Tag.Track = downloadSong.Track;
-                tagTemp.Tag.TrackCount = downloadSong.TrackCount;
-                tagTemp.Tag.Disc = downloadSong.Disc;
-                tagTemp.Tag.Composers = downloadSong.Composers;
-                tagTemp.Tag.ComposersSort = downloadSong.ComposersSort;
-                tagTemp.Tag.Conductor = downloadSong.Conductor;
-                tagTemp.Tag.DiscCount = downloadSong.DiscCount;
-                tagTemp.Tag.Copyright = downloadSong.Copyright;
-                tagTemp.Tag.PerformersSort = downloadSong.Genres;
-                tagTemp.Tag.Lyrics = downloadSong.Lyrics;
-                tagTemp.Tag.Performers = downloadSong.Performers;
-                tagTemp.Tag.PerformersSort = downloadSong.PerformersSort;
-                tagTemp.Tag.Year = downloadSong.Year;
-                if (downloadSong.PicturePath != null)
-                    using (var referen = await (RandomAccessStreamReference.CreateFromUri(new Uri(downloadSong.PicturePath))).OpenReadAsync())
-                    {
-                        if (tagTemp.Tag.Pictures != null && tagTemp.Tag.Pictures.Length > 0)
-                        {
-                            var p = new List<IPicture>();
-                            p.AddRange(tagTemp.Tag.Pictures);
-                            p.RemoveAt(0);
-                            p.Insert(0, new Picture(ByteVector.FromStream(referen.AsStream())));
-                            tagTemp.Tag.Pictures = p.ToArray();
-                        }
-                        else
-                        {
-                            var p = new List<Picture>
-                            {
-                                new Picture(ByteVector.FromStream(referen.AsStream()))
-                            };
-                            tagTemp.Tag.Pictures = p.ToArray();
-                        }
-                    }
-                tagTemp.Save();
             }
         }
 

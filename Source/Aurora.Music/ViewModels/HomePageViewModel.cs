@@ -14,33 +14,34 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
-using Windows.UI;
 
 namespace Aurora.Music.ViewModels
 {
     class HomePageViewModel : ViewModelBase
     {
-        private Color leftGradient;
-        public Color LeftGradient
-        {
-            get { return leftGradient; }
-            set { SetProperty(ref leftGradient, value); }
-        }
-
-        private Color rightGradient;
-        public Color RightGradient
-        {
-            get { return rightGradient; }
-            set { SetProperty(ref rightGradient, value); }
-        }
-
-        private string welcomeTitle = "";
         private PlayerStatus playerStatus;
 
         public string WelcomeTitle
         {
-            get { return welcomeTitle; }
-            set { SetProperty(ref welcomeTitle, value); }
+            get
+            {
+                var fes = Tools.IsFestival(DateTime.Today);
+                switch (fes)
+                {
+                    case Festival.None:
+                        return string.Format(Consts.Localizer.GetString("WelcomeTitleText"), DateTime.Now.GetHourString());
+                    case Festival.Valentine:
+                        return Consts.Localizer.GetString("ValentineWelcome");
+                    case Festival.Halloween:
+                        return Consts.Localizer.GetString("HalloweenWelcome");
+                    case Festival.Xmas:
+                        return Consts.Localizer.GetString("ChristmasWelcome");
+                    case Festival.Fool:
+                        return string.Format(Consts.Localizer.GetString("WelcomeTitleText"), DateTime.Now.GetHourString());
+                    default:
+                        return string.Format(Consts.Localizer.GetString("WelcomeTitleText"), DateTime.Now.GetHourString());
+                }
+            }
         }
 
         public DelegateCommand PlayRandom
@@ -84,15 +85,10 @@ namespace Aurora.Music.ViewModels
 
         public HomePageViewModel()
         {
-            var fes = Tools.IsFestival(DateTime.Today);
-
-            HeroList.Clear();
             HeroList.Add(new GenericMusicItemViewModel());
             HeroList.Add(new GenericMusicItemViewModel());
             HeroList.Add(new GenericMusicItemViewModel());
             HeroList.Add(new GenericMusicItemViewModel());
-
-            FavList.Clear();
             FavList.Add(new GenericMusicItemViewModel());
             FavList.Add(new GenericMusicItemViewModel());
             FavList.Add(new GenericMusicItemViewModel());
@@ -105,8 +101,6 @@ namespace Aurora.Music.ViewModels
             FavList.Add(new GenericMusicItemViewModel());
             FavList.Add(new GenericMusicItemViewModel());
             FavList.Add(new GenericMusicItemViewModel());
-
-            RandomList.Clear();
             RandomList.Add(new GenericMusicItemViewModel());
             RandomList.Add(new GenericMusicItemViewModel());
             RandomList.Add(new GenericMusicItemViewModel());
@@ -120,40 +114,10 @@ namespace Aurora.Music.ViewModels
             RandomList.Add(new GenericMusicItemViewModel());
             RandomList.Add(new GenericMusicItemViewModel());
 
-
-            switch (fes)
+            Task.Run(async () =>
             {
-                case Festival.None:
-                    RightGradient = Palette.GetRandom();
-                    LeftGradient = Palette.GetRandom();
-                    WelcomeTitle = string.Format(Consts.Localizer.GetString("WelcomeTitleText"), DateTime.Now.GetHourString());
-                    break;
-                case Festival.Valentine:
-                    RightGradient = Palette.Pink;
-                    LeftGradient = Palette.PinkRed;
-                    WelcomeTitle = Consts.Localizer.GetString("ValentineWelcome");
-                    break;
-                case Festival.Halloween:
-                    RightGradient = Palette.DarkBlueGray;
-                    LeftGradient = Palette.PurpleGray;
-                    WelcomeTitle = Consts.Localizer.GetString("HalloweenWelcome");
-                    break;
-                case Festival.Xmas:
-                    RightGradient = Palette.VibrantRed;
-                    LeftGradient = Palette.Green;
-                    WelcomeTitle = Consts.Localizer.GetString("ChristmasWelcome");
-                    break;
-                case Festival.Fool:
-                    RightGradient = Palette.GetRandom();
-                    LeftGradient = Palette.GetRandom();
-                    WelcomeTitle = string.Format(Consts.Localizer.GetString("WelcomeTitleText"), DateTime.Now.GetHourString());
-                    break;
-                default:
-                    RightGradient = Palette.GetRandom();
-                    LeftGradient = Palette.GetRandom();
-                    WelcomeTitle = string.Format(Consts.Localizer.GetString("WelcomeTitleText"), DateTime.Now.GetHourString());
-                    break;
-            }
+                await Load();
+            });
         }
 
         public ObservableCollection<GenericMusicItemViewModel> FavList { get; set; } = new ObservableCollection<GenericMusicItemViewModel>();

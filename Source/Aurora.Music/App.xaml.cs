@@ -487,15 +487,6 @@ namespace Aurora.Music
                 }
             }
 
-            if (e.Kind == ActivationKind.ToastNotification)
-            {
-                var query = HttpUtility.ParseQueryString(e.Arguments);
-                if (query["Action"] == "ShowPodcast")
-                {
-                    MainPage.Current.ShowPodcast(query["ID"]);
-                }
-            }
-
             var t = Task.Run(async () =>
             {
                 if (BackgroundTaskHelper.IsBackgroundTaskRegistered(Consts.PodcastTaskName))

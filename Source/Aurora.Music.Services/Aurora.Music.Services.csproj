@@ -107,6 +107,7 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="DownloadCompletor.cs" />
     <Compile Include="ExtensionService.cs" />
     <Compile Include="PodcastsFetcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

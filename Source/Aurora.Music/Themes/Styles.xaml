@@ -362,7 +362,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         <Setter Property="Background" Value="{ThemeResource RevealRoundBackground}" />
         <Setter Property="Foreground" Value="{ThemeResource ButtonForeground}" />
         <Setter Property="BorderBrush" Value="{ThemeResource ButtonRevealBorderBrush}" />
-        <Setter Property="BorderThickness" Value="{ThemeResource ButtonRevealBorderThemeThickness}" />
+        <Setter Property="BorderThickness" Value="{ThemeResource ListViewItemRevealBorderThemeThickness}" />
         <Setter Property="Padding" Value="0" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Center" />
@@ -390,9 +390,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                 <VisualState x:Name="PointerOver">
                                     <VisualState.Setters>
                                         <Setter Target="RootGrid.(RevealBrush.State)" Value="PointerOver" />
-                                        <Setter Target="RootGrid.Background" Value="{ThemeResource ButtonRevealBackgroundPointerOver}" />
+                                        <Setter Target="RootGrid.Background" Value="{ThemeResource ListViewItemRevealBackgroundPointerOver}" />
                                         <Setter Target="RootGrid.BorderBrush" Value="{ThemeResource ButtonRevealBorderBrushPointerOver}" />
-                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightAltAltMediumHighBrush}" />
                                     </VisualState.Setters>
 
                                     <Storyboard>
@@ -403,9 +402,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                 <VisualState x:Name="Pressed">
                                     <VisualState.Setters>
                                         <Setter Target="RootGrid.(RevealBrush.State)" Value="Pressed" />
-                                        <Setter Target="RootGrid.Background" Value="{ThemeResource ButtonRevealBackgroundPressed}" />
+                                        <Setter Target="RootGrid.Background" Value="{ThemeResource ListViewItemRevealBackgroundPressed}" />
                                         <Setter Target="RootGrid.BorderBrush" Value="{ThemeResource ButtonRevealBorderBrushPressed}" />
-                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightAltAltHighBrush}" />
                                     </VisualState.Setters>
 
                                     <Storyboard>
@@ -442,7 +440,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         <Setter Property="Background" Value="{ThemeResource RevealRoundBackground}" />
         <Setter Property="Foreground" Value="{ThemeResource ButtonForeground}" />
         <Setter Property="BorderBrush" Value="{ThemeResource ButtonRevealBorderBrush}" />
-        <Setter Property="BorderThickness" Value="{ThemeResource ButtonRevealBorderThemeThickness}" />
+        <Setter Property="BorderThickness" Value="{ThemeResource ListViewItemRevealBorderThemeThickness}" />
         <Setter Property="Padding" Value="0" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Center" />
@@ -465,9 +463,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                 <VisualState x:Name="PointerOver">
                                     <VisualState.Setters>
                                         <Setter Target="RootGrid.(RevealBrush.State)" Value="PointerOver" />
-                                        <Setter Target="RootGrid.Background" Value="{ThemeResource ButtonRevealBackgroundPointerOver}" />
+                                        <Setter Target="RootGrid.Background" Value="{ThemeResource ListViewItemRevealBackgroundPointerOver}" />
                                         <Setter Target="RootGrid.BorderBrush" Value="{ThemeResource ButtonRevealBorderBrushPointerOver}" />
-                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightAltAltMediumHighBrush}" />
                                     </VisualState.Setters>
                                     <Storyboard>
                                         <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
@@ -476,9 +473,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                 <VisualState x:Name="Pressed">
                                     <VisualState.Setters>
                                         <Setter Target="RootGrid.(RevealBrush.State)" Value="Pressed" />
-                                        <Setter Target="RootGrid.Background" Value="{ThemeResource ButtonRevealBackgroundPressed}" />
+                                        <Setter Target="RootGrid.Background" Value="{ThemeResource ListViewItemRevealBackgroundPressed}" />
                                         <Setter Target="RootGrid.BorderBrush" Value="{ThemeResource ButtonRevealBorderBrushPressed}" />
-                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightAltAltHighBrush}" />
                                     </VisualState.Setters>
                                     <Storyboard>
                                         <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
@@ -541,9 +537,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                 <VisualState x:Name="PointerOver">
                                     <VisualState.Setters>
                                         <Setter Target="RootGrid.(RevealBrush.State)" Value="PointerOver" />
-                                        <Setter Target="RootGrid.Background" Value="{ThemeResource ToggleButtonRevealBackgroundPointerOver}" />
+                                        <Setter Target="RootGrid.Background" Value="{ThemeResource ListViewItemRevealBackgroundPointerOver}" />
                                         <Setter Target="RootGrid.BorderBrush" Value="{ThemeResource ToggleButtonRevealBorderBrushPointerOver}" />
-                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightAltAltMediumHighBrush}" />
                                     </VisualState.Setters>
 
                                     <Storyboard>
@@ -554,9 +549,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                 <VisualState x:Name="Pressed">
                                     <VisualState.Setters>
                                         <Setter Target="RootGrid.(RevealBrush.State)" Value="Pressed" />
-                                        <Setter Target="RootGrid.Background" Value="{ThemeResource ToggleButtonRevealBackgroundPressed}" />
+                                        <Setter Target="RootGrid.Background" Value="{ThemeResource ListViewItemRevealBackgroundPressed}" />
                                         <Setter Target="RootGrid.BorderBrush" Value="{ThemeResource ToggleButtonRevealBorderBrushPressed}" />
-                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightAltAltHighBrush}" />
                                     </VisualState.Setters>
 
                                     <Storyboard>

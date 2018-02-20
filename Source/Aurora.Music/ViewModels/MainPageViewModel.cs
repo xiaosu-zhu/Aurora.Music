@@ -15,6 +15,7 @@ using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
@@ -380,6 +381,18 @@ namespace Aurora.Music.ViewModels
             }
         }
 
+        public DelegateCommand GotoDownload
+        {
+            get
+            {
+                return new DelegateCommand(() =>
+                {
+                    MainPage.Current.GoBackFromNowPlaying();
+                    MainPage.Current.Navigate(typeof(DownloadPage));
+                });
+            }
+        }
+
         public DelegateCommand GotoAbout
         {
             get
@@ -425,15 +438,18 @@ namespace Aurora.Music.ViewModels
 
         public MainPageViewModel()
         {
-            player = PlaybackEngine.PlaybackEngine.Current;
-            AttachVisualizerSource();
             Current = this;
-            player.DownloadProgressChanged += Player_DownloadProgressChanged;
-            player.ItemsChanged += Player_StatusChanged;
-            player.PlaybackStatusChanged += Player_PlaybackStatusChanged;
-            player.PositionUpdated += Player_PositionUpdated;
-            var t = ThreadPool.RunAsync(async x =>
+            player = PlaybackEngine.PlaybackEngine.Current;
+            Task.Run(async () =>
             {
+                AttachVisualizerSource();
+                player.DownloadProgressChanged += Player_DownloadProgressChanged;
+                player.ItemsChanged += Player_StatusChanged;
+                player.PlaybackStatusChanged += Player_PlaybackStatusChanged;
+                player.PositionUpdated += Player_PositionUpdated;
+                Downloader.Current.ProgressChanged += Current_ProgressChanged;
+                Downloader.Current.ProgressCancelled += Current_ProgressChanged;
+                Downloader.Current.ItemCompleted += Current_ProgressChanged;
                 if (Settings.Current.LastUpdateBuild < SystemInfoHelper.GetPackageVersionNum())
                 {
                     var k = CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
@@ -446,6 +462,57 @@ namespace Aurora.Music.ViewModels
                 }
                 await ReloadExtensions();
                 await FindFileChanges();
+            });
+        }
+
+        private bool isdownloading;
+        public bool IsDownloading
+        {
+            get { return isdownloading; }
+            set { SetProperty(ref isdownloading, value); }
+        }
+
+        private double downloadPer;
+        public double DownloadPer
+        {
+            get { return downloadPer; }
+            set { SetProperty(ref downloadPer, value); }
+        }
+
+        private string downloadDes = "Download";
+        public string DownloadDes
+        {
+            get { return downloadDes; }
+            set { SetProperty(ref downloadDes, value); }
+        }
+
+        private async void Current_ProgressChanged(object sender, Windows.Networking.BackgroundTransfer.DownloadOperation e)
+        {
+            int i = 0, all = 0;
+            double down = 0, total = 0;
+            foreach (var item in (sender as Downloader).GetAll())
+            {
+                if (item.Progress.Status == Windows.Networking.BackgroundTransfer.BackgroundTransferStatus.Running)
+                {
+                    i++;
+                }
+                down += item.Progress.BytesReceived;
+                total += item.Progress.TotalBytesToReceive;
+                all++;
+            }
+            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            {
+                if (i > 0)
+                {
+                    IsDownloading = true;
+                    DownloadDes = SmartFormat.Smart.Format("{0}/{1} download task {0:is|are} running", i, all);
+                }
+                else
+                {
+                    IsDownloading = false;
+                    DownloadDes = "Download";
+                }
+                DownloadPer = total == 0 ? 0 : 100 * down / total;
             });
         }
 
@@ -850,6 +917,13 @@ namespace Aurora.Music.ViewModels
 
         public Uri BG { get; set; }
 
+        private bool isPaneOpen;
+        public bool IsPaneOpen
+        {
+            get { return isPaneOpen; }
+            set { SetProperty(ref isPaneOpen, value); }
+        }
+
         private bool isCurrent;
         public bool IsCurrent
         {
@@ -875,6 +949,11 @@ namespace Aurora.Music.ViewModels
         public double BoolToOpacity(bool b)
         {
             return b ? 1.0 : 0.333333333333;
+        }
+
+        public double PaneLength(bool a)
+        {
+            return a ? 320d : 48d;
         }
     }
 }

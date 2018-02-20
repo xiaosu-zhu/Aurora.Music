@@ -2,14 +2,18 @@
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using Aurora.Music.Core;
+using Aurora.Music.Core.Models;
 using Aurora.Music.Core.Storage;
 using Aurora.Music.ViewModels;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
+using Windows.Storage;
 using Windows.System;
 using Windows.System.Threading;
 using Windows.UI.Xaml;
@@ -49,6 +53,10 @@ namespace Aurora.Music.Controls
 
             }
             this.album = album;
+            if (!album.IsOnline)
+            {
+                SecondaryButtonText = null;
+            }
             var songs = AsyncHelper.RunSync(async () => { return await album.GetSongsAsync(); });
             uint i = 0;
             foreach (var item in songs)
@@ -109,8 +117,41 @@ namespace Aurora.Music.Controls
             MainPage.Current.ShowModalUI(false);
         }
 
-        private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private async void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
+            var d = args.GetDeferral();
+            List<Task<StorageFile>> tasks = new List<Task<StorageFile>>();
+            StorageFolder folder;
+            try
+            {
+                if (!Settings.Current.DownloadPathToken.IsNullorEmpty())
+                {
+                    folder = await Windows.Storage.AccessCache.StorageApplicationPermissions.
+                            FutureAccessList.GetFolderAsync(Settings.Current.DownloadPathToken);
+                }
+                else
+                {
+                    var lib = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Music);
+                    folder = await lib.SaveFolder.CreateFolderAsync("Download", CreationCollisionOption.OpenIfExists);
+                }
+            }
+            catch (Exception)
+            {
+                var lib = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Music);
+                folder = await lib.SaveFolder.CreateFolderAsync("Download", CreationCollisionOption.OpenIfExists);
+            }
+
+            MainPage.Current.PopMessage(SmartFormat.Smart.Format("Starting download {0} {0:song|songs}", SongList.Count));
+
+            foreach (var item in SongList)
+            {
+                var t = Task.Run(async () =>
+                {
+                    var res = await FileTracker.DownloadMusic(item.Song, folder);
+                    await FileTracker.AddTags(res, item.Song);
+                });
+            }
+            d.Complete();
         }
 
         private void DetailPanel_Click(object sender, RoutedEventArgs e)
@@ -135,7 +176,6 @@ namespace Aurora.Music.Controls
         {
             await Launcher.LaunchUriAsync(new Uri(e.Link));
         }
-
 
         private void SongList_ContextRequested(UIElement sender, ContextRequestedEventArgs args)
         {

@@ -55,18 +55,16 @@ namespace Aurora.Music.Core
         public static string CommaSeparator => ommaSeparator;
 
         public static string UpdateNote =>
+                            "# Notice\r\n\r\nWe've founded crashes occur when you're using **Windows Insider Preview**, sorry about that. Crashes are caused by *ConnectedAnimation* that can't fix inside this app, but try to disable animation in **System Settings** could fix.\r\n\r\n" +
+                            "---\r\n" +
+                            "* **Tranlation**: Added Russian translation with **Данила Степовой**'s support.\r\n" +
+                            "* **New**: Added a function to cache podcasts.\r\n" +
                             "* **New**: Added a simple share function.\r\n" +
                             "* **New**: Added multi-select support in *Songs* and *Playlist* pages.\r\n" +
                             "* **Improve**: Now you can delete items in *Playlit*, or delete a whole *Playlit*.\r\n" +
                             "* **Improve**: UI layout.\r\n" +
                             "* **Fix**: Fixed an issue that equalizer settings don't restore after re-launching app.\r\n" +
-                            "* **Fix**: Fixed an issue when applying equalizer on music that higher than 96KHz causes output weird.\r\n" +
-                            "* **Improve**: Enabled image cache.\r\n" +
-                            "* **Improve**: Performance enhanced.\r\n" +
-                            "* **Tranlation**: Synced translation.\r\n" +
-                            "* **New**: Added **Explore Podcast** page.\r\n" +
-                            "* **New**: Added **Podcast** support.\r\n" +
-                            "* **New**: Added *Podcast* section *Settings - Podcast*.\r\n";
+                            "* **Fix**: Fixed an issue when applying equalizer on music that higher than 96KHz causes output weird.\r\n";
 
         public static string UpdateNoteTitle => localizer.GetString("UpdateNoteTitle");
 

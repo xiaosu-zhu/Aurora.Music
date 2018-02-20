@@ -107,7 +107,7 @@ namespace Aurora.Music.Pages
         internal void RemovePlayList(PlayList model)
         {
             var i = Category.SelectedIndex;
-            CategoryList.Remove(CategoryList.First(a => a.Title == model.Title && a.NavigatType == typeof(PlayListPage)));
+            CategoryList.Remove(CategoryList.First(a => a.ID == model.ID && a.NavigatType == typeof(PlayListPage)));
             playlists.Remove(model);
         }
 

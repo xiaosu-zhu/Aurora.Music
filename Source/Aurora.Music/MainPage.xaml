@@ -7,7 +7,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     x:Class="Aurora.Music.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Aurora.Music" xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:local="using:Aurora.Music.Pages" xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:vm="using:Aurora.Music.ViewModels" xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:controls="using:Aurora.Music.Controls" xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
@@ -571,7 +571,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <Setter Property="TabNavigation" Value="Local" />
                 <Setter Property="IsHoldingEnabled" Value="True" />
                 <Setter Property="Padding" Value="0" />
-                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                <Setter Property="HorizontalContentAlignment" Value="Left" />
                 <Setter Property="VerticalContentAlignment" Value="Center" />
                 <Setter Property="MinWidth" Value="{ThemeResource ListViewItemMinWidth}" />
                 <Setter Property="MinHeight" Value="{ThemeResource ListViewItemMinHeight}" />
@@ -873,7 +873,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     </Page.Transitions>
 
     <SplitView AllowDrop="True" DragOver="Root_DragOver" Drop="Root_Drop" OpenPaneLength="320" x:Name="Root" Background="{x:Null}" 
-               Style="{StaticResource MainPageSplitViewStyle}" DisplayMode="CompactOverlay" >
+               Style="{StaticResource MainPageSplitViewStyle}" DisplayMode="CompactOverlay" PaneOpening="Root_PaneOpening" PaneClosing="Root_PaneClosing">
 
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
@@ -966,8 +966,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                             <animations:TranslationAnimation To="-320,0,0" From="0,0,0" Duration="0:0:0.16"/>
                         </animations:Implicit.HideAnimations>
                     </Border>
-                    <Button Style="{ThemeResource MainPageHamStyle}" Background="Transparent" ToolTipService.ToolTip="{x:Bind Context.CurrentTitle, Mode=OneWay}"
-                        HorizontalAlignment="Left" VerticalAlignment="Top" Click="Toggle_PaneOpened"
+                    <Button Style="{ThemeResource RevealRectangleButton}" Background="Transparent" ToolTipService.ToolTip="{x:Bind Context.CurrentTitle, Mode=OneWay}"
+                        HorizontalAlignment="Left" VerticalAlignment="Top" Click="Toggle_PaneOpened" BorderThickness="1"
                         Margin="0,32,0,0" Width="48" Height="48">
                         <Button.Content>
                             <FontIcon Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" FontFamily="Segoe MDL2 Assets" Glyph="&#xE700;" />
@@ -980,44 +980,68 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                    HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
                     </Viewbox>
                 </Grid>
-                <ListView x:Name="HamPane" SelectionMode="None" IsItemClickEnabled="True" ItemClick="ListView_ItemClick" 
-                          ItemsSource="{x:Bind Context.HamList}" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                <ListView x:Name="HamPane" SelectionMode="None" IsItemClickEnabled="True" ItemClick="ListView_ItemClick" Width="{x:Bind PaneLength(Root.IsPaneOpen),Mode=OneWay}"
+                          ItemsSource="{x:Bind Context.HamList}" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Stretch" 
                           ItemContainerStyle="{ThemeResource PaneListItemStyle}">
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="vm:HamPanelItem">
-                            <Grid Background="{ThemeResource SystemControlTransparentBrush}" 
-                                  Height="48" x:Name="Panel" HorizontalAlignment="Stretch" Width="320" 
+                            <Grid Background="{ThemeResource SystemControlTransparentBrush}" VerticalAlignment="Stretch"
+                                  Height="48" x:Name="Panel" HorizontalAlignment="Left" Width="{x:Bind PaneLength(IsPaneOpen),Mode=OneWay}"
                                   ToolTipService.ToolTip="{x:Bind Title}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="48"/>
-                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="auto"/>
                                 </Grid.ColumnDefinitions>
                                 <FontIcon HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Icon}" Foreground="{x:Bind ChangeForeground(IsCurrent),Mode=OneWay}"/>
                                 <TextBlock Margin="8,0" Grid.Column="1" x:Name="Title" Text="{x:Bind Title}" Foreground="{x:Bind ChangeForeground(IsCurrent),Mode=OneWay}"
+                                           Visibility="{x:Bind IsPaneOpen,Mode=OneWay}"
                                    HorizontalAlignment="Left" VerticalAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}"/>
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-                <StackPanel HorizontalAlignment="Left" VerticalAlignment="Stretch" Grid.Row="2" Orientation="{x:Bind PaneToOrientation(Root.IsPaneOpen),Mode=OneWay}" Width="320">
-                    <Button Height="48" Command="{x:Bind Context.GotoSettings}" Click="Button_Click" Padding="0" VerticalContentAlignment="Center" BorderBrush="{ThemeResource ListViewItemRevealBorderBrush}"
-                            HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Stretch" ToolTipService.ToolTip="Settings"
-                            Style="{ThemeResource RevealRectangleButton}" BorderThickness="1" Width="272" Background="{ThemeResource SystemControlTransparentBrush}">
+                <StackPanel Width="320" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Orientation="Vertical" Grid.Row="2">
+                    <Button Height="48" Click="Download_Click" Padding="0" VerticalContentAlignment="Center" 
+                            BorderBrush="{ThemeResource ListViewItemRevealBorderBrush}" x:Name="Download"
+                            HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Stretch" ToolTipService.ToolTip="{x:Bind Context.DownloadDes,Mode=OneWay}"
+                            Style="{ThemeResource RevealRectangleButton}" BorderThickness="1" Width="{x:Bind PaneLength(Root.IsPaneOpen),Mode=OneWay}" 
+                            Background="{ThemeResource SystemControlTransparentBrush}">
                         <Grid HorizontalAlignment="Left" VerticalAlignment="Center" Height="48">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="48"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="auto"/>
                             </Grid.ColumnDefinitions>
-                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE115;" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            <TextBlock x:Uid="Settings" Grid.Column="1" Margin="8,0" Text="Settings"
+                            <FontIcon Visibility="{x:Bind Context.BoolNottoVisibility(Context.IsDownloading),Mode=OneWay}" 
+                                      Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" FontFamily="Segoe MDL2 Assets" 
+                                      Glyph="&#xE118;" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <toolkit:RadialProgressBar Foreground="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" Visibility="{x:Bind Context.IsDownloading,Mode=OneWay}"
+                                                       Outline="{ThemeResource SystemControlBackgroundAltLowRevealBrush}" Value="{x:Bind Context.DownloadPer,Mode=OneWay}" 
+                                                       Width="24" Height="24" Thickness="12" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                       Minimum="0" Maximum="100"/>
+                            <TextBlock Grid.Column="1" Margin="8,0" Text="{x:Bind Context.DownloadDes,Mode=OneWay}"
                                        Style="{ThemeResource BodyTextBlockStyle}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                         </Grid>
                     </Button>
-                    <Button x:Uid="About" ToolTipService.ToolTip="About" Click="Button_Click" Width="48" Height="48" Grid.Column="1" Command="{x:Bind Context.GotoAbout}"
+                    <StackPanel HorizontalAlignment="Left" VerticalAlignment="Stretch" Orientation="{x:Bind PaneToOrientation(Root.IsPaneOpen),Mode=OneWay}" Width="{x:Bind PaneLength(Root.IsPaneOpen),Mode=OneWay}">
+                        <Button Height="48" Command="{x:Bind Context.GotoSettings}" Click="Button_Click" Padding="0" VerticalContentAlignment="Center" BorderBrush="{ThemeResource ListViewItemRevealBorderBrush}"
+                            HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Stretch" ToolTipService.ToolTip="Settings"
+                            Style="{ThemeResource RevealRectangleButton}" BorderThickness="1" Width="{x:Bind PaneLength1(Root.IsPaneOpen),Mode=OneWay}" Background="{ThemeResource SystemControlTransparentBrush}">
+                            <Grid HorizontalAlignment="Left" VerticalAlignment="Center" Height="48">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="48"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <FontIcon Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" FontFamily="Segoe MDL2 Assets" Glyph="&#xE115;" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <TextBlock x:Uid="Settings" Grid.Column="1" Margin="8,0" Text="Settings"
+                                       Style="{ThemeResource BodyTextBlockStyle}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Button>
+                        <Button x:Uid="About" ToolTipService.ToolTip="About" Click="Button_Click" Width="48" Height="48" Grid.Column="1" Command="{x:Bind Context.GotoAbout}"
                             HorizontalAlignment="Left" VerticalAlignment="Stretch" Background="{ThemeResource SystemControlTransparentBrush}" 
                             Style="{ThemeResource RevealRectangleButton}" BorderThickness="1" BorderBrush="{ThemeResource ListViewItemRevealBorderBrush}">
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xED59;" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </Button>
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xED59;" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Button>
+                    </StackPanel>
                 </StackPanel>
             </Grid>
         </SplitView.Pane>

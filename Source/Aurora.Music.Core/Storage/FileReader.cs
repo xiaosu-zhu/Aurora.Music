@@ -3,6 +3,7 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using Aurora.Music.Core.Models;
 using Aurora.Shared.Extensions;
+using Aurora.Shared.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -166,7 +167,7 @@ namespace Aurora.Music.Core.Storage
                 // TODO: music library don't have path
                 list.Add(KnownFolders.MusicLibrary);
             }
-            list.Add(ApplicationData.Current.LocalFolder);
+            list.Add(AsyncHelper.RunSync(async () => await ApplicationData.Current.LocalFolder.CreateFolderAsync("Music", CreationCollisionOption.OpenIfExists)));
             return list;
         }
 

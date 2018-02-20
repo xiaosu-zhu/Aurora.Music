@@ -477,6 +477,12 @@ namespace Aurora.Music.Core.Models
         {
             return await SQLOperator.Current().GetSongsAsync(songID);
         }
+
+        public string GetFileName()
+        {
+            var f = OnlineID.TakeLast(FilePath.Length - FilePath.LastIndexOf('/'));
+            return Shared.Utils.InvalidFileNameChars.Aggregate(string.Concat(f), (current, c) => current.Replace(c + "", "_"));
+        }
     }
 
 

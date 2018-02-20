@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.Storage;
 
 namespace Aurora.Music.ViewModels
 {
@@ -39,7 +40,12 @@ namespace Aurora.Music.ViewModels
             return $"{Title} - {string.Format(Consts.Localizer.GetString("TileDesc"), album, GetFormattedArtists())}, {GetAddtionalDesc()}";
         }
 
-        public bool IsOnline { get; set; }
+        private bool isOnline;
+        public bool IsOnline
+        {
+            get { return isOnline; }
+            set { SetProperty(ref isOnline, value); }
+        }
 
         public bool IsPodcast { get; set; }
 
@@ -205,11 +211,48 @@ namespace Aurora.Music.ViewModels
         }
 
         private string album;
-
         public string Album
         {
             get { return album.IsNullorEmpty() ? Consts.UnknownAlbum : album; }
             set { album = value; }
+        }
+
+        public DelegateCommand DownloadPodcast
+        {
+            get => new DelegateCommand(async () =>
+            {
+                if (!song.IsOnline) return;
+                if (!CanDownload) return;
+                var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Podcasts", CreationCollisionOption.OpenIfExists);
+                var fileName = song.GetFileName();
+                try
+                {
+                    CanDownload = false;
+                    MainPage.Current.PopMessage("Start Caching");
+                    var file = await Downloader.Current.StartDownload(new Uri(song.FilePath), fileName, folder);
+                    IsOnline = false;
+                    song.IsOnline = false;
+                    song.FilePath = file.Path;
+                }
+                catch (Exception)
+                {
+
+                }
+                finally
+                {
+                    CanDownload = true;
+                }
+            });
+        }
+
+        public string IsPodcastDownloadable(bool a)
+        {
+            return a ? "\uE118" : "\uE10B";
+        }
+
+        public bool And(bool a, bool s)
+        {
+            return a && s;
         }
 
         private bool fav;
@@ -234,6 +277,13 @@ namespace Aurora.Music.ViewModels
             return new AlbumViewModel(await SQLOperator.Current().GetAlbumByNameAsync(Song.Album, Song.ID));
         }
 
+        private bool canDownload = true;
+        public bool CanDownload
+        {
+            get { return canDownload; }
+            set { SetProperty(ref canDownload, value); }
+        }
+
         private uint track;
         public uint Track
         {
@@ -244,6 +294,11 @@ namespace Aurora.Music.ViewModels
                 return track;
             }
             set { track = value; }
+        }
+
+        public string ShowOnline(bool a)
+        {
+            return a ? string.Empty : "\uE753";
         }
 
         public string FormattedAlbum

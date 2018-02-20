@@ -201,6 +201,9 @@
     <Compile Include="Pages\DoubanPage.xaml.cs">
       <DependentUpon>DoubanPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\DownloadPage.xaml.cs">
+      <DependentUpon>DownloadPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>
@@ -263,6 +266,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\ali.png" />
+    <Content Include="Assets\file.png" />
     <Content Include="Assets\Images\albums.png" />
     <Content Include="Assets\Images\artists.png" />
     <Content Include="Assets\Images\artist_placeholder.scale-100.png" />
@@ -483,6 +487,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\DoubanPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\DownloadPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

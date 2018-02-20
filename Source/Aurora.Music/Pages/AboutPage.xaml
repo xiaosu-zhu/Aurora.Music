@@ -72,7 +72,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <Button Style="{ThemeResource TextBlockButtonStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Margin="12" Content="Contributors">
                 <Button.Flyout>
                     <Flyout>
-                        <toolkit:MarkdownTextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MaxWidth="320" Text="* Thanks for the Destuch translation added by **Lucas Herr**"/>
+                        <toolkit:MarkdownTextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MaxWidth="320" Text="* Thanks for the Destuch translation added by **Lucas Herr**.&#xD;&#xA;* Thanks for the Russian translation added by **Данила Степовой**."/>
                     </Flyout>
                 </Button.Flyout>
             </Button>

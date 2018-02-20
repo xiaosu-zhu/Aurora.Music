@@ -8,9 +8,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using TagLib;
 using Windows.Foundation;
 using Windows.Networking.BackgroundTransfer;
 using Windows.Storage;
+using Windows.Storage.Streams;
 
 namespace Aurora.Music.Core.Storage
 {
@@ -21,6 +23,48 @@ namespace Aurora.Music.Core.Storage
         public FileTracker(StorageFolder f)
         {
             Folder = f;
+        }
+
+        public static async Task AddTags(IStorageFile resultFile, Song downloadSong)
+        {
+            using (var tagTemp = TagLib.File.Create(resultFile.Path))
+            {
+                tagTemp.Tag.Title = downloadSong.Title;
+                tagTemp.Tag.Album = downloadSong.Album;
+                tagTemp.Tag.AlbumArtists = downloadSong.AlbumArtists;
+                tagTemp.Tag.AlbumArtistsSort = downloadSong.AlbumArtistsSort;
+                tagTemp.Tag.AlbumSort = downloadSong.AlbumSort;
+                tagTemp.Tag.TitleSort = downloadSong.TitleSort;
+                tagTemp.Tag.Track = downloadSong.Track;
+                tagTemp.Tag.TrackCount = downloadSong.TrackCount;
+                tagTemp.Tag.Disc = downloadSong.Disc;
+                tagTemp.Tag.Composers = downloadSong.Composers;
+                tagTemp.Tag.ComposersSort = downloadSong.ComposersSort;
+                tagTemp.Tag.Conductor = downloadSong.Conductor;
+                tagTemp.Tag.DiscCount = downloadSong.DiscCount;
+                tagTemp.Tag.Copyright = downloadSong.Copyright;
+                tagTemp.Tag.PerformersSort = downloadSong.Genres;
+                tagTemp.Tag.Lyrics = downloadSong.Lyrics;
+                tagTemp.Tag.Performers = downloadSong.Performers;
+                tagTemp.Tag.PerformersSort = downloadSong.PerformersSort;
+                tagTemp.Tag.Year = downloadSong.Year;
+                if (downloadSong.PicturePath != null)
+                    if (tagTemp.Tag.Pictures != null && tagTemp.Tag.Pictures.Length > 0)
+                    {
+                    }
+                    else
+                    {
+                        using (var referen = await (RandomAccessStreamReference.CreateFromUri(new Uri(downloadSong.PicturePath))).OpenReadAsync())
+                        {
+                            var p = new List<Picture>
+                            {
+                                new Picture(ByteVector.FromStream(referen.AsStream()))
+                            };
+                            tagTemp.Tag.Pictures = p.ToArray();
+                        }
+                    }
+                tagTemp.Save();
+            }
         }
 
         public StorageFolder Folder { get; }
@@ -91,7 +135,7 @@ namespace Aurora.Music.Core.Storage
             return list;
         }
 
-        public static async Task<IAsyncOperationWithProgress<DownloadOperation, DownloadOperation>> DownloadMusic(Song song, StorageFolder folder = null)
+        public static async Task<StorageFile> DownloadMusic(Song song, StorageFolder folder = null)
         {
             if (song.IsOnline && song.OnlineUri?.AbsolutePath != null)
             {
@@ -101,7 +145,7 @@ namespace Aurora.Music.Core.Storage
                 {
                     folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Download", CreationCollisionOption.OpenIfExists);
                 }
-                return await WebHelper.DownloadFileAsync(fileName, song.OnlineUri, folder);
+                return await Downloader.Current.StartDownload(song.OnlineUri, fileName, folder);
             }
             throw new InvalidOperationException("Can't download a local file");
         }
