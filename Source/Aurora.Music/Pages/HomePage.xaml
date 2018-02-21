@@ -594,7 +594,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <TextBlock Text="For You" x:Name="HeroTitle" Style="{ThemeResource HeaderTextBlockStyle}" FontWeight="Bold"/>
                 </StackPanel>
                 <ListView SelectionMode="None" IsItemClickEnabled="True" 
-                          ItemsSource="{x:Bind Context.HeroList}" HorizontalAlignment="Center" VerticalAlignment="Stretch"
+                          ItemsSource="{x:Bind Context.HeroList}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                           ItemContainerStyle="{ThemeResource HomeListViewItemStyle}" x:Name="HeroGrid"
                           ContextRequested="HeroGrid_ContextRequested" ContextCanceled="HeroGrid_ContextCanceled" 
                           ItemClick="HeroGrid_ItemClick" Margin="0" Style="{ThemeResource HorizontalListView}">

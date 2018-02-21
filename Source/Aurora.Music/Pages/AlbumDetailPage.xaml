@@ -92,10 +92,29 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </Image.Source>
             </Image>
             <StackPanel Margin="12,0,0,0" Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <Viewbox x:Name="Titlebox" HorizontalAlignment="Left" VerticalAlignment="Center" Height="48">
-                    <TextBlock x:Name="Title" Text="{x:Bind Context.Album.Name, Mode=OneWay}" HorizontalAlignment="Stretch" VerticalAlignment="Center" FontWeight="Bold"
-                               TextWrapping="WrapWholeWords" MaxLines="2" Style="{ThemeResource SubheaderTextBlockStyle}" TextTrimming="Clip"/>
-                </Viewbox>
+                <Grid HorizontalAlignment="Left" VerticalAlignment="Center" Height="48">
+                    <CommandBar HorizontalAlignment="Left" VerticalAlignment="Stretch" 
+                            Background="Transparent" IsOpen="False" DefaultLabelPosition="Right" Visibility="{x:Bind SelectionModeToOther(SongList.SelectionMode),Mode=OneWay}">
+                        <AppBarButton Click="PlayAppBarButton_Click" Label="Play">
+                            <AppBarButton.Icon>
+                                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE768;" />
+                            </AppBarButton.Icon>
+                        </AppBarButton>
+                        <AppBarButton Click="PlayNextAppBarButton_Click" Label="Play Next">
+                            <AppBarButton.Icon>
+                                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE298;" />
+                            </AppBarButton.Icon>
+                        </AppBarButton>
+                        <AppBarButton Click="AddCollectionAppBarButton_Click" Icon="Add" Label="Add to Collection"/>
+                        <AppBarButton Click="ShareAppBarButton_Click" Icon="Share" Label="Share"/>
+                        <AppBarButton Click="CancelButton_Click" Icon="Cancel" Label="Close"/>
+                    </CommandBar>
+                    <Viewbox x:Name="Titlebox" HorizontalAlignment="Left" VerticalAlignment="Center" Height="48">
+                        <TextBlock x:Name="Title" Text="{x:Bind Context.Album.Name, Mode=OneWay}" HorizontalAlignment="Stretch" VerticalAlignment="Center" FontWeight="Bold"
+                                   TextWrapping="WrapWholeWords" MaxLines="2" Style="{ThemeResource SubheaderTextBlockStyle}" TextTrimming="Clip"
+                                   Visibility="{x:Bind SelectionModeToTitle(SongList.SelectionMode),Mode=OneWay}"/>
+                    </Viewbox>
+                </Grid>
                 <Rectangle Margin="0,8" Fill="{ThemeResource SystemControlBackgroundBaseLowBrush}" Height="0.5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                 <toolkit:WrapPanel HorizontalSpacing="8" VerticalSpacing="8" x:Name="Details" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
                     <TextBlock Style="{ThemeResource BodyTextBlockStyle}">
@@ -132,20 +151,20 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                             </Flyout>
                         </Button.Flyout>
                     </Button>
-                    
+
                     <Button Command="{x:Bind Context.PlayAll}" Style="{ThemeResource PlayAllButton}"/>
-                    
+
                 </toolkit:WrapPanel>
             </StackPanel>
         </Grid>
 
         <ListView Grid.Row="1" IsSynchronizedWithCurrentItem="False" ItemsSource="{x:Bind Context.SongList, Mode=OneWay}"
                   ItemContainerStyleSelector="{StaticResource SongListStyleSelector}" Style="{ThemeResource GeneralListView}"
-                  Padding="32,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="SongList"
-                  ContextRequested="SongList_ContextRequested" ContextCanceled="SongList_ContextCanceled">
+                  Padding="32,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="SongList" ItemClick="SongList_ItemClick"
+                  SelectionMode="None" ContextRequested="SongList_ContextRequested" ContextCanceled="SongList_ContextCanceled">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="vm:SongViewModel">
-                    <list:SongItem Data="{x:Bind }" Play="PlayBtn_Click"/>
+                    <list:SongItem Data="{x:Bind }" IsMultiSelect="{x:Bind ListMultiSelecting, Mode=OneWay}" Play="PlayBtn_Click" RequestMultiSelect="SongItem_RequestMultiSelect"/>
                 </DataTemplate>
             </ListView.ItemTemplate>
             <ListView.Footer>

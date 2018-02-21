@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
+using Aurora.Music.Controls;
 using Aurora.Music.Core;
 using Aurora.Music.ViewModels;
 using Aurora.Shared.Extensions;
@@ -155,6 +156,71 @@ namespace Aurora.Music.Pages
         private void SongList_ContextCanceled(UIElement sender, RoutedEventArgs args)
         {
             MainPage.Current.SongFlyout.Hide();
+        }
+
+        private void SongItem_RequestMultiSelect(object sender, RoutedEventArgs e)
+        {
+            SongList.SelectionMode = ListViewSelectionMode.Multiple;
+            SongList.IsItemClickEnabled = false;
+            foreach (var item in Context.SongList)
+            {
+                item.ListMultiSelecting = true;
+            }
+        }
+
+        public Visibility SelectionModeToTitle(ListViewSelectionMode s)
+        {
+            if (s == ListViewSelectionMode.Multiple)
+            {
+                return Visibility.Collapsed;
+            }
+            return Visibility.Visible;
+        }
+
+        public Visibility SelectionModeToOther(ListViewSelectionMode s)
+        {
+            if (s != ListViewSelectionMode.Multiple)
+            {
+                return Visibility.Collapsed;
+            }
+            return Visibility.Visible;
+        }
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            SongList.SelectionMode = ListViewSelectionMode.Single;
+            SongList.IsItemClickEnabled = true;
+            foreach (var item in Context.SongList)
+            {
+                item.ListMultiSelecting = false;
+            }
+        }
+
+        private async void PlayAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            await MainPageViewModel.Current.InstantPlay(SongList.SelectedItems.Select(a => (a as SongViewModel).Song).ToList());
+        }
+
+        private async void PlayNextAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            await MainPageViewModel.Current.PlayNext(SongList.SelectedItems.Select(a => (a as SongViewModel).Song).ToList());
+        }
+
+        private async void AddCollectionAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            var s = new AddPlayList(SongList.SelectedItems.Select(a => (a as SongViewModel).ID).ToList());
+            await s.ShowAsync();
+        }
+
+        private void ShareAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            var s = SongList.SelectedItems.Select(a => (a as SongViewModel)).ToList();
+            MainPage.Current.Share(s);
+        }
+
+        private async void SongList_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            await Context.PlayAt(e.ClickedItem as SongViewModel);
         }
     }
 }

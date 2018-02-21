@@ -45,10 +45,10 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <RepositionThemeTransition IsStaggeringEnabled="False"/>
                 </TransitionCollection>
             </StackPanel.ChildrenTransitions>
-            <TextBlock Margin="60,0,0,0" Text="Top Charts" Style="{ThemeResource HeaderTextBlockStyle}" FontWeight="Bold"/>
+            <TextBlock Margin="16,0,0,0" Text="Top Charts" Style="{ThemeResource HeaderTextBlockStyle}" FontWeight="Bold"/>
             <ListView Padding="0,0,0,32" SelectionMode="None" IsItemClickEnabled="True" ItemClick="ListView_ItemClick" ItemContainerStyle="{ThemeResource ListViewItemRevealBackgroundShowsAboveContentStyle}" HorizontalAlignment="Stretch" ItemsSource="{x:Bind Context.TopList}" VerticalAlignment="Stretch" Style="{ThemeResource HorizontalListView}">
                 <ListView.Header>
-                    <Border Width="48"/>
+                    <Border Width="4"/>
                 </ListView.Header>
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="vm:GenericMusicItemViewModel">
@@ -72,7 +72,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <GridView Margin="48,0,0,0" SelectionMode="None" IsItemClickEnabled="True" ItemClick="ListView_ItemClick" HorizontalAlignment="Stretch" ItemContainerStyle="{ThemeResource GridViewItemRevealBackgroundShowsAboveContentStyle}" VerticalAlignment="Stretch" ItemsSource="{x:Bind GenresGroup.View, Mode=OneWay}">
+            <GridView Margin="4,0,0,0" SelectionMode="None" IsItemClickEnabled="True" ItemClick="ListView_ItemClick" HorizontalAlignment="Stretch" ItemContainerStyle="{ThemeResource GridViewItemRevealBackgroundShowsAboveContentStyle}" VerticalAlignment="Stretch" ItemsSource="{x:Bind GenresGroup.View, Mode=OneWay}">
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="vm:GenericMusicItemViewModel">
                         <Grid Height="160">

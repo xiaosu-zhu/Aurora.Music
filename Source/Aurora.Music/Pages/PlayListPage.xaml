@@ -401,7 +401,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     </ListView.GroupStyle>
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="vm:SongViewModel">
-                            <list:PlayListItem Data="{x:Bind }" Play="PlayBtn_Click" Delete="DelBtn_Click" RequestMultiSelect="SongItem_RequestMultiSelect"/>
+                            <list:PlayListItem Data="{x:Bind }" IsMultiSelect="{x:Bind ListMultiSelecting, Mode=OneWay}" Play="PlayBtn_Click" Delete="DelBtn_Click" RequestMultiSelect="SongItem_RequestMultiSelect"/>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                     <ListView.Footer>

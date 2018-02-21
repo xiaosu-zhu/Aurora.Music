@@ -65,8 +65,9 @@ namespace Aurora.Music.Pages
             SortBox.SelectionChanged += ComboBox_SelectionChanged;
         }
 
-        private void AlbumList_ItemClick(object sender, ItemClickEventArgs e)
+        private async void AlbumList_ItemClick(object sender, ItemClickEventArgs e)
         {
+            await Context.PlayAt(e.ClickedItem as SongViewModel);
         }
 
         private async void PlayBtn_Click(object sender, RoutedEventArgs e)
@@ -168,6 +169,7 @@ namespace Aurora.Music.Pages
         private void SongItem_RequestMultiSelect(object sender, RoutedEventArgs e)
         {
             AlbumList.SelectionMode = ListViewSelectionMode.Multiple;
+            AlbumList.IsItemClickEnabled = false;
             foreach (var item in Context.SongsList)
             {
                 foreach (var song in item)
@@ -198,6 +200,7 @@ namespace Aurora.Music.Pages
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             AlbumList.SelectionMode = ListViewSelectionMode.Single;
+            AlbumList.IsItemClickEnabled = true;
             foreach (var item in Context.SongsList)
             {
                 foreach (var song in item)
