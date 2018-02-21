@@ -21,6 +21,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
 using Windows.Storage;
+using Windows.System;
 using Windows.System.Threading;
 using Windows.UI.Text;
 using Windows.UI.ViewManagement;
@@ -64,25 +65,33 @@ namespace Aurora.Music.ViewModels
                 Title = Consts.Localizer.GetString("HomeText"),
                 TargetType = typeof(HomePage),
                 Icon="\uE80F",
-                IsCurrent = true
+                IsCurrent = true,
+                Index = VirtualKey.Number1,
+                IndexNum = "1"
             },
             new HamPanelItem
             {
                 Title = Consts.Localizer.GetString("LibraryText"),
                 Icon="\uE2AC",
-                TargetType = typeof(LibraryPage)
+                TargetType = typeof(LibraryPage),
+                Index = VirtualKey.Number2,
+                IndexNum = "2"
             },
             new HamPanelItem
             {
                 Title = Consts.Localizer.GetString("DouText"),
                 Icon = "\uEFA9",
-                TargetType = typeof(DoubanPage)
+                TargetType = typeof(DoubanPage),
+                Index = VirtualKey.Number3,
+                IndexNum = "3"
             },
             new HamPanelItem
             {
                 Title = "Explorer Podcasts",
                 Icon="\uE774",
-                TargetType = typeof(PodcastMarket)
+                TargetType = typeof(PodcastMarket),
+                Index = VirtualKey.Number4,
+                IndexNum = "4"
             },
         };
 
@@ -486,18 +495,18 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref downloadDes, value); }
         }
 
-        private async void Current_ProgressChanged(object sender, Windows.Networking.BackgroundTransfer.DownloadOperation e)
+        private async void Current_ProgressChanged(object sender, (Windows.Networking.BackgroundTransfer.DownloadOperation, DownloadDesc) e)
         {
             int i = 0, all = 0;
             double down = 0, total = 0;
             foreach (var item in (sender as Downloader).GetAll())
             {
-                if (item.Progress.Status == Windows.Networking.BackgroundTransfer.BackgroundTransferStatus.Running)
+                if (item.Item1.Progress.Status == Windows.Networking.BackgroundTransfer.BackgroundTransferStatus.Running)
                 {
                     i++;
                 }
-                down += item.Progress.BytesReceived;
-                total += item.Progress.TotalBytesToReceive;
+                down += item.Item1.Progress.BytesReceived;
+                total += item.Item1.Progress.TotalBytesToReceive;
                 all++;
             }
             await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
@@ -909,6 +918,9 @@ namespace Aurora.Music.ViewModels
 
     class HamPanelItem : ViewModelBase
     {
+        public VirtualKey Index { get; set; }
+        public string IndexNum { get; set; }
+
         public string Title { get; set; }
 
         public Type TargetType { get; set; }

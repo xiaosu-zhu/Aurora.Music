@@ -3,9 +3,7 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Background;
@@ -17,7 +15,7 @@ namespace Aurora.Music.Core.Storage
 {
     public sealed class Downloader : IDisposable
     {
-        private List<Tuple<DownloadOperation, CancellationTokenSource>> activeDownloads;
+        private List<(DownloadOperation, DownloadDesc, CancellationTokenSource)> activeDownloads;
         private BackgroundTransferGroup notificationsGroup;
         private BackgroundDownloader downloader;
 
@@ -34,9 +32,9 @@ namespace Aurora.Music.Core.Storage
             }
         }
 
-        public event EventHandler<DownloadOperation> ProgressChanged;
-        public event EventHandler<DownloadOperation> ItemCompleted;
-        public event EventHandler<DownloadOperation> ProgressCancelled;
+        public event EventHandler<(DownloadOperation, DownloadDesc)> ProgressChanged;
+        public event EventHandler<(DownloadOperation, DownloadDesc)> ItemCompleted;
+        public event EventHandler<(DownloadOperation, DownloadDesc)> ProgressCancelled;
 
         public Downloader()
         {
@@ -64,7 +62,7 @@ namespace Aurora.Music.Core.Storage
             {
                 TransferGroup = notificationsGroup
             };
-            activeDownloads = new List<Tuple<DownloadOperation, CancellationTokenSource>>();
+            activeDownloads = new List<(DownloadOperation, DownloadDesc, CancellationTokenSource)>();
             DiscoverActiveDownloadsAsync();
         }
 
@@ -75,6 +73,7 @@ namespace Aurora.Music.Core.Storage
 
             downloads = await BackgroundDownloader.GetCurrentDownloadsForTransferGroupAsync(notificationsGroup);
 
+            var saved = await SQLOperator.Current().GetAllAsync<DownloadDesc>();
 
             if (downloads.Count > 0)
             {
@@ -82,8 +81,27 @@ namespace Aurora.Music.Core.Storage
                 foreach (DownloadOperation download in downloads)
                 {
                     // Attach progress and completion handlers.
-                    tasks.Add(HandleDownloadAsync(download, false, DownloadProgress));
+                    var f = saved.Find(a => a.Guid == download.Guid);
+                    if (f == null)
+                    {
+                        f = new DownloadDesc()
+                        {
+                            Guid = download.Guid,
+                            Title = download.ResultFile.Name,
+                            Description = "Unknown"
+                        };
+                    }
+                    tasks.Add(HandleDownloadAsync(download, f, false, DownloadProgress));
+                    saved.Remove(f);
                 }
+
+                var t = Task.Run(async () =>
+                {
+                    foreach (var item in saved)
+                    {
+                        await SQLOperator.Current().RemoveDownloadDes(item);
+                    }
+                });
 
                 // Don't await HandleDownloadAsync() in the foreach loop since we would attach to the second
                 // download only when the first one completed; attach to the third download when the second one
@@ -94,18 +112,18 @@ namespace Aurora.Music.Core.Storage
             }
         }
 
-        public List<DownloadOperation> GetAll()
+        public List<(DownloadOperation, DownloadDesc)> GetAll()
         {
-            return activeDownloads.Select(a => a.Item1).ToList();
+            return activeDownloads.Select(a => (a.Item1, a.Item2)).ToList();
         }
 
         public void Cancel(IEnumerable<DownloadOperation> list)
         {
             foreach (var item in list)
             {
-                var p = activeDownloads.First(a => a.Item1 == item);
-                p?.Item2.Cancel();
-                ProgressCancelled?.Invoke(this, p.Item1);
+                var p = activeDownloads.First(a => a.Item1.Guid == item.Guid);
+                p.Item3.Cancel();
+                ProgressCancelled?.Invoke(this, (p.Item1, p.Item2));
             }
         }
 
@@ -139,21 +157,24 @@ namespace Aurora.Music.Core.Storage
         {
             foreach (var item in activeDownloads)
             {
-                item.Item2.Cancel();
-                ProgressCancelled?.Invoke(this, item.Item1);
+                item.Item3.Cancel();
+                ProgressCancelled?.Invoke(this, (item.Item1, item.Item2));
             }
         }
 
         private void DownloadProgress(DownloadOperation down)
         {
-            ProgressChanged?.Invoke(this, down);
+            var h = activeDownloads.Find(a => a.Item1.Guid == down.Guid);
+            ProgressChanged?.Invoke(this, (h.Item1, h.Item2));
         }
 
-        private async Task HandleDownloadAsync(DownloadOperation download, bool start, Action<DownloadOperation> progressHandler)
+        private async Task HandleDownloadAsync(DownloadOperation download, DownloadDesc des, bool start, Action<DownloadOperation> progressHandler)
         {
-            var g = new Tuple<DownloadOperation, CancellationTokenSource>(download, new CancellationTokenSource());
+            var g = (download, des, new CancellationTokenSource());
             try
             {
+                des.Guid = download.Guid;
+
                 // Store the download so we can pause/resume.
                 activeDownloads.Add(g);
 
@@ -163,12 +184,12 @@ namespace Aurora.Music.Core.Storage
                 if (start)
                 {
                     // Start the download and attach a progress handler.
-                    await download.StartAsync().AsTask(g.Item2.Token, progressCallback);
+                    await download.StartAsync().AsTask(g.Item3.Token, progressCallback);
                 }
                 else
                 {
                     // The download was already running when the application started, re-attach the progress handler.
-                    await download.AttachAsync().AsTask(g.Item2.Token, progressCallback);
+                    await download.AttachAsync().AsTask(g.Item3.Token, progressCallback);
                 }
 
                 ResponseInformation response = download.GetResponseInformation();
@@ -187,9 +208,10 @@ namespace Aurora.Music.Core.Storage
             }
             finally
             {
-                g.Item2.Dispose();
+                g.Item3.Dispose();
                 activeDownloads.Remove(g);
-                ItemCompleted?.Invoke(this, download);
+                ItemCompleted?.Invoke(this, (g.Item1, g.Item2));
+                await SQLOperator.Current().RemoveDownloadDes(des);
             }
         }
 
@@ -213,7 +235,7 @@ namespace Aurora.Music.Core.Storage
             return true;
         }
 
-        public async Task<StorageFile> StartDownload(Uri downloadUri, string fileName, StorageFolder savingFolder, BackgroundTransferPriority priority = BackgroundTransferPriority.Default)
+        public async Task<StorageFile> StartDownload(Uri downloadUri, string fileName, StorageFolder savingFolder, DownloadDesc des, BackgroundTransferPriority priority = BackgroundTransferPriority.Default)
         {
 
             if (string.IsNullOrWhiteSpace(fileName))
@@ -225,16 +247,13 @@ namespace Aurora.Music.Core.Storage
 
             destinationFile = await savingFolder.CreateFileAsync(fileName, CreationCollisionOption.GenerateUniqueName);
 
-            BackgroundDownloader downloader = new BackgroundDownloader
-            {
-                TransferGroup = notificationsGroup
-            };
+            await SQLOperator.Current().AddDownloadDes(des);
             DownloadOperation download = downloader.CreateDownload(downloadUri, destinationFile);
 
             download.Priority = priority;
 
             // Attach progress and completion handlers.
-            await HandleDownloadAsync(download, true, DownloadProgress);
+            await HandleDownloadAsync(download, des, true, DownloadProgress);
 
             return destinationFile;
         }
@@ -256,7 +275,7 @@ namespace Aurora.Music.Core.Storage
 
                 foreach (var item in activeDownloads)
                 {
-                    item.Item2.Dispose();
+                    item.Item3.Dispose();
                 }
                 activeDownloads.Clear();
                 activeDownloads = null;

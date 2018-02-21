@@ -99,6 +99,13 @@ namespace Aurora.Music.Core.Storage
                 }
                 folders.Add(folder);
             }
+            try
+            {
+                folders.Remove(folders.Find(a => a.Path == ApplicationData.Current.LocalFolder.Path));
+            }
+            catch (Exception)
+            {
+            }
             var list = new List<StorageFile>();
             foreach (var item in folders)
             {
@@ -126,6 +133,10 @@ namespace Aurora.Music.Core.Storage
                     {
                         list.Remove(f);
                     }
+                    else
+                    {
+                        await opr.RemoveSongAsync(path);
+                    }
                 }
                 catch (FileNotFoundException)
                 {
@@ -145,7 +156,11 @@ namespace Aurora.Music.Core.Storage
                 {
                     folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Download", CreationCollisionOption.OpenIfExists);
                 }
-                return await Downloader.Current.StartDownload(song.OnlineUri, fileName, folder);
+                return await Downloader.Current.StartDownload(song.OnlineUri, fileName, folder, new DownloadDesc()
+                {
+                    Title = song.Title,
+                    Description = "Song"
+                });
             }
             throw new InvalidOperationException("Can't download a local file");
         }

@@ -13,7 +13,7 @@ namespace Aurora.Music.Controls
         {
             if (value is double d)
             {
-                return $"{d.ToString("0.0", CultureInfoHelper.CurrentCulture)}%";
+                return (d / 100d).ToString("P1", CultureInfoHelper.CurrentCulture);
             }
             return string.Empty;
         }

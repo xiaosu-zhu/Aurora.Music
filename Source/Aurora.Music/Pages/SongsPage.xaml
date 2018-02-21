@@ -91,7 +91,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     </AppBarButton>
                     <AppBarButton Click="AddCollectionAppBarButton_Click" Icon="Add" Label="Add to Collection"/>
                     <AppBarButton Click="ShareAppBarButton_Click" Icon="Share" Label="Share"/>
-                    <AppBarButton Click="CancelButton_Click" Icon="Cancel" Label="Cancel"/>
+                    <AppBarButton Click="CancelButton_Click" Icon="Cancel" Label="Close"/>
                 </CommandBar>
             </Grid>
             <Rectangle Margin="0,8" Fill="{ThemeResource SystemControlBackgroundBaseLowBrush}" Height="0.5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>

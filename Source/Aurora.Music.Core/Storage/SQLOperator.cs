@@ -26,6 +26,15 @@ namespace Aurora.Music.Core.Storage
         public string Key => AlbumArtists;
     }
 
+    public class DownloadDesc
+    {
+        [PrimaryKey, AutoIncrement]
+        public int ID { get; set; }
+        public Guid Guid { get; internal set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+    }
+
     public class AVATAR
     {
         [PrimaryKey, AutoIncrement]
@@ -478,7 +487,7 @@ namespace Aurora.Music.Core.Storage
 
         private void CreateTable()
         {
-            conn.GetConnection().CreateTables(CreateFlags.None, new Type[] { typeof(SONG), typeof(ALBUM), typeof(FOLDER), typeof(STATISTICS), typeof(PLAYSTATISTIC), typeof(AVATAR), typeof(PLAYLIST), typeof(SEARCHHISTORY), typeof(PODCAST) });
+            conn.GetConnection().CreateTables(CreateFlags.None, new Type[] { typeof(SONG), typeof(ALBUM), typeof(FOLDER), typeof(STATISTICS), typeof(PLAYSTATISTIC), typeof(AVATAR), typeof(PLAYLIST), typeof(SEARCHHISTORY), typeof(PODCAST), typeof(DownloadDesc) });
         }
 
         public async Task WriteFavoriteAsync(int id, bool isCurrentFavorite)
@@ -1234,6 +1243,7 @@ namespace Aurora.Music.Core.Storage
             await conn.DropTableAsync<PLAYLIST>();
             await conn.DropTableAsync<SEARCHHISTORY>();
             await conn.DropTableAsync<PODCAST>();
+            await conn.DropTableAsync<DownloadDesc>();
         }
 
         internal async Task UpdateSongAsync(Song model)
@@ -1385,7 +1395,17 @@ namespace Aurora.Music.Core.Storage
 
         public async Task RemovePlayListAsync(int iD)
         {
-            await conn.QueryAsync<int>("DELETE FROM PLAYLIST WHERE ID=?",iD);
+            await conn.QueryAsync<int>("DELETE FROM PLAYLIST WHERE ID=?", iD);
+        }
+
+        internal async Task RemoveDownloadDes(DownloadDesc item)
+        {
+            await conn.QueryAsync<int>("DELETE FROM DownloadDesc WHERE ID=?", item.ID);
+        }
+
+        internal async Task AddDownloadDes(DownloadDesc des)
+        {
+            await conn.InsertAsync(des);
         }
     }
 }

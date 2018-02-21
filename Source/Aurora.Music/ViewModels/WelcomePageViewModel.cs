@@ -56,6 +56,13 @@ namespace Aurora.Music.ViewModels
                     continue;
                 }
             }
+            try
+            {
+                list.Remove(list.Find(a => a.Path == ApplicationData.Current.LocalFolder.Path));
+            }
+            catch (Exception)
+            {
+            }
             await fileReader.Read(list);
         }
 

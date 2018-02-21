@@ -1347,5 +1347,57 @@ namespace Aurora.Music
                 item.IsPaneOpen = false;
             }
         }
+
+        private void KeyboardAccelerator_Invoked(Windows.UI.Xaml.Input.KeyboardAccelerator sender, Windows.UI.Xaml.Input.KeyboardAcceleratorInvokedEventArgs args)
+        {
+            var item = (args.Element as Panel).DataContext as HamPanelItem;
+            if (OverlayFrame.Visibility == Visibility.Visible)
+            {
+                GoBackFromNowPlaying();
+            }
+
+            if (MainFrame.Content is SettingsPage || MainFrame.Content is AboutPage)
+            {
+                MainFrame.Navigate(item.TargetType);
+                RefreshPaneCurrent();
+                return;
+            }
+
+            if (item == Context.HamList.Find(x => x.IsCurrent))
+            {
+                RefreshPaneCurrent();
+                return;
+            }
+            MainFrame.Navigate(item.TargetType);
+
+
+            RefreshPaneCurrent();
+        }
+
+        private void Panel_AccessKeyInvoked(UIElement sender, Windows.UI.Xaml.Input.AccessKeyInvokedEventArgs args)
+        {
+            var item = (sender as Panel).DataContext as HamPanelItem;
+            if (OverlayFrame.Visibility == Visibility.Visible)
+            {
+                GoBackFromNowPlaying();
+            }
+
+            if (MainFrame.Content is SettingsPage || MainFrame.Content is AboutPage)
+            {
+                MainFrame.Navigate(item.TargetType);
+                RefreshPaneCurrent();
+                return;
+            }
+
+            if (item == Context.HamList.Find(x => x.IsCurrent))
+            {
+                RefreshPaneCurrent();
+                return;
+            }
+            MainFrame.Navigate(item.TargetType);
+
+
+            RefreshPaneCurrent();
+        }
     }
 }

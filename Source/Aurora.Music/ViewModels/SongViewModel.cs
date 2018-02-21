@@ -229,7 +229,11 @@ namespace Aurora.Music.ViewModels
                 {
                     CanDownload = false;
                     MainPage.Current.PopMessage("Start Caching");
-                    var file = await Downloader.Current.StartDownload(new Uri(song.FilePath), fileName, folder);
+                    var file = await Downloader.Current.StartDownload(new Uri(song.FilePath), fileName, folder, new DownloadDesc()
+                    {
+                        Title = song.Title,
+                        Description = "Podcast",
+                    });
                     IsOnline = false;
                     song.IsOnline = false;
                     song.FilePath = file.Path;
@@ -298,7 +302,7 @@ namespace Aurora.Music.ViewModels
 
         public string ShowOnline(bool a)
         {
-            return a ? string.Empty : "\uE753";
+            return a ? "\uE753" : string.Empty;
         }
 
         public string FormattedAlbum

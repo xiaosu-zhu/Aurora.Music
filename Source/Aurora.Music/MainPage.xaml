@@ -966,9 +966,12 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                             <animations:TranslationAnimation To="-320,0,0" From="0,0,0" Duration="0:0:0.16"/>
                         </animations:Implicit.HideAnimations>
                     </Border>
-                    <Button Style="{ThemeResource RevealRectangleButton}" Background="Transparent" ToolTipService.ToolTip="{x:Bind Context.CurrentTitle, Mode=OneWay}"
+                    <Button AccessKey="0" Style="{ThemeResource RevealRectangleButton}" Background="Transparent" ToolTipService.ToolTip="{x:Bind Context.CurrentTitle, Mode=OneWay}"
                         HorizontalAlignment="Left" VerticalAlignment="Top" Click="Toggle_PaneOpened" BorderThickness="1"
                         Margin="0,32,0,0" Width="48" Height="48">
+                        <Button.KeyboardAccelerators>
+                            <KeyboardAccelerator Modifiers="Control" Key="O"/>
+                        </Button.KeyboardAccelerators>
                         <Button.Content>
                             <FontIcon Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" FontFamily="Segoe MDL2 Assets" Glyph="&#xE700;" />
                         </Button.Content>
@@ -985,9 +988,13 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                           ItemContainerStyle="{ThemeResource PaneListItemStyle}">
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="vm:HamPanelItem">
-                            <Grid Background="{ThemeResource SystemControlTransparentBrush}" VerticalAlignment="Stretch"
+                            <Grid Background="{ThemeResource SystemControlTransparentBrush}" VerticalAlignment="Stretch" AccessKey="{x:Bind IndexNum}"
+                                  AccessKeyInvoked="Panel_AccessKeyInvoked"
                                   Height="48" x:Name="Panel" HorizontalAlignment="Left" Width="{x:Bind PaneLength(IsPaneOpen),Mode=OneWay}"
                                   ToolTipService.ToolTip="{x:Bind Title}">
+                                <Grid.KeyboardAccelerators>
+                                    <KeyboardAccelerator Invoked="KeyboardAccelerator_Invoked" Modifiers="Control" Key="{x:Bind Index}"/>
+                                </Grid.KeyboardAccelerators>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="48"/>
                                     <ColumnDefinition Width="auto"/>
@@ -1001,11 +1008,14 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     </ListView.ItemTemplate>
                 </ListView>
                 <StackPanel Width="320" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Orientation="Vertical" Grid.Row="2">
-                    <Button Height="48" Click="Download_Click" Padding="0" VerticalContentAlignment="Center" 
-                            BorderBrush="{ThemeResource ListViewItemRevealBorderBrush}" x:Name="Download"
+                    <Button AccessKey="5" Height="48" Padding="0" VerticalContentAlignment="Center" Command="{x:Bind Context.GotoDownload}"
+                            BorderBrush="{ThemeResource ListViewItemRevealBorderBrush}" x:Name="Download" Click="Button_Click"
                             HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Stretch" ToolTipService.ToolTip="{x:Bind Context.DownloadDes,Mode=OneWay}"
                             Style="{ThemeResource RevealRectangleButton}" BorderThickness="1" Width="{x:Bind PaneLength(Root.IsPaneOpen),Mode=OneWay}" 
                             Background="{ThemeResource SystemControlTransparentBrush}">
+                        <Button.KeyboardAccelerators>
+                            <KeyboardAccelerator Modifiers="Control" Key="Number5"/>
+                        </Button.KeyboardAccelerators>
                         <Grid HorizontalAlignment="Left" VerticalAlignment="Center" Height="48">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="48"/>
@@ -1023,9 +1033,12 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         </Grid>
                     </Button>
                     <StackPanel HorizontalAlignment="Left" VerticalAlignment="Stretch" Orientation="{x:Bind PaneToOrientation(Root.IsPaneOpen),Mode=OneWay}" Width="{x:Bind PaneLength(Root.IsPaneOpen),Mode=OneWay}">
-                        <Button Height="48" Command="{x:Bind Context.GotoSettings}" Click="Button_Click" Padding="0" VerticalContentAlignment="Center" BorderBrush="{ThemeResource ListViewItemRevealBorderBrush}"
+                        <Button AccessKey="6" Height="48" Command="{x:Bind Context.GotoSettings}" Click="Button_Click" Padding="0" VerticalContentAlignment="Center" BorderBrush="{ThemeResource ListViewItemRevealBorderBrush}"
                             HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Stretch" ToolTipService.ToolTip="Settings"
                             Style="{ThemeResource RevealRectangleButton}" BorderThickness="1" Width="{x:Bind PaneLength1(Root.IsPaneOpen),Mode=OneWay}" Background="{ThemeResource SystemControlTransparentBrush}">
+                            <Button.KeyboardAccelerators>
+                                <KeyboardAccelerator Modifiers="Control" Key="Number6"/>
+                            </Button.KeyboardAccelerators>
                             <Grid HorizontalAlignment="Left" VerticalAlignment="Center" Height="48">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="48"/>
@@ -1036,9 +1049,12 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                        Style="{ThemeResource BodyTextBlockStyle}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                             </Grid>
                         </Button>
-                        <Button x:Uid="About" ToolTipService.ToolTip="About" Click="Button_Click" Width="48" Height="48" Grid.Column="1" Command="{x:Bind Context.GotoAbout}"
+                        <Button AccessKey="7" x:Uid="About" ToolTipService.ToolTip="About" Click="Button_Click" Width="48" Height="48" Grid.Column="1" Command="{x:Bind Context.GotoAbout}"
                             HorizontalAlignment="Left" VerticalAlignment="Stretch" Background="{ThemeResource SystemControlTransparentBrush}" 
                             Style="{ThemeResource RevealRectangleButton}" BorderThickness="1" BorderBrush="{ThemeResource ListViewItemRevealBorderBrush}">
+                            <Button.KeyboardAccelerators>
+                                <KeyboardAccelerator Modifiers="Control" Key="Number7"/>
+                            </Button.KeyboardAccelerators>
                             <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xED59;" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Button>
                     </StackPanel>

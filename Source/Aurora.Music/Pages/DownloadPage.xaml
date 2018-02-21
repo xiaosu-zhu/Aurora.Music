@@ -14,6 +14,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
+
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -26,10 +27,89 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </ResourceDictionary.ThemeDictionaries>
         </ResourceDictionary>
     </Page.Resources>
+    <Page.DataContext>
+        <vm:DownloadPageViewModel x:Name="Context"/>
+    </Page.DataContext>
+
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition/>
+            <EntranceThemeTransition />
+        </TransitionCollection>
+    </Page.Transitions>
 
     <Grid Padding="16,80,16,0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ListView>
-            
-        </ListView>
+        <GridView Style="{ThemeResource GeneralGridViewStyle}" ItemContainerStyle="{ThemeResource GridViewItemRevealBackgroundShowsAboveContentStyle}"
+                  ItemsSource="{x:Bind Context.DownloadList}" animations:ReorderGridAnimation.Duration="360" SelectionMode="Extended">
+            <GridView.Header>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="32">
+                    <Grid Margin="4,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Viewbox Margin="16" Stretch="Uniform">
+                            <TextBlock Text="{x:Bind Context.ProgressToString(Context.TotalProgress),Mode=OneWay}"/>
+                        </Viewbox>
+                        <toolkit:RadialProgressBar Width="72" Height="72" Thickness="8" Minimum="0" Maximum="100"
+                                               Outline="{ThemeResource SystemControlAcrylicWindowBrush}" Value="{x:Bind Context.TotalProgress,Mode=OneWay}"
+                                               Foreground="{ThemeResource SystemControlAccentAcrylicWindowAccentMediumHighBrush}"/>
+                    </Grid>
+                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left" Margin="4,0,4,0">
+                        <TextBlock Style="{ThemeResource TitleTextBlockStyle}">
+                            <Run Text="{x:Bind Context.DownloadList.Count,Mode=OneWay}" FontSize="48"/><Run Text=" tasks are in queue"/>
+                        </TextBlock>
+                        <TextBlock Visibility="Collapsed" Text="{x:Bind Context.TotalDes,Mode=OneWay}" Margin="0,-8,0,0" Foreground="{ThemeResource ButtonDisabledForegroundThemeBrush}"/>
+                    </StackPanel>
+                </StackPanel>
+            </GridView.Header>
+            <GridView.ItemTemplate>
+                <DataTemplate x:DataType="vm:DownloadItemViewModel">
+                    <Grid Width="360" Height="120">
+                        <ProgressBar HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{x:Bind Progress,Mode=OneWay}" 
+                                     Background="{ThemeResource SystemControlAcrylicWindowBrush}" Minimum="0" Maximum="100"
+                                     Foreground="{ThemeResource SystemControlAccentDark1AcrylicWindowAccentDark1Brush}"/>
+                        <Grid Width="360" Height="120" Padding="12">
+                            <Grid.Clip>
+                                <RectangleGeometry Rect="0,0,360,120">
+                                    <RectangleGeometry.Transform>
+                                        <TranslateTransform X="{x:Bind ProgressToRight(Progress),Mode=OneWay}"/>
+                                    </RectangleGeometry.Transform>
+                                </RectangleGeometry>
+                            </Grid.Clip>
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <TextBlock Text="{x:Bind Title,Mode=OneWay}" Style="{ThemeResource SubtitleTextBlockStyle}" MaxLines="2"
+                                       TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <TextBlock Width="60" Text="{x:Bind ProgressToString(Progress),Mode=OneWay}" Style="{ThemeResource SubtitleTextBlockStyle}"
+                                              Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{x:Bind Status,Mode=OneWay}" Style="{ThemeResource SubtitleTextBlockStyle}"
+                                               Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                        <Grid Width="360" Height="120" Padding="12">
+                            <Grid.Clip>
+                                <RectangleGeometry Rect="0,0,360,120">
+                                    <RectangleGeometry.Transform>
+                                        <TranslateTransform X="{x:Bind ProgressToLeft(Progress),Mode=OneWay}"/>
+                                    </RectangleGeometry.Transform>
+                                </RectangleGeometry>
+                            </Grid.Clip>
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <TextBlock Text="{x:Bind Title}" Style="{ThemeResource SubtitleTextBlockStyle}" MaxLines="2"
+                                       TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" 
+                                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <TextBlock Width="60" Text="{x:Bind ProgressToString(Progress),Mode=OneWay}" Style="{ThemeResource SubtitleTextBlockStyle}"
+                                              Foreground="{ThemeResource SystemControlBackgroundAltMediumBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{x:Bind Status,Mode=OneWay}" Style="{ThemeResource SubtitleTextBlockStyle}"
+                                               Foreground="{ThemeResource SystemControlBackgroundAltMediumBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+            <GridView.Footer>
+                <Border Height="120"/>
+            </GridView.Footer>
+        </GridView>
     </Grid>
 </Page>
