@@ -285,26 +285,6 @@ namespace Aurora.Music
 
         private async void CreateRootFrame(ApplicationExecutionState previousExecutionState)
         {
-            CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
-            ApplicationViewTitleBar titleBar = ApplicationView.GetForCurrentView().TitleBar;
-            titleBar.ButtonBackgroundColor = Colors.Transparent;
-            titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-            titleBar.ButtonHoverBackgroundColor = Color.FromArgb(0x33, 0x00, 0x00, 0x00);
-            titleBar.ButtonForegroundColor = Colors.Black;
-            titleBar.ButtonHoverForegroundColor = Colors.White;
-            titleBar.ButtonInactiveForegroundColor = Color.FromArgb(0x55, 0x00, 0x00, 0x00);
-
-            if (ui != null) ui.ColorValuesChanged -= Ui_ColorValuesChanged;
-            ui = new UISettings();
-            ui.ColorValuesChanged += Ui_ColorValuesChanged;
-            ApplicationView.GetForCurrentView().SetDesiredBoundsMode(ApplicationViewBoundsMode.UseVisible);
-
-            var s = Settings.Current;
-            SQLOperator.Current();
-            ImageCache.Instance.CacheDuration = TimeSpan.MaxValue;
-            ImageCache.Instance.RetryCount = 1;
-            await ImageCache.Instance.InitializeAsync(ApplicationData.Current.LocalFolder, "Cache");
-
             rootFrame = Window.Current.Content as Frame;
 
             // Do not repeat app initialization when the Window already has content,
@@ -327,6 +307,28 @@ namespace Aurora.Music
                 // Place the frame in the current Window
                 Window.Current.Content = rootFrame;
             }
+
+
+            CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
+            ApplicationViewTitleBar titleBar = ApplicationView.GetForCurrentView().TitleBar;
+            titleBar.ButtonBackgroundColor = Colors.Transparent;
+            titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+            titleBar.ButtonHoverBackgroundColor = Color.FromArgb(0x33, 0x00, 0x00, 0x00);
+            titleBar.ButtonForegroundColor = Colors.Black;
+            titleBar.ButtonHoverForegroundColor = Colors.White;
+            titleBar.ButtonInactiveForegroundColor = Color.FromArgb(0x55, 0x00, 0x00, 0x00);
+
+            if (ui != null) ui.ColorValuesChanged -= Ui_ColorValuesChanged;
+            ui = new UISettings();
+            ui.ColorValuesChanged += Ui_ColorValuesChanged;
+            ApplicationView.GetForCurrentView().SetDesiredBoundsMode(ApplicationViewBoundsMode.UseVisible);
+
+
+            var s = Settings.Current;
+            SQLOperator.Current();
+            ImageCache.Instance.CacheDuration = TimeSpan.MaxValue;
+            ImageCache.Instance.RetryCount = 1;
+            await ImageCache.Instance.InitializeAsync(ApplicationData.Current.LocalFolder, "Cache");
         }
 
         private void App_EnteredBackground(object sender, EnteredBackgroundEventArgs e)
@@ -545,6 +547,7 @@ namespace Aurora.Music
             }
 
             Settings.Current.Save();
+            Downloader.Current.Complete();
 
             deferral.Complete();
         }

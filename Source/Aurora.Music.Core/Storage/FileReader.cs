@@ -181,7 +181,7 @@ namespace Aurora.Music.Core.Storage
                 var files = await GetFilesAsync(item);
 
                 var opr = SQLOperator.Current();
-                if (KnownFolders.MusicLibrary.Path == item.Path || item.Path == ApplicationData.Current.LocalFolder.Path)
+                if (KnownFolders.MusicLibrary.Path == item.Path || item.Path.Contains(ApplicationData.Current.LocalFolder.Path))
                 {
 
                 }

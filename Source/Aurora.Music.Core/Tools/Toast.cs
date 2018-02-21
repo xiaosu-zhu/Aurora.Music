@@ -2,6 +2,7 @@
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using Aurora.Music.Core.Models;
+using Aurora.Music.Core.Storage;
 using Microsoft.Toolkit.Uwp.Notifications;
 using System;
 using System.Collections.Generic;
@@ -91,6 +92,45 @@ namespace Aurora.Music.Core.Tools
             ToastNotificationManager.History.Remove(p.ID.ToString());
             // And send the notification
             ToastNotificationManager.CreateToastNotifier().Show(toastNotif);
+        }
+
+        public static ToastNotification GetDownload(DownloadDesc des)
+        {
+            var toastContent = new ToastContent()
+            {
+                Visual = new ToastVisual()
+                {
+                    BindingGeneric = new ToastBindingGeneric()
+                    {
+                        Children =
+                        {
+                            new AdaptiveText()
+                            {
+                                Text = $"{des.Title} - {des.Description} has downloaded"
+                            }
+                        },
+                        Attribution = new ToastGenericAttributionText()
+                        {
+                            Text = "Aurora Music"
+                        }
+                    }
+                }
+            };
+
+            // Create the toast notification
+            return new ToastNotification(toastContent.GetXml())
+            {
+                Tag = des.Guid.ToString()
+            };
+        }
+
+        public static void SendDownload(DownloadDesc des)
+        {
+            var toast = GetDownload(des);
+            // Remove old (if have)
+            ToastNotificationManager.History.Remove(toast.Tag);
+            // And send the notification
+            ToastNotificationManager.CreateToastNotifier().Show(toast);
         }
     }
 }

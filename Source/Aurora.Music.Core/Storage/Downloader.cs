@@ -17,7 +17,6 @@ namespace Aurora.Music.Core.Storage
     {
         private List<(DownloadOperation, DownloadDesc, CancellationTokenSource)> activeDownloads;
         private BackgroundTransferGroup notificationsGroup;
-        private BackgroundDownloader downloader;
 
         private static Downloader current;
         public static Downloader Current
@@ -48,6 +47,9 @@ namespace Aurora.Music.Core.Storage
             // the group.
             notificationsGroup.TransferBehavior = BackgroundTransferBehavior.Parallel;
 
+            activeDownloads = new List<(DownloadOperation, DownloadDesc, CancellationTokenSource)>();
+            DiscoverActiveDownloadsAsync();
+
             BackgroundTransferCompletionGroup completionGroup = new BackgroundTransferCompletionGroup();
 
             BackgroundTaskBuilder builder = new BackgroundTaskBuilder
@@ -62,8 +64,6 @@ namespace Aurora.Music.Core.Storage
             {
                 TransferGroup = notificationsGroup
             };
-            activeDownloads = new List<(DownloadOperation, DownloadDesc, CancellationTokenSource)>();
-            DiscoverActiveDownloadsAsync();
         }
 
         // Enumerate the downloads that were going on in the background while the app was closed.
@@ -248,8 +248,8 @@ namespace Aurora.Music.Core.Storage
             destinationFile = await savingFolder.CreateFileAsync(fileName, CreationCollisionOption.GenerateUniqueName);
 
             await SQLOperator.Current().AddDownloadDes(des);
-            DownloadOperation download = downloader.CreateDownload(downloadUri, destinationFile);
 
+            DownloadOperation download = downloader.CreateDownload(downloadUri, destinationFile);
             download.Priority = priority;
 
             // Attach progress and completion handlers.
@@ -260,6 +260,14 @@ namespace Aurora.Music.Core.Storage
 
         #region IDisposable Support
         private bool disposedValue = false; // 要检测冗余调用
+        private BackgroundDownloader downloader;
+
+        public void Complete()
+        {
+            downloader.CompletionGroup.Enable();
+            Dispose();
+            current = null;
+        }
 
         void Dispose(bool disposing)
         {
@@ -268,18 +276,15 @@ namespace Aurora.Music.Core.Storage
                 if (disposing)
                 {
                     // TODO: 释放托管状态(托管对象)。
+                    foreach (var item in activeDownloads)
+                    {
+                        item.Item3.Dispose();
+                    }
+                    activeDownloads.Clear();
+                    activeDownloads = null;
                 }
-
                 // TODO: 释放未托管的资源(未托管的对象)并在以下内容中替代终结器。
                 // TODO: 将大型字段设置为 null。
-
-                foreach (var item in activeDownloads)
-                {
-                    item.Item3.Dispose();
-                }
-                activeDownloads.Clear();
-                activeDownloads = null;
-
                 disposedValue = true;
             }
         }

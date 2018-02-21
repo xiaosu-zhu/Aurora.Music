@@ -30,7 +30,7 @@ namespace Aurora.Music.Core.Storage
     {
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
-        public Guid Guid { get; internal set; }
+        public Guid Guid { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
     }
@@ -1398,14 +1398,19 @@ namespace Aurora.Music.Core.Storage
             await conn.QueryAsync<int>("DELETE FROM PLAYLIST WHERE ID=?", iD);
         }
 
-        internal async Task RemoveDownloadDes(DownloadDesc item)
+        public async Task RemoveDownloadDes(DownloadDesc item)
         {
             await conn.QueryAsync<int>("DELETE FROM DownloadDesc WHERE ID=?", item.ID);
         }
 
-        internal async Task AddDownloadDes(DownloadDesc des)
+        public async Task AddDownloadDes(DownloadDesc des)
         {
             await conn.InsertAsync(des);
+        }
+
+        public async Task UpdateDownload(DownloadDesc p)
+        {
+            await conn.UpdateAsync(p);
         }
     }
 }

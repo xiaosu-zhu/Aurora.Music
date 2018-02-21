@@ -275,20 +275,25 @@ namespace Aurora.Shared.Helpers
                     {
                         var subContainer = mainContainer.CreateContainer(member.Name, ApplicationDataCreateDisposition.Always);
                         var res = ReadArraySettings(subContainer);
-                        if (member.PropertyType == typeof(DateTime[]))
+                        if (res == null || res.Length == 0)
                         {
-                            List<DateTime> times = new List<DateTime>();
-                            foreach (var time in res)
-                            {
-                                times.Add(DateTime.FromBinary((long)time));
-                            }
-                            member.SetValue(obj, times.ToArray());
+
                         }
                         else
                         {
-                            if (res.IsNullorEmpty())
-                                member.SetValue(obj, null);
-                            member.SetValue(obj, res);
+                            if (member.PropertyType == typeof(DateTime[]))
+                            {
+                                List<DateTime> times = new List<DateTime>();
+                                foreach (var time in res)
+                                {
+                                    times.Add(DateTime.FromBinary((long)time));
+                                }
+                                member.SetValue(obj, times.ToArray());
+                            }
+                            else
+                            {
+                                member.SetValue(obj, res);
+                            }
                         }
                     }
                     else if (member.PropertyType == typeof(DateTime))
@@ -345,13 +350,27 @@ namespace Aurora.Shared.Helpers
         /// <returns></returns>
         public static Array ReadArraySettings(ApplicationDataContainer subContainer)
         {
-            int i = (int)subContainer.Values["Count"];
-            var list = Array.CreateInstance(DirectRead("0", subContainer).GetType(), i);
-            for (int j = 0; j < i; j++)
+            try
             {
-                list.SetValue(DirectRead(j.ToString(), subContainer), j);
+                if (subContainer.Values.ContainsKey("Count"))
+                {
+                    int i = (int)subContainer.Values["Count"];
+                    var list = Array.CreateInstance(DirectRead("0", subContainer).GetType(), i);
+                    for (int j = 0; j < i; j++)
+                    {
+                        list.SetValue(DirectRead(j.ToString(), subContainer), j);
+                    }
+                    return list;
+                }
+                else
+                {
+                    return null;
+                }
             }
-            return list;
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         /// <summary>

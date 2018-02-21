@@ -47,13 +47,20 @@ namespace Aurora.Music.Core.Models
 
         public static async Task<PlayerStatus> LoadAsync()
         {
-            var file = await ApplicationData.Current.LocalFolder.CreateFileAsync("CheckPoint", CreationCollisionOption.OpenIfExists);
-            var json = await FileIO.ReadTextAsync(file);
-            if (json.IsNullorEmpty())
+            try
+            {
+                var file = await ApplicationData.Current.LocalFolder.CreateFileAsync("CheckPoint", CreationCollisionOption.OpenIfExists);
+                var json = await FileIO.ReadTextAsync(file);
+                if (json.IsNullorEmpty())
+                {
+                    return null;
+                }
+                return JsonConvert.DeserializeObject<PlayerStatus>(json);
+            }
+            catch (Exception)
             {
                 return null;
             }
-            return JsonConvert.DeserializeObject<PlayerStatus>(json);
         }
     }
 }

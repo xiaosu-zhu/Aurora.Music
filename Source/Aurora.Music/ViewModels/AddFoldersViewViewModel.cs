@@ -117,7 +117,7 @@ namespace Aurora.Music.ViewModels
             {
                 foreach (var item in folders)
                 {
-                    if (item.Path == KnownFolders.MusicLibrary.Path || item.Path == ApplicationData.Current.LocalFolder.Path)
+                    if (item.Path == KnownFolders.MusicLibrary.Path || item.Path.Contains(ApplicationData.Current.LocalFolder.Path))
                     {
                         continue;
                     }
