@@ -140,7 +140,7 @@
     <comment>Play All</comment>
   </data>
   <data name="ScanFolder.Text" xml:space="preserve">
-    <value>Вот Сканирующие Папки</value>
+    <value>Сканирующие Папки</value>
     <comment>Here's Scanning Folders</comment>
   </data>
   <data name="AddNewFolder.Content" xml:space="preserve">

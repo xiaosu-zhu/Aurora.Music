@@ -547,7 +547,6 @@ namespace Aurora.Music
             }
 
             Settings.Current.Save();
-            Downloader.Current.Complete();
 
             deferral.Complete();
         }

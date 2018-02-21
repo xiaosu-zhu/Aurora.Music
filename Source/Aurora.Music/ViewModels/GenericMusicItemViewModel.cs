@@ -207,4 +207,30 @@ namespace Aurora.Music.ViewModels
             }
         }
     }
+
+    public class HeroItemViewModel : GenericMusicItemViewModel
+    {
+        public Uri Artwork1 { get; set; }
+        public Uri Artwork2 { get; set; }
+        public Uri Artwork3 { get; set; }
+        public Uri Artwork4 { get; set; }
+        public Uri Artwork5 { get; set; }
+        public Uri Artwork6 { get; set; }
+        public Uri Artwork7 { get; set; }
+
+        public Color MainColor1
+        {
+            get
+            {
+                MainColor.ColorToHSV(out var h, out var s, out var v);
+
+                v = 1.25;
+                s *= 1.25;
+                if (v > 0.666666666667) v = 0.666666666667;
+                if (s > 1) s = 1;
+
+                return ImagingHelper.ColorFromHSV(h, s, v);
+            }
+        }
+    }
 }

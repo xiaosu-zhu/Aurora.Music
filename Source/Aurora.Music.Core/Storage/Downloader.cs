@@ -264,7 +264,13 @@ namespace Aurora.Music.Core.Storage
 
         public void Complete()
         {
-            downloader.CompletionGroup.Enable();
+            try
+            {
+                downloader.CompletionGroup.Enable();
+            }
+            catch (Exception)
+            {
+            }
             Dispose();
             current = null;
         }

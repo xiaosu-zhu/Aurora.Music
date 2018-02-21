@@ -4,66 +4,37 @@ Copyright (c) Aurora Studio. All rights reserved.
 Licensed under the MIT License. See LICENSE in the project root for license information.
 -->
 <UserControl Unloaded="UserControl_Unloaded"
-    x:Class="Aurora.Music.Controls.ListItems.HomeItem"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Aurora.Music.Controls.ListItems"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
-    xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
-   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    d:DesignHeight="300"
-    d:DesignWidth="400">
+             x:Class="Aurora.Music.Controls.ListItems.HomeItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="using:Aurora.Music.Controls.ListItems"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+             xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignHeight="300"
+             d:DesignWidth="400">
 
-    <Grid PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited" PointerPressed="Grid_PointerPressed"
+    <StackPanel PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited" PointerPressed="Grid_PointerPressed"
+                Orientation="Vertical"
           PointerReleased="Grid_PointerReleased" PointerCanceled="Grid_PointerExited" PointerCaptureLost="Grid_PointerExited">
-
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="CommonStates">
                 <VisualState x:Name="Normal">
                     <VisualState.Setters>
-                        <Setter Target="BlurBehavior.Value" Value="0"/>
                     </VisualState.Setters>
                     <Storyboard>
-                        <DoubleAnimation Storyboard.TargetName="Title" Storyboard.TargetProperty="Opacity" 
-                                         To="0" Duration="0:0:0.64">
-                            <DoubleAnimation.EasingFunction>
-                                <QuinticEase/>
-                            </DoubleAnimation.EasingFunction>
-                        </DoubleAnimation>
-                        <DoubleAnimation Storyboard.TargetName="OL" Storyboard.TargetProperty="Opacity" 
-                                         To="0" Duration="0:0:0.64">
-                            <DoubleAnimation.EasingFunction>
-                                <QuinticEase/>
-                            </DoubleAnimation.EasingFunction>
-                        </DoubleAnimation>
                     </Storyboard>
                 </VisualState>
                 <VisualState x:Name="PointerOver">
                     <VisualState.Setters>
-                        <Setter Target="BlurBehavior.Value" Value="16"/>
                     </VisualState.Setters>
                     <Storyboard>
-                        <DoubleAnimation Storyboard.TargetName="Title" Storyboard.TargetProperty="Opacity" 
-                                         To="1" Duration="0:0:0.64">
-                            <DoubleAnimation.EasingFunction>
-                                <QuinticEase/>
-                            </DoubleAnimation.EasingFunction>
-                        </DoubleAnimation>
-                        <DoubleAnimation Storyboard.TargetName="OL" Storyboard.TargetProperty="Opacity" 
-                                         To="1" Duration="0:0:0.64">
-                            <DoubleAnimation.EasingFunction>
-                                <QuinticEase/>
-                            </DoubleAnimation.EasingFunction>
-                        </DoubleAnimation>
                     </Storyboard>
                 </VisualState>
                 <VisualState x:Name="Pressed">
                     <VisualState.Setters>
-                        <Setter Target="BlurBehavior.Value" Value="16"/>
-                        <Setter Target="Title.Opacity" Value="1"/>
-                        <Setter Target="OL.Opacity" Value="1"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -79,7 +50,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="Artwork.Height" Value="144"/>
-                        <Setter Target="OL.Height" Value="144"/>
                         <Setter Target="Title.MaxHeight" Value="144"/>
                         <Setter Target="Title.MaxWidth" Value="144"/>
                     </VisualState.Setters>
@@ -90,7 +60,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="Artwork.Height" Value="128"/>
-                        <Setter Target="OL.Height" Value="128"/>
                         <Setter Target="Title.MaxHeight" Value="128"/>
                         <Setter Target="Title.MaxWidth" Value="128"/>
                     </VisualState.Setters>
@@ -100,23 +69,14 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         <Image x:Name="Artwork" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="150" Stretch="Uniform"
                Source="{x:Bind DataArtwork,TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png,Mode=OneWay}">
         </Image>
-        <Border x:Name="OL" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="150" 
-                Background="{ThemeResource SystemControlBackgroundAltMediumLowBrush}" Opacity="0">
-            <interactivity:Interaction.Behaviors>
-                <behaviors:Blur x:Name="BlurBehavior" Value="0" Duration="640" Delay="0" AutomaticallyStart="True"/>
-            </interactivity:Interaction.Behaviors>
-        </Border>
-        <StackPanel x:Name="Title" Opacity="0" MaxHeight="150" Orientation="Vertical"
-                    HorizontalAlignment="Stretch" VerticalAlignment="Center">
-            <TextBlock Text="{x:Bind Data.Title,Mode=OneWay}" Style="{ThemeResource BaseTextBlockStyle}"
-                       HorizontalAlignment="Center" VerticalAlignment="Center" MaxLines="1" TextWrapping="NoWrap"
-                       TextTrimming="CharacterEllipsis" Margin="4,0" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
-            <TextBlock Text="{x:Bind Data.Description,Mode=OneWay}" FontSize="13" Style="{ThemeResource BodyTextBlockStyle}"
-                       HorizontalAlignment="Center" VerticalAlignment="Center" MaxLines="1" TextWrapping="NoWrap" 
-                       TextTrimming="CharacterEllipsis" Margin="4,0" Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}"/>
-            <TextBlock Text="{x:Bind Data.Addtional,Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" FontSize="13"
-                       MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" HorizontalAlignment="Center" VerticalAlignment="Center"
-                       Margin="4,0" Foreground="{ThemeResource SystemControlBackgroundBaseMediumHighBrush}"/>
-        </StackPanel>
-    </Grid>
+        <TextBlock Text="{x:Bind Data.Title,Mode=OneWay}" Style="{ThemeResource BaseTextBlockStyle}"
+                       HorizontalAlignment="Left" VerticalAlignment="Center" MaxLines="1" TextWrapping="NoWrap"
+                       TextTrimming="CharacterEllipsis"/>
+        <TextBlock Text="{x:Bind Data.Description,Mode=OneWay}" FontSize="13" Style="{ThemeResource BodyTextBlockStyle}"
+                       HorizontalAlignment="Left" VerticalAlignment="Center" MaxLines="1" TextWrapping="NoWrap" 
+                       TextTrimming="CharacterEllipsis" Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}"/>
+        <TextBlock Text="{x:Bind Data.Addtional,Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" FontSize="13"
+                   MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" HorizontalAlignment="Left" VerticalAlignment="Center"
+                   Foreground="{ThemeResource SystemControlBackgroundBaseMediumHighBrush}"/>
+    </StackPanel>
 </UserControl>

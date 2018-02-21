@@ -60,14 +60,14 @@ namespace Aurora.Music.Controls.ListItems
 
         private void DataArtwork_ImageOpened(object sender, RoutedEventArgs e)
         {
-            Title.MaxWidth = DataArtwork.PixelWidth * 150d / DataArtwork.PixelHeight;
+            MaxWidth = DataArtwork.PixelWidth * 150d / DataArtwork.PixelHeight;
             DataArtwork.ImageOpened -= DataArtwork_ImageOpened;
             SizeChanged += HomeItem_SizeChanged;
         }
 
         private void HomeItem_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            Title.MaxWidth = Artwork.ActualWidth;
+            MaxWidth = Artwork.ActualWidth;
         }
 
         double ToActualWidth(int pixelHeight, int pixelWidth)

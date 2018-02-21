@@ -26,83 +26,25 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid PointerExited="Grid_PointerExited" PointerEntered="Grid_PointerEntered" PointerPressed="Grid_PointerPressed"
+    <Grid PointerExited="Grid_PointerExited" PointerEntered="Grid_PointerEntered" PointerPressed="Grid_PointerPressed" Padding="8"
           PointerReleased="Grid_PointerReleased" PointerCanceled="Grid_PointerExited" PointerCaptureLost="Grid_PointerExited"
-          Background="{x:Null}" BorderThickness="0" BorderBrush="{x:Null}">
+          Background="{ThemeResource SystemControlAltLowBrush}" BorderThickness="0" BorderBrush="{x:Null}">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="CommonStates">
                 <VisualState x:Name="Normal">
                     <VisualState.Setters>
-                        <Setter Target="OneOver.(RevealBrush.State)" Value="Normal"/>
-                        <Setter Target="TwoOver.(RevealBrush.State)" Value="Normal"/>
                     </VisualState.Setters>
                     <Storyboard>
-                        <DoubleAnimation Storyboard.TargetName="Title" Storyboard.TargetProperty="Opacity" 
-                                         To="1" Duration="0:0:0.2">
-                            <DoubleAnimation.EasingFunction>
-                                <QuinticEase/>
-                            </DoubleAnimation.EasingFunction>
-                        </DoubleAnimation>
-                        <DoubleAnimation Storyboard.TargetName="Icon" Storyboard.TargetProperty="Opacity" 
-                                         To="0" Duration="0:0:0.2">
-                            <DoubleAnimation.EasingFunction>
-                                <QuinticEase/>
-                            </DoubleAnimation.EasingFunction>
-                        </DoubleAnimation>
-                        <DoubleAnimation Storyboard.TargetName="OneY" Storyboard.TargetProperty="Y" 
-                                         To="0" Duration="0:0:0.2">
-                            <DoubleAnimation.EasingFunction>
-                                <QuinticEase/>
-                            </DoubleAnimation.EasingFunction>
-                        </DoubleAnimation>
-                        <DoubleAnimation Storyboard.TargetName="TwoY" Storyboard.TargetProperty="Y" 
-                                         To="0" Duration="0:0:0.2">
-                            <DoubleAnimation.EasingFunction>
-                                <QuinticEase/>
-                            </DoubleAnimation.EasingFunction>
-                        </DoubleAnimation>
                     </Storyboard>
                 </VisualState>
                 <VisualState x:Name="PointerOver">
                     <VisualState.Setters>
-                        <Setter Target="OneOver.(RevealBrush.State)" Value="PointerOver"/>
-                        <Setter Target="TwoOver.(RevealBrush.State)" Value="PointerOver"/>
                     </VisualState.Setters>
                     <Storyboard>
-                        <DoubleAnimation Storyboard.TargetName="Title" Storyboard.TargetProperty="Opacity" 
-                                         To="0" Duration="0:0:0.2">
-                            <DoubleAnimation.EasingFunction>
-                                <QuinticEase/>
-                            </DoubleAnimation.EasingFunction>
-                        </DoubleAnimation>
-                        <DoubleAnimation Storyboard.TargetName="Icon" Storyboard.TargetProperty="Opacity" 
-                                         To="1" Duration="0:0:0.2">
-                            <DoubleAnimation.EasingFunction>
-                                <QuinticEase/>
-                            </DoubleAnimation.EasingFunction>
-                        </DoubleAnimation>
-                        <DoubleAnimation Storyboard.TargetName="OneY" Storyboard.TargetProperty="Y" 
-                                         To="{x:Bind OneYOffset, Mode=OneWay}" Duration="0:0:0.2">
-                            <DoubleAnimation.EasingFunction>
-                                <QuinticEase/>
-                            </DoubleAnimation.EasingFunction>
-                        </DoubleAnimation>
-                        <DoubleAnimation Storyboard.TargetName="TwoY" Storyboard.TargetProperty="Y" 
-                                         To="{x:Bind TwoYOffset, Mode=OneWay}" Duration="0:0:0.2">
-                            <DoubleAnimation.EasingFunction>
-                                <QuinticEase/>
-                            </DoubleAnimation.EasingFunction>
-                        </DoubleAnimation>
                     </Storyboard>
                 </VisualState>
                 <VisualState x:Name="Pressed">
                     <VisualState.Setters>
-                        <Setter Target="OneOver.(RevealBrush.State)" Value="Pressed"/>
-                        <Setter Target="TwoOver.(RevealBrush.State)" Value="Pressed"/>
-                        <Setter Target="OneY.Y" Value="{x:Bind OneYOffset, Mode=OneWay}"/>
-                        <Setter Target="TwoY.Y" Value="{x:Bind TwoYOffset, Mode=OneWay}"/>
-                        <Setter Target="Title.Opacity" Value="0"/>
-                        <Setter Target="Icon.Opacity" Value="1"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -148,43 +90,77 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <Border x:Name="Two" BorderBrush="{ThemeResource SystemControlTransparentRevealBorderBrush}" BorderThickness="1" 
-                Height="128" Width="128" RenderTransformOrigin="0.5,0" Background="{x:Bind Data.GetMainColorBrush(0.5), Mode=OneWay}"
-                HorizontalAlignment="Center" VerticalAlignment="Top">
-            <Border.RenderTransform>
-                <TranslateTransform x:Name="TwoY" Y="0"/>
-            </Border.RenderTransform>
-            <Border x:Name="TwoOver" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                    Background="{ThemeResource SystemControlTransparentRevealBackgroundBrush}"/>
-        </Border>
-        <Border x:Name="One" BorderBrush="{ThemeResource SystemControlTransparentRevealBorderBrush}" BorderThickness="1"
-                Background="{x:Bind Data.GetMainColorBrush(0.7), Mode=OneWay}" Height="144" Width="144" RenderTransformOrigin="0.5,0" 
-                HorizontalAlignment="Center" VerticalAlignment="Top">
-            <Border.RenderTransform>
-                <TranslateTransform x:Name="OneY" Y="0"/>
-            </Border.RenderTransform>
-            <Border x:Name="OneOver" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                    Background="{ThemeResource SystemControlTransparentRevealBackgroundBrush}"/>
-        </Border>
-        <Border x:Name="BG" BorderBrush="{ThemeResource SystemControlTransparentRevealBorderBrush}" BorderThickness="1" Height="160" Width="160">
-            <Border.Background>
-                <ImageBrush AlignmentX="Center" AlignmentY="Center" Stretch="UniformToFill">
-                    <ImageBrush.ImageSource>
-                        <BitmapImage DecodePixelHeight="160" DecodePixelType="Logical"
-                                     UriSource="{x:Bind Data.Artwork, TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png, Mode=OneWay}"/>
-                    </ImageBrush.ImageSource>
-                </ImageBrush>
-            </Border.Background>
-        </Border>
-        <Border x:Name="OL" Height="160" Width="160" BorderBrush="{ThemeResource SystemControlTransparentRevealBorderBrush}" 
-                BorderThickness="1" Background="{ThemeResource SystemControlBackgroundAltMediumBrush}"/>
-        <TextBlock x:Name="Title" Text="{x:Bind Data.Title, Mode=OneWay}" Style="{ThemeResource SubtitleTextBlockStyle}"
-                   Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" TextAlignment="Center"
-                   HorizontalAlignment="Center" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"
-                   Margin="12" MaxLines="2" TextWrapping="WrapWholeWords" FontWeight="Bold" MaxWidth="136" MaxHeight="136"/>
-        <FontIcon x:Name="Icon" FontFamily="Segoe MDL2 Assets" Opacity="0" 
-                  Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"
-                  Glyph="&#xE102;" FontSize="32" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="72"/>
+            <ColumnDefinition Width="72"/>
+            <ColumnDefinition Width="72"/>
+            <ColumnDefinition Width="72"/>
+            <ColumnDefinition Width="72"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="72"/>
+            <RowDefinition Height="72"/>
+            <RowDefinition Height="72"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.ColumnSpan="2" Grid.RowSpan="2" Margin="4">
+            <Grid.Background>
+                <LinearGradientBrush EndPoint="1,0" StartPoint="0,1">
+                    <GradientStop Color="{x:Bind Data.MainColor1,Mode=OneWay}"/>
+                    <GradientStop Color="{x:Bind Data.MainColor,Mode=OneWay}" Offset="1"/>
+                </LinearGradientBrush>
+            </Grid.Background>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock x:Name="Title" Text="{x:Bind Data.Title, Mode=OneWay}" Style="{ThemeResource SubtitleTextBlockStyle}"
+                   Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" TextAlignment="Left"
+                   HorizontalAlignment="Left" VerticalAlignment="Top" TextTrimming="CharacterEllipsis" Opacity="0.66666667"
+                   Margin="12,12,12,0" MaxLines="2" TextWrapping="WrapWholeWords" FontWeight="Bold"/>
+            <TextBlock Text="Mix" Style="{ThemeResource TitleTextBlockStyle}" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}"
+                       TextAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" TextTrimming="CharacterEllipsis" Grid.Row="1" 
+                       Margin="12,0" MaxLines="1" TextWrapping="WrapWholeWords" Opacity="0.66666667"/>
+        </Grid>
+        <Image Width="136" Height="136" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="3" Grid.ColumnSpan="2" Grid.RowSpan="2" Stretch="UniformToFill">
+            <Image.Source>
+                <BitmapImage UriSource="{x:Bind Data.Artwork, TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png, Mode=OneWay}"/>
+            </Image.Source>
+        </Image>
+        <Image Width="64" Height="64" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="2" Stretch="UniformToFill">
+            <Image.Source>
+                <BitmapImage UriSource="{x:Bind Data.Artwork1, TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png, Mode=OneWay}"/>
+            </Image.Source>
+        </Image>
+        <Image Width="64" Height="64" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Grid.Column="2" Stretch="UniformToFill">
+            <Image.Source>
+                <BitmapImage UriSource="{x:Bind Data.Artwork2, TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png, Mode=OneWay}"/>
+            </Image.Source>
+        </Image>
+        <Image Width="64" Height="64" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2" Grid.Column="2" Stretch="UniformToFill">
+            <Image.Source>
+                <BitmapImage UriSource="{x:Bind Data.Artwork3, TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png, Mode=OneWay}"/>
+            </Image.Source>
+        </Image>
+        <Image Width="64" Height="64" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" Stretch="UniformToFill">
+            <Image.Source>
+                <BitmapImage UriSource="{x:Bind Data.Artwork4, TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png, Mode=OneWay}"/>
+            </Image.Source>
+        </Image>
+        <Image Width="64" Height="64" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2" Grid.Column="1" Stretch="UniformToFill">
+            <Image.Source>
+                <BitmapImage UriSource="{x:Bind Data.Artwork5, TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png, Mode=OneWay}"/>
+            </Image.Source>
+        </Image>
+        <Image Width="64" Height="64" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2" Grid.Column="3" Stretch="UniformToFill">
+            <Image.Source>
+                <BitmapImage UriSource="{x:Bind Data.Artwork6, TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png, Mode=OneWay}"/>
+            </Image.Source>
+        </Image>
+        <Image Width="64" Height="64" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2" Grid.Column="4" Stretch="UniformToFill">
+            <Image.Source>
+                <BitmapImage UriSource="{x:Bind Data.Artwork7, TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png, Mode=OneWay}"/>
+            </Image.Source>
+        </Image>
     </Grid>
 
 </UserControl>

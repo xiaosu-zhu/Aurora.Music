@@ -288,7 +288,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <ControlTemplate TargetType="ListViewItem">
                             <ListViewItemPresenter ContentTransitions="{TemplateBinding ContentTransitions}"
                         x:Name="Root" HorizontalAlignment="Stretch"
-                        Control.IsTemplateFocusTarget="True" Margin="0,0,8,0"
+                        Control.IsTemplateFocusTarget="True" Margin="0,0,16,0"
                         FocusVisualMargin="{TemplateBinding FocusVisualMargin}"
                         FocusVisualPrimaryBrush="{TemplateBinding FocusVisualPrimaryBrush}"
                         FocusVisualPrimaryThickness="{TemplateBinding FocusVisualPrimaryThickness}"
@@ -302,8 +302,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         FocusBorderBrush="{ThemeResource ListViewItemFocusBorderBrush}"
                         FocusSecondaryBorderBrush="{ThemeResource ListViewItemFocusSecondaryBorderBrush}"
                         PlaceholderBackground="{ThemeResource ListViewItemPlaceholderBackground}"
-                        PointerOverBackground="{ThemeResource ListViewItemBackgroundPointerOver}"
-                        PointerOverForeground="{ThemeResource ListViewItemForegroundPointerOver}"
+                                                   Padding="0"
+                        PointerOverBackground="{x:Null}"
+                        PointerOverForeground="{ThemeResource AccentForText}"
                         SelectedBackground="{ThemeResource ListViewItemBackgroundSelected}"
                         SelectedForeground="{ThemeResource ListViewItemForegroundSelected}"
                         SelectedPointerOverBackground="{ThemeResource ListViewItemBackgroundSelectedPointerOver}"
@@ -315,7 +316,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                         VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                         ContentMargin="{TemplateBinding Padding}"
-                        CheckMode="{ThemeResource ListViewItemCheckMode}" RevealBackgroundShowsAboveContent="True"
+                        CheckMode="{ThemeResource ListViewItemCheckMode}"
                         RevealBackground="{ThemeResource ListViewItemRevealBackground}"
                         RevealBorderThickness="{ThemeResource ListViewItemRevealBorderThemeThickness}"
                         RevealBorderBrush="{ThemeResource ListViewItemRevealBorderBrush}">
@@ -368,7 +369,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                                 <AdaptiveTrigger MinWindowWidth="641"/>
                                             </VisualState.StateTriggers>
                                             <VisualState.Setters>
-                                                <Setter Target="Root.Margin" Value="0,0,6,0"/>
+                                                <Setter Target="Root.Margin" Value="0,0,12,0"/>
                                             </VisualState.Setters>
                                         </VisualState>
                                         <VisualState x:Name="Narrow">
@@ -376,7 +377,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                                 <AdaptiveTrigger MinWindowWidth="0"/>
                                             </VisualState.StateTriggers>
                                             <VisualState.Setters>
-                                                <Setter Target="Root.Margin" Value="0,0,4,0"/>
+                                                <Setter Target="Root.Margin" Value="0,0,8,0"/>
                                             </VisualState.Setters>
                                         </VisualState>
                                     </VisualStateGroup>
@@ -502,7 +503,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         </ResourceDictionary>
     </Page.Resources>
 
-    <Grid x:Name="Main" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource HomePageBackground}">
+    <Grid x:Name="Main" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource SystemControlAltHighAcrylicWindowBrush}">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState x:Name="Tablets">
@@ -513,12 +514,13 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <AdaptiveTrigger MinWindowWidth="0"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="HeroGrid.Padding" Value="8"/>
-                        <Setter Target="RandomPanel.Margin" Value="8,16,8,8"/>
-                        <Setter Target="FavoritPanel.Margin" Value="8,16,8,8"/>
-                        <Setter Target="RandomHeader.Width" Value="8"/>
-                        <Setter Target="FavHeader.MinWidth" Value="8"/>
-                        <Setter Target="FavHeader.Padding" Value="8,0,0,0"/>
+                        <Setter Target="RandomPanel.Margin" Value="16,64,8,8"/>
+                        <Setter Target="FavoritPanel.Margin" Value="16,64,8,8"/>
+                        <Setter Target="HeroPanel.Margin" Value="16,16,8,8"/>
+                        <Setter Target="RandomHeader.Width" Value="16"/>
+                        <Setter Target="FavHeader.MinWidth" Value="16"/>
+                        <Setter Target="FavHeader.Padding" Value="16,0,0,0"/>
+                        <Setter Target="HeroHeader.Width" Value="16"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Medium">
@@ -526,12 +528,13 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <AdaptiveTrigger MinWindowWidth="641"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="HeroGrid.Padding" Value="16"/>
-                        <Setter Target="RandomPanel.Margin" Value="16,16,16,8"/>
-                        <Setter Target="FavoritPanel.Margin" Value="16,16,16,8"/>
+                        <Setter Target="RandomPanel.Margin" Value="16,64,16,8"/>
+                        <Setter Target="FavoritPanel.Margin" Value="16,64,16,8"/>
+                        <Setter Target="HeroPanel.Margin" Value="16,16,16,8"/>
                         <Setter Target="RandomHeader.Width" Value="16"/>
                         <Setter Target="FavHeader.MinWidth" Value="16"/>
                         <Setter Target="FavHeader.Padding" Value="16,0,0,0"/>
+                        <Setter Target="HeroHeader.Width" Value="16"/>
                     </VisualState.Setters>
                 </VisualState>
 
@@ -540,12 +543,13 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <AdaptiveTrigger MinWindowWidth="1008"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="HeroGrid.Padding" Value="32"/>
-                        <Setter Target="RandomPanel.Margin" Value="32,16,32,8"/>
-                        <Setter Target="FavoritPanel.Margin" Value="32,16,32,8"/>
-                        <Setter Target="RandomHeader.Width" Value="32"/>
-                        <Setter Target="FavHeader.MinWidth" Value="32"/>
-                        <Setter Target="FavHeader.Padding" Value="32,0,0,0"/>
+                        <Setter Target="RandomPanel.Margin" Value="16,64,0,8"/>
+                        <Setter Target="FavoritPanel.Margin" Value="16,64,0,8"/>
+                        <Setter Target="HeroPanel.Margin" Value="16,16,0,8"/>
+                        <Setter Target="RandomHeader.Width" Value="16"/>
+                        <Setter Target="FavHeader.MinWidth" Value="16"/>
+                        <Setter Target="FavHeader.Padding" Value="16,0,0,0"/>
+                        <Setter Target="HeroHeader.Width" Value="16"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -576,21 +580,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Grid Grid.RowSpan="2" x:Name="LayerGradient" Opacity="0.5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <Grid.Background>
-                <LinearGradientBrush EndPoint="0,0" StartPoint="1,0">
-                    <GradientStop Color="#fdcbf1"/>
-                    <GradientStop Color="#e6dee9" Offset="1"/>
-                </LinearGradientBrush>
-            </Grid.Background>
-        </Grid>
-        <Grid Grid.RowSpan="2" x:Name="LayerMask" Opacity="1" 
-              HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-              Background="{ThemeResource HomePageGradient}"/>
         <ScrollViewer IsHorizontalScrollChainingEnabled="False" IsHorizontalRailEnabled="False" 
                       HorizontalScrollMode="Auto" HorizontalScrollBarVisibility="Hidden" x:Name="MainScroller"
                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{ThemeResource NarrowScrollViewer}"
@@ -598,17 +590,23 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                       IsVerticalScrollChainingEnabled="True">
             <StackPanel Margin="0,144,0,160" Orientation="Vertical" x:Name="ContentPanel"
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <GridView animations:ReorderGridAnimation.Duration="360" SelectionMode="None" IsItemClickEnabled="True" 
+                <StackPanel x:Name="HeroPanel" Orientation="Horizontal" Margin="60,16,16,8">
+                    <TextBlock Text="For You" x:Name="HeroTitle" Style="{ThemeResource HeaderTextBlockStyle}" FontWeight="Bold"/>
+                </StackPanel>
+                <ListView SelectionMode="None" IsItemClickEnabled="True" 
                           ItemsSource="{x:Bind Context.HeroList}" HorizontalAlignment="Center" VerticalAlignment="Stretch"
-                          ItemContainerStyle="{ThemeResource HeroGridViewItem}" Padding="64" x:Name="HeroGrid"
+                          ItemContainerStyle="{ThemeResource HomeListViewItemStyle}" x:Name="HeroGrid"
                           ContextRequested="HeroGrid_ContextRequested" ContextCanceled="HeroGrid_ContextCanceled" 
-                          ItemClick="HeroGrid_ItemClick" Margin="0" Style="{ThemeResource HeroGridViewStyle}">
-                    <GridView.ItemTemplate>
-                        <DataTemplate x:DataType="vm:GenericMusicItemViewModel">
+                          ItemClick="HeroGrid_ItemClick" Margin="0" Style="{ThemeResource HorizontalListView}">
+                    <ListView.Header>
+                        <Grid x:Name="HeroHeader" VerticalAlignment="Stretch" Width="60"/>
+                    </ListView.Header>
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="vm:HeroItemViewModel">
                             <list:HeroItem Data="{x:Bind }"/>
                         </DataTemplate>
-                    </GridView.ItemTemplate>
-                </GridView>
+                    </ListView.ItemTemplate>
+                </ListView>
                 <StackPanel x:Name="FavoritPanel" Orientation="Horizontal" Margin="60,16,16,8">
                     <TextBlock x:Uid="Favorite" Text="Your Favorite" x:Name="FavoritTitle" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold"/>
                     <Button x:Uid="PlayAllBtn" Visibility="{x:Bind Context.CollapseIfZero(Context.FavList.Count),Mode=OneWay,FallbackValue=Collapsed}" Style="{ThemeResource TextBlockButtonStyle}" Command="{x:Bind Context.PlayFav}" FontSize="15" Content="Play All" Margin="8,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
