@@ -270,8 +270,8 @@
   <ItemGroup>
     <Content Include="Assets\ali.png" />
     <Content Include="Assets\file.png" />
-    <Content Include="Assets\Images\albums.png" />
-    <Content Include="Assets\Images\artists.png" />
+    <Content Include="Assets\git-dark.png" />
+    <Content Include="Assets\git-light.png" />
     <Content Include="Assets\Images\artist_placeholder.scale-100.png" />
     <Content Include="Assets\Images\artist_placeholder.scale-125.png" />
     <Content Include="Assets\Images\artist_placeholder.scale-150.png" />
@@ -292,9 +292,6 @@
     <Content Include="Assets\Images\placeholder_b.scale-150.png" />
     <Content Include="Assets\Images\placeholder_b.scale-200.png" />
     <Content Include="Assets\Images\placeholder_b.scale-400.png" />
-    <Content Include="Assets\Images\podcast.png" />
-    <Content Include="Assets\Images\radio.png" />
-    <Content Include="Assets\Images\songs.png" />
     <Content Include="Assets\Images\welcome_bg.png" />
     <Content Include="Assets\LargeTile.scale-100.png" />
     <Content Include="Assets\LargeTile.scale-125.png" />

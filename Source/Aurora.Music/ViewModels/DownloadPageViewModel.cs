@@ -2,6 +2,7 @@
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using Aurora.Music.Core.Storage;
+using Aurora.Shared.Extensions;
 using Aurora.Shared.MVVM;
 using System;
 using System.Collections.Generic;
@@ -35,6 +36,7 @@ namespace Aurora.Music.ViewModels
         public DownloadPageViewModel()
         {
             DownloadList = new ObservableCollection<DownloadItemViewModel>();
+
             var running = Downloader.Current.GetAll();
             foreach (var item in running)
             {
@@ -42,7 +44,7 @@ namespace Aurora.Music.ViewModels
                 {
                     Title = item.Item2.Title,
                     Progress = item.Item1.Progress.TotalBytesToReceive == 0 ? 0 : item.Item1.Progress.BytesReceived * 100d / item.Item1.Progress.TotalBytesToReceive,
-                    Status = item.Item1.Progress.Status.ToString(),
+                    Status = item.Item1.Progress.Status,
                     Guid = item.Item1.Guid,
                     Description = item.Item2.Description
                 });
@@ -78,7 +80,7 @@ namespace Aurora.Music.ViewModels
                 try
                 {
                     var p = DownloadList.First(a => a.Guid == e.Item1.Guid);
-                    p.Status = e.Item1.Progress.Status.ToString();
+                    p.Status = e.Item1.Progress.Status;
                     p.Progress = e.Item1.Progress.TotalBytesToReceive == 0 ? 0 : e.Item1.Progress.BytesReceived * 100d / e.Item1.Progress.TotalBytesToReceive;
                 }
                 catch (Exception)
@@ -87,7 +89,7 @@ namespace Aurora.Music.ViewModels
                     {
                         Title = e.Item2.Title,
                         Progress = e.Item1.Progress.TotalBytesToReceive == 0 ? 0 : e.Item1.Progress.BytesReceived * 100d / e.Item1.Progress.TotalBytesToReceive,
-                        Status = e.Item1.Progress.Status.ToString(),
+                        Status = e.Item1.Progress.Status,
                         Guid = e.Item1.Guid,
                         Description = e.Item2.Description
                     });
@@ -102,7 +104,7 @@ namespace Aurora.Music.ViewModels
               try
               {
                   var p = DownloadList.First(a => a.Guid == e.Item1.Guid);
-                  p.Status = e.Item1.Progress.Status.ToString();
+                  p.Status = e.Item1.Progress.Status;
                   p.Progress = e.Item1.Progress.TotalBytesToReceive == 0 ? 0 : e.Item1.Progress.BytesReceived * 100d / e.Item1.Progress.TotalBytesToReceive;
               }
               catch (Exception)
@@ -111,7 +113,7 @@ namespace Aurora.Music.ViewModels
                   {
                       Title = e.Item2.Title,
                       Progress = e.Item1.Progress.TotalBytesToReceive == 0 ? 0 : e.Item1.Progress.BytesReceived * 100d / e.Item1.Progress.TotalBytesToReceive,
-                      Status = e.Item1.Progress.Status.ToString(),
+                      Status = e.Item1.Progress.Status,
                       Guid = e.Item1.Guid,
                       Description = e.Item2.Description
                   });
@@ -126,7 +128,7 @@ namespace Aurora.Music.ViewModels
                 try
                 {
                     var p = DownloadList.First(a => a.Guid == e.Item1.Guid);
-                    p.Status = e.Item1.Progress.Status.ToString();
+                    p.Status = e.Item1.Progress.Status;
                     p.Progress = e.Item1.Progress.TotalBytesToReceive == 0 ? 0 : e.Item1.Progress.BytesReceived * 100d / e.Item1.Progress.TotalBytesToReceive;
                 }
                 catch (Exception)
@@ -135,7 +137,7 @@ namespace Aurora.Music.ViewModels
                     {
                         Title = e.Item2.Title,
                         Progress = e.Item1.Progress.TotalBytesToReceive == 0 ? 0 : e.Item1.Progress.BytesReceived * 100d / e.Item1.Progress.TotalBytesToReceive,
-                        Status = e.Item1.Progress.Status.ToString(),
+                        Status = e.Item1.Progress.Status,
                         Guid = e.Item1.Guid,
                         Description = e.Item2.Description
                     });
@@ -164,12 +166,6 @@ namespace Aurora.Music.ViewModels
             get { return title; }
             set { SetProperty(ref title, value); }
         }
-        private string status;
-        public string Status
-        {
-            get { return status; }
-            set { SetProperty(ref status, value); }
-        }
 
         public Guid Guid { get; internal set; }
 
@@ -180,6 +176,18 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref description, value); }
         }
 
+        private BackgroundTransferStatus status;
+        public BackgroundTransferStatus Status
+        {
+            get { return status; }
+            set { SetProperty(ref status, value); }
+        }
+
+        public string StatusToString(BackgroundTransferStatus s)
+        {
+            return s.GetDisplayName();
+        }
+
         public string ProgressToString(double d)
         {
             return (d / 100).ToString("P0");
@@ -187,11 +195,11 @@ namespace Aurora.Music.ViewModels
 
         public double ProgressToRight(double d)
         {
-            return 3.6 * d;
+            return 2.4 * d;
         }
         public double ProgressToLeft(double d)
         {
-            return 3.6 * d - 360;
+            return 2.4 * d - 240;
         }
     }
 }

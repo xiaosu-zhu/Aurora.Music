@@ -22,10 +22,21 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     </Page.Transitions>
 
     <Page.Resources>
-        <ResourceDictionary Source="../Themes/Styles.xaml"/>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Themes/Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light" Source="../Themes/Light.xaml"/>
+                <ResourceDictionary x:Key="Dark" Source="../Themes/Dark.xaml"/>
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
     </Page.Resources>
-    
+
     <ScrollViewer Style="{ThemeResource NarrowScrollViewer}" HorizontalScrollMode="Disabled">
+        <ScrollViewer.Background>
+            <ImageBrush AlignmentX="Center" AlignmentY="Center" ImageSource="/Assets/Images/welcome_bg.png"/>
+        </ScrollViewer.Background>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState>
@@ -33,7 +44,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <AdaptiveTrigger MinWindowWidth="0"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="SomethingWeird.Orientation" Value="Vertical"/>
                         <Setter Target="Main.Padding" Value="12,120,12,160"/>
                     </VisualState.Setters>
                 </VisualState>
@@ -43,7 +53,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="Main.Padding" Value="0,120,0,160"/>
-                        <Setter Target="SomethingWeird.Orientation" Value="Horizontal"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Full">
@@ -52,60 +61,122 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="Main.Padding" Value="60,120,60,160"/>
-                        <Setter Target="SomethingWeird.Orientation" Value="Horizontal"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <StackPanel Orientation="Vertical" x:Name="Main" Padding="64,80,64,160" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-            <Viewbox Margin="12,0" MaxHeight="120" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Image Stretch="Uniform">
-                    <Image.Source>
-                        <SvgImageSource UriSource="/Assets/logo.svg"/>
-                    </Image.Source>
-                </Image>
-            </Viewbox>
-            <TextBlock MaxLines="2" FontWeight="Normal" TextAlignment="Center" TextWrapping="WrapWholeWords" Style="{ThemeResource SubheaderTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12,0">
+        <StackPanel Orientation="Vertical" x:Name="Main" Padding="64,64,64,160" 
+                    Background="{ThemeResource SystemControlAltMediumLowAcrylicElementMediumBrush}">
+            <Image Margin="12,0" Source="/Assets/Images/now_placeholder.png" 
+                   Stretch="Uniform" Height="96" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock Margin="12,12,12,0" MaxLines="2" FontWeight="Normal" 
+                       TextAlignment="Center" TextWrapping="WrapWholeWords"
+                       Style="{ThemeResource SubheaderTextBlockStyle}" 
+                       HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Run FontSize="24" FontWeight="Bold" Text="Aurora Studio's"/><LineBreak/>
                 <Run x:Uid="AppName" Text="Aurora Music"/>
             </TextBlock>
-            <Button Style="{ThemeResource TextBlockButtonStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Margin="12" Content="Contributors">
-                <Button.Flyout>
-                    <Flyout>
-                        <toolkit:MarkdownTextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MaxWidth="320" Text="* Thanks for the Destuch translation added by **Lucas Herr**.&#xD;&#xA;* Thanks for the Russian translation added by **Данила Степовой**."/>
-                    </Flyout>
-                </Button.Flyout>
-            </Button>
-            <TextBlock Text="{x:Bind BuildText, Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12,24,12,0"/>
-            <TextBlock TextAlignment="Center" FontFamily="Consolas" Style="{ThemeResource SubtitleTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12,0" 
-                       Text="Taglib-Sharp&#xD;&#xA;SQLite for Universal Windows Platform&#xD;&#xA;SQLite-net&#xD;&#xA;Microsoft.Toolkit.Uwp&#xD;&#xA;Newtonsoft.Json&#xD;&#xA;NAudio&#xD;&#xA;UWPAudioVisualizer&#xD;&#xA;ExpressionBuilder&#xD;&#xA;ksemenenko.ColorThief&#xD;&#xA;SmartFormat.NET&#xD;&#xA;WriteableBitmapEx&#xD;&#xA;Win2D.uwp&#xD;&#xA;LrcParser"/>
-            <Button Content="More Details" Style="{ThemeResource TextBlockButtonStyle}" Click="Button_Click" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <TextBlock x:Uid="UnSplashTitle" TextAlignment="Center" Margin="12,24,12,0" Style="{ThemeResource BodyTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Text="And photos by:"/>
-            <TextBlock TextAlignment="Center" Style="{ThemeResource SubtitleTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12,0" Text="Jason Rosewell&#xD;&#xA;Kelly Sikkema&#xD;&#xA;Malte Wingen&#xD;&#xA;Namroud Gorguis&#xD;&#xA;Yvette de Wit&#xD;&#xA;Anthony Roberts"/>
-            <TextBlock TextAlignment="Center" Margin="12,0,12,24" Style="{ThemeResource BodyTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Run Text="On"/>
-                <Hyperlink Foreground="{ThemeResource AccentForText}" Click="Hyperlink_Click">
-                    <Run Text="Unsplash"/>
-                </Hyperlink>
-            </TextBlock>
 
-            <TextBlock Style="{ThemeResource BodyTextBlockStyle}" MaxWidth="360" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12,12,12,0">
-                <Run x:Uid="GithubTitle" Text="Follow and get instructions of developing extensions on"/>
-                <Hyperlink Foreground="{ThemeResource AccentForText}" NavigateUri="https://github.com/pkzxs/Aurora.Music">
-                    <Run Text="Github"/>
-                </Hyperlink>
-            </TextBlock>
-            <TextBlock TextAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}" MaxWidth="360" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12,0,12,12">
-                <Run Text="Also need your help to fix/improve UI issues (localization, translation),"/>
-                <Hyperlink Foreground="{ThemeResource AccentForText}" UnderlineStyle="Single" Click="Hyperlink_Click_1">
-                    <Run Text="Open Link"/>
-                </Hyperlink><LineBreak/>
-                <Run Text="需要你的帮助来解决翻译问题，不甚感激"/>
-                <Hyperlink Foreground="{ThemeResource AccentForText}" Click="Hyperlink_Click_1">
-                    <Run Text="打开链接"/>
-                </Hyperlink>
-            </TextBlock>
-            <StackPanel Padding="32" HorizontalAlignment="Center" VerticalAlignment="Center">
+
+            <Border Padding="8,4" Margin="12" CornerRadius="8" Background="{ThemeResource AccentForText}" 
+                    HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="{x:Bind BuildText}" Style="{ThemeResource BaseTextBlockStyle}" 
+                        HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}"/>
+            </Border>
+
+            <Border Padding="8,4" Margin="12,24,12,12" CornerRadius="8" Background="{ThemeResource AccentForText}" 
+                    HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Contributors" Style="{ThemeResource BaseTextBlockStyle}" 
+                        HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}"/>
+            </Border>
+            <toolkit:MarkdownTextBlock HorizontalAlignment="Center" VerticalAlignment="Stretch" 
+                                       MaxWidth="320" HorizontalContentAlignment="Center" Margin="12,0"
+                                       Text="* Thanks for the Destuch translation added by **Lucas Herr**.&#xD;&#xA;* Thanks for the Russian translation added by **Данила Степовой**."/>
+
+
+            <Border Padding="8,4" Margin="12,24,12,12" CornerRadius="8" Background="{ThemeResource AccentForText}" 
+                    HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Open Source Libraries" Style="{ThemeResource BaseTextBlockStyle}" 
+                        HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}"/>
+            </Border>
+            <TextBlock TextAlignment="Center" IsTextSelectionEnabled="True" FontFamily="Consolas" 
+                       Style="{ThemeResource BodyTextBlockStyle}" FontSize="16" 
+                       HorizontalAlignment="Center" VerticalAlignment="Center" 
+                       Margin="12,0" MaxWidth="240"
+                       Text="Taglib-Sharp,&#xD;&#xA;SQLite for Universal Windows Platform,&#xD;&#xA;SQLite-net,&#xD;&#xA;Microsoft.Toolkit.Uwp,&#xD;&#xA;Newtonsoft.Json,&#xD;&#xA;NAudio,&#xD;&#xA;UWPAudioVisualizer,&#xD;&#xA;ExpressionBuilder,&#xD;&#xA;ksemenenko.ColorThief,&#xD;&#xA;SmartFormat.NET,&#xD;&#xA;WriteableBitmapEx,&#xD;&#xA;Win2D.uwp,&#xD;&#xA;LrcParser."/>
+            <Button Content="More Details" Style="{ThemeResource TextBlockButtonStyle}" Click="Button_Click" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+
+            <Border Padding="8,4" Margin="12,24,12,12" CornerRadius="8" Background="{ThemeResource AccentForText}" 
+                    HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock x:Uid="UnSplashTitle" Text="And photos by:" Style="{ThemeResource BaseTextBlockStyle}"
+                           HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}"/>
+            </Border>
+            <TextBlock TextAlignment="Center" IsTextSelectionEnabled="True" 
+                       Style="{ThemeResource BodyTextBlockStyle}" FontSize="16" 
+                       HorizontalAlignment="Center" VerticalAlignment="Center" 
+                       Margin="12,0" 
+                       Text="Jason Rosewell,&#xD;&#xA;Kelly Sikkema,&#xD;&#xA;Malte Wingen,&#xD;&#xA;Namroud Gorguis,&#xD;&#xA;Yvette de Wit,&#xD;&#xA;Anthony Roberts."/>
+            <StackPanel Width="80" Margin="4" Orientation="Vertical">
+                <Button Style="{ThemeResource RevealRectangleButton}" Background="{ThemeResource SystemControlHighlightAccentRevealBackgroundBrush}"
+                            HorizontalAlignment="Center" VerticalAlignment="Center" 
+                            Width="48" Height="48" Click="UnSplash"
+                            ToolTipService.ToolTip="Unsplash.com">
+                    <Button.Content>
+                        <Path Fill="{ThemeResource SystemControlBackgroundBaseHighBrush}" 
+                              Data="M 20.8 18.1 c 0 2.7 -2.2 4.8 -4.8 4.8 s -4.8 -2.1 -4.8 -4.8 c 0 -2.7 2.2 -4.8 4.8 -4.8 c 2.7 0.1 4.8 2.2 4.8 4.8 Z m 11.2 -7.4 v 14.9 c 0 2.3 -1.9 4.3 -4.3 4.3 h -23.4 c -2.4 0 -4.3 -1.9 -4.3 -4.3 v -15 c 0 -2.3 1.9 -4.3 4.3 -4.3 h 3.7 l 0.8 -2.3 c 0.4 -1.1 1.7 -2 2.9 -2 h 8.6 c 1.2 0 2.5 0.9 2.9 2 l 0.8 2.4 h 3.7 c 2.4 0 4.3 1.9 4.3 4.3 Z m -8.6 7.5 c 0 -4.1 -3.3 -7.5 -7.5 -7.5 c -4.1 0 -7.5 3.4 -7.5 7.5 s 3.3 7.5 7.5 7.5 c 4.2 -0.1 7.5 -3.4 7.5 -7.5 Z">
+                            
+                        </Path>
+                    </Button.Content>
+                </Button>
+                <TextBlock Text="Unsplash" Style="{ThemeResource BaseTextBlockStyle}"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </StackPanel>
+
+
+            <Border Padding="8,4" Margin="12,24,12,12" CornerRadius="8" Background="{ThemeResource AccentForText}" 
+                    HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Other Information" Style="{ThemeResource BaseTextBlockStyle}" 
+                        HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}"/>
+            </Border>
+            <toolkit:WrapPanel HorizontalSpacing="8" VerticalSpacing="8"
+                               Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                <StackPanel Width="80" Orientation="Vertical">
+                    <Button Style="{ThemeResource RevealRectangleButton}" Background="{ThemeResource SystemControlHighlightAccentRevealBackgroundBrush}"
+                            HorizontalAlignment="Center" VerticalAlignment="Center" 
+                            Width="48" Height="48" Padding="8" Click="Githu"
+                            ToolTipService.ToolTip="For getting instructions of developing extensions">
+                        <Button.Content>
+                            <BitmapIcon UriSource="ms-appx:///Assets/git-dark.png"/>
+                        </Button.Content>
+                    </Button>
+                    <TextBlock Text="Github" Style="{ThemeResource BaseTextBlockStyle}"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </StackPanel>
+                <StackPanel Width="80" Orientation="Vertical">
+                    <Button Style="{ThemeResource RevealRectangleButton}" Background="{ThemeResource SystemControlHighlightAccentRevealBackgroundBrush}"
+                            HorizontalAlignment="Center" VerticalAlignment="Center" 
+                            Width="48" Height="48" Click="Tranlate"
+                            ToolTipService.ToolTip="For contributing to translation">
+                        <Button.Content>
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE775;" />
+                        </Button.Content>
+                    </Button>
+                    <TextBlock Text="Translation" Style="{ThemeResource BaseTextBlockStyle}"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </StackPanel>
+            </toolkit:WrapPanel>
+
+
+
+            <Border Padding="8,4" Margin="12,24,12,12" CornerRadius="8" Background="{ThemeResource AccentForText}" 
+                    HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Donate" Style="{ThemeResource BaseTextBlockStyle}" 
+                        HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}"/>
+            </Border>
+            <toolkit:WrapPanel HorizontalSpacing="8" VerticalSpacing="8" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Image MaxHeight="240" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Uniform" Source="/Assets/ali.png"/>
+                <StackPanel Padding="32,64" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <StackPanel.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="#FFFF8A83"/>
@@ -115,10 +186,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <TextBlock FontWeight="Bold" Foreground="White" TextWrapping="WrapWholeWords" HorizontalAlignment="Center" VerticalAlignment="Center" Text="Donate via PayPal" Style="{ThemeResource TitleTextBlockStyle}"/>
                 <HyperlinkButton Foreground="White" Content="Using PayPal.me to donate" HorizontalAlignment="Center" VerticalAlignment="Center" NavigateUri="https://www.paypal.me/aurorastu"/>
             </StackPanel>
-            <StackPanel x:Name="SomethingWeird" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Image MaxHeight="320" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Uniform" Source="/Assets/ali.png" Margin="8"/>
-                <Image MaxHeight="320" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Uniform" Source="/Assets/wechat.png" Margin="8"/>
-            </StackPanel>
+                <Image MaxHeight="240" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Uniform" Source="/Assets/wechat.png"/>
+            </toolkit:WrapPanel>
         </StackPanel>
     </ScrollViewer>
 </Page>

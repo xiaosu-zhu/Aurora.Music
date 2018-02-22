@@ -1265,16 +1265,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     </ProgressBar>
                 </Grid>
                 <Frame x:Name="OverlayFrame" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                <Button AccessKey="M" x:Uid="SplitPaneOpen" Style="{ThemeResource RevealRectangleButton}" Background="Transparent" Foreground="{x:Bind Context.LeftTopColor, Mode=OneWay}"
-                        HorizontalAlignment="Left" VerticalAlignment="Top" Click="Toggle_PaneOpened" ToolTipService.ToolTip="Open"
-                        Margin="0,32,0,0" Width="48" Height="48" Visibility="Collapsed">
-                    <Button.Content>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE700;" />
-                    </Button.Content>
-                    <Button.KeyboardAccelerators>
-                        <KeyboardAccelerator Modifiers="Control" Key="M" />
-                    </Button.KeyboardAccelerators>
-                </Button>
                 <TextBlock Visibility="{x:Bind Context.NeedShowTitle, Mode=OneWay}" 
                            OpticalMarginAlignment="None" Margin="16,32,0,0" 
                            Style="{ThemeResource SubheaderTextBlockStyle}"

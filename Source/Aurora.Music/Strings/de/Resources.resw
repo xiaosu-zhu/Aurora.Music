@@ -1207,4 +1207,44 @@
     <value>And {0} more</value>
     <comment>And {0} more</comment>
   </data>
+  <data name="BackgroundTransferStatus_Idle" xml:space="preserve">
+    <value>Idle</value>
+    <comment>Idle</comment>
+  </data>
+  <data name="BackgroundTransferStatus_Running" xml:space="preserve">
+    <value>Running</value>
+    <comment>Running</comment>
+  </data>
+  <data name="BackgroundTransferStatus_PausedByApplication" xml:space="preserve">
+    <value>Paused by application</value>
+    <comment>Paused by application</comment>
+  </data>
+  <data name="BackgroundTransferStatus_PausedCostedNetwork" xml:space="preserve">
+    <value>Paused by metered-network</value>
+    <comment>Paused by metered-network</comment>
+  </data>
+  <data name="BackgroundTransferStatus_PausedNoNetwork" xml:space="preserve">
+    <value>No network</value>
+    <comment>No network</comment>
+  </data>
+  <data name="BackgroundTransferStatus_Completed" xml:space="preserve">
+    <value>Completed</value>
+    <comment>Completed</comment>
+  </data>
+  <data name="BackgroundTransferStatus_Canceled" xml:space="preserve">
+    <value>Canceled</value>
+    <comment>Canceled</comment>
+  </data>
+  <data name="BackgroundTransferStatus_Error" xml:space="preserve">
+    <value>Error</value>
+    <comment>Error</comment>
+  </data>
+  <data name="BackgroundTransferStatus_PausedRecoverableWebErrorStatus" xml:space="preserve">
+    <value>Paused by recoverable web error</value>
+    <comment>Paused by recoverable web error</comment>
+  </data>
+  <data name="BackgroundTransferStatus_PausedSystemPolicy" xml:space="preserve">
+    <value>Paused by system policy</value>
+    <comment>Paused by system policy</comment>
+  </data>
 </root>

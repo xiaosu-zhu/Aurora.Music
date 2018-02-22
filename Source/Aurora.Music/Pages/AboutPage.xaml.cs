@@ -21,30 +21,34 @@ namespace Aurora.Music.Pages
     {
         public AboutPage()
         {
+            BuildText = SystemInfoHelper.GetPackageVer();
             this.InitializeComponent();
             MainPageViewModel.Current.Title = Consts.Localizer.GetString("AboutText");
             MainPageViewModel.Current.NeedShowTitle = true;
             MainPageViewModel.Current.LeftTopColor = Resources["SystemControlForegroundBaseHighBrush"] as SolidColorBrush;
-
-            BuildText = string.Format(Consts.Localizer.GetString("BuildText"), SystemInfoHelper.GetPackageVer());
         }
 
         public string BuildText { get; set; }
-
-        private async void Hyperlink_Click(Windows.UI.Xaml.Documents.Hyperlink sender, Windows.UI.Xaml.Documents.HyperlinkClickEventArgs args)
-        {
-            await Launcher.LaunchUriAsync(new Uri("https://unsplash.com/"));
-        }
-
-        private async void Hyperlink_Click_1(Windows.UI.Xaml.Documents.Hyperlink sender, Windows.UI.Xaml.Documents.HyperlinkClickEventArgs args)
-        {
-            await Launcher.LaunchUriAsync(new Uri("https://aurorastudio.oneskyapp.com/collaboration/project?id=141901"));
-        }
 
         private async void Button_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             OpenSource o = new OpenSource();
             await o.ShowAsync();
+        }
+
+        private async void Githu(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            await Launcher.LaunchUriAsync(new Uri("https://github.com/pkzxs/Aurora.Music"));
+        }
+
+        private async void Tranlate(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            await Launcher.LaunchUriAsync(new Uri("https://aurorastudio.oneskyapp.com/collaboration/project?id=141901"));
+        }
+
+        private async void UnSplash(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            await Launcher.LaunchUriAsync(new Uri("https://unsplash.com/"));
         }
     }
 }
