@@ -1,0 +1,63 @@
+﻿<!--
+Copyright (c) Aurora Studio. All rights reserved.
+
+Licensed under the MIT License. See LICENSE in the project root for license information.
+-->
+<UserControl
+    x:Class="Aurora.Music.Controls.ListItems.PodacastItem"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Aurora.Music.Controls.ListItems"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <Grid x:Name="Root" Height="160">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="Adpative">
+                <VisualState x:Name="Full">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1008"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="Medium">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="641"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="Col0.Width" Value="80"/>
+                        <Setter Target="Col1.Width" Value="180"/>
+                        <Setter Target="Root.Height" Value="120"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Narrow">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="Col0.Width" Value="80"/>
+                        <Setter Target="Col1.Width" Value="240"/>
+                        <Setter Target="Root.Height" Value="120"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition x:Name="Col0" Width="160"/>
+            <ColumnDefinition x:Name="Col1" Width="240"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Margin="8,0" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+            <TextBlock Style="{ThemeResource BaseTextBlockStyle}" Text="{x:Bind Data.Addtional,Mode=OneWay}"/>
+            <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" FontSize="18" Text="{x:Bind Data.Title,Mode=OneWay}" MaxLines="2" TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis"/>
+            <TextBlock FontSize="13" Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Data.Description,Mode=OneWay}"
+                                           Foreground="{ThemeResource ButtonDisabledForegroundThemeBrush}" MaxLines="2" TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis"/>
+        </StackPanel>
+        <Image Margin="8,0" Stretch="Uniform" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Image.Source>
+                <BitmapImage DecodePixelType="Logical" UriSource="{x:Bind Data.Artwork,Mode=OneWay}"/>
+            </Image.Source>
+        </Image>
+    </Grid>
+</UserControl>

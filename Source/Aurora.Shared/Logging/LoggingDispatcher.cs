@@ -55,7 +55,7 @@ namespace Aurora.Shared.Logging
     }
 
 
-    public class LoggingDispatcher
+    public sealed class LoggingDispatcher : IDisposable
     {
 
         public void StartLogging()
@@ -495,7 +495,7 @@ namespace Aurora.Shared.Logging
             GC.SuppressFinalize(this);
         }
 
-        protected virtual void Dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
             if (isDisposed == false)
             {

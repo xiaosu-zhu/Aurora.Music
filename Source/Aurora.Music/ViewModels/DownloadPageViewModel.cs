@@ -59,7 +59,12 @@ namespace Aurora.Music.ViewModels
             Downloader.Current.ItemCompleted += Current_ItemCompleted;
         }
 
-
+        public void Unload()
+        {
+            Downloader.Current.ProgressChanged -= Current_ProgressChanged;
+            Downloader.Current.ProgressCancelled -= Current_ProgressCancelled;
+            Downloader.Current.ItemCompleted -= Current_ItemCompleted;
+        }
 
         public string ProgressToString(double d)
         {

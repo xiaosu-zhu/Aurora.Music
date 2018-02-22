@@ -137,16 +137,52 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         </ResourceDictionary>
     </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="Adaptive" CurrentStateChanged="Adaptive_CurrentStateChanged">
+                <VisualState x:Name="Full">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1008"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="Medium">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="641"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="Col1.Width" Value="auto"/>
+                        <Setter Target="MainList.Visibility" Value="Collapsed"/>
+                        <Setter Target="BottomList.Visibility" Value="Visible"/>
+                        <Setter Target="Visualizer.(Grid.Column)" Value="0"/>
+                        <Setter Target="MainPanel.(Grid.Column)" Value="0"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Narrow">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="Col1.Width" Value="auto"/>
+                        <Setter Target="MainList.Visibility" Value="Collapsed"/>
+                        <Setter Target="BottomList.Visibility" Value="Visible"/>
+                        <Setter Target="Visualizer.(Grid.Column)" Value="0"/>
+                        <Setter Target="MainPanel.(Grid.Column)" Value="0"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition x:Name="Col0" Width="*"/>
+            <ColumnDefinition x:Name="Col1" Width="2*"/>
         </Grid.ColumnDefinitions>
-        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                  Background="{ThemeResource SystemControlAcrylicWindowBrush}"/>
-        <GridView animations:ReorderGridAnimation.Duration="360" Margin="0,80,0,0" ItemClick="GridView_ItemClick"
-                  HorizontalAlignment="Stretch" Width="480" SelectionMode="None" IsItemClickEnabled="True"
-                  VerticalAlignment="Stretch" IsSynchronizedWithCurrentItem="False" ItemContainerStyle="{ThemeResource GridItem}" 
-              ItemsSource="{x:Bind ChannelList.View, Mode=OneWay}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition x:Name="Row1" Height="auto"/>
+        </Grid.RowDefinitions>
+        <GridView animations:ReorderGridAnimation.Duration="360" Padding="0,80,0,0" ItemClick="GridView_ItemClick"
+                  HorizontalAlignment="Stretch" SelectionMode="None" IsItemClickEnabled="True" x:Name="MainList" 
+                  Background="{ThemeResource SystemControlAcrylicWindowBrush}"
+                  VerticalAlignment="Stretch" IsSynchronizedWithCurrentItem="False" ItemContainerStyle="{ThemeResource GridItem}"
+                  ItemsSource="{x:Bind ChannelList.View, Mode=OneWay}">
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="vm:ChannelViewModel">
                     <StackPanel Padding="12" Orientation="Vertical">
@@ -163,14 +199,36 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </DataTemplate>
             </GridView.ItemTemplate>
             <GridView.GroupStyle>
-                <GroupStyle x:Name="GroupStyle" HeaderTemplate="{StaticResource NormalGroupHeader}"/>
+                <GroupStyle HeaderTemplate="{StaticResource NormalGroupHeader}"/>
             </GridView.GroupStyle>
         </GridView>
-        <audio:CustomVisualizer Loaded="CustomVisualizer_Loaded"  Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Top"
-                                    CreateResources="CustomVisualizer_CreateResources"
-                                    x:Name="Visualizer" Draw="CustomVisualizer_Draw">
-        </audio:CustomVisualizer>
-        <Grid Grid.Column="1" Padding="64" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <ListView ItemClick="GridView_ItemClick" Style="{ThemeResource HorizontalListView}" Grid.ColumnSpan="2" Grid.Row="1"
+                  HorizontalAlignment="Stretch" SelectionMode="None" IsItemClickEnabled="True" x:Name="BottomList" 
+                  Background="{ThemeResource SystemControlAcrylicWindowBrush}" Visibility="Collapsed" Height="160"
+                  VerticalAlignment="Stretch" IsSynchronizedWithCurrentItem="False" ItemContainerStyle="{ThemeResource GeneralListViewItemStyle}"
+                  ItemsSource="{x:Bind ChannelList.View, Mode=OneWay}">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="vm:ChannelViewModel">
+                    <StackPanel Padding="4,0" Orientation="Horizontal">
+                        <Grid Margin="4,0" Width="80" Height="80" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="999">
+                            <Image HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="UniformToFill">
+                                <Image.Source>
+                                    <BitmapImage DecodePixelHeight="80" DecodePixelType="Logical" UriSource="{x:Bind Cover}"/>
+                                </Image.Source>
+                            </Image>
+                        </Grid>
+                        <StackPanel Margin="4,0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="160">
+                            <TextBlock TextAlignment="Left" Width="160" FontSize="15" TextWrapping="NoWrap" TextTrimming="Clip" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" Style="{ThemeResource BaseTextBlockStyle}" Text="{x:Bind Name}"/>
+                            <TextBlock TextAlignment="Left" Width="160" FontSize="13" TextWrapping="WrapWholeWords" TextTrimming="Clip" Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Description}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.GroupStyle>
+                <GroupStyle HeaderTemplate="{StaticResource NormalGroupHeader}"/>
+            </ListView.GroupStyle>
+        </ListView>
+        <Grid x:Name="MainPanel" Grid.Column="1" Padding="0" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Grid.RowDefinitions>
                 <RowDefinition Height="36"/>
                 <RowDefinition Height="auto"/>
@@ -186,7 +244,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <behaviors:Blur Value="16" Duration="0" Delay="0" AutomaticallyStart="True"/>
                 </interactivity:Interaction.Behaviors>
                 <Grid Width="240" Height="240" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Image Stretch="UniformToFill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Image Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Image.Source>
                             <BitmapImage UriSource="{x:Bind Context.Artwork, Mode=OneWay,TargetNullValue=ms-appx:///Assets/Images/now_placeholder.png}" DecodePixelHeight="240" DecodePixelType="Logical"/>
                         </Image.Source>
@@ -194,16 +252,16 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <Border Background="{ThemeResource SystemControlBackgroundBaseLowBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                 </Grid>
             </Grid>
-            <Grid Grid.Row="1" Width="240" Height="240" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Image Stretch="UniformToFill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Border Grid.Row="1" Width="240" Height="240" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Image Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Image.Source>
                         <BitmapImage UriSource="{x:Bind Context.Artwork, Mode=OneWay,TargetNullValue=ms-appx:///Assets/Images/now_placeholder.png}" DecodePixelHeight="240" DecodePixelType="Logical"/>
                     </Image.Source>
                 </Image>
-            </Grid>
+            </Border>
             <StackPanel Grid.Row="2" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12,24,12,12">
-                <TextBlock Text="{x:Bind Context.Title, Mode=OneWay}" FontWeight="Bold" FontSize="32" Style="{ThemeResource TitleTextBlockStyle}" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                <TextBlock Text="{x:Bind Context.Description, Mode=OneWay}" FontSize="16" Style="{ThemeResource BodyTextBlockStyle}" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <TextBlock Text="{x:Bind Context.Title, Mode=OneWay}" FontWeight="Bold" FontSize="32" Style="{ThemeResource TitleTextBlockStyle}" MaxLines="2" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <TextBlock Text="{x:Bind Context.Description, Mode=OneWay}" FontSize="16" Style="{ThemeResource BodyTextBlockStyle}" Margin="4" MaxLines="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="3">
                 <Button IsEnabled="{x:Bind Context.NullableBooltoBool(Context.IsPlaying), Mode=OneWay}" AccessKey="[" x:Uid="DropBtn" Command="{x:Bind Context.Delete}" Style="{ThemeResource RevealRoundButton}" ToolTipService.ToolTip="Next"
@@ -242,6 +300,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                  VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </StackPanel>
         </Grid>
+        <audio:CustomVisualizer Loaded="CustomVisualizer_Loaded"  Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                                CreateResources="CustomVisualizer_CreateResources" x:Name="Visualizer" Draw="CustomVisualizer_Draw">
+        </audio:CustomVisualizer>
     </Grid>
 
 </Page>

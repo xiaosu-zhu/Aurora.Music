@@ -258,10 +258,6 @@ namespace Aurora.Music.Core.Storage
             return destinationFile;
         }
 
-        #region IDisposable Support
-        private bool disposedValue = false; // 要检测冗余调用
-        private BackgroundDownloader downloader;
-
         public void Complete()
         {
             try
@@ -274,6 +270,10 @@ namespace Aurora.Music.Core.Storage
             Dispose();
             current = null;
         }
+
+        #region IDisposable Support
+        private bool disposedValue = false; // 要检测冗余调用
+        private BackgroundDownloader downloader;
 
         void Dispose(bool disposing)
         {

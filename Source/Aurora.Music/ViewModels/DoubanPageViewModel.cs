@@ -438,22 +438,45 @@ namespace Aurora.Music.ViewModels
 
                         Task.Run(async () =>
                         {
-                            var pal = await ImagingHelper.GetColorPalette(e.CurrentSong.PicturePath.IsNullorEmpty() ? new Uri(Consts.NowPlaceholder) : new Uri(e.CurrentSong.PicturePath));
-                            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                            try
                             {
-                                var list = new List<Color>();
-                                for (int i = 0; i < 32; i++)
+                                var pal = await ImagingHelper.GetColorPalette(e.CurrentSong.PicturePath.IsNullorEmpty() ? new Uri(Consts.NowPlaceholder) : new Uri(e.CurrentSong.PicturePath));
+                                await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                                 {
-                                    int j = i;
-                                    while (j >= pal.Count)
+                                    var list = new List<Color>();
+                                    for (int i = 0; i < 32; i++)
                                     {
-                                        j -= pal.Count;
+                                        int j = i;
+                                        while (j >= pal.Count)
+                                        {
+                                            j -= pal.Count;
+                                        }
+                                        list.Add(pal[j]);
                                     }
-                                    list.Add(pal[j]);
-                                }
-                                list.Shuffle();
-                                Palette = list;
-                            });
+                                    list.Shuffle();
+                                    Palette = list;
+                                });
+                            }
+                            catch (Exception)
+                            {
+                                var pal = await ImagingHelper.GetColorPalette(new Uri(Consts.NowPlaceholder));
+                                await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                                {
+                                    var list = new List<Color>();
+                                    for (int i = 0; i < 32; i++)
+                                    {
+                                        int j = i;
+                                        while (j >= pal.Count)
+                                        {
+                                            j -= pal.Count;
+                                        }
+                                        list.Add(pal[j]);
+                                    }
+                                    list.Shuffle();
+                                    Palette = list;
+                                });
+                            }
+
                         });
                         rateToggle = false;
                         RaisePropertyChanged("RateToggle");

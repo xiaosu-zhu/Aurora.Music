@@ -227,12 +227,15 @@ namespace Aurora.Music.PlaybackEngine
                     break;
             }
 
+            var currentSong = mediaPlaybackList.CurrentItem?.Source.CustomProperties[Consts.SONG] as Song;
+
+
             ItemsChanged?.Invoke(this, new PlayingItemsChangedArgs
             {
                 IsShuffle = mediaPlaybackList.ShuffleEnabled,
                 IsLoop = mediaPlaybackList.AutoRepeatEnabled,
-                CurrentSong = mediaPlaybackList.CurrentItem?.Source.CustomProperties[Consts.SONG] as Song,
-                CurrentIndex = mediaPlaybackList.CurrentItem == null ? -1 : (int)mediaPlaybackList.CurrentItemIndex,
+                CurrentSong = currentSong,
+                CurrentIndex = currentSong == null ? -1 : currentList.FindIndex(a => a == currentSong),
                 Items = currentList
             });
 

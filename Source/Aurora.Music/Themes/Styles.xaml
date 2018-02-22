@@ -17,6 +17,50 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         <TextBlock FontWeight="Bold" Text="{Binding Key}" Foreground="{ThemeResource AccentForText}"/>
     </DataTemplate>
 
+
+    <DataTemplate x:Key="NormalGroupSongsHeader">
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="32"/>
+                <ColumnDefinition Width="8*"/>
+                <ColumnDefinition Width="6*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock FontWeight="Bold" Text="{Binding Key}" Style="{ThemeResource BodyTextBlockStyle}" 
+                       TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"
+                       HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{ThemeResource AccentForText}"/>
+            <TextBlock Margin="4" Grid.Column="1" Text="Title" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"
+                        Foreground="{ThemeResource AccentForText}"
+                       HorizontalAlignment="Stretch" VerticalAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}"/>
+            <TextBlock Grid.Column="2" Margin="4" Text="Album" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"
+                    Foreground="{ThemeResource AccentForText}"
+                   HorizontalAlignment="Left" VerticalAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}"/>
+            <TextBlock Margin="4" Grid.Column="4" Text="Artists" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" 
+                    Foreground="{ThemeResource AccentForText}"
+                   HorizontalAlignment="Right" VerticalAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}"/>
+        </Grid>
+    </DataTemplate>
+    <DataTemplate x:Key="MediumGroupSongsHeader">
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="32"/>
+                <ColumnDefinition Width="8*"/>
+                <ColumnDefinition Width="6*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock FontWeight="Bold" Text="{Binding Key}" Style="{ThemeResource BodyTextBlockStyle}" 
+                       TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"
+                       HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{ThemeResource AccentForText}"/>
+            <TextBlock Margin="4" Grid.Column="1" Text="Title" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"
+                        Foreground="{ThemeResource AccentForText}"
+                       HorizontalAlignment="Stretch" VerticalAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}"/>
+            <TextBlock Margin="4" Grid.Column="4" Text="Album" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Foreground="{ThemeResource AccentForText}" 
+                       HorizontalAlignment="Right" VerticalAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}"/>
+        </Grid>
+    </DataTemplate>
+
     <DataTemplate x:Key="NarrowGroupHeader">
         <TextBlock FontWeight="Bold" FontSize="15" Text="{Binding Key}"
                    Foreground="{ThemeResource AccentForText}"/>
@@ -2623,7 +2667,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <Style x:Key="TextBlockButtonStyle" TargetType="ButtonBase">
         <Setter Property="Background" Value="{ThemeResource HyperlinkButtonBackground}" />
         <Setter Property="Foreground" Value="{ThemeResource AccentForText}" />
