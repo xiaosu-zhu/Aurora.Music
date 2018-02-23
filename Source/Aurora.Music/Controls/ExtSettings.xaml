@@ -5,15 +5,38 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 -->
 <Page
     x:Class="Aurora.Music.Controls.ExtSettings"
+    xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Aurora.Music.Controls"
+    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <StackPanel Orientation="Vertical" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <TextBlock Margin="8,0" Text="Aurora Music Extension" Style="{ThemeResource SubheaderTextBlockStyle}"/>
-        <TextBlock Margin="8,0" Style="{ThemeResource SubtitleTextBlockStyle}" Text="Coming soon: Online music bit rate, perferred search result count"/>
+    <StackPanel Orientation="Vertical" Background="{ThemeResource SystemControlAcrylicWindowBrush}">
+        <TextBlock Margin="12" Text="Aurora Music - Extension" Style="{ThemeResource SubheaderTextBlockStyle}"/>
+        <TextBlock Margin="12,12,12,0" Text="Preferred online music bitrate" Style="{ThemeResource SubtitleTextBlockStyle}"/>
+        <toolkit:WrapPanel Margin="12,0,12,12" HorizontalSpacing="8" VerticalSpacing="8">
+            <RadioButton x:Name="a_128" Content="128"/>
+            <RadioButton x:Name="a_192" Content="192"/>
+            <RadioButton x:Name="a_256" Content="256"/>
+            <RadioButton x:Name="a_320" Content="320"/>
+        </toolkit:WrapPanel>
+
+        <TextBlock Margin="12,12,12,0" Text="Preferred online search count" Style="{ThemeResource SubtitleTextBlockStyle}"/>
+        <TextBox x:Name="count" Margin="12,0,12,12" HorizontalAlignment="Left" MaxLength="2" InputScope="Number"/>
+        <toolkit:WrapPanel Margin="12" HorizontalSpacing="12" VerticalSpacing="12">
+            <StackPanel Padding="12">
+                <TextBlock Text="Meta-data provided by"/>
+                <Button Click="Button_Click_1" Margin="4" Style="{ThemeResource TextBlockButtonStyle}">
+                    <BitmapIcon Width="61" UriSource="/Assets/lastfm.png"/>
+                </Button>
+            </StackPanel>
+            <StackPanel Padding="12">
+                <TextBlock Text="Lyrics provided by"/>
+                <Button Style="{ThemeResource TextBlockButtonStyle}" Click="Button_Click"  Content="gecimi.com"/>
+            </StackPanel>
+        </toolkit:WrapPanel>
     </StackPanel>
 </Page>

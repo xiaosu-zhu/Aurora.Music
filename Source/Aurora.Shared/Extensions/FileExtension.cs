@@ -24,5 +24,23 @@ namespace Aurora.Shared.Extensions
             }
             return list;
         }
+
+        public static async Task<ulong> FolderSize(this StorageFolder folder)
+        {
+            var options = new Windows.Storage.Search.QueryOptions
+            {
+                FolderDepth = Windows.Storage.Search.FolderDepth.Deep,
+            };
+            var query = folder.CreateFileQueryWithOptions(options);
+
+            var files = await query.GetFilesAsync();
+            ulong si = 0ul;
+            foreach (var file in files)
+            {
+                si += (await file.GetBasicPropertiesAsync()).Size;
+            }
+
+            return si;
+        }
     }
 }

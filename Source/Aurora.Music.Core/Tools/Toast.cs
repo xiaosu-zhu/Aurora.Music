@@ -5,10 +5,7 @@ using Aurora.Music.Core.Models;
 using Aurora.Music.Core.Storage;
 using Microsoft.Toolkit.Uwp.Notifications;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI.Notifications;
 
 namespace Aurora.Music.Core.Tools
@@ -19,7 +16,7 @@ namespace Aurora.Music.Core.Tools
         {
             var toastContent = new ToastContent()
             {
-                Header = new ToastHeader("Podcast", string.Format(Consts.Localizer.GetString("PodcastToastTitle"), ""), null),
+                Header = new ToastHeader("Podcast", "Podcast", "as:music:///library/podcast"),
                 ActivationType = ToastActivationType.Foreground,
                 Visual = new ToastVisual()
                 {
@@ -34,7 +31,7 @@ namespace Aurora.Music.Core.Tools
                             },
                             new AdaptiveText()
                             {
-                                Text = string.Format(Consts.Localizer.GetString("PodcastToastDesc"), string.Join(Consts.CommaSeparator, p.Select(a=>a.Title)))
+                                Text = string.Format(Consts.Localizer.GetString("PodcastToastDesc"), string.Join(Consts.CommaSeparator, p.Take(p.Count > 3 ? 3 : p.Count).Select(a=>a.Title)))
                             },
                             new AdaptiveGroup()
                             {
@@ -51,7 +48,7 @@ namespace Aurora.Music.Core.Tools
                                             },
                                             new AdaptiveText()
                                             {
-                                                Text = p[0].Album.Replace('\r', ' ').Replace('\n', ' '),
+                                                Text = p[0].Album.Split('\r', StringSplitOptions.RemoveEmptyEntries).FirstOrDefault(),
                                                 HintStyle = AdaptiveTextStyle.CaptionSubtle
                                             }
                                         }
@@ -80,7 +77,7 @@ namespace Aurora.Music.Core.Tools
                         }
                     }
                 },
-                Launch = $"Action=ShowPodcast&ID={p.ID}"
+                Launch = $"as:music:///library/podcast/id/{p.ID}"
             };
 
             // Create the toast notification

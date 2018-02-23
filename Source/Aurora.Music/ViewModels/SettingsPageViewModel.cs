@@ -410,6 +410,14 @@ namespace Aurora.Music.ViewModels
             });
         }
 
+        public DelegateCommand OpenData
+        {
+            get => new DelegateCommand(async () =>
+            {
+                await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
+            });
+        }
+
         private bool onlinePurchase = Settings.Current.OnlinePurchase;
         public bool OnlinePurchase
         {
@@ -484,6 +492,20 @@ namespace Aurora.Music.ViewModels
                 Settings.Current.Save();
                 SetProperty(ref debugModeEnabled, value);
             }
+        }
+
+        private string acheFolderSize = "Loading";
+        public string CacheFolderSize
+        {
+            get { return acheFolderSize; }
+            set { SetProperty(ref acheFolderSize, value); }
+        }
+
+        private string dataFolderSize = "Loading";
+        public string DataFolderSize
+        {
+            get { return dataFolderSize; }
+            set { SetProperty(ref dataFolderSize, value); }
         }
 
         internal void ToggleEffectState(string tag)
@@ -630,6 +652,13 @@ namespace Aurora.Music.ViewModels
 
         public SettingsPageViewModel()
         {
+            _catalog = AppExtensionCatalog.Open(Consts.ExtensionContract);
+            // set up extension management events
+            _catalog.PackageInstalled += _catalog_PackageInstalled;
+            _catalog.PackageUpdated += _catalog_PackageUpdated;
+            _catalog.PackageUninstalling += _catalog_PackageUninstalling;
+            _catalog.PackageUpdating += _catalog_PackageUpdating;
+            _catalog.PackageStatusChanged += _catalog_PackageStatusChanged;
         }
 
         public ObservableCollection<DeviceInformationViewModel> DevicList = new ObservableCollection<DeviceInformationViewModel>();
@@ -782,80 +811,93 @@ namespace Aurora.Music.ViewModels
 
         public async Task Init()
         {
-            var t = ThreadPool.RunAsync(async x =>
+            var t = new List<Task>
             {
-                if (!OnlinePurchase)
+                Task.Run(async () =>
                 {
-                    if (context == null)
+                    if (!OnlinePurchase)
                     {
-                        context = StoreContext.GetDefault();
-                    }
+                        if (context == null)
+                        {
+                            context = StoreContext.GetDefault();
+                        }
 
                     // Specify the kinds of add-ons to retrieve.
                     string[] productKinds = { "Durable" };
-                    List<String> filterList = new List<string>(productKinds);
+                        List<String> filterList = new List<string>(productKinds);
 
                     // Specify the Store IDs of the products to retrieve.
                     string[] storeIds = new string[] { Consts.OnlineAddOnStoreID };
 
-                    StoreProductQueryResult queryResult =
-                        await context.GetStoreProductsAsync(filterList, storeIds);
+                        StoreProductQueryResult queryResult =
+                            await context.GetStoreProductsAsync(filterList, storeIds);
 
-                    if (queryResult.ExtendedError != null)
-                    {
+                        if (queryResult.ExtendedError != null)
+                        {
                         // The user may be offline or there might be some other server failure.
                         MainPage.Current.PopMessage($"ExtendedError: {queryResult.ExtendedError.Message}");
-                        return;
-                    }
+                            return;
+                        }
 
-                    foreach (KeyValuePair<string, StoreProduct> item in queryResult.Products)
-                    {
+                        foreach (KeyValuePair<string, StoreProduct> item in queryResult.Products)
+                        {
                         // Access the Store info for the product.
                         StoreProduct product = item.Value;
-                        await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
-                        {
-                            OnlinePurchase = product.IsInUserCollection;
-                        });
-                        Settings.Current.OnlinePurchase = product.IsInUserCollection;
-                        Settings.Current.Save();
-                        await MainPageViewModel.Current.ReloadExtensions();
+                            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                            {
+                                OnlinePurchase = product.IsInUserCollection;
+                            });
+                            Settings.Current.OnlinePurchase = product.IsInUserCollection;
+                            Settings.Current.Save();
+                            await MainPageViewModel.Current.ReloadExtensions();
+                        }
                     }
-                }
-            });
-
-            _catalog = AppExtensionCatalog.Open(Consts.ExtensionContract);
-            // set up extension management events
-            _catalog.PackageInstalled += _catalog_PackageInstalled;
-            _catalog.PackageUpdated += _catalog_PackageUpdated;
-            _catalog.PackageUninstalling += _catalog_PackageUninstalling;
-            _catalog.PackageUpdating += _catalog_PackageUpdating;
-            _catalog.PackageStatusChanged += _catalog_PackageStatusChanged;
-            // Scan all extensions
-            await FindAllExtensions();
-
-
-            try
-            {
-                if (Settings.Current.DownloadPathToken.IsNullorEmpty())
+                }),
+                Task.Run(async () =>
                 {
-                    var lib = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Music);
-                    downloadFolder = await lib.SaveFolder.CreateFolderAsync("Download", CreationCollisionOption.OpenIfExists);
-                }
-                else
+                    // Scan all extensions
+                    await FindAllExtensions();
+                }),
+                Task.Run(async () =>
                 {
-                    downloadFolder = await Windows.Storage.AccessCache.StorageApplicationPermissions.
-                FutureAccessList.GetFolderAsync(Settings.Current.DownloadPathToken);
-                }
-            }
-            catch (Exception)
-            {
-                var lib = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Music);
-                downloadFolder = await lib.SaveFolder.CreateFolderAsync("Download", CreationCollisionOption.OpenIfExists);
-            }
+                    try
+                    {
+                        if (Settings.Current.DownloadPathToken.IsNullorEmpty())
+                        {
+                            var lib = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Music);
+                            downloadFolder = await lib.SaveFolder.CreateFolderAsync("Download", CreationCollisionOption.OpenIfExists);
+                        }
+                        else
+                        {
+                            downloadFolder = await Windows.Storage.AccessCache.StorageApplicationPermissions.
+                        FutureAccessList.GetFolderAsync(Settings.Current.DownloadPathToken);
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        var lib = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Music);
+                        downloadFolder = await lib.SaveFolder.CreateFolderAsync("Download", CreationCollisionOption.OpenIfExists);
+                    }
+                    await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                    {
+                        DownloadPathText = downloadFolder.Path;
+                    });
+                }),
+                Task.Run(async () =>
+                {
+                    var s1 = await ApplicationData.Current.TemporaryFolder.FolderSize();
+                    var s2 = await ApplicationData.Current.LocalFolder.FolderSize();
+                    await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                    {
+                        CacheFolderSize = SizeToString(s1);
+                        DataFolderSize = SizeToString(s2);
+                    });
+                })
+            };
+
 
             await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
             {
-                DownloadPathText = downloadFolder.Path;
                 try
                 {
                     while (DevicList.Count < 1)
@@ -880,14 +922,11 @@ namespace Aurora.Music.ViewModels
                         Tag = null
                     });
 
+                    // wating for listview updated, weird
+                    await Task.Delay(500);
                     if (Settings.Current.OutputDeviceID.IsNullorEmpty())
                     {
-                        await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
-                        {
-                            // wating for listview updated, weird
-                            await Task.Delay(500);
-                            AudioSelectedIndex = 0;
-                        });
+                        AudioSelectedIndex = 0;
                     }
                     else
                     {
@@ -900,12 +939,7 @@ namespace Aurora.Music.ViewModels
                                 break;
                             }
                         }
-                        await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
-                        {
-                            // wating for listview updated, weird
-                            await Task.Delay(500);
-                            AudioSelectedIndex = index;
-                        });
+                        AudioSelectedIndex = index;
                     }
                 }
                 catch (Exception)
@@ -913,6 +947,27 @@ namespace Aurora.Music.ViewModels
 
                 }
             });
+        }
+
+        private string SizeToString(ulong s1)
+        {
+            if (s1 < 1024ul)
+            {
+                return $"{s1}B";
+            }
+            if (s1 < 1024ul * 1024ul)
+            {
+                return $"{s1 / 1024ul}KiB";
+            }
+            if (s1 < 1024ul * 1024ul * 1024ul)
+            {
+                return $"{s1 / (1024ul * 1024ul)}MiB";
+            }
+            if (s1 < 1024ul * 1024ul * 1024ul * 1024ul)
+            {
+                return $"{s1 / (1024ul * 1024ul * 1024ul)}GiB";
+            }
+            return $"{s1 / (1024ul * 1024ul * 1024ul)}GiB";
         }
 
         private async void _catalog_PackageStatusChanged(AppExtensionCatalog sender, AppExtensionPackageStatusChangedEventArgs args)

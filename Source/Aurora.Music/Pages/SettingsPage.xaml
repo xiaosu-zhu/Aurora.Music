@@ -464,6 +464,15 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <StackPanel BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" BorderThickness="0,0,0,1" Padding="8,0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <TextBlock x:Uid="Advance" Text="Advance" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12"/>
                         <ToggleSwitch x:Uid="DebugMode" Header="Debug Mode" IsOn="{x:Bind Context.DebugModeEnabled,Mode=TwoWay}" Margin="0,8" />
+                        <TextBlock Margin="0,8">
+                            <Run Text="Cache folder size:"/>
+                            <Run Text="{x:Bind Context.CacheFolderSize,Mode=OneWay}"/>
+                        </TextBlock>
+                        <TextBlock Margin="0,8">
+                            <Run Text="Data folder size:"/>
+                            <Run Text="{x:Bind Context.DataFolderSize,Mode=OneWay}"/>
+                        </TextBlock>
+                        <Button HorizontalAlignment="Left" Margin="0,8" Content="Open data folder" Command="{x:Bind Context.OpenData}"/>
                         <StackPanel Padding="4" Margin="0,4" BorderBrush="#ff4343" BorderThickness="1" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <TextBlock x:Uid="DangerZone" Foreground="#ff4343" Text="Danger Zone" Margin="0,8"/>
                             <Button x:Uid="ClearCache" IsEnabled="{x:Bind Context.CanClearCache,Mode=OneWay}" Command="{x:Bind Context.ClearCache}" Style="{ThemeResource ButtonRevealStyle}" Margin="0,8" Content="Clear Cache"/>

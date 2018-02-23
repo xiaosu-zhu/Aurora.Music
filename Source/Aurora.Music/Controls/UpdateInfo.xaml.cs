@@ -3,6 +3,8 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using Aurora.Music.Core;
 using Aurora.Shared.Helpers;
+using Windows.System;
+using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -33,6 +35,22 @@ namespace Aurora.Music.Controls
         private void UpdateInfo_SizeChanged(object sender, Windows.UI.Xaml.SizeChangedEventArgs e)
         {
             Note.Width = Root.ActualWidth;
+        }
+
+        private async void Note_LinkClicked(object sender, Microsoft.Toolkit.Uwp.UI.Controls.LinkClickedEventArgs e)
+        {
+            if (e.Link == "http://as0")
+            {
+                await Launcher.LaunchUriAsync(new Uri("as-music:"));
+            }
+            else if (e.Link == "http://as1")
+            {
+                await Launcher.LaunchUriAsync(new Uri("as-music:///settings/extension"));
+            }
+            else
+            {
+                await Launcher.LaunchUriAsync(new Uri(e.Link));
+            }
         }
     }
 }

@@ -5,6 +5,7 @@ using Aurora.Music.Core.Extension.Json;
 using Aurora.Music.Core.Extension.Json.QQMusicAlbum;
 using Aurora.Music.Core.Extension.Json.QQMusicArtist;
 using Aurora.Music.Core.Extension.Json.QQMusicSong;
+using Aurora.Music.Core.Models;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
 using Newtonsoft.Json;
@@ -20,7 +21,7 @@ namespace Aurora.Music.Core.Extension
     {
         private const string url = "https://c.y.qq.com/soso/fcgi-bin/client_search_cp";
 
-        public static async Task<QQMusicSearchJson> SearchAsync(string keyword, int? page = 1, int? count = 10)
+        public static async Task<QQMusicSearchJson> SearchAsync(string keyword)
         {
             var queryString = HttpUtility.ParseQueryString(string.Empty);
             queryString["format"] = "json";
@@ -28,22 +29,8 @@ namespace Aurora.Music.Core.Extension
             queryString["lossless"] = "1";
             queryString["cr"] = "1";
             queryString["new_json"] = "1";
-            if (page.HasValue)
-            {
-                queryString["p"] = page.ToString();
-            }
-            else
-            {
-                queryString["p"] = "1";
-            }
-            if (count.HasValue)
-            {
-                queryString["n"] = count.ToString();
-            }
-            else
-            {
-                queryString["n"] = "10";
-            }
+            queryString["p"] = "1";
+            queryString["n"] = Settings.Current.PreferredSearchCount.ToString();
             queryString["w"] = keyword;
 
             var result = await ApiRequestHelper.HttpGet(url, queryString);
@@ -131,13 +118,13 @@ namespace Aurora.Music.Core.Extension
         private static long guid;
         private static string key;
 
-        public static string GenerateFileTypeByID(string media_ID, uint bitrate = 256)
+        public static string GenerateFileTypeByID(string media_ID, uint bitrate)
         {
             var f = fileFormats.First(x => x.BitRate <= bitrate);
             return f.Format;
         }
 
-        public static async Task<string> GenerateFileUriByID(string media_ID, uint bitrate = 256)
+        public static async Task<string> GenerateFileUriByID(string media_ID, uint bitrate)
         {
             if ((DateTime.Now - stamp).TotalMinutes > 1 || !key.IsNullorEmpty())
             {

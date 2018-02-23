@@ -843,6 +843,8 @@ namespace Aurora.Music.ViewModels
             }
         }
 
+        public bool IsEqualizerEnabled { get => Settings.Current.AudioGraphEffects.HasFlag(Core.Models.Effects.Equalizer); }
+
         public DelegateCommand ReturnNormal
         {
             get
@@ -851,18 +853,14 @@ namespace Aurora.Music.ViewModels
                 {
                     if (await ApplicationView.GetForCurrentView().TryEnterViewModeAsync(ApplicationViewMode.Default))
                     {
-                        (Window.Current.Content as Frame).Content = null;
-
-                        if (MainPage.Current is MainPage m)
+                        (Window.Current.Content as Frame).GoBack();
+                        try
                         {
-                            (Window.Current.Content as Frame).Content = m;
-                            m.RestoreContext();
+                            MainPageViewModel.Current.NeedShowPanel = (bool)player.IsPlaying;
                         }
-                        else if (MainPageViewModel.Current is MainPageViewModel v)
+                        catch (Exception)
                         {
-                            v.Dispose();
-                            v = null;
-                            (Window.Current.Content as Frame).Navigate(typeof(MainPage));
+
                         }
                     }
                 });

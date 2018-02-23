@@ -249,8 +249,7 @@ namespace Aurora.Music.ViewModels
             {
                 new KeyValuePair<string,object>("q", "online_music"),
                 new KeyValuePair<string, object>("action", "song"),
-                new KeyValuePair<string, object>("id", id),
-                new KeyValuePair<string, object>("bit_rate", Settings.Current.GetPreferredBitRate())
+                new KeyValuePair<string, object>("id", id)
             };
             var songResult = await OnlineMusicExtension.ExecuteAsync(querys);
             if (songResult is Song s)
@@ -266,8 +265,7 @@ namespace Aurora.Music.ViewModels
             {
                 new KeyValuePair<string,object>("q", "online_music"),
                 new KeyValuePair<string, object>("action", "album"),
-                new KeyValuePair<string, object>("id", id),
-                new KeyValuePair<string, object>("bit_rate", Settings.Current.GetPreferredBitRate())
+                new KeyValuePair<string, object>("id", id)
             };
             var songResult = await OnlineMusicExtension.ExecuteAsync(querys);
             if (songResult is Album s)

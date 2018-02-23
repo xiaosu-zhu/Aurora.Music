@@ -3,6 +3,7 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using Aurora.Music.Core.Extension;
 using Aurora.Music.Core.Storage;
+using Aurora.Music.Core.Tools;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
 using System;
@@ -59,7 +60,6 @@ namespace Aurora.Music.Core.Models
                 var d = DateTime.Parse(items[i].SelectSingleNode("./pubDate")?.InnerText ?? DateTime.Now.ToString());
                 if (LastUpdate < d)
                 {
-                    LastUpdate = d;
                 }
                 else
                 {
@@ -151,7 +151,22 @@ namespace Aurora.Music.Core.Models
 
         public async Task Refresh()
         {
+            var time = LastUpdate;
             var resXML = await ApiRequestHelper.HttpGet(XMLUrl);
+
+            var t = Task.Run(() =>
+            {
+                var p = new Podcast
+                {
+                    LastUpdate = DateTime.MinValue
+                };
+                p.FindUpdated(resXML);
+                if (p.Count > 0)
+                {
+                    Toast.SendPodcast(p);
+                }
+            });
+
             await ReadXML(resXML);
             await SaveAsync();
         }

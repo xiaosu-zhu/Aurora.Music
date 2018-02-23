@@ -37,71 +37,10 @@ namespace Aurora.Music.Pages
         {
             this.InitializeComponent();
             Current = this;
-
             MainPageViewModel.Current.NeedShowTitle = Window.Current.Bounds.Width > 640;
             MainPageViewModel.Current.Title = Consts.Localizer.GetString("LibraryText");
             MainPageViewModel.Current.LeftTopColor = Resources["SystemControlForegroundBaseHighBrush"] as SolidColorBrush;
-
-            CategoryList = new ObservableCollection<CategoryListItem>() {
-                new CategoryListItem
-                {
-                    Title = Consts.Localizer.GetString("SongsText"),
-                    Glyph = "\uE189",
-                    NavigatType = typeof(SongsPage)
-                },
-                new CategoryListItem
-                {
-                    Title = Consts.Localizer.GetString("AlbumsText"),
-                    Glyph = "\uE93C",
-                    NavigatType = typeof(AlbumsPage)
-                },
-                new CategoryListItem
-                {
-                    Title = Consts.Localizer.GetString("ArtistsText"),
-                    Glyph = "\uE77B",
-                    NavigatType = typeof(ArtistsPage)
-                }
-            };
-
-            launchTask = Task.Run(async () =>
-            {
-                playlists = await SQLOperator.Current().GetPlayListBriefAsync();
-                var podcasts = await SQLOperator.Current().GetPodcastListBriefAsync();
-                await Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
-                {
-                    foreach (var playlist in playlists)
-                    {
-                        CategoryList.Add(new CategoryListItem
-                        {
-                            Title = playlist.ToString(),
-                            Glyph = "\uE142",
-                            NavigatType = typeof(PlayListPage),
-                            ID = playlist.ID
-                        });
-                    }
-                    foreach (var podcast in podcasts)
-                    {
-                        CategoryList.Add(new CategoryListItem
-                        {
-                            Title = podcast.Title,
-                            Glyph = "\uE95A",
-                            NavigatType = typeof(PodcastPage),
-                            ID = podcast.ID
-                        });
-                    }
-                    var item = CategoryList.FirstOrDefault(x => x.Title == Settings.Current.CategoryLastClicked);
-                    if (item != default(CategoryListItem))
-                    {
-                        item.IsCurrent = true;
-                    }
-                    else
-                    {
-                        CategoryList[0].IsCurrent = true;
-                    }
-                    Category.SelectionChanged += Category_SelectionChanged;
-                    Category.SelectedItem = item ?? CategoryList[0];
-                });
-            });
+            CategoryList = new ObservableCollection<CategoryListItem>();
         }
 
         internal void RemovePlayList(PlayList model)
@@ -170,13 +109,91 @@ namespace Aurora.Music.Pages
             Category.SelectionChanged += Category_SelectionChanged;
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            if (e.Parameter is string s && int.TryParse(s, out int i))
+
+            CategoryList.Clear();
+            CategoryList.Add(new CategoryListItem
             {
-                launchTask.Wait();
-                Category.SelectedIndex = CategoryList.IndexOf(CategoryList.First(a => a.ID == i));
+                Title = Consts.Localizer.GetString("SongsText"),
+                Glyph = "\uE189",
+                NavigatType = typeof(SongsPage)
+            });
+            CategoryList.Add(new CategoryListItem
+            {
+                Title = Consts.Localizer.GetString("AlbumsText"),
+                Glyph = "\uE93C",
+                NavigatType = typeof(AlbumsPage)
+            });
+            CategoryList.Add(new CategoryListItem
+            {
+                Title = Consts.Localizer.GetString("ArtistsText"),
+                Glyph = "\uE77B",
+                NavigatType = typeof(ArtistsPage)
+            });
+            
+            playlists = await SQLOperator.Current().GetPlayListBriefAsync();
+            var podcasts = await SQLOperator.Current().GetPodcastListBriefAsync();
+            foreach (var playlist in playlists)
+            {
+                CategoryList.Add(new CategoryListItem
+                {
+                    Title = playlist.ToString(),
+                    Glyph = "\uE142",
+                    NavigatType = typeof(PlayListPage),
+                    ID = playlist.ID
+                });
+            }
+            foreach (var podcast in podcasts)
+            {
+                CategoryList.Add(new CategoryListItem
+                {
+                    Title = podcast.Title,
+                    Glyph = "\uE95A",
+                    NavigatType = typeof(PodcastPage),
+                    ID = podcast.ID
+                });
+            }
+            var item = CategoryList.FirstOrDefault(x => x.Title == Settings.Current.CategoryLastClicked);
+            if (item != default(CategoryListItem))
+            {
+                item.IsCurrent = true;
+            }
+            else
+            {
+                CategoryList[0].IsCurrent = true;
+            }
+            Category.SelectionChanged += Category_SelectionChanged;
+
+            if (e.Parameter is ValueTuple<Type, int, string> m)
+            {
+                if (m.Item2 != -1)
+                {
+                    try
+                    {
+                        var i = CategoryList.IndexOf(CategoryList.First(a => a.ID == m.Item2 && a.NavigatType == m.Item1));
+                        if (i == -1)
+                        {
+                        }
+                        else
+                        {
+                            Category.SelectedIndex = i;
+                        }
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+                }
+                else
+                {
+                    Category.SelectedIndex = CategoryList.IndexOf(CategoryList.First(a => a.NavigatType == m.Item1));
+                }
+            }
+            else
+            {
+                Category.SelectedIndex = 0;
             }
         }
 
@@ -292,7 +309,7 @@ namespace Aurora.Music.Pages
         internal void ShowPodcast(string iD)
         {
             if (int.TryParse(iD, out int i))
-                Category.SelectedIndex = CategoryList.IndexOf(CategoryList.First(a => a.ID == i));
+                Category.SelectedIndex = CategoryList.IndexOf(CategoryList.First(a => a.ID == i && a.NavigatType == typeof(PodcastPage)));
         }
 
         private void VisualStateGroup_CurrentStateChanged(object sender, VisualStateChangedEventArgs e)

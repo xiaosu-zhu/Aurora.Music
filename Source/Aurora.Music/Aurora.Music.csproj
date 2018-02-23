@@ -298,6 +298,7 @@
     <Content Include="Assets\LargeTile.scale-150.png" />
     <Content Include="Assets\LargeTile.scale-200.png" />
     <Content Include="Assets\LargeTile.scale-400.png" />
+    <Content Include="Assets\lastfm.png" />
     <Content Include="Assets\logo.svg" />
     <Content Include="Assets\OPMLTemplate.xml" />
     <Content Include="Assets\SmallTile.scale-100.png" />

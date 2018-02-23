@@ -1397,7 +1397,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
                                 <MenuFlyoutSeparator/>
-                                <MenuFlyoutItem x:Uid="Equalizer" Command="{x:Bind Context.ShowEqualizer}" Text="Equalizer">
+                                <MenuFlyoutItem x:Uid="Equalizer" IsEnabled="{x:Bind Context.IsEqualizerEnabled}" Command="{x:Bind Context.ShowEqualizer}" Text="Equalizer">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8F9;" />
                                     </MenuFlyoutItem.Icon>

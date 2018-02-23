@@ -198,88 +198,164 @@ namespace Aurora.Music
 
         protected override async void OnActivated(IActivatedEventArgs args)
         {
+            if (Window.Current.Content == null)
+            {
+                CreateRootFrame(ApplicationExecutionState.NotRunning);
+            }
+
+
+            Uri uri;
             if (args.Kind == ActivationKind.Protocol)
             {
-                ProtocolActivatedEventArgs eventArgs = args as ProtocolActivatedEventArgs;
-                // TODO: Handle URI activation
-                // The received URI is eventArgs.Uri.AbsoluteUri
-                if (eventArgs.Uri.Segments.Length == 0)
+                ProtocolActivatedEventArgs a = args as ProtocolActivatedEventArgs;
+                uri = a.Uri;
+            }
+            else if (args.Kind == ActivationKind.ToastNotification)
+            {
+                ToastNotificationActivatedEventArgs a = args as ToastNotificationActivatedEventArgs;
+                if (a.Argument.StartsWith("as:music:"))
                 {
-                    if (Window.Current.Content == null)
+                    uri = new Uri(a.Argument);
+                }
+                else
+                {
+                    uri = null;
+                }
+            }
+            else
+            {
+                uri = null;
+            }
+
+            bool canShowInNewWindow = false;
+            Type navigateType = null;
+            Type subNavigateType = null;
+            int id = -1;
+            string keyword = string.Empty;
+            if (uri == null)
+            {
+
+            }
+            else
+            {
+                var segments = uri.AbsolutePath.Split('/');
+                for (int i = 0; i < segments.Length; i++)
+                {
+                    switch (segments[i])
                     {
-                        CreateRootFrame(ApplicationExecutionState.NotRunning);
+                        case "home":
+                            navigateType = typeof(HomePage); canShowInNewWindow = false;
+                            goto outside;
+                        case "settings":
+                            navigateType = typeof(SettingsPage); canShowInNewWindow = false;
+                            break;
+                        case "extension":
+                            navigateType = typeof(ExtSettings); canShowInNewWindow = true;
+                            goto outside;
+                        case "library":
+                            navigateType = typeof(LibraryPage); canShowInNewWindow = false;
+                            break;
+                        case "podcast":
+                            subNavigateType = typeof(PodcastPage); canShowInNewWindow = false;
+                            break;
+                        case "songs":
+                            subNavigateType = typeof(SongsPage); canShowInNewWindow = false;
+                            break;
+                        case "albums":
+                            subNavigateType = typeof(AlbumsPage); canShowInNewWindow = false;
+                            break;
+                        case "artists":
+                            subNavigateType = typeof(ArtistsPage); canShowInNewWindow = false;
+                            break;
+                        case "playlist":
+                            subNavigateType = typeof(PlayListPage); canShowInNewWindow = false;
+                            break;
+                        case "download":
+                            navigateType = typeof(DownloadPage); canShowInNewWindow = false;
+                            break;
+                        case "about":
+                            navigateType = typeof(AboutPage); canShowInNewWindow = false;
+                            goto outside;
+                        case "douban":
+                            navigateType = typeof(DoubanPage); canShowInNewWindow = false;
+                            goto outside;
+                        case "id":
+                            if (segments.Length > i + 1 && int.TryParse(segments[++i], out int parse))
+                            {
+                                id = parse;
+                            }
+                            goto outside;
+                        case "keyword":
+                            if (segments.Length > i + 1)
+                            {
+                                keyword = segments[++i];
+                            }
+                            goto outside;
+                        default:
+                            break;
+                    }
+                }
+
+                outside:
+                if (canShowInNewWindow)
+                {
+                    await NavigateInNewWindow(navigateType, subNavigateType, id, keyword);
+                }
+                else
+                {
+                    if (navigateType == null)
+                    {
                         if (rootFrame.Content == null)
                         {
-                            // When the navigation stack isn't restored navigate to the first page,
-                            // configuring the new page by passing required information as a navigation
-                            // parameter
                             if (Settings.Current.WelcomeFinished)
                                 rootFrame.Navigate(typeof(MainPage));
                             else
                                 rootFrame.Navigate(typeof(WelcomePage));
                         }
-                        // 确保当前窗口处于活动状态
-                        Window.Current.Activate();
                     }
                     else
                     {
-                        // TODO:
-                        // seems like nothing to do.
-                    }
-                }
-                else
-                {
-                    var segments = eventArgs.Uri.Segments.Select(x => x.TrimEnd('/')).Skip(1).ToArray();
-                    switch (segments[0])
-                    {
-                        case "settings":
-                            if (Window.Current.Content == null)
-                            {
-                                // 将框架放在当前窗口中
-                                Window.Current.Content = new ExtSettings();
-                                Window.Current.Activate();
-                            }
+                        if (rootFrame.Content == null)
+                        {
+                            if (Settings.Current.WelcomeFinished)
+                                rootFrame.Navigate(typeof(MainPage), (navigateType, subNavigateType, id, keyword));
                             else
-                            {
-                                CoreApplicationView newView = CoreApplication.CreateNewView();
-                                int newViewId = 0;
-                                await newView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                                {
-                                    Frame frame = new Frame();
-                                    frame.Navigate(typeof(ExtSettings));
-                                    Window.Current.Content = frame;
-                                    // You have to activate the window in order to show it later.
-                                    Window.Current.Activate();
-
-                                    newViewId = ApplicationView.GetForCurrentView().Id;
-                                });
-                                bool viewShown = await ApplicationViewSwitcher.TryShowAsStandaloneAsync(newViewId);
-                            }
-                            break;
-                        default:
-                            break;
+                                rootFrame.Navigate(typeof(WelcomePage), (navigateType, subNavigateType, id, keyword));
+                        }
+                        else
+                        {
+                            MainPage.Current?.Navigate(navigateType, (subNavigateType, id, keyword));
+                        }
                     }
+
+                    // 确保当前窗口处于活动状态
+                    Window.Current.Activate();
                 }
             }
-            else if (args.Kind == ActivationKind.ToastNotification)
+        }
+
+        private async Task NavigateInNewWindow(Type t1, Type t2, int id, string keyword)
+        {
+            if (rootFrame.Content == null)
             {
-                ToastNotificationActivatedEventArgs a = args as ToastNotificationActivatedEventArgs;
-                var query = HttpUtility.ParseQueryString(a.Argument);
-                if (MainPage.Current == null)
+                rootFrame.Navigate(t1, (t2, id, keyword));
+                Window.Current.Activate();
+            }
+            else
+            {
+                CoreApplicationView newView = CoreApplication.CreateNewView();
+                int newViewId = 0;
+                await newView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
-                    CreateRootFrame(ApplicationExecutionState.NotRunning);
-                    // When the navigation stack isn't restored navigate to the first page,
-                    // configuring the new page by passing required information as a navigation
-                    // parameter
-                    if (Settings.Current.WelcomeFinished)
-                        rootFrame.Navigate(typeof(MainPage), query);
-                    else
-                        rootFrame.Navigate(typeof(WelcomePage), query);
-                }
-                else if (query["Action"] == "ShowPodcast")
-                {
-                    MainPage.Current.ShowPodcast(query["ID"]);
-                }
+                    Frame frame = new Frame();
+                    frame.Navigate(t1, (t2, id, keyword));
+                    Window.Current.Content = frame;
+                    // You have to activate the window in order to show it later.
+                    Window.Current.Activate();
+
+                    newViewId = ApplicationView.GetForCurrentView().Id;
+                });
+                bool viewShown = await ApplicationViewSwitcher.TryShowAsStandaloneAsync(newViewId);
             }
         }
 
@@ -454,6 +530,10 @@ namespace Aurora.Music
         /// <param name="e">有关启动请求和过程的详细信息。</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
+            if (e.Kind == ActivationKind.Protocol)
+            {
+                return;
+            }
             if (e.PrelaunchActivated == false)
             {
                 TryEnablePrelaunch();

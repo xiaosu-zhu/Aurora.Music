@@ -109,6 +109,7 @@ namespace Aurora.Music.Core.Models
         public bool PreventLockscreen { get; set; } = false;
 
         public float[] Gain { get; set; } = new float[10] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        public uint PreferredSearchCount { get; set; } = 10;
 
         public bool VerifyDoubanLogin()
         {

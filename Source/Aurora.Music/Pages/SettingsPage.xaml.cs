@@ -3,6 +3,7 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using Aurora.Music.Core;
 using Aurora.Music.ViewModels;
+using System.Threading.Tasks;
 using Windows.System.Threading;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -20,7 +21,8 @@ namespace Aurora.Music.Pages
             MainPageViewModel.Current.Title = Consts.Localizer.GetString("SettingsText");
             MainPageViewModel.Current.NeedShowTitle = true;
             MainPageViewModel.Current.LeftTopColor = Resources["SystemControlForegroundBaseHighBrush"] as SolidColorBrush;
-            var t = ThreadPool.RunAsync(async x =>
+
+            Task.Run(async () =>
             {
                 await Context.Init();
             });
