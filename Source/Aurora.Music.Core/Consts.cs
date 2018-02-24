@@ -55,18 +55,12 @@ namespace Aurora.Music.Core
         public static string CommaSeparator => ommaSeparator;
 
         public static string UpdateNote =>
-                            "# Notice\r\n\r\nWe've founded crashes occur when you're using **Windows Insider Preview**, sorry about that. Crashes are caused by *ConnectedAnimation* that can't fix inside this app, but try to disable animation in **System Settings** could fix.\r\n\r\n" +
+                            "# Notice\r\n\r\nWe've detected crashes occur when you're using **Windows Insider Preview**, sorry about that.\r\n\r\n**UPDATED**: Please update your Insider Preview to newest build: 17017, this build has fixed crashes.\r\n\r\n" +
                             "---\r\n" +
                             "* **New**: Added URI activation, using [as-music:](http://as0) and [more](https://github.com/pkzxs/Aurora.Music/blob/master/Documentation/Uri%20Scheme.md) to activate app.\r\n" +
                             "* **New**: Added [*Extension Settings*](http://as1).\r\n" +
                             "* **Tranlation**: Added Russian translation with **Данила Степовой**'s support.\r\n" +
-                            "* **Improve**: UI layout.\r\n" +
-                            "* **New**: Added a function to cache podcasts.\r\n" +
-                            "* **New**: Added a simple share function.\r\n" +
-                            "* **New**: Added multi-select support in *Songs* and *Playlist* pages.\r\n" +
-                            "* **Improve**: Now you can delete items in *Playlit*, or delete a whole *Playlist*.\r\n" +
-                            "* **Fix**: Fixed an issue that equalizer settings don't restore after re-launching app.\r\n" +
-                            "* **Fix**: Fixed an issue when applying equalizer on music that higher than 96KHz causes output weird.\r\n";
+                            "* **Improve**: Added drop animation.\r\n";
 
         public static string UpdateNoteTitle => localizer.GetString("UpdateNoteTitle");
 

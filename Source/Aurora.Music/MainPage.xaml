@@ -1062,7 +1062,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </Grid>
         </SplitView.Pane>
         <SplitView.Content>
-            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Grid x:Name="Main" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Grid.Resources>
                     <Storyboard x:Name="SearchBoxShow" Completed="SearchBoxShow_Completed">
                         <DoubleAnimation Duration="0:0:0.64" Storyboard.TargetName="SearchBoxTransform" Storyboard.TargetProperty="ScaleX" To="1">
@@ -1130,11 +1130,11 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                       PointerCanceled="NowPanel_PointerExited" PointerCaptureLost="NowPanel_PointerExited" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" 
                       x:Name="NowPanel" Background="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}">
                     <animations:Implicit.ShowAnimations>
-                        <animations:TranslationAnimation Duration="0:0:1" From="0,96,0" To="0" ></animations:TranslationAnimation>
+                        <animations:TranslationAnimation Duration="0:0:0.64" From="0,74,0" To="0" ></animations:TranslationAnimation>
                     </animations:Implicit.ShowAnimations>
 
                     <animations:Implicit.HideAnimations>
-                        <animations:TranslationAnimation Duration="0:0:1" From="0" To="0,96,0"></animations:TranslationAnimation>
+                        <animations:TranslationAnimation Duration="0:0:0.64" From="0" To="0,74,0"></animations:TranslationAnimation>
                     </animations:Implicit.HideAnimations>
 
                     <Grid.ColumnDefinitions>
@@ -1324,6 +1324,14 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         </StackPanel>
                     </toolkit:InAppNotification.Content>
                 </toolkit:InAppNotification>
+
+                <toolkit:DropShadowPanel Visibility="Collapsed" Width="50" Height="50"
+                                         x:Name="DropHint" OffsetX="0" OffsetY="0" BlurRadius="8" 
+                                         Color="{ThemeResource SystemBaseHighColor}" ShadowOpacity="0.33333333">
+                    <Image HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="Uniform"
+                           Source="{x:Bind Context.CurrentArtwork,Mode=OneWay,TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png}">
+                    </Image>
+                </toolkit:DropShadowPanel>
             </Grid>
         </SplitView.Content>
     </SplitView>

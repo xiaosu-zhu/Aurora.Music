@@ -273,7 +273,7 @@ namespace Aurora.Music.Core.Models
                 album = $"{album}.{pictures[0].MimeType.Split('/').LastOrDefault().Replace("jpeg", "jpg")}";
                 try
                 {
-                    var s = await Consts.ArtworkFolder.GetFileAsync(album);
+                    var s = await Consts.ArtworkFolder.TryGetItemAsync(album);
                     if (s == null)
                     {
                         StorageFile cacheImg = await Consts.ArtworkFolder.CreateFileAsync(album, CreationCollisionOption.ReplaceExisting);
@@ -284,12 +284,6 @@ namespace Aurora.Music.Core.Models
                     {
                         return s.Path;
                     }
-                }
-                catch (FileNotFoundException)
-                {
-                    StorageFile cacheImg = await Consts.ArtworkFolder.CreateFileAsync(album, CreationCollisionOption.ReplaceExisting);
-                    await FileIO.WriteBytesAsync(cacheImg, pictures[0].Data.Data);
-                    return cacheImg.Path;
                 }
                 catch (ArgumentException)
                 {

@@ -48,7 +48,7 @@ namespace Aurora.Music.Pages
         {
             base.OnNavigatedFrom(e);
             Context.Detach();
-            Visualizer.SizeChanged -= Visualizer_SizeChanged;
+            SizeChanged -= Visualizer_SizeChanged;
             MainPageViewModel.Current.IsVisualizing = false;
             Visualizer.Draw -= CustomVisualizer_Draw;
         }
@@ -59,7 +59,7 @@ namespace Aurora.Music.Pages
                 canvasHeight = 0.25f * (float)ActualHeight;
                 canvasWidth = (float)Visualizer.ActualWidth;
                 Context.Visualizer = Visualizer;
-                Visualizer.SizeChanged += Visualizer_SizeChanged;
+                SizeChanged += Visualizer_SizeChanged;
                 Visualizer.Height = 0.25 * ActualHeight;
                 barCount = Convert.ToUInt32(Math.Round(Visualizer.ActualWidth / 32));
                 _emptySpectrum = SpectrumData.CreateEmpty(2, barCount, ScaleType.Linear, ScaleType.Linear, 0, 20000);

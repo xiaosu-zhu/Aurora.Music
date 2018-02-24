@@ -405,6 +405,7 @@ namespace Aurora.Music.ViewModels
 
                 await ApplicationData.Current.ClearAsync();
                 Settings.Current.DANGER_DELETE();
+
                 await Task.Delay(300);
                 App.Current.Exit();
             });

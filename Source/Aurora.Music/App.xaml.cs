@@ -234,7 +234,18 @@ namespace Aurora.Music
             string keyword = string.Empty;
             if (uri == null)
             {
-
+                if (rootFrame.Content == null)
+                {
+                    // When the navigation stack isn't restored navigate to the first page,
+                    // configuring the new page by passing required information as a navigation
+                    // parameter
+                    if (Settings.Current.WelcomeFinished)
+                        rootFrame.Navigate(typeof(MainPage));
+                    else
+                        rootFrame.Navigate(typeof(WelcomePage));
+                }
+                // 确保当前窗口处于活动状态
+                Window.Current.Activate();
             }
             else
             {

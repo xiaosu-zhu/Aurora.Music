@@ -132,7 +132,7 @@ namespace Aurora.Music.Pages
                 Glyph = "\uE77B",
                 NavigatType = typeof(ArtistsPage)
             });
-            
+
             playlists = await SQLOperator.Current().GetPlayListBriefAsync();
             var podcasts = await SQLOperator.Current().GetPodcastListBriefAsync();
             foreach (var playlist in playlists)
@@ -175,6 +175,7 @@ namespace Aurora.Music.Pages
                         var i = CategoryList.IndexOf(CategoryList.First(a => a.ID == m.Item2 && a.NavigatType == m.Item1));
                         if (i == -1)
                         {
+                            Category.SelectedIndex = 0;
                         }
                         else
                         {
@@ -183,7 +184,7 @@ namespace Aurora.Music.Pages
                     }
                     catch (Exception)
                     {
-
+                        Category.SelectedIndex = 0;
                     }
                 }
                 else
@@ -298,12 +299,18 @@ namespace Aurora.Music.Pages
 
         private void Grid_DragOver(object sender, DragEventArgs e)
         {
-
+            var d = e.GetDeferral();
+            e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Link;
+            e.Handled = true;
+            d.Complete();
         }
 
         private void Grid_Drop(object sender, DragEventArgs e)
         {
-
+            var d = e.GetDeferral();
+            e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Link;
+            e.Handled = true;
+            d.Complete();
         }
 
         internal void ShowPodcast(string iD)

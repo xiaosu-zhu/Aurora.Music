@@ -552,7 +552,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         <Setter Property="Background" Value="{ThemeResource RevealRoundBackground}" />
         <Setter Property="Foreground" Value="{ThemeResource ButtonForeground}" />
         <Setter Property="BorderBrush" Value="{ThemeResource ButtonRevealBorderBrush}" />
-        <Setter Property="BorderThickness" Value="{ThemeResource ButtonRevealBorderThemeThickness}" />
+        <Setter Property="BorderThickness" Value="{ThemeResource ListViewItemRevealBorderThemeThickness}" />
         <Setter Property="Padding" Value="0" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Center" />

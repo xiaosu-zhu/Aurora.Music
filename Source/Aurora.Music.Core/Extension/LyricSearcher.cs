@@ -68,10 +68,10 @@ namespace Aurora.Music.Core.Extension
             var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Lyrics", CreationCollisionOption.OpenIfExists);
             try
             {
-                var file = await folder.GetFileAsync($"{fileName}.lrc");
+                var file = await folder.TryGetItemAsync($"{fileName}.lrc");
                 if (file == null)
                     return null;
-                return await FileIO.ReadTextAsync(file);
+                return await FileIO.ReadTextAsync(file as StorageFile);
             }
             catch (Exception)
             {

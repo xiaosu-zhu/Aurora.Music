@@ -33,10 +33,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         </ResourceDictionary>
     </Page.Resources>
 
-    <ScrollViewer Style="{ThemeResource NarrowScrollViewer}" HorizontalScrollMode="Disabled">
-        <ScrollViewer.Background>
-            <ImageBrush AlignmentX="Center" AlignmentY="Center" ImageSource="/Assets/Images/welcome_bg.png"/>
-        </ScrollViewer.Background>
+    <ScrollViewer Style="{ThemeResource NarrowScrollViewer}" Background="{ThemeResource SystemControlAltMediumLowAcrylicWindowMediumBrush}" HorizontalScrollMode="Disabled">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState>
@@ -65,8 +62,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <StackPanel Orientation="Vertical" x:Name="Main" Padding="64,64,64,160" 
-                    Background="{ThemeResource SystemControlAltMediumLowAcrylicElementMediumBrush}">
+        <StackPanel Orientation="Vertical" x:Name="Main" Padding="64,64,64,160">
             <Image Margin="12,0" Source="/Assets/Images/now_placeholder.png" 
                    Stretch="Uniform" Height="96" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             <TextBlock Margin="12,12,12,0" MaxLines="2" FontWeight="Normal" 

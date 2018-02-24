@@ -237,15 +237,20 @@ namespace Aurora.Music.Pages
             MainPage.Current.SongFlyout.Hide();
         }
 
-        private void AlbumList_DragStarting(UIElement sender, DragStartingEventArgs args)
-        {
-            var d = args.GetDeferral();
-            args.AllowedOperations = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Link;
-        }
-
         private void AlbumItem_PlayAlbum(object sender, EventArgs e)
         {
 
+        }
+
+        private void AlbumList_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
+        {
+            MainPage.Current.IsInAppDrag = true;
+            e.Data.RequestedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Link;
+        }
+
+        private void AlbumList_DragItemsCompleted(ListViewBase sender, DragItemsCompletedEventArgs args)
+        {
+            MainPage.Current.IsInAppDrag = false;
         }
     }
 }

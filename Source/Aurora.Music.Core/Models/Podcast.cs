@@ -132,8 +132,9 @@ namespace Aurora.Music.Core.Models
             try
             {
                 var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Podcasts", CreationCollisionOption.OpenIfExists);
-                var file = await folder.GetFileAsync($"{fileName}.xml");
-                var str = await FileIO.ReadTextAsync(file);
+                var file = await folder.TryGetItemAsync($"{fileName}.xml");
+                if (file == null) return null;
+                var str = await FileIO.ReadTextAsync(file as StorageFile);
                 var a = new Podcast
                 {
                     XMLUrl = p.XMLUrl,
@@ -151,21 +152,7 @@ namespace Aurora.Music.Core.Models
 
         public async Task Refresh()
         {
-            var time = LastUpdate;
             var resXML = await ApiRequestHelper.HttpGet(XMLUrl);
-
-            var t = Task.Run(() =>
-            {
-                var p = new Podcast
-                {
-                    LastUpdate = DateTime.MinValue
-                };
-                p.FindUpdated(resXML);
-                if (p.Count > 0)
-                {
-                    Toast.SendPodcast(p);
-                }
-            });
 
             await ReadXML(resXML);
             await SaveAsync();
