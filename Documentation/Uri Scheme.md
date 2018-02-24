@@ -1,36 +1,36 @@
 # This doc introduces how to activate Aurora Music with Uri.
 
-## [as-music:](as-music:)
+## <a href="as-music:" data-linktype="external">as-music:</a>
 
 To launch main app.
 
-## [as-music:///home](as-music:///home)
+## <a href="as-music:///home" data-linktype="external">as-music:///home</a>
 
 To launch HomePage. Similarly,
 
-* [as-music:///library](as-music:///library)
-* [as-music:///settings](as-music:///settings)
-* [as-music:///douban](as-music:///douban)
-* [as-music:///download](as-music:///download)
-* [as-music:///about](as-music:///about)
+* <a href="as-music:///library" data-linktype="external">as-music:///library</a>
+* <a href="as-music:///settings" data-linktype="external">as-music:///settings</a>
+* <a href="as-music:///douban" data-linktype="external">as-music:///douban</a>
+* <a href="as-music:///download" data-linktype="external">as-music:///download</a>
+* <a href="as-music:///about" data-linktype="external">as-music:///about</a>
 
 to navigate to specific pages.
 
-## [as-music:///library/songs](as-music:///library/songs)
+## <a href="as-music:///library/songs" data-linktype="external">as-music:///library/songs</a>
 
 To go to the Songs page. Similarly,
 
-* [as-music:///library/albums](as-music:///library/albums)
-* [as-music:///library/artists](as-music:///library/artists)
-* [as-music:///library/playlist](as-music:///library/playlist)
+* <a href="as-music:///library/albums" data-linktype="external">as-music:///library/albums</a>
+* <a href="as-music:///library/artists" data-linktype="external">as-music:///library/artists</a>
+* <a href="as-music:///library/playlist" data-linktype="external">as-music:///library/playlist</a>
 
 to go to specific pages.
 
-* [as-music:///library/podcast](as-music:///library/podcast)
+* <a href="as-music:///library/podcast" data-linktype="external">as-music:///library/podcast</a>
 
 can go to the first subscribed podcast, and
 
-* [as-music:///library/podcast/id/{0}](as-music:///library/podcast/id/{0})
+* <a href="as-music:///library/podcastid/{0}" data-linktype="external">as-music:///library/podcastid/{0}</a>
 
 can go to the subscribed podcast with specific id (database).
 
