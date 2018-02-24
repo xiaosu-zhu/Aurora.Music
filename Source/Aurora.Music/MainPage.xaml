@@ -1154,7 +1154,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Stretch">
                                 <toolkit:ImageEx Style="{ThemeResource QuickLoadImageEx}" PlaceholderStretch="Uniform" PlaceholderSource="/Assets/Images/placeholder_b.png"
                                                  Grid.Row="1" x:Name="Artwork" HorizontalAlignment="Left" VerticalAlignment="Stretch" Stretch="Uniform"
-                                                 Source="{x:Bind Context.CurrentArtwork,Mode=OneWay}">
+                                                 Source="{x:Bind Context.CurrentArtwork,Mode=OneWay}" ImageOpened="Artwork_ImageOpened">
                                 </toolkit:ImageEx>
                                 <StackPanel x:Name="NowPanelTexts" Margin="12,0" Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
                                     <TextBlock x:Name="Title" Text="{x:Bind Context.CurrentTitle, Mode=OneWay}" Style="{ThemeResource BaseTextBlockStyle}" MaxLines="2" TextTrimming="CharacterEllipsis" Margin="4"/>
@@ -1328,7 +1328,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <toolkit:DropShadowPanel Visibility="Collapsed" Width="50" Height="50"
                                          x:Name="DropHint" OffsetX="0" OffsetY="0" BlurRadius="8" 
                                          Color="{ThemeResource SystemBaseHighColor}" ShadowOpacity="0.33333333">
-                    <Image HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="Uniform"
+                    <Image HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="Uniform" ImageOpened="Image_ImageOpened"
                            Source="{x:Bind Context.CurrentArtwork,Mode=OneWay,TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png}">
                     </Image>
                 </toolkit:DropShadowPanel>

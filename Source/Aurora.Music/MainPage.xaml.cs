@@ -694,38 +694,8 @@ namespace Aurora.Music
             var point = e.GetPosition(Main);
             d.Complete();
 
-
             DropHint.Margin = new Thickness(point.X - DropHint.Width / 2, point.Y - DropHint.Height / 2, Main.ActualWidth - point.X - DropHint.Width / 2, Main.ActualHeight - point.Y - DropHint.Height / 2);
             DropHint.Visibility = Visibility.Visible;
-            while (NowPanel.Visibility != Visibility.Visible)
-            {
-                await Task.Delay(100);
-            }
-
-
-            var service = ConnectedAnimationService.GetForCurrentView();
-
-            //OffsetX Custom Animation
-            var yAnimation = Window.Current.Compositor.CreateScalarKeyFrameAnimation();
-            yAnimation.Duration = TimeSpan.FromSeconds(1);
-            yAnimation.InsertExpressionKeyFrame(0.0f, "StartingValue");
-            yAnimation.InsertExpressionKeyFrame(1.0f, "FinalValue", Window.Current.Compositor.CreateCubicBezierEasingFunction(new System.Numerics.Vector2(0.6f, -0.28f), new System.Numerics.Vector2(0.735f, 0.045f)));
-
-            var xAnimation = Window.Current.Compositor.CreateScalarKeyFrameAnimation();
-            xAnimation.Duration = TimeSpan.FromSeconds(1);
-            xAnimation.InsertExpressionKeyFrame(0.0f, "StartingValue");
-            xAnimation.InsertExpressionKeyFrame(1.0f, "FinalValue", Window.Current.Compositor.CreateCubicBezierEasingFunction(new System.Numerics.Vector2(0.47f, 0f), new System.Numerics.Vector2(0.745f, 0.715f)));
-
-            var ani = ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("DropAni", DropHint);
-            ani.SetAnimationComponent(ConnectedAnimationComponent.OffsetY, yAnimation);
-            ani.SetAnimationComponent(ConnectedAnimationComponent.OffsetX, xAnimation);
-            ani.SetAnimationComponent(ConnectedAnimationComponent.CrossFade, xAnimation);
-            ani.SetAnimationComponent(ConnectedAnimationComponent.Scale, xAnimation);
-            ani.Completed += (a, s) =>
-            {
-                DropHint.Visibility = Visibility.Collapsed;
-            };
-            ani.TryStart(Artwork);
         }
 
         private async Task FileActivation(IReadOnlyList<IStorageItem> p)
@@ -1435,6 +1405,51 @@ namespace Aurora.Music
 
 
             RefreshPaneCurrent();
+        }
+
+        private async void Artwork_ImageOpened(object sender, RoutedEventArgs e)
+        {
+            if (OverlayFrame.Visibility == Visibility.Collapsed)
+            {
+                await Task.Delay(200);
+                var service = ConnectedAnimationService.GetForCurrentView();
+                var ani = service.GetAnimation("DropAni");
+                if (ani != null)
+                    ani.TryStart(Artwork);
+                else
+                {
+                    DropHint.Visibility = Visibility.Collapsed;
+                }
+            }
+        }
+
+        private void Image_ImageOpened(object sender, RoutedEventArgs e)
+        {
+            if (DropHint.Visibility == Visibility.Collapsed)
+                return;
+
+            var service = ConnectedAnimationService.GetForCurrentView();
+
+            //OffsetX Custom Animation
+            var yAnimation = Window.Current.Compositor.CreateScalarKeyFrameAnimation();
+            yAnimation.Duration = TimeSpan.FromSeconds(1);
+            yAnimation.InsertExpressionKeyFrame(0.0f, "StartingValue");
+            yAnimation.InsertExpressionKeyFrame(1.0f, "FinalValue", Window.Current.Compositor.CreateCubicBezierEasingFunction(new System.Numerics.Vector2(0.6f, -0.28f), new System.Numerics.Vector2(0.735f, 0.045f)));
+
+            var xAnimation = Window.Current.Compositor.CreateScalarKeyFrameAnimation();
+            xAnimation.Duration = TimeSpan.FromSeconds(1);
+            xAnimation.InsertExpressionKeyFrame(0.0f, "StartingValue");
+            xAnimation.InsertExpressionKeyFrame(1.0f, "FinalValue", Window.Current.Compositor.CreateCubicBezierEasingFunction(new System.Numerics.Vector2(0.47f, 0f), new System.Numerics.Vector2(0.745f, 0.715f)));
+
+            var ani = ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("DropAni", DropHint);
+            ani.SetAnimationComponent(ConnectedAnimationComponent.OffsetY, yAnimation);
+            ani.SetAnimationComponent(ConnectedAnimationComponent.OffsetX, xAnimation);
+            ani.SetAnimationComponent(ConnectedAnimationComponent.CrossFade, xAnimation);
+            ani.SetAnimationComponent(ConnectedAnimationComponent.Scale, xAnimation);
+            ani.Completed += (a, s) =>
+            {
+                DropHint.Visibility = Visibility.Collapsed;
+            };
         }
     }
 }

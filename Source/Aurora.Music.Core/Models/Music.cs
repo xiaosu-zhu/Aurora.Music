@@ -158,7 +158,7 @@ namespace Aurora.Music.Core.Models
             {
                 return s.OnlineUri.Equals(OnlineUri);
             }
-            return ID == s.ID;
+            return ID == s.ID && FilePath == s.FilePath;
         }
 
         public Song() { }

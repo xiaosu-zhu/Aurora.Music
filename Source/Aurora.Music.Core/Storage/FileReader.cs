@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TagLib;
 using Windows.Storage;
+using Windows.Storage.FileProperties;
 
 namespace Aurora.Music.Core.Storage
 {
@@ -358,8 +359,88 @@ namespace Aurora.Music.Core.Storage
         {
             using (var tagTemp = File.Create(file))
             {
-                return await Song.Create(tagTemp.Tag, file.Path, await file.Properties.GetMusicPropertiesAsync());
+                return await Create(tagTemp.Tag, file.Path, await file.Properties.GetMusicPropertiesAsync());
             }
+        }
+
+        private static async Task<Song> Create(Tag tag, string path, MusicProperties music)
+        {
+            var song = new Song
+            {
+                Duration = music.Duration,
+                BitRate = music.Bitrate,
+                FilePath = path,
+                Rating = (uint)Math.Round(music.Rating / 20.0),
+                MusicBrainzArtistId = tag.MusicBrainzArtistId,
+                MusicBrainzDiscId = tag.MusicBrainzDiscId,
+                MusicBrainzReleaseArtistId = tag.MusicBrainzReleaseArtistId,
+                MusicBrainzReleaseCountry = tag.MusicBrainzReleaseCountry,
+                MusicBrainzReleaseId = tag.MusicBrainzReleaseId,
+                MusicBrainzReleaseStatus = tag.MusicBrainzReleaseStatus,
+                MusicBrainzReleaseType = tag.MusicBrainzReleaseType,
+                MusicBrainzTrackId = tag.MusicBrainzTrackId,
+                MusicIpId = tag.MusicIpId,
+                BeatsPerMinute = tag.BeatsPerMinute,
+                Album = tag.Album,
+                AlbumArtists = tag.AlbumArtists,
+                AlbumArtistsSort = tag.AlbumArtistsSort,
+                AlbumSort = tag.AlbumSort,
+                AmazonId = tag.AmazonId,
+                Title = tag.Title,
+                TitleSort = tag.TitleSort,
+                Track = tag.Track,
+                TrackCount = tag.TrackCount,
+                ReplayGainTrackGain = tag.ReplayGainTrackGain,
+                ReplayGainTrackPeak = tag.ReplayGainTrackPeak,
+                ReplayGainAlbumGain = tag.ReplayGainAlbumGain,
+                ReplayGainAlbumPeak = tag.ReplayGainAlbumPeak,
+                Comment = tag.Comment,
+                Disc = tag.Disc,
+                Composers = tag.Composers,
+                ComposersSort = tag.ComposersSort,
+                Conductor = tag.Conductor,
+                DiscCount = tag.DiscCount,
+                Copyright = tag.Copyright,
+                Genres = tag.Genres,
+                Grouping = tag.Grouping,
+                Lyrics = tag.Lyrics,
+                Performers = tag.Performers,
+                PerformersSort = tag.PerformersSort,
+                Year = tag.Year
+            };
+
+            var pictures = tag.Pictures;
+            if (!pictures.IsNullorEmpty())
+            {
+                var fileName = $"{CreateHash64(song.Title).ToString()}.{pictures[0].MimeType.Split('/').LastOrDefault().Replace("jpeg", "jpg")}";
+                var s = await ApplicationData.Current.TemporaryFolder.TryGetItemAsync(fileName);
+                if (s == null)
+                {
+                    StorageFile cacheImg = await ApplicationData.Current.TemporaryFolder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
+                    await FileIO.WriteBytesAsync(cacheImg, pictures[0].Data.Data);
+                    song.PicturePath = cacheImg.Path;
+                }
+                else
+                {
+                    song.PicturePath = s.Path;
+                }
+            }
+            else
+            {
+                song.PicturePath = null;
+            }
+            return song;
+        }
+        private static ulong CreateHash64(string str)
+        {
+            byte[] utf8 = System.Text.Encoding.UTF8.GetBytes(str);
+
+            ulong value = (ulong)utf8.Length;
+            for (int n = 0; n < utf8.Length; n++)
+            {
+                value += (ulong)utf8[n] << ((n * 5) % 56);
+            }
+            return value;
         }
     }
 

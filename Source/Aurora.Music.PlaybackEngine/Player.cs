@@ -265,42 +265,8 @@ namespace Aurora.Music.PlaybackEngine
             if (startIndex <= 0)
             {
                 var item = items[0];
-                MediaSource mediaSource;
-                string builtin;
+                MediaPlaybackItem mediaPlaybackItem = await GetMediaPlaybackItem(item);
 
-                if (item.IsOnline)
-                {
-                    mediaSource = MediaSource.CreateFromUri(item.OnlineUri);
-                    builtin = item.PicturePath;
-                }
-                else
-                {
-                    /// **Local files can only create from <see cref="StorageFile"/>**
-
-                    try
-                    {
-                        StorageFile file = await StorageFile.GetFileFromPathAsync(item.FilePath);
-
-                        builtin = await Core.Tools.Helper.GetBuiltInArtworkAsync(item.ID.ToString(), item.Title, file);
-
-                        mediaSource = MediaSource.CreateFromStorageFile(file);
-                    }
-                    catch (FileNotFoundException)
-                    {
-                        item.IsEmpty = true;
-                        throw;
-                    }
-                }
-
-                item.PicturePath = builtin.IsNullorEmpty() ? item.PicturePath : builtin;
-                mediaSource.CustomProperties[Consts.SONG] = item;
-
-                var mediaPlaybackItem = new MediaPlaybackItem(mediaSource);
-                var props = mediaPlaybackItem.GetDisplayProperties();
-
-                await WriteProperties(item, props, builtin);
-
-                mediaPlaybackItem.ApplyDisplayProperties(props);
                 mediaPlaybackList.Items.Add(mediaPlaybackItem);
                 mediaPlaybackList.StartingItem = mediaPlaybackItem;
 

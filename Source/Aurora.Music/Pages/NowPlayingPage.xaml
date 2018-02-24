@@ -1152,7 +1152,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </audio:CustomVisualizer>
             <toolkit:ImageEx Margin="0,12" x:Name="Artwork" Style="{ThemeResource QuickLoadImageEx}" Visibility="{x:Bind Context.BoolNottoVisibility(Context.IsVisualizing),Mode=OneWay}"
                              PlaceholderStretch="Uniform" Stretch="Uniform" HorizontalAlignment="Left" VerticalAlignment="Bottom" PlaceholderSource="/Assets/Images/now_placeholder.png"
-                             Source="{x:Bind Context.CurrentArtwork,Mode=OneWay}">
+                             Source="{x:Bind Context.CurrentArtwork,Mode=OneWay}" ImageOpened="Artwork_ImageOpened">
                 <animations:Implicit.ShowAnimations>
                     <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.64"/>
                 </animations:Implicit.ShowAnimations>

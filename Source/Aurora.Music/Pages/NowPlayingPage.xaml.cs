@@ -13,6 +13,7 @@ using Microsoft.Graphics.Canvas.Brushes;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using System;
 using System.Numerics;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Core;
@@ -371,6 +372,15 @@ namespace Aurora.Music.Pages
                 Vector2 decayPoint = new Vector2(X, canvasHeight - barWidth - spectrumBarHeight);
                 drawingSession.FillCircle(decayPoint, barSize.X / 2, Context.CurrentColor[0]);
             }
+        }
+
+        private async void Artwork_ImageOpened(object sender, RoutedEventArgs e)
+        {
+            await Task.Delay(200);
+            var service = ConnectedAnimationService.GetForCurrentView();
+            var ani = service.GetAnimation("DropAni");
+            if (ani != null)
+                ani.TryStart(SongPanel);
         }
     }
 }
