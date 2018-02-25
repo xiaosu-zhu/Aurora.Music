@@ -30,7 +30,6 @@ namespace Aurora.Music.Pages
         public static LibraryPage Current;
 
         internal ObservableCollection<CategoryListItem> CategoryList;
-        private Task launchTask;
         private List<PlayList> playlists;
 
         public LibraryPage()
@@ -98,15 +97,15 @@ namespace Aurora.Music.Pages
                 });
             }
             var item = CategoryList.FirstOrDefault(x => x.Title == Settings.Current.CategoryLastClicked);
+            Category.SelectionChanged += Category_SelectionChanged;
             if (item != default(CategoryListItem))
             {
-                item.IsCurrent = true;
+                Category.SelectedIndex = CategoryList.IndexOf(item);
             }
             else
             {
-                CategoryList[0].IsCurrent = true;
+                Category.SelectedIndex = 0;
             }
-            Category.SelectionChanged += Category_SelectionChanged;
         }
 
         protected async override void OnNavigatedTo(NavigationEventArgs e)
@@ -156,14 +155,6 @@ namespace Aurora.Music.Pages
                 });
             }
             var item = CategoryList.FirstOrDefault(x => x.Title == Settings.Current.CategoryLastClicked);
-            if (item != default(CategoryListItem))
-            {
-                item.IsCurrent = true;
-            }
-            else
-            {
-                CategoryList[0].IsCurrent = true;
-            }
             Category.SelectionChanged += Category_SelectionChanged;
 
             if (e.Parameter is ValueTuple<Type, int, string> m)
@@ -194,7 +185,14 @@ namespace Aurora.Music.Pages
             }
             else
             {
-                Category.SelectedIndex = 0;
+                if (item != default(CategoryListItem))
+                {
+                    Category.SelectedIndex = CategoryList.IndexOf(item);
+                }
+                else
+                {
+                    Category.SelectedIndex = 0;
+                }
             }
         }
 
@@ -220,12 +218,6 @@ namespace Aurora.Music.Pages
 
             Settings.Current.CategoryLastClicked = item.Title;
             Settings.Current.Save();
-
-            foreach (var a in CategoryList)
-            {
-                a.IsCurrent = false;
-            }
-            item.IsCurrent = true;
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -268,22 +260,11 @@ namespace Aurora.Music.Pages
             if (MainFrame.CanGoBack)
             {
                 MainFrame.GoBack();
-                RefreshPaneCurrent();
             }
             else
             {
                 MainPage.Current.GoBack();
             }
-        }
-
-        private void RefreshPaneCurrent()
-        {
-            var item = CategoryList.FirstOrDefault(a => a.NavigatType == MainFrame.Content.GetType()) ?? CategoryList[0];
-            foreach (var a in CategoryList)
-            {
-                a.IsCurrent = false;
-            }
-            item.IsCurrent = true;
         }
 
         private void Page_Unloaded(object sender, RoutedEventArgs e)

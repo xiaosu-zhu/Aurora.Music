@@ -458,6 +458,10 @@ namespace Aurora.Music.ViewModels
                 Downloader.Current.ProgressChanged += Current_ProgressChanged;
                 Downloader.Current.ProgressCancelled += Current_ProgressChanged;
                 Downloader.Current.ItemCompleted += Current_ProgressChanged;
+                FileReader.ProgressUpdated += Reader_ProgressUpdated;
+                FileReader.Completed += Reader_Completed;
+
+
                 if (Settings.Current.LastUpdateBuild < SystemInfoHelper.GetPackageVersionNum())
                 {
                     var k = CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
@@ -472,8 +476,6 @@ namespace Aurora.Music.ViewModels
                 await FindFileChanges();
 
                 FileTracker.FilesChanged += FileTracker_FilesChanged;
-                FileReader.ProgressUpdated += Reader_ProgressUpdated;
-                FileReader.Completed += Reader_Completed;
             });
         }
 

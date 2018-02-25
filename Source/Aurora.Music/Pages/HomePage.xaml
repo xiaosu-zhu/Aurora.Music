@@ -609,7 +609,16 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </ListView>
                 <StackPanel x:Name="FavoritPanel" Orientation="Horizontal" Margin="60,16,16,8">
                     <TextBlock x:Uid="Favorite" Text="Your Favorite" x:Name="FavoritTitle" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold"/>
-                    <Button x:Uid="PlayAllBtn" Visibility="{x:Bind Context.CollapseIfZero(Context.FavList.Count),Mode=OneWay,FallbackValue=Collapsed}" Style="{ThemeResource TextBlockButtonStyle}" Command="{x:Bind Context.PlayFav}" FontSize="15" Content="Play All" Margin="8,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Button Visibility="{x:Bind Context.CollapseIfZero(Context.FavList.Count),Mode=OneWay,FallbackValue=Collapsed}" 
+                            Style="{ThemeResource TextBlockButtonStyle}" Command="{x:Bind Context.PlayFav}"
+                            Margin="8,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Button.Content>
+                            <TextBlock>
+                                <Run FontSize="13" FontFamily="Segoe MDL2 Assets" Text="&#xE142;" />
+                                <Run x:Uid="PlayAll"/>
+                            </TextBlock>
+                        </Button.Content>
+                    </Button>
                 </StackPanel>
                 <ListView Margin="0,8" IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" ItemClick="FavList_ItemClick"
                           ScrollViewer.IsHorizontalScrollChainingEnabled="True" ScrollViewer.IsHorizontalRailEnabled="True"
@@ -634,10 +643,24 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </ListView>
                 <StackPanel x:Name="RandomPanel" Orientation="Horizontal" Margin="60,16,16,8">
                     <TextBlock x:Uid="Lucky" Text="Feeling Lucky" x:Name="RandomTitle" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold"/>
-                    <Button x:Uid="PlayAllBtn" Visibility="{x:Bind Context.CollapseIfZero(Context.RandomList.Count),Mode=OneWay,FallbackValue=Collapsed}" Style="{ThemeResource TextBlockButtonStyle}" Command="{x:Bind Context.PlayRandom}" FontSize="15" Content="Play All" Margin="8,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    <Button Visibility="{x:Bind Context.CollapseIfZero(Context.RandomList.Count),Mode=OneWay,FallbackValue=Collapsed}" Style="{ThemeResource TextBlockButtonStyle}" Command="{x:Bind Context.ReRandom}" HorizontalAlignment="Center" Margin="8,0" VerticalAlignment="Center">
+                    <Button Command="{x:Bind Context.PlayRandom}" Style="{ThemeResource TextBlockButtonStyle}"
+                            Visibility="{x:Bind Context.CollapseIfZero(Context.RandomList.Count),Mode=OneWay,FallbackValue=Collapsed}" 
+                            Margin="8,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Button.Content>
-                            <FontIcon FontSize="15" FontFamily="Segoe MDL2 Assets" Glyph="&#xE117;" />
+                            <TextBlock>
+                                <Run FontSize="13" FontFamily="Segoe MDL2 Assets" Text="&#xE142;" />
+                                <Run x:Uid="PlayAll"/>
+                            </TextBlock>
+                        </Button.Content>
+                    </Button>
+                    <Button Visibility="{x:Bind Context.CollapseIfZero(Context.RandomList.Count),Mode=OneWay,FallbackValue=Collapsed}" 
+                            Style="{ThemeResource TextBlockButtonStyle}" Command="{x:Bind Context.ReRandom}" 
+                            HorizontalAlignment="Center" Margin="8,0,0,0" VerticalAlignment="Center">
+                        <Button.Content>
+                            <TextBlock>
+                                <Run FontSize="13" FontFamily="Segoe MDL2 Assets" Text="&#xE895;" />
+                                <Run x:Uid="RefreshPost" Text="Refresh"/>
+                            </TextBlock>
                         </Button.Content>
                     </Button>
                 </StackPanel>

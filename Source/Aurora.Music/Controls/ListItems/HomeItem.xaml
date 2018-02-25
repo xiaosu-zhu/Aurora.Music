@@ -71,11 +71,12 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         <TextBlock Text="{x:Bind Data.Title,Mode=OneWay}" Style="{ThemeResource BaseTextBlockStyle}"
                        HorizontalAlignment="Left" VerticalAlignment="Center" MaxLines="1" TextWrapping="NoWrap"
                        TextTrimming="CharacterEllipsis"/>
-        <TextBlock Text="{x:Bind Data.Description,Mode=OneWay}" FontSize="13" Style="{ThemeResource BodyTextBlockStyle}"
+        <TextBlock FontSize="13" Style="{ThemeResource BodyTextBlockStyle}"
                        HorizontalAlignment="Left" VerticalAlignment="Center" MaxLines="1" TextWrapping="NoWrap" 
-                       TextTrimming="CharacterEllipsis" Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}"/>
-        <TextBlock Text="{x:Bind Data.Addtional,Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" FontSize="13"
-                   MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" HorizontalAlignment="Left" VerticalAlignment="Center"
-                   Foreground="{ThemeResource SystemControlBackgroundBaseMediumHighBrush}"/>
+                       TextTrimming="CharacterEllipsis" Opacity="0.5">
+            <Run Text="{x:Bind Data.Addtional,Mode=OneWay}"/>
+            <Run Text="·"/>
+            <Run Text="{x:Bind Data.Description,Mode=OneWay}"/>
+        </TextBlock>
     </StackPanel>
 </UserControl>

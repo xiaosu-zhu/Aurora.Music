@@ -55,8 +55,9 @@ namespace Aurora.Music.Core
         public static string CommaSeparator => ommaSeparator;
 
         public static string UpdateNote =>
-                            "# Notice\r\n\r\nWe've detected crashes occur when you're using **Windows Insider Preview**, sorry about that.\r\n\r\n**UPDATED**: Please update your Insider Preview to newest build: 17017, this build has fixed crashes.\r\n\r\n" +
+                            "# Notice\r\n\r\nWe've detected crashes occur when you're using **Windows Insider Preview**, sorry about that.\r\n\r\n**UPDATED**: Please update your Insider Preview to newest build: 17107, this build has fixed crashes.\r\n\r\n" +
                             "---\r\n" +
+                            "* **Improve**: Fixed bugs.\r\n" +
                             "* **New**: Added URI activation, using [as-music:](http://as0) and [more](https://github.com/pkzxs/Aurora.Music/blob/master/Documentation/Uri%20Scheme.md) to activate app.\r\n" +
                             "* **New**: Added [*Extension Settings*](http://as1).\r\n" +
                             "* **Tranlation**: Added Russian translation with **Данила Степовой**'s support.\r\n" +

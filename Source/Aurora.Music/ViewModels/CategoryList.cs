@@ -13,13 +13,6 @@ namespace Aurora.Music.ViewModels
         public string Title { get; set; }
         public string Glyph { get; set; }
 
-        private bool isCurrent;
-        public bool IsCurrent
-        {
-            get { return isCurrent; }
-            set { SetProperty(ref isCurrent, value); }
-        }
-
         public Type NavigatType { get; set; }
 
         public double GetHeight(bool b)

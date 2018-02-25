@@ -38,7 +38,7 @@ namespace Aurora.Music.Core.Models
             }
             catch (Exception)
             {
-                
+
             }
             await SaveAsync();
             return Count > 0;
@@ -167,7 +167,9 @@ namespace Aurora.Music.Core.Models
 
             try
             {
-                var file = await StorageFile.GetFileFromPathAsync(XMLPath);
+                var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Podcasts", CreationCollisionOption.OpenIfExists);
+                var file = await folder.CreateFileAsync($"{XMLPath}.xml", CreationCollisionOption.OpenIfExists);
+
                 await FileIO.WriteTextAsync(file, resXML);
             }
             catch (Exception)
