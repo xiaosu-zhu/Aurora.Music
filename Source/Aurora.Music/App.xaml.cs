@@ -469,57 +469,49 @@ namespace Aurora.Music
         protected override async void OnShareTargetActivated(ShareTargetActivatedEventArgs args)
         {
             base.OnShareTargetActivated(args);
+
             args.ShareOperation.ReportStarted();
+
             if (args.ShareOperation.Data.Contains(StandardDataFormats.StorageItems))
             {
 
                 var items = await args.ShareOperation.Data.GetStorageItemsAsync();
-                if (MainPage.Current != null)
-                    await FileReceived(items);
-                else
+
+                if (Window.Current.Content == null)
                 {
-                    var list = new List<StorageFile>();
-                    if (items.Count > 0)
-                    {
-                        list.AddRange(await MainPage.ReadFilesAsync(items));
-                    }
-                    var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Music", CreationCollisionOption.OpenIfExists);
-                    foreach (var item in list)
-                    {
-                        try
-                        {
-                            await item.CopyAsync(folder, item.Name, NameCollisionOption.ReplaceExisting);
-                        }
-                        catch (Exception)
-                        {
-                        }
-                    }
+                    Window.Current.Content = new FileShare();
                 }
+                Window.Current.Activate();
+
+                await (Window.Current.Content as FileShare).FileRecieve(items);
+
+                await (Window.Current.Content as FileShare).WaitForComplete();
             }
 
             args.ShareOperation.ReportCompleted();
         }
 
-        protected override async void OnFileActivated(FileActivatedEventArgs args)
+        protected override void OnFileActivated(FileActivatedEventArgs args)
         {
             base.OnFileActivated(args);
-            await FileReceived(args.Files);
+            FileReceived(args.Files);
         }
 
-        private async Task FileReceived(IReadOnlyList<IStorageItem> files)
+        private void FileReceived(IReadOnlyList<IStorageItem> files)
         {
-            if (MainPage.Current is MainPage p)
+            if (Window.Current.Content == null)
             {
-                p.FileActivated(files);
+                CreateRootFrame(ApplicationExecutionState.NotRunning);
             }
-            else
+            if (rootFrame.Content == null)
             {
-                OnLaunched(null);
-
-                while (!(MainPage.Current is MainPage)) await Task.Delay(10);
-
-                MainPage.Current.FileActivated(files);
+                rootFrame.Navigate(typeof(MainPage));
             }
+            // 确保当前窗口处于活动状态
+            Window.Current.Activate();
+
+            MainPage.Current.FileActivated(files);
+
         }
 
         /// <summary>

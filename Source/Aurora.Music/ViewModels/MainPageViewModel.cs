@@ -470,7 +470,24 @@ namespace Aurora.Music.ViewModels
                 }
                 await ReloadExtensions();
                 await FindFileChanges();
+
+                FileTracker.FilesChanged += FileTracker_FilesChanged;
+                FileReader.ProgressUpdated += Reader_ProgressUpdated;
+                FileReader.Completed += Reader_Completed;
             });
+        }
+
+        private int changing = 0;
+        private async void FileTracker_FilesChanged(Windows.Storage.Search.IStorageQueryResultBase sender, object e)
+        {
+            changing++;
+            var capture = changing;
+            await Task.Delay(15000);
+            if (capture != changing)
+            {
+                return;
+            }
+            await FilesChanged();
         }
 
         private bool isdownloading;
@@ -546,11 +563,11 @@ namespace Aurora.Music.ViewModels
         {
             await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
-                IsPlaying = e.PlaybackStatus == Windows.Media.Playback.MediaPlaybackState.Playing;
+                IsPlaying = e.PlaybackStatus == MediaPlaybackState.Playing;
                 IsLoop = e.IsLoop;
                 IsShuffle = e.IsShuffle;
             });
-            if (e.PlaybackStatus == Windows.Media.Playback.MediaPlaybackState.Playing && Settings.Current.PreventLockscreen)
+            if (e.PlaybackStatus == MediaPlaybackState.Playing && Settings.Current.PreventLockscreen)
             {
                 ActivateDisplay();
             }
@@ -612,6 +629,8 @@ namespace Aurora.Music.ViewModels
                 if (visualizerSource.Source != null) visualizerSource.Source.IsSuspended = !value;
             }
         }
+
+        public List<FileTracker> Trackers { get; private set; } = new List<FileTracker>();
 
         internal async Task Search(string text)
         {
@@ -712,15 +731,61 @@ namespace Aurora.Music.ViewModels
             return await Podcast.SearchPodcasts(text);
         }
 
-        public async Task FindFileChanges()
+        public async Task FilesChanged()
         {
-            var addedFiles = await FileTracker.FindChanges();
+            var files = new List<StorageFile>();
+
+            foreach (var item in Trackers)
+            {
+                files.AddRange(await item.SearchFolder());
+            }
+
+            var addedFiles = await FileTracker.FindChanges(files);
+
+            if (addedFiles.Count > 0)
+            {
+                await FileReader.ReadFileandSave(addedFiles);
+            }
+        }
+
+        private async Task FindFileChanges()
+        {
+            var foldersDB = await SQLOperator.Current().GetAllAsync<FOLDER>();
+            var folders = FileReader.InitFolderList();
+            foreach (var f in foldersDB)
+            {
+                StorageFolder folder = await f.GetFolderAsync();
+                if (folders.Exists(a => a.Path == folder.Path))
+                {
+                    continue;
+                }
+                folders.Add(folder);
+            }
+            try
+            {
+                folders.Remove(folders.Find(a => a.Path == ApplicationData.Current.LocalFolder.Path));
+            }
+            catch (Exception)
+            {
+            }
+
+            foreach (var item in folders)
+            {
+                Trackers.Add(new FileTracker(item));
+            }
+
+            var files = new List<StorageFile>();
+
+            foreach (var item in Trackers)
+            {
+                files.AddRange(await item.SearchFolder());
+            }
+
+            var addedFiles = await FileTracker.FindChanges(files);
+
             if (!(addedFiles.Count == 0))
             {
-                var reader = new FileReader();
-                reader.ProgressUpdated += Reader_ProgressUpdated;
-                reader.Completed += Reader_Completed;
-                await reader.ReadFileandSave(addedFiles);
+                await FileReader.ReadFileandSave(addedFiles);
             }
         }
 
@@ -747,7 +812,7 @@ namespace Aurora.Music.ViewModels
 
         private async void Reader_NewSongsAdded(object sender, SongsAddedEventArgs e)
         {
-            await new FileReader().AddToAlbums(e.NewSongs);
+            await FileReader.AddToAlbums(e.NewSongs);
         }
 
         private async void Player_PositionUpdated(object sender, PositionUpdatedArgs e)
@@ -910,7 +975,7 @@ namespace Aurora.Music.ViewModels
 
         internal async Task<IList<Song>> ComingNewSongsAsync(List<StorageFile> list)
         {
-            return await new FileReader().ReadFileandSendBack(list);
+            return await FileReader.ReadFileandSendBack(list);
         }
     }
 

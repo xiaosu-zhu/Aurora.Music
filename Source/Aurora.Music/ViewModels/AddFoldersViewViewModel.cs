@@ -56,7 +56,7 @@ namespace Aurora.Music.ViewModels
                     {
                         var t = Task.Run(async () =>
                         {
-                            await MainPageViewModel.Current.FindFileChanges();
+                            await MainPageViewModel.Current.FilesChanged();
                         });
                     }
                 });
@@ -72,7 +72,7 @@ namespace Aurora.Music.ViewModels
             {
                 var t = Task.Run(async () =>
                 {
-                    await MainPageViewModel.Current.FindFileChanges();
+                    await MainPageViewModel.Current.FilesChanged();
                 });
             }
         }

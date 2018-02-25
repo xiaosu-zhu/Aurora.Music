@@ -60,7 +60,8 @@ namespace Aurora.Music.Core
                             "* **New**: Added URI activation, using [as-music:](http://as0) and [more](https://github.com/pkzxs/Aurora.Music/blob/master/Documentation/Uri%20Scheme.md) to activate app.\r\n" +
                             "* **New**: Added [*Extension Settings*](http://as1).\r\n" +
                             "* **Tranlation**: Added Russian translation with **Данила Степовой**'s support.\r\n" +
-                            "* **Improve**: Added drop animation.\r\n";
+                            "* **Improve**: Added drop animation.\r\n" +
+                            "* **Improve**: Improved file searching stability.\r\n";
 
         public static string UpdateNoteTitle => localizer.GetString("UpdateNoteTitle");
 

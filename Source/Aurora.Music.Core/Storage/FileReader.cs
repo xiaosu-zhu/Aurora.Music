@@ -14,11 +14,41 @@ using Windows.Storage.FileProperties;
 
 namespace Aurora.Music.Core.Storage
 {
-    public class FileReader
+    public static class FileReader
     {
+        public static async Task<IReadOnlyList<StorageFile>> ReadFilesAsync(IReadOnlyList<IStorageItem> p)
+        {
+            var list = new List<StorageFile>();
+            foreach (var item in p)
+            {
+                if (item is IStorageFile file)
+                {
+                    foreach (var types in Consts.FileTypes)
+                    {
+                        if (types == file.FileType)
+                        {
+                            list.Add(file as StorageFile);
+                            break;
+                        }
+                    }
+                }
+                else if (item is StorageFolder folder)
+                {
+                    var options = new Windows.Storage.Search.QueryOptions
+                    {
+                        FileTypeFilter = { ".flac", ".wav", ".m4a", ".aac", ".mp3", ".wma" },
+                        FolderDepth = Windows.Storage.Search.FolderDepth.Deep,
+                        IndexerOption = Windows.Storage.Search.IndexerOption.DoNotUseIndexer,
+                    };
+                    var query = folder.CreateFileQueryWithOptions(options);
+                    list.AddRange(await query.GetFilesAsync());
+                }
+            }
+            return list;
+        }
 
-        public event EventHandler<ProgressReport> ProgressUpdated;
-        public event EventHandler Completed;
+        public static event EventHandler<ProgressReport> ProgressUpdated;
+        public static event EventHandler Completed;
 
         public static async Task<List<Song>> GetAllSongAsync()
         {
@@ -41,7 +71,7 @@ namespace Aurora.Music.Core.Storage
         /// </summary>
         /// <param name="folder"></param>
         /// <returns></returns>
-        private async Task<IList<StorageFile>> GetFilesAsync(StorageFolder folder)
+        private static async Task<IList<StorageFile>> GetFilesAsync(StorageFolder folder)
         {
             // TODO: determine is ondrive on demand
             var files = new List<StorageFile>();
@@ -172,7 +202,7 @@ namespace Aurora.Music.Core.Storage
             return list;
         }
 
-        public async Task Read(IList<StorageFolder> folder)
+        public static async Task Read(IList<StorageFolder> folder)
         {
             var list = new List<StorageFile>();
             int i = 1;
@@ -193,16 +223,16 @@ namespace Aurora.Music.Core.Storage
 
                 list.AddRange(files);
 
-                ProgressUpdated?.Invoke(this, new ProgressReport() { Description = $"{i} of {folder.Count} folders scanned", Current = i, Total = folder.Count });
+                ProgressUpdated?.Invoke(null, new ProgressReport() { Description = $"{i} of {folder.Count} folders scanned", Current = i, Total = folder.Count });
                 i++;
             }
             await Task.Delay(200);
-            ProgressUpdated?.Invoke(this, new ProgressReport() { Description = "Folder scanning completed", Current = i, Total = folder.Count });
+            ProgressUpdated?.Invoke(null, new ProgressReport() { Description = "Folder scanning completed", Current = i, Total = folder.Count });
             await Task.Delay(200);
             await ReadFileandSave(from a in list group a by a.Path into b select b.First());
         }
 
-        public async Task ReadFileandSave(IEnumerable<StorageFile> files)
+        public static async Task ReadFileandSave(IEnumerable<StorageFile> files)
         {
             var opr = SQLOperator.Current();
             var total = files.Count();
@@ -214,7 +244,7 @@ namespace Aurora.Music.Core.Storage
             {
                 if (!file.IsAvailable || file.Attributes.HasFlag(FileAttributes.LocallyIncomplete))
                 {
-                    ProgressUpdated?.Invoke(this, new ProgressReport() { Description = $"{i} of {total} files readed", Current = i, Total = total });
+                    ProgressUpdated?.Invoke(null, new ProgressReport() { Description = $"{i} of {total} files readed", Current = i, Total = total });
 
                     i++;
                     continue;
@@ -239,7 +269,7 @@ namespace Aurora.Music.Core.Storage
                 }
                 finally
                 {
-                    ProgressUpdated?.Invoke(this, new ProgressReport() { Description = $"{i} of {total} files read", Current = i, Total = total });
+                    ProgressUpdated?.Invoke(null, new ProgressReport() { Description = $"{i} of {total} files read", Current = i, Total = total });
 
                     i++;
                 }
@@ -251,7 +281,7 @@ namespace Aurora.Music.Core.Storage
             }
             else
             {
-                Completed?.Invoke(this, EventArgs.Empty);
+                Completed?.Invoke(null, EventArgs.Empty);
             }
         }
 
@@ -262,14 +292,14 @@ namespace Aurora.Music.Core.Storage
             await opr.UpdateSongAsync(model);
         }
 
-        public async Task<List<Song>> GetSongsAsync()
+        public static async Task<List<Song>> GetSongsAsync()
         {
             var opr = SQLOperator.Current();
             var songs = await opr.GetAllAsync<SONG>();
             return songs.ConvertAll(a => new Song(a));
         }
 
-        public async Task AddToAlbums(IEnumerable<Song> songs)
+        public async static Task AddToAlbums(IEnumerable<Song> songs)
         {
             await Task.Run(async () =>
             {
@@ -280,15 +310,15 @@ namespace Aurora.Music.Core.Storage
                 int i = 1;
 
 
-                ProgressUpdated?.Invoke(this, new ProgressReport() { Description = $"0 of {count} albums sorted", Current = 0, Total = count });
+                ProgressUpdated?.Invoke(null, new ProgressReport() { Description = $"0 of {count} albums sorted", Current = 0, Total = count });
                 foreach (var item in albums)
                 {
                     await opr.AddAlbumAsync(item);
-                    ProgressUpdated?.Invoke(this, new ProgressReport() { Description = $"{i} of {count} albums sorted", Current = i, Total = count });
+                    ProgressUpdated?.Invoke(null, new ProgressReport() { Description = $"{i} of {count} albums sorted", Current = i, Total = count });
 
                     i++;
                 }
-                Completed?.Invoke(this, EventArgs.Empty);
+                Completed?.Invoke(null, EventArgs.Empty);
             });
         }
 
@@ -306,7 +336,7 @@ namespace Aurora.Music.Core.Storage
             return l;
         }
 
-        internal async Task AddToAlbums(IEnumerable<SONG> songs)
+        internal static async Task AddToAlbums(IEnumerable<SONG> songs)
         {
             await Task.Run(async () =>
             {
@@ -316,7 +346,7 @@ namespace Aurora.Music.Core.Storage
 
                 if (count == 0)
                 {
-                    Completed?.Invoke(this, EventArgs.Empty);
+                    Completed?.Invoke(null, EventArgs.Empty);
                     return;
                 }
 
@@ -324,18 +354,18 @@ namespace Aurora.Music.Core.Storage
 
                 await Task.Delay(200);
 
-                ProgressUpdated?.Invoke(this, new ProgressReport() { Description = $"0 of {count} albums sorted", Current = 0, Total = count });
+                ProgressUpdated?.Invoke(null, new ProgressReport() { Description = $"0 of {count} albums sorted", Current = 0, Total = count });
                 foreach (var item in albums)
                 {
                     await opr.AddAlbumAsync(item);
-                    ProgressUpdated?.Invoke(this, new ProgressReport() { Description = $"{i} of {count} albums sorted", Current = i, Total = count });
+                    ProgressUpdated?.Invoke(null, new ProgressReport() { Description = $"{i} of {count} albums sorted", Current = i, Total = count });
                     i++;
                 }
-                Completed?.Invoke(this, EventArgs.Empty);
+                Completed?.Invoke(null, EventArgs.Empty);
             });
         }
 
-        public async Task<IList<Song>> ReadFileandSendBack(List<StorageFile> files)
+        public static async Task<IList<Song>> ReadFileandSendBack(List<StorageFile> files)
         {
             List<Song> tempList = new List<Song>();
             var total = files.Count;

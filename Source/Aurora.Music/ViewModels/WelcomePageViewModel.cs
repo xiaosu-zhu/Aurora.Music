@@ -36,14 +36,13 @@ namespace Aurora.Music.ViewModels
         }
 
         private SQLOperator opr = SQLOperator.Current();
-        private FileReader fileReader = new FileReader();
 
         public async Task StartSearch()
         {
             List<StorageFolder> list = FileReader.InitFolderList();
             var p = await opr.GetAllAsync<FOLDER>();
-            fileReader.ProgressUpdated += FileReader_ProgressUpdated;
-            fileReader.Completed += FileReader_Completed;
+            FileReader.ProgressUpdated += FileReader_ProgressUpdated;
+            FileReader.Completed += FileReader_Completed;
             foreach (var fo in p)
             {
                 try
@@ -63,12 +62,12 @@ namespace Aurora.Music.ViewModels
             catch (Exception)
             {
             }
-            await fileReader.Read(list);
+            await FileReader.Read(list);
         }
 
         private async void Opr_NewSongsAdded(object sender, SongsAddedEventArgs e)
         {
-            await fileReader.AddToAlbums(e.NewSongs);
+            await FileReader.AddToAlbums(e.NewSongs);
         }
 
         private async void FileReader_Completed(object sender, EventArgs e)

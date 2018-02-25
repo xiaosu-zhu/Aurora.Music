@@ -31,6 +31,15 @@ namespace Aurora.Music.Core.Models
         {
             var resXML = await ApiRequestHelper.HttpGet(XMLUrl);
             FindUpdated(resXML);
+            try
+            {
+                var file = await StorageFile.GetFileFromPathAsync(XMLPath);
+                await FileIO.WriteTextAsync(file, resXML);
+            }
+            catch (Exception)
+            {
+                
+            }
             await SaveAsync();
             return Count > 0;
         }
@@ -155,6 +164,17 @@ namespace Aurora.Music.Core.Models
             var resXML = await ApiRequestHelper.HttpGet(XMLUrl);
 
             await ReadXML(resXML);
+
+            try
+            {
+                var file = await StorageFile.GetFileFromPathAsync(XMLPath);
+                await FileIO.WriteTextAsync(file, resXML);
+            }
+            catch (Exception)
+            {
+
+            }
+
             await SaveAsync();
         }
 

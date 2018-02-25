@@ -705,7 +705,7 @@ namespace Aurora.Music
             var list = new List<StorageFile>();
             if (p.Count > 0)
             {
-                list.AddRange(await ReadFilesAsync(p));
+                list.AddRange(await FileReader.ReadFilesAsync(p));
             }
             else
             {
@@ -798,37 +798,6 @@ namespace Aurora.Music
                 }
                 ModalText.Text = title;
             });
-        }
-
-        public static async Task<IReadOnlyList<StorageFile>> ReadFilesAsync(IReadOnlyList<IStorageItem> p)
-        {
-            var list = new List<StorageFile>();
-            foreach (var item in p)
-            {
-                if (item is IStorageFile file)
-                {
-                    foreach (var types in Consts.FileTypes)
-                    {
-                        if (types == file.FileType)
-                        {
-                            list.Add(file as StorageFile);
-                            break;
-                        }
-                    }
-                }
-                else if (item is StorageFolder folder)
-                {
-                    var options = new Windows.Storage.Search.QueryOptions
-                    {
-                        FileTypeFilter = { ".flac", ".wav", ".m4a", ".aac", ".mp3", ".wma" },
-                        FolderDepth = Windows.Storage.Search.FolderDepth.Deep,
-                        IndexerOption = Windows.Storage.Search.IndexerOption.DoNotUseIndexer,
-                    };
-                    var query = folder.CreateFileQueryWithOptions(options);
-                    list.AddRange(await query.GetFilesAsync());
-                }
-            }
-            return list;
         }
 
         private void SearchBox_Loaded(object sender, RoutedEventArgs e)
@@ -1415,7 +1384,7 @@ namespace Aurora.Music
                 var service = ConnectedAnimationService.GetForCurrentView();
                 var ani = service.GetAnimation("DropAni");
                 if (ani != null)
-                    ani.TryStart(Artwork);
+                    ani.TryStart(Artwork, new UIElement[] { NowPanelTexts });
                 else
                 {
                     DropHint.Visibility = Visibility.Collapsed;
