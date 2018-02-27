@@ -57,10 +57,8 @@ namespace Aurora.Music.Core
         public static string UpdateNote =>
                             "# Notice\r\n\r\nWe've detected crashes occur when you're using **Windows Insider Preview**, sorry about that.\r\n\r\n**UPDATED**: Please update your Insider Preview to newest build: 17107, this build has fixed crashes.\r\n\r\n" +
                             "---\r\n" +
+                            "* **Tranlation**: Synced translation.\r\n" +
                             "* **Improve**: Fixed bugs.\r\n" +
-                            "* **New**: Added URI activation, using [as-music:](http://as0) and [more](https://github.com/pkzxs/Aurora.Music/blob/master/Documentation/Uri%20Scheme.md) to activate app.\r\n" +
-                            "* **New**: Added [*Extension Settings*](http://as1).\r\n" +
-                            "* **Tranlation**: Added Russian translation with **Данила Степовой**'s support.\r\n" +
                             "* **Improve**: Added drop animation.\r\n" +
                             "* **Improve**: Improved file searching stability.\r\n";
 

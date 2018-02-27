@@ -22,6 +22,11 @@ namespace Aurora.Music.ViewModels
         public string Description { get; set; }
         public string Addtional { get; set; }
 
+        public string AddtionalAndDescription()
+        {
+            return $"{Addtional} · {Description}";
+        }
+
         public Uri Artwork
         { get; set; }
 

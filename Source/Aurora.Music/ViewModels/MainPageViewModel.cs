@@ -419,6 +419,7 @@ namespace Aurora.Music.ViewModels
             get { return isShuffle; }
             set
             {
+                if (isShuffle == value) return;
                 SetProperty(ref isShuffle, value);
 
                 player?.Shuffle(value);
@@ -566,8 +567,8 @@ namespace Aurora.Music.ViewModels
             await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
                 IsPlaying = e.PlaybackStatus == MediaPlaybackState.Playing;
-                IsLoop = e.IsLoop;
-                IsShuffle = e.IsShuffle;
+                //IsLoop = e.IsLoop;
+                //IsShuffle = e.IsShuffle;
             });
             if (e.PlaybackStatus == MediaPlaybackState.Playing && Settings.Current.PreventLockscreen)
             {

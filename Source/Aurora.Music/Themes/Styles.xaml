@@ -405,7 +405,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     <Style TargetType="Button" x:Key="RevealRoundButton">
         <Setter Property="Background" Value="{ThemeResource RevealRoundBackground}" />
         <Setter Property="Foreground" Value="{ThemeResource ButtonForeground}" />
-        <Setter Property="BorderBrush" Value="{ThemeResource ButtonRevealBorderBrush}" />
+        <Setter Property="BorderBrush" Value="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" />
         <Setter Property="BorderThickness" Value="{ThemeResource ListViewItemRevealBorderThemeThickness}" />
         <Setter Property="Padding" Value="0" />
         <Setter Property="HorizontalAlignment" Value="Center" />
@@ -483,7 +483,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     <Style TargetType="Button" x:Key="RevealRectangleButton">
         <Setter Property="Background" Value="{ThemeResource RevealRoundBackground}" />
         <Setter Property="Foreground" Value="{ThemeResource ButtonForeground}" />
-        <Setter Property="BorderBrush" Value="{ThemeResource ButtonRevealBorderBrush}" />
+        <Setter Property="BorderBrush" Value="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" />
         <Setter Property="BorderThickness" Value="{ThemeResource ListViewItemRevealBorderThemeThickness}" />
         <Setter Property="Padding" Value="0" />
         <Setter Property="HorizontalAlignment" Value="Center" />
@@ -551,7 +551,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     <Style TargetType="ToggleButton" x:Key="RevealRoundToggleButton">
         <Setter Property="Background" Value="{ThemeResource RevealRoundBackground}" />
         <Setter Property="Foreground" Value="{ThemeResource ButtonForeground}" />
-        <Setter Property="BorderBrush" Value="{ThemeResource ButtonRevealBorderBrush}" />
+        <Setter Property="BorderBrush" Value="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" />
         <Setter Property="BorderThickness" Value="{ThemeResource ListViewItemRevealBorderThemeThickness}" />
         <Setter Property="Padding" Value="0" />
         <Setter Property="HorizontalAlignment" Value="Center" />

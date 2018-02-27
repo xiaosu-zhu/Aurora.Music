@@ -49,12 +49,13 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <ColumnDefinition x:Name="Col1" Width="240"/>
         </Grid.ColumnDefinitions>
         <StackPanel Margin="8,0" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center">
-            <TextBlock Style="{ThemeResource BaseTextBlockStyle}" Text="{x:Bind Data.Addtional,Mode=OneWay}"/>
-            <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" FontSize="18" Text="{x:Bind Data.Title,Mode=OneWay}" MaxLines="2" TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis"/>
-            <TextBlock FontSize="13" Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Data.Description,Mode=OneWay}"
+            <TextBlock Style="{ThemeResource BaseTextBlockStyle}" Text="{x:Bind Data.Addtional,Mode=OneWay}" ToolTipService.ToolTip="{x:Bind Data.Addtional,Mode=OneWay}"/>
+            <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" FontSize="18" Text="{x:Bind Data.Title,Mode=OneWay}" MaxLines="2" 
+                       TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis" ToolTipService.ToolTip="{x:Bind Data.Title,Mode=OneWay}"/>
+            <TextBlock FontSize="13" Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Data.Description,Mode=OneWay}" ToolTipService.ToolTip="{x:Bind Data.Description,Mode=OneWay}"
                                            Foreground="{ThemeResource ButtonDisabledForegroundThemeBrush}" MaxLines="2" TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis"/>
         </StackPanel>
-        <Image Margin="8,0" Stretch="Uniform" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Image Margin="8,0" Stretch="Uniform" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ToolTipService.ToolTip="{x:Bind Data.Title,Mode=OneWay}">
             <Image.Source>
                 <BitmapImage DecodePixelType="Logical" UriSource="{x:Bind Data.Artwork,Mode=OneWay}"/>
             </Image.Source>

@@ -123,6 +123,9 @@ namespace Aurora.Music
         private void MaiPage_BackRequested(object sender, BackRequestedEventArgs e)
         {
             if (e.Handled || ((Window.Current.Content is Frame f) && f.Content is CompactOverlayPanel)) return;
+
+            e.Handled = true;
+
             if (MainFrame.Visibility == Visibility.Collapsed && OverlayFrame.Visibility == Visibility.Visible && OverlayFrame.Content is IRequestGoBack g)
             {
                 g.RequestGoBack();
@@ -135,8 +138,6 @@ namespace Aurora.Music
             }
 
             GoBack();
-
-            e.Handled = true;
         }
 
         private void DataTransferManager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)

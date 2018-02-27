@@ -47,7 +47,7 @@ namespace Aurora.Music.PlaybackEngine
             get => mediaPlayer.PlaybackSession.PlaybackRate;
             set => mediaPlayer.PlaybackSession.PlaybackRate = value;
         }
-
+        public bool? IsShuffle { get; private set; }
 
         public event EventHandler<PositionUpdatedArgs> PositionUpdated;
 
@@ -151,6 +151,7 @@ namespace Aurora.Music.PlaybackEngine
                 try
                 {
                     var song = mediaPlaybackList.CurrentItem?.Source.CustomProperties[Consts.SONG] as Song;
+                    if (song == null) return;
                     if (song.IsOnline)
                     {
                         // TODO: Online Music Statistic
@@ -493,22 +494,44 @@ namespace Aurora.Music.PlaybackEngine
 
         public void Shuffle(bool? b)
         {
-            if (b is bool boo)
+            lock (lockable)
             {
-                if (boo)
+                if (IsShuffle == b)
+                    return;
+                var cure = mediaPlaybackList.CurrentItem;
+                _savedState = mediaPlayer.PlaybackSession.PlaybackState;
+                _savedPosition = mediaPlayer.PlaybackSession.Position;
+
+                mediaPlayer.Pause();
+                mediaPlayer.Source = null;
+
+                if (b is bool boo)
                 {
-                    mediaPlaybackList.SetShuffledItems(mediaPlaybackList.Items);
-                    mediaPlaybackList.ShuffleEnabled = true;
+                    if (boo)
+                    {
+                        mediaPlaybackList.ShuffleEnabled = true;
+                    }
+                    else
+                    {
+                        mediaPlaybackList.ShuffleEnabled = false;
+                    }
                 }
                 else
                 {
                     mediaPlaybackList.ShuffleEnabled = false;
                 }
+
+                //var index = mediaPlaybackList.ShuffleEnabled ? mediaPlaybackList.ShuffledItems.ToList().IndexOf(cure) : mediaPlaybackList.Items.IndexOf(cure);
+                mediaPlayer.Source = mediaPlaybackList;
+                //if (index >= 0)
+                //    mediaPlaybackList.MoveTo((uint)index);
+                //mediaPlayer.PlaybackSession.Position = _savedPosition;
+                if (_savedState == MediaPlaybackState.Playing)
+                {
+                    mediaPlayer.Play();
+                }
             }
-            else
-            {
-                mediaPlaybackList.ShuffleEnabled = false;
-            }
+
         }
 
         public void Next()
@@ -517,6 +540,50 @@ namespace Aurora.Music.PlaybackEngine
             {
                 return;
             }
+
+            if (mediaPlaybackList.ShuffleEnabled)
+            {
+                uint i = mediaPlaybackList.CurrentItemIndex + 1;
+                bool b = false;
+                foreach (var item in mediaPlaybackList.ShuffledItems)
+                {
+                    if (b)
+                    {
+                        i = (uint)mediaPlaybackList.Items.IndexOf(item);
+                        b = false;
+                        break;
+                    }
+                    // in next loop, find the next shuffled item
+                    if (item == mediaPlaybackList.CurrentItem)
+                    {
+                        b = true;
+                    }
+                }
+
+                // played to the last of ShuffledItems
+                if (b)
+                {
+                    if (mediaPlaybackList.AutoRepeatEnabled)
+                    {
+                        mediaPlaybackList.MoveTo(0);
+                        ChangeVolume(Settings.Current.PlayerVolume);
+
+                    }
+                    else
+                    {
+                        Stop();
+                    }
+                    return;
+                }
+
+                mediaPlaybackList.MoveTo(i);
+
+                ChangeVolume(Settings.Current.PlayerVolume);
+                return;
+            }
+
+
+
             if (mediaPlaybackList.AutoRepeatEnabled)
             {
                 mediaPlaybackList.MoveNext();
@@ -524,6 +591,7 @@ namespace Aurora.Music.PlaybackEngine
                 ChangeVolume(Settings.Current.PlayerVolume);
                 return;
             }
+
 
             if (mediaPlaybackList.CurrentItemIndex == mediaPlaybackList.Items.Count - 1)
             {
@@ -561,11 +629,52 @@ namespace Aurora.Music.PlaybackEngine
             {
                 return;
             }
+
             if (mediaPlayer.PlaybackSession.Position.TotalSeconds > 3)
             {
                 mediaPlayer.PlaybackSession.Position = TimeSpan.Zero;
                 return;
             }
+
+            if (mediaPlaybackList.ShuffleEnabled)
+            {
+                uint i = mediaPlaybackList.CurrentItemIndex - 1;
+                MediaPlaybackItem previous = null;
+
+                foreach (var item in mediaPlaybackList.ShuffledItems)
+                {
+                    // find the current shuffled item and find the previous index
+                    if (item == mediaPlaybackList.CurrentItem)
+                    {
+                        // the first of shuffle list
+                        if (previous == null)
+                        {
+                            if (mediaPlaybackList.AutoRepeatEnabled)
+                            {
+                                mediaPlaybackList.MoveTo(0);
+                                ChangeVolume(Settings.Current.PlayerVolume);
+
+                            }
+                            else
+                            {
+                                Stop();
+                            }
+                            return;
+                        }
+
+                        i = (uint)mediaPlaybackList.Items.IndexOf(previous);
+                    }
+                    
+                    previous = item;
+                }
+
+                mediaPlaybackList.MoveTo(i);
+
+                ChangeVolume(Settings.Current.PlayerVolume);
+                return;
+            }
+
+
             if (mediaPlaybackList.AutoRepeatEnabled)
             {
                 mediaPlaybackList.MovePrevious();

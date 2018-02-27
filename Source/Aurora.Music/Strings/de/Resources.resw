@@ -117,7 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-
   <data name="AboutText" xml:space="preserve">
     <value>Über</value>
     <comment>AboutPage Title</comment>
@@ -179,7 +178,7 @@
     <comment>Shuffle ToolTip</comment>
   </data>
   <data name="Loop.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Alle wiederholen</value>
+    <value>Wiederholen</value>
     <comment>Loop ToolTip</comment>
   </data>
   <data name="SplitPaneOpen.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
@@ -1060,7 +1059,7 @@
     <comment>Audio Visualization</comment>
   </data>
   <data name="VisualizationFlyout.Text" xml:space="preserve">
-    <value>Audio Visualization</value>
+    <value>Ton-Visualisierung</value>
     <comment>Audio Visualization</comment>
   </data>
   <data name="ShuffleFlyout.Text" xml:space="preserve">
@@ -1068,79 +1067,79 @@
     <comment>Shuffle</comment>
   </data>
   <data name="RepeatFlyout.Text" xml:space="preserve">
-    <value>Repeat</value>
+    <value>Wiederholen</value>
     <comment>Repeat</comment>
   </data>
   <data name="DroptoPlay" xml:space="preserve">
-    <value>Drop to Play</value>
+    <value>Hier zum Abspielen ablegen</value>
     <comment>Drop to Play</comment>
   </data>
   <data name="NotSupport" xml:space="preserve">
-    <value>Not Support</value>
+    <value>Nicht unterstützt</value>
     <comment>Not Support</comment>
   </data>
   <data name="SpeedBtn.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Playback Rate</value>
+    <value>Wiedergabe-Rate</value>
     <comment>Playback Rate</comment>
   </data>
   <data name="LastUpdatePost.Text" xml:space="preserve">
-    <value>Last Updated: </value>
+    <value>Zuletzt aktualisiert:</value>
     <comment>Last Updated: </comment>
   </data>
   <data name="RefreshPost.Text" xml:space="preserve">
-    <value>Refresh</value>
+    <value>Aktualisieren</value>
     <comment>Refresh</comment>
   </data>
   <data name="UnSubscribe.Text" xml:space="preserve">
-    <value>Un-Subscribe</value>
+    <value>De-Abonnieren</value>
     <comment>Un-Subscribe</comment>
   </data>
   <data name="Subscribe.Text" xml:space="preserve">
-    <value>Subscribe</value>
+    <value>Abonnieren</value>
     <comment>Subscribe</comment>
   </data>
   <data name="Retriving.Text" xml:space="preserve">
-    <value>Retriving Database</value>
+    <value>Datenbank empfangen</value>
     <comment>Retriving Database</comment>
   </data>
   <data name="TodayText" xml:space="preserve">
-    <value>'Today'</value>
+    <value>Heute</value>
     <comment>Today</comment>
   </data>
   <data name="NextDayText" xml:space="preserve">
-    <value>'Next '</value>
+    <value>Als Nächstes</value>
     <comment>Next </comment>
   </data>
   <data name="LastDayText" xml:space="preserve">
-    <value>'Last '</value>
+    <value>Zuletzt</value>
     <comment>Last </comment>
   </data>
   <data name="SubscribeText" xml:space="preserve">
-    <value>Subscribed</value>
+    <value>Abonniert</value>
     <comment>Subscribed</comment>
   </data>
   <data name="UnSubscribeText" xml:space="preserve">
-    <value>Un-Subscribed</value>
+    <value>De-Abonniert</value>
     <comment>Un-Subscribed</comment>
   </data>
   <data name="UndoSubscribeText" xml:space="preserve">
-    <value>Undo Subscribe</value>
+    <value>Abonnement zurücknehmen</value>
     <comment>Undo Subscribe</comment>
   </data>
   <data name="Fetching.Text" xml:space="preserve">
-    <value>Fetching</value>
+    <value>Laden</value>
     <comment>Fetching</comment>
   </data>
   <data name="PodcastDialog.Title" xml:space="preserve">
-    <value>Podcast Details</value>
+    <value>Podcast-Details</value>
     <comment>Podcast Details</comment>
   </data>
   <data name="PodcastDialog.CloseButtonText" xml:space="preserve">
-    <value>Close</value>
+    <value>Schließen</value>
     <comment>Close</comment>
   </data>
   <data name="PodcastDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Subscribe</value>
+    <value>Abonnieren</value>
     <comment>Subscribe</comment>
   </data>
   <data name="Podcast.Text" xml:space="preserve">
@@ -1148,103 +1147,104 @@
     <comment>Podcast</comment>
   </data>
   <data name="ShowPodcastsWhenSearch.Header" xml:space="preserve">
-    <value>Show podcasts when search</value>
+    <value>Podcasts bei der Suche anzeigen</value>
     <comment>Show podcasts when search</comment>
   </data>
   <data name="SendPodcastToast.Header" xml:space="preserve">
-    <value>Send toast when new-coming</value>
+    <value>Bei neuen Inhalten benachrichtigen</value>
     <comment>Send toast when new-coming</comment>
   </data>
   <data name="FetchInterval.Header" xml:space="preserve">
-    <value>Refresh Interval</value>
+    <value>Aktualisierungs-Intervall</value>
     <comment>Refresh Interval</comment>
   </data>
   <data name="MinText" xml:space="preserve">
-    <value>min</value>
+    <value>Min.</value>
     <comment>min</comment>
   </data>
   <data name="PodcastSubscribe" xml:space="preserve">
-    <value>"{0}" Subscribed, You can find it in music library now</value>
+    <value>"{0}" wurde abonniert und befindet sich jetzt in der Musikbibliothek.</value>
     <comment>"{0}" Subscribed, You can find it in music library now</comment>
   </data>
   <data name="PodcastUnSubscribe" xml:space="preserve">
-    <value>"{0}" is no longer in your music library</value>
+    <value>"{0}" wurde aus der Musikbibliothek entfernt.</value>
     <comment>"{0}" is no longer in your music library</comment>
   </data>
   <data name="ImportSucceed" xml:space="preserve">
-    <value>{1} of {0} {1:Podcast|Podcasts} successfully imported</value>
+    <value>{1} von {0} {1:Podcast|Podcasts} wurde(n) erfolgreich importiert.</value>
     <comment>{1} of {0} {1:Podcast|Podcasts} successfully imported</comment>
   </data>
   <data name="OPMLDesc" xml:space="preserve">
-    <value>Outline Processor Markup Language Document</value>
+    <value>Outline Processor Markup Language-Dokument (OPML)</value>
     <comment>Outline Processor Markup Language Document</comment>
   </data>
   <data name="ExportOPMLName" xml:space="preserve">
-    <value>Podcasts Export</value>
+    <value>Podcast-Export</value>
     <comment>Podcasts Export</comment>
   </data>
   <data name="OPMLExport" xml:space="preserve">
-    <value>Podcasts successfully exported</value>
+    <value>Podcast wurde erfolgreich exportiert.</value>
     <comment>Podcasts successfully exported</comment>
   </data>
   <data name="ImportOPMLBtn.Content" xml:space="preserve">
-    <value>Import OPML Doc</value>
+    <value>OPML-Dokument importieren</value>
     <comment>Import OPML Doc</comment>
   </data>
   <data name="ExportOPMLBtn.Content" xml:space="preserve">
-    <value>Export OPML Doc</value>
+    <value>OPML-Dokument exportieren</value>
     <comment>Export OPML Doc</comment>
   </data>
   <data name="PodcastToastTitle" xml:space="preserve">
-    <value>{0} has updated!</value>
+    <value>{0} wurde aktualisiert!</value>
     <comment>{0} has updated!</comment>
   </data>
   <data name="PodcastToastDesc" xml:space="preserve">
-    <value>Click to listen {0}</value>
+    <value>Hier klicken, um {0} zu hören</value>
     <comment>Click to listen {0}</comment>
   </data>
   <data name="AndMore" xml:space="preserve">
-    <value>And {0} more</value>
+    <value>Und {0} weitere</value>
     <comment>And {0} more</comment>
   </data>
   <data name="BackgroundTransferStatus_Idle" xml:space="preserve">
-    <value>Idle</value>
+    <value>Inaktiv</value>
     <comment>Idle</comment>
   </data>
   <data name="BackgroundTransferStatus_Running" xml:space="preserve">
-    <value>Running</value>
+    <value>Läuft</value>
     <comment>Running</comment>
   </data>
   <data name="BackgroundTransferStatus_PausedByApplication" xml:space="preserve">
-    <value>Paused by application</value>
+    <value>Von App pausiert</value>
     <comment>Paused by application</comment>
   </data>
   <data name="BackgroundTransferStatus_PausedCostedNetwork" xml:space="preserve">
-    <value>Paused by metered-network</value>
+    <value>Wegen getaktetem Netzwerk pausiert</value>
     <comment>Paused by metered-network</comment>
   </data>
   <data name="BackgroundTransferStatus_PausedNoNetwork" xml:space="preserve">
-    <value>No network</value>
+    <value>Keine Netzwerkverbindung</value>
     <comment>No network</comment>
   </data>
   <data name="BackgroundTransferStatus_Completed" xml:space="preserve">
-    <value>Completed</value>
+    <value>Vollständig</value>
     <comment>Completed</comment>
   </data>
   <data name="BackgroundTransferStatus_Canceled" xml:space="preserve">
-    <value>Canceled</value>
+    <value>Abgebrochen</value>
     <comment>Canceled</comment>
   </data>
   <data name="BackgroundTransferStatus_Error" xml:space="preserve">
-    <value>Error</value>
+    <value>Fehler</value>
     <comment>Error</comment>
   </data>
   <data name="BackgroundTransferStatus_PausedRecoverableWebErrorStatus" xml:space="preserve">
-    <value>Paused by recoverable web error</value>
+    <value>Pausiert durch behebbaren Netzwerkfehler</value>
     <comment>Paused by recoverable web error</comment>
   </data>
   <data name="BackgroundTransferStatus_PausedSystemPolicy" xml:space="preserve">
-    <value>Paused by system policy</value>
+    <value>Durch Systemrichtlinien pausiert</value>
     <comment>Paused by system policy</comment>
   </data>
+
 </root>

@@ -251,7 +251,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-        <Grid x:Name="Arts" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid x:Name="Arts" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ToolTipService.ToolTip="{x:Bind Data.Name,Mode=OneWay}">
             <Grid Width="180" Height="180" Margin="-15" x:Name="BlurBG" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <interactivity:Interaction.Behaviors>
                     <behaviors:Blur x:Name="BlurBehavior" Value="0" Duration="200" Delay="0" AutomaticallyStart="True"/>
@@ -296,10 +296,10 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         </Grid>
         <StackPanel Grid.Row="1" Margin="0,8,0,0" Orientation="Vertical">
             <TextBlock x:Name="AlbumName" MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{x:Bind Data.Name, Mode=OneWay}" 
-                               Style="{ThemeResource BaseTextBlockStyle}" Width="150"/>
+                               Style="{ThemeResource BaseTextBlockStyle}" Width="150" ToolTipService.ToolTip="{x:Bind Data.Name,Mode=OneWay}"/>
             <TextBlock x:Name="AlbumArtists" MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Width="150" FontSize="13"
-                       Foreground="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
-                       Text="{x:Bind Data.AlbumArtists[0],TargetNullValue=, FallbackValue=, Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}"/>
+                       Foreground="{ThemeResource SystemControlForegroundBaseMediumLowBrush}" ToolTipService.ToolTip="{x:Bind Data.GetFormattedArtists(),Mode=OneWay}"
+                       Text="{x:Bind Data.GetFormattedArtists(),TargetNullValue=, FallbackValue=, Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}"/>
         </StackPanel>
     </Grid>
 </UserControl>
