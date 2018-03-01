@@ -16,7 +16,7 @@ namespace Aurora.Music.PlaybackEngine
         void Next();
         void Previous();
         Task NewPlayList(IList<Song> songs, int startIndex = 0);
-        Task NewPlayList(IList<StorageFile> list);
+        Task NewPlayList(IList<StorageFile> list, int startIndex = 0);
         Task AddtoNextPlay(IList<Song> song);
         void ChangeVolume(double vol);
         void ChangeAudioEndPoint(string outputDeviceID);
@@ -25,6 +25,7 @@ namespace Aurora.Music.PlaybackEngine
 
         bool? IsPlaying { get; }
         double PlaybackRate { get; set; }
+        double Volume { get; }
 
         event EventHandler<PositionUpdatedArgs> PositionUpdated;
         event EventHandler<PlayingItemsChangedArgs> ItemsChanged;

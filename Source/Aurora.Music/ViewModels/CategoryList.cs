@@ -15,6 +15,8 @@ namespace Aurora.Music.ViewModels
 
         public Type NavigatType { get; set; }
 
+        public string Parameter { get; set; }
+
         public double GetHeight(bool b)
         {
             return b ? 240d : 120d;

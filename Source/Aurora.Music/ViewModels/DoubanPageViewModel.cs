@@ -113,6 +113,40 @@ namespace Aurora.Music.ViewModels
             Channels = null;
         }
 
+        private double olume = Settings.Current.PlayerVolume;
+        public double Volume
+        {
+            get { return olume; }
+            set
+            {
+                SetProperty(ref olume, value);
+                Settings.Current.PlayerVolume = value;
+                PlaybackEngine.PlaybackEngine.Current.ChangeVolume(value);
+            }
+        }
+
+        public string VolumeToSymbol(double d)
+        {
+            if (d.AlmostEqualTo(0))
+            {
+                return "\uE992";
+            }
+            if (d < 33.333333)
+            {
+                return "\uE993";
+            }
+            if (d < 66.66666667)
+            {
+                return "\uE994";
+            }
+            return "\uE995";
+        }
+
+        public string VolumeToString(double d)
+        {
+            return d.ToString("0");
+        }
+
         public DelegateCommand Delete
         {
             get => new DelegateCommand(async () =>

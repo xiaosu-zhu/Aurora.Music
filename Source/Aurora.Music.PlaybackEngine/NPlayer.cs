@@ -27,6 +27,8 @@ namespace Aurora.Music.PlaybackEngine
 
         public double PlaybackRate { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
+        public double Volume => throw new NotImplementedException();
+
         public event EventHandler<PositionUpdatedArgs> PositionUpdated;
         public event EventHandler<PlayingItemsChangedArgs> ItemsChanged;
         public event EventHandler<DownloadProgressChangedArgs> DownloadProgressChanged;
@@ -82,7 +84,7 @@ namespace Aurora.Music.PlaybackEngine
             return new WaveController(streams.Select(a => new MediaFoundationReaderUniversal(a)));
         }
 
-        public Task NewPlayList(IList<StorageFile> list)
+        public Task NewPlayList(IList<StorageFile> list, int startIndex = 0)
         {
             throw new NotImplementedException();
         }

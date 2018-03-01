@@ -995,7 +995,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <AdaptiveTrigger MinWindowWidth="1008"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-
                         <Setter Target="SongPanel.(Grid.ColumnSpan)" Value="1"/>
                         <Setter Target="LrcView.(Grid.ColumnSpan)" Value="1"/>
                         <Setter Target="LrcView.(Grid.Column)" Value="1"/>
@@ -1005,6 +1004,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <Setter Target="LrcViewOverlay.(Grid.Row)" Value="0"/>
 
                         <Setter Target="NarrowLrcBtn.Visibility" Value="Collapsed"/>
+                        <Setter Target="Volume.Visibility" Value="Collapsed"/>
+                        <Setter Target="VolumeSlider.Visibility" Value="Visible"/>
                         <Setter Target="NarrowSmallWindow.Visibility" Value="Collapsed"/>
                         <Setter Target="NarrowSplit.Visibility" Value="Collapsed"/>
                         <Setter Target="LrcBtn.Visibility" Value="Visible"/>
@@ -1349,10 +1350,18 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </Button>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="4">
+                <StackPanel Orientation="Horizontal" x:Name="VolumeSlider" Visibility="Collapsed" Margin="4">
+                    <FontIcon FontFamily="Segoe MDL2 Assets" FontSize="22"
+                              Glyph="{x:Bind Context.VolumeToSymbol(Context.Volume), Mode=OneWay}" 
+                              Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush),Mode=OneWay}" />
+                    <Slider Style="{ThemeResource RoundSlider}" Margin="0,6,0,0" Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush),Mode=OneWay}"
+                            Width="180" HorizontalAlignment="Stretch" VerticalAlignment="Center" 
+                            Minimum="0" Maximum="100" StepFrequency="1" Value="{x:Bind Context.Volume, Mode=TwoWay}"/>
+                </StackPanel>
                 <Button x:Uid="LyricWindow" IsEnabled="{x:Bind Context.BoolNot(Context.Song.IsPodcast),Mode=OneWay}" x:Name="LrcBtn" Style="{ThemeResource RevealRoundButton}" 
                         Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush),Mode=OneWay}" 
                         ToolTipService.ToolTip="Lyric Window" Command="{x:Bind Context.ShowLyricWindow}"
-                                Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                        Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <Button.Content>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEA4B;"/>
                     </Button.Content>

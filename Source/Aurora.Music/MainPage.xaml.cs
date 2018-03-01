@@ -124,20 +124,21 @@ namespace Aurora.Music
         {
             if (e.Handled || ((Window.Current.Content is Frame f) && f.Content is CompactOverlayPanel)) return;
 
-            e.Handled = true;
 
-            if (MainFrame.Visibility == Visibility.Collapsed && OverlayFrame.Visibility == Visibility.Visible && OverlayFrame.Content is IRequestGoBack g)
+            if (OverlayFrame.Visibility == Visibility.Visible && OverlayFrame.Content is IRequestGoBack g)
             {
+                e.Handled = true;
                 g.RequestGoBack();
                 return;
             }
-            if (MainFrame.Visibility == Visibility.Visible && OverlayFrame.Visibility == Visibility.Collapsed && MainFrame.Content is IRequestGoBack p)
+            if (MainFrame.Visibility == Visibility.Visible && MainFrame.Content is IRequestGoBack p)
             {
+                e.Handled = true;
                 p.RequestGoBack();
                 return;
             }
 
-            GoBack();
+            e.Handled = GoBack();
         }
 
         private void DataTransferManager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
@@ -200,23 +201,25 @@ namespace Aurora.Music
             });
         }
 
-        internal void GoBack()
+        internal bool GoBack()
         {
             if (OverlayFrame.Visibility == Visibility.Visible)
             {
+                return false;
             }
             else
             {
                 if (MainFrame.CanGoBack)
                 {
                     MainFrame.GoBack();
+                    RefreshPaneCurrent();
+                    return true;
                 }
                 else
                 {
-                    MainFrame.Navigate(typeof(HomePage));
+                    return false;
                 }
             }
-            RefreshPaneCurrent();
         }
 
         private void RefreshPaneCurrent()
@@ -1420,6 +1423,11 @@ namespace Aurora.Music
             {
                 DropHint.Visibility = Visibility.Collapsed;
             };
+        }
+
+        private void Flyout_Opened_1(object sender, object e)
+        {
+            Context.Volume = Settings.Current.PlayerVolume;
         }
     }
 }

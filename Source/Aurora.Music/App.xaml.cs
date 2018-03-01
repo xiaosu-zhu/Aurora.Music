@@ -213,7 +213,7 @@ namespace Aurora.Music
             else if (args.Kind == ActivationKind.ToastNotification)
             {
                 ToastNotificationActivatedEventArgs a = args as ToastNotificationActivatedEventArgs;
-                if (a.Argument.StartsWith("as:music:"))
+                if (a.Argument.StartsWith("as-music:"))
                 {
                     uri = new Uri(a.Argument);
                 }
@@ -236,9 +236,6 @@ namespace Aurora.Music
             {
                 if (rootFrame.Content == null)
                 {
-                    // When the navigation stack isn't restored navigate to the first page,
-                    // configuring the new page by passing required information as a navigation
-                    // parameter
                     if (Settings.Current.WelcomeFinished)
                         rootFrame.Navigate(typeof(MainPage));
                     else

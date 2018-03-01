@@ -34,6 +34,7 @@ namespace Aurora.Music.Core
         public const string AlbumItemConnectedAnimation = "ALBUM_DETAIL_IN";
 
         public static readonly string[] FileTypes = { ".flac", ".wav", ".m4a", ".aac", ".mp3", ".wma" };
+        public static readonly string[] PlaylistType = { "m3u", ".m3u8", ".wpl", ".zpl" };
 
         public const string ExtensionContract = "Aurora.Music.Extensions";
         public const string AppUserModelId = "6727Aurora-ZXS.10476770C0EE5_fxqtv0574xgme!App";
@@ -57,10 +58,8 @@ namespace Aurora.Music.Core
         public static string UpdateNote =>
                             "# Notice\r\n\r\nWe've detected crashes occur when you're using **Windows Insider Preview**, sorry about that.\r\n\r\n**UPDATED**: Please update your Insider Preview to newest build: 17107, this build has fixed crashes.\r\n\r\n" +
                             "---\r\n" +
-                            "* **Tranlation**: Synced translation.\r\n" +
-                            "* **Improve**: Fixed bugs.\r\n" +
-                            "* **Improve**: Added drop animation.\r\n" +
-                            "* **Improve**: Improved file searching stability.\r\n";
+                            "* **New**: Added support for importing a playlist(.m3u, .zpl, .mpl, doesn't support stream in m3u).\r\n" +
+                            "* **Improve**: Fixed bugs.\r\n";
 
         public static string UpdateNoteTitle => localizer.GetString("UpdateNoteTitle");
 

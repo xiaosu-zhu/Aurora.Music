@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.Storage;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -44,58 +45,18 @@ namespace Aurora.Music.Pages
 
         internal void RemovePlayList(PlayList model)
         {
-            var i = Category.SelectedIndex;
             CategoryList.Remove(CategoryList.First(a => a.ID == model.ID && a.NavigatType == typeof(PlayListPage)));
             playlists.Remove(model);
+        }
+        internal void RemoveStoragePlayList(string title)
+        {
+            CategoryList.Remove(CategoryList.First(a => a.Title == title && a.NavigatType == typeof(StoragePlaylistPage)));
         }
 
         internal async Task AddPlayList(PlayListViewModel p)
         {
             Category.SelectionChanged -= Category_SelectionChanged;
-
-
-            CategoryList.Clear();
-            CategoryList.Add(new CategoryListItem
-            {
-                Title = Consts.Localizer.GetString("SongsText"),
-                Glyph = "\uE189",
-                NavigatType = typeof(SongsPage)
-            });
-            CategoryList.Add(new CategoryListItem
-            {
-                Title = Consts.Localizer.GetString("AlbumsText"),
-                Glyph = "\uE93C",
-                NavigatType = typeof(AlbumsPage)
-            });
-            CategoryList.Add(new CategoryListItem
-            {
-                Title = Consts.Localizer.GetString("ArtistsText"),
-                Glyph = "\uE77B",
-                NavigatType = typeof(ArtistsPage)
-            });
-
-            playlists = await SQLOperator.Current().GetPlayListBriefAsync();
-            var podcasts = await SQLOperator.Current().GetPodcastListBriefAsync();
-
-            foreach (var playlist in playlists)
-            {
-                CategoryList.Add(new CategoryListItem
-                {
-                    Title = playlist.ToString(),
-                    Glyph = "\uE142",
-                    NavigatType = typeof(PlayListPage)
-                });
-            }
-            foreach (var podcast in podcasts)
-            {
-                CategoryList.Add(new CategoryListItem
-                {
-                    Title = podcast.Title,
-                    Glyph = "\uE95A",
-                    NavigatType = typeof(PodcastPage),
-                    ID = podcast.ID
-                });
-            }
+            await InitCategoryList();
             var item = CategoryList.FirstOrDefault(x => x.Title == Settings.Current.CategoryLastClicked);
             Category.SelectionChanged += Category_SelectionChanged;
             if (item != default(CategoryListItem))
@@ -108,10 +69,8 @@ namespace Aurora.Music.Pages
             }
         }
 
-        protected async override void OnNavigatedTo(NavigationEventArgs e)
+        private async Task InitCategoryList()
         {
-            base.OnNavigatedTo(e);
-
             CategoryList.Clear();
             CategoryList.Add(new CategoryListItem
             {
@@ -134,6 +93,10 @@ namespace Aurora.Music.Pages
 
             playlists = await SQLOperator.Current().GetPlayListBriefAsync();
             var podcasts = await SQLOperator.Current().GetPodcastListBriefAsync();
+
+            var playlistFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Playlist", CreationCollisionOption.OpenIfExists);
+            var files = await playlistFolder.GetFilesAsync();
+
             foreach (var playlist in playlists)
             {
                 CategoryList.Add(new CategoryListItem
@@ -142,6 +105,17 @@ namespace Aurora.Music.Pages
                     Glyph = "\uE142",
                     NavigatType = typeof(PlayListPage),
                     ID = playlist.ID
+                });
+            }
+            foreach (var item in files)
+            {
+                CategoryList.Add(new CategoryListItem
+                {
+                    Title = item.DisplayName,
+                    Parameter = item.Name,
+                    Glyph = "\uE142",
+                    ID = -1,
+                    NavigatType = typeof(StoragePlaylistPage)
                 });
             }
             foreach (var podcast in podcasts)
@@ -154,6 +128,14 @@ namespace Aurora.Music.Pages
                     ID = podcast.ID
                 });
             }
+        }
+
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            await InitCategoryList();
+
             var item = CategoryList.FirstOrDefault(x => x.Title == Settings.Current.CategoryLastClicked);
             Category.SelectionChanged += Category_SelectionChanged;
 
@@ -206,6 +188,10 @@ namespace Aurora.Music.Pages
             if (item.NavigatType == typeof(PlayListPage))
             {
                 Navigate(item.NavigatType, playlists.Find(x => x.ID == (item.ID)));
+            }
+            else if (item.NavigatType == typeof(StoragePlaylistPage))
+            {
+                Navigate(item.NavigatType, item.Parameter);
             }
             else if (item.NavigatType == typeof(PodcastPage))
             {
@@ -303,6 +289,51 @@ namespace Aurora.Music.Pages
         private void VisualStateGroup_CurrentStateChanged(object sender, VisualStateChangedEventArgs e)
         {
             MainPageViewModel.Current.NeedShowTitle = e.NewState.Name != "Narrow";
+        }
+
+        private async void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var filePicker = new Windows.Storage.Pickers.FileOpenPicker
+            {
+                SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.ComputerFolder
+            };
+            filePicker.FileTypeFilter.Add(".m3u");
+            filePicker.FileTypeFilter.Add(".m3u8");
+            filePicker.FileTypeFilter.Add(".wpl");
+            filePicker.FileTypeFilter.Add(".zpl");
+
+            var files = await filePicker.PickMultipleFilesAsync();
+
+            var playlistFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Playlist", CreationCollisionOption.OpenIfExists);
+
+            if (files != null && files.Count > 0)
+            {
+                var index = CategoryList.IndexOf(CategoryList.Last(a => a.NavigatType == typeof(PlayListPage)));
+                foreach (var file in files)
+                {
+                    await file.CopyAsync(playlistFolder, file.Name, NameCollisionOption.ReplaceExisting);
+                    CategoryList.Insert(index + 1, new CategoryListItem()
+                    {
+                        Title = file.DisplayName,
+                        Parameter = file.Name,
+                        ID = -1,
+                        Glyph = "\uE142",
+                        NavigatType = typeof(StoragePlaylistPage),
+                    });
+                }
+            }
+            else
+            {
+                return;
+            }
+
+            if (MainPageViewModel.Current != null)
+            {
+                var t = Task.Run(async () =>
+                {
+                    await MainPageViewModel.Current.FilesChanged();
+                });
+            }
         }
     }
 }

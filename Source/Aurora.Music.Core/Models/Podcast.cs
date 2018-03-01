@@ -65,12 +65,13 @@ namespace Aurora.Music.Core.Models
             Author = ment.SelectSingleNode($"/rss/channel/itunes:author", ns)?.InnerText;
 
             var items = ment.SelectNodes("/rss/channel/item");
-
+            var last = LastUpdate;
             for (int i = 0; i < items.Count; i++)
             {
                 var d = DateTime.Parse(items[i].SelectSingleNode("./pubDate")?.InnerText ?? DateTime.Now.ToString());
                 if (LastUpdate < d)
                 {
+                    last = d;
                 }
                 else
                 {
@@ -93,6 +94,7 @@ namespace Aurora.Music.Core.Models
                 });
             }
             Sort((a, s) => -1 * (a.PubDate.CompareTo(s.PubDate)));
+            LastUpdate = last;
         }
 
         public Podcast(PODCAST p)

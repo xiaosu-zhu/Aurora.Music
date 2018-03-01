@@ -49,6 +49,8 @@ namespace Aurora.Music.PlaybackEngine
         }
         public bool? IsShuffle { get; private set; }
 
+        public double Volume => mediaPlayer.Volume;
+
         public event EventHandler<PositionUpdatedArgs> PositionUpdated;
 
         public async void ChangeAudioEndPoint(string outputDeviceID)
@@ -310,7 +312,7 @@ namespace Aurora.Music.PlaybackEngine
 
             PlaybackSession_PlaybackStateChanged(null, null);
         }
-        public async Task NewPlayList(IList<StorageFile> items)
+        public async Task NewPlayList(IList<StorageFile> items, int startIndex = 0)
         {
             if (items.IsNullorEmpty())
             {
@@ -343,7 +345,14 @@ namespace Aurora.Music.PlaybackEngine
                 mediaPlaybackList.Items.Add(mediaPlaybackItem);
                 currentList.Add(item);
             }
-            mediaPlaybackList.StartingItem = mediaPlaybackList.Items.First();
+            if (startIndex > mediaPlaybackList.Items.Count - 1)
+            {
+                startIndex = mediaPlaybackList.Items.Count - 1;
+            }
+            if (startIndex < 0)
+                startIndex = 0;
+
+            mediaPlaybackList.StartingItem = mediaPlaybackList.Items[startIndex];
             mediaPlayer.Source = mediaPlaybackList;
         }
 
@@ -664,7 +673,7 @@ namespace Aurora.Music.PlaybackEngine
 
                         i = (uint)mediaPlaybackList.Items.IndexOf(previous);
                     }
-                    
+
                     previous = item;
                 }
 

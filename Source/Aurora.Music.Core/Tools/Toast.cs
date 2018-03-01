@@ -16,7 +16,7 @@ namespace Aurora.Music.Core.Tools
         {
             var toastContent = new ToastContent()
             {
-                Header = new ToastHeader("Podcast", "Podcast", "as:music:///library/podcast"),
+                Header = new ToastHeader("Podcast", "Podcast", "as-music:///library/podcast"),
                 ActivationType = ToastActivationType.Foreground,
                 Visual = new ToastVisual()
                 {
@@ -77,7 +77,7 @@ namespace Aurora.Music.Core.Tools
                         }
                     }
                 },
-                Launch = $"as:music:///library/podcast/id/{p.ID}"
+                Launch = $"as-music:///library/podcast/id/{p.ID}"
             };
 
             // Create the toast notification

@@ -144,6 +144,12 @@ namespace Aurora.Music.ViewModels
                 folderPicker.FileTypeFilter.Add(".m4a");
                 folderPicker.FileTypeFilter.Add(".wav");
                 folderPicker.FileTypeFilter.Add(".flac");
+                folderPicker.FileTypeFilter.Add(".aac");
+                folderPicker.FileTypeFilter.Add(".wma");
+                folderPicker.FileTypeFilter.Add(".m3u");
+                folderPicker.FileTypeFilter.Add(".m3u8");
+                folderPicker.FileTypeFilter.Add(".wpl");
+                folderPicker.FileTypeFilter.Add(".zpl");
 
                 StorageFolder folder = await folderPicker.PickSingleFolderAsync();
                 if (folder != null)

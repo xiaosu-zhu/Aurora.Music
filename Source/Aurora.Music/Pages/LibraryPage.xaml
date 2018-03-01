@@ -13,6 +13,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     xmlns:ani="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:desktop="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Media.Playlists.PlaylistsContract, 1)"
+    xmlns:nodesktop="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Media.Playlists.PlaylistsContract, 1)"
     Unloaded="Page_Unloaded"
     mc:Ignorable="d">
 
@@ -100,9 +102,11 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </DataTemplate>
             </ListView.ItemTemplate>
             <ListView.Footer>
-                <Grid Height="240">
-                    <Button Visibility="Collapsed" Style="{ThemeResource TextBlockButtonStyle}" Margin="0,24" FontSize="20" Content="Manage Items" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                </Grid>
+                <StackPanel Height="240">
+                    <Button desktop:Visibility="Visible" nodesktop:Visibility="Collapsed"
+                            Click="Button_Click" Style="{ThemeResource TextBlockButtonStyle}" 
+                            Margin="0,24" FontSize="20" Content="Import playlist" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                </StackPanel>
             </ListView.Footer>
         </ListView>
 

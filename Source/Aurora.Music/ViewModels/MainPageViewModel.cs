@@ -56,6 +56,39 @@ namespace Aurora.Music.ViewModels
             _displayRequest.RequestRelease();
         }
 
+        public string VolumeToSymbol(double d)
+        {
+            if (d.AlmostEqualTo(0))
+            {
+                return "\uE992";
+            }
+            if (d < 33.333333)
+            {
+                return "\uE993";
+            }
+            if (d < 66.66666667)
+            {
+                return "\uE994";
+            }
+            return "\uE995";
+        }
+
+        public string VolumeToString(double d)
+        {
+            return d.ToString("0");
+        }
+
+        private double olume = Settings.Current.PlayerVolume;
+        public double Volume
+        {
+            get { return olume; }
+            set
+            {
+                SetProperty(ref olume, value);
+                Settings.Current.PlayerVolume = value;
+                player.ChangeVolume(value);
+            }
+        }
 
         public static MainPageViewModel Current;
 
@@ -476,7 +509,7 @@ namespace Aurora.Music.ViewModels
                 await ReloadExtensions();
                 await FindFileChanges();
 
-                FileTracker.FilesChanged += FileTracker_FilesChanged;
+                //FileTracker.FilesChanged += FileTracker_FilesChanged;
             });
         }
 
@@ -932,9 +965,9 @@ namespace Aurora.Music.ViewModels
             player.Play();
         }
 
-        internal async Task InstantPlay(List<StorageFile> list)
+        internal async Task InstantPlay(List<StorageFile> list, int startIndex = 0)
         {
-            await player.NewPlayList(list);
+            await player.NewPlayList(list, startIndex);
             player.Play();
         }
 

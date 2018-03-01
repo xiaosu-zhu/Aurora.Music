@@ -1,17 +1,22 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
-using Aurora.Music.Controls;
 using Aurora.Music.Core;
-using Aurora.Music.Core.Models;
 using Aurora.Music.ViewModels;
 using Aurora.Shared.Extensions;
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.Foundation;
+using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
@@ -24,9 +29,9 @@ namespace Aurora.Music.Pages
     /// <summary>
     /// 可用于自身或导航至 Frame 内部的空白页。
     /// </summary>
-    public sealed partial class PlayListPage : Page, IRequestGoBack
+    public sealed partial class StoragePlaylistPage : Page
     {
-        public PlayListPage()
+        public StoragePlaylistPage()
         {
             this.InitializeComponent();
             this.NavigationCacheMode = NavigationCacheMode.Enabled;
@@ -60,51 +65,30 @@ namespace Aurora.Music.Pages
             {
                 return;
             }
-            await Context.GetSongsAsync(e.Parameter as PlayList);
 
-            if ((e.Parameter as PlayList).Title == Consts.Localizer.GetString("Favorites"))
+            var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Playlist", CreationCollisionOption.OpenIfExists);
+
+            var file = await folder.TryGetItemAsync(e.Parameter as string);
+            if (file != null)
             {
-                DescriptionBtn.Visibility = Visibility.Collapsed;
-                DeleteBtn.Visibility = Visibility.Collapsed;
+                Context.Init(file as StorageFile);
             }
             else
             {
-                DescriptionBtn.Visibility = Visibility.Visible;
-                DeleteBtn.Visibility = Visibility.Visible;
+                return;
             }
-
             SortBox.SelectionChanged -= ComboBox_SelectionChanged;
             SortBox.SelectionChanged += ComboBox_SelectionChanged;
         }
 
         private async void AlbumList_ItemClick(object sender, ItemClickEventArgs e)
         {
-            await Context.PlayAt(e.ClickedItem as SongViewModel);
+            await Context.PlayAt(e.ClickedItem as StorageSongViewModel);
         }
 
         private async void PlayBtn_Click(object sender, RoutedEventArgs e)
         {
-            await Context.PlayAt(sender as SongViewModel);
-        }
-        private async void DelBtn_Click(object sender, RoutedEventArgs e)
-        {
-            if (DescriptionBtn.Visibility == Visibility.Collapsed)
-            {
-                (sender as SongViewModel).Favorite = false;
-            }
-            else
-            {
-                await Context.DeleteSong(sender as SongViewModel);
-            }
-            var groups = Context.SongsList.Where(a => a.Contains((sender as SongViewModel)));
-            foreach (var item in groups)
-            {
-                item.Remove((sender as SongViewModel));
-                if (item.Count == 0)
-                {
-                    Context.SongsList.Remove(item);
-                }
-            }
+            await Context.PlayAt(sender as StorageSongViewModel);
         }
 
         private void Page_Unloaded(object sender, RoutedEventArgs e)
@@ -197,24 +181,6 @@ namespace Aurora.Music.Pages
             MainPage.Current.SongFlyout.Hide();
         }
 
-        private async void Button_Click(object sender, RoutedEventArgs e)
-        {
-            if (DescriptionEditor.Visibility == Visibility.Collapsed)
-            {
-                DescriptionSymbol.Glyph = "\uE001";
-                DescriptionEditor.Visibility = Visibility.Visible;
-                DescriptionText.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                DescriptionSymbol.Glyph = "\uE104";
-                DescriptionEditor.Visibility = Visibility.Collapsed;
-                DescriptionText.Visibility = Visibility.Visible;
-                await Context.EditDescription(DescriptionEditor.Text);
-                DescriptionEditor.Text = string.Empty;
-            }
-        }
-
         private void SongItem_RequestMultiSelect(object sender, RoutedEventArgs e)
         {
             AlbumList.SelectionMode = ListViewSelectionMode.Multiple;
@@ -261,18 +227,7 @@ namespace Aurora.Music.Pages
 
         private async void PlayAppBarButton_Click(object sender, RoutedEventArgs e)
         {
-            await MainPageViewModel.Current.InstantPlay(AlbumList.SelectedItems.Select(a => (a as SongViewModel).Song).ToList());
-        }
-
-        private async void PlayNextAppBarButton_Click(object sender, RoutedEventArgs e)
-        {
-            await MainPageViewModel.Current.PlayNext(AlbumList.SelectedItems.Select(a => (a as SongViewModel).Song).ToList());
-        }
-
-        private async void AddCollectionAppBarButton_Click(object sender, RoutedEventArgs e)
-        {
-            var s = new AddPlayList(AlbumList.SelectedItems.Select(a => (a as SongViewModel).ID).ToList());
-            await s.ShowAsync();
+            await MainPageViewModel.Current.InstantPlay(AlbumList.SelectedItems.Select(a => (a as StorageSongViewModel).File).ToList());
         }
 
         private void ShareAppBarButton_Click(object sender, RoutedEventArgs e)
