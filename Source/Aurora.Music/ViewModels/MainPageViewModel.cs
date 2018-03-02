@@ -600,8 +600,10 @@ namespace Aurora.Music.ViewModels
             await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
                 IsPlaying = e.PlaybackStatus == MediaPlaybackState.Playing;
-                //IsLoop = e.IsLoop;
-                //IsShuffle = e.IsShuffle;
+                isLoop = e.IsLoop;
+                isShuffle = e.IsShuffle;
+                RaisePropertyChanged("IsLoop");
+                RaisePropertyChanged("IsShuffle");
             });
             if (e.PlaybackStatus == MediaPlaybackState.Playing && Settings.Current.PreventLockscreen)
             {

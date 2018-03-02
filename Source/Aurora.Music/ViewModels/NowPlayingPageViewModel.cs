@@ -534,8 +534,10 @@ namespace Aurora.Music.ViewModels
             await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
                 IsPlaying = e.PlaybackStatus == Windows.Media.Playback.MediaPlaybackState.Playing;
-                IsLoop = e.IsLoop;
-                IsShuffle = e.IsShuffle;
+                isLoop = e.IsLoop;
+                isShuffle = e.IsShuffle;
+                RaisePropertyChanged("IsLoop");
+                RaisePropertyChanged("IsShuffle");
             });
         }
 
@@ -748,12 +750,13 @@ namespace Aurora.Music.ViewModels
             return Consts.UnknownArtists;
         }
 
-        private bool? isShuffle = false;
+        private bool? isShuffle = MainPageViewModel.Current.IsShuffle;
         public bool? IsShuffle
         {
             get { return isShuffle; }
             set
             {
+                if (isShuffle == value) return;
                 SetProperty(ref isShuffle, value);
 
                 player?.Shuffle(value);
@@ -767,13 +770,14 @@ namespace Aurora.Music.ViewModels
             }
             set
             {
+                if (isShuffle == value) return;
                 SetProperty(ref isShuffle, value);
                 RaisePropertyChanged("IsShuffle");
                 player?.Shuffle(value);
             }
         }
 
-        private bool? isLoop = false;
+        private bool? isLoop = MainPageViewModel.Current.IsLoop;
         public bool? IsLoop
         {
             get { return isLoop; }

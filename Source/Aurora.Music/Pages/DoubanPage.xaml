@@ -479,8 +479,11 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                 </Image.Source>
                             </Image>
                         </Grid>
-                        <TextBlock TextAlignment="Center" Width="108" FontSize="15" TextWrapping="NoWrap" TextTrimming="Clip" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" Style="{ThemeResource BaseTextBlockStyle}" Text="{x:Bind Name}"/>
-                        <TextBlock TextAlignment="Center" Width="108" FontSize="13" TextWrapping="WrapWholeWords" Height="36" TextTrimming="Clip" Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Description}"/>
+                        <TextBlock TextAlignment="Center" Width="108" FontSize="15" TextWrapping="NoWrap" 
+                                   TextTrimming="Clip" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                   FontWeight="Bold" Style="{ThemeResource BaseTextBlockStyle}" Text="{x:Bind Name}"/>
+                        <TextBlock TextAlignment="Center" Width="108" FontSize="13" TextWrapping="WrapWholeWords" 
+                                   Height="36" TextTrimming="Clip" Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Description}"/>
                     </StackPanel>
                 </DataTemplate>
             </GridView.ItemTemplate>

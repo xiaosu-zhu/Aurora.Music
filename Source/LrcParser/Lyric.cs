@@ -32,7 +32,7 @@ namespace LrcParser
             Slices = sl.Select(x => new Slice
             {
                 Offset = TimeSpan.FromMilliseconds(duration.TotalMilliseconds * (Array.IndexOf(sl, x) / (double)sl.Length)),
-                Contet = x
+                Content = x
             }).OrderBy(x => 1);
             AddtionalInfo = null;
         }
@@ -46,6 +46,6 @@ namespace LrcParser
     public class Slice
     {
         public TimeSpan Offset { get; set; }
-        public string Contet { get; set; }
+        public string Content { get; set; }
     }
 }

@@ -75,7 +75,7 @@ namespace LrcParser
                                 list.Add(new Slice()
                                 {
                                     Offset = p,
-                                    Contet = slices[j].Value.Trim(" \n\r".ToCharArray())
+                                    Content = slices[j].Value.Trim(" \r\n".ToCharArray())
                                 });
                                 break;
                             }
