@@ -774,15 +774,15 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     </Style>
 
     <Style x:Key="HorizontalGridViewStyle" TargetType="GridView">
-        <Setter Property="Padding" Value="0,0,0,10"/>
+        <Setter Property="Padding" Value="0"/>
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="TabNavigation" Value="Once"/>
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
-        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled"/>
-        <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Enabled"/>
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Auto"/>
         <Setter Property="ScrollViewer.IsHorizontalRailEnabled" Value="True"/>
-        <Setter Property="ScrollViewer.VerticalScrollMode" Value="Disabled"/>
-        <Setter Property="ScrollViewer.IsVerticalRailEnabled" Value="False"/>
+        <Setter Property="ScrollViewer.VerticalScrollMode" Value="Auto"/>
+        <Setter Property="ScrollViewer.IsVerticalRailEnabled" Value="false"/>
         <Setter Property="ScrollViewer.ZoomMode" Value="Disabled"/>
         <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False"/>
         <Setter Property="ScrollViewer.BringIntoViewOnFocusChange" Value="True"/>

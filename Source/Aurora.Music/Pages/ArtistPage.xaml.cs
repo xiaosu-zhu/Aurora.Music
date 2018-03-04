@@ -8,6 +8,7 @@ using Aurora.Music.ViewModels;
 using Aurora.Shared.Extensions;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -77,7 +78,7 @@ namespace Aurora.Music.Pages
                 else if (_clickedAlbum != null && ((ArtistViewModel)e.Parameter).RawName == _lastParameter)
                 {
                     Context.Artist = (ArtistViewModel)e.Parameter;
-                    await Context.GetAlbums((ArtistViewModel)e.Parameter);
+                    await Context.Init((ArtistViewModel)e.Parameter);
                     AlbumList.ScrollIntoView(_clickedAlbum);
                     var container = (AlbumList.ContainerFromItem(_clickedAlbum) as SelectorItem).ContentTemplateRoot as AlbumItem;
                     var ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.AlbumItemConnectedAnimation + "_1");
@@ -109,7 +110,10 @@ namespace Aurora.Music.Pages
                 {
                     ani.TryStart(Shadow, new UIElement[] { Image });
                 }
-                await Context.GetAlbums(s);
+                var t = Task.Run(async () =>
+                {
+                    await Context.Init(s);
+                });
             }
         }
 
@@ -207,6 +211,108 @@ namespace Aurora.Music.Pages
         }
 
         private void AlbumList_ContextCanceled(UIElement sender, RoutedEventArgs args)
+        {
+            MainPage.Current.SongFlyout.Hide();
+        }
+
+        private async void SongItem_Play(object sender, RoutedEventArgs e)
+        {
+            await Context.PlayAt(sender as SongViewModel);
+        }
+
+        private void SongItem_RequestMultiSelect(object sender, RoutedEventArgs e)
+        {
+            SongsList.SelectionMode = ListViewSelectionMode.Multiple;
+            SongsList.IsItemClickEnabled = false;
+            foreach (var item in Context.SongsList)
+            {
+                foreach (var song in item)
+                {
+                    song.ListMultiSelecting = true;
+                }
+            }
+        }
+
+        private async void SongsList_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            await Context.PlayAt(e.ClickedItem as SongViewModel);
+        }
+
+        private void SongsList_ContextRequested(UIElement sender, ContextRequestedEventArgs args)
+        {
+            // Walk up the tree to find the ListViewItem.
+            // There may not be one if the click wasn't on an item.
+            var requestedElement = (FrameworkElement)args.OriginalSource;
+            while ((requestedElement != sender) && !(requestedElement is SelectorItem))
+            {
+                requestedElement = (FrameworkElement)VisualTreeHelper.GetParent(requestedElement);
+            }
+            var model = (sender as ListViewBase).ItemFromContainer(requestedElement) as SongViewModel;
+            if (requestedElement != sender)
+            {
+                var albumMenu = MainPage.Current.SongFlyout.Items.First(x => x.Name == "AlbumMenu") as MenuFlyoutItem;
+                albumMenu.Text = model.Album;
+                albumMenu.Visibility = Visibility.Visible;
+
+                // remove performers in flyout
+                var index = MainPage.Current.SongFlyout.Items.IndexOf(albumMenu);
+                while (!(MainPage.Current.SongFlyout.Items[index + 1] is MenuFlyoutSeparator))
+                {
+                    MainPage.Current.SongFlyout.Items.RemoveAt(index + 1);
+                }
+                // add song's performers to flyout
+                if (!model.Song.Performers.IsNullorEmpty())
+                {
+                    if (model.Song.Performers.Length == 1)
+                    {
+                        var menuItem = new MenuFlyoutItem()
+                        {
+                            Text = $"{model.Song.Performers[0]}",
+                            Icon = new FontIcon()
+                            {
+                                Glyph = "\uE136"
+                            }
+                        };
+                        menuItem.Click += MainPage.Current.MenuFlyoutArtist_Click;
+                        MainPage.Current.SongFlyout.Items.Insert(index + 1, menuItem);
+                    }
+                    else
+                    {
+                        var sub = new MenuFlyoutSubItem()
+                        {
+                            Text = $"{Consts.Localizer.GetString("PerformersText")}:",
+                            Icon = new FontIcon()
+                            {
+                                Glyph = "\uE136"
+                            }
+                        };
+                        foreach (var item in model.Song.Performers)
+                        {
+                            var menuItem = new MenuFlyoutItem()
+                            {
+                                Text = item
+                            };
+                            menuItem.Click += MainPage.Current.MenuFlyoutArtist_Click;
+                            sub.Items.Add(menuItem);
+                        }
+                        MainPage.Current.SongFlyout.Items.Insert(index + 1, sub);
+                    }
+                }
+
+                if (args.TryGetPosition(requestedElement, out var point))
+                {
+                    MainPage.Current.SongFlyout.ShowAt(requestedElement, point);
+                }
+                else
+                {
+                    MainPage.Current.SongFlyout.ShowAt(requestedElement);
+                }
+
+                args.Handled = true;
+            }
+        }
+
+        private void SongsList_ContextCanceled(UIElement sender, RoutedEventArgs args)
         {
             MainPage.Current.SongFlyout.Hide();
         }

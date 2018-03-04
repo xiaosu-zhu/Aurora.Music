@@ -55,7 +55,7 @@ namespace Aurora.Music.Controls
             this.album = album;
             if (!album.IsOnline)
             {
-                SecondaryButtonText = null;
+                SecondaryButtonText = string.Empty;
             }
             var songs = AsyncHelper.RunSync(async () => { return await album.GetSongsAsync(); });
             uint i = 0;

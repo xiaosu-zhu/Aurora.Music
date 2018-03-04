@@ -13,6 +13,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
     xmlns:controls="using:Aurora.Music.Controls"
+    xmlns:wuxdata="using:Windows.UI.Xaml.Data"
     xmlns:list="using:Aurora.Music.Controls.ListItems"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -33,14 +34,10 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <ResourceDictionary x:Key="Light" Source="../Themes/Light.xaml"/>
                 <ResourceDictionary x:Key="Dark" Source="../Themes/Dark.xaml"/>
             </ResourceDictionary.ThemeDictionaries>
+            <CollectionViewSource Source="{x:Bind Context.SongsList, Mode=OneWay}" IsSourceGrouped="True" x:Name="SongsListSource"/>
         </ResourceDictionary>
     </Page.Resources>
-
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+    <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalScrollMode="Disabled" Style="{ThemeResource NarrowScrollViewer}">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState x:Name="Full">
@@ -52,6 +49,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="641"/>
                     </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="GroupStyle.HeaderTemplate" Value="{StaticResource MediumGroupSongsHeader}"/>
+                    </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Narrow">
                     <VisualState.StateTriggers>
@@ -59,80 +59,181 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="HeaderGroup.Margin" Value="48,32,12,12"/>
+                        <Setter Target="GroupStyle.HeaderTemplate" Value="{StaticResource NarrowGroupHeader}"/>
+                        <Setter Target="AlbumList.Padding" Value="0"/>
+                        <Setter Target="SongsList.Padding" Value="0"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <Grid x:Name="HeaderGroup" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="32">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Grid Margin="-20,-16,-20,-24" x:Name="Shadow" HorizontalAlignment="Center" VerticalAlignment="Center" Height="140">
-                <interactivity:Interaction.Behaviors>
-                    <behaviors:Blur x:Name="BlurBehavior" Value="8" Duration="0" Delay="0" AutomaticallyStart="True"/>
-                </interactivity:Interaction.Behaviors>
-                <toolkit:ImageEx x:Name="ShadowImg" Style="{ThemeResource QuickLoadImageEx}" PlaceholderSource="/Assets/Images/artist_placeholder.png"
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid x:Name="HeaderGroup" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="32">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid Margin="-20,-16,-20,-24" x:Name="Shadow" HorizontalAlignment="Center" VerticalAlignment="Center" Height="140">
+                    <interactivity:Interaction.Behaviors>
+                        <behaviors:Blur x:Name="BlurBehavior" Value="8" Duration="0" Delay="0" AutomaticallyStart="True"/>
+                    </interactivity:Interaction.Behaviors>
+                    <toolkit:ImageEx x:Name="ShadowImg" Style="{ThemeResource QuickLoadImageEx}" PlaceholderSource="/Assets/Images/artist_placeholder.png"
                                  Stretch="Uniform" PlaceholderStretch="Uniform"  Source="{x:Bind Context.Artist.AvatarImage, Mode=OneWay}" CornerRadius="9999"
                                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="20,0" Height="100" Width="100"/>
-                <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="20,0"
+                    <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="20,0"
                         Background="{ThemeResource SystemControlBackgroundBaseLowBrush}" CornerRadius="9999"
                         Height="{Binding ActualHeight, ElementName=ShadowImg}" Width="{Binding ActualWidth, ElementName=ShadowImg}"/>
-            </Grid>
-            <toolkit:ImageEx x:Name="Image" Style="{ThemeResource QuickLoadImageEx}" PlaceholderSource="/Assets/Images/artist_placeholder.png"
+                </Grid>
+                <toolkit:ImageEx x:Name="Image" Style="{ThemeResource QuickLoadImageEx}" PlaceholderSource="/Assets/Images/artist_placeholder.png"
                              Stretch="Uniform" PlaceholderStretch="Uniform"  Source="{x:Bind Context.Artist.AvatarImage, Mode=OneWay}" CornerRadius="9999"
                              HorizontalAlignment="Center" VerticalAlignment="Center" Height="100" Width="100"/>
-            <StackPanel Grid.Column="1" Margin="12,0,0,0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <Border x:Name="Title" HorizontalAlignment="Left" VerticalAlignment="Stretch" Height="48">
-                    <TextBlock Text="{x:Bind Context.Artist.Name, Mode=OneWay}" VerticalAlignment="Center" FontWeight="Bold" 
+                <StackPanel Grid.Column="1" Margin="12,0,0,0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Border x:Name="Title" HorizontalAlignment="Left" VerticalAlignment="Stretch" Height="48">
+                        <TextBlock Text="{x:Bind Context.Artist.Name, Mode=OneWay}" VerticalAlignment="Center" FontWeight="Bold" 
                                    HorizontalAlignment="Left" TextWrapping="NoWrap" MaxLines="1"
                                    Style="{ThemeResource SubheaderTextBlockStyle}" TextTrimming="Clip"/>
-                </Border>
-                <Rectangle Margin="0,8" Fill="{ThemeResource SystemControlBackgroundBaseLowBrush}" Height="0.5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                <toolkit:WrapPanel HorizontalSpacing="8" VerticalSpacing="8" x:Name="Details" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
-                    <TextBlock Style="{ThemeResource BodyTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Run FontSize="13" FontFamily="Segoe MDL2 Assets" Text="&#xEC26;" />
-                        <Run Text="{x:Bind Context.Genres,Mode=OneWay,TargetNullValue=Loading,FallbackValue=Loading}"/>
-                    </TextBlock>
-                    <TextBlock Style="{ThemeResource BodyTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Run FontSize="13" FontFamily="Segoe MDL2 Assets" Text="&#xE93C;" />
-                        <Run Text="{x:Bind Context.SongsCount,Mode=OneWay,TargetNullValue=Loading,FallbackValue=Loading}"/>
-                    </TextBlock>
-                    <Button Style="{ThemeResource TextBlockButtonStyle}" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <TextBlock>
+                    </Border>
+                    <Rectangle Margin="0,8" Fill="{ThemeResource SystemControlBackgroundBaseLowBrush}" Height="0.5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                    <toolkit:WrapPanel HorizontalSpacing="8" VerticalSpacing="8" x:Name="Details" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <TextBlock Style="{ThemeResource BodyTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Run FontSize="13" FontFamily="Segoe MDL2 Assets" Text="&#xEC26;" />
+                            <Run Text="{x:Bind Context.Genres,Mode=OneWay,TargetNullValue=Loading,FallbackValue=Loading}"/>
+                        </TextBlock>
+                        <TextBlock Style="{ThemeResource BodyTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Run FontSize="13" FontFamily="Segoe MDL2 Assets" Text="&#xE93C;" />
+                            <Run Text="{x:Bind Context.SongsCount,Mode=OneWay,TargetNullValue=Loading,FallbackValue=Loading}"/>
+                        </TextBlock>
+                        <Button Command="{x:Bind Context.PlayAll}" Style="{ThemeResource PlayAllButton}" FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Button Style="{ThemeResource TextBlockButtonStyle}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock>
                             <Run FontSize="13" FontFamily="Segoe MDL2 Assets" Text="&#xEC24;" />
                             <Run x:Uid="ArtistStory" Text="See Artist Story"/>
-                        </TextBlock>
-                        <Button.Flyout>
-                            <Flyout FlyoutPresenterStyle="{ThemeResource HoriNoScrollFlyoutPresenter}">
-                                <StackPanel MinWidth="{ThemeResource FlyoutThemeMinWidth}" Padding="0,0,8,0" x:Name="ArtistFlyout" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                    <toolkit:ImageEx x:Name="AvatarImage" Style="{ThemeResource QuickLoadImageEx}" PlaceholderSource="/Assets/Images/artist_placeholder.png"
+                            </TextBlock>
+                            <Button.Flyout>
+                                <Flyout FlyoutPresenterStyle="{ThemeResource HoriNoScrollFlyoutPresenter}">
+                                    <StackPanel MinWidth="{ThemeResource FlyoutThemeMinWidth}" Padding="0,0,8,0" x:Name="ArtistFlyout" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                        <toolkit:ImageEx x:Name="AvatarImage" Style="{ThemeResource QuickLoadImageEx}" PlaceholderSource="/Assets/Images/artist_placeholder.png"
                                                  Stretch="Uniform" PlaceholderStretch="Uniform"  Source="{x:Bind Context.Artist.AvatarImage, Mode=OneWay}" Margin="0,8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="120"/>
-                                    <toolkit:MarkdownTextBlock IsTextSelectionEnabled="False" LinkClicked="Descriptions_LinkClicked" Text="{x:Bind Context.Artist.Description, Mode=OneWay}"
+                                        <toolkit:MarkdownTextBlock IsTextSelectionEnabled="False" LinkClicked="Descriptions_LinkClicked" Text="{x:Bind Context.Artist.Description, Mode=OneWay}"
                                                            x:Name="Descriptions" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="WrapWholeWords">
-                                    </toolkit:MarkdownTextBlock>
-                                </StackPanel>
-                            </Flyout>
-                        </Button.Flyout>
-                    </Button>
-                </toolkit:WrapPanel>
-            </StackPanel>
-        </Grid>
-
-        <GridView Grid.Row="1" animations:ReorderGridAnimation.Duration="360" ShowsScrollingPlaceholders="True" 
+                                        </toolkit:MarkdownTextBlock>
+                                    </StackPanel>
+                                </Flyout>
+                            </Button.Flyout>
+                        </Button>
+                    </toolkit:WrapPanel>
+                </StackPanel>
+            </Grid>
+            <StackPanel Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <StackPanel.ChildrenTransitions>
+                    <TransitionCollection>
+                        <RepositionThemeTransition/>
+                    </TransitionCollection>
+                </StackPanel.ChildrenTransitions>
+                <GridView animations:ReorderGridAnimation.Duration="360" ShowsScrollingPlaceholders="True" 
                   ItemClick="AlbumList_ItemClick" IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True"
-                  SelectionMode="None" ItemsSource="{x:Bind Context.AlbumList, Mode=OneWay}"
+                  SelectionMode="None" ItemsSource="{x:Bind Context.AlbumList, Mode=OneWay}" Padding="32"
                   ContextRequested="AlbumList_ContextRequested" ContextCanceled="AlbumList_ContextCanceled"
-                  ItemContainerStyle="{StaticResource GeneralGridViewItemStyle}" x:Name="AlbumList"
-                  Style="{StaticResource GeneralGridViewStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <GridView.ItemTemplate>
-                <DataTemplate x:DataType="vm:AlbumViewModel">
-                    <list:AlbumItem Data="{x:Bind }" PlayAlbum="PlayAlbum_Click" FlyoutRequired="Flyout_Click"/>
-                </DataTemplate>
-            </GridView.ItemTemplate>
-            <GridView.Footer>
-                <Border Height="160"/>
-            </GridView.Footer>
-        </GridView>
-    </Grid>
+                  ItemContainerStyle="{StaticResource GeneralGridViewItemStyle}" x:Name="AlbumList" Height="300"
+                  Style="{StaticResource HorizontalGridViewStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <GridView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <ItemsWrapGrid Orientation="Vertical"/>
+                        </ItemsPanelTemplate>
+                    </GridView.ItemsPanel>
+                    <GridView.ItemTemplate>
+                        <DataTemplate x:DataType="vm:AlbumViewModel">
+                            <list:AlbumItem Data="{x:Bind }" PlayAlbum="PlayAlbum_Click" FlyoutRequired="Flyout_Click"/>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
+                </GridView>
+
+                <SemanticZoom HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="Main">
+                    <SemanticZoom.ZoomedOutView>
+                        <GridView Margin="32" HorizontalAlignment="Center" VerticalAlignment="Center" ItemContainerStyle="{ThemeResource SemanticOutItem}"
+                          FontSize="20" ItemsSource="{x:Bind SongsListSource.View.CollectionGroups, Mode=OneWay}">
+                            <GridView.ItemTemplate>
+                                <DataTemplate x:DataType="wuxdata:ICollectionViewGroup">
+                                    <TextBlock Margin="12,4" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{x:Bind Group.ToString()}" Style="{StaticResource BaseTextBlockStyle}" MaxLines="1" TextWrapping="NoWrap"/>
+                                </DataTemplate>
+                            </GridView.ItemTemplate>
+                            <GridView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <toolkit:WrapPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </GridView.ItemsPanel>
+                            <GridView.Footer>
+                                <Border Height="240" Width="2"/>
+                            </GridView.Footer>
+                        </GridView>
+                    </SemanticZoom.ZoomedOutView>
+
+                    <SemanticZoom.ZoomedInView>
+                        <ListView IsSynchronizedWithCurrentItem="False" ContextRequested="SongsList_ContextRequested"
+                                  ContextCanceled="SongsList_ContextCanceled"
+                          IsItemClickEnabled="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                          SelectionMode="None" ItemsSource="{x:Bind SongsListSource.View, Mode=OneWay}" Padding="20,0"
+                          Style="{ThemeResource GeneralListView}" x:Name="SongsList" ItemClick="SongsList_ItemClick"
+                          ItemContainerStyleSelector="{StaticResource SongListStyleSelector}">
+                            <ListView.Header>
+                                <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Foreground="{ThemeResource AccentForText}" FontWeight="Bold" x:Uid="Retriving"
+                                   Text="Retriving Database" Margin="12,0" Visibility="{x:Bind Context.CollapseIfNotZero(Context.SongsList.Count),Mode=OneWay}"/>
+                            </ListView.Header>
+                            <ListView.ItemTemplate>
+                                <DataTemplate x:DataType="vm:SongViewModel">
+                                    <list:SongItem Data="{x:Bind }" IsMultiSelect="{x:Bind ListMultiSelecting, Mode=OneWay}" Play="SongItem_Play" RequestMultiSelect="SongItem_RequestMultiSelect"/>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                            <ListView.GroupStyle>
+                                <GroupStyle x:Name="GroupStyle" HeaderTemplate="{StaticResource NormalGroupSongsHeader}">
+                                    <GroupStyle.HeaderContainerStyle>
+                                        <Style TargetType="ListViewHeaderItem">
+                                            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+                                            <Setter Property="FontSize" Value="{ThemeResource ListViewHeaderItemThemeFontSize}" />
+                                            <Setter Property="Background" Value="{ThemeResource ListViewHeaderItemBackground}" />
+                                            <Setter Property="Margin" Value="12,0,12,4" />
+                                            <Setter Property="Padding" Value="0,8,0,0" />
+                                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                            <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                                            <Setter Property="MinHeight" Value="{ThemeResource ListViewHeaderItemMinHeight}" />
+                                            <Setter Property="UseSystemFocusVisuals" Value="True" />
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="ListViewHeaderItem">
+                                                        <StackPanel Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" 
+                                                            BorderThickness="{TemplateBinding BorderThickness}">
+                                                            <ContentPresenter x:Name="ContentPresenter"
+                                                                      Margin="{TemplateBinding Padding}" Content="{TemplateBinding Content}" 
+                                                                      ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                                      ContentTransitions="{TemplateBinding ContentTransitions}" 
+                                                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                                            <Rectangle Stroke="{ThemeResource ListViewHeaderItemDividerStroke}"
+                                                               StrokeThickness="0.5"
+                                                               Height="1"
+                                                               VerticalAlignment="Bottom"
+                                                               HorizontalAlignment="Stretch"
+                                                               Margin="0,8,0,0" />
+                                                        </StackPanel>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </GroupStyle.HeaderContainerStyle>
+                                </GroupStyle>
+                            </ListView.GroupStyle>
+                            <ListView.Footer>
+                                <Border Height="160"/>
+                            </ListView.Footer>
+                        </ListView>
+                    </SemanticZoom.ZoomedInView>
+                </SemanticZoom>
+            </StackPanel>
+
+        </Grid>
+    </ScrollViewer>
 </Page>

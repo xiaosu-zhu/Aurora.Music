@@ -27,11 +27,11 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref albumList, value); }
         }
 
-        private List<ImageSource> heroImage = null;
-        public List<ImageSource> HeroImage
+        private ObservableCollection<GroupedItem<SongViewModel>> songsList;
+        public ObservableCollection<GroupedItem<SongViewModel>> SongsList
         {
-            get { return heroImage; }
-            set { SetProperty(ref heroImage, value); }
+            get { return songsList; }
+            set { SetProperty(ref songsList, value); }
         }
 
         private ArtistViewModel artist;
@@ -60,27 +60,36 @@ namespace Aurora.Music.ViewModels
         public ArtistPageViewModel()
         {
             AlbumList = new ObservableCollection<AlbumViewModel>();
+            SongsList = new ObservableCollection<GroupedItem<SongViewModel>>();
         }
 
-        public async Task GetAlbums(ArtistViewModel artist)
+        public DelegateCommand PlayAll
         {
-            var albums = await FileReader.GetAlbumsAsync(artist.RawName);
+            get
+            {
+                return new DelegateCommand(async () =>
+                {
+                    await MainPageViewModel.Current.InstantPlay(SongsList.SelectMany(a=>a.Select(s=>s.Song)).ToList());
+                });
+            }
+        }
+
+        internal async Task PlayAt(SongViewModel songViewModel)
+        {
+            var list = new List<Song>();
+            foreach (var item in SongsList)
+            {
+                list.AddRange(item.Select(a => a.Song));
+            }
+            await MainPageViewModel.Current.InstantPlay(list, list.FindIndex(x => x.ID == songViewModel.ID));
+        }
+
+
+
+        public async Task Init(ArtistViewModel artist)
+        {
             var b = ThreadPool.RunAsync(async x =>
             {
-                var aa = albums.ToList();
-                aa.Shuffle();
-                var list = new List<Uri>();
-                for (int j = 0; j < aa.Count && j < 6; j++)
-                {
-                    if (aa[j].PicturePath.IsNullorEmpty()) continue;
-                    list.Add(new Uri(aa[j].PicturePath));
-                }
-                list.Shuffle();
-                await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
-                {
-                    HeroImage = list.ConvertAll(y => (ImageSource)new BitmapImage(y));
-                });
-
                 var art = await MainPageViewModel.Current.GetArtistInfoAsync(artist.RawName);
                 if (art != null)
                     await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
@@ -89,6 +98,12 @@ namespace Aurora.Music.ViewModels
                         Artist.Avatar = art.AvatarUri;
                     });
             });
+
+
+            var albums = await FileReader.GetAlbumsAsync(artist.RawName);
+            var songs = await SQLOperator.Current().GetSongsAsync(albums.SelectMany(s => s.Songs));
+
+            var grouped = GroupedItem<SongViewModel>.CreateGroupsByAlpha(songs.ConvertAll(x => new SongViewModel(x)));
 
             var a = albums.OrderByDescending(x => x.Year);
             var genres = (from alb in a
@@ -102,6 +117,16 @@ namespace Aurora.Music.ViewModels
                 foreach (var item in a)
                 {
                     AlbumList.Add(new AlbumViewModel(item));
+                }
+                SongsList.Clear();
+                foreach (var item in grouped)
+                {
+                    item.Aggregate((x, y) =>
+                    {
+                        y.Index = x.Index + 1;
+                        return y;
+                    });
+                    SongsList.Add(item);
                 }
                 SongsCount = SmartFormat.Smart.Format(Consts.Localizer.GetString("SmartAlbums"), AlbumList.Count);
                 Genres = genres.IsNullorEmpty() ? Consts.Localizer.GetString("VariousGenresText") : string.Join(Consts.CommaSeparator, genres);

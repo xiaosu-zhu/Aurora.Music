@@ -33,7 +33,7 @@ namespace Aurora.Music.Controls
 
             Task.Run(async () =>
             {
-                await Context.GetAlbums(artist);
+                await Context.Init(artist);
                 MainPage.Current.ShowModalUI(false);
             });
         }

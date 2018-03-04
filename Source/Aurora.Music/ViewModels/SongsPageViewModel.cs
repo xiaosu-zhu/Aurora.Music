@@ -21,11 +21,11 @@ namespace Aurora.Music.ViewModels
     class SongsPageViewModel : ViewModelBase
     {
 
-        private ObservableCollection<GroupedItem<SongViewModel>> albumList;
+        private ObservableCollection<GroupedItem<SongViewModel>> songsList;
         public ObservableCollection<GroupedItem<SongViewModel>> SongsList
         {
-            get { return albumList; }
-            set { SetProperty(ref albumList, value); }
+            get { return songsList; }
+            set { SetProperty(ref songsList, value); }
         }
 
         private List<ImageSource> heroImage = null;

@@ -135,28 +135,30 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                             <Grid Background="{x:Null}" x:Name="ArtistCell" PointerEntered="ArtistCell_PointerEntered" 
                           PointerPressed="ArtistCell_PointerPressed" PointerExited="ArtistCell_PointerExited"
                           PointerReleased="ArtistCell_PointerReleased" PointerCaptureLost="ArtistCell_PointerExited" 
-                          PointerCanceled="ArtistCell_PointerExited" Height="100">
+                          PointerCanceled="ArtistCell_PointerExited" Height="80">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="100"/>
-                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="80"/>
+                                    <ColumnDefinition Width="160"/>
                                 </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
                                 <toolkit:ImageEx x:Name="ArtistImage" Source="{x:Bind AvatarImage, Mode=OneWay}" 
                                                  PlaceholderSource="/Assets/Images/artist_placeholder.png" 
                                                  PlaceholderStretch="UniformToFill" Stretch="UniformToFill" 
-                                                 Style="{ThemeResource QuickLoadImageEx}"
+                                                 Style="{ThemeResource QuickLoadImageEx}" Grid.RowSpan="2"
                                                  HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                 Width="80" Height="80" CornerRadius="999">
+                                                 Width="64" Height="64" CornerRadius="999">
                                 </toolkit:ImageEx>
-                                <StackPanel Orientation="Vertical" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                    <TextBlock x:Name="ArtistName" Text="{x:Bind Name}" HorizontalAlignment="Left" VerticalAlignment="Center" 
-                                               MaxLines="2" TextTrimming="CharacterEllipsis" TextWrapping="WrapWholeWords"
-                                               Style="{ThemeResource TitleTextBlockStyle}"/>
-                                    <TextBlock x:Name="ArtistDetail" Text="{x:Bind CountToString(SongsCount)}" 
-                                               HorizontalAlignment="Left" VerticalAlignment="Center" 
-                                               Foreground="{ThemeResource ButtonDisabledForegroundThemeBrush}"
-                                               MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" 
-                                               Style="{ThemeResource BodyTextBlockStyle}"/>
-                                </StackPanel>
+                                <TextBlock x:Name="ArtistName" Text="{x:Bind Name}" HorizontalAlignment="Left" VerticalAlignment="Center" 
+                                           Grid.Column="1" MaxLines="2" TextTrimming="CharacterEllipsis" TextWrapping="WrapWholeWords"
+                                           Grid.Row="0" Style="{ThemeResource TitleTextBlockStyle}" FontSize="16"/>
+                                <TextBlock x:Name="ArtistDetail" Text="{x:Bind CountToString(SongsCount)}" Margin="0,0,0,16"
+                                           Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="13"
+                                           Grid.Row="1" Foreground="{ThemeResource ButtonDisabledForegroundThemeBrush}"
+                                           MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap"
+                                           Style="{ThemeResource BodyTextBlockStyle}"/>
                             </Grid>
                         </DataTemplate>
                     </GridView.ItemTemplate>

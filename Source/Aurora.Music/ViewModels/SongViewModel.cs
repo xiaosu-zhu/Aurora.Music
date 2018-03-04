@@ -88,11 +88,11 @@ namespace Aurora.Music.ViewModels
             switch (ext)
             {
                 case "mp3": return "MPEG-Layer 3";
-                case "flac": return "Free Loseless";
+                case "flac": return "Free Lossless";
                 case "m4a":
                     if (Song.BitRate > 400 * 1000)
                     {
-                        return "Apple Loseless";
+                        return "Apple Lossless";
                     }
                     else
                     {
