@@ -67,6 +67,39 @@ namespace Aurora.Music.Controls
             });
         }
 
+        public PodcastDialog(Uri g)
+        {
+            this.InitializeComponent();
+            Task.Run(async () =>
+            {
+                var pod = await Podcast.GetiTunesPodcast(g.AbsoluteUri);
+                podcast = pod;
+                await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                {
+                    Description.Text = pod.Description;
+                    TitleText.Text = pod.Title;
+                    Author.Text = pod.Author;
+                    Artwork.Source = new BitmapImage(new Uri(pod.HeroArtworks[0]));
+                    Updated.Text = PubDatetoString(pod.LastUpdate);
+                    Posts.AddRange(pod.Select(a => new SongViewModel(a)));
+                    Posts.OrderByDescending(a => a.PubDate);
+                    PodList.ItemsSource = Posts;
+                    FetchingHeader.Visibility = Visibility.Collapsed;
+                    FetchingProgress.IsIndeterminate = false;
+                    FetchingProgress.Visibility = Visibility.Collapsed;
+                    if (pod.Subscribed)
+                    {
+                        PrimaryButtonText = Consts.Localizer.GetString("UndoSubscribeText");
+                        DefaultButton = ContentDialogButton.Close;
+                    }
+                    else
+                    {
+                        IsPrimaryButtonEnabled = true;
+                    }
+                });
+            });
+        }
+
         public string PubDatetoString(DateTime d)
         {
             return d.PubDatetoString($"'{Consts.Today}'", "ddd", "M/dd ddd", "yy/M/dd", Consts.Next, Consts.Last);

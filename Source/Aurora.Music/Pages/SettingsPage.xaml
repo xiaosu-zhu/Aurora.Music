@@ -379,6 +379,11 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
                 <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <StackPanel.ChildrenTransitions>
+                        <TransitionCollection>
+                            <RepositionThemeTransition/>
+                        </TransitionCollection>
+                    </StackPanel.ChildrenTransitions>
                     <StackPanel BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" BorderThickness="0,0,0,1" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <Frame x:Name="LoactionFrame" Height="360" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                     </StackPanel>
@@ -387,7 +392,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <ComboBox x:Uid="OutputEndPoint" BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" BorderThickness="1" HorizontalAlignment="Left" VerticalAlignment="Center" IsSynchronizedWithCurrentItem="False" SelectedIndex="{x:Bind Context.AudioSelectedIndex,Mode=TwoWay}" Header="Output Endpoint" ItemsSource="{x:Bind Context.DevicList}" Margin="0,8"/>
                         <TextBlock x:Uid="OutputDefaultHint" Style="{ThemeResource BodyTextBlockStyle}" Text="'System default' will be applied at next launch." HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,8"/>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,8,0,0">
-                            <Slider x:Uid="VolumeLevel" Style="{StaticResource RoundSlider}" 
+                            <Slider x:Uid="VolumeLevel" Style="{StaticResource RoundSlider}" x:Name="VolumeSlider"
                                 Foreground="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" 
                                 Background="{ThemeResource SystemControlAltTranslucentAcrylicWindowBrush}" 
                                 Value="{x:Bind Context.PlayerVolume,Mode=TwoWay}" IsThumbToolTipEnabled="False"
@@ -456,10 +461,17 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <TextBlock Visibility="{x:Bind Context.OnlinePurchase,Mode=OneWay}" Text="{x:Bind Context.DownloadPathText, Mode=OneWay}" Margin="0,8" Style="{ThemeResource BodyTextBlockStyle}"/>
                     </StackPanel>
                     <StackPanel BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" BorderThickness="0,0,0,1" Padding="8,0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <StackPanel.ChildrenTransitions>
+                            <TransitionCollection>
+                                <RepositionThemeTransition/>
+                            </TransitionCollection>
+                        </StackPanel.ChildrenTransitions>
                         <TextBlock x:Uid="AudioEffects" Text="Audio Effects" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12"/>
                         <TextBlock FontSize="13" Text="NOTE: Enable audio effects may cost a little performance" Style="{ThemeResource BodyTextBlockStyle}" Margin="0,-12,0,0"/>
                         <ToggleSwitch Tag="Equalizer" IsOn="{x:Bind Context.EqualizerEnabled,Mode=OneWay}" 
                                       Loaded="ToggleSwitch_Loaded" x:Uid="EqualizerToggle" Header="Equalizer" Margin="0,8"/>
+                        <Button Margin="0,8" Content="Equalizer Settings" Visibility="{x:Bind Context.EqualizerEnabled,Mode=OneWay}" 
+                                Style="{ThemeResource TextBlockButtonStyle}" Command="{x:Bind Context.ShowEqualizer}"/>
                     </StackPanel>
                     <StackPanel BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" BorderThickness="0,0,0,1" Padding="8,0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <TextBlock x:Uid="Advance" Text="Advance" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12"/>

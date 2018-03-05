@@ -52,5 +52,20 @@ namespace Aurora.Music.Pages
             MainPage.Current.ShowModalUI(false);
             await dialog.ShowAsync();
         }
+
+        private async void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (Uri.TryCreate(UrlBox.Text, UriKind.Absolute, out var u))
+            {
+                var pod = new PodcastDialog(u);
+                await pod.ShowAsync();
+                UrlBox.Text = string.Empty;
+            }
+            else
+            {
+                MainPage.Current.PopMessage("Invalid url");
+                UrlBox.Text = string.Empty;
+            }
+        }
     }
 }

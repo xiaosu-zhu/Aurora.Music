@@ -58,7 +58,7 @@ namespace Aurora.Music.Core
         public static string UpdateNote =>
                             "# Notice\r\n\r\nWe've detected crashes occur when you're using **Windows Insider Preview**, sorry about that.\r\n\r\n**UPDATED**: Please update your Insider Preview to newest build: 17107, this build has fixed crashes.\r\n\r\n" +
                             "---\r\n" +
-                            "* **New**: Added support for importing a playlist(.m3u, .zpl, .mpl, doesn't support stream in m3u).\r\n" +
+                            "* **New**: Added function to subscribe rss via url (in *Podcast Market Page*).\r\n" +
                             "* **Improve**: Fixed bugs.\r\n";
 
         public static string UpdateNoteTitle => localizer.GetString("UpdateNoteTitle");

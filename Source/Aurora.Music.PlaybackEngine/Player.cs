@@ -47,7 +47,16 @@ namespace Aurora.Music.PlaybackEngine
             get => mediaPlayer.PlaybackSession.PlaybackRate;
             set => mediaPlayer.PlaybackSession.PlaybackRate = value;
         }
-        public bool? IsShuffle { get; private set; }
+
+
+        private bool isShuffle;
+        public bool? IsShuffle
+        {
+            get => isShuffle;
+            set => isShuffle = value == true;
+        }
+
+        private List<Song> currentListBackup;
 
         public double Volume => mediaPlayer.Volume;
 
@@ -207,7 +216,7 @@ namespace Aurora.Music.PlaybackEngine
             {
                 PlaybackStatus = mediaPlayer.PlaybackSession.PlaybackState,
                 IsLoop = mediaPlaybackList.AutoRepeatEnabled,
-                IsShuffle = mediaPlaybackList.ShuffleEnabled
+                IsShuffle = isShuffle
             });
         }
 
@@ -235,7 +244,7 @@ namespace Aurora.Music.PlaybackEngine
 
             ItemsChanged?.Invoke(this, new PlayingItemsChangedArgs
             {
-                IsShuffle = mediaPlaybackList.ShuffleEnabled,
+                IsShuffle = isShuffle,
                 IsLoop = mediaPlaybackList.AutoRepeatEnabled,
                 CurrentSong = currentSong,
                 CurrentIndex = currentSong == null ? -1 : currentList.FindIndex(a => a == currentSong),
@@ -261,6 +270,17 @@ namespace Aurora.Music.PlaybackEngine
 
             mediaPlayer.Pause();
             mediaPlaybackList.Items.Clear();
+
+            if (isShuffle)
+            {
+                currentListBackup = items.ToList();
+                var item = items[startIndex];
+                items.Shuffle();
+                var i = items.IndexOf(item);
+                var p = items[startIndex];
+                items[startIndex] = items[i];
+                items[i] = p;
+            }
 
             currentList.Clear();
             currentList.AddRange(items);
@@ -326,6 +346,17 @@ namespace Aurora.Music.PlaybackEngine
             mediaPlaybackList.Items.Clear();
 
             currentList.Clear();
+
+            if (isShuffle)
+            {
+                //currentListBackup = items.ToList();
+                var item = items[startIndex];
+                items.Shuffle();
+                var i = items.IndexOf(item);
+                var p = items[startIndex];
+                items[startIndex] = items[i];
+                items[i] = p;
+            }
 
             foreach (var file in items)
             {
@@ -507,38 +538,61 @@ namespace Aurora.Music.PlaybackEngine
             {
                 if (IsShuffle == b)
                     return;
-                var cure = mediaPlaybackList.CurrentItem;
+
+                var cure = mediaPlaybackList.CurrentItem.Source.CustomProperties[Consts.SONG] as Song;
                 _savedState = mediaPlayer.PlaybackSession.PlaybackState;
                 _savedPosition = mediaPlayer.PlaybackSession.Position;
 
                 mediaPlayer.Pause();
                 mediaPlayer.Source = null;
 
-                if (b is bool boo)
+                if (b is bool boo && boo)
                 {
                     if (boo)
                     {
-                        mediaPlaybackList.ShuffleEnabled = true;
-                    }
-                    else
-                    {
-                        mediaPlaybackList.ShuffleEnabled = false;
+                        IsShuffle = true;
+                        if (currentList.Count > 0)
+                        {
+                            currentListBackup = currentList.ToList();
+                            var l = currentList.ToList();
+                            l.Shuffle();
+                            var index = l.IndexOf(cure);
+                            var p = l[0];
+                            l[0] = l[index];
+                            l[index] = p;
+                            isShuffle = false;
+#pragma warning disable CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
+                            NewPlayList(l);
+#pragma warning restore CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
+                            isShuffle = true;
+                        }
+
                     }
                 }
                 else
                 {
-                    mediaPlaybackList.ShuffleEnabled = false;
+                    IsShuffle = false;
+                    if (currentListBackup != null)
+                    {
+                        var index = currentListBackup.IndexOf(cure);
+#pragma warning disable CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
+                        NewPlayList(currentListBackup.ToList(), index);
+#pragma warning restore CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
+                    }
+                    else if (currentList.Count > 0)
+                    {
+                        var index = currentList.IndexOf(cure);
+#pragma warning disable CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
+                        NewPlayList(currentList.ToList(), index);
+#pragma warning restore CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
+                    }
                 }
 
-                //var index = mediaPlaybackList.ShuffleEnabled ? mediaPlaybackList.ShuffledItems.ToList().IndexOf(cure) : mediaPlaybackList.Items.IndexOf(cure);
-                mediaPlayer.Source = mediaPlaybackList;
-                //if (index >= 0)
-                //    mediaPlaybackList.MoveTo((uint)index);
-                //mediaPlayer.PlaybackSession.Position = _savedPosition;
                 if (_savedState == MediaPlaybackState.Playing)
                 {
                     mediaPlayer.Play();
                 }
+                mediaPlayer.PlaybackSession.Position = _savedPosition;
             }
 
         }
@@ -549,49 +603,6 @@ namespace Aurora.Music.PlaybackEngine
             {
                 return;
             }
-
-            if (mediaPlaybackList.ShuffleEnabled)
-            {
-                uint i = mediaPlaybackList.CurrentItemIndex + 1;
-                bool b = false;
-                foreach (var item in mediaPlaybackList.ShuffledItems)
-                {
-                    if (b)
-                    {
-                        i = (uint)mediaPlaybackList.Items.IndexOf(item);
-                        b = false;
-                        break;
-                    }
-                    // in next loop, find the next shuffled item
-                    if (item == mediaPlaybackList.CurrentItem)
-                    {
-                        b = true;
-                    }
-                }
-
-                // played to the last of ShuffledItems
-                if (b)
-                {
-                    if (mediaPlaybackList.AutoRepeatEnabled)
-                    {
-                        mediaPlaybackList.MoveTo(0);
-                        ChangeVolume(Settings.Current.PlayerVolume);
-
-                    }
-                    else
-                    {
-                        Stop();
-                    }
-                    return;
-                }
-
-                mediaPlaybackList.MoveTo(i);
-
-                ChangeVolume(Settings.Current.PlayerVolume);
-                return;
-            }
-
-
 
             if (mediaPlaybackList.AutoRepeatEnabled)
             {
@@ -644,45 +655,6 @@ namespace Aurora.Music.PlaybackEngine
                 mediaPlayer.PlaybackSession.Position = TimeSpan.Zero;
                 return;
             }
-
-            if (mediaPlaybackList.ShuffleEnabled)
-            {
-                uint i = mediaPlaybackList.CurrentItemIndex - 1;
-                MediaPlaybackItem previous = null;
-
-                foreach (var item in mediaPlaybackList.ShuffledItems)
-                {
-                    // find the current shuffled item and find the previous index
-                    if (item == mediaPlaybackList.CurrentItem)
-                    {
-                        // the first of shuffle list
-                        if (previous == null)
-                        {
-                            if (mediaPlaybackList.AutoRepeatEnabled)
-                            {
-                                mediaPlaybackList.MoveTo(0);
-                                ChangeVolume(Settings.Current.PlayerVolume);
-
-                            }
-                            else
-                            {
-                                Stop();
-                            }
-                            return;
-                        }
-
-                        i = (uint)mediaPlaybackList.Items.IndexOf(previous);
-                    }
-
-                    previous = item;
-                }
-
-                mediaPlaybackList.MoveTo(i);
-
-                ChangeVolume(Settings.Current.PlayerVolume);
-                return;
-            }
-
 
             if (mediaPlaybackList.AutoRepeatEnabled)
             {
@@ -890,6 +862,9 @@ namespace Aurora.Music.PlaybackEngine
                         new EqualizerBand {Bandwidth = 0.8f, Frequency = 20000, Gain = Settings.Current.Gain[9]},
                     }
                 });
+            }
+            if (audioGraphEffects.HasFlag(Core.Models.Effects.Limiter))
+            {
             }
             if (mediaPlaybackList.CurrentItem == null)
             {

@@ -2,10 +2,14 @@
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using Aurora.Music.Core;
+using Aurora.Music.Core.Models;
 using Aurora.Music.ViewModels;
+using System;
 using System.Threading.Tasks;
 using Windows.System.Threading;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.UI.Xaml.Shapes;
@@ -21,6 +25,9 @@ namespace Aurora.Music.Pages
             MainPageViewModel.Current.Title = Consts.Localizer.GetString("SettingsText");
             MainPageViewModel.Current.NeedShowTitle = true;
             MainPageViewModel.Current.LeftTopColor = Resources["SystemControlForegroundBaseHighBrush"] as SolidColorBrush;
+
+            // slider swallowed PointerReleasedEvent
+            VolumeSlider.AddHandler(PointerReleasedEvent, new PointerEventHandler(Slider_PointerReleased), true);
 
             Task.Run(async () =>
             {
@@ -93,6 +100,23 @@ namespace Aurora.Music.Pages
         private void ToggleSwitch_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             (sender as ToggleSwitch).Toggled += ToggleSwitch_Toggled;
+        }
+
+        private void Slider_PointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            if (PlaybackEngine.PlaybackEngine.Current.IsPlaying == null || PlaybackEngine.PlaybackEngine.Current.IsPlaying == false)
+            {
+                var player = new Windows.Media.Playback.MediaPlayer
+                {
+                    Source = Windows.Media.Core.MediaSource.CreateFromUri(new Uri("ms-winsoundevent:Notification.Reminder"))
+                };
+                player.Volume = Settings.Current.PlayerVolume / 100d;
+                player.MediaEnded += (a, v) =>
+                {
+                    player.Dispose();
+                };
+                player.Play();
+            }
         }
     }
 }

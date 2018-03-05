@@ -227,5 +227,10 @@ namespace Aurora.Music.Pages
                 await MainPageViewModel.Current.InstantPlay(await (e.ClickedItem as GenericMusicItemViewModel).GetSongsAsync());
             }
         }
+
+        private void Page_Unloaded(object sender, RoutedEventArgs e)
+        {
+            Context.Unload();
+        }
     }
 }

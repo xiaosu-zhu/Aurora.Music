@@ -14,6 +14,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
+using Windows.UI.Xaml;
 
 namespace Aurora.Music.ViewModels
 {
@@ -21,26 +22,31 @@ namespace Aurora.Music.ViewModels
     {
         private PlayerStatus playerStatus;
 
+        private string welcomeTitle;
         public string WelcomeTitle
         {
-            get
+            get { return welcomeTitle; }
+            set { SetProperty(ref welcomeTitle, value); }
+        }
+
+
+        public string GetWelcomeTitle()
+        {
+            var fes = Tools.IsFestival(DateTime.Today);
+            switch (fes)
             {
-                var fes = Tools.IsFestival(DateTime.Today);
-                switch (fes)
-                {
-                    case Festival.None:
-                        return string.Format(Consts.Localizer.GetString("WelcomeTitleText"), DateTime.Now.GetHourString());
-                    case Festival.Valentine:
-                        return Consts.Localizer.GetString("ValentineWelcome");
-                    case Festival.Halloween:
-                        return Consts.Localizer.GetString("HalloweenWelcome");
-                    case Festival.Xmas:
-                        return Consts.Localizer.GetString("ChristmasWelcome");
-                    case Festival.Fool:
-                        return string.Format(Consts.Localizer.GetString("WelcomeTitleText"), DateTime.Now.GetHourString());
-                    default:
-                        return string.Format(Consts.Localizer.GetString("WelcomeTitleText"), DateTime.Now.GetHourString());
-                }
+                case Festival.None:
+                    return string.Format(Consts.Localizer.GetString("WelcomeTitleText"), DateTime.Now.GetHourString());
+                case Festival.Valentine:
+                    return Consts.Localizer.GetString("ValentineWelcome");
+                case Festival.Halloween:
+                    return Consts.Localizer.GetString("HalloweenWelcome");
+                case Festival.Xmas:
+                    return Consts.Localizer.GetString("ChristmasWelcome");
+                case Festival.Fool:
+                    return string.Format(Consts.Localizer.GetString("WelcomeTitleText"), DateTime.Now.GetHourString());
+                default:
+                    return string.Format(Consts.Localizer.GetString("WelcomeTitleText"), DateTime.Now.GetHourString());
             }
         }
 
@@ -85,6 +91,7 @@ namespace Aurora.Music.ViewModels
 
         public HomePageViewModel()
         {
+            WelcomeTitle = GetWelcomeTitle();
             HeroList.Add(new HeroItemViewModel());
             HeroList.Add(new HeroItemViewModel());
             HeroList.Add(new HeroItemViewModel());
@@ -114,9 +121,19 @@ namespace Aurora.Music.ViewModels
             RandomList.Add(new GenericMusicItemViewModel());
             RandomList.Add(new GenericMusicItemViewModel());
 
+            Application.Current.LeavingBackground += Current_LeavingBackground;
+
             Task.Run(async () =>
             {
                 await Load();
+            });
+        }
+
+        private async void Current_LeavingBackground(object sender, Windows.ApplicationModel.LeavingBackgroundEventArgs e)
+        {
+            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            {
+                WelcomeTitle = GetWelcomeTitle();
             });
         }
 
@@ -202,6 +219,11 @@ namespace Aurora.Music.ViewModels
                 }
             });
 
+        }
+
+        internal void Unload()
+        {
+            Application.Current.LeavingBackground -= Current_LeavingBackground;
         }
 
         internal async Task RestorePlayerStatus()

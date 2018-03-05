@@ -41,12 +41,22 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     <ScrollViewer Style="{ThemeResource NarrowScrollViewer}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                   Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" SizeChanged="ScrollViewer_SizeChanged"
                   HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Hidden">
-        <StackPanel x:Name="Main" Margin="0,80,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <StackPanel x:Name="Main" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <StackPanel.ChildrenTransitions>
                 <TransitionCollection>
                     <RepositionThemeTransition IsStaggeringEnabled="False"/>
                 </TransitionCollection>
             </StackPanel.ChildrenTransitions>
+            <StackPanel Margin="16,64,0,32" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <TextBox Header="Enter an valid rss address to view podcasts:" Width="320" x:Name="UrlBox" InputScope="Url"/>
+                <Button Style="{ThemeResource RevealRectangleButton}" Height="32" Width="64" 
+                        VerticalAlignment="Bottom" Click="Button_Click"
+                        Foreground="{ThemeResource AccentForText}">
+                    <Button.Content>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE122;" />
+                    </Button.Content>
+                </Button>
+            </StackPanel>
             <TextBlock Margin="16,0,0,0" Text="Top Charts" Style="{ThemeResource HeaderTextBlockStyle}" FontWeight="Bold"/>
             <ListView Padding="0,0,0,32" SelectionMode="None" IsItemClickEnabled="True" ItemClick="ListView_ItemClick" 
                       ItemContainerStyle="{ThemeResource ListViewItemRevealBackgroundShowsAboveContentStyle}" HorizontalAlignment="Stretch" 

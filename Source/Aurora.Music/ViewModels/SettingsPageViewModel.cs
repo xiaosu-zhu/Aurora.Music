@@ -132,6 +132,16 @@ namespace Aurora.Music.ViewModels
             });
         }
 
+
+        public DelegateCommand ShowEqualizer
+        {
+            get => new DelegateCommand(async () =>
+            {
+                var dialog = new EqualizerSettings();
+                await dialog.ShowAsync();
+            });
+        }
+
         public DelegateCommand DownloadPath
         {
             get => new DelegateCommand(async () =>

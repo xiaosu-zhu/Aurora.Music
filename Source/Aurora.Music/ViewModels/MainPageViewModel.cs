@@ -35,6 +35,7 @@ namespace Aurora.Music.ViewModels
     class MainPageViewModel : ViewModelBase, IDisposable
     {
         private Windows.System.Display.DisplayRequest _displayRequest;
+        private int _displayRequestCount = 0;
 
         public void ActivateDisplay()
         {
@@ -44,6 +45,7 @@ namespace Aurora.Music.ViewModels
 
             //make request to put in active state
             _displayRequest.RequestActive();
+            _displayRequestCount++;
         }
 
         public void ReleaseDisplay()
@@ -51,9 +53,12 @@ namespace Aurora.Music.ViewModels
             //must be same instance, so quit if it doesn't exist
             if (_displayRequest == null)
                 return;
-
-            //undo the request
-            _displayRequest.RequestRelease();
+            if (_displayRequestCount > 0)
+            {
+                //undo the request
+                _displayRequest.RequestRelease();
+                _displayRequestCount--;
+            }
         }
 
         public string VolumeToSymbol(double d)
