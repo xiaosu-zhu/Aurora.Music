@@ -115,6 +115,7 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ChannelShift.cs" />
     <Compile Include="EnvelopeDetector.cs" />
     <Compile Include="EqualizerBand.cs" />
     <Compile Include="IMemoryBufferByteAccess.cs" />

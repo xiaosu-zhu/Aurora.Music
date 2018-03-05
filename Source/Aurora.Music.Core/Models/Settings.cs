@@ -14,7 +14,7 @@ namespace Aurora.Music.Core.Models
     [Flags]
     public enum Effects
     {
-        None = 0, Reverb = 1, Limiter = 2, Equalizer = 4, All = Reverb | Limiter | Equalizer
+        None = 0, Reverb = 1, Limiter = 2, Equalizer = 4, ChannelShift = 8, All = Reverb | Limiter | Equalizer | ChannelShift
     }
 
     public enum Bitrate
@@ -110,6 +110,8 @@ namespace Aurora.Music.Core.Models
 
         public float[] Gain { get; set; } = new float[10] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         public uint PreferredSearchCount { get; set; } = 10;
+
+        public float ChannelShift { get; set; } = 0f;
 
         public bool VerifyDoubanLogin()
         {

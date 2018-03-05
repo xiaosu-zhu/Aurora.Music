@@ -3,6 +3,7 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using Aurora.Music.Core;
 using Aurora.Music.Core.Models;
+using Aurora.Music.Effects;
 using Aurora.Music.ViewModels;
 using System;
 using System.Threading.Tasks;
@@ -117,6 +118,21 @@ namespace Aurora.Music.Pages
                 };
                 player.Play();
             }
+        }
+
+        private void Slider_ValueChanged(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
+        {
+            ChannelShift.Current.ChangeShift((float)e.NewValue);
+        }
+
+        private void Left_Click(object sender, RoutedEventArgs e)
+        {
+            ShiftSlider.Value -= 0.1;
+        }
+
+        private void Right_Click(object sender, RoutedEventArgs e)
+        {
+            ShiftSlider.Value += 0.1;
         }
     }
 }

@@ -125,6 +125,11 @@ namespace Aurora.Music.PlaybackEngine
                         new EqualizerBand {Bandwidth = 0.8f, Frequency = 20000, Gain = Settings.Current.Gain[9]},
                     }
                 });
+            if (Settings.Current.AudioGraphEffects.HasFlag(Core.Models.Effects.ChannelShift))
+                mediaPlayer.AddAudioEffect(typeof(ChannelShift).FullName, false, new PropertySet()
+                {
+                    ["Shift"] = Settings.Current.ChannelShift
+                });
         }
 
         private void UpdateTimerDestoyed(ThreadPoolTimer timer)
@@ -863,6 +868,12 @@ namespace Aurora.Music.PlaybackEngine
                     }
                 });
             }
+
+            if (Settings.Current.AudioGraphEffects.HasFlag(Core.Models.Effects.ChannelShift))
+                mediaPlayer.AddAudioEffect(typeof(ChannelShift).FullName, false, new PropertySet()
+                {
+                    ["Shift"] = Settings.Current.ChannelShift
+                });
             if (audioGraphEffects.HasFlag(Core.Models.Effects.Limiter))
             {
             }

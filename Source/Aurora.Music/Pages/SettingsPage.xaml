@@ -8,6 +8,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Aurora.Music"
+    xmlns:controls="using:Aurora.Music.Controls"
     xmlns:animation="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:vm="using:Aurora.Music.ViewModels"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -329,6 +330,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <Image MaxHeight="48" Margin="-8" Grid.RowSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="{x:Bind Logo, Mode=OneWay}" Stretch="Uniform"/>
                 </Grid>
             </DataTemplate>
+            <controls:ChannelShiftToolTipConverter x:Key="ChannelShiftToolTipConverter"/>
         </ResourceDictionary>
     </Page.Resources>
 
@@ -472,6 +474,17 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                       Loaded="ToggleSwitch_Loaded" x:Uid="EqualizerToggle" Header="Equalizer" Margin="0,8"/>
                         <Button Margin="0,8" Content="Equalizer Settings" Visibility="{x:Bind Context.EqualizerEnabled,Mode=OneWay}" 
                                 Style="{ThemeResource TextBlockButtonStyle}" Command="{x:Bind Context.ShowEqualizer}"/>
+                        <ToggleSwitch Tag="Channel" IsOn="{x:Bind Context.ChannelShiftEnabled,Mode=OneWay}" 
+                                      Loaded="ToggleSwitch_Loaded" Header="Channel shift" Margin="0,8"/>
+                        <StackPanel Visibility="{x:Bind Context.ChannelShiftEnabled,Mode=OneWay}" Orientation="Horizontal" HorizontalAlignment="Left">
+                            <Button Margin="0,0,0,16" Content="L" Style="{ThemeResource TextBlockButtonStyle}" Click="Left_Click" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+                            <Slider Canvas.ZIndex="9999" Style="{ThemeResource RoundSlider}" HorizontalAlignment="Center" VerticalContentAlignment="Stretch"
+                                    Foreground="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" IsThumbToolTipEnabled="True"
+                                    Background="{ThemeResource SystemControlAltTranslucentAcrylicWindowBrush}" Width="240"
+                                    SnapsTo="Ticks" TickFrequency="0.1" TickPlacement="Inline" Minimum="-1" Maximum="1" ThumbToolTipValueConverter="{StaticResource ChannelShiftToolTipConverter}"
+                                    StepFrequency="0.1" Value="{x:Bind Context.ChannelShift,Mode=TwoWay}" x:Name="ShiftSlider"/>
+                            <Button Margin="0,0,0,16" Content="R" Style="{ThemeResource TextBlockButtonStyle}" Click="Right_Click" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+                        </StackPanel>
                     </StackPanel>
                     <StackPanel BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" BorderThickness="0,0,0,1" Padding="8,0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <TextBlock x:Uid="Advance" Text="Advance" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12"/>

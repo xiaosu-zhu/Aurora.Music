@@ -538,6 +538,9 @@ namespace Aurora.Music.ViewModels
                 case "Reverb":
                     Settings.Current.AudioGraphEffects ^= Core.Models.Effects.Reverb;
                     break;
+                case "Channel":
+                    Settings.Current.AudioGraphEffects ^= Core.Models.Effects.ChannelShift;
+                    break;
                 default:
                     break;
             }
@@ -547,6 +550,7 @@ namespace Aurora.Music.ViewModels
             EqualizerEnabled = Settings.Current.AudioGraphEffects.HasFlag(Core.Models.Effects.Equalizer);
             ThresholdEnabled = Settings.Current.AudioGraphEffects.HasFlag(Core.Models.Effects.Limiter);
             ReverbEnabled = Settings.Current.AudioGraphEffects.HasFlag(Core.Models.Effects.Reverb);
+            ChannelShiftEnabled= Settings.Current.AudioGraphEffects.HasFlag(Core.Models.Effects.ChannelShift);
         }
 
         internal void ChangeLyricExt(object selectedItem)
@@ -650,6 +654,29 @@ namespace Aurora.Music.ViewModels
                 SetProperty(ref equalizerEnabled, value);
                 PlaybackEngine.PlaybackEngine.Current.ToggleEffect(Settings.Current.AudioGraphEffects);
                 MainPageViewModel.Current.AttachVisualizerSource();
+            }
+        }
+
+        private bool channelShiftEnabled = Settings.Current.AudioGraphEffects.HasFlag(Core.Models.Effects.ChannelShift);
+        public bool ChannelShiftEnabled
+        {
+            get { return channelShiftEnabled; }
+            set
+            {
+                SetProperty(ref channelShiftEnabled, value);
+                PlaybackEngine.PlaybackEngine.Current.ToggleEffect(Settings.Current.AudioGraphEffects);
+                MainPageViewModel.Current.AttachVisualizerSource();
+            }
+        }
+
+        private double channelShift;
+        public double ChannelShift
+        {
+            get { return channelShift; }
+            set
+            {
+                SetProperty(ref channelShift, value);
+                Effects.ChannelShift.Current?.ChangeShift((float)value);
             }
         }
 

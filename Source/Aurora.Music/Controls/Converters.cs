@@ -43,4 +43,22 @@ namespace Aurora.Music.Controls
             throw new NotImplementedException();
         }
     }
+    class ChannelShiftToolTipConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            if (value is double d)
+            {
+                var cutL = 1 - Math.Max(0, d);
+                var cutR = 1 + Math.Min(0, d);
+                return $"L: {cutL.ToString("P0")} R: {cutR.ToString("P0")}";
+            }
+            return string.Empty;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
