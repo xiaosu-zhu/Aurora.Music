@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
+using Aurora.Music.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,13 +24,21 @@ namespace Aurora.Music.Effects
         }
 
         private AudioEncodingProperties currentEncodingProperties;
-        private IPropertySet configuration;
         private float cutL = 1f;
         private float cutR = 1f;
+        private bool currentIsMono;
 
         public void SetEncodingProperties(AudioEncodingProperties encodingProperties)
         {
             currentEncodingProperties = encodingProperties;
+            if (currentEncodingProperties.ChannelCount != 2)
+            {
+                currentIsMono = true;
+            }
+            else
+            {
+                currentIsMono = false;
+            }
         }
 
         public void ProcessFrame(ProcessAudioFrameContext context)
@@ -46,15 +55,25 @@ namespace Aurora.Music.Effects
                     float* inputDataInFloat = (float*)inputDataInBytes;
                     int dataInFloatLength = (int)inputBuffer.Length / sizeof(float);
                     // Process audio data
-                    for (int n = 0; n < dataInFloatLength; n++)
+
+                    // only stereo can use this
+                    if (!currentIsMono)
                     {
-                        if (n % 2 == 0)
+                        for (int n = 0; n < dataInFloatLength; n += 2)
                         {
-                            inputDataInFloat[n] = inputDataInFloat[n] * cutL;
-                        }
-                        else
-                        {
-                            inputDataInFloat[n] = inputDataInFloat[n] * cutR;
+                            var l = inputDataInFloat[n] * cutL;
+                            var r = inputDataInFloat[n + 1] * cutR;
+
+                            if (StereoToMono)
+                            {
+                                inputDataInFloat[n] = l + r / (cutL + cutR);
+                                inputDataInFloat[n + 1] = inputDataInFloat[n];
+                            }
+                            else
+                            {
+                                inputDataInFloat[n] = l;
+                                inputDataInFloat[n + 1] = r;
+                            }
                         }
                     }
                 }
@@ -88,11 +107,6 @@ namespace Aurora.Music.Effects
             {
                 var supportedEncodingProperties = new List<AudioEncodingProperties>();
 
-                AudioEncodingProperties encodingProps1 = AudioEncodingProperties.CreatePcm(44100, 1, 32);
-                encodingProps1.Subtype = MediaEncodingSubtypes.Float;
-                AudioEncodingProperties encodingProps2 = AudioEncodingProperties.CreatePcm(48000, 1, 32);
-                encodingProps2.Subtype = MediaEncodingSubtypes.Float;
-
                 AudioEncodingProperties encodingProps3 = AudioEncodingProperties.CreatePcm(44100, 2, 32);
                 encodingProps3.Subtype = MediaEncodingSubtypes.Float;
                 AudioEncodingProperties encodingProps4 = AudioEncodingProperties.CreatePcm(48000, 2, 32);
@@ -103,8 +117,6 @@ namespace Aurora.Music.Effects
                 AudioEncodingProperties encodingProps6 = AudioEncodingProperties.CreatePcm(192000, 2, 32);
                 encodingProps6.Subtype = MediaEncodingSubtypes.Float;
 
-                supportedEncodingProperties.Add(encodingProps1);
-                supportedEncodingProperties.Add(encodingProps2);
                 supportedEncodingProperties.Add(encodingProps3);
                 supportedEncodingProperties.Add(encodingProps4);
                 supportedEncodingProperties.Add(encodingProps5);
@@ -118,25 +130,18 @@ namespace Aurora.Music.Effects
 
         public void SetProperties(IPropertySet configuration)
         {
-            this.configuration = configuration;
-            if (configuration.TryGetValue("Shift", out var o))
+            // shift -1~1
+            // -1: left = 1, right = 0;
+            // 1: left = 0, right = 1;
+            var shift = Settings.Current.ChannelShift;
+            if (shift > 1 || shift < -1)
             {
-                // shift -1~1
-                // -1: left = 1, right = 0;
-                // 1: left = 0, right = 1;
-                var shift = (float)o;
-                if (shift > 1 || shift < -1)
-                {
-                    shift = 0f;
-                }
-                cutL = Convert.ToSingle(1 - Math.Max(0, shift));
-                cutR = Convert.ToSingle(1 + Math.Min(0, shift));
+                shift = 0f;
             }
-            else
-            {
-                cutL = 1f;
-                cutR = 1f;
-            }
+            cutL = Convert.ToSingle(1 - Math.Max(0, shift));
+            cutR = Convert.ToSingle(1 + Math.Min(0, shift));
+
+            StereoToMono = Settings.Current.StereoToMono;
         }
 
         public ChannelShift()
@@ -153,5 +158,11 @@ namespace Aurora.Music.Effects
             cutL = Convert.ToSingle(1 - Math.Max(0, shift));
             cutR = Convert.ToSingle(1 + Math.Min(0, shift));
         }
+
+        public bool StereoToMono
+        {
+            get;
+            set;
+        } = false;
     }
 }

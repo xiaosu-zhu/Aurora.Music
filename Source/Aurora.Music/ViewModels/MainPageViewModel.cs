@@ -389,7 +389,7 @@ namespace Aurora.Music.ViewModels
                 });
             }
         }
-
+        
         public DelegateCommand PlayPause
         {
             get

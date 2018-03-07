@@ -120,11 +120,6 @@ namespace Aurora.Music.Pages
             }
         }
 
-        private void Slider_ValueChanged(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
-        {
-            ChannelShift.Current.ChangeShift((float)e.NewValue);
-        }
-
         private void Left_Click(object sender, RoutedEventArgs e)
         {
             ShiftSlider.Value -= 0.1;

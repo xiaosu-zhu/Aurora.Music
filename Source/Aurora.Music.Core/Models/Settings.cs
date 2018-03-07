@@ -112,6 +112,7 @@ namespace Aurora.Music.Core.Models
         public uint PreferredSearchCount { get; set; } = 10;
 
         public float ChannelShift { get; set; } = 0f;
+        public bool StereoToMono { get; set; } = false;
 
         public bool VerifyDoubanLogin()
         {

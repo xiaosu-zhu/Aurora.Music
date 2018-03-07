@@ -1612,10 +1612,10 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </Grid>
 
                 <toolkit:InAppNotification x:Name="InAppNotify" Style="{ThemeResource ToastNotificationStyle}" Content=""
-                                    AnimationDuration="00:00:00.72" VerticalOffset="16" HorizontalOffset="0"/>
+                                    AnimationDuration="0:0:0.64" VerticalOffset="16" HorizontalOffset="0"/>
 
                 <toolkit:InAppNotification x:Name="ProgressUpdateNotify" Style="{ThemeResource ProgressNotificationStyle}"
-                                    AnimationDuration="00:00:00.72" VerticalOffset="0" HorizontalOffset="344" ShowDismissButton="True">
+                                    AnimationDuration="0:0:0.64" VerticalOffset="0" HorizontalOffset="344" ShowDismissButton="True">
                     <toolkit:InAppNotification.Content>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <toolkit:RadialProgressBar x:Name="ProgressUpdateProgress" HorizontalAlignment="Left" VerticalAlignment="Center"

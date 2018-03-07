@@ -11,12 +11,14 @@ using Aurora.Music.ViewModels;
 using Aurora.Shared.Controls;
 using Aurora.Shared.Helpers;
 using Aurora.Shared.Logging;
+using Aurora.Shared.Extensions;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Web;
 using Windows.ApplicationModel;
@@ -246,6 +248,9 @@ namespace Aurora.Music
             }
             else
             {
+                // var classes = GetType().GetTypeInfo().Assembly.GetTypesWithAttribute<UriActivateAttribute>();
+
+
                 var segments = uri.AbsolutePath.Split('/');
                 for (int i = 0; i < segments.Length; i++)
                 {

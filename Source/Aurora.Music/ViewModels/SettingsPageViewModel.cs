@@ -550,7 +550,7 @@ namespace Aurora.Music.ViewModels
             EqualizerEnabled = Settings.Current.AudioGraphEffects.HasFlag(Core.Models.Effects.Equalizer);
             ThresholdEnabled = Settings.Current.AudioGraphEffects.HasFlag(Core.Models.Effects.Limiter);
             ReverbEnabled = Settings.Current.AudioGraphEffects.HasFlag(Core.Models.Effects.Reverb);
-            ChannelShiftEnabled= Settings.Current.AudioGraphEffects.HasFlag(Core.Models.Effects.ChannelShift);
+            ChannelShiftEnabled = Settings.Current.AudioGraphEffects.HasFlag(Core.Models.Effects.ChannelShift);
         }
 
         internal void ChangeLyricExt(object selectedItem)
@@ -669,14 +669,33 @@ namespace Aurora.Music.ViewModels
             }
         }
 
-        private double channelShift;
+        private double channelShift = Settings.Current.ChannelShift;
         public double ChannelShift
         {
             get { return channelShift; }
             set
             {
                 SetProperty(ref channelShift, value);
+                Settings.Current.ChannelShift = (float)value;
+                Settings.Current.Save();
                 Effects.ChannelShift.Current?.ChangeShift((float)value);
+            }
+        }
+
+
+        private bool stereoToMono = Settings.Current.StereoToMono;
+        public bool StereoToMono
+        {
+            get { return stereoToMono; }
+            set
+            {
+                SetProperty(ref stereoToMono, value);
+                Settings.Current.StereoToMono = value;
+                Settings.Current.Save();
+                if (Effects.ChannelShift.Current != null)
+                {
+                    Effects.ChannelShift.Current.StereoToMono = value;
+                }
             }
         }
 

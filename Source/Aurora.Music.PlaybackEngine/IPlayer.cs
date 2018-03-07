@@ -1,4 +1,5 @@
 ﻿using Aurora.Music.Core.Models;
+using Aurora.Shared.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -9,11 +10,16 @@ namespace Aurora.Music.PlaybackEngine
 {
     public interface IPlayer
     {
+        [UriActivate("?action=play", Usage = ActivateUsage.Query)]
         void Play();
+        [UriActivate("?action=pause", Usage = ActivateUsage.Query)]
         void Pause();
+        [UriActivate("?action=stop", Usage = ActivateUsage.Query)]
         void Stop();
         void Seek(TimeSpan position);
+        [UriActivate("?action=next", Usage = ActivateUsage.Query)]
         void Next();
+        [UriActivate("?action=previous", Usage = ActivateUsage.Query)]
         void Previous();
         Task NewPlayList(IList<Song> songs, int startIndex = 0);
         Task NewPlayList(IList<StorageFile> list, int startIndex = 0);

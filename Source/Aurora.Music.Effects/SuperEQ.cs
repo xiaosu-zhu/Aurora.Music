@@ -1,4 +1,5 @@
-﻿using NAudio.Dsp;
+﻿using Aurora.Music.Core.Models;
+using NAudio.Dsp;
 using System;
 using System.Collections.Generic;
 using Windows.Foundation;
@@ -43,7 +44,6 @@ namespace Aurora.Music.Effects
         private BiQuadFilter[,] filters;
         private int channels;
         private int bandCount;
-        private IPropertySet configuration;
 
         public void SetEncodingProperties(AudioEncodingProperties encodingProperties)
         {
@@ -66,22 +66,18 @@ namespace Aurora.Music.Effects
             {
                 return bands;
             }
-            if (configuration != null && configuration.TryGetValue("EqualizerBand", out object t) && t is EqualizerBand[] e)
-            {
-                return e;
-            }
             return new EqualizerBand[]
             {
-                new EqualizerBand {Bandwidth = 0.8f, Frequency = 30, Gain = 0},
-                new EqualizerBand {Bandwidth = 0.8f, Frequency = 75, Gain = 0},
-                new EqualizerBand {Bandwidth = 0.8f, Frequency = 150, Gain = 0},
-                new EqualizerBand {Bandwidth = 0.8f, Frequency = 30, Gain = 0},
-                new EqualizerBand {Bandwidth = 0.8f, Frequency = 600, Gain = 0},
-                new EqualizerBand {Bandwidth = 0.8f, Frequency = 1250, Gain = 0},
-                new EqualizerBand {Bandwidth = 0.8f, Frequency = 2500, Gain = 0},
-                new EqualizerBand {Bandwidth = 0.8f, Frequency = 5000, Gain = 0},
-                new EqualizerBand {Bandwidth = 0.8f, Frequency = 10000, Gain = 0},
-                new EqualizerBand {Bandwidth = 0.8f, Frequency = 20000, Gain = 0},
+                new EqualizerBand {Bandwidth = 0.8f, Frequency = 30, Gain = Settings.Current.Gain[0]},
+                new EqualizerBand {Bandwidth = 0.8f, Frequency = 75, Gain = Settings.Current.Gain[1]},
+                new EqualizerBand {Bandwidth = 0.8f, Frequency = 150, Gain = Settings.Current.Gain[2]},
+                new EqualizerBand {Bandwidth = 0.8f, Frequency = 30, Gain = Settings.Current.Gain[3]},
+                new EqualizerBand {Bandwidth = 0.8f, Frequency = 600, Gain = Settings.Current.Gain[4]},
+                new EqualizerBand {Bandwidth = 0.8f, Frequency = 1250, Gain = Settings.Current.Gain[5]},
+                new EqualizerBand {Bandwidth = 0.8f, Frequency = 2500, Gain = Settings.Current.Gain[6]},
+                new EqualizerBand {Bandwidth = 0.8f, Frequency = 5000, Gain = Settings.Current.Gain[7]},
+                new EqualizerBand {Bandwidth = 0.8f, Frequency = 10000, Gain = Settings.Current.Gain[8]},
+                new EqualizerBand {Bandwidth = 0.8f, Frequency = 20000, Gain = Settings.Current.Gain[9]},
             };
         }
 
@@ -197,7 +193,6 @@ namespace Aurora.Music.Effects
 
         public void SetProperties(IPropertySet configuration)
         {
-            this.configuration = configuration;
         }
     }
 }

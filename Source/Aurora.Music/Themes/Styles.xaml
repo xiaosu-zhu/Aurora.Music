@@ -354,15 +354,15 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                   Padding="{TemplateBinding Padding}"
                   MaxWidth="{TemplateBinding MaxWidth}"
                   MinWidth="{TemplateBinding MinWidth}"
-                  HorizontalAlignment="Center"
+                  HorizontalAlignment="Center" CornerRadius="12"
                   Visibility="{TemplateBinding Visibility}"
-                  Background="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}"
+                  Background="{TemplateBinding Background}"
                   BorderThickness="0">
                 <Grid.RenderTransform>
                     <CompositeTransform />
                 </Grid.RenderTransform>
                 <ContentPresenter HorizontalAlignment="Center"
-                                      Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"
+                                  Foreground="{TemplateBinding Foreground}"
                                   HorizontalContentAlignment="Center"
                                   VerticalAlignment="Center"
                                   VerticalContentAlignment="Center"
@@ -372,17 +372,17 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     </ControlTemplate>
 
     <Style x:Key="ToastNotificationStyle" TargetType="toolkit:InAppNotification">
-        <Setter Property="Background" Value="{ThemeResource SystemControlBaseMediumLowAcrylicElementMediumBrush}" />
-        <Setter Property="Foreground" Value="{ThemeResource ApplicationForegroundThemeBrush}" />
+        <Setter Property="Background" Value="{ThemeResource SystemControlBlackAcrylicElementBrush}" />
+        <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundAltHighBrush}" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Bottom" />
-        <Setter Property="MinHeight" Value="55" />
+        <Setter Property="MinHeight" Value="48" />
         <Setter Property="FontSize" Value="15" />
         <Setter Property="RenderTransformOrigin" Value="0.5,1" />
-        <Setter Property="Margin" Value="12,0,12,80" />
+        <Setter Property="Margin" Value="12,0,12,48" />
         <Setter Property="Padding" Value="12" />
         <Setter Property="MinWidth" Value="24"/>
-        <Setter Property="MaxWidth" Value="320"/>
+        <Setter Property="MaxWidth" Value="360"/>
         <Setter Property="Template" Value="{StaticResource ToastNotification}" />
     </Style>
 

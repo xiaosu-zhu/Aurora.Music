@@ -139,6 +139,7 @@
     <Compile Include="Helpers\JsonHelper.cs" />
     <Compile Include="Helpers\MemoryRandomAccessStream.cs" />
     <Compile Include="Helpers\EncodingHelper.cs" />
+    <Compile Include="Helpers\NavigationAttribute.cs" />
     <Compile Include="Helpers\StringHelper.cs" />
     <Compile Include="Helpers\SystemInfoHelper.cs" />
     <Compile Include="Helpers\Tools.cs" />

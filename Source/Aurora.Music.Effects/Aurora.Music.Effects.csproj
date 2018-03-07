@@ -116,7 +116,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="ChannelShift.cs" />
-    <Compile Include="EnvelopeDetector.cs" />
     <Compile Include="EqualizerBand.cs" />
     <Compile Include="IMemoryBufferByteAccess.cs" />
     <Compile Include="SuperEQ.cs" />
@@ -130,6 +129,12 @@
     <PackageReference Include="NAudio">
       <Version>1.8.4</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Aurora.Music.Core\Aurora.Music.Core.csproj">
+      <Project>{f0dbb792-f15d-4c3e-a6fe-5b184251c802}</Project>
+      <Name>Aurora.Music.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

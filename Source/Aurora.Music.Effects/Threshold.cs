@@ -16,8 +16,6 @@ namespace Aurora.Music.Effects
         private AudioEncodingProperties currentEncodingProperties;
         private IPropertySet configuration;
 
-        private float thresholdInFloat = 1.0f;
-        private float thresholdInFloatR = -1.0f;
 
         public void SetEncodingProperties(AudioEncodingProperties encodingProperties)
         {
@@ -39,19 +37,6 @@ namespace Aurora.Music.Effects
                     int dataInFloatLength = (int)inputBuffer.Length / sizeof(float);
 
                     float d;
-                    // Process audio data
-                    for (int n = 0; n < dataInFloatLength; n++)
-                    {
-                        d = inputDataInFloat[n];
-                        if (d > thresholdInFloat)
-                        {
-                            inputDataInFloat[n] = thresholdInFloat;
-                        }
-                        else if (d < thresholdInFloatR)
-                        {
-                            inputDataInFloat[n] = thresholdInFloatR;
-                        }
-                    }
                 }
             }
         }
@@ -114,19 +99,6 @@ namespace Aurora.Music.Effects
         public void SetProperties(IPropertySet configuration)
         {
             this.configuration = configuration;
-            if (configuration.TryGetValue("Threshold", out var o))
-            {
-                // db -100 ~0
-                var hold = (float)o;
-                hold /= 20;
-                thresholdInFloat = Convert.ToSingle(Math.Pow(10, hold));
-                thresholdInFloatR = -thresholdInFloat;
-            }
-            else
-            {
-                thresholdInFloat = 1f;
-                thresholdInFloatR = -1f;
-            }
         }
     }
 }

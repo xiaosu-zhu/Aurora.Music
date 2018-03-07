@@ -128,7 +128,8 @@ namespace Aurora.Music.PlaybackEngine
             if (Settings.Current.AudioGraphEffects.HasFlag(Core.Models.Effects.ChannelShift))
                 mediaPlayer.AddAudioEffect(typeof(ChannelShift).FullName, false, new PropertySet()
                 {
-                    ["Shift"] = Settings.Current.ChannelShift
+                    ["Shift"] = Settings.Current.ChannelShift,
+                    ["Mono"] = Settings.Current.StereoToMono
                 });
         }
 
@@ -872,7 +873,8 @@ namespace Aurora.Music.PlaybackEngine
             if (Settings.Current.AudioGraphEffects.HasFlag(Core.Models.Effects.ChannelShift))
                 mediaPlayer.AddAudioEffect(typeof(ChannelShift).FullName, false, new PropertySet()
                 {
-                    ["Shift"] = Settings.Current.ChannelShift
+                    ["Shift"] = Settings.Current.ChannelShift,
+                    ["Mono"] = Settings.Current.StereoToMono
                 });
             if (audioGraphEffects.HasFlag(Core.Models.Effects.Limiter))
             {

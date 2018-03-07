@@ -476,15 +476,16 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                 Style="{ThemeResource TextBlockButtonStyle}" Command="{x:Bind Context.ShowEqualizer}"/>
                         <ToggleSwitch Tag="Channel" IsOn="{x:Bind Context.ChannelShiftEnabled,Mode=OneWay}" 
                                       Loaded="ToggleSwitch_Loaded" Header="Channel shift" Margin="0,8"/>
-                        <StackPanel Visibility="{x:Bind Context.ChannelShiftEnabled,Mode=OneWay}" Orientation="Horizontal" HorizontalAlignment="Left">
+                        <StackPanel Margin="0,8,0,0" Visibility="{x:Bind Context.ChannelShiftEnabled,Mode=OneWay}" Orientation="Horizontal" HorizontalAlignment="Left">
                             <Button Margin="0,0,0,16" Content="L" Style="{ThemeResource TextBlockButtonStyle}" Click="Left_Click" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
                             <Slider Canvas.ZIndex="9999" Style="{ThemeResource RoundSlider}" HorizontalAlignment="Center" VerticalContentAlignment="Stretch"
                                     Foreground="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" IsThumbToolTipEnabled="True"
-                                    Background="{ThemeResource SystemControlAltTranslucentAcrylicWindowBrush}" Width="240"
+                                    Background="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" Width="240"
                                     SnapsTo="Ticks" TickFrequency="0.1" TickPlacement="Inline" Minimum="-1" Maximum="1" ThumbToolTipValueConverter="{StaticResource ChannelShiftToolTipConverter}"
                                     StepFrequency="0.1" Value="{x:Bind Context.ChannelShift,Mode=TwoWay}" x:Name="ShiftSlider"/>
                             <Button Margin="0,0,0,16" Content="R" Style="{ThemeResource TextBlockButtonStyle}" Click="Right_Click" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
                         </StackPanel>
+                        <ToggleSwitch Visibility="{x:Bind Context.ChannelShiftEnabled,Mode=OneWay}" VerticalAlignment="Top" Margin="0,0,0,8" Header="Stereo to mono" IsOn="{x:Bind Context.StereoToMono,Mode=TwoWay}"/>
                     </StackPanel>
                     <StackPanel BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" BorderThickness="0,0,0,1" Padding="8,0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <TextBlock x:Uid="Advance" Text="Advance" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12"/>
