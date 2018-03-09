@@ -855,7 +855,7 @@ namespace Aurora.Music.ViewModels
 
         private async void Reader_NewSongsAdded(object sender, SongsAddedEventArgs e)
         {
-            await FileReader.AddToAlbums(e.NewSongs);
+            await FileReader.SortAlbums();
         }
 
         private async void Player_PositionUpdated(object sender, PositionUpdatedArgs e)

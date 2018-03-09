@@ -27,10 +27,10 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="3*"/>
             </Grid.ColumnDefinitions>
-            <TextBlock FontWeight="Bold" Text="{Binding Key}" Style="{ThemeResource BodyTextBlockStyle}" 
+            <TextBlock FontWeight="Bold" Text="#" Style="{ThemeResource BodyTextBlockStyle}" 
                        TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"
                        HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{ThemeResource AccentForText}"/>
-            <TextBlock Margin="4" Grid.Column="1" Text="Title" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"
+            <TextBlock Margin="4" Grid.Column="1" Text="{Binding Key}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"
                         Foreground="{ThemeResource AccentForText}"
                        HorizontalAlignment="Stretch" VerticalAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}"/>
             <TextBlock Grid.Column="2" Margin="4" Text="Album" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"

@@ -27,6 +27,9 @@ namespace Aurora.Music.Controls
             Main.Text += string.Format(form, "`SQLite - net`", $"`{name.Version.ToVersionString()}`", "[`MIT License`](https://github.com/praeclarum/sqlite-net/blob/master/LICENSE.md)", "[`github.com/praeclarum/sqlite-net`](https://github.com/praeclarum/sqlite-net)");
 
             name = typeof(Microsoft.Toolkit.Uwp.UI.AdvancedCollectionView).Assembly.GetName();
+            Main.Text += string.Format(form, "`UWP Community Toolkit`", $"`{name.Version.ToVersionString()}`", "[`MIT License`](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/license.md)", "[`github.com/Microsoft/UWPCommunityToolkit `](https://github.com/Microsoft/UWPCommunityToolkit)");
+
+            name = typeof(Newtonsoft.Json.JsonConvert).Assembly.GetName();
             Main.Text += string.Format(form, "`Json.NET`", $"`{name.Version.ToVersionString()}`", "[`MIT License`](https://github.com/JamesNK/Newtonsoft.Json/blob/master/LICENSE.md)", "[`newtonsoft.com`](https://www.newtonsoft.com/json)");
 
             Main.Text += string.Format(form, "`NAudio`", $"`1.8.4`", "[`MS-PL`](https://github.com/naudio/NAudio/blob/master/license.txt)", "[`github.com/naudio/NAudio`](https://github.com/naudio/NAudio)");

@@ -91,7 +91,15 @@ namespace Aurora.Music.ViewModels
                     item.RefreshFav();
                 }
             });
-            var info = await MainPageViewModel.Current.GetAlbumInfoAsync(Album.Name, Album.AlbumArtists.FirstOrDefault());
+            Core.Models.AlbumInfo info = null;
+            try
+            {
+                if (Album.Name != null)
+                    info = await MainPageViewModel.Current.GetAlbumInfoAsync(Album.Name, Album.AlbumArtists?.FirstOrDefault());
+            }
+            catch (Exception)
+            {
+            }
             await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
                 if (info != null)

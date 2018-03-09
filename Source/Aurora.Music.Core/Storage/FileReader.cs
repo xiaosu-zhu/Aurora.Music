@@ -275,16 +275,30 @@ namespace Aurora.Music.Core.Storage
                 }
             }
 
-            if (newlist.Count > 0)
-            {
-                await AddToAlbums(newlist);
-            }
-            else
-            {
-                Completed?.Invoke(null, EventArgs.Empty);
-            }
+            await RemoveDuplicate();
+
+            await SortAlbums();
+            Completed?.Invoke(null, EventArgs.Empty);
         }
 
+        private static async Task RemoveDuplicate()
+        {
+            var opr = SQLOperator.Current();
+            var songs = await opr.GetAllAsync<SONG>();
+            List<SONG> duplicates = new List<SONG>();
+            for (int i = 0; i < songs.Count; i++)
+            {
+                for (int j = i + 1; j < songs.Count; j++)
+                {
+                    if (songs[i].FilePath == songs[j].FilePath)
+                    {
+                        duplicates.Add(songs[j]);
+                        songs.Remove(songs[j]);
+                    }
+                }
+            }
+            await opr.RemoveSongsAsync(duplicates);
+        }
 
         public static async Task UpdateSongAsync(Song model)
         {
@@ -299,12 +313,13 @@ namespace Aurora.Music.Core.Storage
             return songs.ConvertAll(a => new Song(a));
         }
 
-        public async static Task AddToAlbums(IEnumerable<Song> songs)
+        public async static Task SortAlbums()
         {
             await Task.Run(async () =>
             {
-                var albums = from song in songs group song by song.Album into album select album;
                 var opr = SQLOperator.Current();
+                var songs = await opr.GetAllAsync<SONG>();
+                var albums = from song in songs group song by song.Album into album select album;
                 var count = albums.Count();
 
                 int i = 1;
@@ -334,35 +349,6 @@ namespace Aurora.Music.Core.Storage
             var l = new List<GenericMusicItem>(album.ConvertAll(x => new GenericMusicItem(x)));
             l.AddRange(songs.ConvertAll(x => new GenericMusicItem(x)));
             return l;
-        }
-
-        internal static async Task AddToAlbums(IEnumerable<SONG> songs)
-        {
-            await Task.Run(async () =>
-            {
-                var albums = from song in songs group song by song.Album into album select album;
-                var opr = SQLOperator.Current();
-                var count = albums.Count();
-
-                if (count == 0)
-                {
-                    Completed?.Invoke(null, EventArgs.Empty);
-                    return;
-                }
-
-                int i = 1;
-
-                await Task.Delay(200);
-
-                ProgressUpdated?.Invoke(null, new ProgressReport() { Description = $"0 of {count} albums sorted", Current = 0, Total = count });
-                foreach (var item in albums)
-                {
-                    await opr.AddAlbumAsync(item);
-                    ProgressUpdated?.Invoke(null, new ProgressReport() { Description = $"{i} of {count} albums sorted", Current = i, Total = count });
-                    i++;
-                }
-                Completed?.Invoke(null, EventArgs.Empty);
-            });
         }
 
         public static async Task<IList<Song>> ReadFileandSendBack(List<StorageFile> files)

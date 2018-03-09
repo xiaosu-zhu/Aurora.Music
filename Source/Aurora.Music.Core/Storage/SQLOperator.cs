@@ -708,8 +708,7 @@ namespace Aurora.Music.Core.Storage
                 var p = result[0];
 
                 // the properties' converting rules is described *below*
-
-                p.Songs = p.Songs + '|' + string.Join('|', album.Select(x => x.ID).Distinct());
+                p.Songs = string.Join('|', album.Select(x => x.ID).Distinct());
                 if (p.AlbumArtists.IsNullorEmpty())
                 {
                     p.AlbumArtists = (from aa in album where !aa.AlbumArtists.IsNullorEmpty() select aa.AlbumArtists).FirstOrDefault();
@@ -1411,6 +1410,14 @@ namespace Aurora.Music.Core.Storage
         public async Task UpdateDownload(DownloadDesc p)
         {
             await conn.UpdateAsync(p);
+        }
+
+        internal async Task RemoveSongsAsync(List<SONG> duplicates)
+        {
+            foreach (var item in duplicates)
+            {
+                await conn.DeleteAsync(item);
+            }
         }
     }
 }

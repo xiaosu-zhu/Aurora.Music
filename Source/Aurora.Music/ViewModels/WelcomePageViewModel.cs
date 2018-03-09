@@ -67,7 +67,7 @@ namespace Aurora.Music.ViewModels
 
         private async void Opr_NewSongsAdded(object sender, SongsAddedEventArgs e)
         {
-            await FileReader.AddToAlbums(e.NewSongs);
+            await FileReader.SortAlbums();
         }
 
         private async void FileReader_Completed(object sender, EventArgs e)
