@@ -841,13 +841,27 @@ namespace Aurora.Music.ViewModels
             {
                 return new DelegateCommand(async () =>
                 {
-                    EqualizerSettings s = new EqualizerSettings();
+                    var s = new EqualizerSettings();
+                    await s.ShowAsync();
+                });
+            }
+        }
+
+        public DelegateCommand ShowLimiter
+        {
+            get
+            {
+                return new DelegateCommand(async () =>
+                {
+                    var s = new LimiterSettings();
                     await s.ShowAsync();
                 });
             }
         }
 
         public bool IsEqualizerEnabled { get => Settings.Current.AudioGraphEffects.HasFlag(Core.Models.Effects.Equalizer); }
+
+        public bool IsLimiterEnabled { get => Settings.Current.AudioGraphEffects.HasFlag(Core.Models.Effects.Limiter); }
 
         public DelegateCommand ReturnNormal
         {

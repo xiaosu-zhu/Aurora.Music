@@ -135,8 +135,6 @@ namespace Aurora.Music.Pages
             base.OnNavigatedTo(e);
 
             await InitCategoryList();
-
-            var item = CategoryList.FirstOrDefault(x => x.Title == Settings.Current.CategoryLastClicked);
             Category.SelectionChanged += Category_SelectionChanged;
 
             if (e.Parameter is ValueTuple<Type, int, string> m)
@@ -167,6 +165,7 @@ namespace Aurora.Music.Pages
             }
             else
             {
+                var item = CategoryList.FirstOrDefault(x => x.Title == Settings.Current.CategoryLastClicked);
                 if (item != default(CategoryListItem))
                 {
                     Category.SelectedIndex = CategoryList.IndexOf(item);

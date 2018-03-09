@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
+using Aurora.Music.Core.Models;
+using NAudio.Dsp;
 using System;
 using System.Collections.Generic;
 using Windows.Foundation;
@@ -13,13 +15,87 @@ namespace Aurora.Music.Effects
 {
     public sealed class Threshold : IBasicAudioEffect
     {
+        private static Threshold current;
+        public static Threshold Current
+        {
+            get
+            {
+                return current;
+            }
+        }
+        public Threshold()
+        {
+            current = this;
+        }
+
         private AudioEncodingProperties currentEncodingProperties;
         private IPropertySet configuration;
+        private SimpleCompressor compressor = new SimpleCompressor();
+
+        // X : 1
+        private float ratio = Settings.Current.CompressorRatio;
+        public float Ratio
+        {
+            get => ratio;
+            set
+            {
+                ratio = value;
+                compressor.Ratio = value;
+            }
+        }
+        // - xx dB
+        private float makeUpGain = Settings.Current.CompressorMakeUpGain;
+        public float MakeUpGain
+        {
+            get => makeUpGain;
+            set
+            {
+                makeUpGain = value;
+                compressor.MakeUpGain = value;
+            }
+        }
+        // ms
+        private float attack = Settings.Current.CompressorAttack;
+        public float Attack
+        {
+            get => attack;
+            set
+            {
+                attack = value;
+                compressor.Attack = value;
+            }
+        }
+        // ms
+        private float release = Settings.Current.CompressorRelease;
+        public float Release
+        {
+            get => release;
+            set
+            {
+                release = value;
+                compressor.Release = value;
+            }
+        }
+        // - xx dB
+        private float thresholddB = Settings.Current.CompressorThresholddB;
+        public float ThresholddB
+        {
+            get => thresholddB;
+            set
+            {
+                thresholddB = value;
+                compressor.Threshold = value;
+            }
+        }
 
 
         public void SetEncodingProperties(AudioEncodingProperties encodingProperties)
         {
             currentEncodingProperties = encodingProperties;
+            compressor.SampleRate = currentEncodingProperties.SampleRate;
+            compressor.InitRuntime();
+            compressor.Ratio = 4f;
+            compressor.MakeUpGain = 6f;
         }
 
         public void ProcessFrame(ProcessAudioFrameContext context)
@@ -36,7 +112,10 @@ namespace Aurora.Music.Effects
                     float* inputDataInFloat = (float*)inputDataInBytes;
                     int dataInFloatLength = (int)inputBuffer.Length / sizeof(float);
 
-                    float d;
+                    for (int i = 0; i < dataInFloatLength; i += 2)
+                    {
+                        compressor.Process(ref inputDataInFloat[i], ref inputDataInFloat[i + 1]);
+                    }
                 }
             }
         }
@@ -56,6 +135,7 @@ namespace Aurora.Music.Effects
                 default:
                     break;
             }
+            compressor.InitRuntime();
         }
 
         public void DiscardQueuedFrames()
@@ -68,11 +148,6 @@ namespace Aurora.Music.Effects
             {
                 var supportedEncodingProperties = new List<AudioEncodingProperties>();
 
-                AudioEncodingProperties encodingProps1 = AudioEncodingProperties.CreatePcm(44100, 1, 32);
-                encodingProps1.Subtype = MediaEncodingSubtypes.Float;
-                AudioEncodingProperties encodingProps2 = AudioEncodingProperties.CreatePcm(48000, 1, 32);
-                encodingProps2.Subtype = MediaEncodingSubtypes.Float;
-
                 AudioEncodingProperties encodingProps3 = AudioEncodingProperties.CreatePcm(44100, 2, 32);
                 encodingProps3.Subtype = MediaEncodingSubtypes.Float;
                 AudioEncodingProperties encodingProps4 = AudioEncodingProperties.CreatePcm(48000, 2, 32);
@@ -82,9 +157,6 @@ namespace Aurora.Music.Effects
                 encodingProps5.Subtype = MediaEncodingSubtypes.Float;
                 AudioEncodingProperties encodingProps6 = AudioEncodingProperties.CreatePcm(192000, 2, 32);
                 encodingProps6.Subtype = MediaEncodingSubtypes.Float;
-
-                supportedEncodingProperties.Add(encodingProps1);
-                supportedEncodingProperties.Add(encodingProps2);
                 supportedEncodingProperties.Add(encodingProps3);
                 supportedEncodingProperties.Add(encodingProps4);
                 supportedEncodingProperties.Add(encodingProps5);

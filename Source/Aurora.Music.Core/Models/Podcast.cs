@@ -99,6 +99,10 @@ namespace Aurora.Music.Core.Models
 
         public Podcast(PODCAST p)
         {
+            ID = p.ID;
+            Title = p.Title;
+            Description = p.Description;
+            Author = p.Author;
             XMLUrl = p.XMLUrl;
             XMLPath = p.XMLPath;
             Subscribed = p.Subscribed;

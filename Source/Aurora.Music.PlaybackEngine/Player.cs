@@ -108,6 +108,14 @@ namespace Aurora.Music.PlaybackEngine
             var mgr = mediaPlayer.CommandManager;
             mgr.IsEnabled = true;
             positionUpdateTimer = ThreadPoolTimer.CreatePeriodicTimer(UpdatTimerHandler, TimeSpan.FromMilliseconds(250), UpdateTimerDestoyed);
+
+
+            if (Settings.Current.AudioGraphEffects.HasFlag(Core.Models.Effects.ChannelShift))
+                mediaPlayer.AddAudioEffect(typeof(ChannelShift).FullName, false, new PropertySet()
+                {
+                    ["Shift"] = Settings.Current.ChannelShift,
+                    ["Mono"] = Settings.Current.StereoToMono
+                });
             if (Settings.Current.AudioGraphEffects.HasFlag(Core.Models.Effects.Equalizer))
                 mediaPlayer.AddAudioEffect(typeof(SuperEQ).FullName, false, new PropertySet()
                 {
@@ -125,11 +133,9 @@ namespace Aurora.Music.PlaybackEngine
                         new EqualizerBand {Bandwidth = 0.8f, Frequency = 20000, Gain = Settings.Current.Gain[9]},
                     }
                 });
-            if (Settings.Current.AudioGraphEffects.HasFlag(Core.Models.Effects.ChannelShift))
-                mediaPlayer.AddAudioEffect(typeof(ChannelShift).FullName, false, new PropertySet()
+            if (Settings.Current.AudioGraphEffects.HasFlag(Core.Models.Effects.Limiter))
+                mediaPlayer.AddAudioEffect(typeof(Threshold).FullName, false, new PropertySet()
                 {
-                    ["Shift"] = Settings.Current.ChannelShift,
-                    ["Mono"] = Settings.Current.StereoToMono
                 });
         }
 
@@ -850,6 +856,13 @@ namespace Aurora.Music.PlaybackEngine
         public async void ToggleEffect(Core.Models.Effects audioGraphEffects)
         {
             mediaPlayer.RemoveAllEffects();
+
+            if (Settings.Current.AudioGraphEffects.HasFlag(Core.Models.Effects.ChannelShift))
+                mediaPlayer.AddAudioEffect(typeof(ChannelShift).FullName, false, new PropertySet()
+                {
+                    ["Shift"] = Settings.Current.ChannelShift,
+                    ["Mono"] = Settings.Current.StereoToMono
+                });
             if (audioGraphEffects.HasFlag(Core.Models.Effects.Equalizer))
             {
                 mediaPlayer.AddAudioEffect(typeof(SuperEQ).FullName, false, new PropertySet()
@@ -869,13 +882,12 @@ namespace Aurora.Music.PlaybackEngine
                     }
                 });
             }
-
-            if (Settings.Current.AudioGraphEffects.HasFlag(Core.Models.Effects.ChannelShift))
-                mediaPlayer.AddAudioEffect(typeof(ChannelShift).FullName, false, new PropertySet()
+            if (Settings.Current.AudioGraphEffects.HasFlag(Core.Models.Effects.Limiter))
+                mediaPlayer.AddAudioEffect(typeof(Threshold).FullName, false, new PropertySet()
                 {
-                    ["Shift"] = Settings.Current.ChannelShift,
-                    ["Mono"] = Settings.Current.StereoToMono
                 });
+
+
             if (audioGraphEffects.HasFlag(Core.Models.Effects.Limiter))
             {
             }

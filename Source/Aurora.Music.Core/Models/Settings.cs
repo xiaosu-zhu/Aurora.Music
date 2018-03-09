@@ -113,6 +113,11 @@ namespace Aurora.Music.Core.Models
 
         public float ChannelShift { get; set; } = 0f;
         public bool StereoToMono { get; set; } = false;
+        public float CompressorRatio { get; set; } = 1f;
+        public float CompressorMakeUpGain { get; set; } = 0f;
+        public float CompressorAttack { get; set; } = 10f;
+        public float CompressorRelease { get; set; } = 10f;
+        public float CompressorThresholddB { get; set; } = 0f;
 
         public bool VerifyDoubanLogin()
         {

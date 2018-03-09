@@ -1411,6 +1411,11 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8F9;" />
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
+                                <MenuFlyoutItem IsEnabled="{x:Bind Context.IsLimiterEnabled}" Command="{x:Bind Context.ShowLimiter}" Text="Limiter">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8F9;" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
                                 <MenuFlyoutItem x:Uid="Timer" Command="{x:Bind Context.ShowSleepTimer}" Text="Sleep Timer">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE916;" />

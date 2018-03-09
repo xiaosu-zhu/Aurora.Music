@@ -142,6 +142,15 @@ namespace Aurora.Music.ViewModels
             });
         }
 
+        public DelegateCommand ShowLimiter
+        {
+            get => new DelegateCommand(async () =>
+            {
+                var dialog = new LimiterSettings();
+                await dialog.ShowAsync();
+            });
+        }
+
         public DelegateCommand DownloadPath
         {
             get => new DelegateCommand(async () =>
@@ -703,7 +712,12 @@ namespace Aurora.Music.ViewModels
         public bool ThresholdEnabled
         {
             get { return threshold; }
-            set { SetProperty(ref threshold, value); }
+            set
+            {
+                SetProperty(ref threshold, value);
+                PlaybackEngine.PlaybackEngine.Current.ToggleEffect(Settings.Current.AudioGraphEffects);
+                MainPageViewModel.Current.AttachVisualizerSource();
+            }
         }
 
         private bool reverb = Settings.Current.AudioGraphEffects.HasFlag(Core.Models.Effects.Reverb);

@@ -155,7 +155,7 @@ namespace Aurora.Music.ViewModels
                 {
                     if (item.IsNullorEmpty())
                         continue;
-                    var pic = (from i in item where !i.PicturePath.IsNullorEmpty() select i.PicturePath).Distinct().ToList();
+                    var pic = (from i in item where !i.PicturePath.IsNullorEmpty() group i by i.Description into o select o.First().PicturePath).ToList();
                     pic.Shuffle();
                     HeroList.Add(new HeroItemViewModel()
                     {
@@ -179,7 +179,7 @@ namespace Aurora.Music.ViewModels
 
                 if (playerStatus != null && playerStatus.Songs != null)
                 {
-                    var pic = (from i in playerStatus.Songs where !i.PicturePath.IsNullorEmpty() select i.PicturePath).Distinct().ToList();
+                    var pic = (from i in playerStatus.Songs where !i.PicturePath.IsNullorEmpty() group i by i.Album into o select o.First().PicturePath).ToList();
                     pic.Shuffle();
                     HeroList.Add(new HeroItemViewModel()
                     {

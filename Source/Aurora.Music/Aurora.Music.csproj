@@ -136,6 +136,9 @@
     </Compile>
     <Compile Include="Controls\ImageGrid.cs" />
     <Compile Include="Controls\IRequestGoBack.cs" />
+    <Compile Include="Controls\LimiterSettings.xaml.cs">
+      <DependentUpon>LimiterSettings.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ListItems\AlbumItem.xaml.cs">
       <DependentUpon>AlbumItem.xaml</DependentUpon>
     </Compile>
@@ -346,6 +349,7 @@
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
     <None Include="Aurora.Music_StoreKey.pfx" />
     <None Include="Package.StoreAssociation.xml" />
+    <None Include="Package.xml" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
     <Content Include="Assets\Square150x150Logo.scale-200.png" />
@@ -411,6 +415,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\FileShare.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\LimiterSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
