@@ -30,7 +30,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
           PointerReleased="Grid_PointerReleased" PointerCanceled="Grid_PointerExited" PointerCaptureLost="Grid_PointerExited"
           BorderThickness="1">
         <Grid.Background>
-            <SolidColorBrush Color="{x:Bind Data.MainColor1,Mode=OneWay}" Opacity="0.2"/>
+            <SolidColorBrush Color="{x:Bind Data.MainColor1,Mode=OneWay}" Opacity="0.1"/>
         </Grid.Background>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="CommonStates">

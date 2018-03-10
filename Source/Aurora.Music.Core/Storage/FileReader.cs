@@ -171,14 +171,15 @@ namespace Aurora.Music.Core.Storage
             var todaySuggestion = await opr.GetTodayListAsync();
             var nowSuggestion = await opr.GetNowListAsync();
             var recent = await opr.GetRecentListAsync();
+            var random = await GetRandomListAsync();
 
             var res = new List<ListWithKey<GenericMusicItem>>
             {
+                new ListWithKey<GenericMusicItem>("Random", random),
                 new ListWithKey<GenericMusicItem>(string.Format(Consts.Localizer.GetString("TodaySuggestionText"), DateTime.Today.DayOfWeek.GetDisplayName()), todaySuggestion),
-                new ListWithKey<GenericMusicItem>(Consts.Localizer.GetString("RencentlyPlayedText"), recent),
-                new ListWithKey<GenericMusicItem>(string.Format(Consts.Localizer.GetString("TodayFavText"), DateTime.Now.GetHourString()), nowSuggestion)
+                new ListWithKey<GenericMusicItem>(string.Format(Consts.Localizer.GetString("TodayFavText"), DateTime.Now.GetHourString()), nowSuggestion),
+                new ListWithKey<GenericMusicItem>(Consts.Localizer.GetString("RencentlyPlayedText"), recent)
             };
-            res.Shuffle();
             return res;
         }
 

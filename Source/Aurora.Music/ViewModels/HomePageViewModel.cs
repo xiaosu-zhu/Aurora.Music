@@ -122,10 +122,16 @@ namespace Aurora.Music.ViewModels
             RandomList.Add(new GenericMusicItemViewModel());
 
             Application.Current.LeavingBackground += Current_LeavingBackground;
+            Application.Current.Resuming += Current_Resuming;
 
-            Task.Run(async () =>
+            Load();
+        }
+
+        private async void Current_Resuming(object sender, object e)
+        {
+            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
-                await Load();
+                WelcomeTitle = GetWelcomeTitle();
             });
         }
 
@@ -142,83 +148,94 @@ namespace Aurora.Music.ViewModels
 
         public ObservableCollection<HeroItemViewModel> HeroList { get; set; } = new ObservableCollection<HeroItemViewModel>();
 
-        public async Task Load()
+        public void Load()
         {
-            var hero = await FileReader.GetHeroListAsync();
-
-            playerStatus = await PlayerStatus.LoadAsync();
-
-            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
+            var list = new List<Task>
             {
-                HeroList.Clear();
-                foreach (var item in hero)
+                Task.Run(async () =>
                 {
-                    if (item.IsNullorEmpty())
-                        continue;
-                    var pic = (from i in item where !i.PicturePath.IsNullorEmpty() group i by i.Description into o select o.First().PicturePath).ToList();
-                    pic.Shuffle();
-                    HeroList.Add(new HeroItemViewModel()
+                    var hero = await FileReader.GetHeroListAsync();
+
+                    playerStatus = await PlayerStatus.LoadAsync();
+
+                    await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
                     {
-                        IDs = item.Select(x => x.IDs).Aggregate((a, b) =>
+                        HeroList.Clear();
+                        foreach (var item in hero)
                         {
-                            return a.Concat(b).ToArray();
-                        }),
-                        Title = item.Key,
-                        Artwork = pic.Count < 1 ? null : new Uri(pic[0]),
-                        Artwork1 = pic.Count < 2 ? null : new Uri(pic[1]),
-                        Artwork2 = pic.Count < 3 ? null : new Uri(pic[2]),
-                        Artwork3 = pic.Count < 4 ? null : new Uri(pic[3]),
-                        Artwork4 = pic.Count < 5 ? null : new Uri(pic[4]),
-                        Artwork5 = pic.Count < 6 ? null : new Uri(pic[5]),
-                        Artwork6 = pic.Count < 7 ? null : new Uri(pic[6]),
-                        Artwork7 = pic.Count < 8 ? null : new Uri(pic[7]),
-                        MainColor = pic.Count < 1 ? Palette.Gray : await ImagingHelper.GetMainColor(pic.IsNullorEmpty() ? null : new Uri(pic[0])),
-                        InnerType = MediaType.PlayList
-                    });
-                }
+                            if (item.IsNullorEmpty())
+                                continue;
+                            var pic = (from i in item where !i.PicturePath.IsNullorEmpty() group i by i.Description into o select o.First().PicturePath).ToList();
+                            pic.Shuffle();
+                            HeroList.Add(new HeroItemViewModel()
+                            {
+                                IDs = item.Select(x => x.IDs).Aggregate((a, b) =>
+                                {
+                                    return a.Concat(b).ToArray();
+                                }),
+                                Title = item.Key,
+                                Artwork = pic.Count < 1 ? null : new Uri(pic[0]),
+                                Artwork1 = pic.Count < 2 ? null : new Uri(pic[1]),
+                                Artwork2 = pic.Count < 3 ? null : new Uri(pic[2]),
+                                Artwork3 = pic.Count < 4 ? null : new Uri(pic[3]),
+                                Artwork4 = pic.Count < 5 ? null : new Uri(pic[4]),
+                                Artwork5 = pic.Count < 6 ? null : new Uri(pic[5]),
+                                Artwork6 = pic.Count < 7 ? null : new Uri(pic[6]),
+                                Artwork7 = pic.Count < 8 ? null : new Uri(pic[7]),
+                                MainColor = pic.Count < 1 ? Palette.Gray : await ImagingHelper.GetMainColor(pic.IsNullorEmpty() ? null : new Uri(pic[0])),
+                                InnerType = MediaType.PlayList
+                            });
+                        }
 
-                if (playerStatus != null && playerStatus.Songs != null)
+                        if (playerStatus != null && playerStatus.Songs != null)
+                        {
+                            var pic = (from i in playerStatus.Songs where !i.PicturePath.IsNullorEmpty() group i by i.Album into o select o.First().PicturePath).ToList();
+                            pic.Shuffle();
+                            HeroList.Add(new HeroItemViewModel()
+                            {
+                                IDs = null,
+                                Title = Consts.Localizer.GetString("PlayingHistoryText"),
+                                Artwork = pic.Count < 1 ? null : new Uri(pic[0]),
+                                Artwork1 = pic.Count < 2 ? null : new Uri(pic[1]),
+                                Artwork2 = pic.Count < 3 ? null : new Uri(pic[2]),
+                                Artwork3 = pic.Count < 4 ? null : new Uri(pic[3]),
+                                Artwork4 = pic.Count < 5 ? null : new Uri(pic[4]),
+                                Artwork5 = pic.Count < 6 ? null : new Uri(pic[5]),
+                                Artwork6 = pic.Count < 7 ? null : new Uri(pic[6]),
+                                Artwork7 = pic.Count < 8 ? null : new Uri(pic[7]),
+                                MainColor = pic.Count < 1 ? Palette.Gray : await ImagingHelper.GetMainColor(pic.IsNullorEmpty() ? null : new Uri(pic[0])),
+                                InnerType = MediaType.PlayList
+                            });
+                        }
+                    });
+                }),
+
+                Task.Run(async () =>
                 {
-                    var pic = (from i in playerStatus.Songs where !i.PicturePath.IsNullorEmpty() group i by i.Album into o select o.First().PicturePath).ToList();
-                    pic.Shuffle();
-                    HeroList.Add(new HeroItemViewModel()
+                    var ran = await FileReader.GetRandomListAsync();
+                    await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                     {
-                        IDs = null,
-                        Title = Consts.Localizer.GetString("PlayingHistoryText"),
-                        Artwork = pic.Count < 1 ? null : new Uri(pic[0]),
-                        Artwork1 = pic.Count < 2 ? null : new Uri(pic[1]),
-                        Artwork2 = pic.Count < 3 ? null : new Uri(pic[2]),
-                        Artwork3 = pic.Count < 4 ? null : new Uri(pic[3]),
-                        Artwork4 = pic.Count < 5 ? null : new Uri(pic[4]),
-                        Artwork5 = pic.Count < 6 ? null : new Uri(pic[5]),
-                        Artwork6 = pic.Count < 7 ? null : new Uri(pic[6]),
-                        Artwork7 = pic.Count < 8 ? null : new Uri(pic[7]),
-                        MainColor = pic.Count < 1 ? Palette.Gray : await ImagingHelper.GetMainColor(pic.IsNullorEmpty() ? null : new Uri(pic[0])),
-                        InnerType = MediaType.PlayList
+                        RandomList.Clear();
+                        foreach (var item in ran)
+                        {
+                            RandomList.Add(new GenericMusicItemViewModel(item));
+                        }
                     });
-                }
-            });
+                }),
 
-            var ran = await FileReader.GetRandomListAsync();
-            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
-            {
-                RandomList.Clear();
-                foreach (var item in ran)
+                Task.Run(async () =>
                 {
-                    RandomList.Add(new GenericMusicItemViewModel(item));
-                }
-            });
-
-            var fav = await FileReader.GetFavListAsync();
-            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
-            {
-                FavList.Clear();
-                foreach (var item in fav)
-                {
-                    FavList.Add(new GenericMusicItemViewModel(item));
-                }
-            });
-
+                    var fav = await FileReader.GetFavListAsync();
+                    await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                    {
+                        FavList.Clear();
+                        foreach (var item in fav)
+                        {
+                            FavList.Add(new GenericMusicItemViewModel(item));
+                        }
+                    });
+                })
+            };
         }
 
         internal void Unload()
