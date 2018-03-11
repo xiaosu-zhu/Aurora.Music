@@ -12,6 +12,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
+    Background="{ThemeResource SystemControlAltMediumLowAcrylicElementMediumBrush}"
     x:Uid="ExtensionManager"
     Title="Extension Manager"
     CloseButtonText="Close"
@@ -27,7 +28,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         </ResourceDictionary>
     </ContentDialog.Resources>
 
-    <ListView ItemClick="ListView_ItemClick" SelectionMode="None" IsItemClickEnabled="True" ItemsSource="{x:Bind ExtensionList}">
+    <ListView ItemClick="ListView_ItemClick" SelectionMode="None" Padding="0,0,20,0" IsItemClickEnabled="True" ItemsSource="{x:Bind ExtensionList}">
         <ListView.Header>
             <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Margin="0,8">
                 <Run x:Uid="ExtensionDesc" Text="Hover over icons to see tips, click to show more actions"/>

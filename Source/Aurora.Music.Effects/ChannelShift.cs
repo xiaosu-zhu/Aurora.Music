@@ -41,6 +41,22 @@ namespace Aurora.Music.Effects
             }
         }
 
+        void StereoWidth(ref float left, ref float right, float width)
+        {
+            // calc coefs
+            var tmp = 1 / Math.Max(1 + width, 2);
+            var coef_M = 1 * tmp;
+            var coef_S = width * tmp;
+
+            // then do this per sample
+            var m = (left + right) * coef_M;
+            var s = (right - left) * coef_S;
+
+            left = m - s;
+            right = m + s;
+        }
+
+
         public void ProcessFrame(ProcessAudioFrameContext context)
         {
             unsafe

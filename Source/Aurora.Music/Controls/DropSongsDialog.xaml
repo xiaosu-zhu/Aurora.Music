@@ -15,6 +15,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     xmlns:controls="using:Aurora.Music.Controls"
     mc:Ignorable="d"
     x:Uid="DropSongDialog"
+    Background="{ThemeResource SystemControlAltMediumLowAcrylicElementMediumBrush}"
     Title="We find something..."
     PrimaryButtonText="Save to Database"
     SecondaryButtonText="Just Play"
@@ -38,7 +39,10 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <ListView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{x:Bind DropList,Mode=OneWay}" IsSynchronizedWithCurrentItem="False" SelectionMode="None" ItemContainerStyleSelector="{StaticResource SongListStyleSelector}">
+        <ListView HorizontalAlignment="Stretch" Padding="0,0,20,0"
+                  VerticalAlignment="Stretch" ItemsSource="{x:Bind DropList,Mode=OneWay}" 
+                  IsSynchronizedWithCurrentItem="False" SelectionMode="None" 
+                  ItemContainerStyleSelector="{StaticResource SongListStyleSelector}">
             <ListView.Header>
                 <TextBlock x:Uid="DropSongDialogDesc" Text="You can choose to save them permanently, or just play instantly." Style="{ThemeResource BodyTextBlockStyle}" TextWrapping="WrapWholeWords" MaxWidth="480" Margin="0,8"/>
             </ListView.Header>

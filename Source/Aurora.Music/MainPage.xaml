@@ -1500,12 +1500,12 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                 </Grid>
                             </Button.Content>
                             <Button.Flyout>
-                                <Flyout Opened="Flyout_Opened">
+                                <Flyout FlyoutPresenterStyle="{ThemeResource HoriNoScrollFlyoutPresenter}" Opened="Flyout_Opened">
                                     <ListView x:Name="NowPlayingFlyout" ItemTemplate="{StaticResource PlayingListTemplate}" 
-                                          MaxHeight="360" IsSynchronizedWithCurrentItem="False" 
-                                          ItemContainerStyleSelector="{StaticResource SongListStyleSelector}" 
-                                          SelectedIndex="{x:Bind Context.CurrentIndex, Mode=OneWay,FallbackValue=-1}" 
-                                          ItemsSource="{x:Bind Context.NowPlayingList}">
+                                              MaxHeight="360" IsSynchronizedWithCurrentItem="False" Padding="0" Margin="0"
+                                              ItemContainerStyleSelector="{StaticResource SongListStyleSelector}"
+                                              SelectedIndex="{x:Bind Context.CurrentIndex, Mode=OneWay,FallbackValue=-1}"
+                                              ItemsSource="{x:Bind Context.NowPlayingList}">
                                         <ListView.Header>
                                             <TextBlock Text="Not Playing" x:Uid="NotPlaying" HorizontalAlignment="Center" VerticalAlignment="Center"
                                                    Visibility="{x:Bind Context.CollapseIfNotZero(Context.NowPlayingList.Count),Mode=OneWay}" 
@@ -1602,9 +1602,14 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <Grid HorizontalAlignment="Right" VerticalAlignment="Top" 
                       Height="32" x:Name="TitleBarOverlay" Visibility="Visible" >
                     <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="1" BorderThickness="0" BorderBrush="{x:Null}" x:Name="TitlebarBtm" Background="{StaticResource SystemControlBackgroundTransparentRevealBorderBrush}"/>
-                    <AutoSuggestBox AutoMaximizeSuggestionArea="True" Loaded="SearchBox_Loaded" LosingFocus="SearchBox_LosingFocus" Style="{ThemeResource BlockAutoSuggestBox}" QuerySubmitted="SearchBox_QuerySubmitted" SuggestionChosen="SearchBox_SuggestionChosen"
-                                    PlaceholderText="{x:Bind Context.PlaceholderText,Mode=OneWay}" QueryIcon="Find" x:Name="SearchBox" TextChanged="SearchBox_TextChanged" ItemsSource="{x:Bind Context.SearchItems, Mode=OneWay}" RenderTransformOrigin="1,0.5"
-                                    HorizontalAlignment="Right" Opacity="0" VerticalAlignment="Stretch" Width="320" ItemTemplateSelector="{StaticResource GenericItemSelector}" ItemContainerStyleSelector="{StaticResource SongListStyleSelector}">
+                    <AutoSuggestBox AutoMaximizeSuggestionArea="True" Loaded="SearchBox_Loaded" LosingFocus="SearchBox_LosingFocus" 
+                                    Style="{ThemeResource BlockAutoSuggestBox}" QuerySubmitted="SearchBox_QuerySubmitted" SuggestionChosen="SearchBox_SuggestionChosen"
+                                    PlaceholderText="{x:Bind Context.PlaceholderText,Mode=OneWay}" QueryIcon="Find" 
+                                    x:Name="SearchBox" TextChanged="SearchBox_TextChanged" ItemsSource="{x:Bind Context.SearchItems, Mode=OneWay}" 
+                                    RenderTransformOrigin="1,0.5"
+                                    HorizontalAlignment="Right" Opacity="0" VerticalAlignment="Stretch" Width="320" 
+                                    ItemTemplateSelector="{StaticResource GenericItemSelector}" 
+                                    ItemContainerStyleSelector="{StaticResource SongListStyleSelector}">
                         <AutoSuggestBox.RenderTransform>
                             <ScaleTransform ScaleX="0" ScaleY="1" x:Name="SearchBoxTransform"/>
                         </AutoSuggestBox.RenderTransform>

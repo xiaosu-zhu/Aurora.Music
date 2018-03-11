@@ -17,7 +17,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     mc:Ignorable="d"
     x:Uid="AlbumViewDialog"
     Title="Album"
-    MinWidth="240"
+    Background="{ThemeResource SystemControlAltMediumLowAcrylicElementMediumBrush}"
     PrimaryButtonText="Play"
     DefaultButton="Primary"
     SecondaryButtonText="Download All"
@@ -39,8 +39,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     </ContentDialog.Resources>
 
     <ListView ItemContainerStyleSelector="{StaticResource SongListStyleSelector}" ItemTemplate="{StaticResource NarrowSongListTemplate}"
-              ContextRequested="SongList_ContextRequested" ContextCanceled="SongList_ContextCanceled"
-              ItemsSource="{x:Bind SongList}">
+              ContextRequested="SongList_ContextRequested" ContextCanceled="SongList_ContextCanceled" HorizontalAlignment="Stretch"
+              ItemsSource="{x:Bind SongList}" Padding="0,0,20,0">
         <ListView.Header>
             <Grid Margin="0,0,0,24">
                 <Grid.ColumnDefinitions>
@@ -59,12 +59,17 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <TextBlock Margin="0,4" x:Name="Artist" Text="" Style="{ThemeResource SubtitleTextBlockStyle}"/>
                     <TextBlock Margin="0,4,0,8" x:Name="Brief" Text="" Style="{ThemeResource BodyTextBlockStyle}"/>
                 </StackPanel>
-                <Button Background="{x:Null}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" 
-                        HorizontalAlignment="Stretch" x:Name="DetailPanel" Click="DetailPanel_Click" BorderThickness="0" 
-                        Grid.Column="1" Grid.Row="1" VerticalAlignment="Stretch" Padding="0">
-                    <StackPanel Padding="8" Background="{ThemeResource SystemControlAcrylicWindowBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <toolkit:MarkdownTextBlock IsTextSelectionEnabled="False" LinkClicked="Descriptions_LinkClicked" Text="" x:Name="Descriptions" Height="75" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="WrapWholeWords">
-                        </toolkit:MarkdownTextBlock>
+                <Button HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Background="{x:Null}"
+                        HorizontalAlignment="Stretch" x:Name="DetailPanel" Click="DetailPanel_Click"
+                        BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}"
+                        BorderThickness="1" Grid.Column="1" Grid.Row="1" VerticalAlignment="Stretch" Padding="0">
+                    <StackPanel Padding="8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                Background="{ThemeResource SystemControlAltHighAcrylicElementBrush}">
+                        <toolkit:MarkdownTextBlock IsTextSelectionEnabled="False" 
+                                                   LinkClicked="Descriptions_LinkClicked" 
+                                                   Text="" x:Name="Descriptions" Height="75" 
+                                                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                                                   TextWrapping="WrapWholeWords"/>
                         <FontIcon x:Name="DescriIndicator" FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="10" Glyph="&#xE09D;" />
                     </StackPanel>
                 </Button>

@@ -12,10 +12,11 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
+    Background="{ThemeResource SystemControlAltMediumLowAcrylicElementMediumBrush}"
     Title="Open Source"
     CloseButtonText="Close"
     DefaultButton="Close">
-    <ScrollViewer x:Name="Root" HorizontalScrollMode="Disabled">
+    <ScrollViewer x:Name="Root" HorizontalScrollMode="Disabled" Padding="0,0,20,0">
         <toolkit:MarkdownTextBlock Loaded="Main_Loaded" LinkClicked="Main_LinkClicked" 
                                    x:Name="Main" MinWidth="360"/>
     </ScrollViewer>

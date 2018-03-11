@@ -59,9 +59,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
               PointerCanceled="Grid_PointerExited" PointerCaptureLost="Grid_PointerExited">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition MinWidth="48" Width="auto"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
             <Grid.Resources>
                 <Storyboard x:Key="PointerOver">
@@ -78,7 +78,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 
             <TextBlock Text="{x:Bind Track}" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Style="{ThemeResource BodyTextBlockStyle}"/>
             <TextBlock MaxLines="1" Grid.Column="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" 
-                               Style="{ThemeResource BodyTextBlockStyle}" Margin="8,0" HorizontalAlignment="Left" VerticalAlignment="Center">
+                       MaxWidth="160" Style="{ThemeResource BodyTextBlockStyle}" Margin="8,0" HorizontalAlignment="Left" VerticalAlignment="Center">
                 <Run FontSize="13" FontFamily="Segoe MDL2 Assets" Text="{x:Bind ShowOnline(IsOnline)}" Foreground="{ThemeResource AccentForText}"/>
                 <Run Text="{x:Bind Title}"/>
             </TextBlock>
@@ -91,8 +91,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <star:StarButton IsThreeState="False" IsChecked="{x:Bind Favorite, Mode=TwoWay}" HorizontalAlignment="Center" VerticalAlignment="Center" 
                                  FontSize="18" Margin="8,0"/>
                 <TextBlock MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" 
-                               HorizontalAlignment="Right" VerticalAlignment="Center" Width="120"
-                               Text="{x:Bind FormatDuration(Duration)}" Style="{ThemeResource BodyTextBlockStyle}" Margin="8,0"/>
+                               HorizontalAlignment="Right" VerticalAlignment="Center" Width="48"
+                               Text="{x:Bind DurationtoString(Duration)}" Style="{ThemeResource BodyTextBlockStyle}" Margin="8,0"/>
             </StackPanel>
         </Grid>
     </DataTemplate>

@@ -13,11 +13,11 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Uid="UpdateNoteDialog"
+    Background="{ThemeResource SystemControlAltMediumLowAcrylicElementMediumBrush}"
     mc:Ignorable="d"
     DefaultButton="Close"
     CloseButtonText="Close">
-    <ScrollViewer Loaded="Root_Loaded" x:Name="Root" HorizontalScrollMode="Disabled" VerticalScrollMode="Enabled">
-        <toolkit:MarkdownTextBlock IsTextSelectionEnabled="False" x:Name="Note" LinkClicked="Note_LinkClicked">
-        </toolkit:MarkdownTextBlock>
+    <ScrollViewer Loaded="Root_Loaded" Padding="0,0,20,0" x:Name="Root" HorizontalScrollMode="Disabled" VerticalScrollMode="Enabled">
+        <toolkit:MarkdownTextBlock IsTextSelectionEnabled="False" x:Name="Note" LinkClicked="Note_LinkClicked"/>
     </ScrollViewer>
 </ContentDialog>
