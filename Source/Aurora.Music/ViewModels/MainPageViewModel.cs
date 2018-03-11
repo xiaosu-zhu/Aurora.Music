@@ -26,6 +26,7 @@ using Windows.System;
 using Windows.System.Threading;
 using Windows.UI.Text;
 using Windows.UI.ViewManagement;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
@@ -270,6 +271,11 @@ namespace Aurora.Music.ViewModels
             }
         }
 
+        public Visibility TitlebarVisibility(bool b)
+        {
+            return (b && CoreApplication.GetCurrentView().TitleBar.IsVisible) ? Visibility.Visible : Visibility.Collapsed;
+        }
+
         private string _lasttitle;
         private string title;
         public string Title
@@ -389,7 +395,7 @@ namespace Aurora.Music.ViewModels
                 });
             }
         }
-        
+
         public DelegateCommand PlayPause
         {
             get

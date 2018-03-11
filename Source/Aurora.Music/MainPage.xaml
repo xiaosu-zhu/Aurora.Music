@@ -1252,9 +1252,12 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                             <animations:TranslationAnimation To="-320,0,0" From="0,0,0" Duration="0:0:0.16"/>
                         </animations:Implicit.HideAnimations>
                     </Border>
-                    <Button AccessKey="0" Style="{ThemeResource RevealRectangleButton}" BorderBrush="{ThemeResource SystemControlBackgroundTransparentRevealBorderBrush}" Background="{ThemeResource SystemControlTransparentRevealBackgroundBrush}" ToolTipService.ToolTip="{x:Bind Context.CurrentTitle, Mode=OneWay}"
-                        HorizontalAlignment="Left" VerticalAlignment="Top" Click="Toggle_PaneOpened" BorderThickness="1"
-                        Margin="0,32,0,0" Width="48" Height="48">
+                    <Button AccessKey="0" Style="{ThemeResource RevealRectangleButton}" 
+                            BorderBrush="{ThemeResource SystemControlBackgroundTransparentRevealBorderBrush}" 
+                            Background="{ThemeResource SystemControlTransparentRevealBackgroundBrush}" 
+                            ToolTipService.ToolTip="{x:Bind Context.CurrentTitle, Mode=OneWay}"
+                            HorizontalAlignment="Left" VerticalAlignment="Top" Click="Toggle_PaneOpened" BorderThickness="1"
+                            Margin="0,32,0,0" Width="48" Height="48">
                         <Button.KeyboardAccelerators>
                             <KeyboardAccelerator Modifiers="Control" Key="O"/>
                         </Button.KeyboardAccelerators>
@@ -1269,7 +1272,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                    HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
                     </Viewbox>
                 </Grid>
-                <ListView x:Name="HamPane" SelectionMode="None" IsItemClickEnabled="True" ItemClick="ListView_ItemClick" Width="{x:Bind PaneLength(Root.IsPaneOpen),Mode=OneWay}"
+                <ListView x:Name="HamPane" SelectionMode="None" IsItemClickEnabled="True" ItemClick="ListView_ItemClick" 
+                          Width="{x:Bind PaneLength(Root.IsPaneOpen),Mode=OneWay}"
                           ItemsSource="{x:Bind Context.HamList}" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Stretch" 
                           ItemContainerStyle="{ThemeResource PaneListItemStyle}">
                     <ListView.ItemTemplate>
@@ -1589,7 +1593,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 
                 <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top" Background="Transparent" 
                       Height="32" x:Name="TitleBar" Loaded="TitleBar_Loaded">
-                    <TextBlock x:Uid="AppName"  Style="{ThemeResource CaptionTextBlockStyle}" Visibility="{x:Bind Context.NeedShowTitle, Mode=OneWay}"
+                    <TextBlock Style="{ThemeResource CaptionTextBlockStyle}" 
+                               Visibility="Collapsed"
+                               Text="{x:Bind Context.CurrentTitle, Mode=OneWay}"
                                Margin="16,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" 
                                Foreground="{x:Bind Context.LeftTopColor, Mode=OneWay}"/>
                 </Grid>

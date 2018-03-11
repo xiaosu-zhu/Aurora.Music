@@ -17,6 +17,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     DefaultButton="Close">
     <ScrollViewer x:Name="Root" HorizontalScrollMode="Disabled">
         <toolkit:MarkdownTextBlock Loaded="Main_Loaded" LinkClicked="Main_LinkClicked" 
-                                   x:Name="Main" MinWidth="360"></toolkit:MarkdownTextBlock>
+                                   x:Name="Main" MinWidth="360"/>
     </ScrollViewer>
     </ContentDialog>
