@@ -147,7 +147,14 @@ namespace Aurora.Music.Controls
             var tileNotif = new TileNotification(tileContent.GetXml());
 
             // And send the notification to the primary tile
-            TileUpdateManager.CreateTileUpdaterForApplication().Update(tileNotif);
+            try
+            {
+                TileUpdateManager.CreateTileUpdaterForApplication().Update(tileNotif);
+            }
+            catch (System.Exception)
+            {
+                
+            }
         }
     }
 }

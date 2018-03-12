@@ -474,7 +474,7 @@ namespace Aurora.Music.Core.Models
 
         public string GetFileName()
         {
-            var f = OnlineID.TakeLast(FilePath.Length - FilePath.LastIndexOf('/'));
+            var f = FilePath.TakeLast(FilePath.Length - FilePath.LastIndexOf('/') - 1);
             return Shared.Utils.InvalidFileNameChars.Aggregate(string.Concat(f), (current, c) => current.Replace(c + "", "_"));
         }
     }

@@ -210,7 +210,7 @@ namespace Aurora.Music
             else if (args.Kind == ActivationKind.ToastNotification)
             {
                 ToastNotificationActivatedEventArgs a = args as ToastNotificationActivatedEventArgs;
-                if (a.Argument.StartsWith("as-music:"))
+                if (a.Argument.StartsWith("as-music:", StringComparison.InvariantCultureIgnoreCase))
                 {
                     uri = new Uri(a.Argument);
                 }
@@ -249,7 +249,7 @@ namespace Aurora.Music
                 var segments = uri.AbsolutePath.Split('/');
                 for (int i = 0; i < segments.Length; i++)
                 {
-                    switch (segments[i])
+                    switch (segments[i].ToLower())
                     {
                         case "home":
                             navigateType = typeof(HomePage); canShowInNewWindow = false;

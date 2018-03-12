@@ -56,7 +56,6 @@ namespace Aurora.Music.Core
         public static string CommaSeparator => ommaSeparator;
 
         public static string UpdateNote =>
-                            "* **Improve**: Added more acrylic style.\r\n" +
                             "* **Improve**: Fixed bugs.\r\n";
 
         public static string UpdateNoteTitle => localizer.GetString("UpdateNoteTitle");
