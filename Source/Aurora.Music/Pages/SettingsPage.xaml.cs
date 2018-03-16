@@ -5,6 +5,7 @@ using Aurora.Music.Core;
 using Aurora.Music.Core.Models;
 using Aurora.Music.Effects;
 using Aurora.Music.ViewModels;
+using Aurora.Shared.Helpers;
 using System;
 using System.Threading.Tasks;
 using Windows.System.Threading;
@@ -17,6 +18,7 @@ using Windows.UI.Xaml.Shapes;
 
 namespace Aurora.Music.Pages
 {
+    [UriActivate("settings", Usage = ActivateUsage.Navigation)]
     public sealed partial class SettingsPage : Page
     {
         public SettingsPage()

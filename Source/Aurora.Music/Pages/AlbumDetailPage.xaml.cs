@@ -5,6 +5,7 @@ using Aurora.Music.Controls;
 using Aurora.Music.Core;
 using Aurora.Music.ViewModels;
 using Aurora.Shared.Extensions;
+using Aurora.Shared.Helpers;
 using System;
 using System.Linq;
 using Windows.System;
@@ -19,7 +20,8 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Aurora.Music.Pages
 {
-    public sealed partial class AlbumDetailPage : Page, Controls.IRequestGoBack
+    [UriActivate("album", Usage = ActivateUsage.SubNavigation)]
+    public sealed partial class AlbumDetailPage : Page, IRequestGoBack
     {
 
         public AlbumDetailPage()

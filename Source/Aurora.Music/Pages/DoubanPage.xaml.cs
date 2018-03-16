@@ -20,6 +20,7 @@ namespace Aurora.Music.Pages
     /// <summary>
     /// 可用于自身或导航至 Frame 内部的空白页。
     /// </summary>
+    [UriActivate("douban", Usage = ActivateUsage.Navigation)]
     public sealed partial class DoubanPage : Page
     {
         private float canvasHeight;

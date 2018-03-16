@@ -11,10 +11,12 @@ using Aurora.Music.ViewModels;
 using Aurora.Shared.Controls;
 using Aurora.Shared.Helpers;
 using Aurora.Shared.Logging;
+using Aurora.Shared.Extensions;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
@@ -29,6 +31,7 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using System.Linq;
 
 namespace Aurora.Music
 {
@@ -243,26 +246,23 @@ namespace Aurora.Music
             }
             else
             {
-                // var classes = GetType().GetTypeInfo().Assembly.GetTypesWithAttribute<UriActivateAttribute>();
+                var segments = uri.AbsolutePath.Split('/', StringSplitOptions.RemoveEmptyEntries);
+
+                var classes = GetType().GetTypeInfo().Assembly.GetTypesWithAttribute<UriActivateAttribute>();
+
+                var matches0 = from g in classes
+                               where Array.Exists(g.Item2, a => a.Relative.Equals(segments[0], StringComparison.InvariantCultureIgnoreCase) && a.Usage == ActivateUsage.Navigation)
+                               select g;
+                var firstType = matches0.FirstOrDefault();
+
+                canShowInNewWindow = firstType.Item2[0].CanShowInNewWindow;
+                navigateType = firstType.Item1;
 
 
-                var segments = uri.AbsolutePath.Split('/');
-                for (int i = 0; i < segments.Length; i++)
+                for (int i = 1; i < segments.Length; i++)
                 {
                     switch (segments[i].ToLower())
                     {
-                        case "home":
-                            navigateType = typeof(HomePage); canShowInNewWindow = false;
-                            goto outside;
-                        case "settings":
-                            navigateType = typeof(SettingsPage); canShowInNewWindow = false;
-                            break;
-                        case "extension":
-                            navigateType = typeof(ExtSettings); canShowInNewWindow = true;
-                            goto outside;
-                        case "library":
-                            navigateType = typeof(LibraryPage); canShowInNewWindow = false;
-                            break;
                         case "podcast":
                             subNavigateType = typeof(PodcastPage); canShowInNewWindow = false;
                             break;
@@ -278,15 +278,6 @@ namespace Aurora.Music
                         case "playlist":
                             subNavigateType = typeof(PlayListPage); canShowInNewWindow = false;
                             break;
-                        case "download":
-                            navigateType = typeof(DownloadPage); canShowInNewWindow = false;
-                            break;
-                        case "about":
-                            navigateType = typeof(AboutPage); canShowInNewWindow = false;
-                            goto outside;
-                        case "douban":
-                            navigateType = typeof(DoubanPage); canShowInNewWindow = false;
-                            goto outside;
                         case "id":
                             if (segments.Length > i + 1 && int.TryParse(segments[++i], out int parse))
                             {

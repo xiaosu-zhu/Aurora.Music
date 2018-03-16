@@ -4,6 +4,7 @@
 using Aurora.Music.Core;
 using Aurora.Music.ViewModels;
 using Aurora.Shared.Extensions;
+using Aurora.Shared.Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -28,6 +29,7 @@ namespace Aurora.Music.Pages
     /// <summary>
     /// 可用于自身或导航至 Frame 内部的空白页。
     /// </summary>
+    [UriActivate("podcast", Usage = ActivateUsage.SubNavigation)]
     public sealed partial class PodcastPage : Page, Controls.IRequestGoBack
     {
         public PodcastPage()

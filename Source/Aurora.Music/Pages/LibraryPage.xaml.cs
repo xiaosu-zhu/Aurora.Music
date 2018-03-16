@@ -6,6 +6,7 @@ using Aurora.Music.Core.Models;
 using Aurora.Music.Core.Storage;
 using Aurora.Music.ViewModels;
 using Aurora.Shared.Extensions;
+using Aurora.Shared.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -26,6 +27,7 @@ namespace Aurora.Music.Pages
     /// <summary>
     /// 可用于自身或导航至 Frame 内部的空白页。
     /// </summary>
+    [UriActivate("library", Usage = ActivateUsage.Navigation)]
     public sealed partial class LibraryPage : Page, Controls.IRequestGoBack
     {
         public static LibraryPage Current;

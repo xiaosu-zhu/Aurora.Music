@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Aurora.Shared.Helpers
 {
-    public enum ActivateUsage { Navigation, Query }
+    public enum ActivateUsage { Navigation, SubNavigation, Query }
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = false, AllowMultiple = true)]
     public sealed class UriActivateAttribute : Attribute
     {
@@ -32,5 +32,7 @@ namespace Aurora.Shared.Helpers
         }
 
         public ActivateUsage Usage { get; set; }
+
+        public bool CanShowInNewWindow { get; set; }
     }
 }

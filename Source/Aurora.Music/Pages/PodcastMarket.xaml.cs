@@ -5,6 +5,7 @@ using Aurora.Music.Controls;
 using Aurora.Music.Core;
 using Aurora.Music.Core.Extension;
 using Aurora.Music.ViewModels;
+using Aurora.Shared.Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -28,6 +29,7 @@ namespace Aurora.Music.Pages
     /// <summary>
     /// 可用于自身或导航至 Frame 内部的空白页。
     /// </summary>
+    [UriActivate("market", Usage = ActivateUsage.Navigation)]
     public sealed partial class PodcastMarket : Page
     {
         public PodcastMarket()

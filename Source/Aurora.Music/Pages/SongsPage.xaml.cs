@@ -5,6 +5,7 @@ using Aurora.Music.Controls;
 using Aurora.Music.Core;
 using Aurora.Music.ViewModels;
 using Aurora.Shared.Extensions;
+using Aurora.Shared.Helpers;
 using System;
 using System.Linq;
 using Windows.UI.Core;
@@ -23,6 +24,7 @@ namespace Aurora.Music.Pages
     /// <summary>
     /// 可用于自身或导航至 Frame 内部的空白页。
     /// </summary>
+    [UriActivate("songs", Usage = ActivateUsage.SubNavigation)]
     public sealed partial class SongsPage : Page, IRequestGoBack
     {
         //private AlbumViewModel _clickedAlbum;

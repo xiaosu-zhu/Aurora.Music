@@ -28,7 +28,7 @@ namespace Aurora.Music.Pages
     /// <summary>
     /// 可用于自身或导航至 Frame 内部的空白页。
     /// </summary>
-    [UriActivate("/Home", Usage = ActivateUsage.Navigation)]
+    [UriActivate("home", Usage = ActivateUsage.Navigation)]
     public sealed partial class HomePage : Page
     {
         private CompositionPropertySet _scrollerPropertySet;
