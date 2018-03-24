@@ -29,8 +29,22 @@ namespace Aurora.Music.Core.Models
 
         public async Task<bool> FindUpdated()
         {
-            var resXML = await ApiRequestHelper.HttpGet(XMLUrl);
-            FindUpdated(resXML);
+            string resXML = string.Empty;
+            bool b = false;
+            for (int i = 0; i < 3; i++)
+            {
+                resXML = await ApiRequestHelper.HttpGet(XMLUrl);
+                try
+                {
+                    FindUpdated(resXML);
+                    b = true;
+                    break;
+                }
+                catch (Exception)
+                {
+                }
+            }
+            if (!b) return false;
             try
             {
                 var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Podcasts", CreationCollisionOption.OpenIfExists);
