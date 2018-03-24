@@ -69,7 +69,7 @@ namespace Aurora.Music.ViewModels
             {
                 return new DelegateCommand(async () =>
                 {
-                    await MainPageViewModel.Current.InstantPlay(SongsList.SelectMany(a=>a.Select(s=>s.Song)).ToList());
+                    await MainPageViewModel.Current.InstantPlay(SongsList.SelectMany(a => a.Select(s => s.Song)).ToList());
                 });
             }
         }
@@ -99,9 +99,10 @@ namespace Aurora.Music.ViewModels
                     });
             });
 
+            var opr = SQLOperator.Current();
 
-            var albums = await FileReader.GetAlbumsAsync(artist.RawName);
-            var songs = await SQLOperator.Current().GetSongsAsync(albums.SelectMany(s => s.Songs));
+            var albums = await opr.GetAlbumsOfArtistAsync(artist.RawName);
+            var songs = await opr.GetSongsAsync(albums.SelectMany(s => s.Songs));
 
             var grouped = GroupedItem<SongViewModel>.CreateGroupsByAlpha(songs.ConvertAll(x => new SongViewModel(x)));
 

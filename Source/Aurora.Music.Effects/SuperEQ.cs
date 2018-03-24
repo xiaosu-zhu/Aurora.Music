@@ -32,9 +32,16 @@ namespace Aurora.Music.Effects
             {
                 throw new ArgumentException("Bands Count mismatch");
             }
+            // Generalize to 0@max
+            var max = float.MinValue;
+            foreach (var item in equalizerBand)
+            {
+                if (item > max)
+                    max = item;
+            }
             for (int i = 0; i < bandCount; i++)
             {
-                bands[i].Gain = equalizerBand[i];
+                bands[i].Gain = equalizerBand[i] - max;
             }
             CreateFilters();
         }

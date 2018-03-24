@@ -876,6 +876,37 @@ namespace Aurora.Music.Core.Storage
             return await conn.QueryAsync<FOLDER>("SELECT * FROM FOLDER WHERE PATH=?", path);
         }
 
+        public async Task<List<Album>> GetAlbumsOfArtistAsync(string value)
+        {
+            if (value.IsNullorEmpty())
+            {
+                // anonymous artists, get their songs
+                var songs = await conn.QueryAsync<SONG>("SELECT * FROM SONG WHERE ALBUMARTISTS IS NULL");
+                var albumGrouping = from song in songs group song by song.Album;
+                return albumGrouping.ToList().ConvertAll(a => new Album(a));
+            }
+
+            value = SQLEscaping(value);
+
+            // get aritst-associated albums
+            // This version of SQLite-Net can't parameterize LIKE
+            var albums = await conn.QueryAsync<ALBUM>($"SELECT * FROM ALBUM WHERE ALBUMARTISTS LIKE '%{value}%'");
+            var res = albums.ConvertAll(a => new Album(a));
+
+            var otherSongs = await conn.QueryAsync<SONG>($"SELECT * FROM SONG WHERE PERFORMERS LIKE '%{value}%' OR ALBUMARTISTS LIKE '%{value}%'");
+
+            // remove duplicated (we suppose that artist's all song is just 1000+, this way can find all song and don't take long time)
+            otherSongs.RemoveAll(x => !albums.Where(b => b.Name == x.Album).IsNullorEmpty());
+            var otherGrouping = from song in otherSongs group song by song.Album;
+            // otherSongs has item
+            if (!otherGrouping.IsNullorEmpty())
+            {
+                res.AddRange(otherGrouping.ToList().ConvertAll(a => new Album(a)));
+            }
+            return res;
+        }
+
+
         internal async Task<List<T>> GetWithQueryAsync<T>(string character, object value) where T : new()
         {
             var type = typeof(T);
@@ -888,7 +919,47 @@ namespace Aurora.Music.Core.Storage
 
         public async Task<List<Artist>> GetArtistsAsync()
         {
-            return await conn.QueryAsync<Artist>("SELECT COUNT(*) AS COUNT, ALBUMARTISTS FROM SONG GROUP BY ALBUMARTISTS");
+            var artists = await conn.QueryAsync<Artist>("SELECT COUNT(*) AS COUNT, ALBUMARTISTS FROM SONG GROUP BY ALBUMARTISTS");
+            var res = new List<Artist>();
+            for (int i = 0; i < artists.Count; i++)
+            {
+                var arr = artists[i].AlbumArtists.Split(new string[] { Consts.ArraySeparator }, StringSplitOptions.RemoveEmptyEntries);
+                if (arr.Length <= 1)
+                {
+                    res.Add(artists[i]);
+                }
+                else
+                {
+                    foreach (var item in arr)
+                    {
+                        try
+                        {
+                            var ext = res.Find(a => a.AlbumArtists == item);
+                            if (ext != null)
+                            {
+                                ext.Count += artists[i].Count;
+                            }
+                            else
+                            {
+                                res.Add(new Artist()
+                                {
+                                    AlbumArtists = item,
+                                    Count = artists[i].Count
+                                });
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            res.Add(new Artist()
+                            {
+                                AlbumArtists = item,
+                                Count = artists[i].Count
+                            });
+                        }
+                    }
+                }
+            }
+            return res;
         }
 
         public async Task RemoveFolderAsync(int ID)

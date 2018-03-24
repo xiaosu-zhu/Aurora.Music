@@ -493,9 +493,21 @@ namespace Aurora.Music.ViewModels
         {
             Current = this;
             player = PlaybackEngine.PlaybackEngine.Current;
-            Task.Run(async () =>
+            if (Settings.Current.LastUpdateBuild < SystemInfoHelper.GetPackageVersionNum())
+            {
+                UpdateInfo i = new UpdateInfo();
+#pragma warning disable CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
+                i.ShowAsync();
+#pragma warning restore CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
+                Settings.Current.LastUpdateBuild = SystemInfoHelper.GetPackageVersionNum();
+                Settings.Current.Save();
+            }
+            Task.Run(() =>
             {
                 AttachVisualizerSource();
+            });
+            Task.Run(() =>
+            {
                 player.DownloadProgressChanged += Player_DownloadProgressChanged;
                 player.ItemsChanged += Player_StatusChanged;
                 player.PlaybackStatusChanged += Player_PlaybackStatusChanged;
@@ -505,22 +517,14 @@ namespace Aurora.Music.ViewModels
                 Downloader.Current.ItemCompleted += Current_ProgressChanged;
                 FileReader.ProgressUpdated += Reader_ProgressUpdated;
                 FileReader.Completed += Reader_Completed;
-
-
-                if (Settings.Current.LastUpdateBuild < SystemInfoHelper.GetPackageVersionNum())
-                {
-                    var k = CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
-                    {
-                        UpdateInfo i = new UpdateInfo();
-                        await i.ShowAsync();
-                        Settings.Current.LastUpdateBuild = SystemInfoHelper.GetPackageVersionNum();
-                        Settings.Current.Save();
-                    });
-                }
+            });
+            Task.Run(async () =>
+            {
                 await ReloadExtensions();
+            });
+            Task.Run(async () =>
+            {
                 await FindFileChanges();
-
-                //FileTracker.FilesChanged += FileTracker_FilesChanged;
             });
         }
 

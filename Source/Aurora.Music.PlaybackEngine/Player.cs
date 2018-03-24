@@ -846,6 +846,14 @@ namespace Aurora.Music.PlaybackEngine
                     continue;
                 }
             }
+            ItemsChanged?.Invoke(this, new PlayingItemsChangedArgs()
+            {
+                IsShuffle = isShuffle,
+                IsLoop = mediaPlaybackList.AutoRepeatEnabled,
+                CurrentSong = currentList[curIdx],
+                CurrentIndex = curIdx,
+                Items = currentList
+            });
         }
 
         public void ChangeEQ(float[] gain)

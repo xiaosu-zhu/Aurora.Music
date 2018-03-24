@@ -9,6 +9,7 @@ using Aurora.Shared.MVVM;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.System.Threading;
@@ -123,15 +124,9 @@ namespace Aurora.Music.ViewModels
 
         internal async Task<IList<Song>> GetSongsAsync()
         {
-            var albums = await FileReader.GetAlbumsAsync(RawName);
-
-            var songs = new List<Song>();
-            albums.ForEach(async x =>
-            {
-                var m = new AlbumViewModel(x);
-                songs.AddRange(await m.GetSongsAsync());
-            });
-            return songs;
+            var opr = SQLOperator.Current();
+            var albums = await opr.GetAlbumsOfArtistAsync(RawName);
+            return await opr.GetSongsAsync(albums.SelectMany(s => s.Songs));
         }
     }
 }

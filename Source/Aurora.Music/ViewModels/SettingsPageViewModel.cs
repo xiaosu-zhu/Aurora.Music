@@ -102,8 +102,7 @@ namespace Aurora.Music.ViewModels
         {
             get => new DelegateCommand(async () =>
             {
-                var launcher = Microsoft.Services.Store.Engagement.StoreServicesFeedbackLauncher.GetDefault();
-                await launcher.LaunchAsync();
+                await Launcher.LaunchUriAsync(new Uri("https://github.com/pkzxs/Aurora.Music/issues"));
             });
         }
 
@@ -420,6 +419,7 @@ namespace Aurora.Music.ViewModels
         {
             get => new DelegateCommand(async () =>
             {
+                MainPage.Current.ShowModalUI(true, "Deleting");
                 var opr = SQLOperator.Current();
                 opr.Dispose();
                 opr = null;

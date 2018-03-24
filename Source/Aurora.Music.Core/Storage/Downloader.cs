@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
+using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,15 +52,17 @@ namespace Aurora.Music.Core.Storage
             DiscoverActiveDownloadsAsync();
 
             BackgroundTransferCompletionGroup completionGroup = new BackgroundTransferCompletionGroup();
-
-            BackgroundTaskBuilder builder = new BackgroundTaskBuilder
+            Task.Run(async () =>
             {
-                TaskEntryPoint = "Aurora.Music.Services.DownloadCompletor"
-            };
-            builder.SetTrigger(completionGroup.Trigger);
+                var bgTaskName = "Aurora Music Downloader";
 
-            BackgroundTaskRegistration taskRegistration = builder.Register();
+                // Check for background access (optional)
+                await BackgroundExecutionManager.RequestAccessAsync();
 
+                // Register (Multi Process) w/ Conditions.
+                BackgroundTaskHelper.Register(bgTaskName, "Aurora.Music.Services.DownloadCompletor",
+                    completionGroup.Trigger, true, true, new SystemCondition(SystemConditionType.InternetAvailable));
+            });
             downloader = new BackgroundDownloader(completionGroup)
             {
                 TransferGroup = notificationsGroup

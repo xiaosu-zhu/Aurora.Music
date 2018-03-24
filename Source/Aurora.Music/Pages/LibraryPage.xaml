@@ -90,7 +90,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </ListView.ItemContainerTransitions>
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="vm:CategoryListItem">
-                    <Grid Height="48" x:Name="Panel" HorizontalAlignment="Stretch" Width="320">
+                    <Grid Height="48" x:Name="Panel" HorizontalAlignment="Stretch">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="48"/>
                             <ColumnDefinition Width="*"/>

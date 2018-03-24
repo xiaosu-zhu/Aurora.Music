@@ -56,7 +56,9 @@ namespace Aurora.Music.Core
         public static string CommaSeparator => ommaSeparator;
 
         public static string UpdateNote =>
-                            "* **Improve**: Fixed bugs.\r\n";
+                            "NOTE: Because of the latency of Windows feedback, I've changed the way of reporting bug to the github issues page. Don't be shy to report bugs.\r\n\r\n" +
+                            "* **Improve**: Fixed bugs.\r\n" +
+                            "* **Improve**: Optimized Equalizer.\r\n";
 
         public static string UpdateNoteTitle => localizer.GetString("UpdateNoteTitle");
 

@@ -79,38 +79,6 @@ namespace Aurora.Music.Core.Storage
             return files;
         }
 
-        public static async Task<List<Album>> GetAlbumsAsync(string value)
-        {
-            var opr = SQLOperator.Current();
-
-            // get single song
-            // sqlite escaping
-            value = SQLOperator.SQLEscaping(value);
-            if (value.IsNullorEmpty())
-            {
-                // anonymous artists, get their songs
-                var songs = await opr.GetWithQueryAsync<SONG>("ALBUMARTISTS", value);
-                var albumGrouping = from song in songs group song by song.Album;
-                return albumGrouping.ToList().ConvertAll(a => new Album(a));
-            }
-
-            // get aritst-associated albums
-            var albums = await opr.GetWithQueryAsync<ALBUM>("ALBUMARTISTS", value);
-            var res = albums.ConvertAll(a => new Album(a));
-
-            var otherSongs = await opr.GetWithQueryAsync<SONG>($"SELECT * FROM SONG WHERE PERFORMERS='{value}' OR ALBUMARTISTS='{value}'");
-
-            // remove duplicated (we suppose that artist's all song is just 1000+, this way can find all song and don't take long time)
-            otherSongs.RemoveAll(x => !albums.Where(b => b.Name == x.Album).IsNullorEmpty());
-            var otherGrouping = from song in otherSongs group song by song.Album;
-            // otherSongs has item
-            if (!otherGrouping.IsNullorEmpty())
-            {
-                res.AddRange(otherGrouping.ToList().ConvertAll(a => new Album(a)));
-            }
-            return res;
-        }
-
         public static async Task<int> GetArtistsCountAsync()
         {
             var opr = SQLOperator.Current();
