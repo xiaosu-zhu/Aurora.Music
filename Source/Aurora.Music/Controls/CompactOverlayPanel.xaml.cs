@@ -49,38 +49,14 @@ namespace Aurora.Music.Controls
             Context.ReturnNormal.Execute();
         }
 
-        private void TitleBar_Loaded(object sender, RoutedEventArgs e)
-        {
-            var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
-            // Update title bar control size as needed to account for system size changes.
-            TitleBar.Height = coreTitleBar.Height;
-
-            coreTitleBar.LayoutMetricsChanged += CoreTitleBar_LayoutMetricsChanged;
-            coreTitleBar.IsVisibleChanged += CoreTitleBar_IsVisibleChanged;
-
-            Window.Current.SetTitleBar(TitleBar);
-        }
-
-        private void CoreTitleBar_IsVisibleChanged(CoreApplicationViewTitleBar sender, object args)
-        {
-            if (sender.IsVisible)
-            {
-                TitleBar.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                TitleBar.Visibility = Visibility.Collapsed;
-            }
-        }
-
-        private void CoreTitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
-        {
-            TitleBar.Height = sender.Height;
-        }
-
         private void Page_Unloaded(object sender, RoutedEventArgs e)
         {
             SystemNavigationManager.GetForCurrentView().BackRequested -= CompactOverlayPanel_BackRequested;
+        }
+
+        private void ArtworkBGBlur_Loaded(object sender, RoutedEventArgs e)
+        {
+            Window.Current.SetTitleBar(ArtworkBGBlur);
         }
     }
 }
