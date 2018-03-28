@@ -1,4 +1,4 @@
-﻿using Aurora.Music.Core;
+using Aurora.Music.Core;
 using Aurora.Music.Core.Models;
 using Aurora.Music.Core.Storage;
 using Aurora.Music.Effects;

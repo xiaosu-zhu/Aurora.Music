@@ -1,4 +1,4 @@
-﻿// Copyright (c) Aurora Studio. All rights reserved.
+// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using Aurora.Music.Controls;
@@ -407,6 +407,7 @@ namespace Aurora.Music
                 Window.Current.Content = frame;
                 Window.Current.Activate();
                 CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
+                Window.Current.SetTitleBar(frame);
                 ApplicationViewTitleBar titleBar = ApplicationView.GetForCurrentView().TitleBar;
                 titleBar.ButtonBackgroundColor = Colors.Transparent;
                 titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;

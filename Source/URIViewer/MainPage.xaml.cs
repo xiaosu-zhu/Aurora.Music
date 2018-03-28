@@ -33,7 +33,7 @@ namespace URIViewer
             {
                 var uri = new Uri((sender as TextBox).Text);
 
-                Main.Text = uri.AbsolutePath; Main.Text += Environment.NewLine;
+                Main.Text = $"AbsolutePath: {uri.AbsolutePath}{Environment.NewLine}";
 
                 Main.Text += $"AbsoluteUri: {uri.AbsoluteUri}{Environment.NewLine}";
 
@@ -81,6 +81,7 @@ namespace URIViewer
             }
             catch (Exception)
             {
+                Main.Text = "";
             }
 
         }
