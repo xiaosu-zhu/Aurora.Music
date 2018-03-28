@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -56,9 +56,18 @@ namespace LrcParser
             return list;
         }
 
+        private static string[] acceptedTimeFormats = new[]
+        {
+            @"m\:s",
+            @"m\:s\.f",
+            @"m\:s\.ff",
+            @"m\:s\.fff",
+            @"m\:s\.ffff",
+        };
+
         public static IEnumerable<Slice> CreateSlice(IList<KeyValuePair<string, string>> slices)
         {
-            var timewithbrace = new Regex(@"\[\d+:\d+.\d+\]");
+            var timewithbrace = new Regex(@"\[\d+:\d+(|.\d+)\]");
             var list = new List<Slice>();
             for (int i = 0; i < slices.Count; i++)
             {
@@ -66,7 +75,7 @@ namespace LrcParser
                 if (time.Success)
                 {
                     var t = time.Value.Substring(1, time.Value.Length - 2);
-                    if (TimeSpan.TryParseExact(t, @"mm\:ss\.ff", null, out TimeSpan p))
+                    if (TimeSpan.TryParseExact(t, acceptedTimeFormats, null, out TimeSpan p))
                     {
                         for (int j = i; j < slices.Count; j++)
                         {
