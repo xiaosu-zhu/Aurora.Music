@@ -1,0 +1,14 @@
+root = true
+
+[*]
+end_of_line          = lf
+charset              = utf-8
+indent_style         = space
+indent_size          = 4
+insert_final_newline = true
+
+[*.{xml,xaml}]
+
+[*.cs]
+csharp_indent_switch_labels = true
+csharp_indent_case_contents = true

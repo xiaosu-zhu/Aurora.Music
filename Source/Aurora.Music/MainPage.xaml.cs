@@ -1,4 +1,4 @@
-﻿// Copyright (c) Aurora Studio. All rights reserved.
+// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using Aurora.Music.Controls;
@@ -75,17 +75,17 @@ namespace Aurora.Music
                     await Task.Delay(Convert.ToInt32((sleepTime - DateTime.Now).TotalMilliseconds));
                     switch (sleepAction)
                     {
-                    case SleepAction.Pause:
-                        MainPageViewModel.Current.PlayPause.Execute();
-                        break;
-                    case SleepAction.Stop:
-                        MainPageViewModel.Current.Stop.Execute();
-                        break;
-                    case SleepAction.Shutdown:
-                        Application.Current.Exit();
-                        break;
-                    default:
-                        break;
+                        case SleepAction.Pause:
+                            MainPageViewModel.Current.PlayPause.Execute();
+                            break;
+                        case SleepAction.Stop:
+                            MainPageViewModel.Current.Stop.Execute();
+                            break;
+                        case SleepAction.Shutdown:
+                            Application.Current.Exit();
+                            break;
+                        default:
+                            break;
                     }
                 });
             }, period.TotalSeconds < 0 ? TimeSpan.FromSeconds(1) : period, destroy =>
@@ -759,25 +759,25 @@ namespace Aurora.Music
             var result = await dialog.ShowAsync();
             switch (result)
             {
-            case ContentDialogResult.None:
-                break;
-            case ContentDialogResult.Primary:
-                var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Music", CreationCollisionOption.OpenIfExists);
-                foreach (var item in files)
-                {
-                    try
+                case ContentDialogResult.None:
+                    break;
+                case ContentDialogResult.Primary:
+                    var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Music", CreationCollisionOption.OpenIfExists);
+                    foreach (var item in files)
                     {
-                        await item.CopyAsync(folder, item.Name, NameCollisionOption.ReplaceExisting);
+                        try
+                        {
+                            await item.CopyAsync(folder, item.Name, NameCollisionOption.ReplaceExisting);
+                        }
+                        catch (Exception)
+                        {
+                        }
                     }
-                    catch (Exception)
-                    {
-                    }
-                }
-                break;
-            case ContentDialogResult.Secondary:
-                break;
-            default:
-                break;
+                    break;
+                case ContentDialogResult.Secondary:
+                    break;
+                default:
+                    break;
             }
         }
 
@@ -824,11 +824,11 @@ namespace Aurora.Music
         {
             switch (SearchButton.Visibility)
             {
-            case Visibility.Collapsed:
-                SearchBoxCollapse.Begin();
-                return;
-            default:
-                break;
+                case Visibility.Collapsed:
+                    SearchBoxCollapse.Begin();
+                    return;
+                default:
+                    break;
             }
 
             SearchBoxShow.Begin();
@@ -940,21 +940,21 @@ namespace Aurora.Music
             {
                 switch (s.Content)
                 {
-                case GenericMusicItemViewModel g:
-                    await Context.InstantPlay(await g.GetSongsAsync());
-                    break;
-                case SongViewModel song:
-                    await Context.InstantPlay(new List<Song>() { song.Song });
-                    break;
-                case AlbumViewModel album:
-                    await Context.InstantPlay(await album.GetSongsAsync());
-                    break;
-                case ArtistViewModel artist:
-                    await Context.InstantPlay(await artist.GetSongsAsync());
-                    break;
+                    case GenericMusicItemViewModel g:
+                        await Context.InstantPlay(await g.GetSongsAsync());
+                        break;
+                    case SongViewModel song:
+                        await Context.InstantPlay(new List<Song>() { song.Song });
+                        break;
+                    case AlbumViewModel album:
+                        await Context.InstantPlay(await album.GetSongsAsync());
+                        break;
+                    case ArtistViewModel artist:
+                        await Context.InstantPlay(await artist.GetSongsAsync());
+                        break;
 
-                default:
-                    break;
+                    default:
+                        break;
                 }
             }
         }
@@ -964,20 +964,20 @@ namespace Aurora.Music
             {
                 switch (s.Content)
                 {
-                case GenericMusicItemViewModel g:
-                    await Context.PlayNext(await g.GetSongsAsync());
-                    break;
-                case SongViewModel song:
-                    await Context.PlayNext(new List<Song>() { song.Song });
-                    break;
-                case AlbumViewModel album:
-                    await Context.PlayNext(await album.GetSongsAsync());
-                    break;
-                case ArtistViewModel artist:
-                    await Context.PlayNext(await artist.GetSongsAsync());
-                    break;
-                default:
-                    break;
+                    case GenericMusicItemViewModel g:
+                        await Context.PlayNext(await g.GetSongsAsync());
+                        break;
+                    case SongViewModel song:
+                        await Context.PlayNext(new List<Song>() { song.Song });
+                        break;
+                    case AlbumViewModel album:
+                        await Context.PlayNext(await album.GetSongsAsync());
+                        break;
+                    case ArtistViewModel artist:
+                        await Context.PlayNext(await artist.GetSongsAsync());
+                        break;
+                    default:
+                        break;
                 }
             }
         }
@@ -988,20 +988,20 @@ namespace Aurora.Music
                 AlbumViewModel viewModel = null;
                 switch (s.Content)
                 {
-                case GenericMusicItemViewModel g:
-                    viewModel = await g.FindAssociatedAlbumAsync();
-                    break;
-                case SongViewModel song:
-                    viewModel = await song.GetAlbumAsync();
-                    break;
-                case AlbumViewModel album:
-                    viewModel = album;
-                    break;
-                case ArtistViewModel artist:
-                    break;
+                    case GenericMusicItemViewModel g:
+                        viewModel = await g.FindAssociatedAlbumAsync();
+                        break;
+                    case SongViewModel song:
+                        viewModel = await song.GetAlbumAsync();
+                        break;
+                    case AlbumViewModel album:
+                        viewModel = album;
+                        break;
+                    case ArtistViewModel artist:
+                        break;
 
-                default:
-                    break;
+                    default:
+                        break;
                 }
                 var dialog = new AlbumViewDialog(viewModel);
                 await dialog.ShowAsync();
@@ -1024,24 +1024,24 @@ namespace Aurora.Music
             {
                 switch (s.Content)
                 {
-                case GenericMusicItemViewModel g:
-                    shareTitle = $"I'm sharing {g.Title} to you";
-                    shareDesc = $"{g.ToString()}";
-                    break;
-                case SongViewModel song:
-                    shareTitle = $"I'm sharing {song.Title} to you";
-                    shareDesc = $"{song.ToString()}";
-                    break;
-                case AlbumViewModel album:
-                    shareTitle = $"I'm sharing {album.Name} to you";
-                    shareDesc = string.Format(Consts.Localizer.GetString("TileDesc"), album.Name, album.GetFormattedArtists());
-                    break;
-                case ArtistViewModel artist:
-                    shareTitle = $"I'm sharing {artist.Name} to you";
-                    shareDesc = $"";
-                    break;
-                default:
-                    break;
+                    case GenericMusicItemViewModel g:
+                        shareTitle = $"I'm sharing {g.Title} to you";
+                        shareDesc = $"{g.ToString()}";
+                        break;
+                    case SongViewModel song:
+                        shareTitle = $"I'm sharing {song.Title} to you";
+                        shareDesc = $"{song.ToString()}";
+                        break;
+                    case AlbumViewModel album:
+                        shareTitle = $"I'm sharing {album.Name} to you";
+                        shareDesc = string.Format(Consts.Localizer.GetString("TileDesc"), album.Name, album.GetFormattedArtists());
+                        break;
+                    case ArtistViewModel artist:
+                        shareTitle = $"I'm sharing {artist.Name} to you";
+                        shareDesc = $"";
+                        break;
+                    default:
+                        break;
                 }
             }
             DataTransferManager.ShowShareUI();
@@ -1067,41 +1067,41 @@ namespace Aurora.Music
             {
                 switch (s.Content)
                 {
-                case GenericMusicItemViewModel g:
-                    switch (g.InnerType)
-                    {
-                    case MediaType.Song:
-                        if (g.IsOnline)
+                    case GenericMusicItemViewModel g:
+                        switch (g.InnerType)
                         {
-                            throw new InvalidOperationException("Can't open an online file");
+                            case MediaType.Song:
+                                if (g.IsOnline)
+                                {
+                                    throw new InvalidOperationException("Can't open an online file");
+                                }
+                                await new TagDialog(new SongViewModel((await g.GetSongsAsync())[0])).ShowAsync();
+                                break;
+                            case MediaType.Album:
+                                PopMessage("Not support for this kind");
+                                break;
+                            case MediaType.PlayList:
+                                PopMessage("Not support for this kind");
+                                break;
+                            case MediaType.Artist:
+                                PopMessage("Not support for this kind");
+                                break;
+                            default:
+                                break;
                         }
-                        await new TagDialog(new SongViewModel((await g.GetSongsAsync())[0])).ShowAsync();
                         break;
-                    case MediaType.Album:
+                    case SongViewModel song:
+                        await new TagDialog(song).ShowAsync();
+                        break;
+                    case AlbumViewModel album:
                         PopMessage("Not support for this kind");
                         break;
-                    case MediaType.PlayList:
+                    case ArtistViewModel artist:
                         PopMessage("Not support for this kind");
                         break;
-                    case MediaType.Artist:
-                        PopMessage("Not support for this kind");
-                        break;
+
                     default:
                         break;
-                    }
-                    break;
-                case SongViewModel song:
-                    await new TagDialog(song).ShowAsync();
-                    break;
-                case AlbumViewModel album:
-                    PopMessage("Not support for this kind");
-                    break;
-                case ArtistViewModel artist:
-                    PopMessage("Not support for this kind");
-                    break;
-
-                default:
-                    break;
                 }
             }
         }
@@ -1112,36 +1112,36 @@ namespace Aurora.Music
                 string path = null;
                 switch (s.Content)
                 {
-                case GenericMusicItemViewModel g:
-                    switch (g.InnerType)
-                    {
-                    case MediaType.Song:
-                        if (g.IsOnline)
+                    case GenericMusicItemViewModel g:
+                        switch (g.InnerType)
                         {
-                            throw new InvalidOperationException("Can't open an online file");
+                            case MediaType.Song:
+                                if (g.IsOnline)
+                                {
+                                    throw new InvalidOperationException("Can't open an online file");
+                                }
+                                path = (await g.GetSongsAsync())[0].FilePath;
+                                break;
+                            case MediaType.Album:
+                                break;
+                            case MediaType.PlayList:
+                                break;
+                            case MediaType.Artist:
+                                break;
+                            default:
+                                break;
                         }
-                        path = (await g.GetSongsAsync())[0].FilePath;
                         break;
-                    case MediaType.Album:
+                    case SongViewModel song:
+                        path = song.FilePath;
                         break;
-                    case MediaType.PlayList:
+                    case AlbumViewModel album:
                         break;
-                    case MediaType.Artist:
+                    case ArtistViewModel artist:
                         break;
+
                     default:
                         break;
-                    }
-                    break;
-                case SongViewModel song:
-                    path = song.FilePath;
-                    break;
-                case AlbumViewModel album:
-                    break;
-                case ArtistViewModel artist:
-                    break;
-
-                default:
-                    break;
                 }
                 if (!path.IsNullorEmpty())
                 {
@@ -1159,38 +1159,38 @@ namespace Aurora.Music
                 List<string> paths = new List<string>();
                 switch (s.Content)
                 {
-                case GenericMusicItemViewModel g:
-                    switch (g.InnerType)
-                    {
-                    case MediaType.Song:
-                        if (g.IsOnline)
+                    case GenericMusicItemViewModel g:
+                        switch (g.InnerType)
                         {
-                            throw new InvalidOperationException("Can't open an online file");
+                            case MediaType.Song:
+                                if (g.IsOnline)
+                                {
+                                    throw new InvalidOperationException("Can't open an online file");
+                                }
+                                paths.Add((await g.GetSongsAsync())[0].FilePath);
+                                break;
+                            case MediaType.Album:
+                                paths.AddRange((await g.GetSongsAsync()).Select(x => x.FilePath));
+                                break;
+                            case MediaType.PlayList:
+                                break;
+                            case MediaType.Artist:
+                                break;
+                            default:
+                                break;
                         }
-                        paths.Add((await g.GetSongsAsync())[0].FilePath);
                         break;
-                    case MediaType.Album:
-                        paths.AddRange((await g.GetSongsAsync()).Select(x => x.FilePath));
+                    case SongViewModel song:
+                        paths.Add(song.FilePath);
                         break;
-                    case MediaType.PlayList:
+                    case AlbumViewModel album:
+                        paths.AddRange((await album.GetSongsAsync()).Select(x => x.FilePath));
                         break;
-                    case MediaType.Artist:
+                    case ArtistViewModel artist:
                         break;
+
                     default:
                         break;
-                    }
-                    break;
-                case SongViewModel song:
-                    paths.Add(song.FilePath);
-                    break;
-                case AlbumViewModel album:
-                    paths.AddRange((await album.GetSongsAsync()).Select(x => x.FilePath));
-                    break;
-                case ArtistViewModel artist:
-                    break;
-
-                default:
-                    break;
                 }
                 foreach (var path in paths)
                 {
@@ -1217,38 +1217,38 @@ namespace Aurora.Music
                 List<string> paths = new List<string>();
                 switch (s.Content)
                 {
-                case GenericMusicItemViewModel g:
-                    switch (g.InnerType)
-                    {
-                    case MediaType.Song:
-                        if (g.IsOnline)
+                    case GenericMusicItemViewModel g:
+                        switch (g.InnerType)
                         {
-                            throw new InvalidOperationException("Can't open an online file");
+                            case MediaType.Song:
+                                if (g.IsOnline)
+                                {
+                                    throw new InvalidOperationException("Can't open an online file");
+                                }
+                                paths.Add((await g.GetSongsAsync())[0].FilePath);
+                                break;
+                            case MediaType.Album:
+                                paths.AddRange((await g.GetSongsAsync()).Select(x => x.FilePath));
+                                break;
+                            case MediaType.PlayList:
+                                break;
+                            case MediaType.Artist:
+                                break;
+                            default:
+                                break;
                         }
-                        paths.Add((await g.GetSongsAsync())[0].FilePath);
                         break;
-                    case MediaType.Album:
-                        paths.AddRange((await g.GetSongsAsync()).Select(x => x.FilePath));
+                    case SongViewModel song:
+                        paths.Add(song.FilePath);
                         break;
-                    case MediaType.PlayList:
+                    case AlbumViewModel album:
+                        paths.AddRange((await album.GetSongsAsync()).Select(x => x.FilePath));
                         break;
-                    case MediaType.Artist:
+                    case ArtistViewModel artist:
                         break;
+
                     default:
                         break;
-                    }
-                    break;
-                case SongViewModel song:
-                    paths.Add(song.FilePath);
-                    break;
-                case AlbumViewModel album:
-                    paths.AddRange((await album.GetSongsAsync()).Select(x => x.FilePath));
-                    break;
-                case ArtistViewModel artist:
-                    break;
-
-                default:
-                    break;
                 }
                 foreach (var path in paths)
                 {
@@ -1274,20 +1274,20 @@ namespace Aurora.Music
                 AddPlayList dialog;
                 switch (s.Content)
                 {
-                case GenericMusicItemViewModel g:
-                    dialog = new AddPlayList((await g.GetSongsAsync()).Select(x => x.ID));
-                    break;
-                case SongViewModel song:
-                    dialog = new AddPlayList(song.ID);
-                    break;
-                case AlbumViewModel album:
-                    dialog = new AddPlayList((await album.GetSongsAsync()).Select(x => x.ID));
-                    break;
-                case ArtistViewModel artist:
-                    dialog = new AddPlayList((await artist.GetSongsAsync()).Select(x => x.ID));
-                    break;
-                default:
-                    throw new OperationCanceledException();
+                    case GenericMusicItemViewModel g:
+                        dialog = new AddPlayList((await g.GetSongsAsync()).Select(x => x.ID));
+                        break;
+                    case SongViewModel song:
+                        dialog = new AddPlayList(song.ID);
+                        break;
+                    case AlbumViewModel album:
+                        dialog = new AddPlayList((await album.GetSongsAsync()).Select(x => x.ID));
+                        break;
+                    case ArtistViewModel artist:
+                        dialog = new AddPlayList((await artist.GetSongsAsync()).Select(x => x.ID));
+                        break;
+                    default:
+                        throw new OperationCanceledException();
                 }
                 await dialog.ShowAsync();
             }

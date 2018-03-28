@@ -311,69 +311,74 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                  HorizontalAlignment="Center"
                  VerticalAlignment="Center" />
     </StackPanel>
-    <StackPanel x:Name="ButtonPanel"
-                Orientation="Horizontal"
-                Margin="0,8,0,8"
+    <ScrollViewer x:Name="ButtonPanel"
+                  Margin="0,8,0,8"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Top"
+                  Grid.Column="1"
+                  Grid.Row="2"
+                  VerticalScrollMode="Disabled"
+                  VerticalScrollBarVisibility="Disabled"
+                  HorizontalScrollMode="Auto"
+                  HorizontalScrollBarVisibility="Auto">
+      <StackPanel Orientation="Horizontal">
+        <TextBlock Foreground="{ThemeResource SystemControlForegroundAltHighBrush}"
+                   x:Name="PlayListFull"
+                   Text="{x:Bind Context.NowListPreview,Mode=OneWay}"
+                   Style="{ThemeResource BodyTextBlockStyle}"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center" />
+        <Button x:Uid="Previous"
+                x:Name="Previous"
+                Style="{ThemeResource RevealRoundButton}"
+                Command="{x:Bind Context.GoPrevious}"
+                ToolTipService.ToolTip="Previous"
+                Width="48"
+                Height="48"
                 HorizontalAlignment="Center"
-                VerticalAlignment="Top"
-                Grid.Column="1"
-                Grid.Row="2">
-      <TextBlock Foreground="{ThemeResource SystemControlForegroundAltHighBrush}"
-                 x:Name="PlayListFull"
-                 Text="{x:Bind Context.NowListPreview,Mode=OneWay}"
-                 Style="{ThemeResource BodyTextBlockStyle}"
-                 HorizontalAlignment="Center"
-                 VerticalAlignment="Center" />
-      <Button x:Uid="Previous"
-              x:Name="Previous"
-              Style="{ThemeResource RevealRoundButton}"
-              Command="{x:Bind Context.GoPrevious}"
-              ToolTipService.ToolTip="Previous"
-              Width="48"
-              Height="48"
-              HorizontalAlignment="Center"
-              VerticalAlignment="Stretch">
-        <Button.Content>
-          <SymbolIcon Symbol="Previous" />
-        </Button.Content>
-      </Button>
-      <Button Style="{ThemeResource RevealRoundButton}"
-              Command="{x:Bind Context.PlayPause}"
-              ToolTipService.ToolTip="{x:Bind Context.NullableBoolToString(Context.IsPlaying), Mode=OneWay}"
-              Width="48"
-              Height="48"
-              HorizontalAlignment="Center"
-              VerticalAlignment="Stretch">
-        <Button.Content>
-          <SymbolIcon Symbol="{x:Bind Context.NullableBoolToSymbol(Context.IsPlaying), Mode=OneWay}" />
-        </Button.Content>
-      </Button>
-      <Button x:Uid="Next"
-              Style="{ThemeResource RevealRoundButton}"
-              Command="{x:Bind Context.GoNext}"
-              ToolTipService.ToolTip="Next"
-              Width="48"
-              Height="48"
-              HorizontalAlignment="Center"
-              VerticalAlignment="Stretch">
-        <Button.Content>
-          <SymbolIcon Symbol="Next" />
-        </Button.Content>
-      </Button>
+                VerticalAlignment="Stretch">
+          <Button.Content>
+            <SymbolIcon Symbol="Previous" />
+          </Button.Content>
+        </Button>
+        <Button Style="{ThemeResource RevealRoundButton}"
+                Command="{x:Bind Context.PlayPause}"
+                ToolTipService.ToolTip="{x:Bind Context.NullableBoolToString(Context.IsPlaying), Mode=OneWay}"
+                Width="48"
+                Height="48"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Stretch">
+          <Button.Content>
+            <SymbolIcon Symbol="{x:Bind Context.NullableBoolToSymbol(Context.IsPlaying), Mode=OneWay}" />
+          </Button.Content>
+        </Button>
+        <Button x:Uid="Next"
+                Style="{ThemeResource RevealRoundButton}"
+                Command="{x:Bind Context.GoNext}"
+                ToolTipService.ToolTip="Next"
+                Width="48"
+                Height="48"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Stretch">
+          <Button.Content>
+            <SymbolIcon Symbol="Next" />
+          </Button.Content>
+        </Button>
 
-      <Button x:Uid="GoBack"
-              Style="{ThemeResource RevealRoundButton}"
-              Command="{x:Bind Context.ReturnNormal}"
-              ToolTipService.ToolTip="Go Back"
-              Width="48"
-              Height="48"
-              HorizontalAlignment="Center"
-              VerticalAlignment="Stretch">
-        <Button.Content>
-          <FontIcon FontFamily="Segoe MDL2 Assets"
-                    Glyph="&#xE2B3;" />
-        </Button.Content>
-      </Button>
-    </StackPanel>
+        <Button x:Uid="GoBack"
+                Style="{ThemeResource RevealRoundButton}"
+                Command="{x:Bind Context.ReturnNormal}"
+                ToolTipService.ToolTip="Go Back"
+                Width="48"
+                Height="48"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Stretch">
+          <Button.Content>
+            <FontIcon FontFamily="Segoe MDL2 Assets"
+                      Glyph="&#xE2B3;" />
+          </Button.Content>
+        </Button>
+      </StackPanel>
+    </ScrollViewer>
   </Grid>
 </Page>

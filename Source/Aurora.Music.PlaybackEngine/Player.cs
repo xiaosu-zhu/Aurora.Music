@@ -1,4 +1,4 @@
-﻿using Aurora.Music.Core;
+using Aurora.Music.Core;
 using Aurora.Music.Core.Models;
 using Aurora.Music.Core.Storage;
 using Aurora.Music.Effects;
@@ -209,19 +209,19 @@ namespace Aurora.Music.PlaybackEngine
 
             switch (mediaPlayer.PlaybackSession.PlaybackState)
             {
-            case MediaPlaybackState.None:
-            case MediaPlaybackState.Opening:
-            case MediaPlaybackState.Buffering:
-                isPlaying = null;
-                break;
-            case MediaPlaybackState.Playing:
-                isPlaying = true;
-                break;
-            case MediaPlaybackState.Paused:
-                isPlaying = false;
-                break;
-            default:
-                break;
+                case MediaPlaybackState.None:
+                case MediaPlaybackState.Opening:
+                case MediaPlaybackState.Buffering:
+                    isPlaying = null;
+                    break;
+                case MediaPlaybackState.Playing:
+                    isPlaying = true;
+                    break;
+                case MediaPlaybackState.Paused:
+                    isPlaying = false;
+                    break;
+                default:
+                    break;
             }
 
             PlaybackStatusChanged?.Invoke(this, new PlaybackStatusChangedArgs()
@@ -236,19 +236,19 @@ namespace Aurora.Music.PlaybackEngine
         {
             switch (mediaPlayer.PlaybackSession.PlaybackState)
             {
-            case MediaPlaybackState.None:
-            case MediaPlaybackState.Opening:
-            case MediaPlaybackState.Buffering:
-                isPlaying = null;
-                break;
-            case MediaPlaybackState.Playing:
-                isPlaying = true;
-                break;
-            case MediaPlaybackState.Paused:
-                isPlaying = false;
-                break;
-            default:
-                break;
+                case MediaPlaybackState.None:
+                case MediaPlaybackState.Opening:
+                case MediaPlaybackState.Buffering:
+                    isPlaying = null;
+                    break;
+                case MediaPlaybackState.Playing:
+                    isPlaying = true;
+                    break;
+                case MediaPlaybackState.Paused:
+                    isPlaying = false;
+                    break;
+                default:
+                    break;
             }
 
             var currentSong = mediaPlaybackList.CurrentItem?.Source.CustomProperties[Consts.SONG] as Song;
@@ -524,18 +524,18 @@ namespace Aurora.Music.PlaybackEngine
         {
             switch (mediaPlayer.PlaybackSession.PlaybackState)
             {
-            case MediaPlaybackState.Playing:
-                Pause();
-                break;
-            case MediaPlaybackState.None:
-            case MediaPlaybackState.Opening:
-            case MediaPlaybackState.Buffering:
-            case MediaPlaybackState.Paused:
-                Play();
-                break;
-            default:
-                Play();
-                break;
+                case MediaPlaybackState.Playing:
+                    Pause();
+                    break;
+                case MediaPlaybackState.None:
+                case MediaPlaybackState.Opening:
+                case MediaPlaybackState.Buffering:
+                case MediaPlaybackState.Paused:
+                    Play();
+                    break;
+                default:
+                    Play();
+                    break;
             }
         }
 
