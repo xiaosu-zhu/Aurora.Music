@@ -6,9 +6,9 @@ namespace LrcParser
 {
     public class Lyric
     {
-        public Lyric(IOrderedEnumerable<Slice> orderedEnumerable, List<KeyValuePair<string, string>> enumerable)
+        internal Lyric(IOrderedEnumerable<Slice> orderedEnumerable, List<KeyValuePair<string, string>> enumerable)
         {
-            this.Slices = orderedEnumerable;
+            this.Slices = orderedEnumerable.ToList();
             this.AddtionalInfo = enumerable;
             foreach (var item in AddtionalInfo)
             {
@@ -28,15 +28,19 @@ namespace LrcParser
         {
             var sl = s.Split('\n');
 
-            Slices = sl.Select(x => new Slice
+            Slices = new List<Slice>(sl.Length);
+            for (int i = 0; i < sl.Length; i++)
             {
-                Offset = TimeSpan.FromMilliseconds(duration.TotalMilliseconds * (Array.IndexOf(sl, x) / (double)sl.Length)),
-                Content = x
-            }).OrderBy(x => 1);
+                Slices.Add(new Slice
+                {
+                    Offset = TimeSpan.FromMilliseconds(duration.TotalMilliseconds * i / sl.Length),
+                    Content = sl[i],
+                });
+            }
             AddtionalInfo = null;
         }
 
-        public IOrderedEnumerable<Slice> Slices { get; set; }
+        public List<Slice> Slices { get; set; }
         public List<KeyValuePair<string, string>> AddtionalInfo { get; set; }
 
         public TimeSpan Offset { get; set; }
