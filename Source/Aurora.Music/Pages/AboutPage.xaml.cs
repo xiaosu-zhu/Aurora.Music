@@ -51,5 +51,10 @@ namespace Aurora.Music.Pages
         {
             await Launcher.LaunchUriAsync(new Uri("https://unsplash.com/"));
         }
+
+        private async void MarkdownTextBlock_LinkClicked(object sender, Microsoft.Toolkit.Uwp.UI.Controls.LinkClickedEventArgs e)
+        {
+            await Launcher.LaunchUriAsync(new Uri(e.Link));
+        }
     }
 }

@@ -85,9 +85,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <TextBlock Text="Contributors" Style="{ThemeResource BaseTextBlockStyle}" 
                         HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}"/>
             </Border>
-            <toolkit:MarkdownTextBlock HorizontalAlignment="Center" VerticalAlignment="Stretch" 
+            <toolkit:MarkdownTextBlock HorizontalAlignment="Center" VerticalAlignment="Stretch" LinkClicked="MarkdownTextBlock_LinkClicked"
                                        MaxWidth="320" HorizontalContentAlignment="Center" Margin="12,0"
-                                       Text="* Thanks for the Destuch translation added by **Lucas Herr**.&#xD;&#xA;* Thanks for the Russian translation added by **Данила Степовой**."/>
+                                       Text="* Thanks for the Destuch translation added by **Lucas Herr**.&#xD;&#xA;* Thanks for the Russian translation added by **Данила Степовой**.&#xD;&#xA;* Pull requests [#4](https://github.com/pkzxs/Aurora.Music/pull/4), [#5](https://github.com/pkzxs/Aurora.Music/pull/5) by [OpportunityLiu](https://github.com/OpportunityLiu).&#xD;&#xA;&#xD;&#xA;* And **everyone supported development**.&#xD;&#xA;&#xD;&#xA;* And **You**."/>
 
 
             <Border Padding="8,4" Margin="12,24,12,12" CornerRadius="8" Background="{ThemeResource AccentForText}" 
@@ -175,15 +175,15 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <toolkit:WrapPanel HorizontalSpacing="8" VerticalSpacing="8" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Image MaxHeight="240" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Uniform" Source="/Assets/ali.png"/>
                 <StackPanel Padding="32,64" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <StackPanel.Background>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="#FFFF8A83"/>
-                        <GradientStop Color="#FFD33D71" Offset="1"/>
-                    </LinearGradientBrush>
-                </StackPanel.Background>
-                <TextBlock FontWeight="Bold" Foreground="White" TextWrapping="WrapWholeWords" HorizontalAlignment="Center" VerticalAlignment="Center" Text="Donate via PayPal" Style="{ThemeResource TitleTextBlockStyle}"/>
-                <HyperlinkButton Foreground="White" Content="Using PayPal.me to donate" HorizontalAlignment="Center" VerticalAlignment="Center" NavigateUri="https://www.paypal.me/aurorastu"/>
-            </StackPanel>
+                    <StackPanel.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FFFF8A83"/>
+                            <GradientStop Color="#FFD33D71" Offset="1"/>
+                        </LinearGradientBrush>
+                    </StackPanel.Background>
+                    <TextBlock FontWeight="Bold" Foreground="White" TextWrapping="WrapWholeWords" HorizontalAlignment="Center" VerticalAlignment="Center" Text="Donate via PayPal" Style="{ThemeResource TitleTextBlockStyle}"/>
+                    <HyperlinkButton Foreground="White" Content="Using PayPal.me to donate" HorizontalAlignment="Center" VerticalAlignment="Center" NavigateUri="https://www.paypal.me/aurorastu"/>
+                </StackPanel>
                 <Image MaxHeight="240" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Uniform" Source="/Assets/wechat.png"/>
             </toolkit:WrapPanel>
         </StackPanel>
