@@ -22,17 +22,18 @@ namespace Aurora.Music.Core.Models
 
         public async Task<string> GetLyricAsync(Song s, string online = null)
         {
-            try
-            {
-                var lrcPath = Path.ChangeExtension(s.FilePath, ".lrc");
-                var lrcFile = await StorageFile.GetFileFromPathAsync(lrcPath);
-                var lrc = await FileIO.ReadTextAsync(lrcFile);
-                if (!string.IsNullOrWhiteSpace(lrc))
-                    return lrc;
-            }
-            catch
-            {
-            }
+            if (!s.IsOnline && !s.IsPodcast)
+                try
+                {
+                    var lrcPath = Path.ChangeExtension(s.FilePath, ".lrc");
+                    var lrcFile = await StorageFile.GetFileFromPathAsync(lrcPath);
+                    var lrc = await FileIO.ReadTextAsync(lrcFile);
+                    if (!string.IsNullOrWhiteSpace(lrc))
+                        return lrc;
+                }
+                catch
+                {
+                }
             var args = new ValueSet()
             {
                 new KeyValuePair<string, object>("q", "lyric"),

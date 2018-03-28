@@ -17,9 +17,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         <AcrylicBrush x:Key="ROOTBG"
                       BackgroundSource="HostBackdrop"
                       TintColor="{ThemeResource SystemChromeAltHighColor}"
-                      TintOpacity="0"
-                      FallbackColor="{ThemeResource SystemAltLowColor}" />
-        <Style x:Key="LyricTextBlockStyle"
+                      TintOpacity="0.333333"
+                      FallbackColor="{ThemeResource SystemAltHighColor}" />
+        <Style x:Key="LyricNowTextBlockStyle"
                TargetType="TextBlock"
                BasedOn="{StaticResource TitleTextBlockStyle}">
             <Setter Property="TextWrapping"
@@ -35,16 +35,22 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <Setter Property="VerticalAlignment"
                     Value="Center" />
         </Style>
+        <Style x:Key="LyricTextBlockStyle"
+               TargetType="TextBlock"
+               BasedOn="{StaticResource LyricNowTextBlockStyle}">
+            <Setter Property="Foreground"
+                    Value="{ThemeResource SystemControlForegroundBaseMediumHighBrush}" />
+        </Style>
         <Style x:Key="LyricDropShadowPanelStyle"
                TargetType="toolkit:DropShadowPanel">
             <Setter Property="Color"
-                    Value="{ThemeResource SystemBaseHighColor}" />
+                    Value="{ThemeResource SystemAltHighColor}" />
             <Setter Property="HorizontalAlignment"
                     Value="Center" />
             <Setter Property="VerticalAlignment"
                     Value="Center" />
             <Setter Property="BlurRadius"
-                    Value="8" />
+                    Value="4" />
             <Setter Property="OffsetX"
                     Value="0" />
             <Setter Property="OffsetY"

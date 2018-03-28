@@ -34,10 +34,10 @@ namespace Aurora.Music.Effects
             }
             // Generalize to 0@max
             var max = float.MinValue;
-            foreach (var item in equalizerBand)
+            foreach (var gain in equalizerBand)
             {
-                if (item > max)
-                    max = item;
+                if (gain > max)
+                    max = gain;
             }
             for (int i = 0; i < bandCount; i++)
             {
@@ -57,6 +57,7 @@ namespace Aurora.Music.Effects
             currentEncodingProperties = encodingProperties;
 
             bands = ReadConfiguration();
+
             if (channels != (int)currentEncodingProperties.ChannelCount || bandCount != bands.Length)
             {
                 channels = (int)currentEncodingProperties.ChannelCount;
@@ -73,18 +74,25 @@ namespace Aurora.Music.Effects
             {
                 return bands;
             }
+            // Generalize to 0@max
+            var max = float.MinValue;
+            foreach (var gain in Settings.Current.Gain)
+            {
+                if (gain > max)
+                    max = gain;
+            }
             return new EqualizerBand[]
             {
-                new EqualizerBand {Bandwidth = 0.8f, Frequency = 30, Gain = Settings.Current.Gain[0]},
-                new EqualizerBand {Bandwidth = 0.8f, Frequency = 75, Gain = Settings.Current.Gain[1]},
-                new EqualizerBand {Bandwidth = 0.8f, Frequency = 150, Gain = Settings.Current.Gain[2]},
-                new EqualizerBand {Bandwidth = 0.8f, Frequency = 30, Gain = Settings.Current.Gain[3]},
-                new EqualizerBand {Bandwidth = 0.8f, Frequency = 600, Gain = Settings.Current.Gain[4]},
-                new EqualizerBand {Bandwidth = 0.8f, Frequency = 1250, Gain = Settings.Current.Gain[5]},
-                new EqualizerBand {Bandwidth = 0.8f, Frequency = 2500, Gain = Settings.Current.Gain[6]},
-                new EqualizerBand {Bandwidth = 0.8f, Frequency = 5000, Gain = Settings.Current.Gain[7]},
-                new EqualizerBand {Bandwidth = 0.8f, Frequency = 10000, Gain = Settings.Current.Gain[8]},
-                new EqualizerBand {Bandwidth = 0.8f, Frequency = 20000, Gain = Settings.Current.Gain[9]},
+                new EqualizerBand {Bandwidth = 0.8f, Frequency = 30, Gain = Settings.Current.Gain[0] - max},
+                new EqualizerBand {Bandwidth = 0.8f, Frequency = 75, Gain = Settings.Current.Gain[1] - max},
+                new EqualizerBand {Bandwidth = 0.8f, Frequency = 150, Gain = Settings.Current.Gain[2] - max},
+                new EqualizerBand {Bandwidth = 0.8f, Frequency = 30, Gain = Settings.Current.Gain[3] - max},
+                new EqualizerBand {Bandwidth = 0.8f, Frequency = 600, Gain = Settings.Current.Gain[4] - max},
+                new EqualizerBand {Bandwidth = 0.8f, Frequency = 1250, Gain = Settings.Current.Gain[5] - max},
+                new EqualizerBand {Bandwidth = 0.8f, Frequency = 2500, Gain = Settings.Current.Gain[6] - max},
+                new EqualizerBand {Bandwidth = 0.8f, Frequency = 5000, Gain = Settings.Current.Gain[7] - max},
+                new EqualizerBand {Bandwidth = 0.8f, Frequency = 10000, Gain = Settings.Current.Gain[8] - max},
+                new EqualizerBand {Bandwidth = 0.8f, Frequency = 20000, Gain = Settings.Current.Gain[9] - max},
             };
         }
 
