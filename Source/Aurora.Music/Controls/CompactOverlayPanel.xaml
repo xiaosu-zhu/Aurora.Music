@@ -320,7 +320,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                       VerticalScrollMode="Disabled"
                       VerticalScrollBarVisibility="Disabled"
                       HorizontalScrollMode="Auto"
-                      HorizontalScrollBarVisibility="Auto">
+                      HorizontalScrollBarVisibility="Hidden">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Foreground="{ThemeResource SystemControlForegroundAltHighBrush}"
                            x:Name="PlayListFull"
