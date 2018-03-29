@@ -3239,10 +3239,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                 <StackPanel.RenderTransform>
                                     <TranslateTransform x:Name="UpwardTransform"/>
                                 </StackPanel.RenderTransform>
-                                <StackPanel Visibility="Collapsed" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                    <ProgressRing HorizontalAlignment="Left" Margin="12,8" Width="48" Height="24" IsActive="False" VerticalAlignment="Center"/>
-                                    <TextBlock Text="Searching" HorizontalAlignment="Stretch" Margin="8" Style="{ThemeResource SubtitleTextBlockStyle}" VerticalAlignment="Center"/>
-                                </StackPanel>
                                 <ListView x:Name="SuggestionsList" DisplayMemberPath="{TemplateBinding DisplayMemberPath}" IsItemClickEnabled="True"
                                           ItemTemplate="{TemplateBinding ItemTemplate}" ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}"
                                           ItemContainerStyle="{TemplateBinding ItemContainerStyle}"
@@ -3252,6 +3248,10 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                         <TransitionCollection />
                                     </ListView.ItemContainerTransitions>
                                 </ListView>
+                                <StackPanel Visibility="Collapsed" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                    <ProgressRing HorizontalAlignment="Left" Margin="12,8" Width="48" Height="24" IsActive="False" VerticalAlignment="Center"/>
+                                    <TextBlock Text="Searching" HorizontalAlignment="Stretch" Margin="8" Style="{ThemeResource SubtitleTextBlockStyle}" VerticalAlignment="Center"/>
+                                </StackPanel>
                             </StackPanel>
                         </Popup>
                     </Grid>
