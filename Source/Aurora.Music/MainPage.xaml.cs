@@ -1,4 +1,4 @@
-// Copyright (c) Aurora Studio. All rights reserved.
+﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using Aurora.Music.Controls;
@@ -255,7 +255,6 @@ namespace Aurora.Music
         }
 
         private int lyricViewID;
-        private CancellationTokenSource searchTask;
         private StackPanel autoSuggestPopupPanel;
         private ThreadPoolTimer dismissTimer;
         private string shareTitle;
@@ -264,7 +263,6 @@ namespace Aurora.Music
         private SleepAction sleepAction;
         private ThreadPoolTimer sleepTimer;
 
-        public bool CanAdd { get; private set; }
         public bool IsCurrentDouban => MainFrame.Content is DoubanPage;
 
         public bool CanShowPanel => !(OverlayFrame.Visibility == Visibility.Visible || MainFrame.Content is DoubanPage);
@@ -424,8 +422,8 @@ namespace Aurora.Music
 
         internal void HideAutoSuggestPopup()
         {
-            autoSuggestPopupPanel.Children[0].Visibility = Visibility.Collapsed;
-            ((autoSuggestPopupPanel.Children[0] as Panel).Children[0] as ProgressRing).IsActive = false;
+            autoSuggestPopupPanel.Children[1].Visibility = Visibility.Collapsed;
+            ((autoSuggestPopupPanel.Children[1] as Panel).Children[0] as ProgressRing).IsActive = false;
         }
 
         internal async Task GotoComapctOverlay()
@@ -438,8 +436,8 @@ namespace Aurora.Music
 
         internal void ShowAutoSuggestPopup()
         {
-            autoSuggestPopupPanel.Children[0].Visibility = Visibility.Visible;
-            ((autoSuggestPopupPanel.Children[0] as Panel).Children[0] as ProgressRing).IsActive = true;
+            autoSuggestPopupPanel.Children[1].Visibility = Visibility.Visible;
+            ((autoSuggestPopupPanel.Children[1] as Panel).Children[0] as ProgressRing).IsActive = true;
         }
 
         private void CoreTitleBar_IsVisibleChanged(CoreApplicationViewTitleBar sender, object args)
@@ -580,7 +578,7 @@ namespace Aurora.Music
             }
         }
 
-        private void SearchBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        private async void SearchBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
             if (args.Reason == AutoSuggestionBoxTextChangeReason.SuggestionChosen)
             {
@@ -605,19 +603,10 @@ namespace Aurora.Music
                 Context.SearchItems.Clear();
                 return;
             }
-            CanAdd = false;
-
-            searchTask?.Cancel(); searchTask?.Dispose();
-
-            searchTask = new CancellationTokenSource();
             var text = sender.Text;
 
             text = text.Replace('\'', ' ');
-            Task.Run(async () =>
-            {
-                CanAdd = true;
-                await Context.Search(text);
-            }, searchTask.Token);
+            await Context.Search(text, args);
         }
 
         private void PlayBtn_Click(object sender, RoutedEventArgs e)

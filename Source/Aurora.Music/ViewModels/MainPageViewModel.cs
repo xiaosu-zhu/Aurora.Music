@@ -685,14 +685,12 @@ namespace Aurora.Music.ViewModels
 
         public List<FileTracker> Trackers { get; private set; } = new List<FileTracker>();
 
-        internal async Task Search(string text)
+        internal async Task Search(string text, AutoSuggestBoxTextChangedEventArgs args)
         {
             var dd = CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
                 MainPage.Current.ShowAutoSuggestPopup();
             });
-            _lastQuery = string.Copy(text);
-            var s = string.Copy(_lastQuery);
             List<Task> tasks = new List<Task>();
             if (OnlineMusicExtension != null)
             {
@@ -707,21 +705,26 @@ namespace Aurora.Music.ViewModels
                     var webResult = await OnlineMusicExtension.ExecuteAsync(querys);
                     if (webResult is IEnumerable<OnlineMusicItem> items)
                     {
-                        if (MainPage.Current.CanAdd && s.Equals(_lastQuery, StringComparison.Ordinal))
-                            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
-                            {
+                        await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                        {
+                            if (args.CheckCurrent())
                                 lock (MainPage.Current.Lockable)
                                 {
+                                    if (_lastQuery != text)
+                                    {
+                                        _lastQuery = text;
+                                        SearchItems.Clear();
+                                    }
                                     if (SearchItems.Count > 0 && SearchItems[0].InnerType == MediaType.Placeholder)
                                     {
                                         SearchItems.Clear();
                                     }
                                     foreach (var item in items.Reverse())
                                     {
-                                        SearchItems.Insert(0, new GenericMusicItemViewModel(item));
+                                        SearchItems.Add(new GenericMusicItemViewModel(item));
                                     }
                                 }
-                            });
+                        });
                     }
                 }));
             }
@@ -729,17 +732,26 @@ namespace Aurora.Music.ViewModels
                 tasks.Add(Task.Run(async () =>
                 {
                     await Task.Delay(1000);
-                    if (!s.Equals(_lastQuery, StringComparison.Ordinal))
+                    var notChanged = false;
+                    await args.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                     {
+                        notChanged = args.CheckCurrent();
+                    });
+                    if (!notChanged)
                         return;
-                    }
+
                     var podcasts = await SearchPodcasts(text);
 
-                    if (MainPage.Current.CanAdd && !podcasts.IsNullorEmpty() && s.Equals(_lastQuery, StringComparison.Ordinal))
-                        await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
-                        {
+                    await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                    {
+                        if (args.CheckCurrent() && !podcasts.IsNullorEmpty())
                             lock (MainPage.Current.Lockable)
                             {
+                                if (_lastQuery != text)
+                                {
+                                    _lastQuery = text;
+                                    SearchItems.Clear();
+                                }
                                 if (SearchItems.Count > 0 && SearchItems[0].InnerType == MediaType.Placeholder)
                                 {
                                     SearchItems.Clear();
@@ -748,20 +760,25 @@ namespace Aurora.Music.ViewModels
 
                                 foreach (var item in podcasts)
                                 {
-                                    SearchItems.Insert(0, new GenericMusicItemViewModel(item));
+                                    SearchItems.Add(new GenericMusicItemViewModel(item));
                                 }
                             }
-                        });
+                    });
                 }));
             tasks.Add(Task.Run(async () =>
             {
                 var result = await FileReader.Search(text);
 
-                if (MainPage.Current.CanAdd && !result.IsNullorEmpty() && s.Equals(_lastQuery, StringComparison.Ordinal))
-                    await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
-                    {
+                await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                {
+                    if (args.CheckCurrent() && !result.IsNullorEmpty())
                         lock (MainPage.Current.Lockable)
                         {
+                            if (_lastQuery != text)
+                            {
+                                _lastQuery = text;
+                                SearchItems.Clear();
+                            }
                             if (SearchItems.Count > 0 && SearchItems[0].InnerType == MediaType.Placeholder)
                             {
                                 SearchItems.Clear();
@@ -772,7 +789,7 @@ namespace Aurora.Music.ViewModels
                             }
                         }
 
-                    });
+                });
             }));
             await Task.WhenAll(tasks);
             await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
