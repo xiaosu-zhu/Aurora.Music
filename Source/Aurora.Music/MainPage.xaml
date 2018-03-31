@@ -26,6 +26,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <ResourceDictionary Source="/Themes/Dark.xaml" x:Key="Dark"/>
             </ResourceDictionary.ThemeDictionaries>
 
+
+            <controls:SliderToolTipConverter x:Key="SliderToolTipConverter"/>
+
             <Style x:Key="SliderThumbStyle" TargetType="Thumb">
                 <Setter Property="MinWidth" Value="4"/>
                 <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"/>
@@ -1140,6 +1143,158 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     </MenuFlyoutItem>
                 </MenuFlyoutSubItem>
             </MenuFlyout>
+            <Style x:Key="MainPageSlider" TargetType="Slider">
+                <Setter Property="Background" Value="{ThemeResource SliderTrackFill}"/>
+                <Setter Property="BorderThickness" Value="{ThemeResource SliderBorderThemeThickness}"/>
+                <Setter Property="Foreground" Value="{ThemeResource SliderTrackValueFill}"/>
+                <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
+                <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
+                <Setter Property="ManipulationMode" Value="None"/>
+                <Setter Property="UseSystemFocusVisuals" Value="True"/>
+                <Setter Property="FocusVisualMargin" Value="-7,0,-7,0"/>
+                <Setter Property="IsFocusEngagementEnabled" Value="True"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Slider">
+                            <Grid Margin="{TemplateBinding Padding}">
+                                <Grid.Resources>
+                                    <Style x:Key="SliderThumbStyle" TargetType="Thumb">
+                                        <Setter Property="BorderThickness" Value="0"/>
+                                        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}"/>
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="Thumb">
+                                                    <Border Background="{TemplateBinding Background}" BorderThickness="0" BorderBrush="{x:Null}" CornerRadius="999"/>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </Grid.Resources>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal">
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="ThumbTransform" Storyboard.TargetProperty="ScaleX" To="1" Duration="0:0:0.64">
+                                                    <DoubleAnimation.EasingFunction>
+                                                        <QuinticEase/>
+                                                    </DoubleAnimation.EasingFunction>
+                                                </DoubleAnimation>
+                                                <DoubleAnimation Storyboard.TargetName="ThumbTransform" Storyboard.TargetProperty="ScaleY" To="1" Duration="0:0:0.64">
+                                                    <DoubleAnimation.EasingFunction>
+                                                        <QuinticEase/>
+                                                    </DoubleAnimation.EasingFunction>
+                                                </DoubleAnimation>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Pressed">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HorizontalThumb" Storyboard.TargetProperty="Background">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HorizontalDecreaseRect" Storyboard.TargetProperty="Fill">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AccentForTextPointerOver}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ThumbTransform" Storyboard.TargetProperty="ScaleY">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="3"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ThumbTransform" Storyboard.TargetProperty="ScaleX">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="3"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Disabled">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HorizontalDecreaseRect" Storyboard.TargetProperty="Fill">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SliderTrackValueFillDisabled}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HorizontalTrackRect" Storyboard.TargetProperty="Fill">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SliderTrackFillDisabled}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HorizontalThumb" Storyboard.TargetProperty="Background">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SliderThumbBackgroundDisabled}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TopTickBar" Storyboard.TargetProperty="Fill">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SliderTickBarFillDisabled}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomTickBar" Storyboard.TargetProperty="Fill">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SliderTickBarFillDisabled}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LeftTickBar" Storyboard.TargetProperty="Fill">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SliderTickBarFillDisabled}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RightTickBar" Storyboard.TargetProperty="Fill">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SliderTickBarFillDisabled}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="PointerOver">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HorizontalTrackRect" Storyboard.TargetProperty="Fill">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlAltLowBrush}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HorizontalDecreaseRect" Storyboard.TargetProperty="Fill">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AccentForTextPointerOver}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HorizontalThumb" Storyboard.TargetProperty="Background">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <DoubleAnimation Storyboard.TargetName="ThumbTransform" Storyboard.TargetProperty="ScaleX" To="3" Duration="0:0:0.64">
+                                                    <DoubleAnimation.EasingFunction>
+                                                        <QuinticEase/>
+                                                    </DoubleAnimation.EasingFunction>
+                                                </DoubleAnimation>
+                                                <DoubleAnimation Storyboard.TargetName="ThumbTransform" Storyboard.TargetProperty="ScaleY" To="3" Duration="0:0:0.64">
+                                                    <DoubleAnimation.EasingFunction>
+                                                        <QuinticEase/>
+                                                    </DoubleAnimation.EasingFunction>
+                                                </DoubleAnimation>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                    <VisualStateGroup x:Name="FocusEngagementStates">
+                                        <VisualState x:Name="FocusDisengaged"/>
+                                        <VisualState x:Name="FocusEngagedHorizontal">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SliderContainer" Storyboard.TargetProperty="(Control.IsTemplateFocusTarget)">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="False"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HorizontalThumb" Storyboard.TargetProperty="(Control.IsTemplateFocusTarget)">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="True"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <Grid x:Name="SliderContainer" Control.IsTemplateFocusTarget="True" Grid.Row="1">
+                                    <Grid x:Name="HorizontalTemplate" MinHeight="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="0"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="0"/>
+                                        </Grid.RowDefinitions>
+                                        <Rectangle x:Name="HorizontalTrackRect" Grid.ColumnSpan="3" Fill="{TemplateBinding Background}" Height="{TemplateBinding Height}" Grid.Row="1"/>
+                                        <Rectangle x:Name="HorizontalDecreaseRect" Fill="{TemplateBinding Foreground}" Height="{TemplateBinding Height}" Grid.Row="1"/>
+                                        <Thumb x:Name="HorizontalThumb" AutomationProperties.AccessibilityView="Raw" Margin="-4,0" RenderTransformOrigin="0.5,0.5" Grid.Column="1" DataContext="{TemplateBinding Value}" FocusVisualMargin="-14,-6,-14,-6" Height="{TemplateBinding Height}" Grid.RowSpan="3" Grid.Row="0" Style="{StaticResource SliderThumbStyle}" Width="{TemplateBinding Height}">
+                                            <Thumb.RenderTransform>
+                                                <ScaleTransform x:Name="ThumbTransform" ScaleX="1" ScaleY="1"/>
+                                            </Thumb.RenderTransform>
+                                        </Thumb>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
         </ResourceDictionary>
     </Page.Resources>
 
@@ -1391,24 +1546,14 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         </ObjectAnimationUsingKeyFrames>
                     </Storyboard>
                     <Storyboard x:Name="ProgressShow">
-                        <DoubleAnimation Duration="0:0:0.64" To="3" Storyboard.TargetName="ProgressBG" Storyboard.TargetProperty="ScaleY">
-                            <DoubleAnimation.EasingFunction>
-                                <QuinticEase/>
-                            </DoubleAnimation.EasingFunction>
-                        </DoubleAnimation>
-                        <DoubleAnimation Duration="0:0:0.64" To="3" Storyboard.TargetName="ProgressOV" Storyboard.TargetProperty="ScaleY">
+                        <DoubleAnimation Duration="0:0:0.64" To="8" EnableDependentAnimation="True" Storyboard.TargetName="MainSlider" Storyboard.TargetProperty="Height">
                             <DoubleAnimation.EasingFunction>
                                 <QuinticEase/>
                             </DoubleAnimation.EasingFunction>
                         </DoubleAnimation>
                     </Storyboard>
                     <Storyboard x:Name="ProgressHide">
-                        <DoubleAnimation Duration="0:0:0.64" To="1" Storyboard.TargetName="ProgressBG" Storyboard.TargetProperty="ScaleY">
-                            <DoubleAnimation.EasingFunction>
-                                <QuinticEase/>
-                            </DoubleAnimation.EasingFunction>
-                        </DoubleAnimation>
-                        <DoubleAnimation Duration="0:0:0.64" To="1" Storyboard.TargetName="ProgressOV" Storyboard.TargetProperty="ScaleY">
+                        <DoubleAnimation Duration="0:0:0.64" To="2" EnableDependentAnimation="True" Storyboard.TargetName="MainSlider" Storyboard.TargetProperty="Height">
                             <DoubleAnimation.EasingFunction>
                                 <QuinticEase/>
                             </DoubleAnimation.EasingFunction>
@@ -1552,7 +1697,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                 <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Context.VolumeToSymbol(Context.Volume), Mode=OneWay}" />
                             </Button.Content>
                             <Button.Flyout>
-                                <Flyout Opened="Flyout_Opened_1" FlyoutPresenterStyle="{ThemeResource HoriNoScrollFlyoutPresenter}">
+                                <Flyout Opened="VolumeFlyout_Open" FlyoutPresenterStyle="{ThemeResource HoriNoScrollFlyoutPresenter}">
                                     <StackPanel Padding="4,4,4,-4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Orientation="Horizontal">
                                         <Slider Style="{ThemeResource RoundSlider}" IsThumbToolTipEnabled="False" MinWidth="240" HorizontalAlignment="Stretch" VerticalAlignment="Center" Minimum="0" Maximum="100" StepFrequency="1" Value="{x:Bind Context.Volume, Mode=TwoWay}"/>
                                         <TextBlock Margin="4,0,0,10" Width="36" TextAlignment="Right" VerticalAlignment="Center" Style="{ThemeResource TitleTextBlockStyle}" TextWrapping="NoWrap" TextTrimming="None" MaxLines="1" HorizontalAlignment="Stretch" Text="{x:Bind Context.VolumeToString(Context.Volume), Mode=OneWay}"/>
@@ -1561,18 +1706,12 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                             </Button.Flyout>
                         </Button>
                     </StackPanel>
-                    <ProgressBar Background="{x:Null}" Foreground="{ThemeResource SystemControlAltTranslucentAcrylicWindowBrush}" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="5" 
-                                 Visibility="Collapsed" Value="{x:Bind Context.BufferProgress, Mode=OneWay}" MinHeight="2" Height="2" RenderTransformOrigin="0.5,1">
-                        <ProgressBar.RenderTransform>
-                            <ScaleTransform x:Name="ProgressBG" ScaleX="1" ScaleY="1"/>
-                        </ProgressBar.RenderTransform>
-                    </ProgressBar>
-                    <ProgressBar Background="{x:Null}" Foreground="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="5" 
-                                 Value="{x:Bind Context.PositionToValue(Context.CurrentPosition, Context.TotalDuration), Mode=OneWay}" MinHeight="2" Height="2" RenderTransformOrigin="0.5,1">
-                        <ProgressBar.RenderTransform>
-                            <ScaleTransform x:Name="ProgressOV" ScaleX="1" ScaleY="1"/>
-                        </ProgressBar.RenderTransform>
-                    </ProgressBar>
+                    <Slider Style="{StaticResource MainPageSlider}" Background="{x:Null}" 
+                            Foreground="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" 
+                            Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="5"
+                            Value="{x:Bind Context.PositionToValue(Context.CurrentPosition, Context.TotalDuration), Mode=OneWay}"
+                            ThumbToolTipValueConverter="{StaticResource SliderToolTipConverter}" ValueChanged="Slider_ValueChanged"
+                            MinHeight="2" Height="2" RenderTransformOrigin="0.5,1" x:Name="MainSlider"/>
                 </Grid>
                 <Frame x:Name="OverlayFrame" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                 <TextBlock Visibility="{x:Bind Context.NeedShowTitle, Mode=OneWay}" 

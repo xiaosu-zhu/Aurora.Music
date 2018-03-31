@@ -62,6 +62,7 @@ namespace Aurora.Music.Core
                            "\t1. Fixed searching items duplicated.\r\n" +
                             "\t2. Updated searching layout.\r\n" +
                             "* **Improve**: Now can play video podcasts(just a basic support).\r\n" +
+                            "* **Improve**: Now can drag position slider in Mainpage.\r\n" +
                             "* **Improve**: Updated layouts.\r\n" +
                             "* **Improve**: Synced translations.\r\n" +
                             "* **Improve**: Bugs fixed.\r\n";

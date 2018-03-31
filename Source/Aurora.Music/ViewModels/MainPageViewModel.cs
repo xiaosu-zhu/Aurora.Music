@@ -84,6 +84,15 @@ namespace Aurora.Music.ViewModels
             return d.ToString("0");
         }
 
+        internal void PositionChange(TimeSpan timeSpan)
+        {
+            if (Math.Abs((timeSpan - CurrentPosition).TotalSeconds) < 1)
+            {
+                return;
+            }
+            player.Seek(timeSpan);
+        }
+
         private double olume = Settings.Current.PlayerVolume;
         public double Volume
         {

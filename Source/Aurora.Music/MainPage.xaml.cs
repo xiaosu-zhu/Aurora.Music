@@ -1415,9 +1415,14 @@ namespace Aurora.Music
             };
         }
 
-        private void Flyout_Opened_1(object sender, object e)
+        private void VolumeFlyout_Open(object sender, object e)
         {
             Context.Volume = Settings.Current.PlayerVolume;
+        }
+
+        private void Slider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            Context.PositionChange(Context.TotalDuration * (e.NewValue / 100d));
         }
     }
 }
