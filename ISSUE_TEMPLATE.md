@@ -1,37 +1,46 @@
-Issue: #
-<!-- Link to relevant issue. All PRs should be asociated with an issue -->
+<!--
+PLEASE HELP US PROCESS GITHUB ISSUES FASTER BY PROVIDING THE FOLLOWING INFORMATION.
+ISSUES MISSING IMPORTANT INFORMATION MAY BE CLOSED WITHOUT INVESTIGATION.
+-->
 
-## PR Type
-What kind of change does this PR introduce?
-<!-- Please uncomment one ore more that apply to this PR -->
+## I'm submitting a...
+<!-- Please uncomment one or more that apply to this issue -->
 
-<!-- - Bugfix -->
-<!-- - Feature -->
-<!-- - Code style update (formatting) -->
-<!-- - Refactoring (no functional changes, no api changes) -->
-<!-- - Build or CI related changes -->
-<!-- - Documentation content changes -->
-<!-- - Other... Please describe: -->
+<!-- - Regression (a behavior that used to work and stopped working in a new release) -->
+<!-- - Bug report (I searched for similar issues and did not find one) -->  
+<!-- - Feature request --> 
+<!-- - Documentation issue or request -->
 
 
-## What is the current behavior?
-<!-- Please describe the current behavior that you are modifying, or link to a relevant issue. -->
+## Current behavior
+<!-- Describe how the issue manifests. -->
 
 
-## What is the new behavior?
+## Expected behavior
+<!-- Describe what the desired behavior would be. -->
 
 
-## PR Checklist
-
-Please check if your PR fulfills the following requirements:
-
-- [ ] Tested code
-- [ ] Tests for the changes have been added (for bug fixes / features) (if applicable)
-- [ ] Contains **NO** breaking changes
+## Minimal reproduction of the problem with instructions
+<!--
+For bug reports please provide a *MINIMAL REPRO PROJECT* and the *STEPS TO REPRODUCE*
+-->
 
 
-<!-- If this PR contains a breaking change, please describe the impact and migration path for existing applications below. 
-     Please note that breaking changes are likely to be rejected -->
+## Environment
+<!-- For bug reports Check one or more of the following options with "x" -->
+```
+App Version(s): 
 
+Windows 10 Build Number:
+- [ ] Fall Creators Update (16299)
+- [ ] Spring Creators Update (17133)
+- [ ] Insider Build (build number: )
 
-## Other information
+Device form factor:
+- [ ] Desktop
+- [ ] Mobile
+- [ ] Xbox
+- [ ] Surface Hub
+- [ ] IoT
+
+```
