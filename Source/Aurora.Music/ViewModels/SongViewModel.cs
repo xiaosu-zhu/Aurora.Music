@@ -48,6 +48,7 @@ namespace Aurora.Music.ViewModels
         }
 
         public bool IsPodcast { get; set; }
+        public bool IsVideo { get; set; }
 
         public string GetAddtionalDesc()
         {
@@ -78,7 +79,7 @@ namespace Aurora.Music.ViewModels
         {
             if (IsPodcast)
             {
-                return $"Podcast Posted @ {song.PubDate.PubDatetoString($"'{Consts.Today}' H:mm", "ddd H:mm", "M/dd H:mm", "yy/M/dd", Consts.Next, Consts.Last)}";
+                return string.Format(Consts.Localizer.GetString("PodcastDesc"), song.PubDate.PubDatetoString($"'{Consts.Today}' H:mm", "ddd H:mm", "M/dd H:mm", "yy/M/dd", Consts.Next, Consts.Last));
             }
             if (IsOnline)
             {
@@ -123,6 +124,7 @@ namespace Aurora.Music.ViewModels
             Duration = song.Duration;
             PubDate = song.PubDate;
             IsPodcast = song.IsPodcast;
+            IsVideo = song.IsVideo;
         }
 
         private DateTime pubDate;
@@ -215,6 +217,11 @@ namespace Aurora.Music.ViewModels
         {
             get { return album.IsNullorEmpty() ? Consts.UnknownAlbum : album; }
             set { album = value; }
+        }
+
+        public string VideoIndicator(bool b)
+        {
+            return b ? "\uE173 " : "";
         }
 
         public DelegateCommand DownloadPodcast

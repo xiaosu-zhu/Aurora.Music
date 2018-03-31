@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
+using Aurora.Music.Core;
 using Aurora.Music.Core.Storage;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.MVVM;
@@ -31,6 +32,11 @@ namespace Aurora.Music.ViewModels
         {
             get { return totalProgress; }
             set { SetProperty(ref totalProgress, value); }
+        }
+
+        public string TaskDesc(int count)
+        {
+            return SmartFormat.Smart.Format(Consts.Localizer.GetString("TaskDesc"), count);
         }
 
         public DownloadPageViewModel()

@@ -592,7 +592,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <StackPanel Margin="0,144,0,160" Orientation="Vertical" x:Name="ContentPanel"
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <StackPanel x:Name="HeroPanel" Orientation="Horizontal" Margin="60,16,16,8">
-                    <TextBlock Text="For You" x:Name="HeroTitle" Style="{ThemeResource HeaderTextBlockStyle}" FontWeight="Bold"/>
+                    <TextBlock x:Uid="HeroTitle" Text="For You" x:Name="HeroTitle" Style="{ThemeResource HeaderTextBlockStyle}" FontWeight="Bold"/>
                 </StackPanel>
                 <ListView SelectionMode="None" IsItemClickEnabled="True" 
                           ItemsSource="{x:Bind Context.HeroList}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"

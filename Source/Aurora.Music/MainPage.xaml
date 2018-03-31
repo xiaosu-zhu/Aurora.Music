@@ -1323,7 +1323,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         </Grid>
                     </Button>
                     <StackPanel HorizontalAlignment="Left" VerticalAlignment="Stretch" Orientation="{x:Bind PaneToOrientation(Root.IsPaneOpen),Mode=OneWay}" Width="{x:Bind PaneLength(Root.IsPaneOpen),Mode=OneWay}">
-                        <Button AccessKey="6" Height="48" Command="{x:Bind Context.GotoSettings}" Click="Button_Click" Padding="0" VerticalContentAlignment="Center" BorderBrush="{ThemeResource ListViewItemRevealBorderBrush}"
+                        <Button x:Uid="MainpageSettings" AccessKey="6" Height="48" Command="{x:Bind Context.GotoSettings}" Click="Button_Click" Padding="0" VerticalContentAlignment="Center" BorderBrush="{ThemeResource ListViewItemRevealBorderBrush}"
                             HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Stretch" ToolTipService.ToolTip="Settings"
                             Style="{ThemeResource RevealRectangleButton}" BorderThickness="1" Width="{x:Bind PaneLength1(Root.IsPaneOpen),Mode=OneWay}" Background="{ThemeResource SystemControlTransparentBrush}">
                             <Button.KeyboardAccelerators>
@@ -1533,14 +1533,14 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                             </Button.KeyboardAccelerators>
                         </Button>
 
-                        <ToggleButton x:Uid="Shuffle" IsEnabled="{x:Bind Context.BoolNot(Context.IsPodcast),Mode=OneWay}" x:Name="Shuffle" Style="{ThemeResource RevealRoundToggleButton}" IsChecked="{x:Bind Context.IsShuffle, Mode=TwoWay}" ToolTipService.ToolTip="Shuffle"
+                        <ToggleButton x:Uid="Shuffle" x:Name="Shuffle" Style="{ThemeResource RevealRoundToggleButton}" IsChecked="{x:Bind Context.IsShuffle, Mode=TwoWay}" ToolTipService.ToolTip="Shuffle"
                                       Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                             <ToggleButton.Content>
                                 <SymbolIcon Symbol="Shuffle"/>
                             </ToggleButton.Content>
                         </ToggleButton>
 
-                        <ToggleButton x:Uid="Loop" x:Name="Refresh" IsEnabled="{x:Bind Context.BoolNot(Context.IsPodcast),Mode=OneWay}" Style="{ThemeResource RevealRoundToggleButton}" IsChecked="{x:Bind Context.IsLoop, Mode=TwoWay}" ToolTipService.ToolTip="Loop"
+                        <ToggleButton x:Uid="Loop" x:Name="Refresh" Style="{ThemeResource RevealRoundToggleButton}" IsChecked="{x:Bind Context.IsLoop, Mode=TwoWay}" ToolTipService.ToolTip="Loop"
                                       Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                             <ToggleButton.Content>
                                 <SymbolIcon Symbol="Refresh"/>

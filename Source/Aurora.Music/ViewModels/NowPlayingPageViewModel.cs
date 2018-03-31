@@ -872,6 +872,7 @@ namespace Aurora.Music.ViewModels
                     if (await ApplicationView.GetForCurrentView().TryEnterViewModeAsync(ApplicationViewMode.Default))
                     {
                         (Window.Current.Content as Frame).GoBack();
+                        await Task.Delay(1000);
                         try
                         {
                             MainPageViewModel.Current.NeedShowPanel = (bool)player.IsPlaying;

@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
+using Aurora.Music.Core;
 using Aurora.Music.ViewModels;
 using Aurora.Shared.Helpers;
 using System;
@@ -31,7 +32,7 @@ namespace Aurora.Music.Pages
         public DownloadPage()
         {
             this.InitializeComponent();
-            MainPageViewModel.Current.Title = "Download";
+            MainPageViewModel.Current.Title = Consts.Localizer.GetString("DownloadText");
             MainPageViewModel.Current.NeedShowTitle = true;
             MainPageViewModel.Current.LeftTopColor = Resources["SystemControlForegroundBaseHighBrush"] as SolidColorBrush;
         }

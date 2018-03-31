@@ -152,86 +152,63 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     </GridView.ItemTemplate>
                 </GridView>
 
-                <SemanticZoom HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="Main">
-                    <SemanticZoom.ZoomedOutView>
-                        <GridView Margin="32" HorizontalAlignment="Center" VerticalAlignment="Center" ItemContainerStyle="{ThemeResource SemanticOutItem}"
-                          FontSize="20" ItemsSource="{x:Bind SongsListSource.View.CollectionGroups, Mode=OneWay}">
-                            <GridView.ItemTemplate>
-                                <DataTemplate x:DataType="wuxdata:ICollectionViewGroup">
-                                    <TextBlock Margin="12,4" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{x:Bind Group.ToString()}" Style="{StaticResource BaseTextBlockStyle}" MaxLines="1" TextWrapping="NoWrap"/>
-                                </DataTemplate>
-                            </GridView.ItemTemplate>
-                            <GridView.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <toolkit:WrapPanel Orientation="Horizontal"/>
-                                </ItemsPanelTemplate>
-                            </GridView.ItemsPanel>
-                            <GridView.Footer>
-                                <Border Height="240" Width="2"/>
-                            </GridView.Footer>
-                        </GridView>
-                    </SemanticZoom.ZoomedOutView>
-
-                    <SemanticZoom.ZoomedInView>
-                        <ListView IsSynchronizedWithCurrentItem="False" ContextRequested="SongsList_ContextRequested"
-                                  ContextCanceled="SongsList_ContextCanceled"
+                <ListView IsSynchronizedWithCurrentItem="False" ContextRequested="SongsList_ContextRequested"
+                          ContextCanceled="SongsList_ContextCanceled"
                           IsItemClickEnabled="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                           SelectionMode="None" ItemsSource="{x:Bind SongsListSource.View, Mode=OneWay}" Padding="20,0"
                           Style="{ThemeResource GeneralListView}" x:Name="SongsList" ItemClick="SongsList_ItemClick"
                           ItemContainerStyleSelector="{StaticResource SongListStyleSelector}">
-                            <ListView.Header>
-                                <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Foreground="{ThemeResource AccentForText}" FontWeight="Bold" x:Uid="Retriving"
+                    <ListView.Header>
+                        <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Foreground="{ThemeResource AccentForText}" FontWeight="Bold" x:Uid="Retriving"
                                    Text="Retriving Database" Margin="12,0" Visibility="{x:Bind Context.CollapseIfNotZero(Context.SongsList.Count),Mode=OneWay}"/>
-                            </ListView.Header>
-                            <ListView.ItemTemplate>
-                                <DataTemplate x:DataType="vm:SongViewModel">
-                                    <list:SongItem Data="{x:Bind }" IsMultiSelect="{x:Bind ListMultiSelecting, Mode=OneWay}" Play="SongItem_Play" RequestMultiSelect="SongItem_RequestMultiSelect"/>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                            <ListView.GroupStyle>
-                                <GroupStyle x:Name="GroupStyle" HeaderTemplate="{StaticResource NormalGroupSongsHeader}">
-                                    <GroupStyle.HeaderContainerStyle>
-                                        <Style TargetType="ListViewHeaderItem">
-                                            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
-                                            <Setter Property="FontSize" Value="{ThemeResource ListViewHeaderItemThemeFontSize}" />
-                                            <Setter Property="Background" Value="{ThemeResource ListViewHeaderItemBackground}" />
-                                            <Setter Property="Margin" Value="12,0,12,4" />
-                                            <Setter Property="Padding" Value="0,8,0,0" />
-                                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                            <Setter Property="VerticalContentAlignment" Value="Stretch" />
-                                            <Setter Property="MinHeight" Value="{ThemeResource ListViewHeaderItemMinHeight}" />
-                                            <Setter Property="UseSystemFocusVisuals" Value="True" />
-                                            <Setter Property="Template">
-                                                <Setter.Value>
-                                                    <ControlTemplate TargetType="ListViewHeaderItem">
-                                                        <StackPanel Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" 
+                    </ListView.Header>
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="vm:SongViewModel">
+                            <list:SongItem Data="{x:Bind }" IsMultiSelect="{x:Bind ListMultiSelecting, Mode=OneWay}" Play="SongItem_Play" RequestMultiSelect="SongItem_RequestMultiSelect"/>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                    <ListView.GroupStyle>
+                        <GroupStyle x:Name="GroupStyle" HeaderTemplate="{StaticResource NormalGroupSongsHeader}">
+                            <GroupStyle.HeaderContainerStyle>
+                                <Style TargetType="ListViewHeaderItem">
+                                    <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+                                    <Setter Property="FontSize" Value="{ThemeResource ListViewHeaderItemThemeFontSize}" />
+                                    <Setter Property="Background" Value="{ThemeResource ListViewHeaderItemBackground}" />
+                                    <Setter Property="Margin" Value="12,0,12,4" />
+                                    <Setter Property="Padding" Value="0,8,0,0" />
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                    <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                                    <Setter Property="MinHeight" Value="{ThemeResource ListViewHeaderItemMinHeight}" />
+                                    <Setter Property="UseSystemFocusVisuals" Value="True" />
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ListViewHeaderItem">
+                                                <StackPanel Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" 
                                                             BorderThickness="{TemplateBinding BorderThickness}">
-                                                            <ContentPresenter x:Name="ContentPresenter"
+                                                    <ContentPresenter x:Name="ContentPresenter"
                                                                       Margin="{TemplateBinding Padding}" Content="{TemplateBinding Content}" 
                                                                       ContentTemplate="{TemplateBinding ContentTemplate}"
                                                                       ContentTransitions="{TemplateBinding ContentTransitions}" 
                                                                       HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                                       VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
-                                                            <Rectangle Stroke="{ThemeResource ListViewHeaderItemDividerStroke}"
+                                                    <Rectangle Stroke="{ThemeResource ListViewHeaderItemDividerStroke}"
                                                                StrokeThickness="0.5"
                                                                Height="1"
                                                                VerticalAlignment="Bottom"
                                                                HorizontalAlignment="Stretch"
                                                                Margin="0,8,0,0" />
-                                                        </StackPanel>
-                                                    </ControlTemplate>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </Style>
-                                    </GroupStyle.HeaderContainerStyle>
-                                </GroupStyle>
-                            </ListView.GroupStyle>
-                            <ListView.Footer>
-                                <Border Height="160"/>
-                            </ListView.Footer>
-                        </ListView>
-                    </SemanticZoom.ZoomedInView>
-                </SemanticZoom>
+                                                </StackPanel>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </GroupStyle.HeaderContainerStyle>
+                        </GroupStyle>
+                    </ListView.GroupStyle>
+                    <ListView.Footer>
+                        <Border Height="160"/>
+                    </ListView.Footer>
+                </ListView>
             </StackPanel>
 
         </Grid>

@@ -27,7 +27,7 @@ namespace Aurora.Music.Controls
             await Launcher.LaunchUriAsync(new Uri(e.Link));
         }
 
-        private async void Main_Loaded(object sender, RoutedEventArgs e)
+        private void Main_Loaded(object sender, RoutedEventArgs e)
         {
             var text = "You can explorer currently using open source libraries below:\r\n\r\n| Name | Version | License | Site |\r\n| --- | --- | --- | --- |\r\n";
 
