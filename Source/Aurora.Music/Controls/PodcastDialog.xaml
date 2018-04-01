@@ -17,9 +17,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     x:Uid="PodcastDialog"
     Title="Podcast Details"
     PrimaryButtonText="Subscribe"
-    IsPrimaryButtonEnabled="False"
     CloseButtonText="Close"
     DefaultButton="Primary"
+    IsPrimaryButtonEnabled="False"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick">
 
     <ContentDialog.Resources>
