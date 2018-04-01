@@ -235,6 +235,7 @@ namespace Aurora.Music
                     item.IsCurrent = false;
                 }
             }
+            Root.IsPaneOpen = false;
         }
 
         internal async void ThrowException(Windows.UI.Xaml.UnhandledExceptionEventArgs e)

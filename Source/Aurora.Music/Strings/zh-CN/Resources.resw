@@ -1261,7 +1261,7 @@
     <value>最热门</value>
     <comment>Top Charts</comment>
   </data>
-    <data name="RssInput.Header" xml:space="preserve">
+    <data name="RssInput.PlaceholderText" xml:space="preserve">
     <value>键入一个有效的 RSS 源以查看播客：</value>
     <comment>Enter an valid rss address to view podcasts:</comment>
   </data>

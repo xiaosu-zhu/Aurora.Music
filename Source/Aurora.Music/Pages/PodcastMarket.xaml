@@ -47,13 +47,13 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <RepositionThemeTransition IsStaggeringEnabled="False"/>
                 </TransitionCollection>
             </StackPanel.ChildrenTransitions>
-            <StackPanel Margin="16,16,0,16" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <TextBox x:Uid="RssInput" Header="Enter an valid rss address to view podcasts:" Width="320" x:Name="UrlBox" InputScope="Url"/>
-                <Button Style="{ThemeResource RevealRectangleButton}" Height="32" Width="64" 
+            <StackPanel Margin="16,40,0,16" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <TextBox BorderThickness="1" BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" x:Uid="RssInput" PlaceholderText="Enter an valid rss address to view podcasts:" Width="320" x:Name="UrlBox" InputScope="Url"/>
+                <Button Style="{ThemeResource RevealRectangleButton}" Height="32" Width="48" 
                         VerticalAlignment="Bottom" Click="Button_Click"
-                        Foreground="{ThemeResource AccentForText}">
+                        Foreground="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}">
                     <Button.Content>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE122;" />
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE10B;" />
                     </Button.Content>
                 </Button>
             </StackPanel>

@@ -1262,7 +1262,7 @@
     <value>Top Charts</value>
     <comment>Top Charts</comment>
   </data>
-    <data name="RssInput.Header" xml:space="preserve">
+    <data name="RssInput.PlaceholderText" xml:space="preserve">
     <value>Enter an valid rss address to view podcasts:</value>
     <comment>Enter an valid rss address to view podcasts:</comment>
   </data>
