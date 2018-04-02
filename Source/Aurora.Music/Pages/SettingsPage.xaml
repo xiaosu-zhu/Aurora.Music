@@ -371,7 +371,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         </VisualStateManager.VisualStateGroups>
         <ScrollViewer MinWidth="0"  HorizontalScrollBarVisibility="Hidden" Style="{ThemeResource NarrowScrollViewer}"
                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalScrollMode="Disabled" VerticalScrollMode="Enabled">
-            <Grid x:Name="Main" Padding="20,120,20,160" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Loaded="Main_Loaded">
+            <Grid x:Name="Main" Padding="20,120,20,160" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="auto"/>
