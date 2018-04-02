@@ -406,7 +406,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                        Text="{x:Bind Context.VolumeToString(Context.PlayerVolume), Mode=OneWay}"/>
                         </StackPanel>
                         <TextBlock x:Uid="VolumeHint" Style="{ThemeResource BodyTextBlockStyle}" FontSize="13" Foreground="{ThemeResource AppBarItemDisabledForegroundThemeBrush}" Text="We suggest you to control the system volume directly." HorizontalAlignment="Left" VerticalAlignment="Center" Margin="8,0,0,8"/>
-                        <ToggleSwitch Header="Prevent screen locks when playing" IsOn="{x:Bind Context.PreventScreenLock, Mode=TwoWay}"/>
+                        <ToggleSwitch x:Uid="DisplayRequestSwitch" Header="Prevent screen locks when playing" IsOn="{x:Bind Context.PreventScreenLock, Mode=TwoWay}"/>
                     </StackPanel>
                     <StackPanel BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" BorderThickness="0,0,0,1" Padding="8,0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <TextBlock x:Uid="Podcast" Text="Podcast" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12"/>
@@ -469,14 +469,14 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                             </TransitionCollection>
                         </StackPanel.ChildrenTransitions>
                         <TextBlock x:Uid="AudioEffects" Text="Audio Effects" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12"/>
-                        <TextBlock FontSize="13" Text="NOTE: Enable audio effects may cost a little performance" Style="{ThemeResource BodyTextBlockStyle}" Margin="0,-12,0,0"/>
+                        <TextBlock x:Uid="EffectsNote" FontSize="13" Text="NOTE: Enable audio effects may cost a little performance" Style="{ThemeResource BodyTextBlockStyle}" Margin="0,-12,0,0"/>
                         <ToggleSwitch Tag="Equalizer" IsOn="{x:Bind Context.EqualizerEnabled,Mode=OneWay}" 
-                                      Loaded="ToggleSwitch_Loaded" x:Uid="EqualizerToggle" Header="Equalizer" Margin="0,8"/>
-                        <Button Margin="0,8" Content="Equalizer Settings" Visibility="{x:Bind Context.EqualizerEnabled,Mode=OneWay}" 
+                                      Loaded="ToggleSwitch_Loaded" x:Uid="EqualizerToggle" Header="Equalizer" Margin="0,20,0,0"/>
+                        <Button x:Uid="EqualizerButton" Margin="20,0,0,8" Content="Equalizer Settings" Visibility="{x:Bind Context.EqualizerEnabled,Mode=OneWay}" 
                                 Style="{ThemeResource TextBlockButtonStyle}" Command="{x:Bind Context.ShowEqualizer}"/>
-                        <ToggleSwitch Tag="Channel" IsOn="{x:Bind Context.ChannelShiftEnabled,Mode=OneWay}" 
-                                      Loaded="ToggleSwitch_Loaded" Header="Channel shift" Margin="0,8"/>
-                        <StackPanel Margin="0,8,0,0" Visibility="{x:Bind Context.ChannelShiftEnabled,Mode=OneWay}" Orientation="Horizontal" HorizontalAlignment="Left">
+                        <ToggleSwitch x:Uid="ChannelShiftToggle" Tag="Channel" IsOn="{x:Bind Context.ChannelShiftEnabled,Mode=OneWay}" 
+                                      Loaded="ToggleSwitch_Loaded" Header="Channel shift" Margin="0,20,0,0"/>
+                        <StackPanel Margin="20,0,0,0" Visibility="{x:Bind Context.ChannelShiftEnabled,Mode=OneWay}" Orientation="Horizontal" HorizontalAlignment="Left">
                             <Button Margin="0,0,0,16" Content="L" Style="{ThemeResource TextBlockButtonStyle}" Click="Left_Click" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
                             <Slider Canvas.ZIndex="9999" Style="{ThemeResource RoundSlider}" HorizontalAlignment="Center" VerticalContentAlignment="Stretch"
                                     Foreground="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" IsThumbToolTipEnabled="True"
@@ -485,25 +485,26 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                     StepFrequency="0.1" Value="{x:Bind Context.ChannelShift,Mode=TwoWay}" x:Name="ShiftSlider"/>
                             <Button Margin="0,0,0,16" Content="R" Style="{ThemeResource TextBlockButtonStyle}" Click="Right_Click" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
                         </StackPanel>
-                        <ToggleSwitch Visibility="{x:Bind Context.ChannelShiftEnabled,Mode=OneWay}" VerticalAlignment="Top" Margin="0,0,0,8" Header="Stereo to mono" IsOn="{x:Bind Context.StereoToMono,Mode=TwoWay}"/>
+                        <ToggleSwitch x:Uid="ToMonoSwitch" Visibility="{x:Bind Context.ChannelShiftEnabled,Mode=OneWay}" 
+                                      VerticalAlignment="Top" Margin="20,0,0,8" Header="Stereo to mono" IsOn="{x:Bind Context.StereoToMono,Mode=TwoWay}"/>
 
-                        <ToggleSwitch Tag="Threshold" IsOn="{x:Bind Context.ThresholdEnabled,Mode=OneWay}" 
-                                      Loaded="ToggleSwitch_Loaded" Header="Limiter" Margin="0,8"/>
-                        <Button Margin="0,8" Content="Limiter Settings" Visibility="{x:Bind Context.ThresholdEnabled,Mode=OneWay}" 
+                        <ToggleSwitch x:Uid="LimiterToggle" Tag="Threshold" IsOn="{x:Bind Context.ThresholdEnabled,Mode=OneWay}" 
+                                      Loaded="ToggleSwitch_Loaded" Header="Limiter" Margin="0,20,0,0"/>
+                        <Button x:Uid="LimiterButton" Margin="20,0,0,8" Content="Limiter Settings" Visibility="{x:Bind Context.ThresholdEnabled,Mode=OneWay}" 
                                 Style="{ThemeResource TextBlockButtonStyle}" Command="{x:Bind Context.ShowLimiter}"/>
                     </StackPanel>
                     <StackPanel BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" BorderThickness="0,0,0,1" Padding="8,0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <TextBlock x:Uid="Advance" Text="Advance" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12"/>
                         <ToggleSwitch x:Uid="DebugMode" Header="Debug Mode" IsOn="{x:Bind Context.DebugModeEnabled,Mode=TwoWay}" Margin="0,8" />
                         <TextBlock Margin="0,8">
-                            <Run Text="Cache folder size:"/>
+                            <Run x:Uid="CacheFolderSize" Text="Cache folder size:"/>
                             <Run Text="{x:Bind Context.CacheFolderSize,Mode=OneWay}"/>
                         </TextBlock>
                         <TextBlock Margin="0,8">
-                            <Run Text="Data folder size:"/>
+                            <Run x:Uid="DataFolderSize" Text="Data folder size:"/>
                             <Run Text="{x:Bind Context.DataFolderSize,Mode=OneWay}"/>
                         </TextBlock>
-                        <Button HorizontalAlignment="Left" Margin="0,8" Content="Open data folder" Command="{x:Bind Context.OpenData}"/>
+                        <Button x:Uid="OpenDataButton" HorizontalAlignment="Left" Margin="0,8" Content="Open data folder" Command="{x:Bind Context.OpenData}"/>
                         <StackPanel Padding="4" Margin="0,4" BorderBrush="#ff4343" BorderThickness="1" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <TextBlock x:Uid="DangerZone" Foreground="#ff4343" Text="Danger Zone" Margin="0,8"/>
                             <Button x:Uid="ClearCache" IsEnabled="{x:Bind Context.CanClearCache,Mode=OneWay}" Command="{x:Bind Context.ClearCache}" Style="{ThemeResource ButtonRevealStyle}" Margin="0,8" Content="Clear Cache"/>

@@ -12,7 +12,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
     mc:Ignorable="d"
-    Background="{ThemeResource SystemControlAltMediumLowAcrylicElementMediumBrush}"
+    Background="{ThemeResource ContentDialogBackground}"
     x:Uid="DoubanLogin"
     PrimaryButtonText="Login"
     IsPrimaryButtonEnabled="False"

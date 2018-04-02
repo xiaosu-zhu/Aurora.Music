@@ -14,7 +14,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <Grid x:Name="Root" Height="160">
+    <Grid x:Name="Root" Height="120">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="Adpative">
                 <VisualState x:Name="Full">
@@ -45,7 +45,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition x:Name="Col0" Width="160"/>
+            <ColumnDefinition x:Name="Col0" Width="120"/>
             <ColumnDefinition x:Name="Col1" Width="240"/>
         </Grid.ColumnDefinitions>
         <StackPanel Margin="8,0" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center">

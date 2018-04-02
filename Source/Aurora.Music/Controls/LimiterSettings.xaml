@@ -10,8 +10,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     xmlns:local="using:Aurora.Music.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="{ThemeResource SystemControlAltMediumLowAcrylicElementMediumBrush}"
+    mc:Ignorable="d" x:Uid="LimiterDialog"
+    Background="{ThemeResource ContentDialogBackground}"
     Title="Limiter Settings"
     CloseButtonText="Close">
 
@@ -323,11 +323,11 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     </ContentDialog.Resources>
 
     <StackPanel Orientation="Vertical">
-        <Button x:Name="Reset" x:Uid="Reset" Click="Reset_Click" Margin="12,0" Style="{ThemeResource TextBlockButtonStyle}" Content="Reset"/>
-        <Slider Style="{ThemeResource RoundSlider}" Header="Attack" Minimum="1" Maximum="20" StepFrequency="0.19" x:Name="Attack"/>
-        <Slider Style="{ThemeResource RoundSlider}" Header="Release" Minimum="1" Maximum="20" StepFrequency="0.19" x:Name="Release"/>
-        <Slider Style="{ThemeResource RoundSlider}" Header="Ratio" Minimum="0.1" Maximum="4" StepFrequency="0.05" x:Name="Ratio"/>
-        <Slider Style="{ThemeResource RoundSlider}" Header="Gain" Minimum="-20" Maximum="5" StepFrequency="0.25" x:Name="Gain"/>
-        <Slider Style="{ThemeResource RoundSlider}" Header="Threshold" Minimum="-20" Maximum="0" StepFrequency="0.2" x:Name="Threshold"/>
+        <Button x:Name="Reset" x:Uid="Reset" Click="Reset_Click" Margin="0,0,0,20" Style="{ThemeResource TextBlockButtonStyle}" Content="Reset"/>
+        <Slider x:Uid="Attack" Style="{ThemeResource RoundSlider}" Header="Attack" Minimum="1" Maximum="20" StepFrequency="0.19" x:Name="Attack"/>
+        <Slider x:Uid="Release" Style="{ThemeResource RoundSlider}" Header="Release" Minimum="1" Maximum="20" StepFrequency="0.19" x:Name="Release"/>
+        <Slider x:Uid="Ratio" Style="{ThemeResource RoundSlider}" Header="Ratio" Minimum="0.1" Maximum="4" StepFrequency="0.05" x:Name="Ratio"/>
+        <Slider x:Uid="Gain" Style="{ThemeResource RoundSlider}" Header="Gain" Minimum="-20" Maximum="5" StepFrequency="0.25" x:Name="Gain"/>
+        <Slider x:Uid="Threshold" Style="{ThemeResource RoundSlider}" Header="Threshold" Minimum="-20" Maximum="0" StepFrequency="0.2" x:Name="Threshold"/>
     </StackPanel>
 </ContentDialog>

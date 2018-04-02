@@ -101,13 +101,15 @@ namespace Aurora.Music.ViewModels
             }
         }
 
-        private double olume = Settings.Current.PlayerVolume;
+        private double volume = Settings.Current.PlayerVolume;
+        private double lastVol;
+
         public double Volume
         {
-            get { return olume; }
+            get { return volume; }
             set
             {
-                SetProperty(ref olume, value);
+                SetProperty(ref volume, value);
                 Settings.Current.PlayerVolume = value;
                 player.ChangeVolume(value);
             }
@@ -823,6 +825,26 @@ namespace Aurora.Music.ViewModels
                 });
             }
         }
+
+        public DelegateCommand ToggleSilence
+        {
+            get
+            {
+                return new DelegateCommand(() =>
+                {
+                    if (Volume > 0)
+                    {
+                        lastVol = Volume;
+                        Volume = 0;
+                    }
+                    else
+                    {
+                        Volume = lastVol;
+                    }
+                });
+            }
+        }
+
         public DelegateCommand ShowSleepTimer
         {
             get
@@ -872,6 +894,7 @@ namespace Aurora.Music.ViewModels
                     if (await ApplicationView.GetForCurrentView().TryEnterViewModeAsync(ApplicationViewMode.Default))
                     {
                         (Window.Current.Content as Frame).GoBack();
+                        await Task.Delay(1000);
                         try
                         {
                             MainPageViewModel.Current.NeedShowPanel = (bool)player.IsPlaying;

@@ -13,8 +13,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         <ResourceDictionary Source="./Dark.xaml" x:Key="Dark"/>
     </ResourceDictionary.ThemeDictionaries>
 
-
-
     <!-- Default style for Windows.UI.Xaml.Controls.Primitives.ScrollBar -->
     <Style TargetType="ScrollBar">
         <Setter Property="MinWidth" Value="{ThemeResource ScrollBarSize}" />

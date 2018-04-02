@@ -8,4 +8,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Aurora.Music">
+    <Application.Resources>
+        <ResourceDictionary>
+            <AcrylicBrush x:Key="ContentDialogBackground" FallbackColor="{ThemeResource SystemChromeAltHighColor}" TintColor="{ThemeResource SystemAltHighColor}" TintOpacity="0.3333333" BackgroundSource="Backdrop" />
+        </ResourceDictionary>
+    </Application.Resources>
 </Application>

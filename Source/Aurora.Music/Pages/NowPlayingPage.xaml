@@ -1308,14 +1308,14 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     </Button.Flyout>
                 </Button>
 
-                <ToggleButton x:Uid="Shuffle" IsEnabled="{x:Bind Context.BoolNot(Context.Song.IsPodcast),Mode=OneWay}" x:Name="Shuffle" Style="{ThemeResource RevealRoundToggleButton}" Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush),Mode=OneWay}" IsChecked="{x:Bind Context.IsShuffle, Mode=TwoWay}"
+                <ToggleButton x:Uid="Shuffle" x:Name="Shuffle" Style="{ThemeResource RevealRoundToggleButton}" Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush),Mode=OneWay}" IsChecked="{x:Bind Context.IsShuffle, Mode=TwoWay}"
                               ToolTipService.ToolTip="Shuffle" Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <ToggleButton.Content>
                         <SymbolIcon Symbol="Shuffle"/>
                     </ToggleButton.Content>
                 </ToggleButton>
 
-                <ToggleButton x:Uid="Loop" x:Name="Repeat" IsEnabled="{x:Bind Context.BoolNot(Context.Song.IsPodcast),Mode=OneWay}" Style="{ThemeResource RevealRoundToggleButton}" Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush),Mode=OneWay}" IsChecked="{x:Bind Context.IsLoop, Mode=TwoWay}"
+                <ToggleButton x:Uid="Loop" x:Name="Repeat" Style="{ThemeResource RevealRoundToggleButton}" Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush),Mode=OneWay}" IsChecked="{x:Bind Context.IsLoop, Mode=TwoWay}"
                               ToolTipService.ToolTip="Repeat" Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <ToggleButton.Content>
                         <SymbolIcon Symbol="Refresh"/>
@@ -1352,9 +1352,11 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </StackPanel>
             <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="4">
                 <StackPanel Orientation="Horizontal" x:Name="VolumeSlider" Visibility="Collapsed" Margin="4">
-                    <FontIcon FontFamily="Segoe MDL2 Assets" FontSize="22"
-                              Glyph="{x:Bind Context.VolumeToSymbol(Context.Volume), Mode=OneWay}" 
-                              Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush),Mode=OneWay}" />
+                    <Button Style="{ThemeResource TextBlockButtonStyle}" Command="{x:Bind Context.ToggleSilence}"
+                            Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush),Mode=OneWay}" >
+                        <FontIcon FontFamily="Segoe MDL2 Assets" FontSize="22"
+                                  Glyph="{x:Bind Context.VolumeToSymbol(Context.Volume), Mode=OneWay}"/>
+                    </Button>
                     <Slider Style="{ThemeResource RoundSlider}" Margin="0,6,0,0" Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush),Mode=OneWay}"
                             Width="180" HorizontalAlignment="Stretch" VerticalAlignment="Center" 
                             Minimum="0" Maximum="100" StepFrequency="1" Value="{x:Bind Context.Volume, Mode=TwoWay}"/>
@@ -1412,7 +1414,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8F9;" />
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
-                                <MenuFlyoutItem IsEnabled="{x:Bind Context.IsLimiterEnabled}" Command="{x:Bind Context.ShowLimiter}" Text="Limiter">
+                                <MenuFlyoutItem x:Uid="Limiter" IsEnabled="{x:Bind Context.IsLimiterEnabled}" Command="{x:Bind Context.ShowLimiter}" Text="Limiter">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8F9;" />
                                     </MenuFlyoutItem.Icon>
@@ -1448,12 +1450,12 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE9D9;" />
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
-                                <ToggleMenuFlyoutItem IsEnabled="{x:Bind Context.BoolNot(Context.Song.IsPodcast),Mode=OneWay}" x:Uid="ShuffleFlyout" x:Name="ShuffleFlyout" Text="Shuffle" IsChecked="{x:Bind Context.IsShuffleBool, Mode=TwoWay}">
+                                <ToggleMenuFlyoutItem x:Uid="ShuffleFlyout" x:Name="ShuffleFlyout" Text="Shuffle" IsChecked="{x:Bind Context.IsShuffleBool, Mode=TwoWay}">
                                     <ToggleMenuFlyoutItem.Icon>
                                         <SymbolIcon Symbol="Shuffle"/>
                                     </ToggleMenuFlyoutItem.Icon>
                                 </ToggleMenuFlyoutItem>
-                                <ToggleMenuFlyoutItem IsEnabled="{x:Bind Context.BoolNot(Context.Song.IsPodcast),Mode=OneWay}" x:Uid="RepeatFlyout" x:Name="RepeatFlyout" Text="Repeat" IsChecked="{x:Bind Context.IsLoopBool, Mode=TwoWay}">
+                                <ToggleMenuFlyoutItem x:Uid="RepeatFlyout" x:Name="RepeatFlyout" Text="Repeat" IsChecked="{x:Bind Context.IsLoopBool, Mode=TwoWay}">
                                     <ToggleMenuFlyoutItem.Icon>
                                         <SymbolIcon Symbol="Refresh"/>
                                     </ToggleMenuFlyoutItem.Icon>

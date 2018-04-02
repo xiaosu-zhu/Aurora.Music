@@ -45,16 +45,16 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <GridView.Header>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="32">
                     <Grid Margin="4,0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Viewbox Margin="16" Stretch="Uniform">
+                        <Viewbox Margin="24" Stretch="Uniform" VerticalAlignment="Center" HorizontalAlignment="Center">
                             <TextBlock Text="{x:Bind Context.ProgressToString(Context.TotalProgress),Mode=OneWay}"/>
                         </Viewbox>
                         <toolkit:RadialProgressBar Width="72" Height="72" Thickness="8" Minimum="0" Maximum="100"
                                                Outline="{ThemeResource SystemControlAcrylicWindowBrush}" Value="{x:Bind Context.TotalProgress,Mode=OneWay}"
                                                Foreground="{ThemeResource SystemControlAccentAcrylicWindowAccentMediumHighBrush}"/>
                     </Grid>
-                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left" Margin="4,0,4,0">
+                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left" Margin="12,0">
                         <TextBlock Style="{ThemeResource TitleTextBlockStyle}">
-                            <Run Text="{x:Bind Context.DownloadList.Count,Mode=OneWay}" FontSize="48"/><Run Text=" tasks are in queue"/>
+                            <Run Text="{x:Bind Context.TaskDesc(Context.DownloadList.Count),Mode=OneWay}"/>
                         </TextBlock>
                         <TextBlock Visibility="Collapsed" Text="{x:Bind Context.TotalDes,Mode=OneWay}" Margin="0,-8,0,0" Foreground="{ThemeResource ButtonDisabledForegroundThemeBrush}"/>
                     </StackPanel>

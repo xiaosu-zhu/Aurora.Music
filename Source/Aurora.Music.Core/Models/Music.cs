@@ -445,7 +445,7 @@ namespace Aurora.Music.Core.Models
         public string OnlineAlbumID { get; set; }
 
         public bool IsPodcast { get; set; }
-
+        public bool IsVideo { get; set; }
 
         public string FileType { get; set; }
         public DateTime PubDate { get; set; }

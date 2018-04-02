@@ -84,6 +84,15 @@ namespace Aurora.Music.ViewModels
             return d.ToString("0");
         }
 
+        internal void PositionChange(TimeSpan timeSpan)
+        {
+            if (Math.Abs((timeSpan - CurrentPosition).TotalSeconds) < 1)
+            {
+                return;
+            }
+            player.Seek(timeSpan);
+        }
+
         private double olume = Settings.Current.PlayerVolume;
         public double Volume
         {
@@ -127,7 +136,7 @@ namespace Aurora.Music.ViewModels
             },
             new HamPanelItem
             {
-                Title = "Explorer Podcasts",
+                Title = Consts.Localizer.GetString("PodcastMarket"),
                 Icon="\uE774",
                 TargetType = typeof(PodcastMarket),
                 Index = VirtualKey.Number4,
@@ -555,7 +564,7 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref downloadPer, value); }
         }
 
-        private string downloadDes = "Download";
+        private string downloadDes = Consts.Localizer.GetString("DownloadText");
         public string DownloadDes
         {
             get { return downloadDes; }
@@ -581,12 +590,12 @@ namespace Aurora.Music.ViewModels
                 if (i > 0)
                 {
                     IsDownloading = true;
-                    DownloadDes = SmartFormat.Smart.Format("{0}/{1} download task {0:is|are} running", i, all);
+                    DownloadDes = SmartFormat.Smart.Format(Consts.Localizer.GetString("DownloadDesc"), i, all);
                 }
                 else
                 {
                     IsDownloading = false;
-                    DownloadDes = "Download";
+                    DownloadDes = Consts.Localizer.GetString("DownloadText");
                 }
                 DownloadPer = total == 0 ? 0 : 100 * down / total;
             });
@@ -719,7 +728,7 @@ namespace Aurora.Music.ViewModels
                                     {
                                         SearchItems.Clear();
                                     }
-                                    foreach (var item in items.Reverse())
+                                    foreach (var item in items)
                                     {
                                         SearchItems.Add(new GenericMusicItemViewModel(item));
                                     }

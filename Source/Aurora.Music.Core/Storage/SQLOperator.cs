@@ -642,15 +642,15 @@ namespace Aurora.Music.Core.Storage
                 p.Songs = p.Songs + '|' + string.Join('|', album.Select(x => x.ID).Distinct());
                 if (p.AlbumArtists.IsNullorEmpty())
                 {
-                    p.AlbumArtists = string.Join(Consts.ArraySeparator, (from aa in album where !aa.AlbumArtists.IsNullorEmpty() select aa.AlbumArtists).FirstOrDefault());
+                    p.AlbumArtists = string.Join(Consts.ArraySeparator, (from aa in album where !aa.AlbumArtists.IsNullorEmpty() group aa by aa.AlbumArtists into g select g.Key).SelectMany(a => a).Distinct(StringComparer.InvariantCultureIgnoreCase));
                 }
                 if (p.AlbumArtistsSort.IsNullorEmpty())
                 {
-                    p.AlbumArtistsSort = string.Join(Consts.ArraySeparator, (from aa in album where !aa.AlbumArtistsSort.IsNullorEmpty() select aa.AlbumArtistsSort).FirstOrDefault());
+                    p.AlbumArtistsSort = string.Join(Consts.ArraySeparator, (from aa in album where !aa.AlbumArtistsSort.IsNullorEmpty() group aa by aa.AlbumArtistsSort into g select g.Key).SelectMany(a => a).Distinct(StringComparer.InvariantCultureIgnoreCase));
                 }
                 if (p.Genres.IsNullorEmpty())
                 {
-                    p.Genres = string.Join(Consts.ArraySeparator, (from aa in album where !aa.Genres.IsNullorEmpty() select aa.Genres).FirstOrDefault());
+                    p.Genres = string.Join(Consts.ArraySeparator, (from aa in album where !aa.Genres.IsNullorEmpty() group aa by aa.Genres into g select g.Key).SelectMany(a => a).Distinct(StringComparer.InvariantCultureIgnoreCase));
                 }
                 if (p.PicturePath.IsNullorEmpty())
                 {
@@ -680,12 +680,10 @@ namespace Aurora.Music.Core.Storage
                     DiscCount = album.Max(x => x.DiscCount),
                     TrackCount = album.Max(x => x.TrackCount),
                     Year = album.Max(x => x.Year),
-
-                    // TODO: not combine all, just use not-null value
-                    // string[] value, use their all value (remove duplicated values) combine
-                    AlbumArtists = string.Join(Consts.ArraySeparator, (from aa in album where !aa.AlbumArtists.IsNullorEmpty() select aa.AlbumArtists).FirstOrDefault()),//album.Where(x => !x.AlbumArtists.IsNullorEmpty()).FirstOrDefault().AlbumArtists;
-                    Genres = string.Join(Consts.ArraySeparator, (from aa in album where !aa.Genres.IsNullorEmpty() select aa.Genres).FirstOrDefault()),
-                    AlbumArtistsSort = string.Join(Consts.ArraySeparator, (from aa in album where !aa.AlbumArtistsSort.IsNullorEmpty() select aa.AlbumArtistsSort).FirstOrDefault()),
+                    
+                    AlbumArtists = string.Join(Consts.ArraySeparator, (from aa in album where !aa.AlbumArtists.IsNullorEmpty() group aa by aa.AlbumArtists into g select g.Key).SelectMany(f => f).Distinct(StringComparer.InvariantCultureIgnoreCase)),
+                    Genres = string.Join(Consts.ArraySeparator, (from aa in album where !aa.Genres.IsNullorEmpty() group aa by aa.Genres into g select g.Key).SelectMany(f => f).Distinct(StringComparer.InvariantCultureIgnoreCase)),
+                    AlbumArtistsSort = string.Join(Consts.ArraySeparator, (from aa in album where !aa.AlbumArtistsSort.IsNullorEmpty() group aa by aa.AlbumArtistsSort into g select g.Key).SelectMany(f => f).Distinct(StringComparer.InvariantCultureIgnoreCase)),
 
                     // normal value, use their not-null value
                     AlbumSort = (from aa in album where !aa.AlbumSort.IsNullorEmpty() select aa.AlbumSort).FirstOrDefault(),
@@ -711,15 +709,15 @@ namespace Aurora.Music.Core.Storage
                 p.Songs = string.Join('|', album.Select(x => x.ID).Distinct());
                 if (p.AlbumArtists.IsNullorEmpty())
                 {
-                    p.AlbumArtists = (from aa in album where !aa.AlbumArtists.IsNullorEmpty() select aa.AlbumArtists).FirstOrDefault();
+                    p.AlbumArtists = string.Join(Consts.ArraySeparator, (from aa in album where !aa.AlbumArtists.IsNullorEmpty() group aa by aa.AlbumArtists into g select g.Key).Distinct(StringComparer.InvariantCultureIgnoreCase));
                 }
                 if (p.AlbumArtistsSort.IsNullorEmpty())
                 {
-                    p.AlbumArtistsSort = (from aa in album where !aa.AlbumArtistsSort.IsNullorEmpty() select aa.AlbumArtistsSort).FirstOrDefault();
+                    p.AlbumArtistsSort = string.Join(Consts.ArraySeparator, (from aa in album where !aa.AlbumArtistsSort.IsNullorEmpty() group aa by aa.AlbumArtistsSort into g select g.Key).Distinct(StringComparer.InvariantCultureIgnoreCase));
                 }
                 if (p.Genres.IsNullorEmpty())
                 {
-                    p.Genres = (from aa in album where !aa.Genres.IsNullorEmpty() select aa.Genres).FirstOrDefault();
+                    p.Genres = string.Join(Consts.ArraySeparator, (from aa in album where !aa.Genres.IsNullorEmpty() group aa by aa.Genres into g select g.Key).Distinct(StringComparer.InvariantCultureIgnoreCase));
                 }
                 if (p.PicturePath.IsNullorEmpty())
                 {
@@ -749,12 +747,10 @@ namespace Aurora.Music.Core.Storage
                     DiscCount = album.Max(x => x.DiscCount),
                     TrackCount = album.Max(x => x.TrackCount),
                     Year = album.Max(x => x.Year),
-
-                    // TODO: not combine all, just use not-null value
-                    // string[] value, use their all value (remove duplicated values) combine
-                    AlbumArtists = (from aa in album where !aa.AlbumArtists.IsNullorEmpty() select aa.AlbumArtists).FirstOrDefault(),//album.Where(x => !x.AlbumArtists.IsNullorEmpty()).FirstOrDefault().AlbumArtists;
-                    Genres = (from aa in album where !aa.Genres.IsNullorEmpty() select aa.Genres).FirstOrDefault(),
-                    AlbumArtistsSort = (from aa in album where !aa.AlbumArtistsSort.IsNullorEmpty() select aa.AlbumArtistsSort).FirstOrDefault(),
+                    
+                    AlbumArtists = string.Join(Consts.ArraySeparator, (from aa in album where !aa.AlbumArtists.IsNullorEmpty() group aa by aa.AlbumArtists into g select g.Key).Distinct(StringComparer.InvariantCultureIgnoreCase)),
+                    Genres = string.Join(Consts.ArraySeparator, (from aa in album where !aa.Genres.IsNullorEmpty() group aa by aa.Genres into g select g.Key).Distinct(StringComparer.InvariantCultureIgnoreCase)),
+                    AlbumArtistsSort = string.Join(Consts.ArraySeparator, (from aa in album where !aa.AlbumArtistsSort.IsNullorEmpty() group aa by aa.AlbumArtistsSort into g select g.Key).Distinct(StringComparer.InvariantCultureIgnoreCase)),
 
                     // normal value, use their not-null value
                     AlbumSort = (from aa in album where !aa.AlbumSort.IsNullorEmpty() select aa.AlbumSort).FirstOrDefault(),
@@ -823,10 +819,8 @@ namespace Aurora.Music.Core.Storage
                         DiscCount = album.Max(x => x.DiscCount),
                         TrackCount = album.Max(x => x.TrackCount),
                         Year = album.Max(x => x.Year),
-
-                        // TODO: not combine all, just use not-null value
-                        // string[] value, use their all value (remove duplicated values) combine
-                        AlbumArtists = (from aa in album where !aa.AlbumArtists.IsNullorEmpty() select aa.AlbumArtists).FirstOrDefault(),//album.Where(x => !x.AlbumArtists.IsNullorEmpty()).FirstOrDefault().AlbumArtists;
+                        
+                        AlbumArtists = (from aa in album where !aa.AlbumArtists.IsNullorEmpty() select aa.AlbumArtists).FirstOrDefault(),
                         Genres = (from aa in album where !aa.Genres.IsNullorEmpty() select aa.Genres).FirstOrDefault(),
                         AlbumArtistsSort = (from aa in album where !aa.AlbumArtistsSort.IsNullorEmpty() select aa.AlbumArtistsSort).FirstOrDefault(),
 
@@ -934,7 +928,7 @@ namespace Aurora.Music.Core.Storage
                     {
                         try
                         {
-                            var ext = res.Find(a => a.AlbumArtists == item);
+                            var ext = res.Find(a => a.AlbumArtists.Equals(item, StringComparison.InvariantCultureIgnoreCase));
                             if (ext != null)
                             {
                                 ext.Count += artists[i].Count;
