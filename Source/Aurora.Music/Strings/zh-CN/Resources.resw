@@ -1245,4 +1245,128 @@
     <value>因资源约束暂停</value>
     <comment>Paused by system policy</comment>
   </data>
+  <data name="HeroTitle.Text" xml:space="preserve">
+    <value>为你挑选</value>
+    <comment>For You</comment>
+  </data>
+    <data name="DownloadDesc" xml:space="preserve">
+    <value>{0}/{1}个任务正在下载</value>
+    <comment>{0}/{1} download {0:task|tasks} {0:is|are} running</comment>
+  </data>
+    <data name="PodcastMarket" xml:space="preserve">
+    <value>发现播客</value>
+    <comment>Explore podcasts</comment>
+  </data>
+    <data name="TopCharts.Text" xml:space="preserve">
+    <value>最热门</value>
+    <comment>Top Charts</comment>
+  </data>
+    <data name="RssInput.PlaceholderText" xml:space="preserve">
+    <value>键入一个有效的 RSS 源以查看播客：</value>
+    <comment>Enter an valid rss address to view podcasts:</comment>
+  </data>
+    <data name="DisplayRequestSwitch.Header" xml:space="preserve">
+    <value>播放时阻止屏幕锁定</value>
+    <comment>Prevent screen locks when playing</comment>
+  </data>
+    <data name="EffectsNote.Text" xml:space="preserve">
+    <value>注意：开启音频效果会增加少许性能消耗</value>
+    <comment>NOTE: Enable audio effects may cost a little performance</comment>
+  </data>
+    <data name="EqualizerButton.Content" xml:space="preserve">
+    <value>均衡器设置</value>
+    <comment>Equalizer Settings</comment>
+  </data>
+    <data name="ChannelShiftToggle.Header" xml:space="preserve">
+    <value>声道调节</value>
+    <comment>Channel shift</comment>
+  </data>
+    <data name="ToMonoSwitch.Header" xml:space="preserve">
+    <value>转换为单声道</value>
+    <comment>Stereo to mono</comment>
+  </data>
+    <data name="LimiterToggle.Header" xml:space="preserve">
+    <value>限幅器</value>
+    <comment>Limiter</comment>
+  </data>
+    <data name="LimiterButton.Content" xml:space="preserve">
+    <value>限幅器设置</value>
+    <comment>Limiter setting</comment>
+  </data>
+    <data name="CacheFolderSize.Text" xml:space="preserve">
+    <value>缓存目录大小：</value>
+    <comment>Cache folder size:</comment>
+  </data>
+    <data name="DataFolderSize.Text" xml:space="preserve">
+    <value>数据目录大小：</value>
+    <comment>Data folder size:</comment>
+  </data>
+    <data name="OpenDataButton.Content" xml:space="preserve">
+    <value>打开数据目录</value>
+    <comment>Open data folder</comment>
+  </data>
+    <data name="PodcastDesc" xml:space="preserve">
+    <value>播客发表于{0}</value>
+    <comment>Podcast Posted @ {0}</comment>
+  </data>
+    <data name="ImportPlaylist.Content" xml:space="preserve">
+    <value>导入播放列表</value>
+    <comment>Import playlist</comment>
+  </data>
+    <data name="Limiter.Text" xml:space="preserve">
+    <value>限幅器</value>
+    <comment>Limiter</comment>
+  </data>
+    <data name="LimiterDialog.Title" xml:space="preserve">
+    <value>限幅器设置</value>
+    <comment>Limiter Setting</comment>
+  </data>
+    <data name="LimiterDialog.CloseButtonText" xml:space="preserve">
+    <value>关闭</value>
+    <comment>Close</comment>
+  </data>
+    <data name="Attack.Header" xml:space="preserve">
+    <value>触发时间</value>
+    <comment>Attack</comment>
+  </data>
+    <data name="Release.Header" xml:space="preserve">
+    <value>释放时间</value>
+    <comment>Release</comment>
+  </data>
+    <data name="Ratio.Header" xml:space="preserve">
+    <value>比例</value>
+    <comment>Ratio</comment>
+  </data>
+    <data name="Gain.Header" xml:space="preserve">
+    <value>增益</value>
+    <comment>Gain</comment>
+  </data>
+    <data name="Threshold.Header" xml:space="preserve">
+    <value>阈值</value>
+    <comment>Threshold</comment>
+  </data>
+    <data name="MainpageSettings.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>设置</value>
+    <comment>Settings</comment>
+  </data>
+    <data name="StudioName.Text" xml:space="preserve">
+    <value>极光工作室出品</value>
+    <comment>Aurora Studio's</comment>
+  </data>
+    <data name="Contributors.Text" xml:space="preserve">
+    <value>贡献者</value>
+    <comment>Contributors</comment>
+  </data>
+    <data name="OpenSourceLibraries.Text" xml:space="preserve">
+    <value>使用的开源库</value>
+    <comment>Open source libraries</comment>
+  </data>
+    <data name="Donate.Text" xml:space="preserve">
+    <value>捐赠</value>
+    <comment>Donate</comment>
+  </data>
+    <data name="TaskDesc" xml:space="preserve">
+    <value>{0}个任务在队列中</value>
+    <comment>{0} {0:task|tasks} {0:is|are} in queue</comment>
+  </data>
 </root>

@@ -69,7 +69,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                        TextAlignment="Center" TextWrapping="WrapWholeWords"
                        Style="{ThemeResource SubheaderTextBlockStyle}" 
                        HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Run FontSize="24" FontWeight="Bold" Text="Aurora Studio's"/><LineBreak/>
+                <Run x:Uid="StudioName" FontSize="24" FontWeight="Bold" Text="Aurora Studio's"/><LineBreak/>
                 <Run x:Uid="AppName" Text="Aurora Music"/>
             </TextBlock>
 
@@ -82,18 +82,20 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 
             <Border Padding="8,4" Margin="12,24,12,12" CornerRadius="8" Background="{ThemeResource AccentForText}" 
                     HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock Text="Contributors" Style="{ThemeResource BaseTextBlockStyle}" 
-                        HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}"/>
+                <TextBlock x:Uid="Contributors" Text="Contributors" Style="{ThemeResource BaseTextBlockStyle}"
+                           HorizontalAlignment="Center" VerticalAlignment="Center" 
+                           Foreground="{ThemeResource SystemControlForegroundAltHighBrush}"/>
             </Border>
             <toolkit:MarkdownTextBlock HorizontalAlignment="Center" VerticalAlignment="Stretch" LinkClicked="MarkdownTextBlock_LinkClicked"
                                        MaxWidth="320" HorizontalContentAlignment="Center" Margin="12,0"
-                                       Text="* Thanks for the Destuch translation added by **Lucas Herr**.&#xD;&#xA;* Thanks for the Russian translation added by **Данила Степовой**.&#xD;&#xA;* Pull requests [#4](https://github.com/pkzxs/Aurora.Music/pull/4), [#5](https://github.com/pkzxs/Aurora.Music/pull/5) by [OpportunityLiu](https://github.com/OpportunityLiu).&#xD;&#xA;&#xD;&#xA;* And **everyone supported development**.&#xD;&#xA;&#xD;&#xA;* And **You**."/>
+                                       Text="* Thanks for the Destuch translation added by **Lucas Herr**.&#xD;&#xA;* Thanks for the Russian translation added by **Данила Степовой**.&#xD;&#xA;* Pull requests [#4](https://github.com/pkzxs/Aurora.Music/pull/4), [#5](https://github.com/pkzxs/Aurora.Music/pull/5), [#6](https://github.com/pkzxs/Aurora.Music/pull/6) by [OpportunityLiu](https://github.com/OpportunityLiu).&#xD;&#xA;&#xD;&#xA;* And **everyone supported development**.&#xD;&#xA;&#xD;&#xA;* And **You**."/>
 
 
             <Border Padding="8,4" Margin="12,24,12,12" CornerRadius="8" Background="{ThemeResource AccentForText}" 
                     HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock Text="Open Source Libraries" Style="{ThemeResource BaseTextBlockStyle}" 
-                        HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}"/>
+                <TextBlock x:Uid="OpenSourceLibraries" Text="Open Source Libraries" Style="{ThemeResource BaseTextBlockStyle}"
+                           HorizontalAlignment="Center" VerticalAlignment="Center" 
+                           Foreground="{ThemeResource SystemControlForegroundAltHighBrush}"/>
             </Border>
             <TextBlock TextAlignment="Center" IsTextSelectionEnabled="True" FontFamily="Consolas" 
                        Style="{ThemeResource BodyTextBlockStyle}" FontSize="16" 
@@ -114,7 +116,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                        Margin="12,0" 
                        Text="Jason Rosewell,&#xD;&#xA;Kelly Sikkema,&#xD;&#xA;Malte Wingen,&#xD;&#xA;Namroud Gorguis,&#xD;&#xA;Yvette de Wit,&#xD;&#xA;Anthony Roberts."/>
             <StackPanel Width="80" Margin="4" Orientation="Vertical">
-                <Button Style="{ThemeResource RevealRoundButton}" Background="{ThemeResource ButtonRevealBackground}"
+                <Button Style="{ThemeResource RevealRoundButton}" Background="{ThemeResource SystemControlAcrylicWindowBrush}"
                             HorizontalAlignment="Center" VerticalAlignment="Center" 
                             Width="48" Height="48" Click="UnSplash"
                             ToolTipService.ToolTip="Unsplash.com">
@@ -134,13 +136,14 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 
             <Border Padding="8,4" Margin="12,24,12,12" CornerRadius="8" Background="{ThemeResource AccentForText}" 
                     HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock Text="Other Information" Style="{ThemeResource BaseTextBlockStyle}" 
-                        HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}"/>
+                <TextBlock x:Uid="OtherInformation" Text="Other Information" Style="{ThemeResource BaseTextBlockStyle}"
+                           HorizontalAlignment="Center" VerticalAlignment="Center" 
+                           Foreground="{ThemeResource SystemControlForegroundAltHighBrush}"/>
             </Border>
             <toolkit:WrapPanel HorizontalSpacing="8" VerticalSpacing="8"
                                Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                 <StackPanel Width="80" Orientation="Vertical">
-                    <Button Style="{ThemeResource RevealRoundButton}" Background="{ThemeResource ButtonRevealBackground}"
+                    <Button Style="{ThemeResource RevealRoundButton}" Background="{ThemeResource SystemControlAcrylicWindowBrush}"
                             HorizontalAlignment="Center" VerticalAlignment="Center" 
                             Width="48" Height="48" Padding="8" Click="Githu"
                             ToolTipService.ToolTip="For getting instructions of developing extensions">
@@ -152,7 +155,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </StackPanel>
                 <StackPanel Width="80" Orientation="Vertical">
-                    <Button Style="{ThemeResource RevealRoundButton}" Background="{ThemeResource ButtonRevealBackground}"
+                    <Button Style="{ThemeResource RevealRoundButton}" Background="{ThemeResource SystemControlAcrylicWindowBrush}"
                             HorizontalAlignment="Center" VerticalAlignment="Center" 
                             Width="48" Height="48" Click="Tranlate"
                             ToolTipService.ToolTip="For contributing to translation">
@@ -169,22 +172,59 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 
             <Border Padding="8,4" Margin="12,24,12,12" CornerRadius="8" Background="{ThemeResource AccentForText}" 
                     HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock Text="Donate" Style="{ThemeResource BaseTextBlockStyle}" 
-                        HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}"/>
+                <TextBlock x:Uid="Donate" Text="Donate" Style="{ThemeResource BaseTextBlockStyle}"
+                           HorizontalAlignment="Center" VerticalAlignment="Center" 
+                           Foreground="{ThemeResource SystemControlForegroundAltHighBrush}"/>
             </Border>
             <toolkit:WrapPanel HorizontalSpacing="8" VerticalSpacing="8" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Image MaxHeight="240" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Uniform" Source="/Assets/ali.png"/>
-                <StackPanel Padding="32,64" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <StackPanel.Background>
-                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                            <GradientStop Color="#FFFF8A83"/>
-                            <GradientStop Color="#FFD33D71" Offset="1"/>
-                        </LinearGradientBrush>
-                    </StackPanel.Background>
-                    <TextBlock FontWeight="Bold" Foreground="White" TextWrapping="WrapWholeWords" HorizontalAlignment="Center" VerticalAlignment="Center" Text="Donate via PayPal" Style="{ThemeResource TitleTextBlockStyle}"/>
-                    <HyperlinkButton Foreground="White" Content="Using PayPal.me to donate" HorizontalAlignment="Center" VerticalAlignment="Center" NavigateUri="https://www.paypal.me/aurorastu"/>
-                </StackPanel>
-                <Image MaxHeight="240" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Uniform" Source="/Assets/wechat.png"/>
+                <Button Style="{ThemeResource RevealRoundButton}" Width="48" Height="48">
+                    <Button.Background>
+                        <AcrylicBrush FallbackColor="#09bb07" TintColor="#09bb07" TintOpacity="0.5" BackgroundSource="HostBackdrop"/>
+                    </Button.Background>
+                    <Button.Content>
+                        <BitmapIcon UriSource="/Assets/wechat-icon.png" Width="32" Height="32" Foreground="White"/>
+                    </Button.Content>
+                    <Button.Flyout>
+                        <Flyout>
+                            <BitmapIcon UriSource="/Assets/wechat.png" Width="240" Height="240"/>
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
+                <Button Style="{ThemeResource RevealRoundButton}" Width="48" Height="48">
+                    <Button.Background>
+                        <AcrylicBrush FallbackColor="#27346a" TintColor="#27346a" TintOpacity="0.5" BackgroundSource="HostBackdrop"/>
+                    </Button.Background>
+                    <Button.Content>
+                        <BitmapIcon UriSource="/Assets/paypal-icon.png" Width="36" Height="36" Foreground="White"/>
+                    </Button.Content>
+                    <Button.Flyout>
+                        <Flyout>
+                            <StackPanel Padding="32,64" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <StackPanel.Background>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="#FFFF8A83"/>
+                                        <GradientStop Color="#FFD33D71" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </StackPanel.Background>
+                                <TextBlock FontWeight="Bold" Foreground="White" TextWrapping="WrapWholeWords" HorizontalAlignment="Center" VerticalAlignment="Center" Text="Donate via PayPal" Style="{ThemeResource TitleTextBlockStyle}"/>
+                                <HyperlinkButton Foreground="White" Content="Using PayPal.me to donate" HorizontalAlignment="Center" VerticalAlignment="Center" NavigateUri="https://www.paypal.me/aurorastu"/>
+                            </StackPanel>
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
+                <Button Style="{ThemeResource RevealRoundButton}" Width="48" Height="48">
+                    <Button.Background>
+                        <AcrylicBrush FallbackColor="#1890ff" TintColor="#1890ff" TintOpacity="0.5" BackgroundSource="HostBackdrop"/>
+                    </Button.Background>
+                    <Button.Content>
+                        <BitmapIcon Foreground="White" UriSource="/Assets/ali-icon.png" Width="36" Height="36"/>
+                    </Button.Content>
+                    <Button.Flyout>
+                        <Flyout>
+                            <BitmapIcon UriSource="/Assets/ali.png" Width="240" Height="240"/>
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
             </toolkit:WrapPanel>
         </StackPanel>
     </ScrollViewer>

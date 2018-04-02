@@ -15,7 +15,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     xmlns:controls="using:Aurora.Music.Controls"
     mc:Ignorable="d"
     x:Uid="DropSongDialog"
-    Background="{ThemeResource SystemControlAltMediumLowAcrylicElementMediumBrush}"
+    Background="{ThemeResource ContentDialogBackground}"
     Title="We find something..."
     PrimaryButtonText="Save to Database"
     SecondaryButtonText="Just Play"

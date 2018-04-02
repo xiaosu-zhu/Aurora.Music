@@ -389,7 +389,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                             <ColumnDefinition Width="80"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Foreground="{ThemeResource AccentForText}" Text="{x:Bind PubDatetoString(PubDate)}" ToolTipService.ToolTip="{x:Bind GetAddtionalDesc(),Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" Grid.RowSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                        <TextBlock Margin="12,0,0,0" Text="{x:Bind Title}" ToolTipService.ToolTip="{x:Bind Title,Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <TextBlock Margin="12,0,0,0" ToolTipService.ToolTip="{x:Bind Title,Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <Run FontFamily="Segoe MDL2 Assets" Text="{x:Bind VideoIndicator(IsVideo)}"/><Run Text="{x:Bind Title}"/>
+                        </TextBlock>
                         <TextBlock Margin="12,0,0,0" Text="{x:Bind Album}" ToolTipService.ToolTip="{x:Bind Album,Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" FontSize="13" MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"
                                    Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"/>
                         <Button IsEnabled="{x:Bind And(IsOnline,CanDownload),Mode=OneWay}"

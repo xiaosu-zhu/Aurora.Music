@@ -12,7 +12,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Uid="EaseAccess"
-    Background="{ThemeResource SystemControlAltMediumLowAcrylicElementMediumBrush}"
+    Background="{ThemeResource ContentDialogBackground}"
     CloseButtonText="Close"
     DefaultButton="Close"
     mc:Ignorable="d">

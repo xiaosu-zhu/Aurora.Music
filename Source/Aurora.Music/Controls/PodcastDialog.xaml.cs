@@ -61,8 +61,8 @@ namespace Aurora.Music.Controls
                     }
                     else
                     {
-                        IsPrimaryButtonEnabled = true;
                     }
+                    IsPrimaryButtonEnabled = true;
                 });
             });
         }

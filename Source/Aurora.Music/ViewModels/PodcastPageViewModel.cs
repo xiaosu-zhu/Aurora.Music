@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
+using Aurora.Music.Controls;
 using Aurora.Music.Core;
 using Aurora.Music.Core.Models;
 using Aurora.Shared.Extensions;
@@ -9,7 +10,12 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using TagLib.Id3v2;
 using Windows.ApplicationModel.Core;
+using Windows.UI;
+using Windows.UI.Core;
+using Windows.UI.ViewManagement;
+using Windows.UI.Xaml;
 
 namespace Aurora.Music.ViewModels
 {
@@ -62,12 +68,37 @@ namespace Aurora.Music.ViewModels
             {
                 return new DelegateCommand(async () =>
                 {
+                    var s = Model[0];
+                    if (s.IsVideo)
+                    {
+                        await CoreApplication.CreateNewView().Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                        {
+                            var frame = new Windows.UI.Xaml.Controls.Frame();
+                            videoWindowID = ApplicationView.GetForCurrentView().Id;
+                            frame.Navigate(typeof(VideoPodcast), s.FilePath);
+                            Window.Current.Content = frame;
+                            Window.Current.Activate();
+                            ApplicationView.GetForCurrentView().Title = s.Title;
+                            CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
+                            var titleBar = ApplicationView.GetForCurrentView().TitleBar;
+                            titleBar.ButtonBackgroundColor = Colors.Transparent;
+                            titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+                            titleBar.ButtonHoverBackgroundColor = Color.FromArgb(0x33, 0x00, 0x00, 0x00);
+                            titleBar.ButtonForegroundColor = Colors.Black;
+                            titleBar.ButtonHoverForegroundColor = Colors.White;
+                            titleBar.ButtonInactiveForegroundColor = Colors.Gray;
+                        });
+                        bool viewShown = await ApplicationViewSwitcher.TryShowAsStandaloneAsync(videoWindowID);
+                        return;
+                    }
                     await MainPageViewModel.Current.InstantPlay(Model);
                 });
             }
         }
 
         private bool isSubscribe;
+        private int videoWindowID;
+
         public bool IsSubscribe
         {
             get { return isSubscribe; }
@@ -146,9 +177,31 @@ namespace Aurora.Music.ViewModels
         internal async Task PlayAt(SongViewModel songViewModel)
         {
             var i = (int)songViewModel.Index - 1;
+            var s = Model[i];
+            if (s.IsVideo)
+            {
+                await CoreApplication.CreateNewView().Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    var frame = new Windows.UI.Xaml.Controls.Frame();
+                    videoWindowID = ApplicationView.GetForCurrentView().Id;
+                    frame.Navigate(typeof(VideoPodcast), s.FilePath);
+                    Window.Current.Content = frame;
+                    Window.Current.Activate();
+                    ApplicationView.GetForCurrentView().Title = s.Title;
+                    CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
+                    var titleBar = ApplicationView.GetForCurrentView().TitleBar;
+                    titleBar.ButtonBackgroundColor = Colors.Transparent;
+                    titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+                    titleBar.ButtonHoverBackgroundColor = Color.FromArgb(0x33, 0x00, 0x00, 0x00);
+                    titleBar.ButtonForegroundColor = Colors.Black;
+                    titleBar.ButtonHoverForegroundColor = Colors.White;
+                    titleBar.ButtonInactiveForegroundColor = Colors.Gray;
+                });
+                bool viewShown = await ApplicationViewSwitcher.TryShowAsStandaloneAsync(videoWindowID);
+                return;
+            }
             if (Model.Count < i + 20)
             {
-                var s = Model[i];
                 var k = Model.Count < 20 ? Model.ToList() : Model.GetRange(Model.Count - 20, 20);
                 await MainPageViewModel.Current.InstantPlay(k, k.IndexOf(s));
             }

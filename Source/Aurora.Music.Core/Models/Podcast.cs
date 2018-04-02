@@ -347,6 +347,7 @@ namespace Aurora.Music.Core.Models
                     Duration = (items[i].SelectSingleNode($"./itunes:duration", ns)?.InnerText ?? "0:00").ParseDuration(),
                     Album = HttpUtility.HtmlDecode((items[i].SelectSingleNode("./description")?.InnerText ?? Title)).Replace("<br>", Environment.NewLine),
                     IsOnline = true,
+                    IsVideo = items[i].SelectSingleNode("./enclosure/@type").InnerText.Contains("video", StringComparison.InvariantCultureIgnoreCase),
                     OnlineUri = new Uri(items[i].SelectSingleNode("./enclosure/@url").InnerText),
                     OnlineID = items[i].SelectSingleNode("./guid").InnerText,
                     IsPodcast = true,

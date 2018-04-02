@@ -103,7 +103,54 @@ namespace Aurora.Music.ViewModels
 
             var albums = await opr.GetAlbumsOfArtistAsync(artist.RawName);
             var songs = await opr.GetSongsAsync(albums.SelectMany(s => s.Songs));
+            var empty = artist.RawName.IsNullorEmpty();
+            for (int i = songs.Count - 1; i >= 0; i--)
+            {
+                if (empty)
+                {
+                    if (songs[i].Performers == null || songs[i].Performers.Length == 0)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        songs.RemoveAt(i);
+                    }
+                }
+                else
+                {
+                    var flag = false;
+                    if (songs[i].Performers != null)
+                        foreach (var p in songs[i].Performers)
+                        {
+                            if (artist.RawName == p)
+                            {
+                                flag = true;
+                                break;
+                            }
+                        }
+                    if (!flag)
+                        if (songs[i].AlbumArtists == null || songs[i].AlbumArtists.Length == 0)
+                        {
+                            songs.RemoveAt(i);
+                            continue;
+                        }
+                        else
+                        {
+                            foreach (var p in songs[i].AlbumArtists)
+                            {
+                                if (artist.RawName == p)
+                                {
+                                    flag = true;
+                                    break;
+                                }
+                            }
+                        }
+                    if (!flag)
+                        songs.RemoveAt(i);
+                }
 
+            }
             var grouped = GroupedItem<SongViewModel>.CreateGroupsByAlpha(songs.ConvertAll(x => new SongViewModel(x)));
 
             var a = albums.OrderByDescending(x => x.Year);

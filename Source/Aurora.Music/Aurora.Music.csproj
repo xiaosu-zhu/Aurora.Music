@@ -186,6 +186,9 @@
     <Compile Include="Controls\UpdateInfo.xaml.cs">
       <DependentUpon>UpdateInfo.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\VideoPodcast.xaml.cs">
+      <DependentUpon>VideoPodcast.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -278,6 +281,7 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\ali-icon.png" />
     <Content Include="Assets\ali.png" />
     <Content Include="Assets\file.png" />
     <Content Include="Assets\git-dark.png" />
@@ -311,6 +315,7 @@
     <Content Include="Assets\lastfm.png" />
     <Content Include="Assets\logo.svg" />
     <Content Include="Assets\OPMLTemplate.xml" />
+    <Content Include="Assets\paypal-icon.png" />
     <Content Include="Assets\SmallTile.scale-100.png" />
     <Content Include="Assets\SmallTile.scale-125.png" />
     <Content Include="Assets\SmallTile.scale-150.png" />
@@ -342,6 +347,7 @@
     <Content Include="Assets\StoreLogo.scale-150.png" />
     <Content Include="Assets\StoreLogo.scale-200.png" />
     <Content Include="Assets\StoreLogo.scale-400.png" />
+    <Content Include="Assets\wechat-icon.png" />
     <Content Include="Assets\wechat.png" />
     <Content Include="Assets\Wide310x150Logo.scale-100.png" />
     <Content Include="Assets\Wide310x150Logo.scale-125.png" />
@@ -478,6 +484,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\UpdateInfo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\VideoPodcast.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
