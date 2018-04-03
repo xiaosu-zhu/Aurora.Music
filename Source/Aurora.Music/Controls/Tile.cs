@@ -2,6 +2,7 @@
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using Aurora.Music.Core;
+using Aurora.Shared.Extensions;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Windows.UI.Notifications;
 
@@ -11,6 +12,8 @@ namespace Aurora.Music.Controls
     {
         public static void SendNormal(string title, string album, string artist, string image)
         {
+            if (image.IsNullorEmpty())
+                image = Consts.BlackPlaceholder;
             var tileContent = new TileContent()
             {
                 Visual = new TileVisual()
@@ -153,7 +156,7 @@ namespace Aurora.Music.Controls
             }
             catch (System.Exception)
             {
-                
+
             }
         }
     }

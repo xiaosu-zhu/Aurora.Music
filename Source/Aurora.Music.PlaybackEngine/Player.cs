@@ -1,4 +1,4 @@
-using Aurora.Music.Core;
+﻿using Aurora.Music.Core;
 using Aurora.Music.Core.Models;
 using Aurora.Music.Core.Storage;
 using Aurora.Music.Effects;
@@ -483,7 +483,7 @@ namespace Aurora.Music.PlaybackEngine
         {
             if (item.IsOnline)
             {
-                if (pic == string.Empty)
+                if (pic.IsNullorEmpty())
                 {
                     props.Thumbnail = RandomAccessStreamReference.CreateFromUri(new Uri(Consts.BlackPlaceholder));
                 }
@@ -494,7 +494,7 @@ namespace Aurora.Music.PlaybackEngine
             }
             else
             {
-                if (pic == string.Empty)
+                if (pic.IsNullorEmpty())
                 {
                     props.Thumbnail = RandomAccessStreamReference.CreateFromUri(new Uri(Consts.BlackPlaceholder));
                 }
