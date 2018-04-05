@@ -920,7 +920,7 @@ namespace Aurora.Music.Core.Storage
             for (int i = 0; i < artists.Count; i++)
             {
                 var arr = artists[i].AlbumArtists.Split(new string[] { Consts.ArraySeparator }, StringSplitOptions.RemoveEmptyEntries);
-                if (arr.Length <= 1)
+                if (arr.Length <= 0)
                 {
                     res.Add(artists[i]);
                 }
