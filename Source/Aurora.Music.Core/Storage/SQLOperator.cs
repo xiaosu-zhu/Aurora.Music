@@ -327,6 +327,7 @@ namespace Aurora.Music.Core.Storage
             XMLPath = podcast.XMLPath;
             LastUpdate = podcast.LastUpdate;
             Subscribed = podcast.Subscribed;
+            SortRevert = podcast.SortRevert;
             HeroArtworks = string.Join(Consts.ArraySeparator, podcast.HeroArtworks ?? new string[] { });
             XMLUrl = podcast.XMLUrl;
         }
@@ -343,6 +344,7 @@ namespace Aurora.Music.Core.Storage
         public DateTime LastUpdate { get; set; }
         public DateTime ReadBefore { get; set; }
         public bool Subscribed { get; set; }
+        public bool SortRevert { get; set; }
         public string HeroArtworks { get; set; }
     }
 
@@ -680,7 +682,7 @@ namespace Aurora.Music.Core.Storage
                     DiscCount = album.Max(x => x.DiscCount),
                     TrackCount = album.Max(x => x.TrackCount),
                     Year = album.Max(x => x.Year),
-                    
+
                     AlbumArtists = string.Join(Consts.ArraySeparator, (from aa in album where !aa.AlbumArtists.IsNullorEmpty() group aa by aa.AlbumArtists into g select g.Key).SelectMany(f => f).Distinct(StringComparer.InvariantCultureIgnoreCase)),
                     Genres = string.Join(Consts.ArraySeparator, (from aa in album where !aa.Genres.IsNullorEmpty() group aa by aa.Genres into g select g.Key).SelectMany(f => f).Distinct(StringComparer.InvariantCultureIgnoreCase)),
                     AlbumArtistsSort = string.Join(Consts.ArraySeparator, (from aa in album where !aa.AlbumArtistsSort.IsNullorEmpty() group aa by aa.AlbumArtistsSort into g select g.Key).SelectMany(f => f).Distinct(StringComparer.InvariantCultureIgnoreCase)),
@@ -747,7 +749,7 @@ namespace Aurora.Music.Core.Storage
                     DiscCount = album.Max(x => x.DiscCount),
                     TrackCount = album.Max(x => x.TrackCount),
                     Year = album.Max(x => x.Year),
-                    
+
                     AlbumArtists = string.Join(Consts.ArraySeparator, (from aa in album where !aa.AlbumArtists.IsNullorEmpty() group aa by aa.AlbumArtists into g select g.Key).Distinct(StringComparer.InvariantCultureIgnoreCase)),
                     Genres = string.Join(Consts.ArraySeparator, (from aa in album where !aa.Genres.IsNullorEmpty() group aa by aa.Genres into g select g.Key).Distinct(StringComparer.InvariantCultureIgnoreCase)),
                     AlbumArtistsSort = string.Join(Consts.ArraySeparator, (from aa in album where !aa.AlbumArtistsSort.IsNullorEmpty() group aa by aa.AlbumArtistsSort into g select g.Key).Distinct(StringComparer.InvariantCultureIgnoreCase)),
@@ -819,7 +821,7 @@ namespace Aurora.Music.Core.Storage
                         DiscCount = album.Max(x => x.DiscCount),
                         TrackCount = album.Max(x => x.TrackCount),
                         Year = album.Max(x => x.Year),
-                        
+
                         AlbumArtists = (from aa in album where !aa.AlbumArtists.IsNullorEmpty() select aa.AlbumArtists).FirstOrDefault(),
                         Genres = (from aa in album where !aa.Genres.IsNullorEmpty() select aa.Genres).FirstOrDefault(),
                         AlbumArtistsSort = (from aa in album where !aa.AlbumArtistsSort.IsNullorEmpty() select aa.AlbumArtistsSort).FirstOrDefault(),

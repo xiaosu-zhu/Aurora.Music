@@ -342,19 +342,19 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         </Button.Content>
                     </Button>
                     <Button Command="{x:Bind Context.PlayAll}" Style="{ThemeResource PlayAllButton}"/>
-                    <Button Visibility="{x:Bind Context.IsSubscribe,Mode=OneWay}" Command="{x:Bind Context.ToggleSubscribe}" Style="{ThemeResource TextBlockButtonStyle}">
+                    <Button Command="{x:Bind Context.ToggleSubscribe}" Style="{ThemeResource TextBlockButtonStyle}">
                         <Button.Content>
                             <TextBlock>
-                                <Run FontSize="13" FontFamily="Segoe MDL2 Assets" Text="&#xE8D9;" />
-                                <Run x:Uid="UnSubscribe" Text="Un-Subscribe"/>
+                                <Run FontSize="13" FontFamily="Segoe MDL2 Assets" Text="{x:Bind Context.SubscribeGlyph(Context.IsSubscribe),Mode=OneWay}" />
+                                <Run Text="{x:Bind Context.SubscribeText(Context.IsSubscribe),Mode=OneWay}"/>
                             </TextBlock>
                         </Button.Content>
                     </Button>
-                    <Button Visibility="{x:Bind Context.BoolNottoVisibility(Context.IsSubscribe),Mode=OneWay}" Command="{x:Bind Context.ToggleSubscribe}" Style="{ThemeResource TextBlockButtonStyle}">
+                    <Button Command="{x:Bind Context.ToggleSortRevert}" Style="{ThemeResource TextBlockButtonStyle}">
                         <Button.Content>
                             <TextBlock>
-                                <Run FontSize="13" FontFamily="Segoe MDL2 Assets" Text="&#xE735;" />
-                                <Run x:Uid="Subscribe" Text="Subscribe"/>
+                                <Run FontSize="13" FontFamily="Segoe MDL2 Assets" Text="&#xE174;" />
+                                <Run Text="{x:Bind Context.RevertText(Context.SortRevert),Mode=OneWay}"/>
                             </TextBlock>
                         </Button.Content>
                     </Button>
