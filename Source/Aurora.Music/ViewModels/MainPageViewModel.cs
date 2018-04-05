@@ -953,7 +953,8 @@ namespace Aurora.Music.ViewModels
                     }
                     else
                     {
-                        CurrentArtwork = null; lastUriPath = string.Empty;
+                        CurrentArtwork = new BitmapImage(new Uri(Consts.BlackPlaceholder));
+                        lastUriPath = string.Empty;
                     }
                     var task = Task.Run(() =>
                     {

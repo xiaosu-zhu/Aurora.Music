@@ -263,6 +263,7 @@ namespace Aurora.Music
         private DateTime sleepTime;
         private SleepAction sleepAction;
         private ThreadPoolTimer sleepTimer;
+        private ThreadPoolTimer dropTimer;
 
         public bool IsCurrentDouban => MainFrame.Content is DoubanPage;
 
@@ -691,6 +692,8 @@ namespace Aurora.Music
 
             DropHint.Margin = new Thickness(point.X - DropHint.Width / 2, point.Y - DropHint.Height / 2, Main.ActualWidth - point.X - DropHint.Width / 2, Main.ActualHeight - point.Y - DropHint.Height / 2);
             DropHint.Visibility = Visibility.Visible;
+            dropTimer?.Cancel();
+            dropTimer = null;
         }
 
         private async Task FileActivation(IReadOnlyList<IStorageItem> p)
@@ -1375,11 +1378,17 @@ namespace Aurora.Music
         {
             if (OverlayFrame.Visibility == Visibility.Collapsed)
             {
+                dropTimer?.Cancel();
                 await Task.Delay(200);
                 var service = ConnectedAnimationService.GetForCurrentView();
                 var ani = service.GetAnimation("DropAni");
                 if (ani != null)
-                    ani.TryStart(Artwork, new UIElement[] { NowPanelTexts });
+                {
+                    if (!ani.TryStart(Artwork, new UIElement[] { NowPanelTexts }))
+                    {
+                        DropHint.Visibility = Visibility.Collapsed;
+                    }
+                }
                 else
                 {
                     DropHint.Visibility = Visibility.Collapsed;
@@ -1392,6 +1401,7 @@ namespace Aurora.Music
             if (DropHint.Visibility == Visibility.Collapsed)
                 return;
 
+            dropTimer?.Cancel();
             var service = ConnectedAnimationService.GetForCurrentView();
 
             //OffsetX Custom Animation
