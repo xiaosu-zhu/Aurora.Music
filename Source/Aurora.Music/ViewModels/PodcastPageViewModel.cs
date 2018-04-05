@@ -96,13 +96,35 @@ namespace Aurora.Music.ViewModels
             }
         }
 
-        private bool isSubscribe;
         private int videoWindowID;
 
+        private bool isSubscribe;
         public bool IsSubscribe
         {
             get { return isSubscribe; }
             set { SetProperty(ref isSubscribe, value); }
+        }
+
+        private bool sortRevert;
+        public bool SortRevert
+        {
+            get { return sortRevert; }
+            set { SetProperty(ref sortRevert, value); }
+        }
+
+        public string SubscribeGlyph(bool b)
+        {
+            return !b ? "\uE8D9" : "\uE735";
+        }
+
+        public string RevertText(bool b)
+        {
+            return Consts.Localizer.GetString(b ? "OlderTop" : "NewerTop");
+        }
+
+        public string SubscribeText(bool b)
+        {
+            return Consts.Localizer.GetString(!b ? "SubscribeAction" : "UnSubscribeAction");
         }
 
         public DelegateCommand ToggleSubscribe
@@ -115,6 +137,26 @@ namespace Aurora.Music.ViewModels
                     await Model.SaveAsync();
                     IsSubscribe = Model.Subscribed;
                     MainPage.Current.PopMessage(Model.Subscribed ? "Subscribed" : "Un-Subscribed");
+                });
+            }
+        }
+
+        public DelegateCommand ToggleSortRevert
+        {
+            get
+            {
+                return new DelegateCommand(async () =>
+                {
+                    Model.SortRevert = !Model.SortRevert;
+                    await Model.SaveAsync();
+                    SortRevert = Model.SortRevert;
+                    var list = SongsList.ToList();
+                    SongsList.Clear();
+                    list.Reverse();
+                    foreach (var item in list)
+                    {
+                        SongsList.Add(item);
+                    }
                 });
             }
         }
@@ -140,6 +182,7 @@ namespace Aurora.Music.ViewModels
                     Title = Model.Title;
                     HeroImage = new Uri(Model.HeroArtworks[0]);
                     IsSubscribe = Model.Subscribed;
+                    SortRevert = Model.SortRevert;
                     MainPage.Current.PopMessage("Refreshed");
                 });
             }
@@ -169,6 +212,7 @@ namespace Aurora.Music.ViewModels
                 LastUpdate = Model.LastUpdate.PubDatetoString($"'{Consts.Today}'", "ddd", "M/dd ddd", "yy/M/dd", Consts.Next, Consts.Last);
                 Description = Model.Description;
                 IsSubscribe = Model.Subscribed;
+                SortRevert = Model.SortRevert;
                 Title = Model.Title;
                 HeroImage = new Uri(Model.HeroArtworks[0]);
             });

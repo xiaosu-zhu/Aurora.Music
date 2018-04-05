@@ -1089,11 +1089,11 @@
     <value>刷新</value>
     <comment>Refresh</comment>
   </data>
-  <data name="UnSubscribe.Text" xml:space="preserve">
+  <data name="UnSubscribeAction" xml:space="preserve">
     <value>取消订阅</value>
     <comment>Un-Subscribe</comment>
   </data>
-  <data name="Subscribe.Text" xml:space="preserve">
+  <data name="SubscribeAction" xml:space="preserve">
     <value>开始订阅</value>
     <comment>Subscribe</comment>
   </data>
@@ -1368,5 +1368,13 @@
     <data name="TaskDesc" xml:space="preserve">
     <value>{0}个任务在队列中</value>
     <comment>{0} {0:task|tasks} {0:is|are} in queue</comment>
+  </data>
+    <data name="OlderTop" xml:space="preserve">
+    <value>老的在前</value>
+    <comment>Older at top</comment>
+  </data>
+    <data name="NewerTop" xml:space="preserve">
+    <value>新的在前</value>
+    <comment>Newer at top</comment>
   </data>
 </root>

@@ -24,6 +24,7 @@ namespace Aurora.Music.Core.Models
         public string XMLUrl { get; internal set; }
         public string XMLPath { get; set; }
         public DateTime LastUpdate { get; set; }
+        public bool SortRevert { get; set; }
         public bool Subscribed { get; set; }
 
         public Podcast() { }
@@ -108,7 +109,8 @@ namespace Aurora.Music.Core.Models
                     PicturePath = items[i].SelectSingleNode("./itunes:image/@href", ns)?.InnerText ?? HeroArtworks[0]
                 });
             }
-            Sort((a, s) => -1 * (a.PubDate.CompareTo(s.PubDate)));
+            var r = SortRevert ? 1 : -1;
+            Sort((a, s) => r * (a.PubDate.CompareTo(s.PubDate)));
             LastUpdate = last;
         }
 
@@ -121,7 +123,9 @@ namespace Aurora.Music.Core.Models
             XMLUrl = p.XMLUrl;
             XMLPath = p.XMLPath;
             Subscribed = p.Subscribed;
+            SortRevert = p.SortRevert;
             LastUpdate = p.LastUpdate;
+            SortRevert = p.SortRevert;
         }
 
         internal static async Task<Podcast> BuildFromXMLAsync(string resXML, string XMLUrl)
@@ -150,6 +154,7 @@ namespace Aurora.Music.Core.Models
             a.XMLPath = fileName;
             a.ID = p?.ID ?? default(int);
             a.Subscribed = p?.Subscribed ?? false;
+            a.SortRevert = p?.SortRevert ?? false;
 
 
             await a.SaveAsync();
@@ -171,7 +176,8 @@ namespace Aurora.Music.Core.Models
                 {
                     XMLUrl = p.XMLUrl,
                     XMLPath = p.XMLPath,
-                    Subscribed = p.Subscribed
+                    Subscribed = p.Subscribed,
+                    SortRevert = p.SortRevert
                 };
                 await a.ReadXML(str);
                 return a;
@@ -363,7 +369,8 @@ namespace Aurora.Music.Core.Models
                 }
                 Add(s);
             }
-            Sort((a, s) => -1 * (a.PubDate.CompareTo(s.PubDate)));
+            var r = SortRevert ? 1 : -1;
+            Sort((a, s) => r * (a.PubDate.CompareTo(s.PubDate)));
         }
 
         public async static Task<List<OnlineMusicItem>> SearchPodcasts(string text)

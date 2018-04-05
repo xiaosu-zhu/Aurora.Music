@@ -1012,11 +1012,11 @@
     <value>Обновить</value>
     <comment>Refresh</comment>
   </data>
-    <data name="UnSubscribe.Text" xml:space="preserve">
+    <data name="UnSubscribeAction" xml:space="preserve">
     <value>Отписаться</value>
     <comment>Un-Subscribe</comment>
   </data>
-    <data name="Subscribe.Text" xml:space="preserve">
+    <data name="SubscribeAction" xml:space="preserve">
     <value>Подписаться</value>
     <comment>Subscribe</comment>
   </data>
@@ -1291,5 +1291,13 @@
     <data name="TaskDesc" xml:space="preserve">
     <value>{0} {0:task|tasks} {0:is|are} in queue</value>
     <comment>{0} {0:task|tasks} {0:is|are} in queue</comment>
+  </data>
+    <data name="OlderTop" xml:space="preserve">
+    <value>Older at top</value>
+    <comment>Older at top</comment>
+  </data>
+    <data name="NewerTop" xml:space="preserve">
+    <value>Newer at top</value>
+    <comment>Newer at top</comment>
   </data>
 </root>
