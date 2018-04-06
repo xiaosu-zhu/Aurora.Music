@@ -176,6 +176,8 @@ namespace Aurora.Music.Core.Storage
             var list = new List<StorageFile>();
             int i = 1;
 
+            var scan = Consts.Localizer.GetString("FolderScanText");
+
             foreach (var item in folder)
             {
                 var files = await GetFilesAsync(item, filterdFolderNames);
@@ -191,12 +193,11 @@ namespace Aurora.Music.Core.Storage
                 }
 
                 list.AddRange(files);
-
-                ProgressUpdated?.Invoke(null, new ProgressReport() { Description = $"{i} of {folder.Count} folders scanned", Current = i, Total = folder.Count });
+                ProgressUpdated?.Invoke(null, new ProgressReport() { Description = SmartFormat.Smart.Format(scan, folder.Count), Current = i, Total = folder.Count });
                 i++;
             }
             await Task.Delay(200);
-            ProgressUpdated?.Invoke(null, new ProgressReport() { Description = "Folder scanning completed", Current = i, Total = folder.Count });
+            ProgressUpdated?.Invoke(null, new ProgressReport() { Description = Consts.Localizer.GetString("FolderScanFinishText"), Current = i, Total = folder.Count });
             await Task.Delay(200);
             await ReadFileandSave(from a in list group a by a.Path into b select b.First());
         }
@@ -212,11 +213,12 @@ namespace Aurora.Music.Core.Storage
             var durationFilter = Settings.Current.FileDurationFilterEnabled;
             var duration = Convert.ToInt32(Settings.Current.FileDurationFilter);
 
+            var scan = Consts.Localizer.GetString("FileReadText");
             foreach (var file in files)
             {
                 if (!file.IsAvailable || file.Attributes.HasFlag(FileAttributes.LocallyIncomplete))
                 {
-                    ProgressUpdated?.Invoke(null, new ProgressReport() { Description = $"{i} of {total} files readed", Current = i, Total = total });
+                    ProgressUpdated?.Invoke(null, new ProgressReport() { Description = SmartFormat.Smart.Format(scan, i, total), Current = i, Total = total });
 
                     i++;
                     continue;
@@ -249,7 +251,7 @@ namespace Aurora.Music.Core.Storage
                 }
                 finally
                 {
-                    ProgressUpdated?.Invoke(null, new ProgressReport() { Description = $"{i} of {total} files read", Current = i, Total = total });
+                    ProgressUpdated?.Invoke(null, new ProgressReport() { Description = SmartFormat.Smart.Format(scan, i, total), Current = i, Total = total });
 
                     i++;
                 }
@@ -303,13 +305,13 @@ namespace Aurora.Music.Core.Storage
                 var count = albums.Count();
 
                 int i = 1;
+                var scan = Consts.Localizer.GetString("AlbumSortText");
 
-
-                ProgressUpdated?.Invoke(null, new ProgressReport() { Description = $"0 of {count} albums sorted", Current = 0, Total = count });
+                ProgressUpdated?.Invoke(null, new ProgressReport() { Description = SmartFormat.Smart.Format(scan, 0, count), Current = 0, Total = count });
                 foreach (var item in albums)
                 {
                     await opr.AddAlbumAsync(item);
-                    ProgressUpdated?.Invoke(null, new ProgressReport() { Description = $"{i} of {count} albums sorted", Current = i, Total = count });
+                    ProgressUpdated?.Invoke(null, new ProgressReport() { Description = SmartFormat.Smart.Format(scan, i, count), Current = i, Total = count });
 
                     i++;
                 }

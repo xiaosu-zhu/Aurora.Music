@@ -427,8 +427,18 @@ namespace Aurora.Music.ViewModels
                 GC.WaitForPendingFinalizers();
 
                 await Task.Delay(300);
+                try
+                {
+                    var items = await ApplicationData.Current.LocalFolder.GetItemsAsync();
+                    foreach (var item in items)
+                    {
+                        await item.DeleteAsync();
+                    }
+                }
+                catch (Exception)
+                {
 
-                await ApplicationData.Current.ClearAsync();
+                }
                 Settings.Current.DANGER_DELETE();
 
                 await Task.Delay(300);

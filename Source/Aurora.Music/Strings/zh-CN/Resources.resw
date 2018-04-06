@@ -1405,4 +1405,40 @@
     <value>添加一个过滤文件夹</value>
     <comment>Add a folder don't scan</comment>
   </data>
+    <data name="WelcomeTitle2.Text" xml:space="preserve">
+    <value>顺滑质感</value>
+    <comment>Fluent Feel</comment>
+  </data>
+    <data name="Welcome1.Text" xml:space="preserve">
+    <value>使用极光音乐点亮你的音乐体验</value>
+    <comment>Using Aurora Music to delight your music experience.</comment>
+  </data>
+    <data name="Welcome2.Text" xml:space="preserve">
+    <value>基于流畅设计系统，拥有简洁易用的用户交互</value>
+    <comment>It is based on Fluent-deisgn System, just check out the stunning UI performance.</comment>
+  </data>
+    <data name="WelcomeTitle3.Text" xml:space="preserve">
+    <value>在开始之前</value>
+    <comment>Before You Start</comment>
+  </data>
+    <data name="WelcomeTitle4.Text" xml:space="preserve">
+    <value>请稍等一会……</value>
+    <comment>Wait for a While...</comment>
+  </data>
+    <data name="FolderScanText" xml:space="preserve">
+    <value>{0}个文件夹已扫描，共{1}个</value>
+    <comment>{0} of {1} {1:folder|folders} scanned</comment>
+  </data>
+    <data name="FolderScanFinishText" xml:space="preserve">
+    <value>文件夹扫描完成</value>
+    <comment>Folders scanning completed</comment>
+  </data>
+    <data name="FileReadText" xml:space="preserve">
+    <value>{0}个文件已读取，共{1}个</value>
+    <comment>{0} of {1} {1:file|files} read</comment>
+  </data>
+    <data name="AlbumSortText" xml:space="preserve">
+    <value>{0}个专辑已归类，共{1}个</value>
+    <comment>{0} of {1} {1:album|albums} sorted</comment>
+  </data>
 </root>

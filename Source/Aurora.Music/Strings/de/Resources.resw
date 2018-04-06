@@ -1406,4 +1406,40 @@
     <value>Add a folder don't scan</value>
     <comment>Add a folder don't scan</comment>
   </data>
+    <data name="WelcomeTitle2.Text" xml:space="preserve">
+    <value>Fluent Feel</value>
+    <comment>Fluent Feel</comment>
+  </data>
+    <data name="Welcome1.Text" xml:space="preserve">
+    <value>Using Aurora Music to delight your music experience.</value>
+    <comment>Using Aurora Music to delight your music experience.</comment>
+  </data>
+    <data name="Welcome2.Text" xml:space="preserve">
+    <value>It is based on Fluent-deisgn System, just check out the stunning UI performance.</value>
+    <comment>It is based on Fluent-deisgn System, just check out the stunning UI performance.</comment>
+  </data>
+    <data name="WelcomeTitle3.Text" xml:space="preserve">
+    <value>Before You Start</value>
+    <comment>Before You Start</comment>
+  </data>
+    <data name="WelcomeTitle4.Text" xml:space="preserve">
+    <value>Wait for a While...</value>
+    <comment>Wait for a While...</comment>
+  </data>
+    <data name="FolderScanText" xml:space="preserve">
+    <value>{0} of {1} {1:folder|folders} scanned</value>
+    <comment>{0} of {1} {1:folder|folders} scanned</comment>
+  </data>
+    <data name="FolderScanFinishText" xml:space="preserve">
+    <value>Folders scanning completed</value>
+    <comment>Folders scanning completed</comment>
+  </data>
+    <data name="FileReadText" xml:space="preserve">
+    <value>{0} of {1} {1:file|files} read</value>
+    <comment>{0} of {1} {1:file|files} read</comment>
+  </data>
+    <data name="AlbumSortText" xml:space="preserve">
+    <value>{0} of {1} {1:album|albums} sorted</value>
+    <comment>{0} of {1} {1:album|albums} sorted</comment>
+  </data>
 </root>
