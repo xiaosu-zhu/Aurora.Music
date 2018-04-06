@@ -71,11 +71,11 @@ namespace Aurora.Music.Core.Storage
         /// </summary>
         /// <param name="folder"></param>
         /// <returns></returns>
-        private static async Task<IList<StorageFile>> GetFilesAsync(StorageFolder folder)
+        private static async Task<IList<StorageFile>> GetFilesAsync(StorageFolder folder, IList<string> filterdFolderNames)
         {
             // TODO: determine is ondrive on demand
             var files = new List<StorageFile>();
-            files.AddRange(await new FileTracker(folder).SearchFolder());
+            files.AddRange(await new FileTracker(folder, filterdFolderNames).SearchFolder());
             return files;
         }
 
@@ -171,14 +171,14 @@ namespace Aurora.Music.Core.Storage
             return list;
         }
 
-        public static async Task Read(IList<StorageFolder> folder)
+        public static async Task Read(IList<StorageFolder> folder, IList<string> filterdFolderNames)
         {
             var list = new List<StorageFile>();
             int i = 1;
 
             foreach (var item in folder)
             {
-                var files = await GetFilesAsync(item);
+                var files = await GetFilesAsync(item, filterdFolderNames);
 
                 var opr = SQLOperator.Current();
                 if (KnownFolders.MusicLibrary.Path == item.Path || item.Path.Contains(ApplicationData.Current.LocalFolder.Path))
@@ -209,6 +209,9 @@ namespace Aurora.Music.Core.Storage
 
             var newlist = new List<SONG>();
 
+            var durationFilter = Settings.Current.FileDurationFilterEnabled;
+            var duration = Convert.ToInt32(Settings.Current.FileDurationFilter);
+
             foreach (var file in files)
             {
                 if (!file.IsAvailable || file.Attributes.HasFlag(FileAttributes.LocallyIncomplete))
@@ -218,16 +221,24 @@ namespace Aurora.Music.Core.Storage
                     i++;
                     continue;
                 }
-
                 try
                 {
                     using (var tagTemp = File.Create(file.Path))
                     {
-                        var song = await Song.Create(tagTemp.Tag, file.Path, await file.Properties.GetMusicPropertiesAsync());
-                        var t = await opr.InsertSongAsync(song);
-                        if (t != null)
+                        var prop = await file.Properties.GetMusicPropertiesAsync();
+
+
+                        if (durationFilter && prop.Duration.Milliseconds < duration)
                         {
-                            newlist.Add(t);
+                        }
+                        else
+                        {
+                            var song = await Song.Create(tagTemp.Tag, file.Path, prop);
+                            var t = await opr.InsertSongAsync(song);
+                            if (t != null)
+                            {
+                                newlist.Add(t);
+                            }
                         }
                     }
                 }

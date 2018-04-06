@@ -830,15 +830,23 @@ namespace Aurora.Music.ViewModels
         private async Task FindFileChanges()
         {
             var foldersDB = await SQLOperator.Current().GetAllAsync<FOLDER>();
+            var filtered = new List<string>();
             var folders = FileReader.InitFolderList();
-            foreach (var f in foldersDB)
+            foreach (var fo in foldersDB)
             {
-                StorageFolder folder = await f.GetFolderAsync();
+                var folder = await fo.GetFolderAsync();
                 if (folders.Exists(a => a.Path == folder.Path))
                 {
                     continue;
                 }
-                folders.Add(folder);
+                if (fo.IsFiltered)
+                {
+                    filtered.Add(folder.DisplayName);
+                }
+                else
+                {
+                    folders.Add(folder);
+                }
             }
             try
             {
@@ -850,7 +858,7 @@ namespace Aurora.Music.ViewModels
 
             foreach (var item in folders)
             {
-                Trackers.Add(new FileTracker(item));
+                Trackers.Add(new FileTracker(item, filtered));
             }
 
             var files = new List<StorageFile>();

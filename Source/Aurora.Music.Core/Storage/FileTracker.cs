@@ -20,7 +20,7 @@ namespace Aurora.Music.Core.Storage
     {
         public static event TypedEventHandler<IStorageQueryResultBase, object> FilesChanged;
 
-        public FileTracker(StorageFolder f)
+        public FileTracker(StorageFolder f, IList<string> filteredFolderNames)
         {
             Folder = f;
             var options = new QueryOptions
@@ -28,6 +28,7 @@ namespace Aurora.Music.Core.Storage
                 FileTypeFilter = { ".flac", ".wav", ".m4a", ".aac", ".mp3", ".wma" },
                 FolderDepth = FolderDepth.Deep,
                 IndexerOption = IndexerOption.DoNotUseIndexer,
+                UserSearchFilter = ComposeFilters(filteredFolderNames)
             };
             Query = Folder.CreateFileQueryWithOptions(options);
             Query.ContentsChanged += Query_ContentsChanged;
@@ -40,6 +41,21 @@ namespace Aurora.Music.Core.Storage
 
         public StorageFolder Folder { get; }
         public StorageFileQueryResult Query { get; }
+
+        private string ComposeFilters(IList<string> filteredFolderNames)
+        {
+            string q = null;
+            if (filteredFolderNames != null && filteredFolderNames.Count > 0)
+            {
+                q = "folder:NOT";
+                q += $"({string.Join(" OR ", filteredFolderNames)}) ";
+            }
+            if (Settings.Current.FileSizeFilterEnabled)
+            {
+                q += $"System.Size:>{Settings.Current.GetSystemSize()} ";
+            }
+            return q;
+        }
 
         public async Task<IReadOnlyList<StorageFile>> SearchFolder()
         {

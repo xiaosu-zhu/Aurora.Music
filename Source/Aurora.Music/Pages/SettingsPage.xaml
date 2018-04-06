@@ -387,7 +387,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         </TransitionCollection>
                     </StackPanel.ChildrenTransitions>
                     <StackPanel BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" BorderThickness="0,0,0,1" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <Frame x:Name="LoactionFrame" Height="360" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        <Frame x:Name="LoactionFrame" Height="640" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                     </StackPanel>
                     <StackPanel BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" BorderThickness="0,0,0,1" Padding="8,0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <TextBlock x:Uid="Configuration" Text="Player Configuration" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12"/>
@@ -417,7 +417,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                     Foreground="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" IsThumbToolTipEnabled="False"
                                     x:Uid="FetchInterval" Background="{ThemeResource SystemControlAltTranslucentAcrylicWindowBrush}" Width="240"
                                     Header="Refresh Interval" Minimum="15" Maximum="150" StepFrequency="15" Value="{x:Bind Context.FetchInterval,Mode=TwoWay}"/>
-                            <TextBlock Margin="0,10,0,0" Width="70" TextAlignment="Right" VerticalAlignment="Center" 
+                            <TextBlock Margin="0,10,0,0" Width="96" TextAlignment="Left" VerticalAlignment="Center" 
                                        Style="{ThemeResource TitleTextBlockStyle}" TextWrapping="NoWrap" TextTrimming="None" 
                                        MaxLines="1" HorizontalAlignment="Stretch" 
                                        Text="{x:Bind Context.IntervalToString(Context.FetchInterval), Mode=OneWay}"/>

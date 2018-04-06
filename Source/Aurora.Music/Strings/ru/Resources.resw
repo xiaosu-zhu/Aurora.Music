@@ -1300,4 +1300,32 @@
     <value>Newer at top</value>
     <comment>Newer at top</comment>
   </data>
+    <data name="SizeFilter.Header" xml:space="preserve">
+    <value>Don't search files smaller than</value>
+    <comment>Don't search files smaller than</comment>
+  </data>
+    <data name="DurationFilter.Header" xml:space="preserve">
+    <value>Don't search files shorter than</value>
+    <comment>Don't search files shorter than</comment>
+  </data>
+    <data name="DurationFilterEnable.Header" xml:space="preserve">
+    <value>Duration filter</value>
+    <comment>Duration filter</comment>
+  </data>
+    <data name="SizeFilterEnable.Header" xml:space="preserve">
+    <value>Size filter</value>
+    <comment>Size filter</comment>
+  </data>
+    <data name="FilteredfolderText" xml:space="preserve">
+    <value>Filtered folder</value>
+    <comment>Filtered folder</comment>
+  </data>
+    <data name="FilterFoldeNote.Text" xml:space="preserve">
+    <value>Note: filtered folder names will apply to all folder</value>
+    <comment>Note: filtered folder names will apply to all folder</comment>
+  </data>
+    <data name="FilterNewFolder.Content" xml:space="preserve">
+    <value>Add a folder don't scan</value>
+    <comment>Add a folder don't scan</comment>
+  </data>
 </root>

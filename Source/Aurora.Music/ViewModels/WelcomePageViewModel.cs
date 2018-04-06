@@ -39,7 +39,8 @@ namespace Aurora.Music.ViewModels
 
         public async Task StartSearch()
         {
-            List<StorageFolder> list = FileReader.InitFolderList();
+            var list = FileReader.InitFolderList();
+            var filtered = new List<string>();
             var p = await opr.GetAllAsync<FOLDER>();
             FileReader.ProgressUpdated += FileReader_ProgressUpdated;
             FileReader.Completed += FileReader_Completed;
@@ -48,7 +49,19 @@ namespace Aurora.Music.ViewModels
                 try
                 {
                     // TODO: folder attribute
-                    list.Add(await StorageFolder.GetFolderFromPathAsync(fo.Path));
+                    var folder = await fo.GetFolderAsync();
+                    if (list.Exists(a => a.Path == folder.Path))
+                    {
+                        continue;
+                    }
+                    if (fo.IsFiltered)
+                    {
+                        filtered.Add(folder.DisplayName);
+                    }
+                    else
+                    {
+                        list.Add(folder);
+                    }
                 }
                 catch (Exception)
                 {
@@ -62,7 +75,7 @@ namespace Aurora.Music.ViewModels
             catch (Exception)
             {
             }
-            await FileReader.Read(list);
+            await FileReader.Read(list, filtered);
         }
 
         private async void Opr_NewSongsAdded(object sender, SongsAddedEventArgs e)

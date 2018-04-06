@@ -378,6 +378,8 @@ namespace Aurora.Music.Core.Storage
         public int SongsCount { get; set; }
         public string Token { get; set; }
 
+        public bool IsFiltered { get; set; }
+
         [Unique]
         public string Path { get; set; }
 
@@ -525,16 +527,21 @@ namespace Aurora.Music.Core.Storage
             }
         }
 
-        public async Task<bool> AddFolderAsync(StorageFolder folder)
+        public async Task<bool> AddFolderAsync(StorageFolder folder, bool filtered)
         {
             var token = await conn.QueryAsync<FOLDER>("SELECT * FROM FOLDER WHERE PATH=?", folder.Path);
             if (token.Count > 0)
             {
+                token[0].IsFiltered = filtered;
+                await conn.UpdateAsync(token[0]);
                 return false;
             }
             else
             {
-                var f = new FOLDER(folder);
+                var f = new FOLDER(folder)
+                {
+                    IsFiltered = filtered
+                };
                 await conn.InsertAsync(f);
                 return true;
             }

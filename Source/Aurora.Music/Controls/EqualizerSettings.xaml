@@ -29,7 +29,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 
             <Style x:Key="SliderThumbStyle" TargetType="Thumb">
                 <Setter Property="MinWidth" Value="4"/>
-                <Setter Property="Background" Value="{ThemeResource ContentDialogBackground}"/>
+                <Setter Property="Background" Value="{ThemeResource ApplicationPageBackgroundThemeBrush}"/>
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="Thumb">

@@ -1377,4 +1377,32 @@
     <value>新的在前</value>
     <comment>Newer at top</comment>
   </data>
+    <data name="SizeFilter.Header" xml:space="preserve">
+    <value>不要搜索小于以下大小的文件</value>
+    <comment>Don't search files smaller than</comment>
+  </data>
+    <data name="DurationFilter.Header" xml:space="preserve">
+    <value>不要搜索短于以下时长的文件</value>
+    <comment>Don't search files shorter than</comment>
+  </data>
+    <data name="DurationFilterEnable.Header" xml:space="preserve">
+    <value>时长过滤</value>
+    <comment>Duration filter</comment>
+  </data>
+    <data name="SizeFilterEnable.Header" xml:space="preserve">
+    <value>体积过滤</value>
+    <comment>Size filter</comment>
+  </data>
+    <data name="FilteredfolderText" xml:space="preserve">
+    <value>已过滤的文件夹</value>
+    <comment>Filtered folder</comment>
+  </data>
+    <data name="FilterFoldeNote.Text" xml:space="preserve">
+    <value>注意：过滤文件夹会对所有文件夹生效</value>
+    <comment>Note: filtered folder names will apply to all folder</comment>
+  </data>
+    <data name="FilterNewFolder.Content" xml:space="preserve">
+    <value>添加一个过滤文件夹</value>
+    <comment>Add a folder don't scan</comment>
+  </data>
 </root>

@@ -52,6 +52,15 @@ namespace Aurora.Music.Core.Models
 
         private static object lockable = new object();
 
+        internal object GetSystemSize()
+        {
+            if (FileSizeFilter < 1024u)
+            {
+                return $"{FileSizeFilter}b";
+            }
+            return $"{FileSizeFilter / 1024u}kb";
+        }
+
         private const string SETTINGS_CONTAINER = "main";
 
         public bool IncludeMusicLibrary { get; set; } = true;
@@ -118,6 +127,13 @@ namespace Aurora.Music.Core.Models
         public float CompressorAttack { get; set; } = 10f;
         public float CompressorRelease { get; set; } = 10f;
         public float CompressorThresholddB { get; set; } = 0f;
+
+        public bool FileSizeFilterEnabled { get; set; }
+        // Bytes
+        public uint FileSizeFilter { get; set; } = 102400u;
+        public bool FileDurationFilterEnabled { get; set; }
+        // Milliseconds
+        public uint FileDurationFilter { get; set; } = 1000u;
 
         public bool VerifyDoubanLogin()
         {
