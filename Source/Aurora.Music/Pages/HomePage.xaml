@@ -304,7 +304,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                                    FocusSecondaryBorderBrush="{ThemeResource ListViewItemFocusSecondaryBorderBrush}"
                                                    PlaceholderBackground="{ThemeResource ListViewItemPlaceholderBackground}"
                                                    Padding="0"
-                                                   PointerOverBackground="{ThemeResource SystemControlBackgroundAltLowRevealBrush}"
+                                                   PointerOverBackground="{ThemeResource SystemControlBackgroundAltMediumLowBrush}"
                                                    PointerOverForeground="{ThemeResource AccentForText}"
                                                    SelectedBackground="{ThemeResource ListViewItemBackgroundSelected}"
                                                    SelectedForeground="{ThemeResource ListViewItemForegroundSelected}"

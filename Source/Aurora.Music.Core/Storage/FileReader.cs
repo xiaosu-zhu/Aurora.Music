@@ -233,7 +233,7 @@ namespace Aurora.Music.Core.Storage
                         }
                         else
                         {
-                            var song = await Song.Create(tagTemp.Tag, file.Path, prop);
+                            var song = await Song.Create(tagTemp.Tag, file.Path, prop, file.FileType.Equals(".wav", StringComparison.InvariantCultureIgnoreCase));
                             var t = await opr.InsertSongAsync(song);
                             if (t != null)
                             {
@@ -339,7 +339,7 @@ namespace Aurora.Music.Core.Storage
             {
                 using (var tagTemp = File.Create(file))
                 {
-                    tempList.Add(await Song.Create(tagTemp.Tag, file.Path, await file.Properties.GetMusicPropertiesAsync()));
+                    tempList.Add(await Song.Create(tagTemp.Tag, file.Path, await file.Properties.GetMusicPropertiesAsync(), file.FileType.Equals(".wav", StringComparison.InvariantCultureIgnoreCase)));
                 }
             }
             var result = from song in tempList orderby song.Track orderby song.Disc group song by song.Album;

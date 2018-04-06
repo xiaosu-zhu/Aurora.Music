@@ -787,8 +787,15 @@ namespace Aurora.Music.PlaybackEngine
             _savedIndex = mediaPlaybackList.CurrentItemIndex;
 
             var cure = mediaPlaybackList.CurrentItem;
-            mediaPlaybackList.Items.Remove(mediaPlaybackList.CurrentItem);
-            cure.Source.Dispose();
+            if (cure == null)
+            {
+
+            }
+            else
+            {
+                mediaPlaybackList.Items.Remove(mediaPlaybackList.CurrentItem);
+                cure.Source.Dispose();
+            }
             mediaPlayer.Source = null;
         }
 

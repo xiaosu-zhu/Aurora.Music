@@ -211,7 +211,7 @@ namespace Aurora.Music.Core.Models
             AudioChannels = song.AudioChannels;
         }
 
-        public static async Task<Song> Create(Tag tag, string path, MusicProperties music)
+        public static async Task<Song> Create(Tag tag, string path, MusicProperties music, bool isWav)
         {
             var s = new Song
             {
@@ -230,11 +230,11 @@ namespace Aurora.Music.Core.Models
                 MusicIpId = tag.MusicIpId,
                 BeatsPerMinute = tag.BeatsPerMinute,
                 Album = tag.Album,
-                AlbumArtists = tag.AlbumArtists,
+                AlbumArtists = isWav ? new string[] { music.AlbumArtist } : tag.AlbumArtists,
                 AlbumArtistsSort = tag.AlbumArtistsSort,
                 AlbumSort = tag.AlbumSort,
                 AmazonId = tag.AmazonId,
-                Title = tag.Title,
+                Title = isWav ? music.Title : tag.Title,
                 TitleSort = tag.TitleSort,
                 Track = tag.Track,
                 TrackCount = tag.TrackCount,
@@ -244,15 +244,15 @@ namespace Aurora.Music.Core.Models
                 ReplayGainAlbumPeak = tag.ReplayGainAlbumPeak,
                 Comment = tag.Comment,
                 Disc = tag.Disc,
-                Composers = tag.Composers,
+                Composers = isWav ? music.Composers.ToArray() : tag.Composers,
                 ComposersSort = tag.ComposersSort,
-                Conductor = tag.Conductor,
+                Conductor = isWav ? music.Conductors.ToArray().FirstOrDefault() : tag.Conductor,
                 DiscCount = tag.DiscCount,
                 Copyright = tag.Copyright,
-                Genres = tag.Genres,
+                Genres = isWav ? music.Genre.ToArray() : tag.Genres,
                 Grouping = tag.Grouping,
                 Lyrics = tag.Lyrics,
-                Performers = tag.Performers,
+                Performers = isWav ? new string[] { music.Artist } : tag.Performers,
                 PerformersSort = tag.PerformersSort,
                 Year = tag.Year
             };
