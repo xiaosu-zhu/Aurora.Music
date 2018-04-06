@@ -66,9 +66,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
         <Image x:Name="Artwork" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="150" Stretch="Uniform"
-               Source="{x:Bind DataArtwork,TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png,Mode=OneWay}"
-               ToolTipService.ToolTip="{x:Bind Data.Title,Mode=OneWay}">
-        </Image>
+                   Source="{x:Bind DataArtwork,TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png,Mode=OneWay}"
+                   ToolTipService.ToolTip="{x:Bind Data.Title,Mode=OneWay}"/>
         <TextBlock Text="{x:Bind Data.Title,Mode=OneWay}" Style="{ThemeResource BaseTextBlockStyle}" ToolTipService.ToolTip="{x:Bind Data.Title,Mode=OneWay}"
                        HorizontalAlignment="Left" VerticalAlignment="Center" MaxLines="1" TextWrapping="NoWrap"
                        TextTrimming="CharacterEllipsis"/>

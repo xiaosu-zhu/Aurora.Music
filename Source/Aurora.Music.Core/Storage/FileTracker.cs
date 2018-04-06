@@ -44,7 +44,7 @@ namespace Aurora.Music.Core.Storage
 
         private string ComposeFilters(IList<string> filteredFolderNames)
         {
-            string q = null;
+            string q = string.Empty;
             if (filteredFolderNames != null && filteredFolderNames.Count > 0)
             {
                 q = "folder:NOT";

@@ -812,6 +812,39 @@ namespace Aurora.Music.ViewModels
 
         public async Task FilesChanged()
         {
+            var foldersDB = await SQLOperator.Current().GetAllAsync<FOLDER>();
+            var filtered = new List<string>();
+            var folders = FileReader.InitFolderList();
+            foreach (var fo in foldersDB)
+            {
+                var folder = await fo.GetFolderAsync();
+                if (folders.Exists(a => a.Path == folder.Path))
+                {
+                    continue;
+                }
+                if (fo.IsFiltered)
+                {
+                    filtered.Add(folder.DisplayName);
+                }
+                else
+                {
+                    folders.Add(folder);
+                }
+            }
+            try
+            {
+                folders.Remove(folders.Find(a => a.Path == ApplicationData.Current.LocalFolder.Path));
+            }
+            catch (Exception)
+            {
+            }
+
+            Trackers.Clear();
+            foreach (var item in folders)
+            {
+                Trackers.Add(new FileTracker(item, filtered));
+            }
+
             var files = new List<StorageFile>();
 
             foreach (var item in Trackers)
@@ -821,7 +854,7 @@ namespace Aurora.Music.ViewModels
 
             var addedFiles = await FileTracker.FindChanges(files);
 
-            if (addedFiles.Count > 0)
+            if (!(addedFiles.Count == 0))
             {
                 await FileReader.ReadFileandSave(addedFiles);
             }
@@ -874,6 +907,11 @@ namespace Aurora.Music.ViewModels
             {
                 await FileReader.ReadFileandSave(addedFiles);
             }
+        }
+
+        internal void RestoreFromCompactOverlay()
+        {
+            player.RefreshNowPlayingInfo();
         }
 
         private void Reader_Completed(object sender, EventArgs e)
