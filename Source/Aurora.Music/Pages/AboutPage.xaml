@@ -80,6 +80,15 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}"/>
             </Border>
 
+            <StackPanel Padding="0,8" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                <Button HorizontalAlignment="Center" VerticalAlignment="Center" x:Uid="Comment" Content="Comment in Store" Click="Comment" Style="{ThemeResource TextBlockButtonStyle}" Margin="0,8"/>
+                <Button HorizontalAlignment="Center" VerticalAlignment="Center" x:Uid="ReportBug" Content="Report a Bug" Click="Report" Style="{ThemeResource TextBlockButtonStyle}" Margin="0,8"/>
+                <Button HorizontalAlignment="Center" VerticalAlignment="Center" x:Uid="GetExtension" Content="Get Extensions" Click="Extension" Style="{ThemeResource TextBlockButtonStyle}" Margin="0,8"/>
+                <Button HorizontalAlignment="Center" VerticalAlignment="Center" x:Uid="Privacy" Content="Privacy Policy" Click="Privacy" Style="{ThemeResource TextBlockButtonStyle}" Margin="0,8"/>
+                <Button HorizontalAlignment="Center" VerticalAlignment="Center" x:Uid="EaseAccessBtn" Content="Ease of Access" Click="EaseAccess" Style="{ThemeResource TextBlockButtonStyle}" Margin="0,8"/>
+                <Button HorizontalAlignment="Center" VerticalAlignment="Center" x:Uid="WhatsNew" Content="What's New?" Click="Update" Style="{ThemeResource TextBlockButtonStyle}" Margin="0,8"/>
+            </StackPanel>
+
             <Border Padding="8,4" Margin="12,24,12,12" CornerRadius="8" Background="{ThemeResource AccentForText}" 
                     HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock x:Uid="Contributors" Text="Contributors" Style="{ThemeResource BaseTextBlockStyle}"
@@ -102,7 +111,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                        HorizontalAlignment="Center" VerticalAlignment="Center" 
                        Margin="12,0" MaxWidth="240"
                        Text="Taglib-Sharp,&#xD;&#xA;SQLite for Universal Windows Platform,&#xD;&#xA;SQLite-net,&#xD;&#xA;Microsoft.Toolkit.Uwp,&#xD;&#xA;Newtonsoft.Json,&#xD;&#xA;NAudio,&#xD;&#xA;UWPAudioVisualizer,&#xD;&#xA;ExpressionBuilder,&#xD;&#xA;ksemenenko.ColorThief,&#xD;&#xA;SmartFormat.NET,&#xD;&#xA;WriteableBitmapEx,&#xD;&#xA;Win2D.uwp,&#xD;&#xA;LrcParser."/>
-            <Button Content="More Details" Style="{ThemeResource TextBlockButtonStyle}" Click="Button_Click" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Button Content="More Details" Style="{ThemeResource TextBlockButtonStyle}" Click="OpenSource" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
 
             <Border Padding="8,4" Margin="12,24,12,12" CornerRadius="8" Background="{ThemeResource AccentForText}" 
@@ -145,7 +154,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <StackPanel Width="80" Orientation="Vertical">
                     <Button Style="{ThemeResource RevealRoundButton}" Background="{ThemeResource SystemControlAcrylicWindowBrush}"
                             HorizontalAlignment="Center" VerticalAlignment="Center" 
-                            Width="48" Height="48" Padding="8" Click="Githu"
+                            Width="48" Height="48" Padding="8" Click="Github"
                             ToolTipService.ToolTip="For getting instructions of developing extensions">
                         <Button.Content>
                             <BitmapIcon UriSource="ms-appx:///Assets/git-dark.png"/>

@@ -1022,10 +1022,20 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </Grid>
             </DataTemplate>
             <DataTemplate x:Key="SearchSuggestionTemplate" x:DataType="vm:GenericMusicItemViewModel">
-                <StackPanel Margin="8,0" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                    <FontIcon Foreground="{ThemeResource AccentForText}" FontSize="15" FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Center" VerticalAlignment="Center" Glyph="{x:Bind Description}" Margin="0,0,4,0"/>
-                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Stretch" Text="{x:Bind Title}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Margin="4,0"/>
-                </StackPanel>
+                <Grid Margin="8,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <FontIcon Foreground="{ThemeResource AccentForText}" FontSize="15" FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Center" VerticalAlignment="Center" Glyph="{x:Bind Description}" Margin="4,0"/>
+                    <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Text="{x:Bind Title}" Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Margin="4,0"/>
+                    <Button Visibility="{x:Bind SearchDeleteVis(Description)}" Click="Delete_SearchHistory" Style="{ThemeResource TextBlockButtonStyle}" Width="32" Height="32" Foreground="{ThemeResource SystemControlBackgroundBaseLowBrush}" Grid.Column="2">
+                        <Button.Content>
+                            <FontIcon FontSize="12" FontFamily="Segoe MDL2 Assets" Glyph="&#xE106;" />
+                        </Button.Content>
+                    </Button>
+                </Grid>
             </DataTemplate>
             <DataTemplate x:Key="PlaceholderTemplate" x:DataType="vm:GenericMusicItemViewModel">
                 <Grid Margin="8,0" >
@@ -1090,7 +1100,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </DataTemplate>
 
             <controls:HomePageTemplateSeletor x:Key="GenericItemSelector" PodcastTemplate="{StaticResource PodcastTemplate}" SearchSuggestTemplate="{StaticResource SearchSuggestionTemplate}" PlaceholderTemplate="{StaticResource PlaceholderTemplate}" SongTemplate="{StaticResource SongTemplate}" AlbumTemplate="{StaticResource AlbumTemplate}"/>
-
 
             <MenuFlyout x:Key="SongFlyout">
                 <MenuFlyoutItem x:Uid="Play" Click="MenuFlyoutPlay_Click" Text="Play">
@@ -1553,7 +1562,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         </DoubleAnimation>
                     </Storyboard>
                     <Storyboard x:Name="ProgressHide">
-                        <DoubleAnimation Duration="0:0:0.64" To="2" EnableDependentAnimation="True" Storyboard.TargetName="MainSlider" Storyboard.TargetProperty="Height">
+                        <DoubleAnimation Duration="0:0:0.64" To="4" EnableDependentAnimation="True" Storyboard.TargetName="MainSlider" Storyboard.TargetProperty="Height">
                             <DoubleAnimation.EasingFunction>
                                 <QuinticEase/>
                             </DoubleAnimation.EasingFunction>
@@ -1711,7 +1720,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                             Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="5"
                             Value="{x:Bind Context.PositionToValue(Context.CurrentPosition, Context.TotalDuration), Mode=OneWay}"
                             ThumbToolTipValueConverter="{StaticResource SliderToolTipConverter}" ValueChanged="Slider_ValueChanged"
-                            MinHeight="2" Height="2" RenderTransformOrigin="0.5,1" x:Name="MainSlider"/>
+                            Height="4" RenderTransformOrigin="0.5,1" x:Name="MainSlider"/>
                 </Grid>
                 <Frame x:Name="OverlayFrame" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                 <TextBlock Visibility="{x:Bind Context.NeedShowTitle, Mode=OneWay}" 

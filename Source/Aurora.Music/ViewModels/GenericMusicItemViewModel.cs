@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
 namespace Aurora.Music.ViewModels
@@ -21,6 +22,11 @@ namespace Aurora.Music.ViewModels
         public string Title { get; set; }
         public string Description { get; set; }
         public string Addtional { get; set; }
+
+        public Visibility SearchDeleteVis(string s)
+        {
+            return s == "\uE16D" ? Visibility.Collapsed : Visibility.Visible;
+        }
 
         public string AddtionalAndDescription()
         {
@@ -50,6 +56,9 @@ namespace Aurora.Music.ViewModels
         public string[] OnlineIDs { get; set; }
         public string OnlineAlbumID { get; set; }
         public int ContextualID { get; set; }
+
+
+        public bool IsSearch { get; set; }
 
         public GenericMusicItemViewModel()
         {

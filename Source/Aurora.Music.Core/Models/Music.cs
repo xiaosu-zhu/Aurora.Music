@@ -211,11 +211,11 @@ namespace Aurora.Music.Core.Models
             AudioChannels = song.AudioChannels;
         }
 
-        public static async Task<Song> Create(Tag tag, string path, MusicProperties music, bool isWav)
+        public static async Task<Song> Create(Tag tag, string path, MusicProperties music, Properties p, bool isWav)
         {
             var s = new Song
             {
-                Duration = music.Duration,
+                Duration = music.Duration.TotalMilliseconds < 1 ? p.Duration : music.Duration,
                 BitRate = music.Bitrate,
                 FilePath = path,
                 Rating = (uint)Math.Round(music.Rating / 20.0),

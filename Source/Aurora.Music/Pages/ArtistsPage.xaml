@@ -73,13 +73,15 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="GroupStyle.HeaderTemplate" Value="{StaticResource NormalGroupHeader}"/>
+                        <Setter Target="HeaderGroup.Margin" Value="20,32,20,12"/>
+                        <Setter Target="ArtistList.Padding" Value="0"/>
                     </VisualState.Setters>
                 </VisualState>
 
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
-        <StackPanel Orientation="Vertical" x:Name="HeaderGroup" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="32">
+        <StackPanel Orientation="Vertical" x:Name="HeaderGroup" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="32,32,32,12">
             <Border x:Name="Title" HorizontalAlignment="Left" VerticalAlignment="Center" Height="48">
                 <TextBlock x:Uid="Artists" Text="Artists" HorizontalAlignment="Left" VerticalAlignment="Center"
                            FontWeight="Bold" TextWrapping="NoWrap" MaxLines="1" Style="{ThemeResource SubheaderTextBlockStyle}" TextTrimming="Clip"/>

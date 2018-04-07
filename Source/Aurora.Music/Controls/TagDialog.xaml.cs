@@ -68,7 +68,7 @@ namespace Aurora.Music.Controls
                 await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
                 {
                     SongTitle = isWav ? props.Title : song.Title;
-                    Duration = props.Duration;
+                    Duration = props.Duration.TotalMilliseconds < 1 ? tagTemp.Properties.Duration : props.Duration;
                     BitRate = props.Bitrate;
                     Rating = props.Rating;
                     MusicBrainzArtistId = song.MusicBrainzArtistId;

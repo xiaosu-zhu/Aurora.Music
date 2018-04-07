@@ -730,7 +730,10 @@ namespace Aurora.Music.ViewModels
                                     }
                                     foreach (var item in items)
                                     {
-                                        SearchItems.Add(new GenericMusicItemViewModel(item));
+                                        SearchItems.Add(new GenericMusicItemViewModel(item)
+                                        {
+                                            IsSearch = true
+                                        });
                                     }
                                 }
                         });
@@ -769,7 +772,10 @@ namespace Aurora.Music.ViewModels
 
                                 foreach (var item in podcasts)
                                 {
-                                    SearchItems.Add(new GenericMusicItemViewModel(item));
+                                    SearchItems.Add(new GenericMusicItemViewModel(item)
+                                    {
+                                        IsSearch = true
+                                    });
                                 }
                             }
                     });
@@ -794,7 +800,10 @@ namespace Aurora.Music.ViewModels
                             }
                             foreach (var item in result)
                             {
-                                SearchItems.Add(new GenericMusicItemViewModel(item));
+                                SearchItems.Add(new GenericMusicItemViewModel(item)
+                                {
+                                    IsSearch = true
+                                });
                             }
                         }
 

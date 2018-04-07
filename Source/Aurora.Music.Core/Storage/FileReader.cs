@@ -229,13 +229,14 @@ namespace Aurora.Music.Core.Storage
                     {
                         var prop = await file.Properties.GetMusicPropertiesAsync();
 
+                        var d = prop.Duration.Milliseconds < 1 ? tagTemp.Properties.Duration : prop.Duration;
 
-                        if (durationFilter && prop.Duration.Milliseconds < duration)
+                        if (durationFilter && d.Milliseconds < duration)
                         {
                         }
                         else
                         {
-                            var song = await Song.Create(tagTemp.Tag, file.Path, prop, file.FileType.Equals(".wav", StringComparison.InvariantCultureIgnoreCase));
+                            var song = await Song.Create(tagTemp.Tag, file.Path, prop, tagTemp.Properties, file.FileType.Equals(".wav", StringComparison.InvariantCultureIgnoreCase));
                             var t = await opr.InsertSongAsync(song);
                             if (t != null)
                             {
@@ -322,7 +323,7 @@ namespace Aurora.Music.Core.Storage
         public static async Task<List<GenericMusicItem>> Search(string text)
         {
             var opr = SQLOperator.Current();
-            text = SQLOperator.SQLEscaping(text);
+            text = SQLOperator.SQLEscaping_LIKE(text);
 
             var songs = await opr.SearchAsync<SONG>(text, "TITLE", "PERFORMERS");
 
@@ -341,7 +342,7 @@ namespace Aurora.Music.Core.Storage
             {
                 using (var tagTemp = File.Create(file))
                 {
-                    tempList.Add(await Song.Create(tagTemp.Tag, file.Path, await file.Properties.GetMusicPropertiesAsync(), file.FileType.Equals(".wav", StringComparison.InvariantCultureIgnoreCase)));
+                    tempList.Add(await Song.Create(tagTemp.Tag, file.Path, await file.Properties.GetMusicPropertiesAsync(), tagTemp.Properties, file.FileType.Equals(".wav", StringComparison.InvariantCultureIgnoreCase)));
                 }
             }
             var result = from song in tempList orderby song.Track orderby song.Disc group song by song.Album;
@@ -357,15 +358,15 @@ namespace Aurora.Music.Core.Storage
         {
             using (var tagTemp = File.Create(file))
             {
-                return await Create(tagTemp.Tag, file.Path, await file.Properties.GetMusicPropertiesAsync());
+                return await Create(tagTemp.Tag, file.Path, await file.Properties.GetMusicPropertiesAsync(), tagTemp.Properties, file.FileType.Equals(".wav", StringComparison.InvariantCultureIgnoreCase));
             }
         }
 
-        private static async Task<Song> Create(Tag tag, string path, MusicProperties music)
+        private static async Task<Song> Create(Tag tag, string path, MusicProperties music, Properties p, bool isWav)
         {
             var song = new Song
             {
-                Duration = music.Duration,
+                Duration = music.Duration.TotalMilliseconds < 1 ? p.Duration : music.Duration,
                 BitRate = music.Bitrate,
                 FilePath = path,
                 Rating = (uint)Math.Round(music.Rating / 20.0),
@@ -380,11 +381,11 @@ namespace Aurora.Music.Core.Storage
                 MusicIpId = tag.MusicIpId,
                 BeatsPerMinute = tag.BeatsPerMinute,
                 Album = tag.Album,
-                AlbumArtists = tag.AlbumArtists,
+                AlbumArtists = isWav ? new string[] { music.AlbumArtist } : tag.AlbumArtists,
                 AlbumArtistsSort = tag.AlbumArtistsSort,
                 AlbumSort = tag.AlbumSort,
                 AmazonId = tag.AmazonId,
-                Title = tag.Title,
+                Title = isWav ? music.Title : tag.Title,
                 TitleSort = tag.TitleSort,
                 Track = tag.Track,
                 TrackCount = tag.TrackCount,
@@ -394,15 +395,15 @@ namespace Aurora.Music.Core.Storage
                 ReplayGainAlbumPeak = tag.ReplayGainAlbumPeak,
                 Comment = tag.Comment,
                 Disc = tag.Disc,
-                Composers = tag.Composers,
+                Composers = isWav ? music.Composers.ToArray() : tag.Composers,
                 ComposersSort = tag.ComposersSort,
-                Conductor = tag.Conductor,
+                Conductor = isWav ? music.Conductors.ToArray().FirstOrDefault() : tag.Conductor,
                 DiscCount = tag.DiscCount,
                 Copyright = tag.Copyright,
-                Genres = tag.Genres,
+                Genres = isWav ? music.Genre.ToArray() : tag.Genres,
                 Grouping = tag.Grouping,
                 Lyrics = tag.Lyrics,
-                Performers = tag.Performers,
+                Performers = isWav ? new string[] { music.Artist } : tag.Performers,
                 PerformersSort = tag.PerformersSort,
                 Year = tag.Year
             };
@@ -414,7 +415,7 @@ namespace Aurora.Music.Core.Storage
                 var s = await ApplicationData.Current.TemporaryFolder.TryGetItemAsync(fileName);
                 if (s == null)
                 {
-                    StorageFile cacheImg = await ApplicationData.Current.TemporaryFolder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
+                    var cacheImg = await ApplicationData.Current.TemporaryFolder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
                     await FileIO.WriteBytesAsync(cacheImg, pictures[0].Data.Data);
                     song.PicturePath = cacheImg.Path;
                 }

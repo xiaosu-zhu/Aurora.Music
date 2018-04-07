@@ -61,7 +61,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <AdaptiveTrigger MinWindowWidth="641"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="HeaderGroup.Margin" Value="20,32,20,20"/>
+                        <Setter Target="HeaderGroup.Margin" Value="20,32,20,12"/>
                         <Setter Target="AlbumList.Padding" Value="20,0"/>
                     </VisualState.Setters>
                 </VisualState>
@@ -77,7 +77,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <StackPanel Orientation="Vertical" x:Name="HeaderGroup" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="32">
+        <StackPanel Orientation="Vertical" x:Name="HeaderGroup" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="32,32,32,12">
             <Grid x:Name="Title" HorizontalAlignment="Left" VerticalAlignment="Center" Height="48">
                 <TextBlock Text="{x:Bind Context.Title,Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold"
                            TextWrapping="NoWrap" MaxLines="1" Style="{ThemeResource SubheaderTextBlockStyle}" TextTrimming="Clip" 

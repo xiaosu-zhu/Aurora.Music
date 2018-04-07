@@ -68,7 +68,7 @@ namespace Aurora.Music.ViewModels
         {
             get => new DelegateCommand(async () =>
             {
-                UpdateInfo u = new UpdateInfo();
+                var u = new UpdateInfo();
                 await u.ShowAsync();
             });
         }
@@ -77,7 +77,7 @@ namespace Aurora.Music.ViewModels
         {
             get => new DelegateCommand(async () =>
             {
-                EaseAccess u = new EaseAccess();
+                var u = new EaseAccess();
                 await u.ShowAsync();
             });
         }

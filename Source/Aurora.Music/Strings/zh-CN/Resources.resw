@@ -898,7 +898,7 @@
     <comment>{0} by {1}</comment>
   </data>
   <data name="WhatsNew.Content" xml:space="preserve">
-    <value>这次更新了什么？</value>
+    <value>这次更新了什么?</value>
     <comment>What's New?</comment>
   </data>
   <data name="DropBtn.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">

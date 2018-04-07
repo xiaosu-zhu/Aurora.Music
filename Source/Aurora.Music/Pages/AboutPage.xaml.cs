@@ -31,13 +31,13 @@ namespace Aurora.Music.Pages
 
         public string BuildText { get; set; }
 
-        private async void Button_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private async void OpenSource(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             OpenSource o = new OpenSource();
             await o.ShowAsync();
         }
 
-        private async void Githu(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private async void Github(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             await Launcher.LaunchUriAsync(new Uri("https://github.com/pkzxs/Aurora.Music"));
         }
@@ -55,6 +55,38 @@ namespace Aurora.Music.Pages
         private async void MarkdownTextBlock_LinkClicked(object sender, Microsoft.Toolkit.Uwp.UI.Controls.LinkClickedEventArgs e)
         {
             await Launcher.LaunchUriAsync(new Uri(e.Link));
+        }
+
+        private async void Comment(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            await Launcher.LaunchUriAsync(new Uri($"ms-windows-store://review/?ProductId={Consts.ProductID}"));
+        }
+
+        private async void Report(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            await Launcher.LaunchUriAsync(new Uri("https://github.com/pkzxs/Aurora.Music/issues"));
+        }
+
+        private async void Extension(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            await Launcher.LaunchUriAsync(new Uri($"ms-windows-store://search/?query={Consts.ExtensionContract}"));
+        }
+
+        private async void Privacy(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            await Launcher.LaunchUriAsync(new Uri("http://198.181.41.120/privacypolicy.htm"));
+        }
+
+        private async void EaseAccess(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            var u = new EaseAccess();
+            await u.ShowAsync();
+        }
+
+        private async void Update(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            var u = new UpdateInfo();
+            await u.ShowAsync();
         }
     }
 }

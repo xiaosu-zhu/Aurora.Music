@@ -13,6 +13,19 @@ using Windows.Storage;
 
 namespace Aurora.Music.Core.Storage
 {
+    class ALBUMComparer : IEqualityComparer<ALBUM>
+    {
+        public bool Equals(ALBUM x, ALBUM y)
+        {
+            return x.ID == y.ID;
+        }
+
+        public int GetHashCode(ALBUM obj)
+        {
+            return obj.GetHashCode();
+        }
+    }
+
     public class Path
     {
         public string FilePath { get; set; }
@@ -482,6 +495,10 @@ namespace Aurora.Music.Core.Storage
         {
             return value.Replace("'", @"''");
         }
+        public static string SQLEscaping_LIKE(string value)
+        {
+            return value.Replace("'", "''").Replace("[", "[[]").Replace("%", "[%]").Replace("_", "[_]");
+        }
 
         private SQLOperator()
         {
@@ -910,22 +927,22 @@ namespace Aurora.Music.Core.Storage
             if (value.IsNullorEmpty())
             {
                 // anonymous artists, get their songs
-                var songs = await conn.QueryAsync<SONG>("SELECT * FROM SONG WHERE ALBUMARTISTS IS NULL");
+                var songs = await conn.QueryAsync<SONG>("SELECT * FROM SONG WHERE ALBUMARTISTS IS NULL OR PERFORMERS IS NULL");
                 var albumGrouping = from song in songs group song by song.Album;
                 return albumGrouping.ToList().ConvertAll(a => new Album(a));
             }
 
-            value = SQLEscaping(value);
+            value = SQLEscaping_LIKE(value);
 
             // get aritst-associated albums
             // This version of SQLite-Net can't parameterize LIKE
-            var albums = await conn.QueryAsync<ALBUM>($"SELECT * FROM ALBUM WHERE ALBUMARTISTS LIKE '%{value}%'");
+            var albums = (await conn.QueryAsync<ALBUM>($"SELECT * FROM ALBUM WHERE ALBUMARTISTS LIKE '{value}{Consts.ArraySeparator}%' OR ALBUMARTISTS LIKE '%{Consts.ArraySeparator}{value}{Consts.ArraySeparator}%' OR ALBUMARTISTS LIKE '%{Consts.ArraySeparator}{value}' OR ALBUMARTISTS = '{value}'")).Distinct(new ALBUMComparer()).ToList();
             var res = albums.ConvertAll(a => new Album(a));
 
-            var otherSongs = await conn.QueryAsync<SONG>($"SELECT * FROM SONG WHERE PERFORMERS LIKE '%{value}%' OR ALBUMARTISTS LIKE '%{value}%'");
+            var otherSongs = await conn.QueryAsync<SONG>($"SELECT * FROM SONG WHERE PERFORMERS LIKE '{value}{Consts.ArraySeparator}%' OR PERFORMERS LIKE '%{Consts.ArraySeparator}{value}{Consts.ArraySeparator}%' OR PERFORMERS LIKE '%{Consts.ArraySeparator}{value}' OR PERFORMERS = '{value}' OR ALBUMARTISTS LIKE '{value}{Consts.ArraySeparator}%' OR ALBUMARTISTS LIKE '%{Consts.ArraySeparator}{value}{Consts.ArraySeparator}%' OR ALBUMARTISTS LIKE '%{Consts.ArraySeparator}{value}' OR ALBUMARTISTS = '{value}'");
 
             // remove duplicated (we suppose that artist's all song is just 1000+, this way can find all song and don't take long time)
-            otherSongs.RemoveAll(x => !albums.Where(b => b.Name == x.Album).IsNullorEmpty());
+            otherSongs.RemoveAll(x => albums.Exists(b => b.Name == x.Album));
             var otherGrouping = from song in otherSongs group song by song.Album;
             // otherSongs has item
             if (!otherGrouping.IsNullorEmpty())
@@ -1447,7 +1464,11 @@ namespace Aurora.Music.Core.Storage
             });
         }
 
-
+        public async Task DeleteSearchHistoryAsync(string query)
+        {
+            var res = await conn.QueryAsync<int>("DELETE FROM SEARCHHISTORY WHERE QUERY=?", query);
+        }
+        
         public async Task<List<SEARCHHISTORY>> GetSearchHistoryAsync()
         {
             return await conn.QueryAsync<SEARCHHISTORY>("SELECT * FROM SEARCHHISTORY ORDER BY ID DESC LIMIT 10");
