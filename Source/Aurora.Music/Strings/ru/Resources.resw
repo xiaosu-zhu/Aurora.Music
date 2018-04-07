@@ -1364,4 +1364,8 @@
     <value>{0} of {1} {1:album|albums} sorted</value>
     <comment>{0} of {1} {1:album|albums} sorted</comment>
   </data>
+    <data name="More.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>More</value>
+    <comment>More</comment>
+  </data>
 </root>

@@ -1392,8 +1392,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         </Flyout>
                     </Button.Flyout>
                 </Button>
-                <Button AccessKey="." x:Name="More" Style="{ThemeResource RevealRoundButton}" Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush),Mode=OneWay}" ToolTipService.ToolTip="More"
-                                Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                <Button x:Uid="More" AccessKey="." x:Name="More" Style="{ThemeResource RevealRoundButton}" Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush),Mode=OneWay}" ToolTipService.ToolTip="More"
+                        Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <Button.Content>
                         <SymbolIcon Symbol="More"/>
                     </Button.Content>

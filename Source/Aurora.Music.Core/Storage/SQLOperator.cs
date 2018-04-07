@@ -638,7 +638,7 @@ namespace Aurora.Music.Core.Storage
         {
             return await conn.Table<T>().ToListAsync();
         }
-
+        /*
         internal async Task AddAlbumAsync(IGrouping<string, Song> album)
         {
             var result = await conn.QueryAsync<ALBUM>("SELECT * FROM ALBUM WHERE NAME = ?", album.Key);
@@ -706,74 +706,6 @@ namespace Aurora.Music.Core.Storage
                 await conn.InsertAsync(a);
             }
         }
-
-        internal async Task AddAlbumAsync(IGrouping<string, SONG> album)
-        {
-            var result = await conn.QueryAsync<ALBUM>("SELECT * FROM ALBUM WHERE NAME = ?", album.Key);
-            if (result.Count > 0)
-            {
-                var p = result[0];
-
-                // the properties' converting rules is described *below*
-                p.Songs = string.Join('|', album.Select(x => x.ID).Distinct());
-                if (p.AlbumArtists.IsNullorEmpty())
-                {
-                    p.AlbumArtists = string.Join(Consts.ArraySeparator, (from aa in album where !aa.AlbumArtists.IsNullorEmpty() group aa by aa.AlbumArtists into g select g.Key).Distinct(StringComparer.InvariantCultureIgnoreCase));
-                }
-                if (p.AlbumArtistsSort.IsNullorEmpty())
-                {
-                    p.AlbumArtistsSort = string.Join(Consts.ArraySeparator, (from aa in album where !aa.AlbumArtistsSort.IsNullorEmpty() group aa by aa.AlbumArtistsSort into g select g.Key).Distinct(StringComparer.InvariantCultureIgnoreCase));
-                }
-                if (p.Genres.IsNullorEmpty())
-                {
-                    p.Genres = string.Join(Consts.ArraySeparator, (from aa in album where !aa.Genres.IsNullorEmpty() group aa by aa.Genres into g select g.Key).Distinct(StringComparer.InvariantCultureIgnoreCase));
-                }
-                if (p.PicturePath.IsNullorEmpty())
-                {
-                    p.PicturePath = (from aa in album where !aa.PicturePath.IsNullorEmpty() select aa.PicturePath).FirstOrDefault();
-                }
-                if (p.Year == default(uint))
-                {
-                    p.Year = album.Max(x => x.Year);
-                }
-                if (p.DiscCount == default(uint))
-                {
-                    p.DiscCount = album.Max(x => x.DiscCount);
-                }
-                if (p.TrackCount == default(uint))
-                {
-                    p.TrackCount = album.Max(x => x.TrackCount);
-                }
-                await conn.UpdateAsync(p);
-            }
-            else
-            {
-                var a = new ALBUM
-                {
-                    Name = album.Key,
-
-                    // uint value, use their max value
-                    DiscCount = album.Max(x => x.DiscCount),
-                    TrackCount = album.Max(x => x.TrackCount),
-                    Year = album.Max(x => x.Year),
-
-                    AlbumArtists = string.Join(Consts.ArraySeparator, (from aa in album where !aa.AlbumArtists.IsNullorEmpty() group aa by aa.AlbumArtists into g select g.Key).Distinct(StringComparer.InvariantCultureIgnoreCase)),
-                    Genres = string.Join(Consts.ArraySeparator, (from aa in album where !aa.Genres.IsNullorEmpty() group aa by aa.Genres into g select g.Key).Distinct(StringComparer.InvariantCultureIgnoreCase)),
-                    AlbumArtistsSort = string.Join(Consts.ArraySeparator, (from aa in album where !aa.AlbumArtistsSort.IsNullorEmpty() group aa by aa.AlbumArtistsSort into g select g.Key).Distinct(StringComparer.InvariantCultureIgnoreCase)),
-
-                    // normal value, use their not-null value
-                    AlbumSort = (from aa in album where !aa.AlbumSort.IsNullorEmpty() select aa.AlbumSort).FirstOrDefault(),
-                    ReplayGainAlbumGain = (from aa in album where aa.ReplayGainAlbumGain != double.NaN select aa.ReplayGainAlbumGain).FirstOrDefault(),
-                    ReplayGainAlbumPeak = (from aa in album where aa.ReplayGainAlbumPeak != double.NaN select aa.ReplayGainAlbumPeak).FirstOrDefault(),
-                    PicturePath = (from aa in album where !aa.PicturePath.IsNullorEmpty() select aa.PicturePath).FirstOrDefault(),
-
-                    // songs, serialized as "ID0|ID1|ID2...|IDn"
-                    Songs = string.Join('|', album.Select(x => x.ID).Distinct())
-                };
-                await conn.InsertAsync(a);
-            }
-        }
-
         internal async Task AddAlbumListAsync(IEnumerable<IGrouping<string, SONG>> albums)
         {
             var newlist = new List<ALBUM>();
@@ -851,6 +783,100 @@ namespace Aurora.Music.Core.Storage
                 AlbumModified?.Invoke(this, new AlbumModifiedEventArgs(newlist.ToArray().Select(x => new Album(x)).ToArray()));
             }
         }
+        */
+
+        internal async Task AddAlbumAsync(IGrouping<string, SONG> album)
+        {
+            var result = await conn.QueryAsync<ALBUM>("SELECT * FROM ALBUM WHERE NAME = ?", album.Key);
+            if (result.Count > 0)
+            {
+                var p = result[0];
+
+                // the properties' converting rules is described *below*
+                /*p.Songs = string.Join('|', album.Select(x => x.ID).Distinct());
+                if (p.AlbumArtists.IsNullorEmpty())
+                {
+                    p.AlbumArtists = string.Join(Consts.ArraySeparator, (from aa in album where !aa.AlbumArtists.IsNullorEmpty() group aa by aa.AlbumArtists into g select g.Key).Distinct(StringComparer.InvariantCultureIgnoreCase));
+                }
+                if (p.AlbumArtistsSort.IsNullorEmpty())
+                {
+                    p.AlbumArtistsSort = string.Join(Consts.ArraySeparator, (from aa in album where !aa.AlbumArtistsSort.IsNullorEmpty() group aa by aa.AlbumArtistsSort into g select g.Key).Distinct(StringComparer.InvariantCultureIgnoreCase));
+                }
+                if (p.Genres.IsNullorEmpty())
+                {
+                    p.Genres = string.Join(Consts.ArraySeparator, (from aa in album where !aa.Genres.IsNullorEmpty() group aa by aa.Genres into g select g.Key).Distinct(StringComparer.InvariantCultureIgnoreCase));
+                }
+                if (p.PicturePath.IsNullorEmpty())
+                {
+                    p.PicturePath = (from aa in album where !aa.PicturePath.IsNullorEmpty() select aa.PicturePath).FirstOrDefault();
+                }
+                if (p.Year == default(uint))
+                {
+                    p.Year = album.Max(x => x.Year);
+                }
+                if (p.DiscCount == default(uint))
+                {
+                    p.DiscCount = album.Max(x => x.DiscCount);
+                }
+                if (p.TrackCount == default(uint))
+                {
+                    p.TrackCount = album.Max(x => x.TrackCount);
+                }
+                */
+
+                var a = new ALBUM
+                {
+                    Name = album.Key,
+
+                    // uint value, use their max value
+                    DiscCount = album.Max(x => x.DiscCount),
+                    TrackCount = album.Max(x => x.TrackCount),
+                    Year = album.Max(x => x.Year),
+
+                    AlbumArtists = string.Join(Consts.ArraySeparator, (from aa in album where !aa.AlbumArtists.IsNullorEmpty() group aa by aa.AlbumArtists into g select g.Key).Distinct(StringComparer.InvariantCultureIgnoreCase)),
+                    Genres = string.Join(Consts.ArraySeparator, (from aa in album where !aa.Genres.IsNullorEmpty() group aa by aa.Genres into g select g.Key).Distinct(StringComparer.InvariantCultureIgnoreCase)),
+                    AlbumArtistsSort = string.Join(Consts.ArraySeparator, (from aa in album where !aa.AlbumArtistsSort.IsNullorEmpty() group aa by aa.AlbumArtistsSort into g select g.Key).Distinct(StringComparer.InvariantCultureIgnoreCase)),
+
+                    // normal value, use their not-null value
+                    AlbumSort = (from aa in album where !aa.AlbumSort.IsNullorEmpty() select aa.AlbumSort).FirstOrDefault(),
+                    ReplayGainAlbumGain = (from aa in album where aa.ReplayGainAlbumGain != double.NaN select aa.ReplayGainAlbumGain).FirstOrDefault(),
+                    ReplayGainAlbumPeak = (from aa in album where aa.ReplayGainAlbumPeak != double.NaN select aa.ReplayGainAlbumPeak).FirstOrDefault(),
+                    PicturePath = (from aa in album where !aa.PicturePath.IsNullorEmpty() select aa.PicturePath).FirstOrDefault(),
+
+                    // songs, serialized as "ID0|ID1|ID2...|IDn"
+                    Songs = string.Join('|', album.Select(x => x.ID).Distinct())
+                };
+                a.ID = p.ID;
+                await conn.UpdateAsync(a);
+            }
+            else
+            {
+                var a = new ALBUM
+                {
+                    Name = album.Key,
+
+                    // uint value, use their max value
+                    DiscCount = album.Max(x => x.DiscCount),
+                    TrackCount = album.Max(x => x.TrackCount),
+                    Year = album.Max(x => x.Year),
+
+                    AlbumArtists = string.Join(Consts.ArraySeparator, (from aa in album where !aa.AlbumArtists.IsNullorEmpty() group aa by aa.AlbumArtists into g select g.Key).Distinct(StringComparer.InvariantCultureIgnoreCase)),
+                    Genres = string.Join(Consts.ArraySeparator, (from aa in album where !aa.Genres.IsNullorEmpty() group aa by aa.Genres into g select g.Key).Distinct(StringComparer.InvariantCultureIgnoreCase)),
+                    AlbumArtistsSort = string.Join(Consts.ArraySeparator, (from aa in album where !aa.AlbumArtistsSort.IsNullorEmpty() group aa by aa.AlbumArtistsSort into g select g.Key).Distinct(StringComparer.InvariantCultureIgnoreCase)),
+
+                    // normal value, use their not-null value
+                    AlbumSort = (from aa in album where !aa.AlbumSort.IsNullorEmpty() select aa.AlbumSort).FirstOrDefault(),
+                    ReplayGainAlbumGain = (from aa in album where aa.ReplayGainAlbumGain != double.NaN select aa.ReplayGainAlbumGain).FirstOrDefault(),
+                    ReplayGainAlbumPeak = (from aa in album where aa.ReplayGainAlbumPeak != double.NaN select aa.ReplayGainAlbumPeak).FirstOrDefault(),
+                    PicturePath = (from aa in album where !aa.PicturePath.IsNullorEmpty() select aa.PicturePath).FirstOrDefault(),
+
+                    // songs, serialized as "ID0|ID1|ID2...|IDn"
+                    Songs = string.Join('|', album.Select(x => x.ID).Distinct())
+                };
+                await conn.InsertAsync(a);
+            }
+        }
+
 
         internal async Task<SONG> GetSongAsync(int id)
         {

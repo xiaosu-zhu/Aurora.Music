@@ -319,8 +319,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                                    ContentMargin="{TemplateBinding Padding}"
                                                    CheckMode="{ThemeResource ListViewItemCheckMode}"
                                                    RevealBackground="{ThemeResource ListViewItemRevealBackground}"
-                                                   RevealBorderThickness="0"
-                                                   RevealBorderBrush="{x:Null}">
+                                                   RevealBorderThickness="1"
+                                                   RevealBorderBrush="{ThemeResource SystemControlBackgroundTransparentRevealBorderBrush}">
                                 <VisualStateManager.VisualStateGroups>
                                     <VisualStateGroup x:Name="CommonStates">
                                         <VisualState x:Name="Normal" />

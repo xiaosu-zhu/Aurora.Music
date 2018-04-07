@@ -1441,4 +1441,8 @@
     <value>{0}个专辑已归类，共{1}个</value>
     <comment>{0} of {1} {1:album|albums} sorted</comment>
   </data>
+    <data name="More.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>更多</value>
+    <comment>More</comment>
+  </data>
 </root>
