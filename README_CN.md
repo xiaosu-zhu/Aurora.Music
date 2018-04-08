@@ -7,7 +7,7 @@
 
 
 <p align="center">
-<a href="https://www.microsoft.com/store/apps/9NBLGGH6JVDT?ocid=badge"><img width="200" src="https://assets.windowsphone.com/85864462-9c82-451e-9355-a3d5f874397a/English_get-it-from-MS_InvariantCulture_Default.png" alt="从微软应用商店获取" /></a></p>
+<a href="https://www.microsoft.com/store/apps/9NBLGGH6JVDT?ocid=badge"><img width="200" src="https://assets.windowsphone.com/42e5aa4a-f19a-4205-9191-a97105ed7663/Chinese_Simplified_get-it-from-MS_InvariantCulture_Default.png" alt="从 Microsoft 获取" /></a></p>
 
 一个通用 Windows 平台上的轻巧简洁的音乐播放器。
 
