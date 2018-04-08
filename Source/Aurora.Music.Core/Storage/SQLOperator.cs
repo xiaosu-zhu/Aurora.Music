@@ -927,7 +927,7 @@ namespace Aurora.Music.Core.Storage
             if (value.IsNullorEmpty())
             {
                 // anonymous artists, get their songs
-                var songs = await conn.QueryAsync<SONG>("SELECT * FROM SONG WHERE ALBUMARTISTS IS NULL OR PERFORMERS IS NULL");
+                var songs = await conn.QueryAsync<SONG>($"SELECT * FROM SONG WHERE ALBUMARTISTS IS NULL OR PERFORMERS IS NULL OR PERFORMERS ='{value}'");
                 var albumGrouping = from song in songs group song by song.Album;
                 return albumGrouping.ToList().ConvertAll(a => new Album(a));
             }
@@ -936,10 +936,10 @@ namespace Aurora.Music.Core.Storage
 
             // get aritst-associated albums
             // This version of SQLite-Net can't parameterize LIKE
-            var albums = (await conn.QueryAsync<ALBUM>($"SELECT * FROM ALBUM WHERE ALBUMARTISTS LIKE '{value}{Consts.ArraySeparator}%' OR ALBUMARTISTS LIKE '%{Consts.ArraySeparator}{value}{Consts.ArraySeparator}%' OR ALBUMARTISTS LIKE '%{Consts.ArraySeparator}{value}' OR ALBUMARTISTS = '{value}'")).Distinct(new ALBUMComparer()).ToList();
+            var albums = (await conn.QueryAsync<ALBUM>($"SELECT * FROM ALBUM WHERE ALBUMARTISTS LIKE '{value}{Consts.ArraySeparator}%' OR ALBUMARTISTS LIKE '%{Consts.ArraySeparator}{value}{Consts.ArraySeparator}%' OR ALBUMARTISTS LIKE '%{Consts.ArraySeparator}{value}' OR ALBUMARTISTS LIKE '{value}'")).Distinct(new ALBUMComparer()).ToList();
             var res = albums.ConvertAll(a => new Album(a));
 
-            var otherSongs = await conn.QueryAsync<SONG>($"SELECT * FROM SONG WHERE PERFORMERS LIKE '{value}{Consts.ArraySeparator}%' OR PERFORMERS LIKE '%{Consts.ArraySeparator}{value}{Consts.ArraySeparator}%' OR PERFORMERS LIKE '%{Consts.ArraySeparator}{value}' OR PERFORMERS = '{value}' OR ALBUMARTISTS LIKE '{value}{Consts.ArraySeparator}%' OR ALBUMARTISTS LIKE '%{Consts.ArraySeparator}{value}{Consts.ArraySeparator}%' OR ALBUMARTISTS LIKE '%{Consts.ArraySeparator}{value}' OR ALBUMARTISTS = '{value}'");
+            var otherSongs = await conn.QueryAsync<SONG>($"SELECT * FROM SONG WHERE PERFORMERS LIKE '{value}{Consts.ArraySeparator}%' OR PERFORMERS LIKE '%{Consts.ArraySeparator}{value}{Consts.ArraySeparator}%' OR PERFORMERS LIKE '%{Consts.ArraySeparator}{value}' OR PERFORMERS = '{value}' OR ALBUMARTISTS LIKE '{value}{Consts.ArraySeparator}%' OR ALBUMARTISTS LIKE '%{Consts.ArraySeparator}{value}{Consts.ArraySeparator}%' OR ALBUMARTISTS LIKE '%{Consts.ArraySeparator}{value}' OR ALBUMARTISTS LIKE '{value}'");
 
             // remove duplicated (we suppose that artist's all song is just 1000+, this way can find all song and don't take long time)
             otherSongs.RemoveAll(x => albums.Exists(b => b.Name == x.Album));
