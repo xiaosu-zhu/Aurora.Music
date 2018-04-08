@@ -1,6 +1,5 @@
 # Aurora Music
 
-
 <p align="center">
 <a href="https://www.microsoft.com/store/apps/9NBLGGH6JVDT?ocid=badge"><img width="200" src="https://i.loli.net/2017/12/30/5a479416604d9.png" alt="Logo" /></a></p>
 
@@ -12,14 +11,13 @@ A small, lightweight UWP music player.
 
 ## Brief Introduction
 
-
 Aurora Music has been one of four finalists in **Design Innovator** of [Windows Developer Awards 2018](https://developer.microsoft.com/en-us/windows/projects/events/build/2018/awards?utm_campaign=devawards18&utm_source=devcenter&utm_medium=owned&utm_content=hero) 🎉
 
 ---
 
 Aurora Music is built for a modern, fluent experience of listening music on Windows 10. It is MIT Licensed, you can fork it and build your own personalized music players.
 
-Meanwhile, Aurora Music is extensible, we've preserved interface for lyrics, metadatas and online musics. Building your extension can extend the ability of Aurora Music. We're also planning to support more advanced extensibility, such as audio effects, UI layouts, etc. Please see [Road Map](https://github.com/pkzxs/Aurora.Music/blob/master/README.md#road-map)
+Meanwhile, Aurora Music is extensible, we've preserved interface for lyrics, metadatas and online musics. Building your extension can extend the ability of Aurora Music. We're also planning to support more advanced extensibility, such as audio effects, UI layouts, etc. Please see [Road Map](https://github.com/pkzxs/Aurora.Music/blob/master/README.md#road-map).
 
 Here are a few screenshots:
 
@@ -28,10 +26,19 @@ Need to fill
 
 
 ## Documents and Samples
-Read instructions for extension development from 
-**[here](./Documentation)**
-You can provider your own data in this way. There's also a code sample 
-**[here](./Samples)**
+
+Read instructions for extension development from **[here](./Documentation)**, inside is a simple tutorial to let you make your own extension, as well as a detailed query explanation.
+
+There's also a code sample **[here](./Samples)**, clone it and delpoy, you can see what happens to lyrics.
+
+Moreover, if you have any trouble using app, feel free to contact with [aurora.studio@outlook.com](mailto:aurora.studio@outlook.com).
+
+
+## Contribution
+
+To create an issue or pull request, please first have a look at [Issue Template](https://github.com/pkzxs/Aurora.Music/blob/master/ISSUE_TEMPLATE.md) and [Pull Request Template](https://github.com/pkzxs/Aurora.Music/blob/master/PULL_REQUEST_TEMPLATE.md), please don't pollute issues with unuseful complaints.
+
+We also appreciated to translations added by contributors, if you're interested in localization, please have a look at [Translations](https://aurorastudio.oneskyapp.com/collaboration/project?id=141901).
 
 
 ## Road Map
