@@ -185,6 +185,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <Setter Target="Offset.Duration" Value="200"/>
                         <Setter Target="BlurBehavior.Value" Value="0"/>
                         <Setter Target="Offset.OffsetY" Value="0"/>
+                        <Setter Target="FloatPanel.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="TouchPointerOver">
