@@ -1,5 +1,7 @@
 # Aurora Music
 
+[中文](https://github.com/pkzxs/Aurora.Music/blob/master/README_CN.md)
+
 <p align="center">
 <a href="https://www.microsoft.com/store/apps/9NBLGGH6JVDT?ocid=badge"><img width="200" src="https://i.loli.net/2017/12/30/5a479416604d9.png" alt="Logo" /></a></p>
 
