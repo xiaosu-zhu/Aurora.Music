@@ -3,7 +3,7 @@
 [English](https://github.com/pkzxs/Aurora.Music/blob/master/README.md)
 
 <p align="center">
-<a href="https://www.microsoft.com/store/apps/9NBLGGH6JVDT?ocid=badge"><img width="200" src="https://i.loli.net/2017/12/30/5a479416604d9.png" alt="Logo" /></a></p>
+<a href="https://www.microsoft.com/store/apps/9NBLGGH6JVDT?ocid=badge"><img width="200" src="https://github.com/pkzxs/Aurora.Music/blob/master/Assets/appstore1080_cn.png" alt="Logo" /></a></p>
 
 
 <p align="center">
