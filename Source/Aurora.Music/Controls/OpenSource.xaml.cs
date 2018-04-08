@@ -37,7 +37,7 @@ namespace Aurora.Music.Controls
             text += string.Format(form, "SQLite for Universal Windows Platform", $"3.22.0", "[Public Domain](http://www.sqlite.org/copyright.html)", "[sqlite.org](http://www.sqlite.org/)");
 
             name = typeof(SQLite.SQLiteConnection).Assembly.GetName();
-            text += string.Format(form, "SQLite - net", $"{name.Version.ToVersionString()}", "[MIT License](https://github.com/praeclarum/sqlite-net/blob/master/LICENSE.md)", "[github.com/praeclarum/sqlite-net](https://github.com/praeclarum/sqlite-net)");
+            text += string.Format(form, "SQLite-net", $"{name.Version.ToVersionString()}", "[MIT License](https://github.com/praeclarum/sqlite-net/blob/master/LICENSE.md)", "[github.com/praeclarum/sqlite-net](https://github.com/praeclarum/sqlite-net)");
 
             name = typeof(Microsoft.Toolkit.Uwp.UI.AdvancedCollectionView).Assembly.GetName();
             text += string.Format(form, "UWP Community Toolkit", $"{name.Version.ToVersionString()}", "[MIT License](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/license.md)", "[github.com/Microsoft/UWPCommunityToolkit ](https://github.com/Microsoft/UWPCommunityToolkit)");
@@ -53,7 +53,7 @@ namespace Aurora.Music.Controls
             text += string.Format(form, "ExpressionBuilder", $"{name.Version.ToVersionString()}", "[MIT License](https://github.com/Microsoft/WindowsUIDevLabs/blob/master/LICENSE.txt)", "[github.com/Microsoft/ExpressionBuilder](https://github.com/Microsoft/WindowsUIDevLabs/tree/master/ExpressionBuilder)");
 
             name = typeof(ColorThiefDotNet.ColorThief).Assembly.GetName();
-            text += string.Format(form, "Color Thief.NET", $"{name.Version.ToVersionString()}", "[MIT License](https://github.com/KSemenenko/ColorThief/blob/master/LICENSE)", "[github.com/KSemenenko/ColorThief](https://github.com/KSemenenko/ColorThief)");
+            text += string.Format(form, "ColorThief.NET", $"{name.Version.ToVersionString()}", "[MIT License](https://github.com/KSemenenko/ColorThief/blob/master/LICENSE)", "[github.com/KSemenenko/ColorThief](https://github.com/KSemenenko/ColorThief)");
 
             name = typeof(SmartFormat.Smart).Assembly.GetName();
             text += string.Format(form, "SmartFormat", $"{name.Version.ToVersionString()}", "[MIT License](https://github.com/scottrippey/SmartFormat.NET/wiki/License)", "[github.com/scottrippey/SmartFormat.NET](https://github.com/scottrippey/SmartFormat.NET)");
