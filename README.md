@@ -19,19 +19,24 @@ Aurora Music has been one of four finalists in **Design Innovator** of [Windows 
 
 Aurora Music is built for a modern, fluent experience of listening music on Windows 10. It is MIT Licensed, you can fork it and build your own personalized music players.
 
-Meanwhile, Aurora Music is extensible, we've preserved interface for lyrics, metadatas and online musics. Building your extension can extend the ability of Aurora Music. We're also planning to support more advanced extensibility, such as audio effects, UI layouts, etc. Please see [To-Dos](https://github.com/pkzxs/Aurora.Music/blob/master/README.md#to-dos).
+Meanwhile, Aurora Music is extensible, we've preserved interface for lyrics, metadata and online musics. Building your extension can extend the ability of Aurora Music. We're also planning to support more advanced extensibility, such as audio effects, UI layouts, etc. Please see [To-Dos](https://github.com/pkzxs/Aurora.Music/blob/master/README.md#to-dos).
 
 Here are a few screenshots:
 
-Need to fill
-
+![](https://i.loli.net/2018/04/09/5acb122b411df.png "Home page")
+![](https://i.loli.net/2018/04/09/5acb122acf565.png "Now playing")
+![](https://i.loli.net/2018/04/09/5acb122b02ea3.png "Albums")
+![](https://i.loli.net/2018/04/09/5acb122b86cf4.png "Album Details")
+![](https://i.loli.net/2018/04/09/5acb122b22dc3.png "Songs")
+![](https://i.loli.net/2018/04/09/5acb122b883cf.png "Artists")
+![](https://i.loli.net/2018/04/09/5acb122b7d9ad.png "Douban FM")
 
 
 ## Documents and Samples
 
 Please read instructions for extension development from **[here](./Documentation)**, inside there is a simple tutorial to let you make your own extension, as well as a detailed query explanation.
 
-There's also a code sample **[here](./Samples)**, clone it and delpoy, you can see what happens to lyrics.
+There's also a code sample **[here](./Samples)**, clone it and deploy, you can see what happens to lyrics.
 
 Moreover, if you have any trouble using app, feel free to contact with [aurora.studio@outlook.com](mailto:aurora.studio@outlook.com).
 
@@ -45,7 +50,12 @@ We also appreciated to translations added by contributors, if you're interested 
 
 ## To-Dos
 
-Need to fill
+* Advance Extensibility, including UI layout extensibility with config files, and audio effects from optional packages.
+* Using machine learning to generate mix collections.
+* Using trained model to classify music by genres.
+* Radio.
+* Lyric syncing word-by-word.
+* Lastfm scrobbler.
 
 
 ## Open Source Info
