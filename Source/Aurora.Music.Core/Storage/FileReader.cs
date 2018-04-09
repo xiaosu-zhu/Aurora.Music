@@ -193,7 +193,7 @@ namespace Aurora.Music.Core.Storage
                 }
 
                 list.AddRange(files);
-                ProgressUpdated?.Invoke(null, new ProgressReport() { Description = SmartFormat.Smart.Format(scan, folder.Count), Current = i, Total = folder.Count });
+                ProgressUpdated?.Invoke(null, new ProgressReport() { Description = SmartFormat.Smart.Format(scan, i, folder.Count), Current = i, Total = folder.Count });
                 i++;
             }
             await Task.Delay(200);

@@ -97,7 +97,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </Border>
             <toolkit:MarkdownTextBlock HorizontalAlignment="Center" VerticalAlignment="Stretch" LinkClicked="MarkdownTextBlock_LinkClicked"
                                        MaxWidth="320" HorizontalContentAlignment="Center" Margin="12,0"
-                                       Text="* Thanks for the Destuch translation added by **Lucas Herr**.&#xD;&#xA;* Thanks for the Russian translation added by **Данила Степовой**.&#xD;&#xA;* Pull requests [#4](https://github.com/pkzxs/Aurora.Music/pull/4), [#5](https://github.com/pkzxs/Aurora.Music/pull/5), [#6](https://github.com/pkzxs/Aurora.Music/pull/6) by [OpportunityLiu](https://github.com/OpportunityLiu).&#xD;&#xA;&#xD;&#xA;* And **[everyone supported development](https://github.com/pkzxs/Aurora.Music/issues)**.&#xD;&#xA;&#xD;&#xA;* And **You**."/>
+                                       Text="* Thanks for collaborators that are helping for tranlations:&#xD;&#xA;&#x9;* **Lucas Herr**&#xD;&#xA;&#x9;* **Данила Степовой**&#xD;&#xA;&#x9;* **Dan Olivaw**.&#xD;&#xA;* Pull requests [#4](https://github.com/pkzxs/Aurora.Music/pull/4), [#5](https://github.com/pkzxs/Aurora.Music/pull/5), [#6](https://github.com/pkzxs/Aurora.Music/pull/6), [#7](https://github.com/pkzxs/Aurora.Music/pull/7), [#9](https://github.com/pkzxs/Aurora.Music/pull/9) by [OpportunityLiu](https://github.com/OpportunityLiu).&#xD;&#xA;&#xD;&#xA;* And **[everyone supported development](https://github.com/pkzxs/Aurora.Music/issues)**.&#xD;&#xA;&#xD;&#xA;* And **You**."/>
 
 
             <Border Padding="8,4" Margin="12,24,12,12" CornerRadius="8" Background="{ThemeResource AccentForText}" 
