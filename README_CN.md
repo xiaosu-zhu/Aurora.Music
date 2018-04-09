@@ -40,7 +40,7 @@
 
 **[这里](./Samples)** 同样有一份代码示例，克隆到本地并部署它，然后瞧瞧歌词有什么变化吧。
 
-别急，如果你再使用应用的过程中遇到了任何问题，请联系 [aurora.studio@outlook.com](mailto:aurora.studio@outlook.com)，尽我们所能为你解决问题。😀
+别急，如果你在使用应用的过程中遇到了任何问题，请联系 [aurora.studio@outlook.com](mailto:aurora.studio@outlook.com)，尽我们所能为你解决问题。😀
 
 ## 尽自己一份力
 
