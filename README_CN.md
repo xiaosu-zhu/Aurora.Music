@@ -23,8 +23,13 @@
 
 下面是一些运行截图：
 
-Need to fill
-
+![](https://i.loli.net/2018/04/09/5acad08ca1bf7.png "主页")
+![](https://i.loli.net/2018/04/09/5acad0d79a2d2.png "正在播放")
+![](https://i.loli.net/2018/04/09/5acad0cb88213.png "全部专辑")
+![](https://i.loli.net/2018/04/09/5acad0d170c2c.png "全部歌曲")
+![](https://i.loli.net/2018/04/09/5acad0d17c25f.png "全部歌手")
+![](https://i.loli.net/2018/04/09/5acad0d1aba75.png "专辑详情")
+![](https://i.loli.net/2018/04/09/5acad0d623383.png "豆瓣 FM")
 
 
 ## 文档与样例
