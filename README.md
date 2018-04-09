@@ -51,9 +51,9 @@ We also appreciated to translations added by contributors, if you're interested 
 ## To-Dos
 
 * Advance Extensibility, including UI layout extensibility with config files, and audio effects from optional packages.
-* Using machine learning to generate mix collections.
-* Using trained model to classify music by genres.
-* Radio.
+* Using machine learning to generate mixed collections.
+* Using trained models to classify music by genres.
+* Radios.
 * Lyric syncing word-by-word.
 * Lastfm scrobbler.
 
