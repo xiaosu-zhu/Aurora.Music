@@ -1,6 +1,6 @@
 # 极光音乐
 
-[English](https://github.com/pkzxs/Aurora.Music/blob/master/README.md)
+[English](./README.md)
 
 <p align="center">
 <a href="https://www.microsoft.com/store/apps/9NBLGGH6JVDT?ocid=badge"><img width="200" src="https://github.com/pkzxs/Aurora.Music/blob/master/Assets/appstore1080_cn.png" alt="Logo" /></a></p>
@@ -51,7 +51,12 @@
 
 ## 待完成
 
-Need to fill
+* 高级扩展功能，如通过配置文件来修改界面布局，通过可选包扩展音频效果
+* 推荐系统的机器学习能力
+* 使用训练过的深度学习模型，对音乐库文件依据曲风分类
+* 电台
+* 以字为单位的歌词同步
+* Lastfm scrobbler
 
 
 ## 开源信息
