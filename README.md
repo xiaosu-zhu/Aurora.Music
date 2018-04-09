@@ -23,6 +23,8 @@ Meanwhile, Aurora Music is extensible, we've preserved interface for lyrics, met
 
 Here are a few screenshots:
 
+(Background Image by [Jeremy Bishop on Unsplash](https://unsplash.com/photos/9pRjY4d7nJE), albums are owned by artists, only for demo here)
+
 ![](https://i.loli.net/2018/04/09/5acb122b411df.png "Home page")
 ![](https://i.loli.net/2018/04/09/5acb122acf565.png "Now playing")
 ![](https://i.loli.net/2018/04/09/5acb122b02ea3.png "Albums")
