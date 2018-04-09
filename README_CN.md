@@ -23,6 +23,8 @@
 
 下面是一些运行截图：
 
+（背景图像来自 [Jeremy Bishop on Unsplash](https://unsplash.com/photos/9pRjY4d7nJE)，专辑版权归艺术家所有，此处仅作为演示）
+
 ![](https://i.loli.net/2018/04/09/5acad08ca1bf7.png "主页")
 ![](https://i.loli.net/2018/04/09/5acad0d79a2d2.png "正在播放")
 ![](https://i.loli.net/2018/04/09/5acad0cb88213.png "全部专辑")
