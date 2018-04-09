@@ -13,46 +13,45 @@
 
 ## 简介
 
-极光音乐已入选 [Windows 2018 开发者奖项](https://developer.microsoft.com/en-us/windows/projects/events/build/2018/awards?utm_campaign=devawards18&utm_source=devcenter&utm_medium=owned&utm_content=hero)：**设计启发者**之一🎉
+极光音乐已入选 [Windows 2018 开发者奖项](https://developer.microsoft.com/en-us/windows/projects/events/build/2018/awards?utm_campaign=devawards18&utm_source=devcenter&utm_medium=owned&utm_content=hero)：**设计启发者**之一！🎉
 
 ---
 
-Aurora Music is built for a modern, fluent experience of listening music on Windows 10. It is MIT Licensed, you can fork it and build your own personalized music players.
+极光音乐致力于为 Windows 10 平台带来现代，流畅的音乐体验。极光音乐使用 MIT 许可，你可以从这里分叉然后构建你自己的个性化音乐播放器。
 
-Meanwhile, Aurora Music is extensible, we've preserved interface for lyrics, metadatas and online musics. Building your extension can extend the ability of Aurora Music. We're also planning to support more advanced extensibility, such as audio effects, UI layouts, etc. Please see [Road Map](https://github.com/pkzxs/Aurora.Music/blob/master/README.md#road-map).
+同时，极光音乐可以扩展功能，我们为歌词、媒体信息、在线音乐保留了接口。通过你开发的扩展，极光音乐就能扩充它的能力。我们同样计划引入更高级的扩展功能，比如音频效果、界面布局等等。请见[待完成]()。
 
-Here are a few screenshots:
-
-Need to fill
-
-
-
-## Documents and Samples
-
-Read instructions for extension development from **[here](./Documentation)**, inside is a simple tutorial to let you make your own extension, as well as a detailed query explanation.
-
-There's also a code sample **[here](./Samples)**, clone it and delpoy, you can see what happens to lyrics.
-
-Moreover, if you have any trouble using app, feel free to contact with [aurora.studio@outlook.com](mailto:aurora.studio@outlook.com).
-
-
-## Contribution
-
-To create an issue or pull request, please first have a look at [Issue Template](https://github.com/pkzxs/Aurora.Music/blob/master/ISSUE_TEMPLATE.md) and [Pull Request Template](https://github.com/pkzxs/Aurora.Music/blob/master/PULL_REQUEST_TEMPLATE.md), please don't pollute issues with unuseful complaints.
-
-We also appreciated to translations added by contributors, if you're interested in localization, please have a look at [Translations](https://aurorastudio.oneskyapp.com/collaboration/project?id=141901).
-
-
-## Road Map
+下面是一些运行截图：
 
 Need to fill
 
 
-## Open Source Info
 
-You can explorer currently using open source libraries below:
+## 文档与样例
 
-| Name | License | Site |
+请移步 **[这里](./Documentation)** 阅读开发扩展的技巧，其中包含一个小教程帮助你建立第一个扩展，同时其中还有一份详细的接口解释。
+
+**[这里](./Samples)** 同样有一份代码示例，克隆到本地并部署它，然后瞧瞧歌词有什么变化吧。
+
+别急，如果你再使用应用的过程中遇到了任何问题，请联系 [aurora.studio@outlook.com](mailto:aurora.studio@outlook.com)，尽我们所能为你解决问题。😀
+
+## 尽自己一份力
+
+要提出 Issue 或 Pull Request 之前，请先参考 [Issue 模板](./ISSUE_TEMPLATE.md) 和 [Pull Request 模板](./PULL_REQUEST_TEMPLATE.md)，请勿在 Issues 中添加无用的抱怨、无关的牢骚。
+
+我们非常感谢那些协助翻译的人们，如果你同样想让极光音乐本地化，请移步 [翻译](https://aurorastudio.oneskyapp.com/collaboration/project?id=141901)。
+
+
+## 待完成
+
+Need to fill
+
+
+## 开源信息
+
+下面是本应用使用的开源库们：
+
+| 大名 | 许可类型 | 项目网站 |
 | --- | --- | --- |
 | taglib-sharp | [GNU LGPL v2.1](https://github.com/mono/taglib-sharp/blob/master/COPYING) | [github.com/mono/taglib-sharp](https://github.com/mono/taglib-sharp) |
 | SQLite for Universal Windows Platform | [Public Domain](http://www.sqlite.org/copyright.html) | [sqlite.org](http://www.sqlite.org/) |
@@ -69,6 +68,6 @@ You can explorer currently using open source libraries below:
 | LrcParser | [MIT License](https://github.com/pkzxs/Aurora.Music/blob/master/LICENSE) | [github.com/pkzxs/LrcParser](https://github.com/pkzxs/Aurora.Music/tree/master/Source/LrcParser) |
 
 
-[/Source/Taglib.Sharp](./Source/TagLib.Sharp/) is ported to UWP from [mono/taglib-sharp](https://github.com/mono/taglib-sharp).
+[/Source/Taglib.Sharp](./Source/TagLib.Sharp/) 是从 [mono/taglib-sharp](https://github.com/mono/taglib-sharp) 移植到 UWP 平台的。
 
-[/Source/ExpressionBuilder](./Source/ExpressionBuilder/) is from [Microsoft/WindowsUIDevLabs](https://github.com/Microsoft/WindowsUIDevLabs)
+[/Source/ExpressionBuilder](./Source/ExpressionBuilder/) 来自于 [Microsoft/WindowsUIDevLabs](https://github.com/Microsoft/WindowsUIDevLabs)。
