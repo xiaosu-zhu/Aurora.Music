@@ -1,0 +1,1450 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AboutText" xml:space="preserve">
+    <value>關於</value>
+    <comment>AboutPage Title</comment>
+  </data>
+  <data name="AppName.Text" xml:space="preserve">
+    <value>極光音樂</value>
+    <comment>App Name for Textblock</comment>
+  </data>
+  <data name="BuildText" xml:space="preserve">
+    <value>版本{0}由以下庫協力</value>
+    <comment>AboutPage Build Text</comment>
+  </data>
+  <data name="GithubTitle.Text" xml:space="preserve">
+    <value>關注並獲取開發擴充套件的技巧：</value>
+    <comment>AboutPage Github Title</comment>
+  </data>
+  <data name="UnSplashTitle.Text" xml:space="preserve">
+    <value>感謝以下人員提供應用中素材</value>
+    <comment>AboutPage Unsplash Title</comment>
+  </data>
+  <data name="Now.Text" xml:space="preserve">
+    <value>正在播放</value>
+    <comment>Now Playing Title</comment>
+  </data>
+  <data name="Settings.Text" xml:space="preserve">
+    <value>設定</value>
+    <comment>Settings</comment>
+  </data>
+  <data name="Waiting.Text" xml:space="preserve">
+    <value>稍等</value>
+    <comment>Waiting</comment>
+  </data>
+  <data name="Collapse.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>收起</value>
+    <comment>MainPage SplitView Pane Collapse</comment>
+  </data>
+  <data name="PlayList.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>正在播放列表</value>
+    <comment>Playing list ToolTip</comment>
+  </data>
+  <data name="About.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>關於</value>
+    <comment>About ToolTip</comment>
+  </data>
+  <data name="Previous.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>上一首</value>
+    <comment>Previous Song ToolTip</comment>
+  </data>
+  <data name="Next.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>下一首</value>
+    <comment>Next Song ToolTip</comment>
+  </data>
+  <data name="Stop.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>停止</value>
+    <comment>Stop ToolTip</comment>
+  </data>
+  <data name="Shuffle.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>隨機播放</value>
+    <comment>Shuffle ToolTip</comment>
+  </data>
+  <data name="Loop.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>迴圈播放</value>
+    <comment>Loop ToolTip</comment>
+  </data>
+  <data name="SplitPaneOpen.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>展開</value>
+    <comment>SplitPaneOpen ToolTip</comment>
+  </data>
+  <data name="Welcome.Text" xml:space="preserve">
+    <value>歡迎！</value>
+    <comment>WelcomPage Title</comment>
+  </data>
+  <data name="WelcomeNext.Text" xml:space="preserve">
+    <value>下一個</value>
+    <comment>WelcomPage Next</comment>
+  </data>
+  <data name="Favorite.Text" xml:space="preserve">
+    <value>你的最愛</value>
+    <comment>Your Favorites</comment>
+  </data>
+  <data name="StatisticsUnAvaliabe.Text" xml:space="preserve">
+    <value>統計資料不足</value>
+    <comment>No enough statistics</comment>
+  </data>
+  <data name="Lucky.Text" xml:space="preserve">
+    <value>手氣不錯</value>
+    <comment>Feeling Lucky</comment>
+  </data>
+  <data name="HomeSubtitle.Text" xml:space="preserve">
+    <value>看看有沒有好聽的……</value>
+    <comment>HomePage Subtitle</comment>
+  </data>
+  <data name="PlayAllBtn.Content" xml:space="preserve">
+    <value>全部播放</value>
+    <comment>Play All</comment>
+  </data>
+  <data name="PlayAll.Text" xml:space="preserve">
+    <value>全部播放</value>
+    <comment>Play All</comment>
+  </data>
+  <data name="ScanFolder.Text" xml:space="preserve">
+    <value>已包含的資料夾</value>
+    <comment>Here's Scanning Folders</comment>
+  </data>
+  <data name="AddNewFolder.Content" xml:space="preserve">
+    <value>新增新資料夾</value>
+    <comment>Add a new folder to scan</comment>
+  </data>
+  <data name="PerformersText" xml:space="preserve">
+    <value>歌手</value>
+    <comment>Performers</comment>
+  </data>
+  <data name="Albums.Text" xml:space="preserve">
+    <value>全部專輯</value>
+    <comment>Albums</comment>
+  </data>
+  <data name="SortBox.Header" xml:space="preserve">
+    <value>排序:</value>
+    <comment>SortBox Cotent</comment>
+  </data>
+  <data name="Artist.Content" xml:space="preserve">
+    <value>歌手</value>
+    <comment>Artist</comment>
+  </data>
+  <data name="Year.Content" xml:space="preserve">
+    <value>發行年份</value>
+    <comment>Year</comment>
+  </data>
+  <data name="TitleSort.Content" xml:space="preserve">
+    <value>A-Z</value>
+    <comment>A-Z</comment>
+  </data>
+  <data name="Album.Content" xml:space="preserve">
+    <value>專輯</value>
+    <comment>Album</comment>
+  </data>
+  <data name="Play.Text" xml:space="preserve">
+    <value>播放</value>
+    <comment>Play</comment>
+  </data>
+  <data name="PlayNext.Text" xml:space="preserve">
+    <value>下一首播放</value>
+    <comment>Play Next</comment>
+  </data>
+  <data name="AddCollection.Text" xml:space="preserve">
+    <value>新增到收藏</value>
+    <comment>Add to Collection</comment>
+  </data>
+  <data name="Share.Text" xml:space="preserve">
+    <value>分享</value>
+    <comment>Share</comment>
+  </data>
+  <data name="ModifyTag.Text" xml:space="preserve">
+    <value>編輯標籤</value>
+    <comment>Modify Tags</comment>
+  </data>
+  <data name="OpenExplorer.Text" xml:space="preserve">
+    <value>在檔案資源管理器中開啟</value>
+    <comment>Open in Explorer</comment>
+  </data>
+  <data name="Delete.Text" xml:space="preserve">
+    <value>刪除</value>
+    <comment>Delete</comment>
+  </data>
+  <data name="DeleteTrash.Text" xml:space="preserve">
+    <value>移入回收站</value>
+    <comment>Move to Trash</comment>
+  </data>
+  <data name="DeletePerm.Text" xml:space="preserve">
+    <value>永久刪除</value>
+    <comment>Permanent Delete</comment>
+  </data>
+  <data name="Artists.Text" xml:space="preserve">
+    <value>全部歌手</value>
+    <comment>Artists</comment>
+  </data>
+  <data name="LibraryText" xml:space="preserve">
+    <value>音樂庫</value>
+    <comment>Library</comment>
+  </data>
+  <data name="SongsText" xml:space="preserve">
+    <value>全部歌曲</value>
+    <comment>Songs</comment>
+  </data>
+  <data name="Songs.Text" xml:space="preserve">
+    <value>全部歌曲</value>
+    <comment>Songs</comment>
+  </data>
+  <data name="AlbumsText" xml:space="preserve">
+    <value>全部專輯</value>
+    <comment>Albums</comment>
+  </data>
+  <data name="ArtistsText" xml:space="preserve">
+    <value>全部歌手</value>
+    <comment>Artists</comment>
+  </data>
+  <data name="NowPlayingText" xml:space="preserve">
+    <value>正在播放</value>
+    <comment>Now Playing</comment>
+  </data>
+  <data name="DescriptionPlaceholder.PlaceholderText" xml:space="preserve">
+    <value>新增一些註釋</value>
+    <comment>Type some descriptions</comment>
+  </data>
+  <data name="IncludeLibrary.Text" xml:space="preserve">
+    <value>包含音樂庫</value>
+    <comment>Including Music Library</comment>
+  </data>
+  <data name="Configuration.Text" xml:space="preserve">
+    <value>播放配置</value>
+    <comment>Player Configuration</comment>
+  </data>
+  <data name="Extensions.Text" xml:space="preserve">
+    <value>擴充套件</value>
+    <comment>Extensions</comment>
+  </data>
+  <data name="ExtensionIntro.Text" xml:space="preserve">
+    <value>你可以開啟線上音樂擴充套件功能：</value>
+    <comment>ExtensionIntro</comment>
+  </data>
+  <data name="Here.Text" xml:space="preserve">
+    <value>從這裡</value>
+    <comment>here</comment>
+  </data>
+  <data name="DownloadPath.Content" xml:space="preserve">
+    <value>下載目錄</value>
+    <comment>Download Path</comment>
+  </data>
+  <data name="AudioGraph.Text" xml:space="preserve">
+    <value>音訊圖</value>
+    <comment>Audio Graph</comment>
+  </data>
+  <data name="NotImplement.Text" xml:space="preserve">
+    <value>未完成</value>
+    <comment>Coming Soon</comment>
+  </data>
+  <data name="AppNameText" xml:space="preserve">
+    <value>極光音樂</value>
+    <comment>App Name</comment>
+  </data>
+  <data name="MusicText" xml:space="preserve">
+    <value>音樂</value>
+    <comment>Music</comment>
+  </data>
+  <data name="NativeText" xml:space="preserve">
+    <value>原生擴充套件</value>
+    <comment>Native Extension</comment>
+  </data>
+  <data name="BuiltInText" xml:space="preserve">
+    <value>內建資料</value>
+    <comment>Built-In Data Provider</comment>
+  </data>
+  <data name="OutputEndPoint.Header" xml:space="preserve">
+    <value>輸出結點</value>
+    <comment>Output Endpoint</comment>
+  </data>
+  <data name="OutputDefaultHint.Text" xml:space="preserve">
+    <value>「系統預設」會在下次啟動時應用</value>
+    <comment>'System default' will be applied at next launch.</comment>
+  </data>
+  <data name="SystemDefault" xml:space="preserve">
+    <value>系統預設</value>
+    <comment>System default</comment>
+  </data>
+  <data name="VolumeLevel.Header" xml:space="preserve">
+    <value>音量等級</value>
+    <comment>Volume Level</comment>
+  </data>
+  <data name="VolumeHint.Text" xml:space="preserve">
+    <value>建議直接調整系統音量</value>
+    <comment>We suggest you to control the system volume directly.</comment>
+  </data>
+  <data name="Manage.Content" xml:space="preserve">
+    <value>管理</value>
+    <comment>Manage</comment>
+  </data>
+  <data name="LyricExtension.Header" xml:space="preserve">
+    <value>歌詞擴充套件</value>
+    <comment>Lyric Extension</comment>
+  </data>
+  <data name="MetaExtension.Header" xml:space="preserve">
+    <value>媒體資訊擴充套件</value>
+    <comment>MetaData Extension</comment>
+  </data>
+  <data name="OnlineExtension.Header" xml:space="preserve">
+    <value>線上音樂擴充套件</value>
+    <comment>Online Music Extension</comment>
+  </data>
+  <data name="Advance.Text" xml:space="preserve">
+    <value>高階</value>
+    <comment>Advance</comment>
+  </data>
+  <data name="DebugMode.Header" xml:space="preserve">
+    <value>除錯模式</value>
+    <comment>Debug Mode</comment>
+  </data>
+  <data name="DangerZone.Text" xml:space="preserve">
+    <value>危險區</value>
+    <comment>Danger Zone</comment>
+  </data>
+  <data name="ClearCache.Content" xml:space="preserve">
+    <value>清除快取</value>
+    <comment>Clear Cache</comment>
+  </data>
+  <data name="DeleteAll.Content" xml:space="preserve">
+    <value>刪除全部資料並重新開始</value>
+    <comment>Delete all and reload</comment>
+  </data>
+  <data name="DeleteAllHint.Content" xml:space="preserve">
+    <value>我知曉這會清除所有東西並繼續</value>
+    <comment>I know this will clear all data and continue</comment>
+  </data>
+  <data name="OtherInformation.Text" xml:space="preserve">
+    <value>其他資訊</value>
+    <comment>Other Information</comment>
+  </data>
+  <data name="OpenSource.Content" xml:space="preserve">
+    <value>開放原始碼</value>
+    <comment>Open Source</comment>
+  </data>
+  <data name="Comment.Content" xml:space="preserve">
+    <value>在商店評價</value>
+    <comment>Comment in Store</comment>
+  </data>
+  <data name="ReportBug.Content" xml:space="preserve">
+    <value>報告 Bug</value>
+    <comment>Report a Bug</comment>
+  </data>
+  <data name="GetExtension.Content" xml:space="preserve">
+    <value>獲取擴充套件</value>
+    <comment>Get Extensions</comment>
+  </data>
+  <data name="AboutBtn.Content" xml:space="preserve">
+    <value>關於</value>
+    <comment>About</comment>
+  </data>
+  <data name="Privacy.Content" xml:space="preserve">
+    <value>隱私策略</value>
+    <comment>Privacy Policy</comment>
+  </data>
+  <data name="SettingsText" xml:space="preserve">
+    <value>設定</value>
+    <comment>Settings</comment>
+  </data>
+  <data name="HomeText" xml:space="preserve">
+    <value>主頁</value>
+    <comment>Home</comment>
+  </data>
+  <data name="LocaAlbumTitle" xml:space="preserve">
+    <value>本地專輯</value>
+    <comment>Local Album</comment>
+  </data>
+  <data name="VariousGenresText" xml:space="preserve">
+    <value>多種流派</value>
+    <comment>Various Genres</comment>
+  </data>
+  <data name="SmartSongs" xml:space="preserve">
+    <value>{0}首歌</value>
+    <comment>{0} {0:Song|Songs}</comment>
+  </data>
+  <data name="SmartAlbums" xml:space="preserve">
+    <value>{0}張專輯</value>
+    <comment>{0} {0:Album|Albums}</comment>
+  </data>
+  <data name="SmartArtists" xml:space="preserve">
+    <value>{0}個歌手</value>
+    <comment>{0} {0:Artist|Artists}</comment>
+  </data>
+  <data name="OopsText" xml:space="preserve">
+    <value>哦呀！</value>
+    <comment>Ooops!</comment>
+  </data>
+  <data name="SearchFailedText" xml:space="preserve">
+    <value>我們什麼都沒有找到……</value>
+    <comment>We couldn't find anything...</comment>
+  </data>
+  <data name="CreateCollection.Text" xml:space="preserve">
+    <value>新增一個新收藏</value>
+    <comment>Create a new collection</comment>
+  </data>
+  <data name="AddPlayListDialog.PrimaryButtonText" xml:space="preserve">
+    <value>確認</value>
+    <comment>Confirm</comment>
+  </data>
+  <data name="AddPlayListDialog.CloseButtonText" xml:space="preserve">
+    <value>取消</value>
+    <comment>Cancel</comment>
+  </data>
+  <data name="AddPlayListDialog.Title" xml:space="preserve">
+    <value>加入到收藏</value>
+    <comment>Add to Collection</comment>
+  </data>
+  <data name="AlbumViewDialog.Title" xml:space="preserve">
+    <value>專輯詳情</value>
+    <comment>Album Details</comment>
+  </data>
+  <data name="AlbumViewDialog.PrimaryButtonText" xml:space="preserve">
+    <value>播放</value>
+    <comment>Play</comment>
+  </data>
+  <data name="AlbumViewDialog.CloseButtonText" xml:space="preserve">
+    <value>關閉</value>
+    <comment>Close</comment>
+  </data>
+  <data name="ArtistDialog.Title" xml:space="preserve">
+    <value>歌手詳情</value>
+    <comment>Artist Details</comment>
+  </data>
+  <data name="ArtistDialog.CloseButtonText" xml:space="preserve">
+    <value>關閉</value>
+    <comment>Close</comment>
+  </data>
+  <data name="GoBack.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>返回</value>
+    <comment>Go Back</comment>
+  </data>
+  <data name="DropSongDialog.Title" xml:space="preserve">
+    <value>我們找到了一些東西……</value>
+    <comment>We found something...</comment>
+  </data>
+  <data name="DropSongDialog.PrimaryButtonText" xml:space="preserve">
+    <value>收入資料庫</value>
+    <comment>Save to Database</comment>
+  </data>
+  <data name="DropSongDialog.SecondaryButtonText" xml:space="preserve">
+    <value>僅播放</value>
+    <comment>Just Play</comment>
+  </data>
+  <data name="DropSongDialogDesc.Text" xml:space="preserve">
+    <value>你可選擇持久收入這些檔案，或是直接播放。</value>
+    <comment>You can choose to save them permanently, or just play instantly.</comment>
+  </data>
+  <data name="DontShow.Content" xml:space="preserve">
+    <value>不再顯示，記住我的選擇。</value>
+    <comment>Don't Show Again, Remember My Choice.</comment>
+  </data>
+  <data name="ExtensionManager.Title" xml:space="preserve">
+    <value>擴充套件管理</value>
+    <comment>Extension Manager</comment>
+  </data>
+  <data name="ExtensionManager.CloseButtonText" xml:space="preserve">
+    <value>關閉</value>
+    <comment>Close</comment>
+  </data>
+  <data name="ExtensionDesc.Text" xml:space="preserve">
+    <value>移至圖示上來檢視詳情，點選以檢視更多操作。</value>
+    <comment>Hover over icons to see tips, click to show more actions</comment>
+  </data>
+  <data name="ExtensionLaunch.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>啟動</value>
+    <comment>Launch</comment>
+  </data>
+  <data name="ExtensionRemove.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>移除</value>
+    <comment>Remove</comment>
+  </data>
+  <data name="LyricProvider.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>歌詞擴充套件</value>
+    <comment>Lyric Provider</comment>
+  </data>
+  <data name="OnlineProvider.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>線上音樂擴充套件</value>
+    <comment>Online Music Provider</comment>
+  </data>
+  <data name="MetaProvider.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>媒體資訊擴充套件</value>
+    <comment>Meta-data Provider</comment>
+  </data>
+  <data name="SearchResultDialog.Title" xml:space="preserve">
+    <value>搜尋結果</value>
+    <comment>Search Result</comment>
+  </data>
+  <data name="SearchResultDialog.PrimaryButtonText" xml:space="preserve">
+    <value>播放</value>
+    <comment>Play</comment>
+  </data>
+  <data name="SearchResultDialog.SecondaryButtonText" xml:space="preserve">
+    <value>檢視</value>
+    <comment>View</comment>
+  </data>
+  <data name="SearchResultDialog.CloseButtonText" xml:space="preserve">
+    <value>關閉</value>
+    <comment>Close</comment>
+  </data>
+  <data name="TagDialog.Title" xml:space="preserve">
+    <value>屬性</value>
+    <comment>Properties</comment>
+  </data>
+  <data name="TagDialog.PrimaryButtonText" xml:space="preserve">
+    <value>確認</value>
+    <comment>Confirm</comment>
+  </data>
+  <data name="TagDialog.CloseButtonText" xml:space="preserve">
+    <value>取消</value>
+    <comment>Cancel</comment>
+  </data>
+  <data name="MidnightText" xml:space="preserve">
+    <value>午夜</value>
+    <comment>Midnight</comment>
+  </data>
+  <data name="MorningText" xml:space="preserve">
+    <value>清晨</value>
+    <comment>Morning</comment>
+  </data>
+  <data name="NoonText" xml:space="preserve">
+    <value>早上</value>
+    <comment>Noon</comment>
+  </data>
+  <data name="AfternoonText" xml:space="preserve">
+    <value>下午</value>
+    <comment>Afternoon</comment>
+  </data>
+  <data name="EveningText" xml:space="preserve">
+    <value>晚上</value>
+    <comment>Evening</comment>
+  </data>
+  <data name="WelcomeTitleText" xml:space="preserve">
+    <value>{0}好</value>
+    <comment>Good {0}</comment>
+  </data>
+  <data name="ValentineWelcome" xml:space="preserve">
+    <value>情人節快樂</value>
+    <comment>Happy Valentine's Day</comment>
+  </data>
+  <data name="HalloweenWelcome" xml:space="preserve">
+    <value>不給糖就搗蛋</value>
+    <comment>Trick or Treat?</comment>
+  </data>
+  <data name="ChristmasWelcome" xml:space="preserve">
+    <value>聖誕快樂</value>
+    <comment>Merry Christmas!</comment>
+  </data>
+  <data name="Title.Text" xml:space="preserve">
+    <value>標題</value>
+    <comment>Title</comment>
+  </data>
+  <data name="AlbumName.Text" xml:space="preserve">
+    <value>專輯名稱</value>
+    <comment>Album Name</comment>
+  </data>
+  <data name="Instantly.Text" xml:space="preserve">
+    <value>即時生效</value>
+    <comment>Instantly</comment>
+  </data>
+  <data name="Performers.Text" xml:space="preserve">
+    <value>歌手</value>
+    <comment>Performers</comment>
+  </data>
+  <data name="AlbumArtists.Text" xml:space="preserve">
+    <value>專輯藝術家</value>
+    <comment>Album Artists</comment>
+  </data>
+  <data name="Genres.Text" xml:space="preserve">
+    <value>流派</value>
+    <comment>Genres</comment>
+  </data>
+  <data name="Track.Text" xml:space="preserve">
+    <value>音軌</value>
+    <comment>Track</comment>
+  </data>
+  <data name="Disc.Text" xml:space="preserve">
+    <value>碟片</value>
+    <comment>Disc</comment>
+  </data>
+  <data name="Rating.Text" xml:space="preserve">
+    <value>評分</value>
+    <comment>Rating</comment>
+  </data>
+  <data name="YearText.Text" xml:space="preserve">
+    <value>發行年份</value>
+    <comment>Year</comment>
+  </data>
+  <data name="BitRate.Text" xml:space="preserve">
+    <value>位元率</value>
+    <comment>Bit Rate</comment>
+  </data>
+  <data name="Duration.Text" xml:space="preserve">
+    <value>時長</value>
+    <comment>Duration</comment>
+  </data>
+  <data name="NotAvaliableText" xml:space="preserve">
+    <value>不可用</value>
+    <comment>Not Avaliable</comment>
+  </data>
+  <data name="NeedScanText" xml:space="preserve">
+    <value>需要掃描</value>
+    <comment>Need Scan</comment>
+  </data>
+  <data name="CommaSeparator" xml:space="preserve">
+    <value>，</value>
+    <comment>, </comment>
+  </data>
+  <data name="NoLyricText" xml:space="preserve">
+    <value>無歌詞</value>
+    <comment>No Lyrics</comment>
+  </data>
+  <data name="EndText" xml:space="preserve">
+    <value>結尾</value>
+    <comment>End</comment>
+  </data>
+  <data name="SearchInLibraryText" xml:space="preserve">
+    <value>在庫中搜索</value>
+    <comment>Search in library</comment>
+  </data>
+  <data name="NotPlayingText" xml:space="preserve">
+    <value>未在播放</value>
+    <comment>Not Playing</comment>
+  </data>
+  <data name="NotPlaying.Text" xml:space="preserve">
+    <value>未在播放</value>
+    <comment>Not Playing</comment>
+  </data>
+  <data name="SearchInWebText" xml:space="preserve">
+    <value>在庫和網路中搜索</value>
+    <comment>Search in Library and Web</comment>
+  </data>
+  <data name="FileUpdatingText" xml:space="preserve">
+    <value>更新檔案中</value>
+    <comment>File Updating</comment>
+  </data>
+  <data name="CompletedText" xml:space="preserve">
+    <value>完成</value>
+    <comment>Completed</comment>
+  </data>
+  <data name="PauseText" xml:space="preserve">
+    <value>暫停</value>
+    <comment>Pause</comment>
+  </data>
+  <data name="PlayText" xml:space="preserve">
+    <value>播放</value>
+    <comment>Play</comment>
+  </data>
+  <data name="LoadingLyricsText" xml:space="preserve">
+    <value>載入歌詞中……</value>
+    <comment>Loading lyrics...</comment>
+  </data>
+  <data name="DownloadCompletedText" xml:space="preserve">
+    <value>下載完成</value>
+    <comment>Download Completed</comment>
+  </data>
+  <data name="IdleText" xml:space="preserve">
+    <value>空閒中</value>
+    <comment>Idle</comment>
+  </data>
+  <data name="DownloadingIdleText" xml:space="preserve">
+    <value>下載空閒中</value>
+    <comment>Downloading Idle</comment>
+  </data>
+  <data name="ProcessingText" xml:space="preserve">
+    <value>處理中</value>
+    <comment>Processing</comment>
+  </data>
+  <data name="DownloadinginProgressText" xml:space="preserve">
+    <value>下載正在進行</value>
+    <comment>Downloading in Progress</comment>
+  </data>
+  <data name="DownloadingPausedText" xml:space="preserve">
+    <value>下載已暫停</value>
+    <comment>Downloading Paused</comment>
+  </data>
+  <data name="DownloadingCanceledText" xml:space="preserve">
+    <value>下載已取消</value>
+    <comment>Downloading Canceled</comment>
+  </data>
+  <data name="DownloadingErrorText" xml:space="preserve">
+    <value>下載出錯</value>
+    <comment>Downloading Error</comment>
+  </data>
+  <data name="DownloadText" xml:space="preserve">
+    <value>下載</value>
+    <comment>Download</comment>
+  </data>
+  <data name="ModifyTagsText" xml:space="preserve">
+    <value>編輯標籤</value>
+    <comment>Modify Tags</comment>
+  </data>
+  <data name="ClearCacheText" xml:space="preserve">
+    <value>臨時檔案已清除</value>
+    <comment>Temporary folder cleared</comment>
+  </data>
+  <data name="WaitingResultText" xml:space="preserve">
+    <value>等待結果中</value>
+    <comment>Waiting for Result</comment>
+  </data>
+  <data name="OnlineContentText" xml:space="preserve">
+    <value>線上內容</value>
+    <comment>Online Content</comment>
+  </data>
+  <data name="VariousText" xml:space="preserve">
+    <value>多個</value>
+    <comment>Various</comment>
+  </data>
+  <data name="RencentlyPlayedText" xml:space="preserve">
+    <value>最近播放</value>
+    <comment>Rencently Played</comment>
+  </data>
+  <data name="TodayFavText" xml:space="preserve">
+    <value>{0}的最愛</value>
+    <comment>{0}'s Favorites</comment>
+  </data>
+  <data name="DayOfWeek_Sunday" xml:space="preserve">
+    <value>週日</value>
+    <comment>Sunday</comment>
+  </data>
+  <data name="DayOfWeek_Monday" xml:space="preserve">
+    <value>週一</value>
+    <comment>Monday</comment>
+  </data>
+  <data name="DayOfWeek_Tuesday" xml:space="preserve">
+    <value>週二</value>
+    <comment>Tuesday</comment>
+  </data>
+  <data name="DayOfWeek_Wednesday" xml:space="preserve">
+    <value>週三</value>
+    <comment>Wednesday</comment>
+  </data>
+  <data name="DayOfWeek_Thursday" xml:space="preserve">
+    <value>週四</value>
+    <comment>Thursday</comment>
+  </data>
+  <data name="DayOfWeek_Friday" xml:space="preserve">
+    <value>週五</value>
+    <comment>Friday</comment>
+  </data>
+  <data name="DayOfWeek_Saturday" xml:space="preserve">
+    <value>週末</value>
+    <comment>Saturday</comment>
+  </data>
+  <data name="TodaySuggestionText" xml:space="preserve">
+    <value>{0}合集</value>
+    <comment>{0}'s Suggestion</comment>
+  </data>
+  <data name="UpdateNoteDialog.CloseButtonText" xml:space="preserve">
+    <value>關閉</value>
+    <comment>Close</comment>
+  </data>
+  <data name="UpdateNoteTitle" xml:space="preserve">
+    <value>{0} 版本更新日誌</value>
+    <comment>Update Note for Build {0}</comment>
+  </data>
+  <data name="AddToCollectionTitle" xml:space="preserve">
+    <value>將{0}新增到收藏</value>
+    <comment>Add {0} into Collection</comment>
+  </data>
+  <data name="Favorites" xml:space="preserve">
+    <value>最愛</value>
+    <comment>Favorites</comment>
+  </data>
+  <data name="AutoGen" xml:space="preserve">
+    <value>自動生成</value>
+    <comment>Automatically Generated</comment>
+  </data>
+  <data name="PlayingHistoryText" xml:space="preserve">
+    <value>上次播放</value>
+    <comment>Last Played</comment>
+  </data>
+  <data name="Cast.Text" xml:space="preserve">
+    <value>播放到</value>
+    <comment>Cast</comment>
+  </data>
+  <data name="LyricWindowFlyout.Text" xml:space="preserve">
+    <value>歌詞視窗</value>
+    <comment>Lyric Window</comment>
+  </data>
+  <data name="SmallWindowFlyout.Text" xml:space="preserve">
+    <value>小窗播放</value>
+    <comment>Small Window</comment>
+  </data>
+  <data name="LyricWindow.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>歌詞視窗</value>
+    <comment>Lyric Window</comment>
+  </data>
+  <data name="SmallWindow.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>小窗播放</value>
+    <comment>Small Window</comment>
+  </data>
+  <data name="TileDesc" xml:space="preserve">
+    <value>{1} 創作的 {0}</value>
+    <comment>{0} by {1}</comment>
+  </data>
+  <data name="WhatsNew.Content" xml:space="preserve">
+    <value>這次更新了什麼？</value>
+    <comment>What's New?</comment>
+  </data>
+  <data name="DropBtn.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>丟掉</value>
+    <comment>Drop</comment>
+  </data>
+  <data name="DouText" xml:space="preserve">
+    <value>豆瓣 FM</value>
+    <comment>豆瓣 FM</comment>
+  </data>
+  <data name="EaseAccess.CloseButtonText" xml:space="preserve">
+    <value>關閉</value>
+    <comment>Close</comment>
+  </data>
+  <data name="EaseAccessBtn.Content" xml:space="preserve">
+    <value>輕鬆使用</value>
+    <comment>Ease of Access</comment>
+  </data>
+  <data name="SmartDuration" xml:space="preserve">
+    <value>{0}分，{1}秒</value>
+    <comment>{0} {0:min|mins}, {1} {1:sec|secs}</comment>
+  </data>
+  <data name="SmartDurationLong" xml:space="preserve">
+    <value>{0}小時，{1}分</value>
+    <comment>{0} {0:hour|hours}, {1} {1:min|mins}</comment>
+  </data>
+  <data name="SmartDurationShort" xml:space="preserve">
+    <value>{0}秒</value>
+    <comment>{0} {0:sec|secs}</comment>
+  </data>
+  <data name="ArtistStory.Text" xml:space="preserve">
+    <value>檢視歌手故事</value>
+    <comment>See Artist Story</comment>
+  </data>
+  <data name="AlbumStory.Text" xml:space="preserve">
+    <value>檢視專輯故事</value>
+    <comment>See Album Story</comment>
+  </data>
+  <data name="Equalizer.Text" xml:space="preserve">
+    <value>均衡器</value>
+    <comment>Equalizer</comment>
+  </data>
+  <data name="Timer.Text" xml:space="preserve">
+    <value>睡眠定時器</value>
+    <comment>Sleep Timer</comment>
+  </data>
+  <data name="NotLogin" xml:space="preserve">
+    <value>未登入</value>
+    <comment>NotLogin</comment>
+  </data>
+  <data name="UnknownError" xml:space="preserve">
+    <value>未知錯誤</value>
+    <comment>UnknownError</comment>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>密碼</value>
+    <comment>Password</comment>
+  </data>
+  <data name="Invalid" xml:space="preserve">
+    <value>無效</value>
+    <comment>Invalid</comment>
+  </data>
+  <data name="Account" xml:space="preserve">
+    <value>賬號</value>
+    <comment>Account</comment>
+  </data>
+  <data name="PasswordBox.Header" xml:space="preserve">
+    <value>密碼</value>
+    <comment>Password</comment>
+  </data>
+  <data name="PasswordBox.PlaceholderText" xml:space="preserve">
+    <value>至少8位字元</value>
+    <comment>8 or More Characters</comment>
+  </data>
+  <data name="AccountBox.Header" xml:space="preserve">
+    <value>賬號</value>
+    <comment>Account</comment>
+  </data>
+  <data name="AccountBox.PlaceholderText" xml:space="preserve">
+    <value>電子郵箱/手機</value>
+    <comment>E-mail/Phone</comment>
+  </data>
+  <data name="DoubanLogin.PrimaryButtonText" xml:space="preserve">
+    <value>登入</value>
+    <comment>Login</comment>
+  </data>
+  <data name="DoubanLogin.CloseButtonText" xml:space="preserve">
+    <value>關閉</value>
+    <comment>Close</comment>
+  </data>
+  <data name="EqualizerSettings.Title" xml:space="preserve">
+    <value>均衡器設定</value>
+    <comment>Equalizer Settings</comment>
+  </data>
+  <data name="EqualizerSettings.CloseButtonText" xml:space="preserve">
+    <value>關閉</value>
+    <comment>Close</comment>
+  </data>
+  <data name="Presets.Header" xml:space="preserve">
+    <value>預設：</value>
+    <comment>Presets:</comment>
+  </data>
+  <data name="Reset.Content" xml:space="preserve">
+    <value>重置</value>
+    <comment>Reset</comment>
+  </data>
+  <data name="SleepTimerDialog.Title" xml:space="preserve">
+    <value>睡眠定時器</value>
+    <comment>Sleep Timer</comment>
+  </data>
+  <data name="SleepTimerDialog.CloseButtonText" xml:space="preserve">
+    <value>取消</value>
+    <comment>Cancel</comment>
+  </data>
+  <data name="SleepTimerDialog.PrimaryButtonText" xml:space="preserve">
+    <value>確定</value>
+    <comment>Confirm</comment>
+  </data>
+  <data name="SleepTimerTimePicker.Header" xml:space="preserve">
+    <value>當時間到達：</value>
+    <comment>When time arrives</comment>
+  </data>
+  <data name="SleepTimerPerform.Text" xml:space="preserve">
+    <value>進行以下操作：</value>
+    <comment>Performs:</comment>
+  </data>
+  <data name="SleepTimerPlayPause.Content" xml:space="preserve">
+    <value>切換播放/暫停</value>
+    <comment>Toggle play/pause</comment>
+  </data>
+  <data name="SleepTimerStop.Content" xml:space="preserve">
+    <value>停止播放</value>
+    <comment>Stop</comment>
+  </data>
+  <data name="SleepTimerShutdown.Content" xml:space="preserve">
+    <value>關閉應用</value>
+    <comment>Shutdown app</comment>
+  </data>
+  <data name="AudioEffects.Text" xml:space="preserve">
+    <value>音訊效果</value>
+    <comment>Audio Effects</comment>
+  </data>
+  <data name="EqualizerToggle.Header" xml:space="preserve">
+    <value>均衡器</value>
+    <comment>Equalizer</comment>
+  </data>
+  <data name="VolumeButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>音量</value>
+    <comment>Volume</comment>
+  </data>
+  <data name="VisualizationButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>音訊視覺化</value>
+    <comment>Audio Visualization</comment>
+  </data>
+  <data name="VisualizationFlyout.Text" xml:space="preserve">
+    <value>音訊視覺化</value>
+    <comment>Audio Visualization</comment>
+  </data>
+  <data name="ShuffleFlyout.Text" xml:space="preserve">
+    <value>隨機播放</value>
+    <comment>Shuffle</comment>
+  </data>
+  <data name="RepeatFlyout.Text" xml:space="preserve">
+    <value>迴圈播放</value>
+    <comment>Repeat</comment>
+  </data>
+  <data name="DroptoPlay" xml:space="preserve">
+    <value>放下以播放</value>
+    <comment>Drop to Play</comment>
+  </data>
+  <data name="NotSupport" xml:space="preserve">
+    <value>不支援</value>
+    <comment>Not Support</comment>
+  </data>
+  <data name="SpeedBtn.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>回放速率</value>
+    <comment>Playback Rate</comment>
+  </data>
+  <data name="LastUpdatePost.Text" xml:space="preserve">
+    <value>最後更新：</value>
+    <comment>Last Updated: </comment>
+  </data>
+  <data name="RefreshPost.Text" xml:space="preserve">
+    <value>重新整理</value>
+    <comment>Refresh</comment>
+  </data>
+  <data name="UnSubscribeAction" xml:space="preserve">
+    <value>取消訂閱</value>
+    <comment>Un-Subscribe</comment>
+  </data>
+  <data name="SubscribeAction" xml:space="preserve">
+    <value>開始訂閱</value>
+    <comment>Subscribe</comment>
+  </data>
+  <data name="Retriving.Text" xml:space="preserve">
+    <value>檢索資料庫</value>
+    <comment>Retriving Database</comment>
+  </data>
+  <data name="TodayText" xml:space="preserve">
+    <value>'今天'</value>
+    <comment>Today</comment>
+  </data>
+  <data name="NextDayText" xml:space="preserve">
+    <value>下個</value>
+    <comment>Next </comment>
+  </data>
+  <data name="LastDayText" xml:space="preserve">
+    <value>上個</value>
+    <comment>Last </comment>
+  </data>
+  <data name="SubscribeText" xml:space="preserve">
+    <value>已訂閱</value>
+    <comment>Subscribed</comment>
+  </data>
+  <data name="UnSubscribeText" xml:space="preserve">
+    <value>已取消訂閱</value>
+    <comment>Un-Subscribed</comment>
+  </data>
+  <data name="UndoSubscribeText" xml:space="preserve">
+    <value>取消訂閱</value>
+    <comment>Undo Subscribe</comment>
+  </data>
+  <data name="Fetching.Text" xml:space="preserve">
+    <value>拉取中</value>
+    <comment>Fetching</comment>
+  </data>
+  <data name="PodcastDialog.Title" xml:space="preserve">
+    <value>播客詳情</value>
+    <comment>Podcast Details</comment>
+  </data>
+  <data name="PodcastDialog.CloseButtonText" xml:space="preserve">
+    <value>關閉</value>
+    <comment>Close</comment>
+  </data>
+  <data name="PodcastDialog.PrimaryButtonText" xml:space="preserve">
+    <value>訂閱</value>
+    <comment>Subscribe</comment>
+  </data>
+  <data name="Podcast.Text" xml:space="preserve">
+    <value>播客</value>
+    <comment>Podcast</comment>
+  </data>
+  <data name="ShowPodcastsWhenSearch.Header" xml:space="preserve">
+    <value>搜尋時包含播客結果</value>
+    <comment>Show podcasts when search</comment>
+  </data>
+  <data name="SendPodcastToast.Header" xml:space="preserve">
+    <value>播客更新時傳送通知</value>
+    <comment>Send toast when new-coming</comment>
+  </data>
+  <data name="FetchInterval.Header" xml:space="preserve">
+    <value>更新間隔</value>
+    <comment>Refresh Interval</comment>
+  </data>
+  <data name="MinText" xml:space="preserve">
+    <value>分</value>
+    <comment>min</comment>
+  </data>
+  <data name="PodcastSubscribe" xml:space="preserve">
+    <value>已訂閱「{0}」，你可在音樂庫中找到它</value>
+    <comment>"{0}" Subscribed, You can find it in music library now</comment>
+  </data>
+  <data name="PodcastUnSubscribe" xml:space="preserve">
+    <value>「{0}」已從音樂庫移除</value>
+    <comment>"{0}" is no longer in your music library</comment>
+  </data>
+  <data name="ImportSucceed" xml:space="preserve">
+    <value>共計{0}個播客，{1}個已成功匯入</value>
+    <comment>{1} of {0} {1:Podcast|Podcasts} successfully imported</comment>
+  </data>
+  <data name="OPMLDesc" xml:space="preserve">
+    <value>大綱處理標記語言文件</value>
+    <comment>Outline Processor Markup Language Document</comment>
+  </data>
+  <data name="ExportOPMLName" xml:space="preserve">
+    <value>匯出的播客</value>
+    <comment>Podcasts Export</comment>
+  </data>
+  <data name="OPMLExport" xml:space="preserve">
+    <value>播客成功匯出</value>
+    <comment>Podcasts successfully exported</comment>
+  </data>
+  <data name="ImportOPMLBtn.Content" xml:space="preserve">
+    <value>匯入 OPML 檔案</value>
+    <comment>Import OPML Doc</comment>
+  </data>
+  <data name="ExportOPMLBtn.Content" xml:space="preserve">
+    <value>匯出 OPML 檔案</value>
+    <comment>Export OPML Doc</comment>
+  </data>
+  <data name="PodcastToastTitle" xml:space="preserve">
+    <value>{0} 更新啦！</value>
+    <comment>{0} has updated!</comment>
+  </data>
+  <data name="PodcastToastDesc" xml:space="preserve">
+    <value>點選收聽：{0}</value>
+    <comment>Click to listen {0}</comment>
+  </data>
+  <data name="AndMore" xml:space="preserve">
+    <value>以及{0}個</value>
+    <comment>And {0} more</comment>
+  </data>
+  <data name="BackgroundTransferStatus_Idle" xml:space="preserve">
+    <value>空閒</value>
+    <comment>Idle</comment>
+  </data>
+  <data name="BackgroundTransferStatus_Running" xml:space="preserve">
+    <value>正在進行</value>
+    <comment>Running</comment>
+  </data>
+  <data name="BackgroundTransferStatus_PausedByApplication" xml:space="preserve">
+    <value>由程式暫停</value>
+    <comment>Paused by application</comment>
+  </data>
+  <data name="BackgroundTransferStatus_PausedCostedNetwork" xml:space="preserve">
+    <value>因網路暫停</value>
+    <comment>Paused by metered-network</comment>
+  </data>
+  <data name="BackgroundTransferStatus_PausedNoNetwork" xml:space="preserve">
+    <value>無網路連線</value>
+    <comment>No network</comment>
+  </data>
+  <data name="BackgroundTransferStatus_Completed" xml:space="preserve">
+    <value>已完成</value>
+    <comment>Completed</comment>
+  </data>
+  <data name="BackgroundTransferStatus_Canceled" xml:space="preserve">
+    <value>已取消</value>
+    <comment>Canceled</comment>
+  </data>
+  <data name="BackgroundTransferStatus_Error" xml:space="preserve">
+    <value>出錯</value>
+    <comment>Error</comment>
+  </data>
+  <data name="BackgroundTransferStatus_PausedRecoverableWebErrorStatus" xml:space="preserve">
+    <value>出錯（可恢復）</value>
+    <comment>Paused by recoverable web error</comment>
+  </data>
+  <data name="BackgroundTransferStatus_PausedSystemPolicy" xml:space="preserve">
+    <value>因資源約束暫停</value>
+    <comment>Paused by system policy</comment>
+  </data>
+  <data name="HeroTitle.Text" xml:space="preserve">
+    <value>為你挑選</value>
+    <comment>For You</comment>
+  </data>
+  <data name="DownloadDesc" xml:space="preserve">
+    <value>{0}/{1}個任務正在下載</value>
+    <comment>{0}/{1} download {0:task|tasks} {0:is|are} running</comment>
+  </data>
+  <data name="PodcastMarket" xml:space="preserve">
+    <value>發現播客</value>
+    <comment>Explore podcasts</comment>
+  </data>
+  <data name="TopCharts.Text" xml:space="preserve">
+    <value>最熱門</value>
+    <comment>Top Charts</comment>
+  </data>
+  <data name="RssInput.PlaceholderText" xml:space="preserve">
+    <value>鍵入一個有效的 RSS 源以檢視播客：</value>
+    <comment>Enter an valid rss address to view podcasts:</comment>
+  </data>
+  <data name="DisplayRequestSwitch.Header" xml:space="preserve">
+    <value>播放時阻止螢幕鎖定</value>
+    <comment>Prevent screen locks when playing</comment>
+  </data>
+  <data name="EffectsNote.Text" xml:space="preserve">
+    <value>注意：開啟音訊效果會增加少許效能消耗</value>
+    <comment>NOTE: Enable audio effects may cost a little performance</comment>
+  </data>
+  <data name="EqualizerButton.Content" xml:space="preserve">
+    <value>均衡器設定</value>
+    <comment>Equalizer Settings</comment>
+  </data>
+  <data name="ChannelShiftToggle.Header" xml:space="preserve">
+    <value>聲道調節</value>
+    <comment>Channel shift</comment>
+  </data>
+  <data name="ToMonoSwitch.Header" xml:space="preserve">
+    <value>轉換為單聲道</value>
+    <comment>Stereo to mono</comment>
+  </data>
+  <data name="LimiterToggle.Header" xml:space="preserve">
+    <value>限幅器</value>
+    <comment>Limiter</comment>
+  </data>
+  <data name="LimiterButton.Content" xml:space="preserve">
+    <value>限幅器設定</value>
+    <comment>Limiter setting</comment>
+  </data>
+  <data name="CacheFolderSize.Text" xml:space="preserve">
+    <value>快取目錄大小：</value>
+    <comment>Cache folder size:</comment>
+  </data>
+  <data name="DataFolderSize.Text" xml:space="preserve">
+    <value>資料目錄大小：</value>
+    <comment>Data folder size:</comment>
+  </data>
+  <data name="OpenDataButton.Content" xml:space="preserve">
+    <value>開啟資料目錄</value>
+    <comment>Open data folder</comment>
+  </data>
+  <data name="PodcastDesc" xml:space="preserve">
+    <value>播客發表於{0}</value>
+    <comment>Podcast Posted @ {0}</comment>
+  </data>
+  <data name="ImportPlaylist.Content" xml:space="preserve">
+    <value>匯入播放列表</value>
+    <comment>Import playlist</comment>
+  </data>
+  <data name="Limiter.Text" xml:space="preserve">
+    <value>限幅器</value>
+    <comment>Limiter</comment>
+  </data>
+  <data name="LimiterDialog.Title" xml:space="preserve">
+    <value>限幅器設定</value>
+    <comment>Limiter Setting</comment>
+  </data>
+  <data name="LimiterDialog.CloseButtonText" xml:space="preserve">
+    <value>關閉</value>
+    <comment>Close</comment>
+  </data>
+  <data name="Attack.Header" xml:space="preserve">
+    <value>觸發時間</value>
+    <comment>Attack</comment>
+  </data>
+  <data name="Release.Header" xml:space="preserve">
+    <value>釋放時間</value>
+    <comment>Release</comment>
+  </data>
+  <data name="Ratio.Header" xml:space="preserve">
+    <value>比例</value>
+    <comment>Ratio</comment>
+  </data>
+  <data name="Gain.Header" xml:space="preserve">
+    <value>增益</value>
+    <comment>Gain</comment>
+  </data>
+  <data name="Threshold.Header" xml:space="preserve">
+    <value>閾值</value>
+    <comment>Threshold</comment>
+  </data>
+  <data name="MainpageSettings.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>設定</value>
+    <comment>Settings</comment>
+  </data>
+  <data name="StudioName.Text" xml:space="preserve">
+    <value>極光工作室出品</value>
+    <comment>Aurora Studio's</comment>
+  </data>
+  <data name="Contributors.Text" xml:space="preserve">
+    <value>貢獻者</value>
+    <comment>Contributors</comment>
+  </data>
+  <data name="OpenSourceLibraries.Text" xml:space="preserve">
+    <value>使用的開源庫</value>
+    <comment>Open source libraries</comment>
+  </data>
+  <data name="Donate.Text" xml:space="preserve">
+    <value>捐贈</value>
+    <comment>Donate</comment>
+  </data>
+  <data name="TaskDesc" xml:space="preserve">
+    <value>{0}個任務在佇列中</value>
+    <comment>{0} {0:task|tasks} {0:is|are} in queue</comment>
+  </data>
+    <data name="OlderTop" xml:space="preserve">
+    <value>老的在前</value>
+    <comment>Older at top</comment>
+  </data>
+    <data name="NewerTop" xml:space="preserve">
+    <value>新的在前</value>
+    <comment>Newer at top</comment>
+  </data>
+    <data name="SizeFilter.Header" xml:space="preserve">
+    <value>不要搜尋小於以下大小的檔案</value>
+    <comment>Don't search files smaller than</comment>
+  </data>
+    <data name="DurationFilter.Header" xml:space="preserve">
+    <value>不要搜尋短於以下時長的檔案</value>
+    <comment>Don't search files shorter than</comment>
+  </data>
+    <data name="DurationFilterEnable.Header" xml:space="preserve">
+    <value>時長過濾</value>
+    <comment>Duration filter</comment>
+  </data>
+    <data name="SizeFilterEnable.Header" xml:space="preserve">
+    <value>體積過濾</value>
+    <comment>Size filter</comment>
+  </data>
+    <data name="FilteredfolderText" xml:space="preserve">
+    <value>已過濾的資料夾</value>
+    <comment>Filtered folder</comment>
+  </data>
+    <data name="FilterFoldeNote.Text" xml:space="preserve">
+    <value>注意：過濾資料夾會對所有資料夾生效</value>
+    <comment>Note: filtered folder names will apply to all folder</comment>
+  </data>
+    <data name="FilterNewFolder.Content" xml:space="preserve">
+    <value>新增一個過濾資料夾</value>
+    <comment>Add a folder don't scan</comment>
+  </data>
+    <data name="WelcomeTitle2.Text" xml:space="preserve">
+    <value>順滑質感</value>
+    <comment>Fluent Feel</comment>
+  </data>
+    <data name="Welcome1.Text" xml:space="preserve">
+    <value>使用極光音樂點亮你的音樂體驗</value>
+    <comment>Using Aurora Music to delight your music experience.</comment>
+  </data>
+    <data name="Welcome2.Text" xml:space="preserve">
+    <value>基於流暢設計系統，擁有簡潔易用的使用者互動</value>
+    <comment>It is based on Fluent-deisgn System, just check out the stunning UI performance.</comment>
+  </data>
+    <data name="WelcomeTitle3.Text" xml:space="preserve">
+    <value>在開始之前</value>
+    <comment>Before You Start</comment>
+  </data>
+    <data name="WelcomeTitle4.Text" xml:space="preserve">
+    <value>請稍等一會……</value>
+    <comment>Wait for a While...</comment>
+  </data>
+    <data name="FolderScanText" xml:space="preserve">
+    <value>{0}個資料夾已掃描，共{1}個</value>
+    <comment>{0} of {1} {1:folder|folders} scanned</comment>
+  </data>
+    <data name="FolderScanFinishText" xml:space="preserve">
+    <value>資料夾掃描完成</value>
+    <comment>Folders scanning completed</comment>
+  </data>
+    <data name="FileReadText" xml:space="preserve">
+    <value>{0}個檔案已讀取，共{1}個</value>
+    <comment>{0} of {1} {1:file|files} read</comment>
+  </data>
+    <data name="AlbumSortText" xml:space="preserve">
+    <value>{0}個專輯已歸類，共{1}個</value>
+    <comment>{0} of {1} {1:album|albums} sorted</comment>
+  </data>
+
+
+<data name="UnSubscribe.Text" xml:space="preserve">
+    <value>取消訂閱</value>
+    <comment>Un-Subscribe</comment>
+  </data>
+<data name="Subscribe.Text" xml:space="preserve">
+    <value>開始訂閱</value>
+    <comment>Subscribe</comment>
+  </data>
+</root>
