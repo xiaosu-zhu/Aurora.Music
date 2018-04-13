@@ -1,7 +1,7 @@
 # LrcParser
 
-A .NET Core implementation of parser for `.lrc` format.
+A .NET Standard implementation of parser for `.lrc` format.
 
-Target version is .NET Core 2.1.
+Target version is .NET Standard 2.0.
 
 Licensed under MIT.
