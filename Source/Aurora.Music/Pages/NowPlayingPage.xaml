@@ -1334,7 +1334,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                             <ListView x:Name="NowPlayingFlyout" ItemTemplate="{StaticResource PlayingListTemplate}" 
                                       MaxHeight="360" IsSynchronizedWithCurrentItem="False" Padding="0" Margin="0"
                                       SelectedIndex="{x:Bind Context.CurrentIndex, Mode=OneWay,FallbackValue=-1}"
-                                      ItemsSource="{x:Bind Context.NowPlayingList}"
+                                      ItemsSource="{x:Bind Context.NowPlayingList}" 
+                                      ItemClick="NowPlayingFlyout_ItemClick"
+                                      IsItemClickEnabled="True"
                                       Background="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}"
                                       ItemContainerStyleSelector="{StaticResource SongListStyleSelector}">
                                 <ListView.Header>

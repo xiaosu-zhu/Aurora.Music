@@ -129,8 +129,8 @@
     <value>Costruita {0} e supportata da</value>
     <comment>AboutPage Build Text</comment>
   </data>
-  <data name="GithubTitle.Text" xml:space="preserve">
-    <value>Follow and get instructions of developing extensions on</value>
+    <data name="GithubTitle.Text" xml:space="preserve">
+    <value>Seguici e impara a creare le estensioni</value>
     <comment>AboutPage Github Title</comment>
   </data>
     <data name="UnSplashTitle.Text" xml:space="preserve">
@@ -142,7 +142,7 @@
     <comment>Now Playing Title</comment>
   </data>
     <data name="Settings.Text" xml:space="preserve">
-    <value>Opzioni</value>
+    <value>Impostazioni</value>
     <comment>Settings</comment>
   </data>
     <data name="Waiting.Text" xml:space="preserve">
@@ -217,8 +217,8 @@
     <value>Riproduci Tutto</value>
     <comment>Play All</comment>
   </data>
-  <data name="ScanFolder.Text" xml:space="preserve">
-    <value>Here's Scanning Folders</value>
+    <data name="ScanFolder.Text" xml:space="preserve">
+    <value>Impostazioni per l'analisi delle cartelle</value>
     <comment>Here's Scanning Folders</comment>
   </data>
     <data name="AddNewFolder.Content" xml:space="preserve">
@@ -258,7 +258,7 @@
     <comment>Play</comment>
   </data>
     <data name="PlayNext.Text" xml:space="preserve">
-    <value>Play Next</value>
+    <value>Riproduci il prossimo</value>
     <comment>Play Next</comment>
   </data>
     <data name="AddCollection.Text" xml:space="preserve">
@@ -321,10 +321,13 @@
     <value>Scrivi una Descrizione</value>
     <comment>Type some descriptions</comment>
   </data>
+    
+    
   <data name="IncludeLibrary.Text" xml:space="preserve">
     <value>Including Music Library</value>
     <comment>Including Music Library</comment>
   </data>
+
     <data name="Configuration.Text" xml:space="preserve">
     <value>Impostazioni Player</value>
     <comment>Player Configuration</comment>
@@ -333,10 +336,13 @@
     <value>Estensioni</value>
     <comment>Extensions</comment>
   </data>
+    
+    
   <data name="ExtensionIntro.Text" xml:space="preserve">
     <value>You can enable or restore online extensibility from</value>
     <comment>ExtensionIntro</comment>
   </data>
+
     <data name="Here.Text" xml:space="preserve">
     <value>qui</value>
     <comment>here</comment>
@@ -345,12 +351,12 @@
     <value>Percorso per il Download</value>
     <comment>Download Path</comment>
   </data>
-  <data name="AudioGraph.Text" xml:space="preserve">
-    <value>Audio Graph</value>
+    <data name="AudioGraph.Text" xml:space="preserve">
+    <value>Grafico Audio</value>
     <comment>Audio Graph</comment>
   </data>
-  <data name="NotImplement.Text" xml:space="preserve">
-    <value>Coming Soon</value>
+    <data name="NotImplement.Text" xml:space="preserve">
+    <value>Presto in arrivo</value>
     <comment>Coming Soon</comment>
   </data>
     <data name="AppNameText" xml:space="preserve">
@@ -361,79 +367,91 @@
     <value>Musica</value>
     <comment>Music</comment>
   </data>
-  <data name="NativeText" xml:space="preserve">
-    <value>Native Extension</value>
+    <data name="NativeText" xml:space="preserve">
+    <value>Estensioni native</value>
     <comment>Native Extension</comment>
   </data>
+    
+    
   <data name="BuiltInText" xml:space="preserve">
     <value>Built-In Data Provider</value>
     <comment>Built-In Data Provider</comment>
   </data>
+    
+    
+    
   <data name="OutputEndPoint.Header" xml:space="preserve">
     <value>Output Endpoint</value>
     <comment>Output Endpoint</comment>
   </data>
-  <data name="OutputDefaultHint.Text" xml:space="preserve">
-    <value>"System default" will be applied at next launch.</value>
+
+    <data name="OutputDefaultHint.Text" xml:space="preserve">
+    <value>"Predefinite di Sistema" sarà applicato al prossimo avvio</value>
     <comment>'System default' will be applied at next launch.</comment>
   </data>
-  <data name="SystemDefault" xml:space="preserve">
-    <value>System default</value>
+    <data name="SystemDefault" xml:space="preserve">
+    <value>Predefinite di Sistema</value>
     <comment>System default</comment>
   </data>
-  <data name="VolumeLevel.Header" xml:space="preserve">
-    <value>Volume Level</value>
+    <data name="VolumeLevel.Header" xml:space="preserve">
+    <value>Livello Volume</value>
     <comment>Volume Level</comment>
   </data>
-  <data name="VolumeHint.Text" xml:space="preserve">
-    <value>We suggest you to control the system volume directly.</value>
+    <data name="VolumeHint.Text" xml:space="preserve">
+    <value>Ti suggeriamo di agire direttamente sul volume di sistema.</value>
     <comment>We suggest you to control the system volume directly.</comment>
   </data>
-  <data name="Manage.Content" xml:space="preserve">
-    <value>Manage</value>
+    <data name="Manage.Content" xml:space="preserve">
+    <value>Gestisci</value>
     <comment>Manage</comment>
   </data>
-  <data name="LyricExtension.Header" xml:space="preserve">
-    <value>Lyric Extension</value>
+    <data name="LyricExtension.Header" xml:space="preserve">
+    <value>Estensione per i testi musicali</value>
     <comment>Lyric Extension</comment>
   </data>
-  <data name="MetaExtension.Header" xml:space="preserve">
-    <value>MetaData Extension</value>
+    <data name="MetaExtension.Header" xml:space="preserve">
+    <value>Estensione per i metadati</value>
     <comment>MetaData Extension</comment>
   </data>
-  <data name="OnlineExtension.Header" xml:space="preserve">
-    <value>Online Music Extension</value>
+    <data name="OnlineExtension.Header" xml:space="preserve">
+    <value>Estensione per la musica online</value>
     <comment>Online Music Extension</comment>
   </data>
+    
+    
   <data name="Advance.Text" xml:space="preserve">
     <value>Advance</value>
     <comment>Advance</comment>
   </data>
+    
+    
+    
   <data name="DebugMode.Header" xml:space="preserve">
     <value>Debug Mode</value>
     <comment>Debug Mode</comment>
   </data>
-  <data name="DangerZone.Text" xml:space="preserve">
-    <value>Danger Zone</value>
+
+    <data name="DangerZone.Text" xml:space="preserve">
+    <value>Zona per chi sa ciò che fa</value>
     <comment>Danger Zone</comment>
   </data>
-  <data name="ClearCache.Content" xml:space="preserve">
-    <value>Clear Cache</value>
+    <data name="ClearCache.Content" xml:space="preserve">
+    <value>Cancella la Cache</value>
     <comment>Clear Cache</comment>
   </data>
-  <data name="DeleteAll.Content" xml:space="preserve">
-    <value>Delete all and reload</value>
+    <data name="DeleteAll.Content" xml:space="preserve">
+    <value>Cancella tutto e ricarica</value>
     <comment>Delete all and reload</comment>
   </data>
-  <data name="DeleteAllHint.Content" xml:space="preserve">
-    <value>I know this will clear all data and continue</value>
+    <data name="DeleteAllHint.Content" xml:space="preserve">
+    <value>Sono consapevole del fatto che ciò cancellerà tutti i dati. Continua.</value>
     <comment>I know this will clear all data and continue</comment>
   </data>
-  <data name="OtherInformation.Text" xml:space="preserve">
-    <value>Other Information</value>
+    <data name="OtherInformation.Text" xml:space="preserve">
+    <value>Altre Informazioni</value>
     <comment>Other Information</comment>
   </data>
-  <data name="OpenSource.Content" xml:space="preserve">
+    <data name="OpenSource.Content" xml:space="preserve">
     <value>Open Source</value>
     <comment>Open Source</comment>
   </data>
@@ -465,8 +483,8 @@
     <value>Home</value>
     <comment>Home</comment>
   </data>
-  <data name="LocaAlbumTitle" xml:space="preserve">
-    <value>Local Album</value>
+    <data name="LocaAlbumTitle" xml:space="preserve">
+    <value>Album in locale</value>
     <comment>Local Album</comment>
   </data>
     <data name="VariousGenresText" xml:space="preserve">
@@ -553,10 +571,13 @@
     <value>Non mostrare più, ricorda la mia scelta.</value>
     <comment>Don't Show Again, Remember My Choice.</comment>
   </data>
+    
+    
   <data name="ExtensionManager.Title" xml:space="preserve">
     <value>Extension Manager</value>
     <comment>Extension Manager</comment>
   </data>
+
     <data name="ExtensionManager.CloseButtonText" xml:space="preserve">
     <value>Chiudi</value>
     <comment>Close</comment>
@@ -757,16 +778,22 @@
     <value>Download completato</value>
     <comment>Download Completed</comment>
   </data>
+    
+    
   <data name="IdleText" xml:space="preserve">
     <value>Idle</value>
     <comment>Idle</comment>
   </data>
+    
+    
+    
   <data name="DownloadingIdleText" xml:space="preserve">
     <value>Downloading Idle</value>
     <comment>Downloading Idle</comment>
   </data>
-  <data name="ProcessingText" xml:space="preserve">
-    <value>Processing</value>
+
+    <data name="ProcessingText" xml:space="preserve">
+    <value>In lavorazione</value>
     <comment>Processing</comment>
   </data>
     <data name="DownloadinginProgressText" xml:space="preserve">
@@ -853,8 +880,8 @@
     <value>Chiudi</value>
     <comment>Close</comment>
   </data>
-  <data name="UpdateNoteTitle" xml:space="preserve">
-    <value>Update Note for Build {0}</value>
+    <data name="UpdateNoteTitle" xml:space="preserve">
+    <value>Avviso dell'aggiornamento alla build {0}</value>
     <comment>Update Note for Build {0}</comment>
   </data>
     <data name="AddToCollectionTitle" xml:space="preserve">
@@ -901,10 +928,13 @@
     <value>Cosa c'è di nuovo?</value>
     <comment>What's New?</comment>
   </data>
+    
+    
   <data name="DropBtn.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Drop</value>
     <comment>Drop</comment>
   </data>
+
     <data name="DouText" xml:space="preserve">
     <value>douban FM</value>
     <comment>豆瓣 FM</comment>
@@ -913,418 +943,498 @@
     <value>Chiudi</value>
     <comment>Close</comment>
   </data>
-  <data name="EaseAccessBtn.Content" xml:space="preserve">
-    <value>Ease of Access</value>
+    <data name="EaseAccessBtn.Content" xml:space="preserve">
+    <value>Accessibilità</value>
     <comment>Ease of Access</comment>
   </data>
-  <data name="SmartDuration" xml:space="preserve">
-    <value>{0} {0:min|mins}, {1} {1:sec|secs}</value>
+    <data name="SmartDuration" xml:space="preserve">
+    <value>{0} {0:minuto|minuti}, {1} {1:secondo|secondi}</value>
     <comment>{0} {0:min|mins}, {1} {1:sec|secs}</comment>
   </data>
-  <data name="SmartDurationLong" xml:space="preserve">
-    <value>{0} {0:hour|hours}, {1} {1:min|mins}</value>
+    <data name="SmartDurationLong" xml:space="preserve">
+    <value>{0} {0:ora|ore}, {1} {0:minuto|minuti},</value>
     <comment>{0} {0:hour|hours}, {1} {1:min|mins}</comment>
   </data>
-  <data name="SmartDurationShort" xml:space="preserve">
-    <value>{0} {0:sec|secs}</value>
+    <data name="SmartDurationShort" xml:space="preserve">
+    <value>{0}{0:secondo|secondi},</value>
     <comment>{0} {0:sec|secs}</comment>
   </data>
+    
+    
   <data name="ArtistStory.Text" xml:space="preserve">
     <value>See Artist Story</value>
     <comment>See Artist Story</comment>
   </data>
+    
+    
+    
   <data name="AlbumStory.Text" xml:space="preserve">
     <value>See Album Story</value>
     <comment>See Album Story</comment>
   </data>
-  <data name="Equalizer.Text" xml:space="preserve">
-    <value>Equalizer</value>
+
+    <data name="Equalizer.Text" xml:space="preserve">
+    <value>Equalizzatore</value>
     <comment>Equalizer</comment>
   </data>
+    
+    
   <data name="Timer.Text" xml:space="preserve">
     <value>Sleep Timer</value>
     <comment>Sleep Timer</comment>
   </data>
+    
+    
+    
   <data name="NotLogin" xml:space="preserve">
     <value>Not Login</value>
     <comment>NotLogin</comment>
   </data>
-  <data name="UnknownError" xml:space="preserve">
-    <value>Unknown Error</value>
+
+    <data name="UnknownError" xml:space="preserve">
+    <value>Errore sconosciuto</value>
     <comment>UnknownError</comment>
   </data>
-  <data name="Password" xml:space="preserve">
+    <data name="Password" xml:space="preserve">
     <value>Password</value>
     <comment>Password</comment>
   </data>
-  <data name="Invalid" xml:space="preserve">
-    <value>Invalid</value>
+    <data name="Invalid" xml:space="preserve">
+    <value>Non valido</value>
     <comment>Invalid</comment>
   </data>
-  <data name="Account" xml:space="preserve">
+    <data name="Account" xml:space="preserve">
     <value>Account</value>
     <comment>Account</comment>
   </data>
-  <data name="PasswordBox.Header" xml:space="preserve">
+    <data name="PasswordBox.Header" xml:space="preserve">
     <value>Password</value>
     <comment>Password</comment>
   </data>
-  <data name="PasswordBox.PlaceholderText" xml:space="preserve">
-    <value>8 or More Characters</value>
+    <data name="PasswordBox.PlaceholderText" xml:space="preserve">
+    <value>8 o più caratteri</value>
     <comment>8 or More Characters</comment>
   </data>
-  <data name="AccountBox.Header" xml:space="preserve">
+    <data name="AccountBox.Header" xml:space="preserve">
     <value>Account</value>
     <comment>Account</comment>
   </data>
-  <data name="AccountBox.PlaceholderText" xml:space="preserve">
-    <value>E-mail/Phone</value>
+    <data name="AccountBox.PlaceholderText" xml:space="preserve">
+    <value>E-mail/Telefono</value>
     <comment>E-mail/Phone</comment>
   </data>
-  <data name="DoubanLogin.PrimaryButtonText" xml:space="preserve">
+    <data name="DoubanLogin.PrimaryButtonText" xml:space="preserve">
     <value>Login</value>
     <comment>Login</comment>
   </data>
-  <data name="DoubanLogin.CloseButtonText" xml:space="preserve">
-    <value>Close</value>
+    <data name="DoubanLogin.CloseButtonText" xml:space="preserve">
+    <value>Chiudi</value>
     <comment>Close</comment>
   </data>
-  <data name="EqualizerSettings.Title" xml:space="preserve">
-    <value>Equalizer Settings</value>
+    <data name="EqualizerSettings.Title" xml:space="preserve">
+    <value>Opzioni Equalizzatore</value>
     <comment>Equalizer Settings</comment>
   </data>
-  <data name="EqualizerSettings.CloseButtonText" xml:space="preserve">
-    <value>Close</value>
+    <data name="EqualizerSettings.CloseButtonText" xml:space="preserve">
+    <value>Chiudi</value>
     <comment>Close</comment>
   </data>
-  <data name="Presets.Header" xml:space="preserve">
-    <value>Presets:</value>
+    <data name="Presets.Header" xml:space="preserve">
+    <value>Preimpostazioni:</value>
     <comment>Presets:</comment>
   </data>
-  <data name="Reset.Content" xml:space="preserve">
+    <data name="Reset.Content" xml:space="preserve">
     <value>Reset</value>
     <comment>Reset</comment>
   </data>
+    
+    
   <data name="SleepTimerDialog.Title" xml:space="preserve">
     <value>Sleep Timer</value>
     <comment>Sleep Timer</comment>
   </data>
-  <data name="SleepTimerDialog.CloseButtonText" xml:space="preserve">
-    <value>Cancel</value>
+
+    <data name="SleepTimerDialog.CloseButtonText" xml:space="preserve">
+    <value>Annulla</value>
     <comment>Cancel</comment>
   </data>
-  <data name="SleepTimerDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Confirm</value>
+    <data name="SleepTimerDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Conferma</value>
     <comment>Confirm</comment>
   </data>
-  <data name="SleepTimerTimePicker.Header" xml:space="preserve">
-    <value>When time arrives</value>
+    <data name="SleepTimerTimePicker.Header" xml:space="preserve">
+    <value>Quando scade il tempo</value>
     <comment>When time arrives</comment>
   </data>
-  <data name="SleepTimerPerform.Text" xml:space="preserve">
-    <value>Performs:</value>
+    <data name="SleepTimerPerform.Text" xml:space="preserve">
+    <value>Esegui:</value>
     <comment>Performs:</comment>
   </data>
+    
+    
   <data name="SleepTimerPlayPause.Content" xml:space="preserve">
     <value>Toggle play/pause</value>
     <comment>Toggle play/pause</comment>
   </data>
-  <data name="SleepTimerStop.Content" xml:space="preserve">
-    <value>Stop</value>
+
+    <data name="SleepTimerStop.Content" xml:space="preserve">
+    <value>Ferma</value>
     <comment>Stop</comment>
   </data>
-  <data name="SleepTimerShutdown.Content" xml:space="preserve">
-    <value>Shutdown app</value>
+    <data name="SleepTimerShutdown.Content" xml:space="preserve">
+    <value>Chiudi la app</value>
     <comment>Shutdown app</comment>
   </data>
-  <data name="AudioEffects.Text" xml:space="preserve">
-    <value>Audio Effects</value>
+    <data name="AudioEffects.Text" xml:space="preserve">
+    <value>Effetti Audio</value>
     <comment>Audio Effects</comment>
   </data>
-  <data name="EqualizerToggle.Header" xml:space="preserve">
-    <value>Equalizer</value>
+    <data name="EqualizerToggle.Header" xml:space="preserve">
+    <value>Equalizzatore</value>
     <comment>Equalizer</comment>
   </data>
-  <data name="VolumeButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <data name="VolumeButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Volume</value>
     <comment>Volume</comment>
   </data>
-  <data name="VisualizationButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Audio Visualization</value>
+    <data name="VisualizationButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Visualizzazione audio</value>
     <comment>Audio Visualization</comment>
   </data>
-  <data name="VisualizationFlyout.Text" xml:space="preserve">
-    <value>Audio Visualization</value>
+    <data name="VisualizationFlyout.Text" xml:space="preserve">
+    <value>Visualizzazione audio</value>
     <comment>Audio Visualization</comment>
   </data>
-  <data name="ShuffleFlyout.Text" xml:space="preserve">
-    <value>Shuffle</value>
+    <data name="ShuffleFlyout.Text" xml:space="preserve">
+    <value>Riproduzione casuale</value>
     <comment>Shuffle</comment>
   </data>
-  <data name="RepeatFlyout.Text" xml:space="preserve">
-    <value>Repeat</value>
+    <data name="RepeatFlyout.Text" xml:space="preserve">
+    <value>Ripeti</value>
     <comment>Repeat</comment>
   </data>
-  <data name="DroptoPlay" xml:space="preserve">
-    <value>Drop to Play</value>
+    <data name="DroptoPlay" xml:space="preserve">
+    <value>Rilascia per Riprodurre</value>
     <comment>Drop to Play</comment>
   </data>
+    
+    
   <data name="NotSupport" xml:space="preserve">
     <value>Not Support</value>
     <comment>Not Support</comment>
   </data>
+    
+    
+    
   <data name="SpeedBtn.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Playback Rate</value>
     <comment>Playback Rate</comment>
   </data>
-  <data name="LastUpdatePost.Text" xml:space="preserve">
-    <value>Last Updated: </value>
+
+    <data name="LastUpdatePost.Text" xml:space="preserve">
+    <value>Ultimo aggiornamento: </value>
     <comment>Last Updated: </comment>
   </data>
-  <data name="RefreshPost.Text" xml:space="preserve">
-    <value>Refresh</value>
+    <data name="RefreshPost.Text" xml:space="preserve">
+    <value>Aggiorna</value>
     <comment>Refresh</comment>
   </data>
-  <data name="UnSubscribeAction" xml:space="preserve">
-    <value>Un-Subscribe</value>
+    <data name="UnSubscribeAction" xml:space="preserve">
+    <value>Disiscriviti</value>
     <comment>Un-Subscribe</comment>
   </data>
-  <data name="SubscribeAction" xml:space="preserve">
-    <value>Subscribe</value>
+    <data name="SubscribeAction" xml:space="preserve">
+    <value>Iscriviti</value>
     <comment>Subscribe</comment>
   </data>
+    
+    
   <data name="Retriving.Text" xml:space="preserve">
     <value>Retriving Database</value>
     <comment>Retriving Database</comment>
   </data>
-  <data name="TodayText" xml:space="preserve">
-    <value>'Today'</value>
+
+    <data name="TodayText" xml:space="preserve">
+    <value>'Oggi'</value>
     <comment>Today</comment>
   </data>
-  <data name="NextDayText" xml:space="preserve">
-    <value>Next </value>
+    <data name="NextDayText" xml:space="preserve">
+    <value>Prossimo </value>
     <comment>Next </comment>
   </data>
-  <data name="LastDayText" xml:space="preserve">
-    <value>Last </value>
+    <data name="LastDayText" xml:space="preserve">
+    <value>Ultimo </value>
     <comment>Last </comment>
   </data>
-  <data name="SubscribeText" xml:space="preserve">
-    <value>Subscribed</value>
+    <data name="SubscribeText" xml:space="preserve">
+    <value>Iscritto</value>
     <comment>Subscribed</comment>
   </data>
-  <data name="UnSubscribeText" xml:space="preserve">
-    <value>Un-Subscribed</value>
+    <data name="UnSubscribeText" xml:space="preserve">
+    <value>Disiscritto</value>
     <comment>Un-Subscribed</comment>
   </data>
-  <data name="UndoSubscribeText" xml:space="preserve">
-    <value>Undo Subscribe</value>
+    <data name="UndoSubscribeText" xml:space="preserve">
+    <value>Annulla l'iscrizione</value>
     <comment>Undo Subscribe</comment>
   </data>
-  <data name="Fetching.Text" xml:space="preserve">
-    <value>Fetching</value>
+    <data name="Fetching.Text" xml:space="preserve">
+    <value>Recuperando</value>
     <comment>Fetching</comment>
   </data>
-  <data name="PodcastDialog.Title" xml:space="preserve">
-    <value>Podcast Details</value>
+    <data name="PodcastDialog.Title" xml:space="preserve">
+    <value>Dettagli del Podcast</value>
     <comment>Podcast Details</comment>
   </data>
-  <data name="PodcastDialog.CloseButtonText" xml:space="preserve">
-    <value>Close</value>
+    <data name="PodcastDialog.CloseButtonText" xml:space="preserve">
+    <value>Chiudi</value>
     <comment>Close</comment>
   </data>
-  <data name="PodcastDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Subscribe</value>
+    <data name="PodcastDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Iscriviti</value>
     <comment>Subscribe</comment>
   </data>
-  <data name="Podcast.Text" xml:space="preserve">
+    <data name="Podcast.Text" xml:space="preserve">
     <value>Podcast</value>
     <comment>Podcast</comment>
   </data>
-  <data name="ShowPodcastsWhenSearch.Header" xml:space="preserve">
-    <value>Show podcasts when search</value>
+    <data name="ShowPodcastsWhenSearch.Header" xml:space="preserve">
+    <value>Mostra Podcast mentre eseguo una ricerca</value>
     <comment>Show podcasts when search</comment>
   </data>
-  <data name="SendPodcastToast.Header" xml:space="preserve">
-    <value>Send toast when new-coming</value>
+    <data name="SendPodcastToast.Header" xml:space="preserve">
+    <value>Invia una notifica per i nuovi arrivi</value>
     <comment>Send toast when new-coming</comment>
   </data>
-  <data name="FetchInterval.Header" xml:space="preserve">
-    <value>Refresh Interval</value>
+    <data name="FetchInterval.Header" xml:space="preserve">
+    <value>Aggiorna intervallo</value>
     <comment>Refresh Interval</comment>
   </data>
-  <data name="MinText" xml:space="preserve">
+    <data name="MinText" xml:space="preserve">
     <value>min</value>
     <comment>min</comment>
   </data>
-  <data name="PodcastSubscribe" xml:space="preserve">
-    <value>"{0}" Subscribed, You can find it in music library now</value>
+    <data name="PodcastSubscribe" xml:space="preserve">
+    <value>Iscritto a "{0}", Ora lo puoi trovare nella tua libreria</value>
     <comment>"{0}" Subscribed, You can find it in music library now</comment>
   </data>
-  <data name="PodcastUnSubscribe" xml:space="preserve">
-    <value>"{0}" is no longer in your music library</value>
+    <data name="PodcastUnSubscribe" xml:space="preserve">
+    <value>"{0}" non è più nella tua libreria</value>
     <comment>"{0}" is no longer in your music library</comment>
   </data>
-  <data name="ImportSucceed" xml:space="preserve">
-    <value>{1} of {0} {1:Podcast|Podcasts} successfully imported</value>
+    <data name="ImportSucceed" xml:space="preserve">
+    <value>{1} di {0} {1:Podcast|Podcast} importati con successo</value>
     <comment>{1} of {0} {1:Podcast|Podcasts} successfully imported</comment>
   </data>
+    
+    
   <data name="OPMLDesc" xml:space="preserve">
     <value>Outline Processor Markup Language Document</value>
     <comment>Outline Processor Markup Language Document</comment>
   </data>
-  <data name="ExportOPMLName" xml:space="preserve">
-    <value>Podcasts Export</value>
+
+    <data name="ExportOPMLName" xml:space="preserve">
+    <value>Esporta Podcast</value>
     <comment>Podcasts Export</comment>
   </data>
-  <data name="OPMLExport" xml:space="preserve">
-    <value>Podcasts successfully exported</value>
+    <data name="OPMLExport" xml:space="preserve">
+    <value>Podcast esportato correttamente</value>
     <comment>Podcasts successfully exported</comment>
   </data>
-  <data name="ImportOPMLBtn.Content" xml:space="preserve">
-    <value>Import OPML Doc</value>
+    <data name="ImportOPMLBtn.Content" xml:space="preserve">
+    <value>Importa un documento OPML</value>
     <comment>Import OPML Doc</comment>
   </data>
-  <data name="ExportOPMLBtn.Content" xml:space="preserve">
-    <value>Export OPML Doc</value>
+    <data name="ExportOPMLBtn.Content" xml:space="preserve">
+    <value>Esporta un documento OPML</value>
     <comment>Export OPML Doc</comment>
   </data>
-  <data name="PodcastToastTitle" xml:space="preserve">
-    <value>{0} has updated!</value>
+    <data name="PodcastToastTitle" xml:space="preserve">
+    <value>{0} è stato aggiornato!</value>
     <comment>{0} has updated!</comment>
   </data>
-  <data name="PodcastToastDesc" xml:space="preserve">
-    <value>Click to listen {0}</value>
+    <data name="PodcastToastDesc" xml:space="preserve">
+    <value>Premi per ascoltare {0}</value>
     <comment>Click to listen {0}</comment>
   </data>
-  <data name="AndMore" xml:space="preserve">
-    <value>And {0} more</value>
+    <data name="AndMore" xml:space="preserve">
+    <value>e {0} altri</value>
     <comment>And {0} more</comment>
   </data>
+    
+    
   <data name="BackgroundTransferStatus_Idle" xml:space="preserve">
     <value>Idle</value>
     <comment>Idle</comment>
   </data>
+    
+    
+    
   <data name="BackgroundTransferStatus_Running" xml:space="preserve">
     <value>Running</value>
     <comment>Running</comment>
   </data>
+    
+    
+    
   <data name="BackgroundTransferStatus_PausedByApplication" xml:space="preserve">
     <value>Paused by application</value>
     <comment>Paused by application</comment>
   </data>
+    
+    
+    
   <data name="BackgroundTransferStatus_PausedCostedNetwork" xml:space="preserve">
     <value>Paused by metered-network</value>
     <comment>Paused by metered-network</comment>
   </data>
-  <data name="BackgroundTransferStatus_PausedNoNetwork" xml:space="preserve">
-    <value>No network</value>
+
+    <data name="BackgroundTransferStatus_PausedNoNetwork" xml:space="preserve">
+    <value>Rete assente</value>
     <comment>No network</comment>
   </data>
-  <data name="BackgroundTransferStatus_Completed" xml:space="preserve">
-    <value>Completed</value>
+    <data name="BackgroundTransferStatus_Completed" xml:space="preserve">
+    <value>Completato</value>
     <comment>Completed</comment>
   </data>
-  <data name="BackgroundTransferStatus_Canceled" xml:space="preserve">
-    <value>Canceled</value>
+    <data name="BackgroundTransferStatus_Canceled" xml:space="preserve">
+    <value>Annullato</value>
     <comment>Canceled</comment>
   </data>
-  <data name="BackgroundTransferStatus_Error" xml:space="preserve">
-    <value>Error</value>
+    <data name="BackgroundTransferStatus_Error" xml:space="preserve">
+    <value>Errore</value>
     <comment>Error</comment>
   </data>
+    
+    
   <data name="BackgroundTransferStatus_PausedRecoverableWebErrorStatus" xml:space="preserve">
     <value>Paused by recoverable web error</value>
     <comment>Paused by recoverable web error</comment>
   </data>
+    
+    
+    
   <data name="BackgroundTransferStatus_PausedSystemPolicy" xml:space="preserve">
     <value>Paused by system policy</value>
     <comment>Paused by system policy</comment>
   </data>
-  <data name="HeroTitle.Text" xml:space="preserve">
-    <value>For You</value>
+
+    <data name="HeroTitle.Text" xml:space="preserve">
+    <value>Per Te</value>
     <comment>For You</comment>
   </data>
+    
+    
   <data name="DownloadDesc" xml:space="preserve">
     <value>{0}/{1} download {0:task|tasks} {0:is|are} running</value>
     <comment>{0}/{1} download {0:task|tasks} {0:is|are} running</comment>
   </data>
-  <data name="PodcastMarket" xml:space="preserve">
-    <value>Explore podcasts</value>
+
+    <data name="PodcastMarket" xml:space="preserve">
+    <value>Esplora i podcast</value>
     <comment>Explore podcasts</comment>
   </data>
+    
+    
   <data name="TopCharts.Text" xml:space="preserve">
     <value>Top Charts</value>
     <comment>Top Charts</comment>
   </data>
-  <data name="RssInput.PlaceholderText" xml:space="preserve">
-    <value>Enter an valid rss address to view podcasts:</value>
+
+    <data name="RssInput.PlaceholderText" xml:space="preserve">
+    <value>Inserisci un valido idirizzo RSS per vedere i podcast</value>
     <comment>Enter an valid rss address to view podcasts:</comment>
   </data>
-  <data name="DisplayRequestSwitch.Header" xml:space="preserve">
-    <value>Prevent screen locks when playing</value>
+    <data name="DisplayRequestSwitch.Header" xml:space="preserve">
+    <value>Impedisci il blocco dello schermo mentre in riproduzione</value>
     <comment>Prevent screen locks when playing</comment>
   </data>
-  <data name="EffectsNote.Text" xml:space="preserve">
-    <value>NOTE: Enable audio effects may cost a little performance</value>
+    <data name="EffectsNote.Text" xml:space="preserve">
+    <value>NOTA: Attivare gli effetti audio potrebbe impattare leggermente sulle prestazioni</value>
     <comment>NOTE: Enable audio effects may cost a little performance</comment>
   </data>
-  <data name="EqualizerButton.Content" xml:space="preserve">
-    <value>Equalizer Settings</value>
+    <data name="EqualizerButton.Content" xml:space="preserve">
+    <value>Impostazioni dell'Equalizzatore</value>
     <comment>Equalizer Settings</comment>
   </data>
+    
+    
   <data name="ChannelShiftToggle.Header" xml:space="preserve">
     <value>Channel shift</value>
     <comment>Channel shift</comment>
   </data>
+    
+    
+    
   <data name="ToMonoSwitch.Header" xml:space="preserve">
     <value>Stereo to mono</value>
     <comment>Stereo to mono</comment>
   </data>
+    
+    
+    
   <data name="LimiterToggle.Header" xml:space="preserve">
     <value>Limiter</value>
     <comment>Limiter</comment>
   </data>
+    
+    
+    
   <data name="LimiterButton.Content" xml:space="preserve">
     <value>Limiter setting</value>
     <comment>Limiter setting</comment>
   </data>
-  <data name="CacheFolderSize.Text" xml:space="preserve">
-    <value>Cache folder size:</value>
+
+    <data name="CacheFolderSize.Text" xml:space="preserve">
+    <value>Grandezza cartella cache:</value>
     <comment>Cache folder size:</comment>
   </data>
-  <data name="DataFolderSize.Text" xml:space="preserve">
-    <value>Data folder size:</value>
+    <data name="DataFolderSize.Text" xml:space="preserve">
+    <value>Grandezza cartella dati:</value>
     <comment>Data folder size:</comment>
   </data>
-  <data name="OpenDataButton.Content" xml:space="preserve">
-    <value>Open data folder</value>
+    <data name="OpenDataButton.Content" xml:space="preserve">
+    <value>Apri cartella dati</value>
     <comment>Open data folder</comment>
   </data>
+    
+    
   <data name="PodcastDesc" xml:space="preserve">
     <value>Podcast Posted @ {0}</value>
     <comment>Podcast Posted @ {0}</comment>
   </data>
-  <data name="ImportPlaylist.Content" xml:space="preserve">
-    <value>Import playlist</value>
+
+    <data name="ImportPlaylist.Content" xml:space="preserve">
+    <value>Importa delle Playlist</value>
     <comment>Import playlist</comment>
   </data>
+    
+    
   <data name="Limiter.Text" xml:space="preserve">
     <value>Limiter</value>
     <comment>Limiter</comment>
   </data>
+    
+    
+    
   <data name="LimiterDialog.Title" xml:space="preserve">
     <value>Limiter Setting</value>
     <comment>Limiter Setting</comment>
   </data>
-  <data name="LimiterDialog.CloseButtonText" xml:space="preserve">
-    <value>Close</value>
+
+    <data name="LimiterDialog.CloseButtonText" xml:space="preserve">
+    <value>Chiudi</value>
     <comment>Close</comment>
   </data>
+    
+    
   <data name="Attack.Header" xml:space="preserve">
     <value>Attack</value>
     <comment>Attack</comment>
   </data>
+    
+    
+    
   <data name="Release.Header" xml:space="preserve">
     <value>Release</value>
     <comment>Release</comment>
@@ -1341,24 +1451,24 @@
     <value>Threshold</value>
     <comment>Threshold</comment>
   </data>
-  <data name="MainpageSettings.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Settings</value>
+    <data name="MainpageSettings.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Impostazioni</value>
     <comment>Settings</comment>
   </data>
-  <data name="StudioName.Text" xml:space="preserve">
-    <value>Aurora Studio's</value>
+    <data name="StudioName.Text" xml:space="preserve">
+    <value>Creato per voi da Aurora Studio</value>
     <comment>Aurora Studio's</comment>
   </data>
-  <data name="Contributors.Text" xml:space="preserve">
-    <value>Contributors</value>
+    <data name="Contributors.Text" xml:space="preserve">
+    <value>Contributori</value>
     <comment>Contributors</comment>
   </data>
-  <data name="OpenSourceLibraries.Text" xml:space="preserve">
-    <value>Open source libraries</value>
+    <data name="OpenSourceLibraries.Text" xml:space="preserve">
+    <value>Librerie Open Source</value>
     <comment>Open source libraries</comment>
   </data>
-  <data name="Donate.Text" xml:space="preserve">
-    <value>Donate</value>
+    <data name="Donate.Text" xml:space="preserve">
+    <value>Dona</value>
     <comment>Donate</comment>
   </data>
   <data name="TaskDesc" xml:space="preserve">

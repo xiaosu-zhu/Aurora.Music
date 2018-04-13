@@ -1437,14 +1437,4 @@
     <value>{0}個專輯已歸類，共{1}個</value>
     <comment>{0} of {1} {1:album|albums} sorted</comment>
   </data>
-
-
-<data name="UnSubscribe.Text" xml:space="preserve">
-    <value>取消訂閱</value>
-    <comment>Un-Subscribe</comment>
-  </data>
-<data name="Subscribe.Text" xml:space="preserve">
-    <value>開始訂閱</value>
-    <comment>Subscribe</comment>
-  </data>
 </root>

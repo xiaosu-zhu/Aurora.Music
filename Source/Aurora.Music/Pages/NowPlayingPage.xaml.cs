@@ -338,7 +338,7 @@ namespace Aurora.Music.Pages
 
             float barWidth = canvasWidth / (2 * Consts.SpectrumBarCount);
             // Calculate spectum metrics
-            Vector2 barSize = new Vector2(barWidth, canvasHeight - 2 * barWidth);
+            var barSize = new Vector2(barWidth, canvasHeight - 2 * barWidth);
 
             // Get the data if data exists and source is in play state, else use empty
             var spectrumData = args.Data != null && Visualizer.Source?.PlaybackState == SourcePlaybackState.Playing ?
@@ -370,7 +370,7 @@ namespace Aurora.Music.Pages
 
                 float spectrumBarHeight = barSize.Y * (1.0f - (logPeakSpectrum[0][index] + logPeakSpectrum[1][index]) / -100.0f);
 
-                Vector2 decayPoint = new Vector2(X, canvasHeight - barWidth - spectrumBarHeight);
+                var decayPoint = new Vector2(X, canvasHeight - barWidth - spectrumBarHeight);
                 drawingSession.FillCircle(decayPoint, barSize.X / 2, Context.CurrentColor[0]);
             }
         }
@@ -382,6 +382,11 @@ namespace Aurora.Music.Pages
             var ani = service.GetAnimation("DropAni");
             if (ani != null)
                 ani.TryStart(SongPanel);
+        }
+
+        private void NowPlayingFlyout_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            MainPageViewModel.Current.SkiptoItem(e.ClickedItem as SongViewModel);
         }
     }
 }

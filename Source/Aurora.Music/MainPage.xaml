@@ -1598,12 +1598,15 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                                  Grid.Row="1" x:Name="Artwork" HorizontalAlignment="Left" VerticalAlignment="Stretch" Stretch="Uniform"
                                                  Source="{x:Bind Context.CurrentArtwork,Mode=OneWay}" ImageOpened="Artwork_ImageOpened">
                                 </toolkit:ImageEx>
-                                <StackPanel x:Name="NowPanelTexts" Margin="12,0" Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <StackPanel x:Name="NowPanelTexts" Padding="12" Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
                                     <TextBlock x:Name="Title" Text="{x:Bind Context.CurrentTitle, Mode=OneWay}" ToolTipService.ToolTip="{x:Bind Context.CurrentTitle,Mode=OneWay}"
-                                               Style="{ThemeResource BaseTextBlockStyle}" MaxLines="2" TextTrimming="CharacterEllipsis" Margin="4"/>
+                                               Style="{ThemeResource BaseTextBlockStyle}" MaxLines="2" TextTrimming="CharacterEllipsis"/>
                                     <TextBlock x:Name="Album" Text="{x:Bind Context.CurrentAlbum, Mode=OneWay}" ToolTipService.ToolTip="{x:Bind Context.CurrentAlbum,Mode=OneWay}"
-                                               Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" 
-                                               TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Margin="4,0,4,4"/>
+                                               Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" FontSize="13" Foreground="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
+                                               TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"/>
+                                    <TextBlock x:Name="Artist" Text="{x:Bind Context.CurrentArtist, Mode=OneWay}" ToolTipService.ToolTip="{x:Bind Context.CurrentArtist,Mode=OneWay}"
+                                               Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" FontSize="13" Foreground="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
+                                               TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"/>
                                 </StackPanel>
                             </StackPanel>
                         </Button.Content>
@@ -1658,6 +1661,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                     <ListView x:Name="NowPlayingFlyout" ItemTemplate="{StaticResource PlayingListTemplate}" 
                                               MaxHeight="360" IsSynchronizedWithCurrentItem="False" Padding="0" Margin="0"
                                               ItemContainerStyleSelector="{StaticResource SongListStyleSelector}"
+                                              IsItemClickEnabled="True" ItemClick="NowPlayingFlyout_ItemClick"
                                               SelectedIndex="{x:Bind Context.CurrentIndex, Mode=OneWay,FallbackValue=-1}"
                                               ItemsSource="{x:Bind Context.NowPlayingList}">
                                         <ListView.Header>

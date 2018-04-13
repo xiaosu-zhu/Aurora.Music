@@ -29,12 +29,11 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 
             <Style x:Key="SliderThumbStyle" TargetType="Thumb">
                 <Setter Property="MinWidth" Value="4"/>
-                <Setter Property="Background" Value="{ThemeResource ApplicationPageBackgroundThemeBrush}"/>
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="Thumb">
                             <Ellipse HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                                     Fill="{TemplateBinding Foreground}" StrokeThickness="{TemplateBinding MinWidth}" Stroke="{TemplateBinding Background}"/>
+                                     Fill="{TemplateBinding Foreground}" StrokeThickness="0"/>
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
@@ -86,16 +85,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                                         <QuinticEase/>
                                                     </DoubleAnimation.EasingFunction>
                                                 </DoubleAnimation>
-                                                <DoubleAnimation EnableDependentAnimation="True" Storyboard.TargetName="VerticalThumb" Storyboard.TargetProperty="MinWidth" To="4">
-                                                    <DoubleAnimation.EasingFunction>
-                                                        <QuinticEase/>
-                                                    </DoubleAnimation.EasingFunction>
-                                                </DoubleAnimation>
-                                                <DoubleAnimation EnableDependentAnimation="True" Storyboard.TargetName="HorizontalThumb" Storyboard.TargetProperty="MinWidth" To="4">
-                                                    <DoubleAnimation.EasingFunction>
-                                                        <QuinticEase/>
-                                                    </DoubleAnimation.EasingFunction>
-                                                </DoubleAnimation>
                                             </Storyboard>
                                         </VisualState>
                                         <VisualState x:Name="Pressed">
@@ -127,12 +116,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                                 </ObjectAnimationUsingKeyFrames>
                                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetName="VerticalDecreaseRect" Storyboard.TargetProperty="Fill">
                                                     <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SliderTrackValueFillPressed}"/>
-                                                </ObjectAnimationUsingKeyFrames>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HorizontalThumb" Storyboard.TargetProperty="MinWidth">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="0"/>
-                                                </ObjectAnimationUsingKeyFrames>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="VerticalThumb" Storyboard.TargetProperty="MinWidth">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="0"/>
                                                 </ObjectAnimationUsingKeyFrames>
                                             </Storyboard>
                                         </VisualState>
@@ -216,16 +199,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                                     </DoubleAnimation.EasingFunction>
                                                 </DoubleAnimation>
                                                 <DoubleAnimation Storyboard.TargetName="VerticalThumbScale" Storyboard.TargetProperty="ScaleY" To="1.5">
-                                                    <DoubleAnimation.EasingFunction>
-                                                        <QuinticEase/>
-                                                    </DoubleAnimation.EasingFunction>
-                                                </DoubleAnimation>
-                                                <DoubleAnimation EnableDependentAnimation="True" Storyboard.TargetName="VerticalThumb" Storyboard.TargetProperty="MinWidth" To="0">
-                                                    <DoubleAnimation.EasingFunction>
-                                                        <QuinticEase/>
-                                                    </DoubleAnimation.EasingFunction>
-                                                </DoubleAnimation>
-                                                <DoubleAnimation EnableDependentAnimation="True" Storyboard.TargetName="HorizontalThumb" Storyboard.TargetProperty="MinWidth" To="0">
                                                     <DoubleAnimation.EasingFunction>
                                                         <QuinticEase/>
                                                     </DoubleAnimation.EasingFunction>

@@ -147,6 +147,7 @@ namespace Aurora.Music.ViewModels
         public ObservableCollection<SongViewModel> NowPlayingList { get; set; } = new ObservableCollection<SongViewModel>();
         private IPlayer player;
 
+        private string lastUriPath;
         private SolidColorBrush _lastLeftTop;
         private SolidColorBrush leftTopColor;
         public SolidColorBrush LeftTopColor
@@ -245,16 +246,20 @@ namespace Aurora.Music.ViewModels
         }
 
         private string currentAlbum;
-        private string lastUriPath;
-
         public string CurrentAlbum
         {
             get { return currentAlbum.IsNullorEmpty() ? Consts.Localizer.GetString("NotPlayingText") : currentAlbum; }
             set { SetProperty(ref currentAlbum, value); }
         }
 
-        private string nowListPreview = "-/-";
+        private string currentArtist;
+        public string CurrentArtist
+        {
+            get { return currentArtist; }
+            set { SetProperty(ref currentArtist, value); }
+        }
 
+        private string nowListPreview = "-/-";
         public string NowListPreview
         {
             get { return nowListPreview; }
@@ -978,6 +983,7 @@ namespace Aurora.Music.ViewModels
                     NowListPreview = "-/-";
                     CurrentTitle = null;
                     CurrentAlbum = null;
+                    CurrentArtist = null;
                     CurrentArtwork = null;
                     lastUriPath = null;
                     CurrentIndex = -1;
@@ -992,7 +998,8 @@ namespace Aurora.Music.ViewModels
                     var p = e.CurrentSong;
                     CurrentTitle = p.Title.IsNullorEmpty() ? p.FilePath.Split('\\').LastOrDefault() : p.Title;
                     IsPodcast = p.IsPodcast;
-                    CurrentAlbum = p.Album.IsNullorEmpty() ? (p.Performers.IsNullorEmpty() ? Consts.UnknownAlbum : string.Join(Consts.CommaSeparator, p.Performers)) : p.Album;
+                    CurrentAlbum = p.Album.IsNullorEmpty() ? Consts.UnknownAlbum : p.Album;
+                    CurrentArtist = p.Performers == null ? (p.AlbumArtists == null ? Consts.UnknownArtists : string.Join(Consts.CommaSeparator, p.AlbumArtists)) : string.Join(Consts.CommaSeparator, p.Performers);
                     if (!p.PicturePath.IsNullorEmpty())
                     {
                         if (lastUriPath == p.PicturePath)

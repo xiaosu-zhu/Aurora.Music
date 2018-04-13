@@ -160,7 +160,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 
         <ListView Grid.Row="1" IsSynchronizedWithCurrentItem="False" ItemsSource="{x:Bind Context.SongList, Mode=OneWay}"
                   ItemContainerStyleSelector="{StaticResource SongListStyleSelector}" Style="{ThemeResource GeneralListView}"
-                  Padding="32,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="SongList" ItemClick="SongList_ItemClick"
+                  Padding="32,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="SongList" 
+                  ItemClick="SongList_ItemClick" IsItemClickEnabled="True"
                   SelectionMode="None" ContextRequested="SongList_ContextRequested" ContextCanceled="SongList_ContextCanceled">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="vm:SongViewModel">

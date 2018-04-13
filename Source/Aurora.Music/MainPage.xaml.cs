@@ -13,9 +13,7 @@ using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
@@ -29,7 +27,6 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
@@ -875,7 +872,7 @@ namespace Aurora.Music
 
         private void SearchBox_LosingFocus(UIElement sender, Windows.UI.Xaml.Input.LosingFocusEventArgs args)
         {
-            if (args.NewFocusedElement is Control t && t.DataContext is GenericMusicItemViewModel g && g.IsSearch)
+            if (args.NewFocusedElement is SelectorItem t && t.Content is GenericMusicItemViewModel g && g.IsSearch)
             {
                 if (Context.SearchItems[0].InnerType == MediaType.Placeholder)
                 {
@@ -1443,6 +1440,11 @@ namespace Aurora.Music
             var g = (sender as Control).DataContext as GenericMusicItemViewModel;
             await SQLOperator.Current().DeleteSearchHistoryAsync(g.Title);
             Context.SearchItems.Remove(g);
+        }
+
+        private void NowPlayingFlyout_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            Context.SkiptoItem(e.ClickedItem as SongViewModel);
         }
     }
 }
