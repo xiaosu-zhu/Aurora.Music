@@ -69,7 +69,7 @@ namespace Aurora.Music.Pages
 
         private async void Extension(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            await Launcher.LaunchUriAsync(new Uri($"ms-windows-store://search/?query={Consts.ExtensionContract}"));
+            await Launcher.LaunchUriAsync(new Uri($"ms-windows-store://search/?query=Aurora Music Extension"));
         }
 
         private async void Privacy(object sender, Windows.UI.Xaml.RoutedEventArgs e)

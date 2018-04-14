@@ -82,6 +82,7 @@ namespace Aurora.Music.ViewModels
         }
 
         public PlayList Model { get; private set; }
+        public int SortIndex { get; internal set; } = 0;
 
         public async Task GetSongsAsync(PlayList model)
         {
@@ -93,7 +94,31 @@ namespace Aurora.Music.ViewModels
 
             var songs = await SQLOperator.Current().GetSongsAsync(Model.SongsID);
 
-            var grouped = GroupedItem<SongViewModel>.CreateGroupsByAlpha(songs.ConvertAll(x => new SongViewModel(x)));
+            IEnumerable<GroupedItem<SongViewModel>> grouped;
+
+            switch (Settings.Current.PlaylistSort)
+            {
+                case SortMode.Alphabet:
+                    grouped = GroupedItem<SongViewModel>.CreateGroupsByAlpha(songs.ConvertAll(x => new SongViewModel(x)));
+                    SortIndex = 0;
+                    break;
+                case SortMode.Album:
+                    grouped = GroupedItem<SongViewModel>.CreateGroups(songs.ConvertAll(x => new SongViewModel(x)), x => x.FormattedAlbum);
+                    SortIndex = 1;
+                    break;
+                case SortMode.Artist:
+                    grouped = GroupedItem<SongViewModel>.CreateGroups(songs.ConvertAll(x => new SongViewModel(x)), x => x.GetFormattedArtists());
+                    SortIndex = 2;
+                    break;
+                case SortMode.Year:
+                    grouped = GroupedItem<SongViewModel>.CreateGroups(songs.ConvertAll(x => new SongViewModel(x)), x => x.Song.Year);
+                    SortIndex = 3;
+                    break;
+                default:
+                    grouped = GroupedItem<SongViewModel>.CreateGroupsByAlpha(songs.ConvertAll(x => new SongViewModel(x)));
+                    SortIndex = 0;
+                    break;
+            }
 
             await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
@@ -137,17 +162,27 @@ namespace Aurora.Music.ViewModels
             {
                 case 0:
                     grouped = GroupedItem<SongViewModel>.CreateGroupsByAlpha(songs.ConvertAll(x => new SongViewModel(x)));
+                    Settings.Current.PlaylistSort = SortMode.Alphabet;
                     break;
                 case 1:
                     grouped = GroupedItem<SongViewModel>.CreateGroups(songs.ConvertAll(x => new SongViewModel(x)), x => x.FormattedAlbum);
+                    Settings.Current.PlaylistSort = SortMode.Album;
                     break;
                 case 2:
                     grouped = GroupedItem<SongViewModel>.CreateGroups(songs.ConvertAll(x => new SongViewModel(x)), x => x.GetFormattedArtists());
+                    Settings.Current.PlaylistSort = SortMode.Artist;
+                    break;
+                case 3:
+                    grouped = GroupedItem<SongViewModel>.CreateGroups(songs.ConvertAll(x => new SongViewModel(x)), x => x.Song.Year);
+                    Settings.Current.PlaylistSort = SortMode.Year;
                     break;
                 default:
-                    grouped = GroupedItem<SongViewModel>.CreateGroups(songs.ConvertAll(x => new SongViewModel(x)), x => x.Song.Year, true);
+                    grouped = GroupedItem<SongViewModel>.CreateGroupsByAlpha(songs.ConvertAll(x => new SongViewModel(x)));
+                    Settings.Current.PlaylistSort = SortMode.Alphabet;
                     break;
             }
+            SortIndex = selectedIndex;
+            Settings.Current.Save();
             foreach (var item in grouped)
             {
                 item.Aggregate((x, y) =>

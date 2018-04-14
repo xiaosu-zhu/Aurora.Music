@@ -110,7 +110,7 @@ namespace Aurora.Music.ViewModels
         {
             get => new DelegateCommand(async () =>
             {
-                await Launcher.LaunchUriAsync(new Uri($"ms-windows-store://search/?query={Consts.ExtensionContract}"));
+                await Launcher.LaunchUriAsync(new Uri($"ms-windows-store://search/?query=Aurora Music Extension"));
             });
         }
 

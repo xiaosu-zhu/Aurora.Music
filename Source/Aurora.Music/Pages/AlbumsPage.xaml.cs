@@ -93,6 +93,7 @@ namespace Aurora.Music.Pages
                 await Context.GetAlbums();
             }
             SortBox.SelectionChanged -= ComboBox_SelectionChanged;
+            SortBox.SelectedIndex = Context.SortIndex;
             SortBox.SelectionChanged += ComboBox_SelectionChanged;
         }
 

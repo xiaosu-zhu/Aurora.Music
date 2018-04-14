@@ -2,6 +2,7 @@
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using Aurora.Music.Core;
+using Aurora.Music.Core.Models;
 using Aurora.Music.Core.Storage;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.MVVM;
@@ -63,6 +64,8 @@ namespace Aurora.Music.ViewModels
             }
         }
 
+        public int SortIndex { get; internal set; } = 0;
+
         public async Task GetAlbums()
         {
             var albums = await FileReader.GetAllAlbumsAsync();
@@ -70,8 +73,27 @@ namespace Aurora.Music.ViewModels
             //var grouped = GroupedItem<AlbumViewModel>.CreateGroupsByAlpha(albums.ConvertAll(x => new AlbumViewModel(x)));
 
             //var grouped = GroupedItem<AlbumViewModel>.CreateGroups(albums.ConvertAll(x => new AlbumViewModel(x)), x => x.GetFormattedArtists());
+            IEnumerable<GroupedItem<AlbumViewModel>> grouped;
 
-            var grouped = GroupedItem<AlbumViewModel>.CreateGroups(albums.ConvertAll(x => new AlbumViewModel(x)), x => x.Year, true);
+            switch (Settings.Current.AlbumsSort)
+            {
+                case SortMode.Alphabet:
+                    grouped = GroupedItem<AlbumViewModel>.CreateGroupsByAlpha(albums.ConvertAll(x => new AlbumViewModel(x)));
+                    SortIndex = 1;
+                    break;
+                case SortMode.Year:
+                    grouped = GroupedItem<AlbumViewModel>.CreateGroups(albums.ConvertAll(x => new AlbumViewModel(x)), x => x.Year, true);
+                    SortIndex = 0;
+                    break;
+                case SortMode.Artist:
+                    grouped = GroupedItem<AlbumViewModel>.CreateGroups(albums.ConvertAll(x => new AlbumViewModel(x)), x => x.GetFormattedArtists());
+                    SortIndex = 2;
+                    break;
+                default:
+                    grouped = GroupedItem<AlbumViewModel>.CreateGroups(albums.ConvertAll(x => new AlbumViewModel(x)), x => x.Year, true);
+                    SortIndex = 0;
+                    break;
+            }
 
             var aCount = await FileReader.GetArtistsCountAsync();
 
@@ -119,17 +141,23 @@ namespace Aurora.Music.ViewModels
             {
                 case 0:
                     grouped = GroupedItem<AlbumViewModel>.CreateGroups(albums.ConvertAll(x => new AlbumViewModel(x)), x => x.Year, true);
+                    Settings.Current.AlbumsSort = SortMode.Year;
                     break;
                 case 1:
                     grouped = GroupedItem<AlbumViewModel>.CreateGroupsByAlpha(albums.ConvertAll(x => new AlbumViewModel(x)));
+                    Settings.Current.AlbumsSort = SortMode.Alphabet;
                     break;
                 case 2:
                     grouped = GroupedItem<AlbumViewModel>.CreateGroups(albums.ConvertAll(x => new AlbumViewModel(x)), x => x.GetFormattedArtists());
+                    Settings.Current.AlbumsSort = SortMode.Artist;
                     break;
                 default:
                     grouped = GroupedItem<AlbumViewModel>.CreateGroups(albums.ConvertAll(x => new AlbumViewModel(x)), x => x.Year, true);
+                    Settings.Current.AlbumsSort = SortMode.Year;
                     break;
             }
+            SortIndex = selectedIndex;
+            Settings.Current.Save();
             foreach (var item in grouped)
             {
                 AlbumList.Add(item);
