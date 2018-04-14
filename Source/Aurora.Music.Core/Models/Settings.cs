@@ -22,6 +22,11 @@ namespace Aurora.Music.Core.Models
         _128, _192, _256, _320
     }
 
+    public enum SortMode
+    {
+        Alphabet, Album, Year, Artist
+    }
+
     public class Presets : Dictionary<string, float[]>
     {
         public static readonly Presets Instance = new Presets();
@@ -134,6 +139,10 @@ namespace Aurora.Music.Core.Models
         public bool FileDurationFilterEnabled { get; set; }
         // Milliseconds
         public uint FileDurationFilter { get; set; } = 1000u;
+
+        public SortMode SongsSort { get; set; } = SortMode.Alphabet;
+        public SortMode AlbumsSort { get; set; } = SortMode.Year;
+        public SortMode PlaylistSort { get; set; } = SortMode.Alphabet;
 
         public bool VerifyDoubanLogin()
         {

@@ -4,6 +4,7 @@
 using Aurora.Shared.Helpers;
 using System;
 using Windows.ApplicationModel.Resources;
+using Windows.Foundation.Metadata;
 using Windows.Storage;
 
 namespace Aurora.Music.Core

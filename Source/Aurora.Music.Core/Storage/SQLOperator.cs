@@ -142,10 +142,10 @@ namespace Aurora.Music.Core.Storage
             MusicIpId = song.MusicIpId;
             BeatsPerMinute = song.BeatsPerMinute;
             Album = song.Album;
-            Performers = string.Join(Consts.ArraySeparator, song.Performers);
-            PerformersSort = string.Join(Consts.ArraySeparator, song.PerformersSort);
-            AlbumArtists = string.Join(Consts.ArraySeparator, song.AlbumArtists);
-            AlbumArtistsSort = string.Join(Consts.ArraySeparator, song.AlbumArtistsSort);
+            Performers = string.Join(Consts.ArraySeparator, song.Performers ?? new string[] { });
+            PerformersSort = string.Join(Consts.ArraySeparator, song.PerformersSort ?? new string[] { });
+            AlbumArtists = string.Join(Consts.ArraySeparator, song.AlbumArtists ?? new string[] { });
+            AlbumArtistsSort = string.Join(Consts.ArraySeparator, song.AlbumArtistsSort ?? new string[] { });
             AlbumSort = song.AlbumSort;
             AmazonId = song.AmazonId;
             Title = song.Title;
@@ -158,12 +158,12 @@ namespace Aurora.Music.Core.Storage
             ReplayGainAlbumPeak = song.ReplayGainAlbumPeak;
             Comment = song.Comment;
             Disc = song.Disc;
-            Composers = string.Join(Consts.ArraySeparator, song.Composers);
-            ComposersSort = string.Join(Consts.ArraySeparator, song.ComposersSort);
+            Composers = string.Join(Consts.ArraySeparator, song.Composers ?? new string[] { });
+            ComposersSort = string.Join(Consts.ArraySeparator, song.ComposersSort ?? new string[] { });
             Conductor = song.Conductor;
             DiscCount = song.DiscCount;
             Copyright = song.Copyright;
-            Genres = string.Join(Consts.ArraySeparator, song.Genres);
+            Genres = string.Join(Consts.ArraySeparator, song.Genres ?? new string[] { });
             Grouping = song.Grouping;
             Lyrics = song.Lyrics;
             Year = song.Year;
@@ -1468,7 +1468,7 @@ namespace Aurora.Music.Core.Storage
         {
             var res = await conn.QueryAsync<int>("DELETE FROM SEARCHHISTORY WHERE QUERY=?", query);
         }
-        
+
         public async Task<List<SEARCHHISTORY>> GetSearchHistoryAsync()
         {
             return await conn.QueryAsync<SEARCHHISTORY>("SELECT * FROM SEARCHHISTORY ORDER BY ID DESC LIMIT 10");

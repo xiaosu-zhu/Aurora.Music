@@ -211,14 +211,14 @@ namespace Aurora.Music.Core.Models
             AudioChannels = song.AudioChannels;
         }
 
-        public static async Task<Song> Create(Tag tag, string path, MusicProperties music, Properties p, bool isWav)
+        public static async Task<Song> Create(Tag tag, string path, (string title, string album, string[] performer, string[] artist, string[] composer, string conductor, TimeSpan duration, uint bitrate, uint rating) music, Properties p)
         {
             var s = new Song
             {
-                Duration = music.Duration.TotalMilliseconds < 1 ? p.Duration : music.Duration,
-                BitRate = music.Bitrate,
+                Duration = music.duration.TotalMilliseconds < 1 ? p.Duration : music.duration,
+                BitRate = music.bitrate,
                 FilePath = path,
-                Rating = (uint)Math.Round(music.Rating / 20.0),
+                Rating = (uint)Math.Round(music.rating / 20.0),
                 MusicBrainzArtistId = tag.MusicBrainzArtistId,
                 MusicBrainzDiscId = tag.MusicBrainzDiscId,
                 MusicBrainzReleaseArtistId = tag.MusicBrainzReleaseArtistId,
@@ -230,11 +230,11 @@ namespace Aurora.Music.Core.Models
                 MusicIpId = tag.MusicIpId,
                 BeatsPerMinute = tag.BeatsPerMinute,
                 Album = tag.Album,
-                AlbumArtists = isWav ? new string[] { music.AlbumArtist } : tag.AlbumArtists,
+                AlbumArtists = music.artist,
                 AlbumArtistsSort = tag.AlbumArtistsSort,
                 AlbumSort = tag.AlbumSort,
                 AmazonId = tag.AmazonId,
-                Title = isWav ? music.Title : tag.Title,
+                Title = music.title,
                 TitleSort = tag.TitleSort,
                 Track = tag.Track,
                 TrackCount = tag.TrackCount,
@@ -244,15 +244,15 @@ namespace Aurora.Music.Core.Models
                 ReplayGainAlbumPeak = tag.ReplayGainAlbumPeak,
                 Comment = tag.Comment,
                 Disc = tag.Disc,
-                Composers = isWav ? music.Composers.ToArray() : tag.Composers,
+                Composers = music.composer,
                 ComposersSort = tag.ComposersSort,
-                Conductor = isWav ? music.Conductors.ToArray().FirstOrDefault() : tag.Conductor,
+                Conductor = music.conductor,
                 DiscCount = tag.DiscCount,
                 Copyright = tag.Copyright,
-                Genres = isWav ? music.Genre.ToArray() : tag.Genres,
+                Genres = tag.Genres,
                 Grouping = tag.Grouping,
                 Lyrics = tag.Lyrics,
-                Performers = isWav ? new string[] { music.Artist } : tag.Performers,
+                Performers = music.performer,
                 PerformersSort = tag.PerformersSort,
                 Year = tag.Year
             };

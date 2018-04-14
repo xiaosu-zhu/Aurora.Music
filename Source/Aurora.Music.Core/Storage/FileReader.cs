@@ -236,7 +236,7 @@ namespace Aurora.Music.Core.Storage
                         }
                         else
                         {
-                            var song = await Song.Create(tagTemp.Tag, file.Path, prop, tagTemp.Properties, file.FileType.Equals(".wav", StringComparison.InvariantCultureIgnoreCase));
+                            var song = await Song.Create(tagTemp.Tag, file.Path, await file.GetViolatePropertiesAsync(), tagTemp.Properties);
                             var t = await opr.InsertSongAsync(song);
                             if (t != null)
                             {
@@ -342,7 +342,7 @@ namespace Aurora.Music.Core.Storage
             {
                 using (var tagTemp = File.Create(file))
                 {
-                    tempList.Add(await Song.Create(tagTemp.Tag, file.Path, await file.Properties.GetMusicPropertiesAsync(), tagTemp.Properties, file.FileType.Equals(".wav", StringComparison.InvariantCultureIgnoreCase)));
+                    tempList.Add(await Song.Create(tagTemp.Tag, file.Path, await file.GetViolatePropertiesAsync(), tagTemp.Properties));
                 }
             }
             var result = from song in tempList orderby song.Track orderby song.Disc group song by song.Album;
@@ -358,18 +358,50 @@ namespace Aurora.Music.Core.Storage
         {
             using (var tagTemp = File.Create(file))
             {
-                return await Create(tagTemp.Tag, file.Path, await file.Properties.GetMusicPropertiesAsync(), tagTemp.Properties, file.FileType.Equals(".wav", StringComparison.InvariantCultureIgnoreCase));
+                return await Create(tagTemp.Tag, file.Path, await file.GetViolatePropertiesAsync(), tagTemp.Properties);
             }
         }
 
-        private static async Task<Song> Create(Tag tag, string path, MusicProperties music, Properties p, bool isWav)
+        static readonly string[] violateProperties = new string[] { "System.Music.AlbumArtist", "System.Music.Artist" };
+
+        public static async Task<(string title, string album, string[] performer, string[] artist, string[] composer, string conductor, TimeSpan duration, uint bitrate, uint rating)> GetViolatePropertiesAsync(this StorageFile file)
+        {
+            var music = await file.Properties.GetMusicPropertiesAsync();
+            var properties = await file.Properties.RetrievePropertiesAsync(violateProperties);
+            string[] performer, artist;
+            var performerProperty = properties[violateProperties[1]];
+            if (performerProperty is string[] pArr)
+            {
+                performer = pArr;
+            }
+            else if (performerProperty is string p)
+            {
+                performer = new string[] { p };
+            }
+            else
+            {
+                performer = null;
+            }
+            var artistProperty = properties[violateProperties[0]];
+            if (artistProperty is string a)
+            {
+                artist = new string[] { a };
+            }
+            else
+            {
+                artist = null;
+            }
+            return (music.Title, music.Album, performer, artist, music.Composers.ToArray(), music.Conductors.FirstOrDefault(), music.Duration, music.Bitrate, music.Rating);
+        }
+
+        private static async Task<Song> Create(Tag tag, string path, (string title, string album, string[] performer, string[] artist, string[] composer, string conductor, TimeSpan duration, uint bitrate, uint rating) music, Properties p)
         {
             var song = new Song
             {
-                Duration = music.Duration.TotalMilliseconds < 1 ? p.Duration : music.Duration,
-                BitRate = music.Bitrate,
+                Duration = music.duration.TotalMilliseconds < 1 ? p.Duration : music.duration,
+                BitRate = music.bitrate,
                 FilePath = path,
-                Rating = (uint)Math.Round(music.Rating / 20.0),
+                Rating = (uint)Math.Round(music.rating / 20.0),
                 MusicBrainzArtistId = tag.MusicBrainzArtistId,
                 MusicBrainzDiscId = tag.MusicBrainzDiscId,
                 MusicBrainzReleaseArtistId = tag.MusicBrainzReleaseArtistId,
@@ -380,12 +412,12 @@ namespace Aurora.Music.Core.Storage
                 MusicBrainzTrackId = tag.MusicBrainzTrackId,
                 MusicIpId = tag.MusicIpId,
                 BeatsPerMinute = tag.BeatsPerMinute,
-                Album = tag.Album,
-                AlbumArtists = isWav ? new string[] { music.AlbumArtist } : tag.AlbumArtists,
+                Album = music.album,
+                AlbumArtists = music.artist,
                 AlbumArtistsSort = tag.AlbumArtistsSort,
                 AlbumSort = tag.AlbumSort,
                 AmazonId = tag.AmazonId,
-                Title = isWav ? music.Title : tag.Title,
+                Title = music.title,
                 TitleSort = tag.TitleSort,
                 Track = tag.Track,
                 TrackCount = tag.TrackCount,
@@ -395,15 +427,15 @@ namespace Aurora.Music.Core.Storage
                 ReplayGainAlbumPeak = tag.ReplayGainAlbumPeak,
                 Comment = tag.Comment,
                 Disc = tag.Disc,
-                Composers = isWav ? music.Composers.ToArray() : tag.Composers,
+                Composers = music.composer,
                 ComposersSort = tag.ComposersSort,
-                Conductor = isWav ? music.Conductors.ToArray().FirstOrDefault() : tag.Conductor,
+                Conductor = music.conductor,
                 DiscCount = tag.DiscCount,
                 Copyright = tag.Copyright,
-                Genres = isWav ? music.Genre.ToArray() : tag.Genres,
+                Genres = tag.Genres,
                 Grouping = tag.Grouping,
                 Lyrics = tag.Lyrics,
-                Performers = isWav ? new string[] { music.Artist } : tag.Performers,
+                Performers = music.performer,
                 PerformersSort = tag.PerformersSort,
                 Year = tag.Year
             };
