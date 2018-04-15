@@ -509,7 +509,7 @@ namespace Aurora.Music.ViewModels
             player = PlaybackEngine.PlaybackEngine.Current;
             if (Settings.Current.LastUpdateBuild < SystemInfoHelper.GetPackageVersionNum())
             {
-                UpdateInfo i = new UpdateInfo();
+                var i = new UpdateInfo();
 #pragma warning disable CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
                 i.ShowAsync();
 #pragma warning restore CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
@@ -538,7 +538,7 @@ namespace Aurora.Music.ViewModels
             });
             Task.Run(async () =>
             {
-                await FindFileChanges();
+                //await FindFileChanges();
             });
         }
 

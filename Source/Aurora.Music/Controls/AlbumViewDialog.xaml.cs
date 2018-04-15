@@ -34,14 +34,14 @@ namespace Aurora.Music.Controls
 
         public AlbumViewDialog()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         public event EventHandler<Uri> UpdateArtwork;
 
         internal AlbumViewDialog(AlbumViewModel album)
         {
-            this.InitializeComponent();
+            InitializeComponent();
             if (album == null)
             {
                 Title = Consts.Localizer.GetString("OopsText");
@@ -66,10 +66,23 @@ namespace Aurora.Music.Controls
                     Index = i++,
                 });
             }
-            foreach (var item in SongList)
+            Task.Run(async () =>
             {
-                item.RefreshFav();
-            }
+                var favors = await SQLOperator.Current().GetFavoriteAsync();
+                await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                {
+                    foreach (var song in SongList)
+                    {
+                        if (favors.Contains(song.ID))
+                        {
+                            if (favors.Count == 0)
+                                return;
+                            song.Favorite = true;
+                            favors.Remove(song.ID);
+                        }
+                    }
+                });
+            });
             Album.Text = album.Name;
             Artwork.Source = new BitmapImage(album.ArtworkUri ?? new Uri(Consts.NowPlaceholder));
             Artist.Text = album.GetFormattedArtists();
@@ -79,7 +92,7 @@ namespace Aurora.Music.Controls
                 var t = ThreadPool.RunAsync(async x =>
                 {
                     var info = await MainPageViewModel.Current.GetAlbumInfoAsync(album.Name, album.AlbumArtists.FirstOrDefault());
-                    await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                    await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                     {
                         if (info != null)
                         {

@@ -229,7 +229,7 @@ namespace Aurora.Music.Core.Models
                 MusicBrainzTrackId = tag.MusicBrainzTrackId,
                 MusicIpId = tag.MusicIpId,
                 BeatsPerMinute = tag.BeatsPerMinute,
-                Album = tag.Album,
+                Album = music.album,
                 AlbumArtists = music.artist,
                 AlbumArtistsSort = tag.AlbumArtistsSort,
                 AlbumSort = tag.AlbumSort,

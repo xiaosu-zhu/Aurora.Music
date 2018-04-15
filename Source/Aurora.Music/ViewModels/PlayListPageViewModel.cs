@@ -25,13 +25,6 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref songsList, value); }
         }
 
-        private List<Uri> heroImage;
-        public List<Uri> HeroImage
-        {
-            get { return heroImage; }
-            set { SetProperty(ref heroImage, value); }
-        }
-
         private string desc;
         public string Description
         {
@@ -119,6 +112,7 @@ namespace Aurora.Music.ViewModels
                     SortIndex = 0;
                     break;
             }
+            var favors = await SQLOperator.Current().GetFavoriteAsync();
 
             await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
@@ -135,12 +129,17 @@ namespace Aurora.Music.ViewModels
                 SongsCount = SmartFormat.Smart.Format(Consts.Localizer.GetString("SmartSongs"), songs.Count);
                 Description = Model.Description;
                 Title = Model.Title;
-                HeroImage = Array.ConvertAll(Model.HeroArtworks ?? new string[] { }, x => new Uri(x)).ToList();
                 foreach (var item in SongsList)
                 {
                     foreach (var song in item)
                     {
-                        song.RefreshFav();
+                        if (favors.Count == 0)
+                            return;
+                        if (favors.Contains(song.ID))
+                        {
+                            song.Favorite = true;
+                            favors.Remove(song.ID);
+                        }
                     }
                 }
             });
@@ -192,11 +191,18 @@ namespace Aurora.Music.ViewModels
                 });
                 SongsList.Add(item);
             }
+            var favors = await SQLOperator.Current().GetFavoriteAsync();
             foreach (var item in SongsList)
             {
                 foreach (var song in item)
                 {
-                    song.RefreshFav();
+                    if (favors.Count == 0)
+                        return;
+                    if (favors.Contains(song.ID))
+                    {
+                        song.Favorite = true;
+                        favors.Remove(song.ID);
+                    }
                 }
             }
         }

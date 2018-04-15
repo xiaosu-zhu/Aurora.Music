@@ -385,7 +385,7 @@ namespace Aurora.Music.Core.Storage
             var artistProperty = properties[violateProperties[0]];
             if (artistProperty is string a)
             {
-                artist = new string[] { a };
+                artist = a.Split(';', StringSplitOptions.RemoveEmptyEntries);;
             }
             else
             {

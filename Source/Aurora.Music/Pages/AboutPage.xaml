@@ -33,7 +33,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         </ResourceDictionary>
     </Page.Resources>
 
-    <ScrollViewer Style="{ThemeResource NarrowScrollViewer}" Background="{ThemeResource SystemControlAltMediumLowAcrylicWindowMediumBrush}" HorizontalScrollMode="Disabled">
+    <ScrollViewer Style="{ThemeResource NarrowScrollViewer}" HorizontalScrollMode="Disabled">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState>
@@ -62,15 +62,19 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <StackPanel Orientation="Vertical" x:Name="Main" Padding="64,64,64,160">
+        <ScrollViewer.Background>
+            <ImageBrush ImageSource="/Assets/Images/welcome_bg.png" AlignmentX="Center" AlignmentY="Center" Stretch="UniformToFill"/>
+        </ScrollViewer.Background>
+        
+        <StackPanel Orientation="Vertical" x:Name="Main" Padding="64,64,64,160" Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush}">
             <Image Margin="12,0" Source="/Assets/Images/now_placeholder.png" 
                    Stretch="Uniform" Height="96" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             <TextBlock Margin="12,12,12,0" MaxLines="2" FontWeight="Normal" 
                        TextAlignment="Center" TextWrapping="WrapWholeWords"
-                       Style="{ThemeResource SubheaderTextBlockStyle}" 
+                       Style="{ThemeResource TitleTextBlockStyle}"
                        HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Run x:Uid="StudioName" FontSize="20" FontWeight="Light" Text="Aurora Studio's"/><LineBreak/>
-                <Run x:Uid="AppName" Text="Aurora Music"/>
+                <Run x:Uid="AppName" FontSize="28" Text="Aurora Music"/>
             </TextBlock>
 
 

@@ -27,13 +27,6 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref albumList, value); }
         }
 
-        private List<ImageSource> heroImage = null;
-        public List<ImageSource> HeroImage
-        {
-            get { return heroImage; }
-            set { SetProperty(ref heroImage, value); }
-        }
-
         private string genres;
         public string ArtistsCount
         {
@@ -106,23 +99,6 @@ namespace Aurora.Music.ViewModels
                 }
                 SongsCount = SmartFormat.Smart.Format(Consts.Localizer.GetString("SmartAlbums"), albums.Count);
                 ArtistsCount = SmartFormat.Smart.Format(Consts.Localizer.GetString("SmartArtists"), aCount);
-            });
-
-            var b = ThreadPool.RunAsync(async x =>
-            {
-                var aa = albums.ToList();
-                aa.Shuffle();
-                var list = new List<Uri>();
-                for (int j = 0; j < aa.Count && list.Count < 6; j++)
-                {
-                    if (aa[j].PicturePath.IsNullorEmpty()) continue;
-                    list.Add(new Uri(aa[j].PicturePath));
-                }
-                list.Shuffle();
-                await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
-                {
-                    HeroImage = list.ConvertAll(y => (ImageSource)new BitmapImage(y));
-                });
             });
         }
 

@@ -60,17 +60,16 @@ namespace Aurora.Music.Controls
                 return;
             }
             file = await StorageFile.GetFileFromPathAsync(path);
-            bool isWav = file.FileType.Equals(".wav", StringComparison.InvariantCultureIgnoreCase);
+            var props = await file.GetViolatePropertiesAsync();
             using (var tagTemp = TagLib.File.Create(file.Path))
             {
                 var song = tagTemp.Tag;
-                var props = await file.Properties.GetMusicPropertiesAsync();
                 await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
                 {
-                    SongTitle = isWav ? props.Title : song.Title;
-                    Duration = props.Duration.TotalMilliseconds < 1 ? tagTemp.Properties.Duration : props.Duration;
-                    BitRate = props.Bitrate;
-                    Rating = props.Rating;
+                    SongTitle = props.title;
+                    Duration = props.duration.TotalMilliseconds < 1 ? tagTemp.Properties.Duration : props.duration;
+                    BitRate = props.bitrate;
+                    Rating = props.rating;
                     MusicBrainzArtistId = song.MusicBrainzArtistId;
                     MusicBrainzDiscId = song.MusicBrainzDiscId;
                     MusicBrainzReleaseArtistId = song.MusicBrainzReleaseArtistId;
@@ -81,8 +80,8 @@ namespace Aurora.Music.Controls
                     MusicBrainzTrackId = song.MusicBrainzTrackId;
                     MusicIpId = song.MusicIpId;
                     BeatsPerMinute = song.BeatsPerMinute;
-                    Album = isWav ? props.Album : song.Album;
-                    AlbumArtists = isWav ? new string[] { props.AlbumArtist } : song.AlbumArtists;
+                    Album = props.album;
+                    AlbumArtists = props.artist;
                     AlbumArtistsSort = song.AlbumArtistsSort;
                     AlbumSort = song.AlbumSort;
                     AmazonId = song.AmazonId;
@@ -95,15 +94,15 @@ namespace Aurora.Music.Controls
                     ReplayGainAlbumPeak = song.ReplayGainAlbumPeak;
                     Comment = song.Comment;
                     Disc = song.Disc;
-                    Composers = isWav ? props.Composers.ToArray() : song.Composers;
+                    Composers = props.composer;
                     ComposersSort = song.ComposersSort;
-                    Conductor = isWav ? props.Conductors.ToArray().FirstOrDefault() : song.Conductor;
+                    Conductor = props.conductor;
                     DiscCount = song.DiscCount;
                     Copyright = song.Copyright;
-                    Genres = isWav ? props.Genre.ToArray() : song.Genres;
+                    Genres = song.Genres;
                     Grouping = song.Grouping;
                     Lyrics = song.Lyrics;
-                    Performers = isWav ? new string[] { props.Artist } : song.Performers;
+                    Performers = props.performer;
                     PerformersSort = song.PerformersSort;
                     Year = song.Year;
                     SampleRate = tagTemp.Properties.AudioSampleRate;

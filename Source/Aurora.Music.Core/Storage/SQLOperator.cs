@@ -592,6 +592,12 @@ namespace Aurora.Music.Core.Storage
             }
         }
 
+        public async Task<List<int>> GetFavoriteAsync()
+        {
+            var list = await conn.QueryAsync<STATISTICS>("SELECT * FROM STATISTICS WHERE Favorite=1 AND TARGETTYPE=0");
+            return list.ConvertAll(a => a.ID);
+        }
+
         internal async Task<SONG> InsertSongAsync(Song song)
         {
             var tag = new SONG(song);

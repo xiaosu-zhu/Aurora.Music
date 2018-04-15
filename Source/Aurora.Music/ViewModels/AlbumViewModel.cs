@@ -127,18 +127,6 @@ namespace Aurora.Music.ViewModels
                 {
                     return " ";
                 }
-                if (Name.StartsWith("The ", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    return Name.Substring(4);
-                }
-                if (Name.StartsWith("A ", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    return Name.Substring(2);
-                }
-                if (Name.StartsWith("An ", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    return Name.Substring(3);
-                }
                 return Name;
 
             }
