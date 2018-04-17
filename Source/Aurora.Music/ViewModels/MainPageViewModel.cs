@@ -538,7 +538,7 @@ namespace Aurora.Music.ViewModels
             });
             Task.Run(async () =>
             {
-                //await FindFileChanges();
+                await FindFileChanges();
             });
         }
 

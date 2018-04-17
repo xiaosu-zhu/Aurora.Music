@@ -1195,7 +1195,22 @@ namespace Aurora.Music.Core.Storage
 
         internal async Task RemoveSongAsync(string path)
         {
-            await conn.QueryAsync<int>("DELETE FROM SONG WHERE FILEPATH=?", path);
+            try
+            {
+                var s = await conn.QueryAsync<SONG>("SELECT * FROM SONG WHERE FILEPATH=?", path);
+                if (s != null && s.Count > 0)
+                {
+                    foreach (var song in s)
+                    {
+                        await conn.DeleteAsync<SONG>(song.ID);
+                        await conn.QueryAsync<int>("DELETE FROM STATISTICS WHERE TargetID=?;DELETE FROM PLAYSTATISTIC WHERE TargetID=?", song.ID, song.ID);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+            }
         }
 
         internal async Task<List<T>> SearchAsync<T>(string text, params string[] parameter) where T : new()

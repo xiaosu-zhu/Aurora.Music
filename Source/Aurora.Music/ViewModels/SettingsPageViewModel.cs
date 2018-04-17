@@ -18,7 +18,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml;
-using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppExtensions;
 using Windows.ApplicationModel.Background;
 using Windows.ApplicationModel.Core;
@@ -28,12 +27,13 @@ using Windows.Media.Devices;
 using Windows.Services.Store;
 using Windows.Storage;
 using Windows.System;
-using Windows.System.Threading;
 
 namespace Aurora.Music.ViewModels
 {
     class SettingsPageViewModel : ViewModelBase
     {
+        public event EventHandler InitComplete;
+
         private int audioSelectedIndex = -1;
         public int AudioSelectedIndex
         {
@@ -169,7 +169,7 @@ namespace Aurora.Music.ViewModels
                 folderPicker.FileTypeFilter.Add(".wpl");
                 folderPicker.FileTypeFilter.Add(".zpl");
 
-                StorageFolder folder = await folderPicker.PickSingleFolderAsync();
+                var folder = await folderPicker.PickSingleFolderAsync();
                 if (folder != null)
                 {
                     Settings.Current.DownloadPathToken = Windows.Storage.AccessCache.StorageApplicationPermissions.FutureAccessList.Add(folder);
@@ -335,8 +335,7 @@ namespace Aurora.Music.ViewModels
                 // Let Windows know that we're finished changing the file so
                 // the other app can update the remote version of the file.
                 // Completing updates may require Windows to ask for user input.
-                Windows.Storage.Provider.FileUpdateStatus status =
-                    await Windows.Storage.CachedFileManager.CompleteUpdatesAsync(file);
+                var status = await CachedFileManager.CompleteUpdatesAsync(file);
                 if (status == Windows.Storage.Provider.FileUpdateStatus.Complete)
                 {
                     MainPage.Current.PopMessage(Consts.Localizer.GetString("OPMLExport"));
@@ -748,7 +747,7 @@ namespace Aurora.Music.ViewModels
             _catalog.PackageStatusChanged += _catalog_PackageStatusChanged;
         }
 
-        public ObservableCollection<DeviceInformationViewModel> DevicList = new ObservableCollection<DeviceInformationViewModel>();
+        public ObservableCollection<DeviceInformationViewModel> DevicList { get; set; } = new ObservableCollection<DeviceInformationViewModel>();
         private StoreContext context;
         private AppExtensionCatalog _catalog;
         private StorageFolder downloadFolder;
@@ -756,10 +755,10 @@ namespace Aurora.Music.ViewModels
         public async Task FindAllExtensions()
         {
             // load all the extensions currently installed
-            IReadOnlyList<AppExtension> extensions = await _catalog.FindAllAsync();
+            var extensions = await _catalog.FindAllAsync();
             await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
             {
-                foreach (AppExtension ext in extensions)
+                foreach (var ext in extensions)
                 {
                     // load this extension
                     await LoadExtension(ext);
@@ -898,48 +897,49 @@ namespace Aurora.Music.ViewModels
 
         public async Task Init()
         {
-            var t = new List<Task>
+#pragma warning disable CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
+            Task.Run(async () =>
             {
-                Task.Run(async () =>
+                if (!OnlinePurchase)
                 {
-                    if (!OnlinePurchase)
+                    if (context == null)
                     {
-                        if (context == null)
-                        {
-                            context = StoreContext.GetDefault();
-                        }
+                        context = StoreContext.GetDefault();
+                    }
 
                     // Specify the kinds of add-ons to retrieve.
                     string[] productKinds = { "Durable" };
-                        List<String> filterList = new List<string>(productKinds);
+                    var filterList = new List<string>(productKinds);
 
                     // Specify the Store IDs of the products to retrieve.
                     string[] storeIds = new string[] { Consts.OnlineAddOnStoreID };
 
-                        StoreProductQueryResult queryResult =
-                            await context.GetStoreProductsAsync(filterList, storeIds);
+                    var queryResult = await context.GetStoreProductsAsync(filterList, storeIds);
 
-                        if (queryResult.ExtendedError != null)
-                        {
+                    if (queryResult.ExtendedError != null)
+                    {
                         // The user may be offline or there might be some other server failure.
                         MainPage.Current.PopMessage($"ExtendedError: {queryResult.ExtendedError.Message}");
-                            return;
-                        }
-
-                        foreach (KeyValuePair<string, StoreProduct> item in queryResult.Products)
-                        {
-                        // Access the Store info for the product.
-                        StoreProduct product = item.Value;
-                            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
-                            {
-                                OnlinePurchase = product.IsInUserCollection;
-                            });
-                            Settings.Current.OnlinePurchase = product.IsInUserCollection;
-                            Settings.Current.Save();
-                            await MainPageViewModel.Current.ReloadExtensions();
-                        }
+                        return;
                     }
-                }),
+
+                    foreach (var item in queryResult.Products)
+                    {
+                        // Access the Store info for the product.
+                        var product = item.Value;
+                        await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                        {
+                            OnlinePurchase = product.IsInUserCollection;
+                        });
+                        Settings.Current.OnlinePurchase = product.IsInUserCollection;
+                        Settings.Current.Save();
+                        await MainPageViewModel.Current.ReloadExtensions();
+                    }
+                }
+            });
+#pragma warning restore CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
+            var t = new List<Task>
+            {
                 Task.Run(async () =>
                 {
                     // Scan all extensions
@@ -981,8 +981,6 @@ namespace Aurora.Music.ViewModels
                     });
                 })
             };
-
-
             await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
             {
                 try
@@ -991,7 +989,8 @@ namespace Aurora.Music.ViewModels
                     {
                         string audioSelector = MediaDevice.GetAudioRenderSelector();
                         var outputDevices = await DeviceInformation.FindAllAsync(audioSelector);
-                        foreach (var device in outputDevices)
+                        var outList = outputDevices.ToList();
+                        foreach (var device in outList)
                         {
                             DevicList.Add(new DeviceInformationViewModel()
                             {
@@ -1034,6 +1033,8 @@ namespace Aurora.Music.ViewModels
 
                 }
             });
+            await Task.WhenAll(t);
+            InitComplete?.Invoke(this, EventArgs.Empty);
         }
 
         private string SizeToString(ulong s1)

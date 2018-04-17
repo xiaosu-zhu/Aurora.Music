@@ -11,15 +11,15 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     xmlns:controls="using:Aurora.Music.Controls"
     xmlns:animation="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:vm="using:Aurora.Music.ViewModels"
+    Unloaded="Page_Unloaded"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
     <Page.Transitions>
         <TransitionCollection>
-            <NavigationThemeTransition>
-            </NavigationThemeTransition>
-            <EntranceThemeTransition />
+            <NavigationThemeTransition/>
+            <EntranceThemeTransition/>
         </TransitionCollection>
     </Page.Transitions>
 
@@ -331,13 +331,22 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </Grid>
             </DataTemplate>
             <controls:ChannelShiftToolTipConverter x:Key="ChannelShiftToolTipConverter"/>
+            <controls:VolumeToStringConverter x:Key="VolumeToStringConverter"/>
+            <controls:BooleanNottoVisibilityConverter x:Key="BooleanNottoVisibilityConverter"/>
+            <controls:IntervalToStringConverter x:Key="IntervalToStringConverter"/>
+            <ControlTemplate x:Name="ScrollViewerScrollBarlessTemplate" TargetType="ScrollViewer">
+                <Grid Background="{TemplateBinding Background}">
+                    <ScrollContentPresenter x:Name="ScrollContentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Margin="{TemplateBinding Padding}"/>
+                </Grid>
+            </ControlTemplate>
         </ResourceDictionary>
     </Page.Resources>
 
     <Page.DataContext>
-        <vm:SettingsPageViewModel x:Name="Context"/>
+        <vm:SettingsPageViewModel x:Name="Context" InitComplete="Context_InitComplete"/>
     </Page.DataContext>
-    <Grid MinWidth="0"  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid x:Name="Main" MinWidth="0" Loaded="Main_Loaded" Padding="0,32,0,0"
+          Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState x:Name="Full">
@@ -349,103 +358,114 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="641"/>
                     </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="Main.Padding" Value="12,120,12,160"/>
-                        <Setter Target="SidePanel.(Grid.Column)" Value="0"/>
-                        <Setter Target="SidePanel.(Grid.Row)" Value="1"/>
-                        <Setter Target="SidePanel.MinWidth" Value="0"/>
-                    </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Narrow">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="0"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="Main.Padding" Value="0,120,0,160"/>
-                        <Setter Target="SidePanel.(Grid.Column)" Value="0"/>
-                        <Setter Target="SidePanel.(Grid.Row)" Value="1"/>
+                        <Setter Target="SidePanel.Padding" Value="0"/>
                         <Setter Target="SidePanel.MinWidth" Value="0"/>
+                        <Setter Target="SidePanel.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <ScrollViewer MinWidth="0"  HorizontalScrollBarVisibility="Hidden" Style="{ThemeResource NarrowScrollViewer}"
-                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalScrollMode="Disabled" VerticalScrollMode="Enabled">
-            <Grid x:Name="Main" Padding="20,120,20,160" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Loaded="Main_Loaded">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="auto"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="auto"/>
-                </Grid.ColumnDefinitions>
-                <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                    <StackPanel.ChildrenTransitions>
-                        <TransitionCollection>
-                            <RepositionThemeTransition/>
-                        </TransitionCollection>
-                    </StackPanel.ChildrenTransitions>
-                    <StackPanel BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" BorderThickness="0,0,0,1" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <Frame x:Name="LoactionFrame" Height="640" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+        <Pivot Margin="0,-30,0,0" x:Name="MainPivot" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <PivotItem Header="Library">
+                <ScrollViewer Style="{ThemeResource NarrowScrollViewer}">
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <Frame x:Name="LoactionFrame" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                     </StackPanel>
-                    <StackPanel BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" BorderThickness="0,0,0,1" Padding="8,0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <TextBlock x:Uid="Configuration" Text="Player Configuration" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12"/>
-                        <ComboBox x:Uid="OutputEndPoint" BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" BorderThickness="1" HorizontalAlignment="Left" VerticalAlignment="Center" IsSynchronizedWithCurrentItem="False" SelectedIndex="{x:Bind Context.AudioSelectedIndex,Mode=TwoWay}" Header="Output Endpoint" ItemsSource="{x:Bind Context.DevicList}" Margin="0,8"/>
+                </ScrollViewer>
+            </PivotItem>
+            <PivotItem Header="Player Configuration">
+                <ScrollViewer Style="{ThemeResource NarrowScrollViewer}">
+                    <StackPanel Padding="0,0,0,160" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <ComboBox x:Uid="OutputEndPoint"
+                                  BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}"
+                                  BorderThickness="1" HorizontalAlignment="Left" VerticalAlignment="Center"
+                                  IsSynchronizedWithCurrentItem="False" x:Name="DeviceCombo"
+                                  Header="Output Endpoint" ItemsSource="{Binding DevicList}" Margin="0,8"/>
                         <TextBlock x:Uid="OutputDefaultHint" Style="{ThemeResource BodyTextBlockStyle}" Text="'System default' will be applied at next launch." HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,8"/>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,8,0,0">
                             <Slider x:Uid="VolumeLevel" Style="{StaticResource RoundSlider}" x:Name="VolumeSlider"
                                 Foreground="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" 
                                 Background="{ThemeResource SystemControlAltTranslucentAcrylicWindowBrush}" 
-                                Value="{x:Bind Context.PlayerVolume,Mode=TwoWay}" IsThumbToolTipEnabled="False"
+                                Value="{Binding PlayerVolume,Mode=TwoWay}" IsThumbToolTipEnabled="False"
                                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                                 Header="Volume Level" Width="240"/>
-                            <TextBlock Margin="0,10,0,0" Width="40" TextAlignment="Right" VerticalAlignment="Center" 
-                                       Style="{ThemeResource TitleTextBlockStyle}" TextWrapping="NoWrap" TextTrimming="None" 
-                                       MaxLines="1" HorizontalAlignment="Stretch" 
-                                       Text="{x:Bind Context.VolumeToString(Context.PlayerVolume), Mode=OneWay}"/>
+                            <TextBlock Margin="0,10,0,0" Width="40" TextAlignment="Right" VerticalAlignment="Center"
+                                    Style="{ThemeResource TitleTextBlockStyle}" TextWrapping="NoWrap" TextTrimming="None"
+                                    MaxLines="1" HorizontalAlignment="Stretch"
+                                    Text="{Binding PlayerVolume, Mode=OneWay, Converter={StaticResource VolumeToStringConverter}}"/>
                         </StackPanel>
                         <TextBlock x:Uid="VolumeHint" Style="{ThemeResource BodyTextBlockStyle}" FontSize="13" Foreground="{ThemeResource AppBarItemDisabledForegroundThemeBrush}" Text="We suggest you to control the system volume directly." HorizontalAlignment="Left" VerticalAlignment="Center" Margin="8,0,0,8"/>
-                        <ToggleSwitch x:Uid="DisplayRequestSwitch" Header="Prevent screen locks when playing" IsOn="{x:Bind Context.PreventScreenLock, Mode=TwoWay}"/>
+                        <ToggleSwitch x:Uid="DisplayRequestSwitch" Header="Prevent screen locks when playing" IsOn="{Binding PreventScreenLock, Mode=TwoWay}"/>
                     </StackPanel>
-                    <StackPanel BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" BorderThickness="0,0,0,1" Padding="8,0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <TextBlock x:Uid="Podcast" Text="Podcast" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12"/>
-                        <ToggleSwitch x:Uid="ShowPodcastsWhenSearch" Header="Show podcasts when search" IsOn="{x:Bind Context.ShowPodcastsWhenSearch,Mode=TwoWay}" Margin="0,8"/>
-                        <ToggleSwitch x:Uid="SendPodcastToast" Header="Send toast when new-coming" Margin="0,8" IsOn="{x:Bind Context.IsPodcastToast,Mode=TwoWay}"/>
+                </ScrollViewer>
+            </PivotItem>
+            <PivotItem Header="Podcast">
+                <ScrollViewer Style="{ThemeResource NarrowScrollViewer}">
+                    <StackPanel Padding="0,0,0,160" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <ToggleSwitch x:Uid="ShowPodcastsWhenSearch" 
+                                    Header="Show podcasts when search" 
+                                    IsOn="{Binding ShowPodcastsWhenSearch,Mode=TwoWay}" 
+                                    Margin="0,8"/>
+                        <ToggleSwitch x:Uid="SendPodcastToast" 
+                                    Header="Send toast when new-coming" 
+                                    Margin="0,8" 
+                                    IsOn="{Binding IsPodcastToast,Mode=TwoWay}"/>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,8">
                             <Slider Style="{ThemeResource RoundSlider}" HorizontalAlignment="Stretch" VerticalContentAlignment="Stretch"
-                                    Foreground="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" IsThumbToolTipEnabled="False"
-                                    x:Uid="FetchInterval" Background="{ThemeResource SystemControlAltTranslucentAcrylicWindowBrush}" Width="240"
-                                    Header="Refresh Interval" Minimum="15" Maximum="150" StepFrequency="15" Value="{x:Bind Context.FetchInterval,Mode=TwoWay}"/>
-                            <TextBlock Margin="0,10,0,0" Width="96" TextAlignment="Left" VerticalAlignment="Center" 
-                                       Style="{ThemeResource TitleTextBlockStyle}" TextWrapping="NoWrap" TextTrimming="None" 
-                                       MaxLines="1" HorizontalAlignment="Stretch" 
-                                       Text="{x:Bind Context.IntervalToString(Context.FetchInterval), Mode=OneWay}"/>
+                                Foreground="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" 
+                                IsThumbToolTipEnabled="False"
+                                x:Uid="FetchInterval" 
+                                Background="{ThemeResource SystemControlAltTranslucentAcrylicWindowBrush}" 
+                                Width="240"
+                                Header="Refresh Interval" 
+                                Minimum="15" Maximum="150" StepFrequency="15" 
+                                Value="{Binding FetchInterval,Mode=TwoWay}"/>
+                            <TextBlock Margin="0,10,0,0" Width="96" TextAlignment="Left" VerticalAlignment="Center"
+                                    Style="{ThemeResource TitleTextBlockStyle}" TextWrapping="NoWrap" 
+                                    TextTrimming="None" MaxLines="1" HorizontalAlignment="Stretch"
+                                    Text="{Binding FetchInterval, Mode=OneWay, Converter={StaticResource IntervalToStringConverter}}"/>
                         </StackPanel>
-                        <Button x:Uid="ImportOPMLBtn" Content="Import OPML" Command="{x:Bind Context.ImportOPML}" Style="{ThemeResource TextBlockButtonStyle}" Margin="0,0,0,8"/>
-                        <Button x:Uid="ExportOPMLBtn" Content="Export OPML" Command="{x:Bind Context.ExportOPML}" Style="{ThemeResource TextBlockButtonStyle}" Margin="0,8"/>
+                        <Button x:Uid="ImportOPMLBtn" Content="Import OPML" 
+                            Command="{Binding ImportOPML}" 
+                            Style="{ThemeResource TextBlockButtonStyle}" Margin="0,0,0,8"/>
+                        <Button x:Uid="ExportOPMLBtn" Content="Export OPML" 
+                            Command="{Binding ExportOPML}" 
+                            Style="{ThemeResource TextBlockButtonStyle}" Margin="0,8"/>
                     </StackPanel>
-                    <StackPanel BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" BorderThickness="0,0,0,1" Padding="8,0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <StackPanel Margin="0,12" Orientation="Horizontal">
-                            <TextBlock x:Uid="Extensions" Text="Extensions" VerticalAlignment="Center" Style="{ThemeResource TitleTextBlockStyle}"/>
-                            <Button x:Uid="Manage" Content="Manage" Command="{x:Bind Context.OpenExtensionManager}" VerticalAlignment="Center" Style="{ThemeResource ButtonRevealStyle}" Margin="8,0"/>
-                        </StackPanel>
-
+                </ScrollViewer>
+            </PivotItem>
+            <PivotItem Header="Extensions">
+                <ScrollViewer Style="{ThemeResource NarrowScrollViewer}">
+                    <StackPanel Padding="0,0,0,160" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <Button x:Uid="Manage" Content="Manage" Command="{Binding OpenExtensionManager}" 
+                            VerticalAlignment="Center" Style="{ThemeResource ButtonRevealStyle}" Margin="0,8"/>
                         <ComboBox x:Uid="LyricExtension" Padding="8"
-                                  BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" BorderThickness="1" x:Name="LrcCombo" VerticalAlignment="Stretch"
-                                  HorizontalAlignment="Left" ItemTemplate="{StaticResource ExtensionTemplate}" 
-                                  SelectedIndex="{x:Bind Context.CurrentLyricIndex,Mode=OneWay}" 
-                                  ItemsSource="{x:Bind Context.LyricExts}" Header="Lyric Extension" Margin="0,8">
-                        </ComboBox>
-
+                                BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" 
+                                BorderThickness="1" x:Name="LrcCombo" VerticalAlignment="Stretch"
+                                HorizontalAlignment="Left" ItemTemplate="{StaticResource ExtensionTemplate}"
+                                ItemsSource="{Binding LyricExts}" Header="Lyric Extension" Margin="0,8"/>
                         <ComboBox x:Uid="MetaExtension" x:Name="MetaCombo" Padding="8"
-                                  BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" BorderThickness="1" VerticalAlignment="Stretch"
-                                  HorizontalAlignment="Left" ItemTemplate="{StaticResource ExtensionTemplate}" SelectedIndex="{x:Bind Context.CurrentMetaIndex,Mode=OneWay}" ItemsSource="{x:Bind Context.MetaExts}" Header="MetaData Extension" Margin="0,8">
-                        </ComboBox>
-
-                        <ToggleSwitch Visibility="Collapsed" IsOn="{x:Bind Context.MetaDataEnabled, Mode=TwoWay}" Header="Automatically retrieve album/artist metadata" Margin="0,8" />
-
-                        <TextBlock Visibility="{x:Bind Context.BoolNottoVisibility(Context.OnlinePurchase),Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" IsTextSelectionEnabled="False" Margin="0,8">
+                                BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" 
+                                BorderThickness="1" VerticalAlignment="Stretch"
+                                HorizontalAlignment="Left" ItemTemplate="{StaticResource ExtensionTemplate}"
+                                ItemsSource="{Binding MetaExts}" Header="MetaData Extension" Margin="0,8"/>
+                        <ToggleSwitch Visibility="Collapsed" IsOn="{Binding MetaDataEnabled, Mode=TwoWay}" 
+                                    Header="Automatically retrieve album/artist metadata" Margin="0,8" />
+                        <TextBlock Visibility="{Binding OnlinePurchase, Converter={StaticResource BooleanNottoVisibilityConverter}, Mode=OneWay}" 
+                                Style="{ThemeResource BodyTextBlockStyle}" IsTextSelectionEnabled="False" Margin="0,8">
                                 <Run x:Uid="ExtensionIntro" Text="You can enable or restore online extensibility from"/>
                                 <Hyperlink Foreground="{ThemeResource AccentForText}" Click="Hyperlink_Click">
                                     <Run x:Uid="Here" Text="here"/>
@@ -453,86 +473,149 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         </TextBlock>
 
                         <ComboBox x:Uid="OnlineExtension" x:Name="OnlineCombo" Padding="8"
-                                  BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" BorderThickness="1" VerticalAlignment="Stretch"
-                                  HorizontalAlignment="Left" ItemTemplate="{StaticResource ExtensionTemplate}" SelectedIndex="{x:Bind Context.CurrentOnlineIndex,Mode=OneWay}" IsEnabled="{x:Bind Context.OnlinePurchase,Mode=OneWay}" ItemsSource="{x:Bind Context.OnlineExts}" Header="Online Music Extension" Margin="0,8">
-
-                        </ComboBox>
-                        <ToggleSwitch Visibility="Collapsed" IsOn="{x:Bind Context.DataPlayEnabled, Mode=TwoWay}" Header="Using metered connection to play online contents" Margin="0,8" />
-                        <ToggleSwitch Visibility="Collapsed" IsOn="{x:Bind Context.DataDownloadEnabled, Mode=TwoWay}" Header="Using metered connection to download online contents"  Margin="0,8"/>
-                        <Button x:Uid="DownloadPath" IsEnabled="{x:Bind Context.OnlinePurchase,Mode=OneWay}" Margin="0,8" Content="Download Path" Command="{x:Bind Context.DownloadPath}" Style="{ThemeResource ButtonRevealStyle}" />
-                        <TextBlock Visibility="{x:Bind Context.OnlinePurchase,Mode=OneWay}" Text="{x:Bind Context.DownloadPathText, Mode=OneWay}" Margin="0,8" Style="{ThemeResource BodyTextBlockStyle}"/>
+                                BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" 
+                                BorderThickness="1" VerticalAlignment="Stretch"
+                                HorizontalAlignment="Left" ItemTemplate="{StaticResource ExtensionTemplate}"
+                                IsEnabled="{Binding OnlinePurchase,Mode=OneWay}" 
+                                ItemsSource="{Binding OnlineExts}" Header="Online Music Extension" Margin="0,8"/>
+                        <ToggleSwitch Visibility="Collapsed" IsOn="{Binding DataPlayEnabled, Mode=TwoWay}" 
+                                    Header="Using metered connection to play online contents" Margin="0,8" />
+                        <ToggleSwitch Visibility="Collapsed" IsOn="{Binding DataDownloadEnabled, Mode=TwoWay}" 
+                                    Header="Using metered connection to download online contents" Margin="0,8"/>
+                        <Button x:Uid="DownloadPath" IsEnabled="{Binding OnlinePurchase,Mode=OneWay}" 
+                            Margin="0,8" Content="Download Path" Command="{Binding DownloadPath}" 
+                            Style="{ThemeResource ButtonRevealStyle}" />
+                        <TextBlock Visibility="{Binding OnlinePurchase,Mode=OneWay}" 
+                                Text="{Binding DownloadPathText, Mode=OneWay}" Margin="0,8" 
+                                Style="{ThemeResource BodyTextBlockStyle}"/>
                     </StackPanel>
-                    <StackPanel BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" BorderThickness="0,0,0,1" Padding="8,0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                </ScrollViewer>
+            </PivotItem>
+            <PivotItem Header="Audio Effects">
+                <ScrollViewer Style="{ThemeResource NarrowScrollViewer}">
+                    <StackPanel Padding="0,0,0,160" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <StackPanel.ChildrenTransitions>
                             <TransitionCollection>
                                 <RepositionThemeTransition/>
                             </TransitionCollection>
                         </StackPanel.ChildrenTransitions>
-                        <TextBlock x:Uid="AudioEffects" Text="Audio Effects" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12"/>
-                        <TextBlock x:Uid="EffectsNote" FontSize="13" Text="NOTE: Enable audio effects may cost a little performance" Style="{ThemeResource BodyTextBlockStyle}" Margin="0,-12,0,0"/>
-                        <ToggleSwitch Tag="Equalizer" IsOn="{x:Bind Context.EqualizerEnabled,Mode=OneWay}" 
-                                      Loaded="ToggleSwitch_Loaded" x:Uid="EqualizerToggle" Header="Equalizer" Margin="0,20,0,0"/>
-                        <Button x:Uid="EqualizerButton" Margin="20,0,0,8" Content="Equalizer Settings" Visibility="{x:Bind Context.EqualizerEnabled,Mode=OneWay}" 
-                                Style="{ThemeResource TextBlockButtonStyle}" Command="{x:Bind Context.ShowEqualizer}"/>
-                        <ToggleSwitch x:Uid="ChannelShiftToggle" Tag="Channel" IsOn="{x:Bind Context.ChannelShiftEnabled,Mode=OneWay}" 
-                                      Loaded="ToggleSwitch_Loaded" Header="Channel shift" Margin="0,20,0,0"/>
-                        <StackPanel Margin="20,0,0,0" Visibility="{x:Bind Context.ChannelShiftEnabled,Mode=OneWay}" Orientation="Horizontal" HorizontalAlignment="Left">
-                            <Button Margin="0,0,0,16" Content="L" Style="{ThemeResource TextBlockButtonStyle}" Click="Left_Click" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
-                            <Slider Canvas.ZIndex="9999" Style="{ThemeResource RoundSlider}" HorizontalAlignment="Center" VerticalContentAlignment="Stretch"
-                                    Foreground="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" IsThumbToolTipEnabled="True"
-                                    Background="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" Width="240"
-                                    SnapsTo="Ticks" TickFrequency="0.1" TickPlacement="Inline" Minimum="-1" Maximum="1" ThumbToolTipValueConverter="{StaticResource ChannelShiftToolTipConverter}"
-                                    StepFrequency="0.1" Value="{x:Bind Context.ChannelShift,Mode=TwoWay}" x:Name="ShiftSlider"/>
-                            <Button Margin="0,0,0,16" Content="R" Style="{ThemeResource TextBlockButtonStyle}" Click="Right_Click" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+                        <TextBlock x:Uid="EffectsNote"
+                                Text="NOTE: Enable audio effects may cost a little performance"
+                                Style="{ThemeResource BodyTextBlockStyle}" Margin="0,8"/>
+                        <ToggleSwitch Tag="Equalizer" IsOn="{Binding EqualizerEnabled,Mode=OneWay}"
+                                    Loaded="ToggleSwitch_Loaded" x:Uid="EqualizerToggle"
+                                    Header="Equalizer" Margin="0,8,0,0"/>
+                        <Button x:Uid="EqualizerButton" Margin="20,0,0,8"
+                            Content="Equalizer Settings" 
+                            Visibility="{Binding EqualizerEnabled,Mode=OneWay}"
+                            Style="{ThemeResource TextBlockButtonStyle}" 
+                            Command="{Binding ShowEqualizer}"/>
+                        <ToggleSwitch x:Uid="ChannelShiftToggle" Tag="Channel" 
+                                    IsOn="{Binding ChannelShiftEnabled,Mode=OneWay}"
+                                    Loaded="ToggleSwitch_Loaded" Header="Channel shift" Margin="0,20,0,0"/>
+                        <StackPanel Margin="20,0,0,0" 
+                                Visibility="{Binding ChannelShiftEnabled,Mode=OneWay}" 
+                                Orientation="Horizontal" HorizontalAlignment="Left">
+                            <Button Margin="0,0,0,16" Content="L" 
+                                Style="{ThemeResource TextBlockButtonStyle}" Click="Left_Click" 
+                                HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+                            <Slider Canvas.ZIndex="9999" Style="{ThemeResource RoundSlider}" 
+                                HorizontalAlignment="Center" VerticalContentAlignment="Stretch"
+                                Foreground="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" 
+                                IsThumbToolTipEnabled="True"
+                                Background="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" Width="240"
+                                SnapsTo="Ticks" TickFrequency="0.1" TickPlacement="Inline" 
+                                Minimum="-1" Maximum="1" 
+                                ThumbToolTipValueConverter="{StaticResource ChannelShiftToolTipConverter}"
+                                StepFrequency="0.1" Value="{Binding ChannelShift,Mode=TwoWay}" x:Name="ShiftSlider"/>
+                            <Button Margin="0,0,0,16" Content="R" Style="{ThemeResource TextBlockButtonStyle}" 
+                                Click="Right_Click" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
                         </StackPanel>
-                        <ToggleSwitch x:Uid="ToMonoSwitch" Visibility="{x:Bind Context.ChannelShiftEnabled,Mode=OneWay}" 
-                                      VerticalAlignment="Top" Margin="20,0,0,8" Header="Stereo to mono" IsOn="{x:Bind Context.StereoToMono,Mode=TwoWay}"/>
-
-                        <ToggleSwitch x:Uid="LimiterToggle" Tag="Threshold" IsOn="{x:Bind Context.ThresholdEnabled,Mode=OneWay}" 
-                                      Loaded="ToggleSwitch_Loaded" Header="Limiter" Margin="0,20,0,0"/>
-                        <Button x:Uid="LimiterButton" Margin="20,0,0,8" Content="Limiter Settings" Visibility="{x:Bind Context.ThresholdEnabled,Mode=OneWay}" 
-                                Style="{ThemeResource TextBlockButtonStyle}" Command="{x:Bind Context.ShowLimiter}"/>
+                        <ToggleSwitch x:Uid="ToMonoSwitch" Visibility="{Binding ChannelShiftEnabled,Mode=OneWay}"
+                                    VerticalAlignment="Top" Margin="20,0,0,8" 
+                                    Header="Stereo to mono" IsOn="{Binding StereoToMono,Mode=TwoWay}"/>
+                        <ToggleSwitch x:Uid="LimiterToggle" Tag="Threshold" 
+                                    IsOn="{Binding ThresholdEnabled,Mode=OneWay}"
+                                    Loaded="ToggleSwitch_Loaded" Header="Limiter" Margin="0,20,0,0"/>
+                        <Button x:Uid="LimiterButton" Margin="20,0,0,8" Content="Limiter Settings" 
+                            Visibility="{Binding ThresholdEnabled,Mode=OneWay}"
+                            Style="{ThemeResource TextBlockButtonStyle}" 
+                            Command="{Binding ShowLimiter}"/>
                     </StackPanel>
-                    <StackPanel BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" BorderThickness="0,0,0,1" Padding="8,0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <TextBlock x:Uid="Advance" Text="Advance" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12"/>
-                        <ToggleSwitch x:Uid="DebugMode" Header="Debug Mode" IsOn="{x:Bind Context.DebugModeEnabled,Mode=TwoWay}" Margin="0,8" />
+                </ScrollViewer>
+            </PivotItem>
+            <PivotItem Header="Advance">
+                <ScrollViewer Style="{ThemeResource NarrowScrollViewer}">
+                    <StackPanel Padding="0,0,0,160" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <ToggleSwitch x:Uid="DebugMode" Header="Debug Mode" 
+                                    IsOn="{Binding DebugModeEnabled,Mode=TwoWay}" Margin="0,8" />
                         <TextBlock Margin="0,8">
                             <Run x:Uid="CacheFolderSize" Text="Cache folder size:"/>
-                            <Run Text="{x:Bind Context.CacheFolderSize,Mode=OneWay}"/>
+                            <Run Text="{Binding CacheFolderSize,Mode=OneWay}"/>
                         </TextBlock>
                         <TextBlock Margin="0,8">
                             <Run x:Uid="DataFolderSize" Text="Data folder size:"/>
-                            <Run Text="{x:Bind Context.DataFolderSize,Mode=OneWay}"/>
+                            <Run Text="{Binding DataFolderSize,Mode=OneWay}"/>
                         </TextBlock>
-                        <Button x:Uid="OpenDataButton" HorizontalAlignment="Left" Margin="0,8" Content="Open data folder" Command="{x:Bind Context.OpenData}"/>
-                        <StackPanel Padding="4" Margin="0,4" BorderBrush="#ff4343" BorderThickness="1" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                            <TextBlock x:Uid="DangerZone" Foreground="#ff4343" Text="Danger Zone" Margin="0,8"/>
-                            <Button x:Uid="ClearCache" IsEnabled="{x:Bind Context.CanClearCache,Mode=OneWay}" Command="{x:Bind Context.ClearCache}" Style="{ThemeResource ButtonRevealStyle}" Margin="0,8" Content="Clear Cache"/>
-                            <Button x:Uid="DeleteAll" Margin="0,8" Style="{ThemeResource ButtonRevealStyle}" Background="#ff4343" Content="Delete all and reload" Foreground="{StaticResource SystemControlForegroundAltHighBrush}">
+                        <Button x:Uid="OpenDataButton" HorizontalAlignment="Left" 
+                            Margin="0,8" Content="Open data folder" 
+                            Command="{Binding OpenData}"/>
+                        <StackPanel Padding="4" Margin="0,4" BorderBrush="#ff4343" 
+                                BorderThickness="1" Orientation="Vertical" 
+                                HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <TextBlock x:Uid="DangerZone" Foreground="#ff4343" 
+                                    Text="Danger Zone" Margin="0,8"/>
+                            <Button x:Uid="ClearCache" IsEnabled="{Binding CanClearCache,Mode=OneWay}" 
+                                Command="{Binding ClearCache}" Style="{ThemeResource ButtonRevealStyle}" 
+                                Margin="0,8" Content="Clear Cache"/>
+                            <Button x:Uid="DeleteAll" Margin="0,8" Style="{ThemeResource ButtonRevealStyle}" 
+                                Background="#ff4343" Content="Delete all and reload" 
+                                Foreground="{StaticResource SystemControlForegroundAltHighBrush}">
                                 <Button.Flyout>
                                     <Flyout>
                                         <StackPanel Orientation="Horizontal">
-                                            <Button x:Uid="DeleteAllHint" Command="{x:Bind Context.DeleteAll}" Content="I know this will clear all data and continue" Style="{ThemeResource ButtonRevealStyle}" Background="#ff4343" Foreground="{StaticResource SystemControlForegroundAltHighBrush}"/>
+                                            <Button x:Uid="DeleteAllHint" 
+                                                Command="{Binding DeleteAll}" 
+                                                Content="I know this will clear all data and continue" 
+                                                Style="{ThemeResource ButtonRevealStyle}" Background="#ff4343" 
+                                                Foreground="{StaticResource SystemControlForegroundAltHighBrush}"/>
                                         </StackPanel>
                                     </Flyout>
                                 </Button.Flyout>
                             </Button>
                         </StackPanel>
                     </StackPanel>
-                </StackPanel>
-                <StackPanel Padding="8,0" MinWidth="240" x:Name="SidePanel" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                    <TextBlock x:Uid="OtherInformation" Text="Other Information" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12"/>
-                    <Button x:Uid="OpenSource" Content="Open Source" Command="{x:Bind Context.Github}" Style="{ThemeResource TextBlockButtonStyle}" Margin="0,8"/>
-                    <Button x:Uid="Comment" Content="Comment in Store" Command="{x:Bind Context.CommentInStore}" Style="{ThemeResource TextBlockButtonStyle}" Margin="0,8"/>
-                    <Button x:Uid="ReportBug" Content="Report a Bug" Command="{x:Bind Context.ReportABug}" Style="{ThemeResource TextBlockButtonStyle}" Margin="0,8"/>
-                    <Button x:Uid="GetExtension" Content="Get Extensions" Command="{x:Bind Context.GetExtensions}" Style="{ThemeResource TextBlockButtonStyle}" Margin="0,8"/>
-                    <Button x:Uid="AboutBtn" Content="About" Command="{x:Bind Context.About}" Style="{ThemeResource TextBlockButtonStyle}" Margin="0,8"/>
-                    <Button x:Uid="Privacy" Content="Privacy Policy" Command="{x:Bind Context.NavigateToPrivacy}" Style="{ThemeResource TextBlockButtonStyle}" Margin="0,8"/>
-                    <Button x:Uid="EaseAccessBtn" Content="Ease of Access" Command="{x:Bind Context.ShowEaseAccess}" Style="{ThemeResource TextBlockButtonStyle}" Margin="0,8"/>
-                    <Button x:Uid="WhatsNew" Content="What's New?" Command="{x:Bind Context.ShowUpdateInfo}" Style="{ThemeResource TextBlockButtonStyle}" Margin="0,8"/>
-                </StackPanel>
-            </Grid>
-        </ScrollViewer>
-        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="96" Background="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}"/>
+                </ScrollViewer>
+            </PivotItem>
+        </Pivot>
+
+        <StackPanel x:Name="SidePanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Padding="8,0" MinWidth="240" Grid.Column="1">
+            <TextBlock x:Uid="OtherInformation" Text="Other Information" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12"/>
+            <Button x:Uid="OpenSource" Content="Open Source"
+                            Command="{Binding Github}"
+                            Style="{ThemeResource TextBlockButtonStyle}" Margin="0,8"/>
+            <Button x:Uid="Comment" Content="Comment in Store"
+                            Command="{Binding CommentInStore}"
+                            Style="{ThemeResource TextBlockButtonStyle}" Margin="0,8"/>
+            <Button x:Uid="ReportBug" Content="Report a Bug"
+                            Command="{Binding ReportABug}"
+                            Style="{ThemeResource TextBlockButtonStyle}" Margin="0,8"/>
+            <Button x:Uid="GetExtension" Content="Get Extensions"
+                            Command="{Binding GetExtensions}"
+                            Style="{ThemeResource TextBlockButtonStyle}" Margin="0,8"/>
+            <Button x:Uid="AboutBtn" Content="About" Command="{Binding About}"
+                            Style="{ThemeResource TextBlockButtonStyle}" Margin="0,8"/>
+            <Button x:Uid="Privacy" Content="Privacy Policy"
+                            Command="{Binding NavigateToPrivacy}"
+                            Style="{ThemeResource TextBlockButtonStyle}" Margin="0,8"/>
+            <Button x:Uid="EaseAccessBtn" Content="Ease of Access"
+                            Command="{Binding ShowEaseAccess}"
+                            Style="{ThemeResource TextBlockButtonStyle}" Margin="0,8"/>
+            <Button x:Uid="WhatsNew" Content="What's New?"
+                            Command="{Binding ShowUpdateInfo}"
+                            Style="{ThemeResource TextBlockButtonStyle}" Margin="0,8"/>
+        </StackPanel>
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top" Visibility="Collapsed"
+                Height="96" Background="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}"/>
     </Grid>
 </Page>

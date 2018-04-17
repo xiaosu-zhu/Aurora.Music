@@ -3,18 +3,15 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using Aurora.Music.Core;
 using Aurora.Music.Core.Models;
-using Aurora.Music.Effects;
 using Aurora.Music.ViewModels;
 using Aurora.Shared.Helpers;
 using System;
 using System.Threading.Tasks;
-using Windows.System.Threading;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using Windows.UI.Xaml.Shapes;
 
 namespace Aurora.Music.Pages
 {
@@ -23,10 +20,10 @@ namespace Aurora.Music.Pages
     {
         public SettingsPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             LoactionFrame.Navigate(typeof(AddFoldersView));
-            MainPageViewModel.Current.Title = Consts.Localizer.GetString("SettingsText");
-            MainPageViewModel.Current.NeedShowTitle = true;
+            //MainPageViewModel.Current.Title = Consts.Localizer.GetString("SettingsText");
+            MainPageViewModel.Current.NeedShowTitle = false;
             MainPageViewModel.Current.LeftTopColor = Resources["SystemControlForegroundBaseHighBrush"] as SolidColorBrush;
 
             // slider swallowed PointerReleasedEvent
@@ -87,25 +84,38 @@ namespace Aurora.Music.Pages
             await MainPageViewModel.Current.ReloadExtensions();
         }
 
-        private void Main_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void Main_Loaded(object sender, RoutedEventArgs e)
         {
             OnlineCombo.SelectionChanged += OnlineCombo_SelectionChanged;
             LrcCombo.SelectionChanged += LyricCombo_SelectionChanged;
             MetaCombo.SelectionChanged += MetaCombo_SelectionChanged;
+            DeviceCombo.SelectionChanged += DeviceCombo_SelectionChanged;
+            MainPivot.Height = Main.ActualHeight - Main.Padding.Top - Main.Padding.Top;
+            Main.SizeChanged += SettingsPage_SizeChanged;
         }
 
-        private void ToggleSwitch_Toggled(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void DeviceCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Context.AudioSelectedIndex = DeviceCombo.SelectedIndex;
+        }
+
+        private void SettingsPage_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            MainPivot.Height = Main.ActualHeight - Main.Padding.Top - Main.Padding.Top;
+        }
+
+        private void ToggleSwitch_Toggled(object sender, RoutedEventArgs e)
         {
             var el = sender as ToggleSwitch;
             Context.ToggleEffectState((string)el.Tag);
         }
 
-        private void ToggleSwitch_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void ToggleSwitch_Loaded(object sender, RoutedEventArgs e)
         {
             (sender as ToggleSwitch).Toggled += ToggleSwitch_Toggled;
         }
 
-        private void Slider_PointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        private void Slider_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
             if (PlaybackEngine.PlaybackEngine.Current.IsPlaying == null || PlaybackEngine.PlaybackEngine.Current.IsPlaying == false)
             {
@@ -130,6 +140,40 @@ namespace Aurora.Music.Pages
         private void Right_Click(object sender, RoutedEventArgs e)
         {
             ShiftSlider.Value += 0.1;
+        }
+
+        private void Page_Unloaded(object sender, RoutedEventArgs e)
+        {
+            Main.SizeChanged -= SettingsPage_SizeChanged;
+        }
+
+        private async void Context_InitComplete(object sender, EventArgs e)
+        {
+            // PivotItem loaded with latency, only when Pivot move to its neighbor, these controls start to load, and Items become sync with DataContext
+#pragma warning disable CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
+            Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
+            {
+                while (MetaCombo.Items.Count < 1) await Task.Delay(500);
+                OnlineCombo.SelectionChanged -= OnlineCombo_SelectionChanged;
+                LrcCombo.SelectionChanged -= LyricCombo_SelectionChanged;
+                MetaCombo.SelectionChanged -= MetaCombo_SelectionChanged;
+
+                OnlineCombo.SelectedIndex = Context.CurrentOnlineIndex;
+                LrcCombo.SelectedIndex = Context.CurrentLyricIndex;
+                MetaCombo.SelectedIndex = Context.CurrentMetaIndex;
+
+                OnlineCombo.SelectionChanged += OnlineCombo_SelectionChanged;
+                LrcCombo.SelectionChanged += LyricCombo_SelectionChanged;
+                MetaCombo.SelectionChanged += MetaCombo_SelectionChanged;
+            });
+            Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
+            {
+                while (DeviceCombo.Items.Count < 1) await Task.Delay(500);
+                DeviceCombo.SelectionChanged -= DeviceCombo_SelectionChanged;
+                DeviceCombo.SelectedIndex = Context.AudioSelectedIndex;
+                DeviceCombo.SelectionChanged += DeviceCombo_SelectionChanged;
+            });
+#pragma warning restore CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
         }
     }
 }
