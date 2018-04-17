@@ -325,11 +325,11 @@
     <value>包含音乐库</value>
     <comment>Including Music Library</comment>
   </data>
-  <data name="Configuration.Text" xml:space="preserve">
+  <data name="Configuration.Header" xml:space="preserve">
     <value>播放配置</value>
     <comment>Player Configuration</comment>
   </data>
-  <data name="Extensions.Text" xml:space="preserve">
+  <data name="Extensions.Header" xml:space="preserve">
     <value>扩展</value>
     <comment>Extensions</comment>
   </data>
@@ -405,7 +405,7 @@
     <value>在线音乐扩展</value>
     <comment>Online Music Extension</comment>
   </data>
-  <data name="Advance.Text" xml:space="preserve">
+  <data name="Advance.Header" xml:space="preserve">
     <value>高级</value>
     <comment>Advance</comment>
   </data>
@@ -1037,7 +1037,7 @@
     <value>关闭应用</value>
     <comment>Shutdown app</comment>
   </data>
-  <data name="AudioEffects.Text" xml:space="preserve">
+  <data name="AudioEffects.Header" xml:space="preserve">
     <value>音频效果</value>
     <comment>Audio Effects</comment>
   </data>
@@ -1141,7 +1141,7 @@
     <value>订阅</value>
     <comment>Subscribe</comment>
   </data>
-  <data name="Podcast.Text" xml:space="preserve">
+  <data name="Podcast.Header" xml:space="preserve">
     <value>播客</value>
     <comment>Podcast</comment>
   </data>
@@ -1444,5 +1444,13 @@
     <data name="More.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>更多</value>
     <comment>More</comment>
+  </data>
+    <data name="Library.Header" xml:space="preserve">
+    <value>库</value>
+    <comment>Library</comment>
+  </data>
+    <data name="Filters.Text" xml:space="preserve">
+    <value>过滤</value>
+    <comment>Filters</comment>
   </data>
 </root>

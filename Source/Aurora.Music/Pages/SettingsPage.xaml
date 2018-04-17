@@ -379,14 +379,14 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
         <Pivot Margin="0,-30,0,0" x:Name="MainPivot" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <PivotItem Header="Library">
+            <PivotItem x:Uid="Library" Header="Library">
                 <ScrollViewer Style="{ThemeResource NarrowScrollViewer}">
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <Frame x:Name="LoactionFrame" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                     </StackPanel>
                 </ScrollViewer>
             </PivotItem>
-            <PivotItem Header="Player Configuration">
+            <PivotItem x:Uid="Configuration" Header="Player Configuration">
                 <ScrollViewer Style="{ThemeResource NarrowScrollViewer}">
                     <StackPanel Padding="0,0,0,160" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <ComboBox x:Uid="OutputEndPoint"
@@ -412,7 +412,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     </StackPanel>
                 </ScrollViewer>
             </PivotItem>
-            <PivotItem Header="Podcast">
+            <PivotItem x:Uid="Podcast" Header="Podcast">
                 <ScrollViewer Style="{ThemeResource NarrowScrollViewer}">
                     <StackPanel Padding="0,0,0,160" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <ToggleSwitch x:Uid="ShowPodcastsWhenSearch" 
@@ -447,7 +447,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     </StackPanel>
                 </ScrollViewer>
             </PivotItem>
-            <PivotItem Header="Extensions">
+            <PivotItem x:Uid="Extensions" Header="Extensions">
                 <ScrollViewer Style="{ThemeResource NarrowScrollViewer}">
                     <StackPanel Padding="0,0,0,160" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <Button x:Uid="Manage" Content="Manage" Command="{Binding OpenExtensionManager}" 
@@ -491,7 +491,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     </StackPanel>
                 </ScrollViewer>
             </PivotItem>
-            <PivotItem Header="Audio Effects">
+            <PivotItem x:Uid="AudioEffects" Header="Audio Effects">
                 <ScrollViewer Style="{ThemeResource NarrowScrollViewer}">
                     <StackPanel Padding="0,0,0,160" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <StackPanel.ChildrenTransitions>
@@ -544,7 +544,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     </StackPanel>
                 </ScrollViewer>
             </PivotItem>
-            <PivotItem Header="Advance">
+            <PivotItem x:Uid="Advance" Header="Advance">
                 <ScrollViewer Style="{ThemeResource NarrowScrollViewer}">
                     <StackPanel Padding="0,0,0,160" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <ToggleSwitch x:Uid="DebugMode" Header="Debug Mode" 

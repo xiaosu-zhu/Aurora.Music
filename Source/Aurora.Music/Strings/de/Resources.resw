@@ -325,11 +325,11 @@
     <value>Die Windows-Musikbibliothek miteinschließen</value>
     <comment>Including Music Library</comment>
   </data>
-    <data name="Configuration.Text" xml:space="preserve">
+    <data name="Configuration.Header" xml:space="preserve">
     <value>Konfiguration</value>
     <comment>Player Configuration</comment>
   </data>
-    <data name="Extensions.Text" xml:space="preserve">
+    <data name="Extensions.Header" xml:space="preserve">
     <value>Erweiterungen</value>
     <comment>Extensions</comment>
   </data>
@@ -405,7 +405,7 @@
     <value>Online-Musik-Erweiterung</value>
     <comment>Online Music Extension</comment>
   </data>
-    <data name="Advance.Text" xml:space="preserve">
+    <data name="Advance.Header" xml:space="preserve">
     <value>Erweitert</value>
     <comment>Advance</comment>
   </data>
@@ -1042,7 +1042,7 @@
     <value>App schließen</value>
     <comment>Shutdown app</comment>
   </data>
-    <data name="AudioEffects.Text" xml:space="preserve">
+    <data name="AudioEffects.Header" xml:space="preserve">
     <value>Ton-Effekte</value>
     <comment>Audio Effects</comment>
   </data>
@@ -1142,7 +1142,7 @@
     <value>Abonnieren</value>
     <comment>Subscribe</comment>
   </data>
-    <data name="Podcast.Text" xml:space="preserve">
+    <data name="Podcast.Header" xml:space="preserve">
     <value>Podcast</value>
     <comment>Podcast</comment>
   </data>
@@ -1445,5 +1445,13 @@
     <data name="More.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>More</value>
     <comment>More</comment>
+  </data>
+    <data name="Library.Header" xml:space="preserve">
+    <value>Library</value>
+    <comment>Library</comment>
+  </data>
+    <data name="Filters.Text" xml:space="preserve">
+    <value>Filters</value>
+    <comment>Filters</comment>
   </data>
 </root>

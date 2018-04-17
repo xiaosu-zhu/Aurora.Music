@@ -247,11 +247,11 @@
     <value>Включая Музыкальную Библиотеку</value>
     <comment>Including Music Library</comment>
   </data>
-    <data name="Configuration.Text" xml:space="preserve">
+    <data name="Configuration.Header" xml:space="preserve">
     <value>Параметры Плеера</value>
     <comment>Player Configuration</comment>
   </data>
-    <data name="Extensions.Text" xml:space="preserve">
+    <data name="Extensions.Header" xml:space="preserve">
     <value>Дополнения</value>
     <comment>Extensions</comment>
   </data>
@@ -327,7 +327,7 @@
     <value>Дополнение Онлайн-Музыки</value>
     <comment>Online Music Extension</comment>
   </data>
-    <data name="Advance.Text" xml:space="preserve">
+    <data name="Advance.Header" xml:space="preserve">
     <value>Предварительный</value>
     <comment>Advance</comment>
   </data>
@@ -964,7 +964,7 @@
     <value>Завершение работы приложения</value>
     <comment>Shutdown app</comment>
   </data>
-    <data name="AudioEffects.Text" xml:space="preserve">
+    <data name="AudioEffects.Header" xml:space="preserve">
     <value>Аудио Эффекты</value>
     <comment>Audio Effects</comment>
   </data>
@@ -1064,7 +1064,7 @@
     <value>Подписаться</value>
     <comment>Subscribe</comment>
   </data>
-    <data name="Podcast.Text" xml:space="preserve">
+    <data name="Podcast.Header" xml:space="preserve">
     <value>Подкаст</value>
     <comment>Podcast</comment>
   </data>
@@ -1367,5 +1367,13 @@
     <data name="More.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>More</value>
     <comment>More</comment>
+  </data>
+    <data name="Library.Header" xml:space="preserve">
+    <value>Library</value>
+    <comment>Library</comment>
+  </data>
+    <data name="Filters.Text" xml:space="preserve">
+    <value>Filters</value>
+    <comment>Filters</comment>
   </data>
 </root>

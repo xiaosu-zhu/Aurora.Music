@@ -325,11 +325,11 @@
     <value>包含音樂庫</value>
     <comment>Including Music Library</comment>
   </data>
-  <data name="Configuration.Text" xml:space="preserve">
+  <data name="Configuration.Header" xml:space="preserve">
     <value>播放配置</value>
     <comment>Player Configuration</comment>
   </data>
-  <data name="Extensions.Text" xml:space="preserve">
+  <data name="Extensions.Header" xml:space="preserve">
     <value>擴充套件</value>
     <comment>Extensions</comment>
   </data>
@@ -405,7 +405,7 @@
     <value>線上音樂擴充套件</value>
     <comment>Online Music Extension</comment>
   </data>
-  <data name="Advance.Text" xml:space="preserve">
+  <data name="Advance.Header" xml:space="preserve">
     <value>高階</value>
     <comment>Advance</comment>
   </data>
@@ -1037,7 +1037,7 @@
     <value>關閉應用</value>
     <comment>Shutdown app</comment>
   </data>
-  <data name="AudioEffects.Text" xml:space="preserve">
+  <data name="AudioEffects.Header" xml:space="preserve">
     <value>音訊效果</value>
     <comment>Audio Effects</comment>
   </data>
@@ -1137,7 +1137,7 @@
     <value>訂閱</value>
     <comment>Subscribe</comment>
   </data>
-  <data name="Podcast.Text" xml:space="preserve">
+  <data name="Podcast.Header" xml:space="preserve">
     <value>播客</value>
     <comment>Podcast</comment>
   </data>
@@ -1436,5 +1436,13 @@
     <data name="AlbumSortText" xml:space="preserve">
     <value>{0}個專輯已歸類，共{1}個</value>
     <comment>{0} of {1} {1:album|albums} sorted</comment>
+  </data>
+    <data name="Library.Header" xml:space="preserve">
+    <value>库</value>
+    <comment>Library</comment>
+  </data>
+    <data name="Filters.Text" xml:space="preserve">
+    <value>过滤</value>
+    <comment>Filters</comment>
   </data>
 </root>

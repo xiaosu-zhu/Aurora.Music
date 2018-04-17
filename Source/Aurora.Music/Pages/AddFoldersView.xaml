@@ -37,7 +37,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <TextBlock x:Uid="IncludeLibrary" Text="Including Music Library" VerticalAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}"/>
                 <ToggleSwitch Style="{StaticResource ColoredToggleSwitch}" IsOn="{x:Bind Context.IncludeMusicLibrary, Mode=TwoWay}" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" Margin="8,0"/>
             </StackPanel>
-            <TextBlock Text="Filters" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,8"/>
+            <TextBlock x:Uid="Filters" Text="Filters" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,8"/>
             <StackPanel Orientation="Vertical" Margin="0,8">
                 <ToggleSwitch x:Uid="DurationFilterEnable" Margin="0,8,0,0" Header="Duration Filter" IsOn="{x:Bind Context.DurationFilterEnabled,Mode=TwoWay}"/>
                 <StackPanel Margin="0,0,0,8" Visibility="{x:Bind Context.DurationFilterEnabled,Mode=OneWay}" Orientation="Horizontal">
