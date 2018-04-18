@@ -20,6 +20,13 @@ Just as what you see in the link above, Aurora Music uses `Windows.ApplicationMo
  2. Write the code of your core service
  3. Implement Background Task and AppService Handler
  
+
+# When Submitting to Store
+
+Because Windows Store doesn't have the ability to search an extension now, we recommend you to add a search term: `Aurora Music Extension` in "Submission - Store listing - Addtional information", like this:
+
+![](https://i.loli.net/2018/04/13/5ad01e1794af9.png)
+ 
  
 # Sample: A Simple Lyric Provider
 

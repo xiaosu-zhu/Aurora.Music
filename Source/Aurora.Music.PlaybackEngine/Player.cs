@@ -787,8 +787,15 @@ namespace Aurora.Music.PlaybackEngine
             _savedIndex = mediaPlaybackList.CurrentItemIndex;
 
             var cure = mediaPlaybackList.CurrentItem;
-            mediaPlaybackList.Items.Remove(mediaPlaybackList.CurrentItem);
-            cure.Source.Dispose();
+            if (cure == null)
+            {
+
+            }
+            else
+            {
+                mediaPlaybackList.Items.Remove(mediaPlaybackList.CurrentItem);
+                cure.Source.Dispose();
+            }
             mediaPlayer.Source = null;
         }
 
@@ -931,6 +938,32 @@ namespace Aurora.Music.PlaybackEngine
             else
             {
                 mediaPlayer.PlaybackSession.Position += timeSpan;
+            }
+        }
+
+        public void RefreshNowPlayingInfo()
+        {
+            PlaybackStatusChanged?.Invoke(this, new PlaybackStatusChangedArgs()
+            {
+                PlaybackStatus = mediaPlayer.PlaybackSession.PlaybackState,
+                IsLoop = mediaPlaybackList.AutoRepeatEnabled,
+                IsShuffle = isShuffle
+            });
+            if (mediaPlaybackList.CurrentItem != null)
+            {
+                var currentSong = mediaPlaybackList.CurrentItem.Source.CustomProperties[Consts.SONG] as Song;
+                ItemsChanged?.Invoke(this, new PlayingItemsChangedArgs
+                {
+                    IsShuffle = isShuffle,
+                    IsLoop = mediaPlaybackList.AutoRepeatEnabled,
+                    CurrentSong = currentSong,
+                    CurrentIndex = currentSong == null ? -1 : currentList.FindIndex(a => a == currentSong),
+                    Items = currentList
+                });
+            }
+            else
+            {
+                ItemsChanged?.Invoke(this, new PlayingItemsChangedArgs() { CurrentSong = null, CurrentIndex = -1, Items = null });
             }
         }
     }

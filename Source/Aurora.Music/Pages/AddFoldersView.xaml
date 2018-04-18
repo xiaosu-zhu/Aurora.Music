@@ -23,18 +23,40 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../Themes/Styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light" Source="../Themes/Light.xaml"/>
+                <ResourceDictionary x:Key="Dark" Source="../Themes/Dark.xaml"/>
+            </ResourceDictionary.ThemeDictionaries>
         </ResourceDictionary>
     </Page.Resources>
 
-    <ScrollViewer MaxHeight="360" VerticalScrollBarVisibility="Hidden" VerticalScrollMode="Enabled" HorizontalScrollBarVisibility="Hidden" HorizontalScrollMode="Disabled" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    <ScrollViewer MaxHeight="640" VerticalScrollBarVisibility="Hidden" VerticalScrollMode="Enabled" HorizontalScrollBarVisibility="Hidden" HorizontalScrollMode="Disabled" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <StackPanel Padding="8,0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <TextBlock x:Uid="ScanFolder" Style="{ThemeResource TitleTextBlockStyle}" Text="Here's Scanning Folders" Margin="0,12" HorizontalAlignment="Left" VerticalAlignment="Center"/>
             <StackPanel Orientation="Horizontal" Margin="0,8">
                 <TextBlock x:Uid="IncludeLibrary" Text="Including Music Library" VerticalAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}"/>
                 <ToggleSwitch Style="{StaticResource ColoredToggleSwitch}" IsOn="{x:Bind Context.IncludeMusicLibrary, Mode=TwoWay}" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" Margin="8,0"/>
             </StackPanel>
-            <Button x:Uid="AddNewFolder" Command="{x:Bind Context.AddFolderCommand}" Background="{ThemeResource SystemControlBackgroundBaseLowRevealBackgroundBrush}" 
-                    HorizontalAlignment="Left" Margin="0,8" Style="{ThemeResource ButtonRevealStyle}" Content="Add a new folder to scan"/>
+            <TextBlock x:Uid="Filters" Text="Filters" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,8"/>
+            <StackPanel Orientation="Vertical" Margin="0,8">
+                <ToggleSwitch x:Uid="DurationFilterEnable" Margin="0,8,0,0" Header="Duration Filter" IsOn="{x:Bind Context.DurationFilterEnabled,Mode=TwoWay}"/>
+                <StackPanel Margin="0,0,0,8" Visibility="{x:Bind Context.DurationFilterEnabled,Mode=OneWay}" Orientation="Horizontal">
+                    <Slider x:Uid="DurationFilter" IsThumbToolTipEnabled="False" Minimum="200" Maximum="20000" Value="{x:Bind Context.Duration,Mode=TwoWay}" Header="Don't search files shorter than" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="320"/>
+                    <TextBlock Margin="8,28,0,0" Text="{x:Bind Context.DurationString(Context.Duration),Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}"/>
+                </StackPanel>
+                <ToggleSwitch x:Uid="SizeFilterEnable" Margin="0,8,0,0" Header="Size Filter" IsOn="{x:Bind Context.SizeFilterEnabled,Mode=TwoWay}"/>
+                <StackPanel Margin="0,0,0,8" Visibility="{x:Bind Context.SizeFilterEnabled,Mode=OneWay}" Orientation="Horizontal">
+                    <Slider x:Uid="SizeFilter" IsThumbToolTipEnabled="False" Minimum="1" Maximum="4096" Value="{x:Bind Context.Size,Mode=TwoWay}" Header="Don't search files smaller than" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="320"/>
+                    <TextBlock Margin="8,28,0,0" Text="{x:Bind Context.SizeString(Context.Size),Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}"/>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,8">
+                <Button x:Uid="AddNewFolder" Command="{x:Bind Context.AddFolderCommand}" Background="{ThemeResource SystemControlBackgroundBaseLowRevealBackgroundBrush}" 
+                    HorizontalAlignment="Left" Margin="0,0,8,0" Style="{ThemeResource ButtonRevealStyle}" Content="Add a new folder to scan"/>
+                <Button x:Uid="FilterNewFolder" Command="{x:Bind Context.FilterFolderCommand}" Background="{ThemeResource SystemControlBackgroundBaseLowRevealBackgroundBrush}" 
+                    HorizontalAlignment="Left" Style="{ThemeResource ButtonRevealStyle}" Foreground="#ff4343" Content="Add a folder don't scan"/>
+            </StackPanel>
+            <TextBlock x:Uid="FilterFoldeNote" Text="Note: filtered folder names will apply to all folder"/>
             <ListView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemContainerStyleSelector="{StaticResource SongListStyleSelector}"
                       SelectionMode="None" IsItemClickEnabled="True" ItemClick="ListView_ItemClick" Margin="0,8" ItemsSource="{x:Bind Context.Folders}">
                 <ListView.ItemContainerTransitions>
@@ -48,7 +70,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </ListView.ItemContainerTransitions>
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="vm:FolderViewModel">
-                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{x:Bind FilteredBackground(IsFiltered)}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition Width="*"/>
@@ -62,7 +84,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                     <RepositionThemeTransition/>
                                 </TransitionCollection>
                             </Grid.ChildrenTransitions>
-                            <Grid x:Name="Symbol" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                            <Grid Visibility="{x:Bind BoolNottoVisibility(IsFiltered)}" x:Name="Symbol" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" 
                                   Background="{ThemeResource SystemControlBackgroundBaseLowRevealBackgroundBrush}"
                                   Width="36" Height="36" Margin="8" CornerRadius="999" BorderBrush="{x:Null}" BorderThickness="0">
                                 <TextBlock Text="{x:Bind Disk}" Style="{ThemeResource BodyTextBlockStyle}" OpticalMarginAlignment="None" FontWeight="Bold" 
@@ -70,14 +92,14 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                             </Grid>
                             <StackPanel HorizontalAlignment="Stretch" Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
                                 <TextBlock Text="{x:Bind FolderName}" Style="{ThemeResource BaseTextBlockStyle}" Margin="8,4,8,0"/>
-                                <TextBlock Text="{x:Bind FormatCount(SongsCount)}" Style="{ThemeResource BodyTextBlockStyle}" FontSize="10" Margin="8,0,8,4"/>
+                                <TextBlock Text="{x:Bind FormatCount(IsFiltered, SongsCount)}" Style="{ThemeResource BodyTextBlockStyle}" FontSize="10" Margin="8,0,8,4"/>
                             </StackPanel>
                             <Grid Visibility="{x:Bind IsOpened, Mode=OneWay}" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="auto"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Stretch" Text="{x:Bind Path}" Style="{ThemeResource BodyTextBlockStyle}" Margin="4" MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"/>
+                                <TextBlock Visibility="{x:Bind BoolNottoVisibility(IsFiltered)}" VerticalAlignment="Center" HorizontalAlignment="Stretch" Text="{x:Bind Path}" Style="{ThemeResource BodyTextBlockStyle}" Margin="4" MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"/>
                                 <Button Grid.Column="1" Foreground="#ff4343" 
                                         Background="{ThemeResource SystemControlBackgroundBaseLowRevealBackgroundBrush}" 
                                         x:Name="DeleteFolderBtn" Click="DeleteFolderBtn_Click" Style="{ThemeResource ButtonRevealStyle}" 

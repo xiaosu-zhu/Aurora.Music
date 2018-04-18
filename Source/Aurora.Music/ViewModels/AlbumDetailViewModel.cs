@@ -86,10 +86,23 @@ namespace Aurora.Music.ViewModels
                         Index = (uint)i
                     });
                 }
-                foreach (var item in SongList)
+                Task.Run(async () =>
                 {
-                    item.RefreshFav();
-                }
+                    var favors = await SQLOperator.Current().GetFavoriteAsync();
+                    await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                    {
+                        foreach (var song in SongList)
+                        {
+                            if (favors.Contains(song.ID))
+                            {
+                                if (favors.Count == 0)
+                                    return;
+                                song.Favorite = true;
+                                favors.Remove(song.ID);
+                            }
+                        }
+                    });
+                });
             });
             Core.Models.AlbumInfo info = null;
             try

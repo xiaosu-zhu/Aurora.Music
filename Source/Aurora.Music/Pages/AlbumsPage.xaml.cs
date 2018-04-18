@@ -93,13 +93,14 @@ namespace Aurora.Music.Pages
                 await Context.GetAlbums();
             }
             SortBox.SelectionChanged -= ComboBox_SelectionChanged;
+            SortBox.SelectedIndex = Context.SortIndex;
             SortBox.SelectionChanged += ComboBox_SelectionChanged;
         }
 
         private void AlbumList_ItemClick(object sender, ItemClickEventArgs e)
         {
             var container = (AlbumList.ContainerFromItem(e.ClickedItem) as SelectorItem).ContentTemplateRoot as AlbumItem;
-            container.PrePareConnectedAnimation();
+            container.PrepareConnectedAnimation();
             LibraryPage.Current.Navigate(typeof(AlbumDetailPage), e.ClickedItem);
             _clickedAlbum = e.ClickedItem as AlbumViewModel;
         }

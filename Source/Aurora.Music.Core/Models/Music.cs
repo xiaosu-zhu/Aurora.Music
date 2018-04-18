@@ -211,14 +211,14 @@ namespace Aurora.Music.Core.Models
             AudioChannels = song.AudioChannels;
         }
 
-        public static async Task<Song> Create(Tag tag, string path, MusicProperties music)
+        public static async Task<Song> Create(Tag tag, string path, (string title, string album, string[] performer, string[] artist, string[] composer, string conductor, TimeSpan duration, uint bitrate, uint rating) music, Properties p)
         {
             var s = new Song
             {
-                Duration = music.Duration,
-                BitRate = music.Bitrate,
+                Duration = music.duration.TotalMilliseconds < 1 ? p.Duration : music.duration,
+                BitRate = music.bitrate,
                 FilePath = path,
-                Rating = (uint)Math.Round(music.Rating / 20.0),
+                Rating = (uint)Math.Round(music.rating / 20.0),
                 MusicBrainzArtistId = tag.MusicBrainzArtistId,
                 MusicBrainzDiscId = tag.MusicBrainzDiscId,
                 MusicBrainzReleaseArtistId = tag.MusicBrainzReleaseArtistId,
@@ -229,12 +229,12 @@ namespace Aurora.Music.Core.Models
                 MusicBrainzTrackId = tag.MusicBrainzTrackId,
                 MusicIpId = tag.MusicIpId,
                 BeatsPerMinute = tag.BeatsPerMinute,
-                Album = tag.Album,
-                AlbumArtists = tag.AlbumArtists,
+                Album = music.album,
+                AlbumArtists = music.artist,
                 AlbumArtistsSort = tag.AlbumArtistsSort,
                 AlbumSort = tag.AlbumSort,
                 AmazonId = tag.AmazonId,
-                Title = tag.Title,
+                Title = music.title,
                 TitleSort = tag.TitleSort,
                 Track = tag.Track,
                 TrackCount = tag.TrackCount,
@@ -244,15 +244,15 @@ namespace Aurora.Music.Core.Models
                 ReplayGainAlbumPeak = tag.ReplayGainAlbumPeak,
                 Comment = tag.Comment,
                 Disc = tag.Disc,
-                Composers = tag.Composers,
+                Composers = music.composer,
                 ComposersSort = tag.ComposersSort,
-                Conductor = tag.Conductor,
+                Conductor = music.conductor,
                 DiscCount = tag.DiscCount,
                 Copyright = tag.Copyright,
                 Genres = tag.Genres,
                 Grouping = tag.Grouping,
                 Lyrics = tag.Lyrics,
-                Performers = tag.Performers,
+                Performers = music.performer,
                 PerformersSort = tag.PerformersSort,
                 Year = tag.Year
             };

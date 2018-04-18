@@ -98,11 +98,12 @@ namespace Aurora.Music.Controls.ListItems
             }
         }
 
-        internal void PrePareConnectedAnimation()
+        internal void PrepareConnectedAnimation()
         {
             ConnectedAnimationService.GetForCurrentView().PrepareToAnimate(Consts.AlbumItemConnectedAnimation + "_1", AlbumName);
             ConnectedAnimationService.GetForCurrentView().PrepareToAnimate(Consts.AlbumItemConnectedAnimation + "_2", Arts);
-            VisualStateManager.GoToState(this, "Normal", false);
+
+            VisualStateManager.GoToState(this, "TouchNormal", false);
         }
 
 

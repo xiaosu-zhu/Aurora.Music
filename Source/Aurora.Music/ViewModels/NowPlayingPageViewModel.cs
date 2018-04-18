@@ -897,7 +897,7 @@ namespace Aurora.Music.ViewModels
                         await Task.Delay(1000);
                         try
                         {
-                            MainPageViewModel.Current.NeedShowPanel = (bool)player.IsPlaying;
+                            MainPageViewModel.Current.RestoreFromCompactOverlay();
                         }
                         catch (Exception)
                         {

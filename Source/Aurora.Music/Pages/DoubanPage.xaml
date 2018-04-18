@@ -467,22 +467,22 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         <GridView animations:ReorderGridAnimation.Duration="360" Padding="0,80,0,0" ItemClick="GridView_ItemClick"
                   HorizontalAlignment="Stretch" SelectionMode="None" IsItemClickEnabled="True" x:Name="MainList" 
                   Background="{ThemeResource SystemControlAcrylicWindowBrush}"
-                  VerticalAlignment="Stretch" IsSynchronizedWithCurrentItem="False" ItemContainerStyle="{ThemeResource GridItem}"
+                  VerticalAlignment="Stretch" IsSynchronizedWithCurrentItem="False"
                   ItemsSource="{x:Bind ChannelList.View, Mode=OneWay}">
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="vm:ChannelViewModel">
                     <StackPanel Padding="12" Orientation="Vertical">
-                        <Grid Margin="8" Width="96" Height="96" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CornerRadius="999">
+                        <Grid Margin="8" Width="80" Height="80" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CornerRadius="999">
                             <Image HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="UniformToFill">
                                 <Image.Source>
-                                    <BitmapImage DecodePixelHeight="96" DecodePixelType="Logical" UriSource="{x:Bind Cover}"/>
+                                    <BitmapImage DecodePixelHeight="80" DecodePixelType="Logical" UriSource="{x:Bind Cover}"/>
                                 </Image.Source>
                             </Image>
                         </Grid>
-                        <TextBlock TextAlignment="Center" Width="108" FontSize="15" TextWrapping="NoWrap" 
+                        <TextBlock TextAlignment="Center" Width="96" FontSize="15" TextWrapping="NoWrap" 
                                    TextTrimming="Clip" HorizontalAlignment="Center" VerticalAlignment="Center" 
                                    FontWeight="Bold" Style="{ThemeResource BaseTextBlockStyle}" Text="{x:Bind Name}"/>
-                        <TextBlock TextAlignment="Center" Width="108" FontSize="13" TextWrapping="WrapWholeWords" 
+                        <TextBlock TextAlignment="Center" Width="96" FontSize="13" TextWrapping="WrapWholeWords" Foreground="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
                                    Height="36" TextTrimming="Clip" Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Description}"/>
                     </StackPanel>
                 </DataTemplate>

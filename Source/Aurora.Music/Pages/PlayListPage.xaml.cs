@@ -76,6 +76,7 @@ namespace Aurora.Music.Pages
             }
 
             SortBox.SelectionChanged -= ComboBox_SelectionChanged;
+            SortBox.SelectedIndex = Context.SortIndex;
             SortBox.SelectionChanged += ComboBox_SelectionChanged;
         }
 

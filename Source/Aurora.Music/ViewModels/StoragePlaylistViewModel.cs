@@ -103,7 +103,7 @@ namespace Aurora.Music.ViewModels
                         using (var properties = TagLib.File.Create(item))
                         {
                             var tag = properties.Tag;
-                            var song = await Song.Create(tag, item.Path, await item.Properties.GetMusicPropertiesAsync());
+                            var song = await Song.Create(tag, item.Path, await item.GetViolatePropertiesAsync(), properties.Properties);
                             list.Add(new StorageSongViewModel(song)
                             {
                                 File = item

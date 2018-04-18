@@ -207,12 +207,12 @@ namespace Aurora.Music
             Uri uri;
             if (args.Kind == ActivationKind.Protocol)
             {
-                ProtocolActivatedEventArgs a = args as ProtocolActivatedEventArgs;
+                var a = args as ProtocolActivatedEventArgs;
                 uri = a.Uri;
             }
             else if (args.Kind == ActivationKind.ToastNotification)
             {
-                ToastNotificationActivatedEventArgs a = args as ToastNotificationActivatedEventArgs;
+                var a = args as ToastNotificationActivatedEventArgs;
                 if (a.Argument.StartsWith("as-music:", StringComparison.InvariantCultureIgnoreCase))
                 {
                     uri = new Uri(a.Argument);
@@ -385,7 +385,7 @@ namespace Aurora.Music
 
 
             CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
-            ApplicationViewTitleBar titleBar = ApplicationView.GetForCurrentView().TitleBar;
+            var titleBar = ApplicationView.GetForCurrentView().TitleBar;
             titleBar.ButtonBackgroundColor = Colors.Transparent;
             titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
             titleBar.ButtonHoverBackgroundColor = Color.FromArgb(0x33, 0x00, 0x00, 0x00);
@@ -509,9 +509,9 @@ namespace Aurora.Music
         /// be called when the caller determines that we are running on a system that
         /// supports CoreApplication.EnablePrelaunch().
         /// </summary>
-        private void TryEnablePrelaunch()
+        private void TryDisablePrelaunch()
         {
-            CoreApplication.EnablePrelaunch(true);
+            CoreApplication.EnablePrelaunch(false);
         }
 
         /// <summary>
@@ -527,7 +527,7 @@ namespace Aurora.Music
             }
             if (e.PrelaunchActivated == false)
             {
-                TryEnablePrelaunch();
+                TryDisablePrelaunch();
                 if (Window.Current.Content == null)
                 {
                     CreateRootFrame(e.PreviousExecutionState);

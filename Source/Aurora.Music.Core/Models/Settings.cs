@@ -22,6 +22,11 @@ namespace Aurora.Music.Core.Models
         _128, _192, _256, _320
     }
 
+    public enum SortMode
+    {
+        Alphabet, Album, Year, Artist
+    }
+
     public class Presets : Dictionary<string, float[]>
     {
         public static readonly Presets Instance = new Presets();
@@ -51,6 +56,15 @@ namespace Aurora.Music.Core.Models
         public static event EventHandler SettingsChanged;
 
         private static object lockable = new object();
+
+        internal object GetSystemSize()
+        {
+            if (FileSizeFilter < 1024u)
+            {
+                return $"{FileSizeFilter}b";
+            }
+            return $"{FileSizeFilter / 1024u}kb";
+        }
 
         private const string SETTINGS_CONTAINER = "main";
 
@@ -118,6 +132,17 @@ namespace Aurora.Music.Core.Models
         public float CompressorAttack { get; set; } = 10f;
         public float CompressorRelease { get; set; } = 10f;
         public float CompressorThresholddB { get; set; } = 0f;
+
+        public bool FileSizeFilterEnabled { get; set; }
+        // Bytes
+        public uint FileSizeFilter { get; set; } = 102400u;
+        public bool FileDurationFilterEnabled { get; set; }
+        // Milliseconds
+        public uint FileDurationFilter { get; set; } = 1000u;
+
+        public SortMode SongsSort { get; set; } = SortMode.Alphabet;
+        public SortMode AlbumsSort { get; set; } = SortMode.Year;
+        public SortMode PlaylistSort { get; set; } = SortMode.Alphabet;
 
         public bool VerifyDoubanLogin()
         {

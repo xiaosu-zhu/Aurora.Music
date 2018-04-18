@@ -4,6 +4,7 @@
 using Aurora.Shared.Helpers;
 using System;
 using Windows.ApplicationModel.Resources;
+using Windows.Foundation.Metadata;
 using Windows.Storage;
 
 namespace Aurora.Music.Core
@@ -57,15 +58,10 @@ namespace Aurora.Music.Core
 
         public static string UpdateNote =>
                             "### Note: Thank you for supporting this app become better!\r\n\r\n---\r\n\r\n" +
-                            "* Now, Aurora Music is one of four finalists in **Design Innovator** category of **[Windows Developer Awards](https://developer.microsoft.com/en-us/windows/projects/events/build/2018/awards)**. If you think our app is really excellent, please +1 for this app! Voting starts on April 2nd and ends on April 16th, We're appreciated for your votes!\r\n\r\n* 现在，极光音乐获得了 **[Windows Developer Awards](https://developer.microsoft.com/en-us/windows/projects/events/build/2018/awards)** 中的 **Design Innovator** 提名，如果你觉得这个播放器还不错，请在4月2日到4月16日之间到上面的网站投票，非常感谢您的支持！\r\n\r\n---\r\n\r\n" +
-                            "* **Improve**: Merged pull requests [#6](https://github.com/pkzxs/Aurora.Music/pull/6) contributed by [OpportunityLiu](https://github.com/OpportunityLiu):\r\n\r\n" +
-                           "\t1. Fixed searching items duplicated.\r\n" +
-                            "\t2. Updated searching layout.\r\n" +
-                            "* **Improve**: Now can play video podcasts(just a basic support).\r\n" +
-                            "* **Improve**: Now can drag position slider in Mainpage.\r\n" +
-                            "* **Improve**: Updated layouts.\r\n" +
-                            "* **Improve**: Synced translations.\r\n" +
-                            "* **Improve**: Bugs fixed.\r\n";
+                            "* **[Windows Developer Awards](https://developer.microsoft.com/en-us/windows/projects/events/build/2018/awards)**. Voting has expanded to May 5th! If you think our app is really excellent, please +1 for this app! We're appreciated for your votes!\r\n\r\n* **[Windows Developer Awards](https://developer.microsoft.com/en-us/windows/projects/events/build/2018/awards)** 投票延长到了5月5日！非常感谢您的支持！\r\n\r\n---\r\n\r\n" +
+                            "* **Improve**: Updated Settings' layout.\r\n" +
+                            "* **Improve**: Fixed bugs.\r\n" +
+                            "* **Improve**: Synced translations.\r\n";
 
         public static string UpdateNoteTitle => localizer.GetString("UpdateNoteTitle");
 

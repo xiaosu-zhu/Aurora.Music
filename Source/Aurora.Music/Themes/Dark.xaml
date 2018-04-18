@@ -16,8 +16,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         <GradientStop Color="Transparent" Offset="1"/>
     </LinearGradientBrush>
 
-    <AcrylicBrush x:Key="SystemControlAltTranslucentAcrylicElementBrush" BackgroundSource="Backdrop" TintColor="{StaticResource SystemChromeAltHighColor}" TintOpacity="0.5" FallbackColor="{StaticResource SystemChromeMediumColor}" />
-    <AcrylicBrush x:Key="SystemControlAltTranslucentAcrylicWindowBrush" BackgroundSource="HostBackdrop" TintColor="{StaticResource SystemChromeAltHighColor}" TintOpacity="0.5" FallbackColor="{StaticResource SystemChromeMediumColor}" />
+    <AcrylicBrush x:Key="SystemControlAltTranslucentAcrylicElementBrush" BackgroundSource="Backdrop" TintColor="{StaticResource SystemChromeAltHighColor}" TintOpacity="0.6666666666666667" FallbackColor="{StaticResource SystemChromeMediumColor}" />
+    <AcrylicBrush x:Key="SystemControlAltTranslucentAcrylicWindowBrush" BackgroundSource="HostBackdrop" TintColor="{StaticResource SystemChromeAltHighColor}" TintOpacity="0.6666666666666667" FallbackColor="{StaticResource SystemChromeMediumColor}" />
 
     <AcrylicBrush x:Key="SystemControlBlackAcrylicElementBrush" BackgroundSource="Backdrop" TintColor="{StaticResource SystemBaseHighColor}" TintOpacity="0.33333" FallbackColor="{StaticResource SystemBaseMediumColor}" />
 

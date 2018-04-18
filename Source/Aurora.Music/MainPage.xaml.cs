@@ -13,9 +13,7 @@ using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
@@ -29,7 +27,6 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
@@ -831,7 +828,7 @@ namespace Aurora.Music
                 Context.SearchItems.Clear();
 
                 // add clipboard text
-                DataPackageView dataPackageView = Clipboard.GetContent();
+                var dataPackageView = Clipboard.GetContent();
                 if (dataPackageView.Contains(StandardDataFormats.Text))
                 {
                     string text = await dataPackageView.GetTextAsync();
@@ -841,6 +838,7 @@ namespace Aurora.Music
                             Title = text,
                             InnerType = MediaType.Placeholder,
                             Description = "\uE16D",
+                            IsSearch = true
                         });
                 }
 
@@ -853,6 +851,7 @@ namespace Aurora.Music
                         Title = item.Query,
                         InnerType = MediaType.Placeholder,
                         Description = "\uE81C",
+                        IsSearch = true
                     });
                 }
             }
@@ -873,7 +872,7 @@ namespace Aurora.Music
 
         private void SearchBox_LosingFocus(UIElement sender, Windows.UI.Xaml.Input.LosingFocusEventArgs args)
         {
-            if (args.NewFocusedElement is ListViewItem && !Context.SearchItems.IsNullorEmpty())
+            if (args.NewFocusedElement is SelectorItem t && t.Content is GenericMusicItemViewModel g && g.IsSearch)
             {
                 if (Context.SearchItems[0].InnerType == MediaType.Placeholder)
                 {
@@ -1434,6 +1433,18 @@ namespace Aurora.Music
         private void Slider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
             Context.PositionChange(Context.TotalDuration * (e.NewValue / 100d));
+        }
+
+        private async void Delete_SearchHistory(object sender, RoutedEventArgs e)
+        {
+            var g = (sender as Control).DataContext as GenericMusicItemViewModel;
+            await SQLOperator.Current().DeleteSearchHistoryAsync(g.Title);
+            Context.SearchItems.Remove(g);
+        }
+
+        private void NowPlayingFlyout_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            Context.SkiptoItem(e.ClickedItem as SongViewModel);
         }
     }
 }

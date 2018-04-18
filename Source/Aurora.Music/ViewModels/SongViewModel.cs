@@ -153,15 +153,6 @@ namespace Aurora.Music.ViewModels
             }
         }
 
-        public void RefreshFav()
-        {
-            if (IsOnline)
-            {
-                // TODO: Online fav
-            }
-            Favorite = AsyncHelper.RunSync(async () => await Song.GetFavoriteAsync());
-        }
-
         public string DurationtoString(TimeSpan t)
         {
             return t.ToString($@"m\{CultureInfoHelper.CurrentCulture.DateTimeFormat.TimeSeparator}ss", CultureInfoHelper.CurrentCulture);
@@ -316,18 +307,6 @@ namespace Aurora.Music.ViewModels
         {
             get
             {
-                if (Album.StartsWith("The ", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    return Album.Substring(4);
-                }
-                if (Album.StartsWith("A ", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    return Album.Substring(2);
-                }
-                if (Album.StartsWith("An ", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    return Album.Substring(3);
-                }
                 return Album;
             }
         }
@@ -336,18 +315,6 @@ namespace Aurora.Music.ViewModels
         {
             get
             {
-                if (Title.StartsWith("The ", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    return Title.Substring(4);
-                }
-                if (Title.StartsWith("A ", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    return Title.Substring(2);
-                }
-                if (Title.StartsWith("An ", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    return Title.Substring(3);
-                }
                 return Title;
 
             }

@@ -394,7 +394,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <Rectangle x:Name="Re5" Fill="#e15201" Grid.Column="5" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="0"/>
                     <Rectangle x:Name="Re6" Fill="#df4b01" Grid.Column="6" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="0"/>
                 </Grid>
-                <TextBlock Grid.Row="2" Text="Using Aurora Music to delight your music experience." Style="{ThemeResource SubtitleTextBlockStyle}" 
+                <TextBlock x:Uid="Welcome1" Grid.Row="2" Text="Using Aurora Music to delight your music experience." Style="{ThemeResource SubtitleTextBlockStyle}" 
                            HorizontalAlignment="Left" VerticalAlignment="Center" Margin="8,4"/>
                 <Button Grid.Row="3" Padding="12,4" Margin="16" 
                         Click="Button_Click" HorizontalAlignment="Center" VerticalAlignment="Center" 
@@ -411,7 +411,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-                <TextBlock Style="{ThemeResource SubheaderTextBlockStyle}" 
+                <TextBlock x:Uid="WelcomeTitle2" Style="{ThemeResource SubheaderTextBlockStyle}" 
                            HorizontalAlignment="Center" VerticalAlignment="Center" 
                            Margin="8,4" Text="Fluent Feel"/>
                 <Grid Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -430,7 +430,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     </Grid>
                     <Grid x:Name="Ani2OL" BorderBrush="{ThemeResource SystemControlHighlightAltTransparentRevealBorderBrush}" BorderThickness="1" Background="{ThemeResource SystemControlBaseMediumLowAcrylicElementMediumBrush}" Width="0" Height="160" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                 </Grid>
-                <TextBlock Grid.Row="2" Text="It is based on Fluent-deisgn System, just check out the stunning UI performance." Style="{ThemeResource SubtitleTextBlockStyle}" 
+                <TextBlock x:Uid="Welcome2" Grid.Row="2" Text="It is based on Fluent-deisgn System, just check out the stunning UI performance." Style="{ThemeResource SubtitleTextBlockStyle}" 
                            HorizontalAlignment="Left" VerticalAlignment="Center" Margin="8,4"/>
                 <Button Grid.Row="3" Padding="12,4" Margin="16" Click="Button_Click" 
                         HorizontalAlignment="Center" VerticalAlignment="Center" 
@@ -447,7 +447,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-                <TextBlock Style="{ThemeResource SubheaderTextBlockStyle}" 
+                <TextBlock x:Uid="WelcomeTitle3" Style="{ThemeResource SubheaderTextBlockStyle}" 
                            HorizontalAlignment="Center" VerticalAlignment="Center" 
                            Margin="8,4" Text="Before You Start"/>
                 <Frame Grid.Row="1" x:Name="AddFolderFrame"/>
@@ -455,7 +455,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         HorizontalAlignment="Center" VerticalAlignment="Center" 
                         Style="{ThemeResource ButtonRevealStyle}">
                     <Button.Content>
-                        <TextBlock Text="Skip" Style="{ThemeResource SubtitleTextBlockStyle}"/>
+                        <TextBlock x:Uid="Skip" Text="Skip" Style="{ThemeResource SubtitleTextBlockStyle}"/>
                     </Button.Content>
                 </Button>
                 <Button Grid.Row="3" Padding="12,4" Margin="16" Click="Button_Click" 
@@ -472,7 +472,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <RowDefinition Height="3*"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-                <TextBlock Style="{ThemeResource SubheaderTextBlockStyle}" 
+                <TextBlock x:Uid="WelcomeTitle4" Style="{ThemeResource SubheaderTextBlockStyle}" 
                            HorizontalAlignment="Center" VerticalAlignment="Center" 
                            Margin="8,4" Text="Wait for a While..."/>
                 <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center" 

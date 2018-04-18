@@ -147,6 +147,7 @@ namespace Aurora.Music.ViewModels
         public ObservableCollection<SongViewModel> NowPlayingList { get; set; } = new ObservableCollection<SongViewModel>();
         private IPlayer player;
 
+        private string lastUriPath;
         private SolidColorBrush _lastLeftTop;
         private SolidColorBrush leftTopColor;
         public SolidColorBrush LeftTopColor
@@ -156,7 +157,7 @@ namespace Aurora.Music.ViewModels
             {
                 _lastLeftTop = leftTopColor;
                 SetProperty(ref leftTopColor, value);
-                ApplicationViewTitleBar titleBar = ApplicationView.GetForCurrentView().TitleBar;
+                var titleBar = ApplicationView.GetForCurrentView().TitleBar;
                 titleBar.ButtonForegroundColor = leftTopColor.Color;
                 titleBar.ForegroundColor = leftTopColor.Color;
             }
@@ -237,6 +238,18 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref currentTitle, value); }
         }
 
+        public string CurrentPlayingDesc()
+        {
+            if (currentTitle.IsNullorEmpty())
+            {
+                return Consts.Localizer.GetString("AppNameText");
+            }
+            else
+            {
+                return $"{currentTitle} - {CurrentAlbum} - {CurrentArtist}";
+            }
+        }
+
         private bool isPodcast;
         public bool IsPodcast
         {
@@ -245,16 +258,20 @@ namespace Aurora.Music.ViewModels
         }
 
         private string currentAlbum;
-        private string lastUriPath;
-
         public string CurrentAlbum
         {
             get { return currentAlbum.IsNullorEmpty() ? Consts.Localizer.GetString("NotPlayingText") : currentAlbum; }
             set { SetProperty(ref currentAlbum, value); }
         }
 
-        private string nowListPreview = "-/-";
+        private string currentArtist;
+        public string CurrentArtist
+        {
+            get { return currentArtist; }
+            set { SetProperty(ref currentArtist, value); }
+        }
 
+        private string nowListPreview = "-/-";
         public string NowListPreview
         {
             get { return nowListPreview; }
@@ -504,7 +521,7 @@ namespace Aurora.Music.ViewModels
             player = PlaybackEngine.PlaybackEngine.Current;
             if (Settings.Current.LastUpdateBuild < SystemInfoHelper.GetPackageVersionNum())
             {
-                UpdateInfo i = new UpdateInfo();
+                var i = new UpdateInfo();
 #pragma warning disable CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
                 i.ShowAsync();
 #pragma warning restore CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
@@ -730,7 +747,10 @@ namespace Aurora.Music.ViewModels
                                     }
                                     foreach (var item in items)
                                     {
-                                        SearchItems.Add(new GenericMusicItemViewModel(item));
+                                        SearchItems.Add(new GenericMusicItemViewModel(item)
+                                        {
+                                            IsSearch = true
+                                        });
                                     }
                                 }
                         });
@@ -769,7 +789,10 @@ namespace Aurora.Music.ViewModels
 
                                 foreach (var item in podcasts)
                                 {
-                                    SearchItems.Add(new GenericMusicItemViewModel(item));
+                                    SearchItems.Add(new GenericMusicItemViewModel(item)
+                                    {
+                                        IsSearch = true
+                                    });
                                 }
                             }
                     });
@@ -794,7 +817,10 @@ namespace Aurora.Music.ViewModels
                             }
                             foreach (var item in result)
                             {
-                                SearchItems.Add(new GenericMusicItemViewModel(item));
+                                SearchItems.Add(new GenericMusicItemViewModel(item)
+                                {
+                                    IsSearch = true
+                                });
                             }
                         }
 
@@ -812,33 +838,24 @@ namespace Aurora.Music.ViewModels
 
         public async Task FilesChanged()
         {
-            var files = new List<StorageFile>();
-
-            foreach (var item in Trackers)
-            {
-                files.AddRange(await item.SearchFolder());
-            }
-
-            var addedFiles = await FileTracker.FindChanges(files);
-
-            if (addedFiles.Count > 0)
-            {
-                await FileReader.ReadFileandSave(addedFiles);
-            }
-        }
-
-        private async Task FindFileChanges()
-        {
             var foldersDB = await SQLOperator.Current().GetAllAsync<FOLDER>();
+            var filtered = new List<string>();
             var folders = FileReader.InitFolderList();
-            foreach (var f in foldersDB)
+            foreach (var fo in foldersDB)
             {
-                StorageFolder folder = await f.GetFolderAsync();
+                var folder = await fo.GetFolderAsync();
                 if (folders.Exists(a => a.Path == folder.Path))
                 {
                     continue;
                 }
-                folders.Add(folder);
+                if (fo.IsFiltered)
+                {
+                    filtered.Add(folder.DisplayName);
+                }
+                else
+                {
+                    folders.Add(folder);
+                }
             }
             try
             {
@@ -848,9 +865,10 @@ namespace Aurora.Music.ViewModels
             {
             }
 
+            Trackers.Clear();
             foreach (var item in folders)
             {
-                Trackers.Add(new FileTracker(item));
+                Trackers.Add(new FileTracker(item, filtered));
             }
 
             var files = new List<StorageFile>();
@@ -866,6 +884,60 @@ namespace Aurora.Music.ViewModels
             {
                 await FileReader.ReadFileandSave(addedFiles);
             }
+        }
+
+        private async Task FindFileChanges()
+        {
+            var foldersDB = await SQLOperator.Current().GetAllAsync<FOLDER>();
+            var filtered = new List<string>();
+            var folders = FileReader.InitFolderList();
+            foreach (var fo in foldersDB)
+            {
+                var folder = await fo.GetFolderAsync();
+                if (folders.Exists(a => a.Path == folder.Path))
+                {
+                    continue;
+                }
+                if (fo.IsFiltered)
+                {
+                    filtered.Add(folder.DisplayName);
+                }
+                else
+                {
+                    folders.Add(folder);
+                }
+            }
+            try
+            {
+                folders.Remove(folders.Find(a => a.Path == ApplicationData.Current.LocalFolder.Path));
+            }
+            catch (Exception)
+            {
+            }
+
+            foreach (var item in folders)
+            {
+                Trackers.Add(new FileTracker(item, filtered));
+            }
+
+            var files = new List<StorageFile>();
+
+            foreach (var item in Trackers)
+            {
+                files.AddRange(await item.SearchFolder());
+            }
+
+            var addedFiles = await FileTracker.FindChanges(files);
+
+            if (!(addedFiles.Count == 0))
+            {
+                await FileReader.ReadFileandSave(addedFiles);
+            }
+        }
+
+        internal void RestoreFromCompactOverlay()
+        {
+            player.RefreshNowPlayingInfo();
         }
 
         private void Reader_Completed(object sender, EventArgs e)
@@ -923,6 +995,7 @@ namespace Aurora.Music.ViewModels
                     NowListPreview = "-/-";
                     CurrentTitle = null;
                     CurrentAlbum = null;
+                    CurrentArtist = null;
                     CurrentArtwork = null;
                     lastUriPath = null;
                     CurrentIndex = -1;
@@ -937,7 +1010,8 @@ namespace Aurora.Music.ViewModels
                     var p = e.CurrentSong;
                     CurrentTitle = p.Title.IsNullorEmpty() ? p.FilePath.Split('\\').LastOrDefault() : p.Title;
                     IsPodcast = p.IsPodcast;
-                    CurrentAlbum = p.Album.IsNullorEmpty() ? (p.Performers.IsNullorEmpty() ? Consts.UnknownAlbum : string.Join(Consts.CommaSeparator, p.Performers)) : p.Album;
+                    CurrentAlbum = p.Album.IsNullorEmpty() ? Consts.UnknownAlbum : p.Album;
+                    CurrentArtist = p.Performers == null ? (p.AlbumArtists == null ? Consts.UnknownArtists : string.Join(Consts.CommaSeparator, p.AlbumArtists)) : string.Join(Consts.CommaSeparator, p.Performers);
                     if (!p.PicturePath.IsNullorEmpty())
                     {
                         if (lastUriPath == p.PicturePath)
@@ -985,6 +1059,7 @@ namespace Aurora.Music.ViewModels
                 {
                     NeedShowPanel = true;
                 }
+                Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().Title = CurrentPlayingDesc();
             });
         }
 

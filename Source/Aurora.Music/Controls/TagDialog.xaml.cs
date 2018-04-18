@@ -60,16 +60,16 @@ namespace Aurora.Music.Controls
                 return;
             }
             file = await StorageFile.GetFileFromPathAsync(path);
+            var props = await file.GetViolatePropertiesAsync();
             using (var tagTemp = TagLib.File.Create(file.Path))
             {
                 var song = tagTemp.Tag;
-                var props = await file.Properties.GetMusicPropertiesAsync();
                 await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
                 {
-                    SongTitle = song.Title;
-                    Duration = props.Duration;
-                    BitRate = props.Bitrate;
-                    Rating = props.Rating;
+                    SongTitle = props.title;
+                    Duration = props.duration.TotalMilliseconds < 1 ? tagTemp.Properties.Duration : props.duration;
+                    BitRate = props.bitrate;
+                    Rating = props.rating;
                     MusicBrainzArtistId = song.MusicBrainzArtistId;
                     MusicBrainzDiscId = song.MusicBrainzDiscId;
                     MusicBrainzReleaseArtistId = song.MusicBrainzReleaseArtistId;
@@ -80,8 +80,8 @@ namespace Aurora.Music.Controls
                     MusicBrainzTrackId = song.MusicBrainzTrackId;
                     MusicIpId = song.MusicIpId;
                     BeatsPerMinute = song.BeatsPerMinute;
-                    Album = song.Album;
-                    AlbumArtists = song.AlbumArtists;
+                    Album = props.album;
+                    AlbumArtists = props.artist;
                     AlbumArtistsSort = song.AlbumArtistsSort;
                     AlbumSort = song.AlbumSort;
                     AmazonId = song.AmazonId;
@@ -94,15 +94,15 @@ namespace Aurora.Music.Controls
                     ReplayGainAlbumPeak = song.ReplayGainAlbumPeak;
                     Comment = song.Comment;
                     Disc = song.Disc;
-                    Composers = song.Composers;
+                    Composers = props.composer;
                     ComposersSort = song.ComposersSort;
-                    Conductor = song.Conductor;
+                    Conductor = props.conductor;
                     DiscCount = song.DiscCount;
                     Copyright = song.Copyright;
-                    Genres = song.PerformersSort;
+                    Genres = song.Genres;
                     Grouping = song.Grouping;
                     Lyrics = song.Lyrics;
-                    Performers = song.Performers;
+                    Performers = props.performer;
                     PerformersSort = song.PerformersSort;
                     Year = song.Year;
                     SampleRate = tagTemp.Properties.AudioSampleRate;
@@ -125,53 +125,89 @@ namespace Aurora.Music.Controls
 
         private async void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
+            var succeed = true;
             await PlaybackEngine.PlaybackEngine.Current.DetachCurrentItem();
-            using (var tagTemp = TagLib.File.Create(file.Path))
+            try
             {
-                tagTemp.Tag.Title = SongTitle;
-                tagTemp.Tag.MusicBrainzArtistId = MusicBrainzArtistId;
-                tagTemp.Tag.MusicBrainzDiscId = MusicBrainzDiscId;
-                tagTemp.Tag.MusicBrainzReleaseArtistId = MusicBrainzReleaseArtistId;
-                tagTemp.Tag.MusicBrainzReleaseCountry = MusicBrainzReleaseCountry;
-                tagTemp.Tag.MusicBrainzReleaseId = MusicBrainzReleaseId;
-                tagTemp.Tag.MusicBrainzReleaseStatus = MusicBrainzReleaseStatus;
-                tagTemp.Tag.MusicBrainzReleaseType = MusicBrainzReleaseType;
-                tagTemp.Tag.MusicBrainzTrackId = MusicBrainzTrackId;
-                tagTemp.Tag.MusicIpId = MusicIpId;
-                tagTemp.Tag.BeatsPerMinute = BeatsPerMinute;
-                tagTemp.Tag.Album = Album;
-                tagTemp.Tag.AlbumArtists = AlbumArtists;
-                tagTemp.Tag.AlbumArtistsSort = AlbumArtistsSort;
-                tagTemp.Tag.AlbumSort = AlbumSort;
-                tagTemp.Tag.AmazonId = AmazonId;
-                tagTemp.Tag.TitleSort = TitleSort;
-                tagTemp.Tag.Track = Track;
-                tagTemp.Tag.TrackCount = TrackCount;
-                tagTemp.Tag.ReplayGainTrackGain = ReplayGainTrackGain;
-                tagTemp.Tag.ReplayGainTrackPeak = ReplayGainTrackPeak;
-                tagTemp.Tag.ReplayGainAlbumGain = ReplayGainAlbumGain;
-                tagTemp.Tag.ReplayGainAlbumPeak = ReplayGainAlbumPeak;
-                tagTemp.Tag.Comment = Comment;
-                tagTemp.Tag.Disc = Disc;
-                tagTemp.Tag.Composers = Composers;
-                tagTemp.Tag.ComposersSort = ComposersSort;
-                tagTemp.Tag.Conductor = Conductor;
-                tagTemp.Tag.DiscCount = DiscCount;
-                tagTemp.Tag.Copyright = Copyright;
-                tagTemp.Tag.PerformersSort = Genres;
-                tagTemp.Tag.Grouping = Grouping;
-                tagTemp.Tag.Lyrics = Lyrics;
-                tagTemp.Tag.Performers = Performers;
-                tagTemp.Tag.PerformersSort = PerformersSort;
-                tagTemp.Tag.Year = Year;
+                if (file.FileType.Equals(".wav", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    var props = await file.Properties.GetMusicPropertiesAsync();
+                    props.Album = Album;
+                    props.AlbumArtist = string.Join(';', AlbumArtists);
+                    props.Artist = string.Join(';', Performers);
+                    props.Genre.Clear();
+                    foreach (var item in Genres)
+                    {
+                        props.Genre.Add(item);
+                    }
+                    props.Title = SongTitle;
+                    props.TrackNumber = Track;
+                    props.Year = Year;
+                    await props.SavePropertiesAsync();
+                }
+                else
+                {
+                    using (var tagTemp = TagLib.File.Create(file.Path))
+                    {
+                        tagTemp.Tag.Title = SongTitle;
+                        tagTemp.Tag.MusicBrainzArtistId = MusicBrainzArtistId;
+                        tagTemp.Tag.MusicBrainzDiscId = MusicBrainzDiscId;
+                        tagTemp.Tag.MusicBrainzReleaseArtistId = MusicBrainzReleaseArtistId;
+                        tagTemp.Tag.MusicBrainzReleaseCountry = MusicBrainzReleaseCountry;
+                        tagTemp.Tag.MusicBrainzReleaseId = MusicBrainzReleaseId;
+                        tagTemp.Tag.MusicBrainzReleaseStatus = MusicBrainzReleaseStatus;
+                        tagTemp.Tag.MusicBrainzReleaseType = MusicBrainzReleaseType;
+                        tagTemp.Tag.MusicBrainzTrackId = MusicBrainzTrackId;
+                        tagTemp.Tag.MusicIpId = MusicIpId;
+                        tagTemp.Tag.BeatsPerMinute = BeatsPerMinute;
+                        tagTemp.Tag.Album = Album;
+                        tagTemp.Tag.AlbumArtists = AlbumArtists;
+                        tagTemp.Tag.AlbumArtistsSort = AlbumArtistsSort;
+                        tagTemp.Tag.AlbumSort = AlbumSort;
+                        tagTemp.Tag.AmazonId = AmazonId;
+                        tagTemp.Tag.TitleSort = TitleSort;
+                        tagTemp.Tag.Track = Track;
+                        tagTemp.Tag.TrackCount = TrackCount;
+                        tagTemp.Tag.ReplayGainTrackGain = ReplayGainTrackGain;
+                        tagTemp.Tag.ReplayGainTrackPeak = ReplayGainTrackPeak;
+                        tagTemp.Tag.ReplayGainAlbumGain = ReplayGainAlbumGain;
+                        tagTemp.Tag.ReplayGainAlbumPeak = ReplayGainAlbumPeak;
+                        tagTemp.Tag.Comment = Comment;
+                        tagTemp.Tag.Disc = Disc;
+                        tagTemp.Tag.Composers = Composers;
+                        tagTemp.Tag.ComposersSort = ComposersSort;
+                        tagTemp.Tag.Conductor = Conductor;
+                        tagTemp.Tag.DiscCount = DiscCount;
+                        tagTemp.Tag.Copyright = Copyright;
+                        tagTemp.Tag.PerformersSort = Genres;
+                        tagTemp.Tag.Grouping = Grouping;
+                        tagTemp.Tag.Lyrics = Lyrics;
+                        tagTemp.Tag.Performers = Performers;
+                        tagTemp.Tag.PerformersSort = PerformersSort;
+                        tagTemp.Tag.Year = Year;
 
-                tagTemp.Save();
+                        tagTemp.Save();
+                    }
+                }
+                await FileReader.UpdateSongAsync(Model.Song);
             }
-
-            await FileReader.UpdateSongAsync(Model.Song);
-            await Model.Song.WriteRatingAsync(Rating);
+            catch (Exception)
+            {
+                MainPage.Current.PopMessage("Updating tags failed");
+                succeed = false;
+            }
+            try
+            {
+                await Model.Song.WriteRatingAsync(Rating);
+            }
+            catch (Exception)
+            {
+                MainPage.Current.PopMessage("Updating tags failed");
+                succeed = false;
+            }
             await PlaybackEngine.PlaybackEngine.Current.ReAttachCurrentItem();
-            MainPage.Current.PopMessage("Succeed");
+            if (succeed)
+                MainPage.Current.PopMessage("Succeed");
         }
 
         private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)

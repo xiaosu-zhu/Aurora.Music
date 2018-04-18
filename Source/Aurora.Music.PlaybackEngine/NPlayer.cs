@@ -197,6 +197,11 @@ namespace Aurora.Music.PlaybackEngine
         {
             throw new NotImplementedException();
         }
+
+        public void RefreshNowPlayingInfo()
+        {
+            throw new NotImplementedException();
+        }
         #endregion
     }
 
