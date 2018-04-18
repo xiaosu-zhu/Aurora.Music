@@ -18,6 +18,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml;
+using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppExtensions;
 using Windows.ApplicationModel.Background;
 using Windows.ApplicationModel.Core;
@@ -529,14 +530,14 @@ namespace Aurora.Music.ViewModels
             }
         }
 
-        private string acheFolderSize = "Loading";
+        private string acheFolderSize = "Counting";
         public string CacheFolderSize
         {
             get { return acheFolderSize; }
             set { SetProperty(ref acheFolderSize, value); }
         }
 
-        private string dataFolderSize = "Loading";
+        private string dataFolderSize = "Counting";
         public string DataFolderSize
         {
             get { return dataFolderSize; }
@@ -937,6 +938,16 @@ namespace Aurora.Music.ViewModels
                     }
                 }
             });
+            Task.Run(async () =>
+            {
+                var s1 = await ApplicationData.Current.TemporaryFolder.FolderSize();
+                var s2 = await ApplicationData.Current.LocalFolder.FolderSize();
+                await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                {
+                    CacheFolderSize = SizeToString(s1);
+                    DataFolderSize = SizeToString(s2);
+                });
+            });
 #pragma warning restore CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
             var t = new List<Task>
             {
@@ -968,16 +979,6 @@ namespace Aurora.Music.ViewModels
                     await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                     {
                         DownloadPathText = downloadFolder.Path;
-                    });
-                }),
-                Task.Run(async () =>
-                {
-                    var s1 = await ApplicationData.Current.TemporaryFolder.FolderSize();
-                    var s2 = await ApplicationData.Current.LocalFolder.FolderSize();
-                    await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
-                    {
-                        CacheFolderSize = SizeToString(s1);
-                        DataFolderSize = SizeToString(s2);
                     });
                 })
             };

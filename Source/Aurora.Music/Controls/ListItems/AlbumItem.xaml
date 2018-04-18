@@ -252,7 +252,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-        <Grid x:Name="Arts" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ToolTipService.ToolTip="{x:Bind Data.Name,Mode=OneWay}">
+        <Grid x:Name="Arts" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ToolTipService.ToolTip="{x:Bind Data.GetBrief(),Mode=OneWay}">
             <Grid Width="180" Height="180" Margin="-15" x:Name="BlurBG" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <interactivity:Interaction.Behaviors>
                     <behaviors:Blur x:Name="BlurBehavior" Value="0" Duration="200" Delay="0" AutomaticallyStart="True"/>

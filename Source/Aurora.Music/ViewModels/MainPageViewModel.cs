@@ -157,7 +157,7 @@ namespace Aurora.Music.ViewModels
             {
                 _lastLeftTop = leftTopColor;
                 SetProperty(ref leftTopColor, value);
-                ApplicationViewTitleBar titleBar = ApplicationView.GetForCurrentView().TitleBar;
+                var titleBar = ApplicationView.GetForCurrentView().TitleBar;
                 titleBar.ButtonForegroundColor = leftTopColor.Color;
                 titleBar.ForegroundColor = leftTopColor.Color;
             }
@@ -236,6 +236,18 @@ namespace Aurora.Music.ViewModels
         {
             get { return currentTitle.IsNullorEmpty() ? Consts.Localizer.GetString("AppNameText") : currentTitle; }
             set { SetProperty(ref currentTitle, value); }
+        }
+
+        public string CurrentPlayingDesc()
+        {
+            if (currentTitle.IsNullorEmpty())
+            {
+                return Consts.Localizer.GetString("AppNameText");
+            }
+            else
+            {
+                return $"{currentTitle} - {CurrentAlbum} - {CurrentArtist}";
+            }
         }
 
         private bool isPodcast;
@@ -1047,6 +1059,7 @@ namespace Aurora.Music.ViewModels
                 {
                     NeedShowPanel = true;
                 }
+                Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().Title = CurrentPlayingDesc();
             });
         }
 
