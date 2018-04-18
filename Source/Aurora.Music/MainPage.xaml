@@ -1414,8 +1414,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                             HorizontalAlignment="Left" VerticalAlignment="Top" Click="Toggle_PaneOpened" BorderThickness="1"
                             Margin="0,32,0,0" Width="48" Height="48">
                         <Button.KeyboardAccelerators>
-                            <KeyboardAccelerator Modifiers="Control" Key="O" />
-                            <KeyboardAccelerator Key="GamepadView" />
+                            <KeyboardAccelerator Modifiers="Control" Key="O"/>
                         </Button.KeyboardAccelerators>
                         <Button.Content>
                             <FontIcon Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" FontFamily="Segoe MDL2 Assets" Glyph="&#xE700;" />
@@ -1611,7 +1610,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                             </Button.Content>
                             <Button.KeyboardAccelerators>
                                 <KeyboardAccelerator Key="F1" />
-                                <KeyboardAccelerator Key="GamepadLeftTrigger" />
                             </Button.KeyboardAccelerators>
                         </Button>
                         <Button AccessKey="P" x:Name="PlayPause" Style="{ThemeResource RevealRoundButton}" 
@@ -1624,7 +1622,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                             <Button.KeyboardAccelerators>
                                 <KeyboardAccelerator Modifiers="Control" Key="P" />
                                 <KeyboardAccelerator Key="F2" />
-                                <KeyboardAccelerator Key="GamepadMenu" />
                             </Button.KeyboardAccelerators>
                         </Button>
                         <Button AccessKey="]" x:Uid="Next" x:Name="Next" Style="{ThemeResource RevealRoundButton}" Command="{x:Bind Context.GoNext}" ToolTipService.ToolTip="Next"
@@ -1634,7 +1631,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                             </Button.Content>
                             <Button.KeyboardAccelerators>
                                 <KeyboardAccelerator Key="F3" />
-                                <KeyboardAccelerator Key="GamepadRightTrigger" />
                             </Button.KeyboardAccelerators>
                         </Button>
                     </StackPanel>
@@ -1665,7 +1661,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                             </Button.Flyout>
                             <Button.KeyboardAccelerators>
                                 <KeyboardAccelerator Modifiers="Control" Key="L" />
-                                <KeyboardAccelerator Key="GamepadX" />
                             </Button.KeyboardAccelerators>
                         </Button>
                         <Grid Margin="4,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -1761,7 +1756,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <Button AccessKey="F" Foreground="{x:Bind Context.LeftTopColor, Mode=OneWay}" x:Name="SearchButton" Click="SearchButton_Click" Background="Transparent" Style="{ThemeResource NoBorderButton}" Width="48" HorizontalAlignment="Right" VerticalAlignment="Stretch" BorderThickness="1,0,0,1" BorderBrush="{StaticResource SystemControlBackgroundTransparentRevealBorderBrush}">
                         <Button.KeyboardAccelerators>
                             <KeyboardAccelerator Modifiers="Control" Key="F" />
-                            <KeyboardAccelerator Key="GamepadY" />
                         </Button.KeyboardAccelerators>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE11A;" FontSize="13"/>
                     </Button>
