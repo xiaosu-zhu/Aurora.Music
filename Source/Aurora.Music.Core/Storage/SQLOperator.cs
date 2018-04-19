@@ -856,9 +856,10 @@ namespace Aurora.Music.Core.Storage
                     TrackCount = album.Max(x => x.TrackCount),
                     Year = album.Max(x => x.Year),
 
-                    AlbumArtists = string.Join(Consts.ArraySeparator, (from aa in album where !aa.AlbumArtists.IsNullorEmpty() group aa by aa.AlbumArtists into g select g.Key).Distinct(StringComparer.InvariantCultureIgnoreCase)),
-                    Genres = string.Join(Consts.ArraySeparator, (from aa in album where !aa.Genres.IsNullorEmpty() group aa by aa.Genres into g select g.Key).Distinct(StringComparer.InvariantCultureIgnoreCase)),
-                    AlbumArtistsSort = string.Join(Consts.ArraySeparator, (from aa in album where !aa.AlbumArtistsSort.IsNullorEmpty() group aa by aa.AlbumArtistsSort into g select g.Key).Distinct(StringComparer.InvariantCultureIgnoreCase)),
+                    // uint value, merge their items
+                    AlbumArtists = string.Join(Consts.ArraySeparator, album.SelectMany(aa => aa.AlbumArtists?.Split(Consts.ArraySeparator, StringSplitOptions.RemoveEmptyEntries) ?? Enumerable.Empty<string>()).Distinct(StringComparer.InvariantCultureIgnoreCase)),
+                    Genres = string.Join(Consts.ArraySeparator, album.SelectMany(aa => aa.Genres?.Split(Consts.ArraySeparator, StringSplitOptions.RemoveEmptyEntries) ?? Enumerable.Empty<string>()).Distinct(StringComparer.InvariantCultureIgnoreCase)),
+                    AlbumArtistsSort = string.Join(Consts.ArraySeparator, album.SelectMany(aa => aa.AlbumArtistsSort?.Split(Consts.ArraySeparator, StringSplitOptions.RemoveEmptyEntries) ?? Enumerable.Empty<string>()).Distinct(StringComparer.InvariantCultureIgnoreCase)),
 
                     // normal value, use their not-null value
                     AlbumSort = (from aa in album where !aa.AlbumSort.IsNullorEmpty() select aa.AlbumSort).FirstOrDefault(),
@@ -883,9 +884,10 @@ namespace Aurora.Music.Core.Storage
                     TrackCount = album.Max(x => x.TrackCount),
                     Year = album.Max(x => x.Year),
 
-                    AlbumArtists = string.Join(Consts.ArraySeparator, (from aa in album where !aa.AlbumArtists.IsNullorEmpty() group aa by aa.AlbumArtists into g select g.Key).Distinct(StringComparer.InvariantCultureIgnoreCase)),
-                    Genres = string.Join(Consts.ArraySeparator, (from aa in album where !aa.Genres.IsNullorEmpty() group aa by aa.Genres into g select g.Key).Distinct(StringComparer.InvariantCultureIgnoreCase)),
-                    AlbumArtistsSort = string.Join(Consts.ArraySeparator, (from aa in album where !aa.AlbumArtistsSort.IsNullorEmpty() group aa by aa.AlbumArtistsSort into g select g.Key).Distinct(StringComparer.InvariantCultureIgnoreCase)),
+                    // uint value, merge their items
+                    AlbumArtists = string.Join(Consts.ArraySeparator, album.SelectMany(aa => aa.AlbumArtists?.Split(Consts.ArraySeparator, StringSplitOptions.RemoveEmptyEntries) ?? Enumerable.Empty<string>()).Distinct(StringComparer.InvariantCultureIgnoreCase)),
+                    Genres = string.Join(Consts.ArraySeparator, album.SelectMany(aa => aa.Genres?.Split(Consts.ArraySeparator, StringSplitOptions.RemoveEmptyEntries) ?? Enumerable.Empty<string>()).Distinct(StringComparer.InvariantCultureIgnoreCase)),
+                    AlbumArtistsSort = string.Join(Consts.ArraySeparator, album.SelectMany(aa => aa.AlbumArtistsSort?.Split(Consts.ArraySeparator, StringSplitOptions.RemoveEmptyEntries) ?? Enumerable.Empty<string>()).Distinct(StringComparer.InvariantCultureIgnoreCase)),
 
                     // normal value, use their not-null value
                     AlbumSort = (from aa in album where !aa.AlbumSort.IsNullorEmpty() select aa.AlbumSort).FirstOrDefault(),
