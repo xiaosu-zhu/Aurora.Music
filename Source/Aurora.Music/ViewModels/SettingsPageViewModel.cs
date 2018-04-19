@@ -404,12 +404,7 @@ namespace Aurora.Music.ViewModels
             get => new DelegateCommand(async () =>
             {
                 CanClearCache = false;
-                var folder = ApplicationData.Current.TemporaryFolder;
-                var f = await folder.GetItemsAsync();
-                foreach (var item in f)
-                {
-                    await item.DeleteAsync(StorageDeleteOption.PermanentDelete);
-                }
+                await ApplicationData.Current.ClearAsync(ApplicationDataLocality.Temporary);
                 CanClearCache = true;
                 MainPage.Current.PopMessage(Consts.Localizer.GetString("ClearCacheText"));
             });
@@ -427,22 +422,8 @@ namespace Aurora.Music.ViewModels
                 GC.WaitForPendingFinalizers();
 
                 await Task.Delay(300);
-                try
-                {
-                    var items = await ApplicationData.Current.LocalFolder.GetItemsAsync();
-                    foreach (var item in items)
-                    {
-                        await item.DeleteAsync();
-                    }
-                }
-                catch (Exception)
-                {
-
-                }
-                Settings.Current.DANGER_DELETE();
-
-                await Task.Delay(300);
-                App.Current.Exit();
+                await ApplicationData.Current.ClearAsync();
+                await CoreApplication.RequestRestartAsync("");
             });
         }
 
