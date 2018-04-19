@@ -10,6 +10,9 @@ namespace Aurora.Shared.Extensions
 {
     public static class StringExtension
     {
+        public static string Truncate(this string value, int length) =>
+            (value != null && value.Length > length) ? value.Substring(0, length) : value;
+
         public static int LevenshteinDistance(this string source, string t)
         {
             return LevenshteinCompute(source, t);

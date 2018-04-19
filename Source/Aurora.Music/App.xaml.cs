@@ -226,7 +226,11 @@ namespace Aurora.Music
             {
                 uri = null;
             }
+            await NavigateByProtocol(uri);
+        }
 
+        private async Task NavigateByProtocol(Uri uri)
+        {
             bool canShowInNewWindow = false;
             Type navigateType = null;
             Type subNavigateType = null;
@@ -519,12 +523,30 @@ namespace Aurora.Music
         /// 将在启动应用程序以打开特定文件等情况下使用。
         /// </summary>
         /// <param name="e">有关启动请求和过程的详细信息。</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
             if (e.Kind == ActivationKind.Protocol)
             {
                 return;
             }
+
+
+            var t = Task.Run(async () =>
+            {
+                if (BackgroundTaskHelper.IsBackgroundTaskRegistered(Consts.PodcastTaskName))
+                {
+                    // Background task already registered.
+                    //Unregister
+                    BackgroundTaskHelper.Unregister(Consts.PodcastTaskName);
+                }
+                // Check for background access (optional)
+                await BackgroundExecutionManager.RequestAccessAsync();
+
+                // Register (Multi Process) w/ Conditions.
+                BackgroundTaskHelper.Register(Consts.PodcastTaskName, typeof(PodcastsFetcher).FullName, new TimeTrigger(Settings.Current.FetchInterval, false), true, true, new SystemCondition(SystemConditionType.InternetAvailable));
+            });
+
+
             if (e.PrelaunchActivated == false)
             {
                 TryDisablePrelaunch();
@@ -532,6 +554,13 @@ namespace Aurora.Music
                 {
                     CreateRootFrame(e.PreviousExecutionState);
                 }
+
+                if (e.Arguments.StartsWith("as-music:", StringComparison.InvariantCultureIgnoreCase) && Uri.TryCreate(e.Arguments, UriKind.Absolute, out var u))
+                {
+                    await NavigateByProtocol(u);
+                    return;
+                }
+
                 if (rootFrame.Content == null)
                 {
                     // When the navigation stack isn't restored navigate to the first page,
@@ -548,6 +577,13 @@ namespace Aurora.Music
             else
             {
                 CreateRootFrame(e.PreviousExecutionState);
+
+                if (e.Arguments.StartsWith("as-music:", StringComparison.InvariantCultureIgnoreCase) && Uri.TryCreate(e.Arguments, UriKind.Absolute, out var u))
+                {
+                    await NavigateByProtocol(u);
+                    return;
+                }
+
                 if (rootFrame.Content == null)
                 {
                     // When the navigation stack isn't restored navigate to the first page,
@@ -559,21 +595,6 @@ namespace Aurora.Music
                         rootFrame.Navigate(typeof(WelcomePage), e.Arguments);
                 }
             }
-
-            var t = Task.Run(async () =>
-            {
-                if (BackgroundTaskHelper.IsBackgroundTaskRegistered(Consts.PodcastTaskName))
-                {
-                    // Background task already registered.
-                    //Unregister
-                    BackgroundTaskHelper.Unregister(Consts.PodcastTaskName);
-                }
-                // Check for background access (optional)
-                await BackgroundExecutionManager.RequestAccessAsync();
-
-                // Register (Multi Process) w/ Conditions.
-                BackgroundTaskHelper.Register(Consts.PodcastTaskName, typeof(PodcastsFetcher).FullName, new TimeTrigger(Settings.Current.FetchInterval, false), true, true, new SystemCondition(SystemConditionType.InternetAvailable));
-            });
         }
 
         private async void Ui_ColorValuesChanged(UISettings sender, object args)

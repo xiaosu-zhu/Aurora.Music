@@ -4,6 +4,7 @@
 using Aurora.Music.Controls;
 using Aurora.Music.Core;
 using Aurora.Music.Core.Models;
+using Aurora.Music.Core.Tools;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.MVVM;
 using System;
@@ -14,6 +15,7 @@ using TagLib.Id3v2;
 using Windows.ApplicationModel.Core;
 using Windows.UI;
 using Windows.UI.Core;
+using Windows.UI.StartScreen;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 
@@ -161,6 +163,91 @@ namespace Aurora.Music.ViewModels
             }
         }
 
+        public string PinnedtoGlyph(bool b)
+        {
+            return b ? "\uE196" : "\uE141";
+        }
+        public string PinnedtoText(bool b)
+        {
+            return b ? "Unpin from start" : "Pin to start";
+        }
+
+        public DelegateCommand PintoStart
+        {
+            get => new DelegateCommand(async () =>
+            {
+                // Construct a unique tile ID, which you will need to use later for updating the tile
+                var tileId = $"podcast{Model.ID}";
+                if (SecondaryTile.Exists(tileId))
+                {
+                    // Initialize a secondary tile with the same tile ID you want removed
+                    var toBeDeleted = new SecondaryTile(tileId);
+
+                    // And then unpin the tile
+                    await toBeDeleted.RequestDeleteAsync();
+                    IsPinned = SecondaryTile.Exists(tileId);
+                }
+                else
+                {
+                    // Use a display name you like
+                    var displayName = Model.Title;
+
+                    // Provide all the required info in arguments so that when user
+                    // clicks your tile, you can navigate them to the correct content
+                    var arguments = $"as-music:///library/podcast/id/{Model.ID}";
+
+                    // Initialize the tile with required arguments
+                    var tile = new SecondaryTile
+                    {
+                        Arguments = arguments,
+                        TileId = tileId,
+                        DisplayName = displayName
+                    };
+                    tile.VisualElements.Square150x150Logo = new Uri("ms-appx:///Assets/Square150x150Logo.png");
+                    // Enable wide and large tile sizes
+                    tile.VisualElements.Wide310x150Logo = new Uri("ms-appx:///Assets/Wide310x150Logo.png");
+                    tile.VisualElements.Square310x310Logo = new Uri("ms-appx:///Assets/LargeTile.png");
+
+                    // Add a small size logo for better looking small tile
+                    tile.VisualElements.Square71x71Logo = new Uri("ms-appx:///Assets/SmallTile.png");
+
+                    // Add a unique corner logo for the secondary tile
+                    tile.VisualElements.Square44x44Logo = new Uri("ms-appx:///Assets/Square44x44Logo.png");
+
+                    tile.VisualElements.ShowNameOnSquare150x150Logo = true;
+                    tile.VisualElements.ShowNameOnWide310x150Logo = true;
+                    tile.VisualElements.ShowNameOnSquare310x310Logo = true;
+
+                    // Pin the tile
+                    await tile.RequestCreateAsync();
+
+                    await UpdateTile();
+                }
+            });
+        }
+
+        private bool isPinned;
+        public bool IsPinned
+        {
+            get { return isPinned; }
+            set { SetProperty(ref isPinned, value); }
+        }
+
+        public async Task UpdateTile()
+        {
+            var tileId = $"podcast{Model.ID}";
+            // Check if the secondary tile is pinned
+            isPinned = SecondaryTile.Exists(tileId);
+            if (isPinned)
+            {
+                Tile.UpdatePodcast(tileId, Model);
+            }
+            await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+            {
+                RaisePropertyChanged("IsPinned");
+            });
+        }
+
         public DelegateCommand Refresh
         {
             get
@@ -198,7 +285,7 @@ namespace Aurora.Music.ViewModels
                 return;
             }
 
-            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
             {
                 SongsList.Clear();
                 uint i = 0;
@@ -216,6 +303,7 @@ namespace Aurora.Music.ViewModels
                 Title = Model.Title;
                 HeroImage = new Uri(Model.HeroArtworks[0]);
             });
+            await UpdateTile();
         }
 
         internal async Task PlayAt(SongViewModel songViewModel)

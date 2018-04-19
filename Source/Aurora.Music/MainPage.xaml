@@ -1745,11 +1745,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 
                 <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top" Background="Transparent" 
                       Height="32" x:Name="TitleBar" Loaded="TitleBar_Loaded">
-                    <TextBlock Style="{ThemeResource CaptionTextBlockStyle}" 
-                               Visibility="Collapsed"
-                               Text="{x:Bind Context.CurrentTitle, Mode=OneWay}"
-                               Margin="16,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" 
-                               Foreground="{x:Bind Context.LeftTopColor, Mode=OneWay}"/>
                 </Grid>
                 <Grid HorizontalAlignment="Right" VerticalAlignment="Top" 
                       Height="32" x:Name="TitleBarOverlay" Visibility="Visible" >
