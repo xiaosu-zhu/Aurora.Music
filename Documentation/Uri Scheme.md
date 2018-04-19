@@ -30,7 +30,7 @@ to go to specific pages.
 
 can go to the first subscribed podcast, and
 
-* <a href="as-music:///library/podcast/id/{0}" data-linktype="external">as-music:///library/podcastid/{0}</a>
+* <a href="as-music:///library/podcast/id/{0}" data-linktype="external">as-music:///library/podcast/id/{0}</a>
 
 can go to the subscribed podcast with specific id (database).
 
