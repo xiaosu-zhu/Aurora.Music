@@ -61,7 +61,7 @@ namespace Aurora.Music.Pages
             }
 
             if (Context.SongsList.IsNullorEmpty())
-                await Context.GetSongsAsync();
+                await Context.InitAsync();
 
             SortBox.SelectionChanged -= ComboBox_SelectionChanged;
             SortBox.SelectedIndex = Context.SortIndex;

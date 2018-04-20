@@ -1454,4 +1454,20 @@
     <value>Filters</value>
     <comment>Filters</comment>
   </data>
+    <data name="PinText" xml:space="preserve">
+    <value>Pin to start</value>
+    <comment>Pin to start</comment>
+  </data>
+    <data name="UnPinText" xml:space="preserve">
+    <value>Unpin from start</value>
+    <comment>Unpin from start</comment>
+  </data>
+    <data name="AlbumsTile" xml:space="preserve">
+    <value>Explore your albums in Aurora Music</value>
+    <comment>Explore your albums in Aurora Music</comment>
+  </data>
+    <data name="SongsTile" xml:space="preserve">
+    <value>Explore your songs in Aurora Music</value>
+    <comment>Explore your songs in Aurora Music</comment>
+  </data>
 </root>

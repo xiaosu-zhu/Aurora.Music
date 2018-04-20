@@ -62,7 +62,7 @@ namespace Aurora.Music.Pages
             {
                 return;
             }
-            await Context.GetSongsAsync(e.Parameter as PlayList);
+            await Context.InitAsync(e.Parameter as PlayList);
 
             if ((e.Parameter as PlayList).Title == Consts.Localizer.GetString("Favorites"))
             {

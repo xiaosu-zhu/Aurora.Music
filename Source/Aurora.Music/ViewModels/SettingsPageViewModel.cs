@@ -17,11 +17,11 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Xml;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppExtensions;
 using Windows.ApplicationModel.Background;
 using Windows.ApplicationModel.Core;
+using Windows.Data.Xml.Dom;
 using Windows.Devices.Enumeration;
 using Windows.Foundation.Collections;
 using Windows.Media.Devices;
@@ -328,10 +328,7 @@ namespace Aurora.Music.ViewModels
                     node.SetAttribute("htmlUrl", pod.XMLUrl);
                     body.AppendChild(node);
                 }
-                using (var stream = await file.OpenAsync(FileAccessMode.ReadWrite))
-                {
-                    res.Save(stream.AsStreamForWrite());
-                }
+                await res.SaveToFileAsync(file);
 
                 // Let Windows know that we're finished changing the file so
                 // the other app can update the remote version of the file.

@@ -4,7 +4,6 @@
 using Aurora.Music.Core;
 using Aurora.Music.Core.Models;
 using Aurora.Music.Core.Storage;
-using Aurora.Shared.Extensions;
 using Aurora.Shared.MVVM;
 using System;
 using System.Collections.Generic;
@@ -12,10 +11,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
-using Windows.System.Threading;
 using Windows.UI.StartScreen;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
 
 namespace Aurora.Music.ViewModels
 {
@@ -100,6 +96,15 @@ namespace Aurora.Music.ViewModels
                 }
                 SongsCount = SmartFormat.Smart.Format(Consts.Localizer.GetString("SmartAlbums"), albums.Count);
                 ArtistsCount = SmartFormat.Smart.Format(Consts.Localizer.GetString("SmartArtists"), aCount);
+
+
+                var tileId = "albums";
+                IsPinned = SecondaryTile.Exists(tileId);
+
+                if (IsPinned)
+                {
+                    Core.Tools.Tile.UpdateImage(tileId, AlbumList.SelectMany(a => a.Where(c => c.ArtworkUri != null).Select(b => b.ArtworkUri.OriginalString)).Distinct().OrderBy(x => Guid.NewGuid()).Take(10).ToList(), Consts.Localizer.GetString("AlbumsText"), Consts.Localizer.GetString("AlbumsTile"));
+                }
             });
         }
 
@@ -150,7 +155,7 @@ namespace Aurora.Music.ViewModels
         }
         public string PinnedtoText(bool b)
         {
-            return b ? "Unpin from start" : "Pin to start";
+            return b ? Consts.Localizer.GetString("UnPinText") : Consts.Localizer.GetString("PinText");
         }
 
         public DelegateCommand PintoStart
@@ -158,7 +163,7 @@ namespace Aurora.Music.ViewModels
             get => new DelegateCommand(async () =>
             {
                 // Construct a unique tile ID, which you will need to use later for updating the tile
-                var tileId = $"albums";
+                var tileId = "albums";
                 if (SecondaryTile.Exists(tileId))
                 {
                     // Initialize a secondary tile with the same tile ID you want removed
@@ -170,7 +175,7 @@ namespace Aurora.Music.ViewModels
                 else
                 {
                     // Use a display name you like
-                    var displayName = "Albums";
+                    var displayName = Consts.Localizer.GetString("AlbumsText");
 
                     // Provide all the required info in arguments so that when user
                     // clicks your tile, you can navigate them to the correct content
@@ -203,6 +208,10 @@ namespace Aurora.Music.ViewModels
                 }
 
                 IsPinned = SecondaryTile.Exists(tileId);
+                if (IsPinned)
+                {
+                    Core.Tools.Tile.UpdateImage(tileId, AlbumList.SelectMany(a => a.Where(c => c.ArtworkUri != null).Select(b => b.ArtworkUri.OriginalString)).Distinct().OrderBy(x => Guid.NewGuid()).Take(10).ToList(), Consts.Localizer.GetString("AlbumsText"), Consts.Localizer.GetString("AlbumsTile"));
+                }
             });
         }
 

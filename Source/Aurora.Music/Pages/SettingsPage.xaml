@@ -589,7 +589,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </PivotItem>
         </Pivot>
 
-        <StackPanel x:Name="SidePanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Padding="8,0" MinWidth="240" Grid.Column="1">
+        <StackPanel Margin="0,-2,0,0" x:Name="SidePanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Padding="8,0" MinWidth="240" Grid.Column="1">
             <TextBlock x:Uid="OtherInformation" Text="Other Information" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12"/>
             <Button x:Uid="OpenSource" Content="Open Source"
                             Command="{Binding Github}"

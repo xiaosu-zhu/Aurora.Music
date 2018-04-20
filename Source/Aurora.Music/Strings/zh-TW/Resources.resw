@@ -1445,4 +1445,20 @@
     <value>过滤</value>
     <comment>Filters</comment>
   </data>
+    <data name="PinText" xml:space="preserve">
+    <value>固定到开始</value>
+    <comment>Pin to start</comment>
+  </data>
+    <data name="UnPinText" xml:space="preserve">
+    <value>从开始拿下</value>
+    <comment>Unpin from start</comment>
+  </data>
+    <data name="AlbumsTile" xml:space="preserve">
+    <value>在极光音乐中探索你的专辑</value>
+    <comment>Explore your albums in Aurora Music</comment>
+  </data>
+    <data name="SongsTile" xml:space="preserve">
+    <value>在极光音乐中探索你的歌曲</value>
+    <comment>Explore your songs in Aurora Music</comment>
+  </data>
 </root>
