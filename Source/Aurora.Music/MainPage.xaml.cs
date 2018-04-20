@@ -321,7 +321,7 @@ namespace Aurora.Music
             sender.Completed -= MainPage_Completed;
         }
 
-        public void GoBackFromNowPlaying()
+        public void GoBackFromNowPlaying(bool useTranslation = true)
         {
             if (OverlayFrame.Visibility == Visibility.Visible)
             {
@@ -357,6 +357,7 @@ namespace Aurora.Music
         {
             sender.Completed -= Ani_Completed;
             OverlayFrame.Visibility = Visibility.Collapsed;
+            Context.RestoreLastTitle();
         }
 
 
@@ -405,7 +406,7 @@ namespace Aurora.Music
                 Window.Current.Activate();
                 CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
                 Window.Current.SetTitleBar(frame);
-                ApplicationViewTitleBar titleBar = ApplicationView.GetForCurrentView().TitleBar;
+                var titleBar = ApplicationView.GetForCurrentView().TitleBar;
                 titleBar.ButtonBackgroundColor = Colors.Transparent;
                 titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
                 titleBar.ButtonHoverBackgroundColor = Color.FromArgb(0x33, 0x00, 0x00, 0x00);

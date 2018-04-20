@@ -2982,7 +2982,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                                     </VisualStateGroup>
                                                 </VisualStateManager.VisualStateGroups>
                                                 <TextBlock x:Name="GlyphElement"
-                                                    Foreground="{ThemeResource TextControlButtonForeground}"
+                                                    Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
                                                     VerticalAlignment="Center"
                                                     HorizontalAlignment="Center"
                                                     FontStyle="Normal"
@@ -3108,15 +3108,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement" Storyboard.TargetProperty="Background">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentElement" Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlForegroundFocused}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentElement" Storyboard.TargetProperty="RequestedTheme">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Light" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="QueryButton" Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlButtonForeground}" />
-                                        </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
                             </VisualStateGroup>
@@ -3175,6 +3166,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                             Margin="{TemplateBinding BorderThickness}"
                             Padding="{TemplateBinding Padding}"
                             IsTabStop="False"
+                                      Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"
                             AutomationProperties.AccessibilityView="Raw"
                             ZoomMode="Disabled" />
                         <ContentControl x:Name="PlaceholderTextContentPresenter"

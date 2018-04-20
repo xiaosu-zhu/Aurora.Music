@@ -97,6 +97,15 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <Run Text="{x:Bind Context.SongsCount,Mode=OneWay,TargetNullValue=Loading,FallbackValue=Loading}"/>
                 </TextBlock>
                 <Button Command="{x:Bind Context.PlayAll}" Style="{ThemeResource PlayAllButton}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                <Button Command="{x:Bind Context.PintoStart}" Style="{ThemeResource TextBlockButtonStyle}">
+                    <Button.Content>
+                        <TextBlock>
+                                <Run FontSize="13" FontFamily="Segoe MDL2 Assets" Text="{x:Bind Context.PinnedtoGlyph(Context.IsPinned),Mode=OneWay}" />
+                                <Run Text="{x:Bind Context.PinnedtoText(Context.IsPinned),Mode=OneWay}"/>
+                        </TextBlock>
+                    </Button.Content>
+                </Button>
             </toolkit:WrapPanel>
         </StackPanel>
         <SemanticZoom Grid.Row="1" x:Name="Root">
@@ -158,7 +167,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                            Grid.Row="0" Style="{ThemeResource TitleTextBlockStyle}" FontSize="16"/>
                                 <TextBlock x:Name="ArtistDetail" Text="{x:Bind CountToString(SongsCount)}" Margin="0,0,0,16"
                                            Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="13"
-                                           Grid.Row="1" Foreground="{ThemeResource ButtonDisabledForegroundThemeBrush}"
+                                           Grid.Row="1" Foreground="{ThemeResource SystemControlBackgroundBaseMediumRevealBorderBrush}"
                                            MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap"
                                            Style="{ThemeResource BodyTextBlockStyle}"/>
                             </Grid>

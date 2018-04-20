@@ -148,12 +148,12 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </Button>
         </Grid>
         <TextBlock x:Name="Album" Grid.Column="2" Margin="4" Text="{x:Bind Data.Album,Mode=OneWay}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"
-                   Foreground="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}" ToolTipService.ToolTip="{x:Bind Data.Album,Mode=OneWay}"
+                   Foreground="{ThemeResource SystemControlBackgroundBaseMediumLowRevealBorderBrush}" ToolTipService.ToolTip="{x:Bind Data.Album,Mode=OneWay}"
                    HorizontalAlignment="Left" VerticalAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}"/>
         <TextBlock x:Name="Duration" Margin="4" Grid.Column="3" Text="{x:Bind Data.DurationtoString(Data.Duration),Mode=OneWay}" TextWrapping="NoWrap" TextTrimming="Clip"
                    HorizontalAlignment="Right" VerticalAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}" ToolTipService.ToolTip="{x:Bind Data.GetAddtionalDesc(),Mode=OneWay}"/>
         <TextBlock x:Name="Artist" Margin="4" Grid.Column="4" Text="{x:Bind Data.GetFormattedArtists(),Mode=OneWay}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" 
-                   Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}" ToolTipService.ToolTip="{x:Bind Data.GetFormattedArtists(),Mode=OneWay}"
+                   Foreground="{ThemeResource SystemControlBackgroundBaseMediumRevealBorderBrush}" ToolTipService.ToolTip="{x:Bind Data.GetFormattedArtists(),Mode=OneWay}"
                    HorizontalAlignment="Right" VerticalAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}"/>
         <Button Click="HeaderBtn_Click" x:Load="False" Visibility="Collapsed" Margin="-12,0,0,0" x:Name="HeaderBtn" Grid.RowSpan="2" Style="{ThemeResource NoBorderButton}" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" Background="Transparent" HorizontalAlignment="Left" VerticalAlignment="Stretch" Padding="12,0">
             <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE15B;" />

@@ -345,6 +345,14 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <ComboBoxItem x:Uid="Artist" Tag="Artists">Artist</ComboBoxItem>
                     <ComboBoxItem x:Uid="Year" Tag="Year">Year</ComboBoxItem>
                 </ComboBox>
+                <Button Command="{x:Bind Context.PintoStart}" Style="{ThemeResource TextBlockButtonStyle}">
+                    <Button.Content>
+                        <TextBlock>
+                                <Run FontSize="13" FontFamily="Segoe MDL2 Assets" Text="{x:Bind Context.PinnedtoGlyph(Context.IsPinned),Mode=OneWay}" />
+                                <Run Text="{x:Bind Context.PinnedtoText(Context.IsPinned),Mode=OneWay}"/>
+                        </TextBlock>
+                    </Button.Content>
+                </Button>
                 <Button x:Name="DeleteBtn" Style="{ThemeResource TextBlockButtonStyle}">
                     <Button.Content>
                         <TextBlock>

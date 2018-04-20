@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.System.Threading;
+using Windows.UI.StartScreen;
 
 namespace Aurora.Music.ViewModels
 {
@@ -98,6 +99,76 @@ namespace Aurora.Music.ViewModels
                     }
                 });
             });
+        }
+
+
+        public string PinnedtoGlyph(bool b)
+        {
+            return b ? "\uE196" : "\uE141";
+        }
+        public string PinnedtoText(bool b)
+        {
+            return b ? "Unpin from start" : "Pin to start";
+        }
+
+        public DelegateCommand PintoStart
+        {
+            get => new DelegateCommand(async () =>
+            {
+                // Construct a unique tile ID, which you will need to use later for updating the tile
+                var tileId = $"artists";
+                if (SecondaryTile.Exists(tileId))
+                {
+                    // Initialize a secondary tile with the same tile ID you want removed
+                    var toBeDeleted = new SecondaryTile(tileId);
+
+                    // And then unpin the tile
+                    await toBeDeleted.RequestDeleteAsync();
+                }
+                else
+                {
+                    // Use a display name you like
+                    var displayName = "Artists";
+
+                    // Provide all the required info in arguments so that when user
+                    // clicks your tile, you can navigate them to the correct content
+                    var arguments = $"as-music:///library/artists";
+
+                    // Initialize the tile with required arguments
+                    var tile = new SecondaryTile
+                    {
+                        Arguments = arguments,
+                        TileId = tileId,
+                        DisplayName = displayName
+                    };
+                    tile.VisualElements.Square150x150Logo = new Uri("ms-appx:///Assets/Square150x150Logo.png");
+                    // Enable wide and large tile sizes
+                    tile.VisualElements.Wide310x150Logo = new Uri("ms-appx:///Assets/Wide310x150Logo.png");
+                    tile.VisualElements.Square310x310Logo = new Uri("ms-appx:///Assets/LargeTile.png");
+
+                    // Add a small size logo for better looking small tile
+                    tile.VisualElements.Square71x71Logo = new Uri("ms-appx:///Assets/SmallTile.png");
+
+                    // Add a unique corner logo for the secondary tile
+                    tile.VisualElements.Square44x44Logo = new Uri("ms-appx:///Assets/Square44x44Logo.png");
+
+                    tile.VisualElements.ShowNameOnSquare150x150Logo = true;
+                    tile.VisualElements.ShowNameOnWide310x150Logo = true;
+                    tile.VisualElements.ShowNameOnSquare310x310Logo = true;
+
+                    // Pin the tile
+                    await tile.RequestCreateAsync();
+                }
+
+                IsPinned = SecondaryTile.Exists(tileId);
+            });
+        }
+
+        private bool isPinned;
+        public bool IsPinned
+        {
+            get { return isPinned; }
+            set { SetProperty(ref isPinned, value); }
         }
     }
 }

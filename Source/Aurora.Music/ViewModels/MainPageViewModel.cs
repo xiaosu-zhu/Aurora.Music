@@ -205,6 +205,10 @@ namespace Aurora.Music.ViewModels
 
         internal void RestoreLastTitle()
         {
+            if (_lasttitle == null)
+            {
+                return;
+            }
             NeedShowTitle = _lastneedshow;
             Title = _lasttitle;
             LeftTopColor = _lastLeftTop;
@@ -453,6 +457,7 @@ namespace Aurora.Music.ViewModels
             {
                 return new DelegateCommand(() =>
                 {
+                    _lasttitle = null;
                     MainPage.Current.GoBackFromNowPlaying();
                     MainPage.Current.Navigate(typeof(SettingsPage));
                 });
@@ -465,6 +470,7 @@ namespace Aurora.Music.ViewModels
             {
                 return new DelegateCommand(() =>
                 {
+                    _lasttitle = null;
                     MainPage.Current.GoBackFromNowPlaying();
                     MainPage.Current.Navigate(typeof(DownloadPage));
                 });
@@ -477,6 +483,7 @@ namespace Aurora.Music.ViewModels
             {
                 return new DelegateCommand(() =>
                 {
+                    _lasttitle = null;
                     MainPage.Current.GoBackFromNowPlaying();
                     MainPage.Current.Navigate(typeof(AboutPage));
                 });
@@ -1032,7 +1039,7 @@ namespace Aurora.Music.ViewModels
                     }
                     var task = Task.Run(() =>
                     {
-                        Tile.SendNormal(CurrentTitle, CurrentAlbum, string.Join(Consts.CommaSeparator, p.Performers ?? new string[] { }), p.PicturePath);
+                        Core.Tools.Tile.SendNormal(CurrentTitle, CurrentAlbum, string.Join(Consts.CommaSeparator, p.Performers ?? new string[] { }), p.PicturePath);
                     });
                 }
                 if (e.Items is IReadOnlyList<Song> l)

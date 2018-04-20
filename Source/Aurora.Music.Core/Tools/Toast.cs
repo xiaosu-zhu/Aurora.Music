@@ -3,6 +3,7 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using Aurora.Music.Core.Models;
 using Aurora.Music.Core.Storage;
+using Aurora.Shared.Extensions;
 using Microsoft.Toolkit.Uwp.Notifications;
 using System;
 using System.Linq;
@@ -48,7 +49,7 @@ namespace Aurora.Music.Core.Tools
                                             },
                                             new AdaptiveText()
                                             {
-                                                Text = p[0].Album.Split('\r', StringSplitOptions.RemoveEmptyEntries).FirstOrDefault(),
+                                                Text = p[0].Album.Truncate(40),
                                                 HintStyle = AdaptiveTextStyle.CaptionSubtle
                                             }
                                         }

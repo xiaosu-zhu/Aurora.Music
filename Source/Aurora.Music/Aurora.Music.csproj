@@ -182,7 +182,6 @@
       <DependentUpon>TagDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\TemplateSeletor.cs" />
-    <Compile Include="Controls\Tile.cs" />
     <Compile Include="Controls\UpdateInfo.xaml.cs">
       <DependentUpon>UpdateInfo.xaml</DependentUpon>
     </Compile>

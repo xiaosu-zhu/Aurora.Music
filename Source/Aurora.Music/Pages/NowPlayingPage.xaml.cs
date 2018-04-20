@@ -170,7 +170,6 @@ namespace Aurora.Music.Pages
             Visualizer.SizeChanged -= Visualizer_SizeChanged;
             MainPageViewModel.Current.IsVisualizing = false;
             Visualizer.Draw -= CustomVisualizer_Draw;
-            MainPageViewModel.Current.RestoreLastTitle();
             SizeChanged -= NowPlayingPage_SizeChanged;
             Context.SongChanged -= Context_SongChanged;
         }
@@ -189,7 +188,6 @@ namespace Aurora.Music.Pages
 
         private void Page_Unloaded(object sender, RoutedEventArgs e)
         {
-            MainPageViewModel.Current.RestoreLastTitle();
             Context?.Dispose();
             MainPageViewModel.Current.IsVisualizing = false;
             Unload();

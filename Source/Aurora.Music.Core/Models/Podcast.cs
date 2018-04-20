@@ -72,7 +72,7 @@ namespace Aurora.Music.Core.Models
         {
             var ment = new XmlDocument(); ment.LoadXml(resXML);
 
-            XmlNamespaceManager ns = new XmlNamespaceManager(ment.NameTable);
+            var ns = new XmlNamespaceManager(ment.NameTable);
             ns.AddNamespace("itunes", "http://www.itunes.com/dtds/podcast-1.0.dtd");
 
             Title = ment.SelectSingleNode("/rss/channel/title").InnerText;
@@ -177,7 +177,8 @@ namespace Aurora.Music.Core.Models
                     XMLUrl = p.XMLUrl,
                     XMLPath = p.XMLPath,
                     Subscribed = p.Subscribed,
-                    SortRevert = p.SortRevert
+                    SortRevert = p.SortRevert,
+                    ID = p.ID,
                 };
                 await a.ReadXML(str);
                 return a;
