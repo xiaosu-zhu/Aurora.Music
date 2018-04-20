@@ -261,7 +261,7 @@ namespace Aurora.Music.Core.Models
             if (tag != null)
                 s.PicturePath = await GetPicturePath(tag.Pictures, music.album);
             else if (oneDriveFile != null)
-                s.PicturePath = await GetPicturePath(await OneDrivePropertyProvider.GetThumbnail(oneDriveFile), music.album);
+                s.PicturePath = await GetPicturePath(oneDriveFile, music.album);
             return s;
 
             T[] asArray<T>(T value) where T : class => value is null ? null : new[] { value };
@@ -302,35 +302,33 @@ namespace Aurora.Music.Core.Models
             }
         }
 
-        private async static Task<string> GetPicturePath(string pictures, string album)
+        private async static Task<string> GetPicturePath(OneDriveStorageFile file, string album)
         {
-            if (!pictures.IsNullorEmpty())
+            if (file is null)
+                return string.Empty;
+            if (album.IsNullorEmpty())
             {
-                if (album.IsNullorEmpty())
+                album = Consts.UnknownAlbum;
+            }
+            album = Shared.Utils.InvalidFileNameChars.Aggregate(album, (current, c) => current.Replace(c + "", "_"));
+            album = $"{album}.jpg";
+            try
+            {
+                var s = await Consts.ArtworkFolder.TryGetItemAsync(album);
+                if (s == null)
                 {
-                    album = Consts.UnknownAlbum;
+                    var thumb = await OneDrivePropertyProvider.GetThumbnail(file);
+                    if (thumb.IsNullorEmpty())
+                        return string.Empty;
+                    var data = await await WebHelper.DownloadFileAsync(album, new Uri(thumb), Consts.ArtworkFolder);
+                    return data.ResultFile.Path;
                 }
-                album = Shared.Utils.InvalidFileNameChars.Aggregate(album, (current, c) => current.Replace(c + "", "_"));
-                album = $"{album}.jpg";
-                try
+                else
                 {
-                    var s = await Consts.ArtworkFolder.TryGetItemAsync(album);
-                    if (s == null)
-                    {
-                        var data = await await WebHelper.DownloadFileAsync(album, new Uri(pictures), Consts.ArtworkFolder);
-                        return data.ResultFile.Path;
-                    }
-                    else
-                    {
-                        return s.Path;
-                    }
-                }
-                catch (ArgumentException)
-                {
-                    return string.Empty;
+                    return s.Path;
                 }
             }
-            else
+            catch (ArgumentException)
             {
                 return string.Empty;
             }

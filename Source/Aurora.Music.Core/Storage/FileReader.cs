@@ -215,7 +215,7 @@ namespace Aurora.Music.Core.Storage
 
             var scan = Consts.Localizer.GetString("FileReadText");
             var oneDriveFailed = false;
-            foreach (var file in files)
+            foreach (var file in files.OrderBy(f => f.Path))
             {
                 try
                 {
@@ -232,7 +232,7 @@ namespace Aurora.Music.Core.Storage
                                 continue;
                             var artist = audioProp.Artist is null ? null : new[] { audioProp.Artist };
                             var composers = audioProp.Composers is null ? null : new[] { audioProp.Composers };
-                            var song = await Song.Create(null, file.Path, (audioProp.Title, audioProp.Album, null, artist, composers, null, TimeSpan.FromMilliseconds(audioProp.Duration ?? 0), (uint)(audioProp.Bitrate * 1000 ?? 0), 0), null, oneDriveFile);
+                            var song = await Song.Create(null, file.Path, (audioProp.Title, audioProp.Album, artist, artist, composers, null, TimeSpan.FromMilliseconds(audioProp.Duration ?? 0), (uint)(audioProp.Bitrate * 1000 ?? 0), 0), null, oneDriveFile);
                             var t = await opr.InsertSongAsync(song);
                             if (t != null)
                             {
