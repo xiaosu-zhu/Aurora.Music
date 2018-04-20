@@ -1,6 +1,7 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace LrcParser
@@ -75,7 +76,7 @@ namespace LrcParser
                 if (time.Success)
                 {
                     var t = time.Value.Substring(1, time.Value.Length - 2);
-                    if (TimeSpan.TryParseExact(t, acceptedTimeFormats, null, out TimeSpan p))
+                    if (TimeSpan.TryParseExact(t, acceptedTimeFormats, null, out var p))
                     {
                         for (int j = i; j < slices.Count; j++)
                         {
@@ -93,6 +94,37 @@ namespace LrcParser
                 }
             }
             return list;
+        }
+
+        public static string Create(Lyric lrc)
+        {
+            var sb = new StringBuilder();
+            if (lrc.AddtionalInfo != null)
+            {
+                foreach (var item in lrc.AddtionalInfo)
+                {
+                    sb.Append($"[{item.Key}: {item.Value}]");
+                    sb.Append(Environment.NewLine);
+                }
+            }
+            if (lrc.Offset != TimeSpan.Zero)
+            {
+                if (lrc.Offset.TotalMilliseconds > 0)
+                {
+                    sb.Append($"[offset: +{ lrc.Offset.TotalMilliseconds.ToString("0.####")}]");
+                }
+                else
+                {
+                    sb.Append($"[offset: -{ lrc.Offset.TotalMilliseconds.ToString("0.####")}]");
+                }
+                sb.Append(Environment.NewLine);
+            }
+            foreach (var l in lrc.Slices)
+            {
+                sb.Append($"[{l.Offset.ToString(@"m\:s\.ff")}]{l.Content}");
+                sb.Append(Environment.NewLine);
+            }
+            return sb.ToString();
         }
     }
 }

@@ -31,7 +31,7 @@ namespace Aurora.Music.Core.Models
                     if (!string.IsNullOrWhiteSpace(lrc))
                         return lrc;
                 }
-                catch
+                catch (FileNotFoundException)
                 {
                 }
             var args = new ValueSet()

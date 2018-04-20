@@ -3,6 +3,7 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Aurora.Music.Core.Models
@@ -18,7 +19,7 @@ namespace Aurora.Music.Core.Models
             {
                 return;
             }
-            this.lyric = l;
+            lyric = l;
             if (l.AddtionalInfo != null)
                 Add(new KeyValuePair<TimeSpan, string>(TimeSpan.Zero, string.Join(Environment.NewLine, l.AddtionalInfo.Select(x => $"{x.Key}: {x.Value}"))));
             AddRange(l.Slices.Select(x => new KeyValuePair<TimeSpan, string>(x.Offset, x.Content)));
