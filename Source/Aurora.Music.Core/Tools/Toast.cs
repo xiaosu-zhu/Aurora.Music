@@ -40,6 +40,7 @@ namespace Aurora.Music.Core.Tools
                                 {
                                     new AdaptiveSubgroup()
                                     {
+                                        HintWeight = 3,
                                         Children =
                                         {
                                             new AdaptiveText()
@@ -56,6 +57,7 @@ namespace Aurora.Music.Core.Tools
                                     },
                                     new AdaptiveSubgroup()
                                     {
+                                        HintWeight = 1,
                                         Children =
                                         {
                                             new AdaptiveText()

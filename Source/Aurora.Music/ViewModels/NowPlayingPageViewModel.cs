@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using TagLib;
 using Windows.ApplicationModel.Core;
@@ -29,6 +30,7 @@ using Windows.Storage.Streams;
 using Windows.System;
 using Windows.System.Threading;
 using Windows.UI;
+using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -115,6 +117,26 @@ namespace Aurora.Music.ViewModels
             }
         }
 
+        private int lyricEditorId = -1;
+
+        public DelegateCommand OpenLyricEditor
+        {
+            get => new DelegateCommand(async () =>
+            {
+                await CoreApplication.CreateNewView().Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    var frame = new Frame();
+                    lyricEditorId = ApplicationView.GetForCurrentView().Id;
+                    frame.Navigate(typeof(LyricEditor), (Lyric, TotalDuration, Song.FilePath));
+                    Window.Current.Content = frame;
+                    Window.Current.Activate();
+                });
+                var prefer = ViewModePreferences.CreateDefault(ApplicationViewMode.Default);
+                prefer.CustomSize = new Size(Window.Current.Bounds.Width, 120);
+                bool viewShown = await ApplicationViewSwitcher.TryShowAsViewModeAsync(lyricEditorId, ApplicationViewMode.Default, prefer);
+            });
+        }
+
         public async void Init(SongViewModel song)
         {
             //Initialize our picker object
@@ -175,7 +197,7 @@ namespace Aurora.Music.ViewModels
                 if (song.IsPodcast)
                 {
                     var l = new Lyric(LrcParser.Parser.Parse(song.Album, Song.Song.Duration));
-                    await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
+                    await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
                     {
                         Lyric.New(l);
                     });
@@ -186,14 +208,14 @@ namespace Aurora.Music.ViewModels
                     if (result != null)
                     {
                         var l = new Lyric(LrcParser.Parser.Parse(result, Song.Song.Duration));
-                        await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
+                        await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
                         {
                             Lyric.New(l);
                         });
                     }
                     else
                     {
-                        await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
+                        await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
                         {
                             Lyric.Clear();
                             LyricHint = Consts.Localizer.GetString("NoLyricText");
@@ -202,7 +224,7 @@ namespace Aurora.Music.ViewModels
                 }
                 else
                 {
-                    await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
+                    await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
                     {
                         Lyric.Clear();
                         LyricHint = Consts.Localizer.GetString("NoLyricText");
@@ -951,7 +973,7 @@ namespace Aurora.Music.ViewModels
 
         private async void Player_StatusChanged(object sender, PlayingItemsChangedArgs e)
         {
-            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
+            await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>
             {
                 if (e.CurrentSong != null)
                 {
@@ -1008,7 +1030,7 @@ namespace Aurora.Music.ViewModels
             {
                 if (!_lastSong.IsIDEqual(e.CurrentSong))
                 {
-                    await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                    await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
                     {
                         Lyric.Clear();
                         LyricHint = Consts.Localizer.GetString("LoadingLyricsText");
@@ -1018,7 +1040,7 @@ namespace Aurora.Music.ViewModels
                     if (song.IsPodcast)
                     {
                         var l = new Lyric(LrcParser.Parser.Parse(song.Album, Song.Song.Duration));
-                        await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
+                        await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
                         {
                             Lyric.New(l);
                         });
@@ -1029,14 +1051,18 @@ namespace Aurora.Music.ViewModels
                         if (result != null)
                         {
                             var l = new Lyric(LrcParser.Parser.Parse(result, Song.Song.Duration));
-                            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                            await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
                             {
                                 Lyric.New(l);
+                                if (lyricEditorId != -1 && LyricEditor.Current != null)
+                                {
+                                    LyricEditor.Current.ChangeLyric(l);
+                                }
                             });
                         }
                         else
                         {
-                            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                            await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
                             {
                                 Lyric.Clear();
                                 LyricHint = Consts.Localizer.GetString("NoLyricText");
@@ -1045,7 +1071,7 @@ namespace Aurora.Music.ViewModels
                     }
                     else
                     {
-                        await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                        await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
                         {
                             Lyric.Clear();
                             LyricHint = Consts.Localizer.GetString("NoLyricText");

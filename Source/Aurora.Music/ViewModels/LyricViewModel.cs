@@ -63,6 +63,8 @@ namespace Aurora.Music.ViewModels
 
         private Lyric lyric;
 
+        public Lyric Lyric { get => lyric; }
+
         public LyricViewModel()
         {
             Contents = new ObservableCollection<LrcContent>();

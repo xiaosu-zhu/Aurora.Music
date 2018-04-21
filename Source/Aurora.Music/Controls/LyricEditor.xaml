@@ -1,0 +1,150 @@
+﻿<Page
+    x:Class="Aurora.Music.Controls.LyricEditor"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Aurora.Music.Controls"
+    xmlns:vm="using:Aurora.Music.ViewModels"
+    xmlns:canvas="using:Microsoft.Graphics.Canvas.UI.Xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Themes/Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light" Source="../Themes/Light.xaml"/>
+                <ResourceDictionary x:Key="Dark" Source="../Themes/Dark.xaml"/>
+            </ResourceDictionary.ThemeDictionaries>
+            <Style x:Key="ThumbStyle" TargetType="Thumb">
+                <Setter Property="Background" Value="{ThemeResource SystemControlHighlightAccentRevealBorderBrush}"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="IsTabStop" Value="False"/>
+                <Setter Property="Width" Value="16"/>
+                <Setter Property="Height" Value="16"/>
+                <Setter Property="BorderBrush" Value="{x:Null}"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Thumb">
+                            <Grid CornerRadius="9999">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal">
+                                            <VisualState.Setters>
+                                                <Setter Target="Main.(RevealBrush.State)" Value="Normal" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState x:Name="PointerOver">
+                                            <VisualState.Setters>
+                                                <Setter Target="Main.(RevealBrush.State)" Value="PointerOver" />
+                                            </VisualState.Setters>
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Main" Storyboard.TargetProperty="Background">
+                                                    <DiscreteObjectKeyFrame Value="{ThemeResource SystemControlHighlightAccent2RevealBackgroundBrush}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Pressed">
+                                            <VisualState.Setters>
+                                                <Setter Target="Main.(RevealBrush.State)" Value="Pressed" />
+                                            </VisualState.Setters>
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Main" Storyboard.TargetProperty="Background">
+                                                    <DiscreteObjectKeyFrame Value="{ThemeResource SystemControlHighlightAccent3RevealBackgroundBrush}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Disabled">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Main" Storyboard.TargetProperty="Background">
+                                                    <DiscreteObjectKeyFrame Value="{ThemeResource ButtonDisabledBackgroundThemeBrush}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <Border x:Name="Main" CornerRadius="9999" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}"/>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+            <Button Click="Little_Backward" Style="{ThemeResource RevealRectangleButton}" Height="32" Width="48">
+                <FontIcon FontSize="16" FontFamily="Segoe MDL2 Assets" Glyph="&#xE973;" />
+            </Button>
+            <Button Click="Large_Backward" Style="{ThemeResource RevealRectangleButton}" Height="32" Width="48">
+                <FontIcon FontSize="16" FontFamily="Segoe MDL2 Assets" Glyph="&#xE96F;" />
+            </Button>
+            <TextBox AcceptsReturn="False" BorderThickness="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+                     Text="  0.0s" LostFocus="Offset_LostFocus" x:Name="Offset" KeyUp="Offset_KeyUp"
+                     BorderBrush="{ThemeResource SystemControlBackgroundBaseMediumRevealBorderBrush}" 
+                     PlaceholderText="Offset" Height="32" Width="144"/>
+            <Button Click="Large_Forward" Style="{ThemeResource RevealRectangleButton}" Height="32" Width="48">
+                <FontIcon FontSize="16" FontFamily="Segoe MDL2 Assets" Glyph="&#xE970;" />
+            </Button>
+            <Button Click="Little_Forward" Style="{ThemeResource RevealRectangleButton}" Height="32" Width="48">
+                <FontIcon FontSize="16" FontFamily="Segoe MDL2 Assets" Glyph="&#xE974;" />
+            </Button>
+        </StackPanel>
+        <Grid x:Name="StampCanvas" Grid.Row="1" Margin="32" Loaded="StampCanvas_Loaded">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="24"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock x:Name="ModifyTime" Text="" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center">
+                <TextBlock.RenderTransform>
+                    <TranslateTransform/>
+                </TextBlock.RenderTransform>
+            </TextBlock>
+            <Rectangle SizeChanged="StampCanvas_SizeChanged" x:Name="TimeLine" Grid.Row="1" RadiusX="2" RadiusY="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="4" Fill="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}"/>
+            <TextBlock x:Name="TotalTime" Text="" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            <TextBlock x:Name="NowTime" Text="0:00" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center">
+                <TextBlock.RenderTransform>
+                    <TranslateTransform X="{x:Bind CursorTranslate.X, Mode=OneWay}"/>
+                </TextBlock.RenderTransform>
+            </TextBlock>
+            <Rectangle Grid.Row="1" Canvas.ZIndex="9999" RadiusX="1" RadiusY="1" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="2" Fill="{ThemeResource AccentForText}">
+                <Rectangle.RenderTransform>
+                    <TranslateTransform x:Name="CursorTranslate"/>
+                </Rectangle.RenderTransform>
+            </Rectangle>
+        </Grid>
+        <StackPanel Margin="32" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="2">
+            <TextBox x:Name="PreviousLyric" BorderThickness="1" LostFocus="PreviousLyric_LostFocus"
+                     HorizontalAlignment="Stretch" VerticalAlignment="Center" AcceptsReturn="True"/>
+            <TextBox x:Name="CurrentLyric" BorderThickness="1" LostFocus="CurrentLyric_LostFocus"
+                     HorizontalAlignment="Stretch" VerticalAlignment="Center" AcceptsReturn="True"/>
+            <TextBox x:Name="NextLyric" BorderThickness="1" LostFocus="NextLyric_LostFocus"
+                     HorizontalAlignment="Stretch" VerticalAlignment="Center" AcceptsReturn="True"/>
+        </StackPanel>
+        <StackPanel Margin="8" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Stretch" Grid.Row="3">
+            <Button Padding="8,0" Height="32" FontSize="16" Click="Show_Lrc" Style="{ThemeResource RevealRectangleButton}" Content="Show result">
+                <Button.Flyout>
+                    <Flyout>
+                        <Grid Height="360" Width="360">
+                            <TextBox AcceptsReturn="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="LrcText"/>
+                        </Grid>
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
+            <Button Height="32" Width="32" Click="Save_File" Style="{ThemeResource RevealRectangleButton}">
+                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE105;" />
+            </Button>
+        </StackPanel>
+    </Grid>
+</Page>

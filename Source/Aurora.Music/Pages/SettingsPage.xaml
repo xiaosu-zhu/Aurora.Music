@@ -327,7 +327,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Column="1" VerticalAlignment="Center" Style="{ThemeResource BaseTextBlockStyle}" Margin="8,-2" Text="{x:Bind Name}"/>
                     <TextBlock Foreground="{ThemeResource ButtonDisabledForegroundThemeBrush}" Grid.Row="1" FontSize="13" TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis" MaxLines="3" Grid.Column="1" VerticalAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}" Margin="8,-2" Text="{x:Bind Description}"/>
-                    <Image MaxHeight="48" Margin="-8" Grid.RowSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="{x:Bind Logo, Mode=OneWay}" Stretch="Uniform"/>
+                    <Rectangle Height="36" Width="36" Grid.RowSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="{ThemeResource SystemControlBackgroundAccentBrush}" StrokeThickness="0" Stroke="{x:Null}"/>
+                    <Image Width="40" Height="40" Margin="-8" Grid.RowSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="{x:Bind Logo, Mode=OneWay}" Stretch="Uniform"/>
                 </Grid>
             </DataTemplate>
             <controls:ChannelShiftToolTipConverter x:Key="ChannelShiftToolTipConverter"/>

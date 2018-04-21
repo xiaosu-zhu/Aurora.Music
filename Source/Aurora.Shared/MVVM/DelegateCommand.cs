@@ -3,6 +3,7 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using System;
 using System.Windows.Input;
+using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 
@@ -284,24 +285,12 @@ namespace Aurora.Shared.MVVM
         /// </summary>
         protected virtual async void OnCanExecuteChanged()
         {
-            CoreDispatcher dispatcher = null;
-            if (Window.Current != null)
-            {
-                dispatcher = Window.Current.Dispatcher;
-            }
+            var dispatcher = CoreApplication.GetCurrentView().Dispatcher;
 
-            EventHandler canExecuteChangedHandler = this.CanExecuteChanged;
-            if (canExecuteChangedHandler != null)
+            await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                if (dispatcher != null && !dispatcher.HasThreadAccess)
-                {
-                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, OnCanExecuteChanged);
-                }
-                else
-                {
-                    canExecuteChangedHandler(this, EventArgs.Empty);
-                }
-            }
+                CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+            });
         }
 
         #endregion Methods 

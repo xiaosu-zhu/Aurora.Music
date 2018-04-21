@@ -115,13 +115,13 @@ namespace LrcParser
                 }
                 else
                 {
-                    sb.Append($"[offset: -{ lrc.Offset.TotalMilliseconds.ToString("0.####")}]");
+                    sb.Append($"[offset: { lrc.Offset.TotalMilliseconds.ToString("0.####")}]");
                 }
                 sb.Append(Environment.NewLine);
             }
             foreach (var l in lrc.Slices)
             {
-                sb.Append($"[{l.Offset.ToString(@"m\:s\.ff")}]{l.Content}");
+                sb.Append($"[{l.Offset.ToString(@"m\:ss\.ff")}]{l.Content}");
                 sb.Append(Environment.NewLine);
             }
             return sb.ToString();

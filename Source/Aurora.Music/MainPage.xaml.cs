@@ -414,7 +414,7 @@ namespace Aurora.Music
                 titleBar.ButtonHoverForegroundColor = Colors.White;
                 titleBar.ButtonInactiveForegroundColor = Colors.Gray;
             });
-            ViewModePreferences compactOptions = ViewModePreferences.CreateDefault(ApplicationViewMode.CompactOverlay);
+            var compactOptions = ViewModePreferences.CreateDefault(ApplicationViewMode.CompactOverlay);
             compactOptions.CustomSize = new Size(1000, 100);
             compactOptions.ViewSizePreference = ViewSizePreference.Custom;
             bool viewShown = await ApplicationViewSwitcher.TryShowAsViewModeAsync(lyricViewID, ApplicationViewMode.CompactOverlay, compactOptions);

@@ -24,6 +24,8 @@ namespace LrcParser
             }
         }
 
+        public Lyric() { }
+
         public Lyric(string s, TimeSpan duration)
         {
             var sl = s.Split('\n');
