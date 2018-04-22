@@ -4,6 +4,7 @@
 using Aurora.Music.Core.Storage;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
+using Microsoft.Toolkit.Services.OneDrive;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -211,57 +212,62 @@ namespace Aurora.Music.Core.Models
             AudioChannels = song.AudioChannels;
         }
 
-        public static async Task<Song> Create(Tag tag, string path, (string title, string album, string[] performer, string[] artist, string[] composer, string conductor, TimeSpan duration, uint bitrate, uint rating) music, Properties p)
+        public static async Task<Song> Create(Tag tag, string path, (string title, string album, string[] performer, string[] artist, string[] composer, string conductor, TimeSpan duration, uint bitrate, uint rating) music, Properties p, OneDriveStorageFile oneDriveFile)
         {
+            var graphAudio = oneDriveFile?.OneDriveItem?.Audio;
             var s = new Song
             {
-                Duration = music.duration.TotalMilliseconds < 1 ? p.Duration : music.duration,
+                Duration = (music.duration.TotalMilliseconds < 1 && p != null) ? p.Duration : music.duration,
                 BitRate = music.bitrate,
                 FilePath = path,
                 Rating = (uint)Math.Round(music.rating / 20.0),
-                MusicBrainzArtistId = tag.MusicBrainzArtistId,
-                MusicBrainzDiscId = tag.MusicBrainzDiscId,
-                MusicBrainzReleaseArtistId = tag.MusicBrainzReleaseArtistId,
-                MusicBrainzReleaseCountry = tag.MusicBrainzReleaseCountry,
-                MusicBrainzReleaseId = tag.MusicBrainzReleaseId,
-                MusicBrainzReleaseStatus = tag.MusicBrainzReleaseStatus,
-                MusicBrainzReleaseType = tag.MusicBrainzReleaseType,
-                MusicBrainzTrackId = tag.MusicBrainzTrackId,
-                MusicIpId = tag.MusicIpId,
-                BeatsPerMinute = tag.BeatsPerMinute,
+                MusicBrainzArtistId = tag?.MusicBrainzArtistId,
+                MusicBrainzDiscId = tag?.MusicBrainzDiscId,
+                MusicBrainzReleaseArtistId = tag?.MusicBrainzReleaseArtistId,
+                MusicBrainzReleaseCountry = tag?.MusicBrainzReleaseCountry,
+                MusicBrainzReleaseId = tag?.MusicBrainzReleaseId,
+                MusicBrainzReleaseStatus = tag?.MusicBrainzReleaseStatus,
+                MusicBrainzReleaseType = tag?.MusicBrainzReleaseType,
+                MusicBrainzTrackId = tag?.MusicBrainzTrackId,
+                MusicIpId = tag?.MusicIpId,
+                BeatsPerMinute = tag?.BeatsPerMinute ?? 0,
                 Album = music.album,
                 AlbumArtists = music.artist,
-                AlbumArtistsSort = tag.AlbumArtistsSort,
-                AlbumSort = tag.AlbumSort,
-                AmazonId = tag.AmazonId,
+                AlbumArtistsSort = tag?.AlbumArtistsSort,
+                AlbumSort = tag?.AlbumSort,
+                AmazonId = tag?.AmazonId,
                 Title = music.title,
-                TitleSort = tag.TitleSort,
-                Track = tag.Track,
-                TrackCount = tag.TrackCount,
-                ReplayGainTrackGain = tag.ReplayGainTrackGain,
-                ReplayGainTrackPeak = tag.ReplayGainTrackPeak,
-                ReplayGainAlbumGain = tag.ReplayGainAlbumGain,
-                ReplayGainAlbumPeak = tag.ReplayGainAlbumPeak,
-                Comment = tag.Comment,
-                Disc = tag.Disc,
+                TitleSort = tag?.TitleSort,
+                Track = tag?.Track ?? ((uint?)graphAudio?.Track) ?? 0,
+                TrackCount = tag?.TrackCount ?? ((uint?)graphAudio?.TrackCount) ?? 0,
+                ReplayGainTrackGain = tag?.ReplayGainTrackGain ?? double.NaN,
+                ReplayGainTrackPeak = tag?.ReplayGainTrackPeak ?? double.NaN,
+                ReplayGainAlbumGain = tag?.ReplayGainAlbumGain ?? double.NaN,
+                ReplayGainAlbumPeak = tag?.ReplayGainAlbumPeak ?? double.NaN,
+                Comment = tag?.Comment,
+                Disc = tag?.Disc ?? ((uint?)graphAudio?.Disc) ?? 0,
                 Composers = music.composer,
-                ComposersSort = tag.ComposersSort,
+                ComposersSort = tag?.ComposersSort,
                 Conductor = music.conductor,
-                DiscCount = tag.DiscCount,
-                Copyright = tag.Copyright,
-                Genres = tag.Genres,
-                Grouping = tag.Grouping,
-                Lyrics = tag.Lyrics,
+                DiscCount = tag?.DiscCount ?? ((uint?)graphAudio?.DiscCount) ?? 0,
+                Copyright = tag?.Copyright,
+                Genres = tag?.Genres ?? asArray(graphAudio?.Genre) ?? Array.Empty<string>(),
+                Grouping = tag?.Grouping,
+                Lyrics = tag?.Lyrics,
                 Performers = music.performer,
-                PerformersSort = tag.PerformersSort,
-                Year = tag.Year
+                PerformersSort = tag?.PerformersSort,
+                Year = tag?.Year ?? ((uint?)graphAudio?.Year) ?? 0,
             };
-
-            s.PicturePath = await s.GetPicturePath(tag.Pictures, tag.Album);
+            if (tag != null)
+                s.PicturePath = await GetPicturePath(tag.Pictures, music.album);
+            else if (oneDriveFile != null)
+                s.PicturePath = await GetPicturePath(oneDriveFile, music.album);
             return s;
+
+            T[] asArray<T>(T value) where T : class => value is null ? null : new[] { value };
         }
 
-        private async Task<string> GetPicturePath(IPicture[] pictures, string album)
+        private async static Task<string> GetPicturePath(IPicture[] pictures, string album)
         {
             if (!pictures.IsNullorEmpty())
             {
@@ -291,6 +297,38 @@ namespace Aurora.Music.Core.Models
                 }
             }
             else
+            {
+                return string.Empty;
+            }
+        }
+
+        private async static Task<string> GetPicturePath(OneDriveStorageFile file, string album)
+        {
+            if (file is null)
+                return string.Empty;
+            if (album.IsNullorEmpty())
+            {
+                album = Consts.UnknownAlbum;
+            }
+            album = Shared.Utils.InvalidFileNameChars.Aggregate(album, (current, c) => current.Replace(c + "", "_"));
+            album = $"{album}.jpg";
+            try
+            {
+                var s = await Consts.ArtworkFolder.TryGetItemAsync(album);
+                if (s == null)
+                {
+                    var thumb = await OneDrivePropertyProvider.GetThumbnail(file);
+                    if (thumb.IsNullorEmpty())
+                        return string.Empty;
+                    var data = await await WebHelper.DownloadFileAsync(album, new Uri(thumb), Consts.ArtworkFolder);
+                    return data.ResultFile.Path;
+                }
+                else
+                {
+                    return s.Path;
+                }
+            }
+            catch (ArgumentException)
             {
                 return string.Empty;
             }

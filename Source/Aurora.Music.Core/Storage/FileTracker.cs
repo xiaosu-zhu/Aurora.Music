@@ -28,7 +28,7 @@ namespace Aurora.Music.Core.Storage
                 FileTypeFilter = { ".flac", ".wav", ".m4a", ".aac", ".mp3", ".wma" },
                 FolderDepth = FolderDepth.Deep,
                 IndexerOption = IndexerOption.DoNotUseIndexer,
-                UserSearchFilter = ComposeFilters(filteredFolderNames)
+                UserSearchFilter = ComposeFilters(filteredFolderNames),
             };
             Query = Folder.CreateFileQueryWithOptions(options);
             Query.ContentsChanged += Query_ContentsChanged;

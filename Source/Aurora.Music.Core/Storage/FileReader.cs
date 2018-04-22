@@ -214,29 +214,51 @@ namespace Aurora.Music.Core.Storage
             var duration = Convert.ToInt32(Settings.Current.FileDurationFilter);
 
             var scan = Consts.Localizer.GetString("FileReadText");
-            foreach (var file in files)
+            var oneDriveFailed = false;
+            foreach (var file in files.OrderBy(f => f.Path))
             {
-                if (!file.IsAvailable || file.Attributes.HasFlag(FileAttributes.LocallyIncomplete))
-                {
-                    ProgressUpdated?.Invoke(null, new ProgressReport() { Description = SmartFormat.Smart.Format(scan, i, total), Current = i, Total = total });
-
-                    i++;
-                    continue;
-                }
                 try
                 {
-                    using (var tagTemp = File.Create(file.Path))
+                    if (!file.IsAvailable || file.Attributes.HasFlag(FileAttributes.LocallyIncomplete))
                     {
-                        var prop = await file.Properties.GetMusicPropertiesAsync();
-
-                        var d = prop.Duration.Milliseconds < 1 ? tagTemp.Properties.Duration : prop.Duration;
-
-                        if (durationFilter && d.Milliseconds < duration)
+                        if (file.Provider.Id != "OneDrive" || oneDriveFailed)
+                            continue;
+                        try
                         {
+                            var oneDriveFile = await OneDrivePropertyProvider.GetOneDriveFilesAsync(file.Path);
+                            var properties = oneDriveFile.OneDriveItem;
+                            var audioProp = properties.Audio;
+                            if (durationFilter && audioProp.Duration < duration)
+                                continue;
+                            var artist = audioProp.Artist is null ? null : new[] { audioProp.Artist };
+                            var composers = audioProp.Composers is null ? null : new[] { audioProp.Composers };
+                            var song = await Song.Create(null, file.Path, (audioProp.Title, audioProp.Album, artist, artist, composers, null, TimeSpan.FromMilliseconds(audioProp.Duration ?? 0), (uint)(audioProp.Bitrate * 1000 ?? 0), 0), null, oneDriveFile);
+                            var t = await opr.InsertSongAsync(song);
+                            if (t != null)
+                            {
+                                newlist.Add(t);
+                            }
                         }
-                        else
+                        catch
                         {
-                            var song = await Song.Create(tagTemp.Tag, file.Path, await file.GetViolatePropertiesAsync(), tagTemp.Properties);
+                            // Prevent another try by next file.
+                            oneDriveFailed = true;
+                            // Will be handled by outer catch block.
+                            throw;
+                        }
+                    }
+                    else
+                    {
+                        using (var tagTemp = File.Create(file.Path))
+                        {
+                            var prop = await file.Properties.GetMusicPropertiesAsync();
+
+                            var d = prop.Duration.Milliseconds < 1 ? tagTemp.Properties.Duration : prop.Duration;
+
+                            if (durationFilter && d.Milliseconds < duration)
+                                continue;
+
+                            var song = await Song.Create(tagTemp.Tag, file.Path, await file.GetViolatePropertiesAsync(), tagTemp.Properties, null);
                             var t = await opr.InsertSongAsync(song);
                             if (t != null)
                             {
@@ -342,7 +364,7 @@ namespace Aurora.Music.Core.Storage
             {
                 using (var tagTemp = File.Create(file))
                 {
-                    tempList.Add(await Song.Create(tagTemp.Tag, file.Path, await file.GetViolatePropertiesAsync(), tagTemp.Properties));
+                    tempList.Add(await Song.Create(tagTemp.Tag, file.Path, await file.GetViolatePropertiesAsync(), tagTemp.Properties, null));
                 }
             }
             var result = from song in tempList orderby song.Track orderby song.Disc group song by song.Album;
