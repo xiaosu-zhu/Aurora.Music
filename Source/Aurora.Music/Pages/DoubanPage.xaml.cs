@@ -112,7 +112,7 @@ namespace Aurora.Music.Pages
                 var drawingSession = (CanvasDrawingSession)args.DrawingSession;
                 float barWidth = canvasWidth / barCount;
                 // Calculate spectum metrics
-                Vector2 barSize = new Vector2(barWidth, canvasHeight - 2 * barWidth);
+                var barSize = new Vector2(barWidth, canvasHeight - 2 * barWidth);
 
                 // Get the data if data exists and source is in play state, else use empty
                 var spectrumData = args.Data != null && Visualizer.Source?.PlaybackState == SourcePlaybackState.Playing ?

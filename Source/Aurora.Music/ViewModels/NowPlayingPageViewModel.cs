@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using TagLib;
 using Windows.ApplicationModel.Core;
@@ -29,6 +30,7 @@ using Windows.Storage.Streams;
 using Windows.System;
 using Windows.System.Threading;
 using Windows.UI;
+using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -115,17 +117,33 @@ namespace Aurora.Music.ViewModels
             }
         }
 
+        private static int lyricEditorId = -1;
+
+        public DelegateCommand OpenLyricEditor
+        {
+            get => new DelegateCommand(async () =>
+            {
+                if (song.IsPodcast || (lyricEditorId != -1 && LyricEditor.Current != null))
+                {
+                    MainPage.Current.PopMessage("Can't open editor");
+                    return;
+                }
+                await CoreApplication.CreateNewView().Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    var frame = new Frame();
+                    lyricEditorId = ApplicationView.GetForCurrentView().Id;
+                    frame.Navigate(typeof(LyricEditor), (Lyric, TotalDuration, Song.FilePath));
+                    Window.Current.Content = frame;
+                    Window.Current.Activate();
+                });
+                var prefer = ViewModePreferences.CreateDefault(ApplicationViewMode.Default);
+                prefer.CustomSize = new Size(Window.Current.Bounds.Width, 360);
+                bool viewShown = await ApplicationViewSwitcher.TryShowAsViewModeAsync(lyricEditorId, ApplicationViewMode.Default, prefer);
+            });
+        }
+
         public async void Init(SongViewModel song)
         {
-            //Initialize our picker object
-            castingPicker = new CastingDevicePicker();
-
-            //Set the picker to filter to video capable casting devices
-            castingPicker.Filter.SupportsAudio = true;
-
-            //Hook up device selected event
-            castingPicker.CastingDeviceSelected += CastingPicker_CastingDeviceSelected;
-
             Song = song;
             _lastSong = new Song()
             {
@@ -138,6 +156,76 @@ namespace Aurora.Music.ViewModels
                 OnlineAlbumID = song.Song.OnlineAlbumID,
                 OnlineID = song.Song.OnlineID
             };
+
+            var t1 = Task.Run(async () =>
+            {
+                var favor = await _lastSong.GetFavoriteAsync();
+                await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+                {
+                    IsCurrentFavorite = favor;
+                });
+
+            });
+
+            var t2 = Task.Run(async () =>
+            {
+                var ext = MainPageViewModel.Current.LyricExtension;
+                if (song.IsPodcast)
+                {
+                    var l = new Lyric(LrcParser.Parser.Parse(song.Album, Song.Song.Duration));
+                    await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+                    {
+                        Lyric.New(l);
+                    });
+                }
+                else if (ext != null)
+                {
+                    var result = await ext.GetLyricAsync(song.Song, MainPageViewModel.Current.OnlineMusicExtension?.ServiceName);
+                    if (result != null)
+                    {
+                        var l = new Lyric(LrcParser.Parser.Parse(result, Song.Song.Duration));
+                        await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+                        {
+                            Lyric.New(l);
+                            if (lyricEditorId != -1 && LyricEditor.Current != null)
+                            {
+                                LyricEditor.Current.ChangeLyric(l);
+                            }
+                            else
+                            {
+                                lyricEditorId = -1;
+                            }
+                        });
+                    }
+                    else
+                    {
+                        await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+                        {
+                            Lyric.Clear();
+                            LyricHint = Consts.Localizer.GetString("NoLyricText");
+                        });
+                    }
+                }
+                else
+                {
+                    await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+                    {
+                        Lyric.Clear();
+                        LyricHint = Consts.Localizer.GetString("NoLyricText");
+                    });
+                }
+            });
+
+
+            //Initialize our picker object
+            castingPicker = new CastingDevicePicker();
+
+            //Set the picker to filter to video capable casting devices
+            castingPicker.Filter.SupportsAudio = true;
+
+            //Hook up device selected event
+            castingPicker.CastingDeviceSelected += CastingPicker_CastingDeviceSelected;
+
 
             if (Song.Artwork != null)
             {
@@ -158,57 +246,8 @@ namespace Aurora.Music.ViewModels
             BufferProgress = MainPageViewModel.Current.BufferProgress;
             SongChanged?.Invoke(song, EventArgs.Empty);
             CurrentRating = song.Rating;
+
             CurrentIndex = MainPageViewModel.Current.CurrentIndex;
-            var task = ThreadPool.RunAsync(async x =>
-            {
-                var favor = await _lastSong.GetFavoriteAsync();
-                await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
-                {
-                    IsCurrentFavorite = favor;
-                });
-
-            });
-
-            var t = ThreadPool.RunAsync(async x =>
-            {
-                var ext = MainPageViewModel.Current.LyricExtension;
-                if (song.IsPodcast)
-                {
-                    var l = new Lyric(LrcParser.Parser.Parse(song.Album, Song.Song.Duration));
-                    await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
-                    {
-                        Lyric.New(l);
-                    });
-                }
-                else if (ext != null)
-                {
-                    var result = await ext.GetLyricAsync(song.Song, MainPageViewModel.Current.OnlineMusicExtension?.ServiceName);
-                    if (result != null)
-                    {
-                        var l = new Lyric(LrcParser.Parser.Parse(result, Song.Song.Duration));
-                        await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
-                        {
-                            Lyric.New(l);
-                        });
-                    }
-                    else
-                    {
-                        await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
-                        {
-                            Lyric.Clear();
-                            LyricHint = Consts.Localizer.GetString("NoLyricText");
-                        });
-                    }
-                }
-                else
-                {
-                    await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
-                    {
-                        Lyric.Clear();
-                        LyricHint = Consts.Localizer.GetString("NoLyricText");
-                    });
-                }
-            });
         }
 
         public void ShowCastingUI(Rect rect)
@@ -222,7 +261,7 @@ namespace Aurora.Music.ViewModels
             await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, async () =>
             {
                 //Create a casting conneciton from our selected casting device
-                CastingConnection connection = args.SelectedCastingDevice.CreateCastingConnection();
+                var connection = args.SelectedCastingDevice.CreateCastingConnection();
 
                 //Hook up the casting events
                 connection.ErrorOccurred += Connection_ErrorOccurred;
@@ -354,6 +393,7 @@ namespace Aurora.Music.ViewModels
             player.PositionUpdated -= Player_PositionUpdated;
             player.ItemsChanged -= Player_StatusChanged;
             player.PlaybackStatusChanged -= Player_PlaybackStatusChanged;
+
 
             dataTransferManager.DataRequested -= DataTransferManager_DataRequested;
         }
@@ -519,6 +559,8 @@ namespace Aurora.Music.ViewModels
             player.PositionUpdated += Player_PositionUpdated;
             player.DownloadProgressChanged += Player_DownloadProgressChanged;
 
+            LyricEditor.LyricModified += LyricEditor_LyricModified;
+
             dataTransferManager = DataTransferManager.GetForCurrentView();
             dataTransferManager.DataRequested += DataTransferManager_DataRequested;
 
@@ -529,6 +571,15 @@ namespace Aurora.Music.ViewModels
             {
                 NowPlayingList.Add(item);
             }
+        }
+
+        private async void LyricEditor_LyricModified(object sender, Lyric e)
+        {
+            await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+            {
+                Lyric.New(e);
+                lyricEditorId = -1;
+            });
         }
 
         private async void Player_PlaybackStatusChanged(object sender, PlaybackStatusChangedArgs e)
@@ -851,7 +902,7 @@ namespace Aurora.Music.ViewModels
             {
                 return new DelegateCommand(async () =>
                 {
-                    SleepTimer s = new SleepTimer();
+                    var s = new SleepTimer();
                     await s.ShowAsync();
                 });
             }
@@ -951,7 +1002,7 @@ namespace Aurora.Music.ViewModels
 
         private async void Player_StatusChanged(object sender, PlayingItemsChangedArgs e)
         {
-            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
+            await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>
             {
                 if (e.CurrentSong != null)
                 {
@@ -999,6 +1050,10 @@ namespace Aurora.Music.ViewModels
                             {
                                 CurrentIndex = e.CurrentIndex;
                             }
+                            else
+                            {
+                                CurrentIndex = -1;
+                            }
                         }
                         IsCurrentFavorite = await e.CurrentSong.GetFavoriteAsync();
                     }
@@ -1008,7 +1063,7 @@ namespace Aurora.Music.ViewModels
             {
                 if (!_lastSong.IsIDEqual(e.CurrentSong))
                 {
-                    await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                    await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
                     {
                         Lyric.Clear();
                         LyricHint = Consts.Localizer.GetString("LoadingLyricsText");
@@ -1018,7 +1073,7 @@ namespace Aurora.Music.ViewModels
                     if (song.IsPodcast)
                     {
                         var l = new Lyric(LrcParser.Parser.Parse(song.Album, Song.Song.Duration));
-                        await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
+                        await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
                         {
                             Lyric.New(l);
                         });
@@ -1029,14 +1084,18 @@ namespace Aurora.Music.ViewModels
                         if (result != null)
                         {
                             var l = new Lyric(LrcParser.Parser.Parse(result, Song.Song.Duration));
-                            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                            await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
                             {
                                 Lyric.New(l);
+                                if (lyricEditorId != -1 && LyricEditor.Current != null)
+                                {
+                                    LyricEditor.Current.ChangeLyric(l);
+                                }
                             });
                         }
                         else
                         {
-                            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                            await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
                             {
                                 Lyric.Clear();
                                 LyricHint = Consts.Localizer.GetString("NoLyricText");
@@ -1045,7 +1104,7 @@ namespace Aurora.Music.ViewModels
                     }
                     else
                     {
-                        await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                        await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
                         {
                             Lyric.Clear();
                             LyricHint = Consts.Localizer.GetString("NoLyricText");
@@ -1062,6 +1121,7 @@ namespace Aurora.Music.ViewModels
             player.PlaybackStatusChanged -= Player_PlaybackStatusChanged;
             dataTransferManager.DataRequested -= DataTransferManager_DataRequested;
             castingPicker.CastingDeviceSelected -= CastingPicker_CastingDeviceSelected;
+            LyricEditor.LyricModified -= LyricEditor_LyricModified;
             castingPicker = null;
         }
     }

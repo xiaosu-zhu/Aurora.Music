@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,8 +8,8 @@ namespace LrcParser
     {
         internal Lyric(IOrderedEnumerable<Slice> orderedEnumerable, List<KeyValuePair<string, string>> enumerable)
         {
-            this.Slices = orderedEnumerable.ToList();
-            this.AddtionalInfo = enumerable;
+            Slices = orderedEnumerable.ToList();
+            AddtionalInfo = enumerable;
             foreach (var item in AddtionalInfo)
             {
                 if (item.Key.Equals("offset", StringComparison.CurrentCultureIgnoreCase))
@@ -23,6 +23,8 @@ namespace LrcParser
                 }
             }
         }
+
+        public Lyric() { }
 
         public Lyric(string s, TimeSpan duration)
         {

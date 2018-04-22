@@ -1224,7 +1224,11 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </Grid>
             </ListView.Footer>
         </ListView>
-        <Grid x:Name="LrcViewOverlay" Background="Transparent" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="32,32,32,64"/>
+        <Grid x:Name="LrcViewOverlay" Background="Transparent" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="32,32,32,64">
+            <Button Style="{ThemeResource RevealRectangleButton}" BorderThickness="0" Command="{x:Bind Context.OpenLyricEditor}" Width="32" Height="32" HorizontalAlignment="Right" VerticalAlignment="Top">
+                <FontIcon FontSize="16" FontFamily="Segoe MDL2 Assets" Glyph="&#xE104;" />
+            </Button>
+        </Grid>
         <Grid Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" Margin="12,0,12,12" VerticalAlignment="Stretch">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
@@ -1337,7 +1341,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                       ItemsSource="{x:Bind Context.NowPlayingList}" 
                                       ItemClick="NowPlayingFlyout_ItemClick"
                                       IsItemClickEnabled="True"
-                                      Background="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}"
                                       ItemContainerStyleSelector="{StaticResource SongListStyleSelector}">
                                 <ListView.Header>
                                     <TextBlock Text="Not Playing" HorizontalAlignment="Center" VerticalAlignment="Center" x:Uid="NotPlaying"

@@ -10,7 +10,6 @@ using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Brushes;
-using Microsoft.Graphics.Canvas.UI.Xaml;
 using System;
 using System.Numerics;
 using System.Threading.Tasks;
@@ -287,7 +286,8 @@ namespace Aurora.Music.Pages
 
         private async void Flyout_Opened(object sender, object e)
         {
-            await NowPlayingFlyout.ScrollToIndex(NowPlayingFlyout.SelectedIndex, ScrollPosition.Center);
+            if (NowPlayingFlyout.SelectedIndex != -1)
+                await NowPlayingFlyout.ScrollToIndex(NowPlayingFlyout.SelectedIndex, ScrollPosition.Center);
         }
 
 
@@ -328,12 +328,6 @@ namespace Aurora.Music.Pages
                 return;
             var drawingSession = (CanvasDrawingSession)args.DrawingSession;
 
-            var brush = new CanvasLinearGradientBrush(drawingSession, new CanvasGradientStop[] { new CanvasGradientStop() { Color = Context.CurrentColor[0], Position = 0f }, new CanvasGradientStop() { Color = Context.CurrentColor[1], Position = 1f } })
-            {
-                StartPoint = new Vector2(canvasWidth, 0),
-                EndPoint = new Vector2(0, canvasHeight)
-            };
-
             float barWidth = canvasWidth / (2 * Consts.SpectrumBarCount);
             // Calculate spectum metrics
             var barSize = new Vector2(barWidth, canvasHeight - 2 * barWidth);
@@ -350,15 +344,21 @@ namespace Aurora.Music.Pages
 
             var step = canvasWidth / Consts.SpectrumBarCount;
             var flaw = (step - barSize.X) / 2;
-            // Draw spectrum bars
-            for (int index = 0; index < Consts.SpectrumBarCount; index++)
+
+            using (var brush = new CanvasLinearGradientBrush(drawingSession, new CanvasGradientStop[] { new CanvasGradientStop() { Color = Context.CurrentColor[0], Position = 0f }, new CanvasGradientStop() { Color = Context.CurrentColor[1], Position = 1f } })
             {
-                float barX = step * index + flaw;
-
-                // use average of 2 channel
-                float spectrumBarHeight = barSize.Y * (1.0f - (logSpectrum[0][index] + logSpectrum[1][index]) / -100.0f);
-
-                drawingSession.FillRoundedRectangle(barX, canvasHeight - barWidth - spectrumBarHeight, barSize.X, spectrumBarHeight, barSize.X / 2, barSize.X / 2, brush);
+                StartPoint = new Vector2(canvasWidth, 0),
+                EndPoint = new Vector2(0, canvasHeight)
+            })
+            {
+                // Draw spectrum bars
+                for (int index = 0; index < Consts.SpectrumBarCount; index++)
+                {
+                    float barX = step * index + flaw;
+                    // use average of 2 channel
+                    float spectrumBarHeight = barSize.Y * (1.0f - (logSpectrum[0][index] + logSpectrum[1][index]) / -100.0f);
+                    drawingSession.FillRoundedRectangle(barX, canvasHeight - barWidth - spectrumBarHeight, barSize.X, spectrumBarHeight, barSize.X / 2, barSize.X / 2, brush);
+                }
             }
 
             // Spectrum points to draw a slow decay line

@@ -2,6 +2,7 @@
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using Aurora.Shared.Helpers;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,15 @@ namespace Aurora.Shared.Extensions
 {
     public static class EnumrableExtesion
     {
+        public static IEnumerable<TSource> SortLike<TSource, TKey>(this ICollection<TSource> source,
+                                            IEnumerable<TKey> sortOrder)
+        {
+            var cloned = sortOrder.ToArray();
+            var sourceArr = source.ToArray();
+            Array.Sort(cloned, sourceArr);
+            return sourceArr;
+        }
+
         public static void Shuffle<T>(this IList<T> list)
         {
             int n = list.Count;

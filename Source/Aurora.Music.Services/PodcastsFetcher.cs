@@ -19,17 +19,18 @@ namespace Aurora.Music.Services
         {
             var deferral = taskInstance.GetDeferral();
             var posts = await SQLOperator.Current().GetPodcastListBriefAsync();
-            List<Task> tasks = new List<Task>();
+            var tasks = new List<Task>();
             foreach (var item in posts)
             {
                 tasks.Add(Task.Run(async () =>
                 {
-                    Podcast p = new Podcast(item);
+                    var p = new Podcast(item);
                     try
                     {
                         if (await p.FindUpdated() && Settings.Current.IsPodcastToast)
                         {
                             Toast.SendPodcast(p);
+                            Tile.UpdatePodcast($"podcast{p.ID}", p);
                         }
                     }
                     catch (Exception)

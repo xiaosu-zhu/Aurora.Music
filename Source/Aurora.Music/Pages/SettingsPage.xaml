@@ -327,7 +327,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Column="1" VerticalAlignment="Center" Style="{ThemeResource BaseTextBlockStyle}" Margin="8,-2" Text="{x:Bind Name}"/>
                     <TextBlock Foreground="{ThemeResource ButtonDisabledForegroundThemeBrush}" Grid.Row="1" FontSize="13" TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis" MaxLines="3" Grid.Column="1" VerticalAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}" Margin="8,-2" Text="{x:Bind Description}"/>
-                    <Image MaxHeight="48" Margin="-8" Grid.RowSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="{x:Bind Logo, Mode=OneWay}" Stretch="Uniform"/>
+                    <Rectangle Height="36" Width="36" Grid.RowSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="{ThemeResource SystemControlBackgroundAccentBrush}" StrokeThickness="0" Stroke="{x:Null}"/>
+                    <Image Width="40" Height="40" Margin="-8" Grid.RowSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="{x:Bind Logo, Mode=OneWay}" Stretch="Uniform"/>
                 </Grid>
             </DataTemplate>
             <controls:ChannelShiftToolTipConverter x:Key="ChannelShiftToolTipConverter"/>
@@ -452,12 +453,12 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <StackPanel Padding="0,0,0,160" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <Button x:Uid="Manage" Content="Manage" Command="{Binding OpenExtensionManager}" 
                             VerticalAlignment="Center" Style="{ThemeResource ButtonRevealStyle}" Margin="0,8"/>
-                        <ComboBox x:Uid="LyricExtension" Padding="8"
+                        <ComboBox x:Uid="LyricExtension" Padding="8" Width="320"
                                 BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" 
                                 BorderThickness="1" x:Name="LrcCombo" VerticalAlignment="Stretch"
                                 HorizontalAlignment="Left" ItemTemplate="{StaticResource ExtensionTemplate}"
                                 ItemsSource="{Binding LyricExts}" Header="Lyric Extension" Margin="0,8"/>
-                        <ComboBox x:Uid="MetaExtension" x:Name="MetaCombo" Padding="8"
+                        <ComboBox x:Uid="MetaExtension" x:Name="MetaCombo" Padding="8" Width="320"
                                 BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" 
                                 BorderThickness="1" VerticalAlignment="Stretch"
                                 HorizontalAlignment="Left" ItemTemplate="{StaticResource ExtensionTemplate}"
@@ -474,7 +475,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 
                         <ComboBox x:Uid="OnlineExtension" x:Name="OnlineCombo" Padding="8"
                                 BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" 
-                                BorderThickness="1" VerticalAlignment="Stretch"
+                                BorderThickness="1" VerticalAlignment="Stretch" Width="320"
                                 HorizontalAlignment="Left" ItemTemplate="{StaticResource ExtensionTemplate}"
                                 IsEnabled="{Binding OnlinePurchase,Mode=OneWay}" 
                                 ItemsSource="{Binding OnlineExts}" Header="Online Music Extension" Margin="0,8"/>
@@ -589,7 +590,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </PivotItem>
         </Pivot>
 
-        <StackPanel x:Name="SidePanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Padding="8,0" MinWidth="240" Grid.Column="1">
+        <StackPanel Margin="0,-2,0,0" x:Name="SidePanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Padding="8,0" MinWidth="240" Grid.Column="1">
             <TextBlock x:Uid="OtherInformation" Text="Other Information" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12"/>
             <Button x:Uid="OpenSource" Content="Open Source"
                             Command="{Binding Github}"

@@ -78,7 +78,7 @@ namespace Aurora.Music.ViewModels
         public PlayList Model { get; private set; }
         public int SortIndex { get; internal set; } = 0;
 
-        public async Task GetSongsAsync(PlayList model)
+        public async Task InitAsync(PlayList model)
         {
             Model = await SQLOperator.Current().GetPlayListAsync(model.ID);
             if (Model == null)
@@ -142,6 +142,14 @@ namespace Aurora.Music.ViewModels
                             favors.Remove(song.ID);
                         }
                     }
+                }
+
+                var tileId = $"playlist{Model.ID}";
+                IsPinned = SecondaryTile.Exists(tileId);
+
+                if (IsPinned)
+                {
+                    Core.Tools.Tile.UpdateImage(tileId, SongsList.SelectMany(a => a.Where(c => c.Artwork != null).Select(b => b.Artwork.OriginalString)).Distinct().OrderBy(x => Guid.NewGuid()).Take(10).ToList(), Model.Title, Model.Description);
                 }
             });
         }
@@ -221,15 +229,13 @@ namespace Aurora.Music.ViewModels
             Description = text;
         }
 
-
-
         public string PinnedtoGlyph(bool b)
         {
             return b ? "\uE196" : "\uE141";
         }
         public string PinnedtoText(bool b)
         {
-            return b ? "Unpin from start" : "Pin to start";
+            return b ? Consts.Localizer.GetString("UnPinText") : Consts.Localizer.GetString("PinText");
         }
 
         public DelegateCommand PintoStart
@@ -282,6 +288,11 @@ namespace Aurora.Music.ViewModels
                 }
 
                 IsPinned = SecondaryTile.Exists(tileId);
+
+                if (IsPinned)
+                {
+                    Core.Tools.Tile.UpdateImage(tileId, SongsList.SelectMany(a => a.Where(c => c.Artwork != null).Select(b => b.Artwork.OriginalString)).Distinct().OrderBy(x => Guid.NewGuid()).Take(10).ToList(), Model.Title, Model.Description);
+                }
             });
         }
 

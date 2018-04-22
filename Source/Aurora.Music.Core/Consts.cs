@@ -59,9 +59,7 @@ namespace Aurora.Music.Core
         public static string UpdateNote =>
                             "### Note: Thank you for supporting this app become better!\r\n\r\n---\r\n\r\n" +
                             "* **[Windows Developer Awards](https://developer.microsoft.com/en-us/windows/projects/events/build/2018/awards)**. Voting has expanded to May 5th! If you think our app is really excellent, please +1 for this app! We're appreciated for your votes!\r\n\r\n* **[Windows Developer Awards](https://developer.microsoft.com/en-us/windows/projects/events/build/2018/awards)** 投票延长到了5月5日！非常感谢您的支持！\r\n\r\n---\r\n\r\n" +
-                            "* **Improve**: Updated Settings' layout.\r\n" +
-                            "* **Improve**: Fixed bugs.\r\n" +
-                            "* **Improve**: Synced translations.\r\n";
+                            "* **New**: Now you can edit lyric and save to files.";
 
         public static string UpdateNoteTitle => localizer.GetString("UpdateNoteTitle");
 
