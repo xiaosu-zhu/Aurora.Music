@@ -25,7 +25,7 @@ namespace Aurora.Shared.MVVM
 
         protected void RaisePropertyChanged(string propertyName = null)
         {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         protected bool SetProperty<T>(ref T backingField, T Value, [CallerMemberName] string propertyName = null)

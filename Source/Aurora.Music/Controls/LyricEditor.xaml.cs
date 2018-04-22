@@ -39,7 +39,6 @@ namespace Aurora.Music.Controls
 
         private void LyricEditor_Consolidated(ApplicationView sender, ApplicationViewConsolidatedEventArgs args)
         {
-            // TODO:
             PlaybackEngine.PlaybackEngine.Current.PositionUpdated -= Current_PositionUpdated;
 
             LyricModified?.Invoke(null, Model);
@@ -56,6 +55,8 @@ namespace Aurora.Music.Controls
             previous = null;
 
             Dispose();
+            Current = null;
+
             Window.Current.Close();
         }
 
@@ -78,6 +79,7 @@ namespace Aurora.Music.Controls
                 return;
 
             autoEvent.WaitOne();
+            await Task.Delay(500);
 
             await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {

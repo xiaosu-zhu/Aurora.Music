@@ -453,12 +453,12 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <StackPanel Padding="0,0,0,160" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <Button x:Uid="Manage" Content="Manage" Command="{Binding OpenExtensionManager}" 
                             VerticalAlignment="Center" Style="{ThemeResource ButtonRevealStyle}" Margin="0,8"/>
-                        <ComboBox x:Uid="LyricExtension" Padding="8"
+                        <ComboBox x:Uid="LyricExtension" Padding="8" Width="320"
                                 BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" 
                                 BorderThickness="1" x:Name="LrcCombo" VerticalAlignment="Stretch"
                                 HorizontalAlignment="Left" ItemTemplate="{StaticResource ExtensionTemplate}"
                                 ItemsSource="{Binding LyricExts}" Header="Lyric Extension" Margin="0,8"/>
-                        <ComboBox x:Uid="MetaExtension" x:Name="MetaCombo" Padding="8"
+                        <ComboBox x:Uid="MetaExtension" x:Name="MetaCombo" Padding="8" Width="320"
                                 BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" 
                                 BorderThickness="1" VerticalAlignment="Stretch"
                                 HorizontalAlignment="Left" ItemTemplate="{StaticResource ExtensionTemplate}"
@@ -475,7 +475,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 
                         <ComboBox x:Uid="OnlineExtension" x:Name="OnlineCombo" Padding="8"
                                 BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" 
-                                BorderThickness="1" VerticalAlignment="Stretch"
+                                BorderThickness="1" VerticalAlignment="Stretch" Width="320"
                                 HorizontalAlignment="Left" ItemTemplate="{StaticResource ExtensionTemplate}"
                                 IsEnabled="{Binding OnlinePurchase,Mode=OneWay}" 
                                 ItemsSource="{Binding OnlineExts}" Header="Online Music Extension" Margin="0,8"/>

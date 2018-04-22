@@ -1341,7 +1341,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                       ItemsSource="{x:Bind Context.NowPlayingList}" 
                                       ItemClick="NowPlayingFlyout_ItemClick"
                                       IsItemClickEnabled="True"
-                                      Background="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}"
                                       ItemContainerStyleSelector="{StaticResource SongListStyleSelector}">
                                 <ListView.Header>
                                     <TextBlock Text="Not Playing" HorizontalAlignment="Center" VerticalAlignment="Center" x:Uid="NotPlaying"

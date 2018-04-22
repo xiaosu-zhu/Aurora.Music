@@ -286,7 +286,8 @@ namespace Aurora.Music.Pages
 
         private async void Flyout_Opened(object sender, object e)
         {
-            await NowPlayingFlyout.ScrollToIndex(NowPlayingFlyout.SelectedIndex, ScrollPosition.Center);
+            if (NowPlayingFlyout.SelectedIndex != -1)
+                await NowPlayingFlyout.ScrollToIndex(NowPlayingFlyout.SelectedIndex, ScrollPosition.Center);
         }
 
 

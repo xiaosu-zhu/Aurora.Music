@@ -123,6 +123,11 @@ namespace Aurora.Music.ViewModels
         {
             get => new DelegateCommand(async () =>
             {
+                if (song.IsPodcast || (lyricEditorId != -1 && LyricEditor.Current != null))
+                {
+                    MainPage.Current.PopMessage("Can't open editor");
+                    return;
+                }
                 await CoreApplication.CreateNewView().Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     var frame = new Frame();
@@ -132,22 +137,13 @@ namespace Aurora.Music.ViewModels
                     Window.Current.Activate();
                 });
                 var prefer = ViewModePreferences.CreateDefault(ApplicationViewMode.Default);
-                prefer.CustomSize = new Size(Window.Current.Bounds.Width, 120);
+                prefer.CustomSize = new Size(Window.Current.Bounds.Width, 360);
                 bool viewShown = await ApplicationViewSwitcher.TryShowAsViewModeAsync(lyricEditorId, ApplicationViewMode.Default, prefer);
             });
         }
 
         public async void Init(SongViewModel song)
         {
-            //Initialize our picker object
-            castingPicker = new CastingDevicePicker();
-
-            //Set the picker to filter to video capable casting devices
-            castingPicker.Filter.SupportsAudio = true;
-
-            //Hook up device selected event
-            castingPicker.CastingDeviceSelected += CastingPicker_CastingDeviceSelected;
-
             Song = song;
             _lastSong = new Song()
             {
@@ -161,37 +157,17 @@ namespace Aurora.Music.ViewModels
                 OnlineID = song.Song.OnlineID
             };
 
-            if (Song.Artwork != null)
-            {
-                CurrentArtwork = song.Artwork.IsLoopback ? new BitmapImage(song.Artwork) : await ImageCache.Instance.GetFromCacheAsync(song.Artwork);
-                CurrentColorBrush = new SolidColorBrush(await ImagingHelper.GetMainColor(Song.Artwork));
-                MainPageViewModel.Current.LeftTopColor = AdjustColorbyTheme(CurrentColorBrush);
-                lastUriPath = Song.Artwork.AbsolutePath;
-            }
-            else
-            {
-                CurrentArtwork = null;
-                CurrentColorBrush = new SolidColorBrush(new UISettings().GetColorValue(UIColorType.Accent));
-                MainPageViewModel.Current.LeftTopColor = AdjustColorbyTheme(CurrentColorBrush);
-                lastUriPath = null;
-            }
-
-            IsPlaying = player.IsPlaying;
-            BufferProgress = MainPageViewModel.Current.BufferProgress;
-            SongChanged?.Invoke(song, EventArgs.Empty);
-            CurrentRating = song.Rating;
-            CurrentIndex = MainPageViewModel.Current.CurrentIndex;
-            var task = ThreadPool.RunAsync(async x =>
+            var t1 = Task.Run(async () =>
             {
                 var favor = await _lastSong.GetFavoriteAsync();
-                await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
                 {
                     IsCurrentFavorite = favor;
                 });
 
             });
 
-            var t = ThreadPool.RunAsync(async x =>
+            var t2 = Task.Run(async () =>
             {
                 var ext = MainPageViewModel.Current.LyricExtension;
                 if (song.IsPodcast)
@@ -239,6 +215,39 @@ namespace Aurora.Music.ViewModels
                     });
                 }
             });
+
+
+            //Initialize our picker object
+            castingPicker = new CastingDevicePicker();
+
+            //Set the picker to filter to video capable casting devices
+            castingPicker.Filter.SupportsAudio = true;
+
+            //Hook up device selected event
+            castingPicker.CastingDeviceSelected += CastingPicker_CastingDeviceSelected;
+
+
+            if (Song.Artwork != null)
+            {
+                CurrentArtwork = song.Artwork.IsLoopback ? new BitmapImage(song.Artwork) : await ImageCache.Instance.GetFromCacheAsync(song.Artwork);
+                CurrentColorBrush = new SolidColorBrush(await ImagingHelper.GetMainColor(Song.Artwork));
+                MainPageViewModel.Current.LeftTopColor = AdjustColorbyTheme(CurrentColorBrush);
+                lastUriPath = Song.Artwork.AbsolutePath;
+            }
+            else
+            {
+                CurrentArtwork = null;
+                CurrentColorBrush = new SolidColorBrush(new UISettings().GetColorValue(UIColorType.Accent));
+                MainPageViewModel.Current.LeftTopColor = AdjustColorbyTheme(CurrentColorBrush);
+                lastUriPath = null;
+            }
+
+            IsPlaying = player.IsPlaying;
+            BufferProgress = MainPageViewModel.Current.BufferProgress;
+            SongChanged?.Invoke(song, EventArgs.Empty);
+            CurrentRating = song.Rating;
+
+            CurrentIndex = MainPageViewModel.Current.CurrentIndex;
         }
 
         public void ShowCastingUI(Rect rect)
@@ -252,7 +261,7 @@ namespace Aurora.Music.ViewModels
             await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, async () =>
             {
                 //Create a casting conneciton from our selected casting device
-                CastingConnection connection = args.SelectedCastingDevice.CreateCastingConnection();
+                var connection = args.SelectedCastingDevice.CreateCastingConnection();
 
                 //Hook up the casting events
                 connection.ErrorOccurred += Connection_ErrorOccurred;
@@ -569,6 +578,7 @@ namespace Aurora.Music.ViewModels
             await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
             {
                 Lyric.New(e);
+                lyricEditorId = -1;
             });
         }
 
@@ -1039,6 +1049,10 @@ namespace Aurora.Music.ViewModels
                             if (e.CurrentIndex < NowPlayingList.Count)
                             {
                                 CurrentIndex = e.CurrentIndex;
+                            }
+                            else
+                            {
+                                CurrentIndex = -1;
                             }
                         }
                         IsCurrentFavorite = await e.CurrentSong.GetFavoriteAsync();

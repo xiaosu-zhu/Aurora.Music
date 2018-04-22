@@ -48,7 +48,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     </Grid.ColumnDefinitions>
                     <Rectangle Grid.RowSpan="3" Width="40" Height="40" Margin="20" HorizontalAlignment="Center" VerticalAlignment="Center" Stroke="{x:Null}" StrokeThickness="0" Fill="{ThemeResource SystemControlBackgroundAccentBrush}"/>
                     <Image Visibility="{x:Bind BoolNottoVisibility(IsCurrent),Mode=OneWay}" Margin="20" Source="{x:Bind Logo, Mode=OneWay}" Grid.RowSpan="3" Width="40" Height="40" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    <Grid Visibility="{x:Bind IsCurrent,Mode=OneWay}" Width="80" Height="80" Grid.RowSpan="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Grid Visibility="{x:Bind IsCurrent,Mode=OneWay}" Background="{ThemeResource SystemControlAcrylicElementBrush}" Width="80" Height="80" Grid.RowSpan="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
