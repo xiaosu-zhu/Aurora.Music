@@ -117,7 +117,7 @@ namespace Aurora.Music.ViewModels
             }
         }
 
-        private int lyricEditorId = -1;
+        private static int lyricEditorId = -1;
 
         public DelegateCommand OpenLyricEditor
         {
@@ -211,6 +211,14 @@ namespace Aurora.Music.ViewModels
                         await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
                         {
                             Lyric.New(l);
+                            if (lyricEditorId != -1 && LyricEditor.Current != null)
+                            {
+                                LyricEditor.Current.ChangeLyric(l);
+                            }
+                            else
+                            {
+                                lyricEditorId = -1;
+                            }
                         });
                     }
                     else
@@ -377,6 +385,7 @@ namespace Aurora.Music.ViewModels
             player.ItemsChanged -= Player_StatusChanged;
             player.PlaybackStatusChanged -= Player_PlaybackStatusChanged;
 
+
             dataTransferManager.DataRequested -= DataTransferManager_DataRequested;
         }
 
@@ -541,6 +550,8 @@ namespace Aurora.Music.ViewModels
             player.PositionUpdated += Player_PositionUpdated;
             player.DownloadProgressChanged += Player_DownloadProgressChanged;
 
+            LyricEditor.LyricModified += LyricEditor_LyricModified;
+
             dataTransferManager = DataTransferManager.GetForCurrentView();
             dataTransferManager.DataRequested += DataTransferManager_DataRequested;
 
@@ -551,6 +562,14 @@ namespace Aurora.Music.ViewModels
             {
                 NowPlayingList.Add(item);
             }
+        }
+
+        private async void LyricEditor_LyricModified(object sender, Lyric e)
+        {
+            await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+            {
+                Lyric.New(e);
+            });
         }
 
         private async void Player_PlaybackStatusChanged(object sender, PlaybackStatusChangedArgs e)
@@ -873,7 +892,7 @@ namespace Aurora.Music.ViewModels
             {
                 return new DelegateCommand(async () =>
                 {
-                    SleepTimer s = new SleepTimer();
+                    var s = new SleepTimer();
                     await s.ShowAsync();
                 });
             }
@@ -1088,6 +1107,7 @@ namespace Aurora.Music.ViewModels
             player.PlaybackStatusChanged -= Player_PlaybackStatusChanged;
             dataTransferManager.DataRequested -= DataTransferManager_DataRequested;
             castingPicker.CastingDeviceSelected -= CastingPicker_CastingDeviceSelected;
+            LyricEditor.LyricModified -= LyricEditor_LyricModified;
             castingPicker = null;
         }
     }

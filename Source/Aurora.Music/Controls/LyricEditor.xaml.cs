@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Popups;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -27,10 +28,35 @@ namespace Aurora.Music.Controls
     {
         public static LyricEditor Current;
 
+        public static event EventHandler<Lyric> LyricModified;
+
         public LyricEditor()
         {
             InitializeComponent();
             Current = this;
+            ApplicationView.GetForCurrentView().Consolidated += LyricEditor_Consolidated;
+        }
+
+        private void LyricEditor_Consolidated(ApplicationView sender, ApplicationViewConsolidatedEventArgs args)
+        {
+            // TODO:
+            PlaybackEngine.PlaybackEngine.Current.PositionUpdated -= Current_PositionUpdated;
+
+            LyricModified?.Invoke(null, Model);
+
+            var previous = StampCanvas.Children.Where(a => a is Thumb).ToList();
+            foreach (var item in previous)
+            {
+                StampCanvas.Children.Remove(item);
+                (item as Thumb).DragStarted -= T_DragStarted;
+                (item as Thumb).DragCompleted -= T_DragCompleted;
+                (item as Thumb).DragDelta -= T_DragDelta;
+            }
+            previous.Clear();
+            previous = null;
+
+            Dispose();
+            Window.Current.Close();
         }
 
         private Lyric model;
@@ -94,6 +120,8 @@ namespace Aurora.Music.Controls
         {
             var thumb = sender as Thumb;
             (thumb.RenderTransform as TranslateTransform).X += e.HorizontalChange;
+            ModifyTimeTranlate.X = (thumb.RenderTransform as TranslateTransform).X;
+            ModifyTime.Text = (TotalPosition * (thumb.RenderTransform as TranslateTransform).X / TimeLine.ActualWidth).ToString(@"m\:ss\.ff");
         }
 
         private void T_DragCompleted(object sender, DragCompletedEventArgs e)
@@ -117,6 +145,8 @@ namespace Aurora.Music.Controls
                 (thumbs[i] as Thumb).Tag = i;
                 ToolTipService.SetToolTip(thumbs[i], Model[i].Value);
             }
+
+            ModifyTime.Text = string.Empty;
         }
 
         private void T_DragStarted(object sender, DragStartedEventArgs e)
@@ -158,8 +188,12 @@ namespace Aurora.Music.Controls
             Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
                 var previous = PreviousLyric.Text;
+                var preStamp = PreviousLyric.Header;
                 var current = CurrentLyric.Text;
+                var currentStamp = CurrentLyric.Header;
                 var next = NextLyric.Text;
+                var nextStamp = NextLyric.Header;
+
                 var flag = false;
                 int i = 0;
 
@@ -168,14 +202,21 @@ namespace Aurora.Music.Controls
                     if ((Model[i].Key + Model.Offset) >= CurrentPosition)
                     {
                         i -= 1;
+                        if (i < 0)
+                        {
+                            break;
+                        }
                         current = Model[i].Value;
+                        currentStamp = Model[i].Key.ToString(@"m\:ss\.ff");
                         if (i > 0)
                         {
                             previous = Model[i - 1].Value;
+                            preStamp = Model[i - 1].Key.ToString(@"m\:ss\.ff");
                         }
                         if (i < Model.Count - 1)
                         {
                             next = Model[i + 1].Value;
+                            nextStamp = Model[i + 1].Key.ToString(@"m\:ss\.ff");
                         }
                         flag = true;
                         break;
@@ -187,10 +228,15 @@ namespace Aurora.Music.Controls
                 if (flag)
                 {
                     PreviousLyric.Text = previous;
+                    PreviousLyric.Header = preStamp;
                     PreviousLyric.Tag = i - 1;
+
                     CurrentLyric.Text = current;
+                    CurrentLyric.Header = currentStamp;
                     CurrentLyric.Tag = i;
+
                     NextLyric.Text = next;
+                    NextLyric.Header = nextStamp;
                     NextLyric.Tag = i + 1;
                 }
             });
@@ -199,7 +245,7 @@ namespace Aurora.Music.Controls
 
         private async void StampCanvas_Loaded(object sender, RoutedEventArgs e)
         {
-            await Task.Delay(200);
+            await Task.Delay(1000);
             autoEvent.Set();
         }
 
@@ -208,7 +254,7 @@ namespace Aurora.Music.Controls
             autoEvent.Dispose();
         }
 
-        private void StampCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void TimeLine_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             var before = e.PreviousSize.Width;
             var after = e.NewSize.Width;
@@ -218,6 +264,7 @@ namespace Aurora.Music.Controls
                 var t = (item.RenderTransform as TranslateTransform);
                 t.X = after * t.X / before;
             }
+            CursorTranslate.X = CurrentPosition / TotalPosition * TimeLine.ActualWidth;
         }
 
         private void PreviousLyric_LostFocus(object sender, RoutedEventArgs e)
