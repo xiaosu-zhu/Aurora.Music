@@ -124,6 +124,7 @@ namespace Aurora.Music.Core.Storage
 
         public SONG(Song song)
         {
+            IsOneDrive = song.IsOneDrive;
             ID = song.ID;
             FilePath = song.FilePath;
             Duration = song.Duration;
@@ -169,6 +170,8 @@ namespace Aurora.Music.Core.Storage
             Year = song.Year;
             PicturePath = song.PicturePath;
         }
+
+        public bool IsOneDrive { get; set; }
 
         public double Rating { get; set; }
 

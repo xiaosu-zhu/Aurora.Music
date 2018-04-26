@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Aurora.Music.Core.Models;
+﻿using Aurora.Music.Core.Models;
 using Aurora.Shared.Extensions;
 using Microsoft.Toolkit.Uwp.Notifications;
-using Windows.Data.Xml.Dom;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Windows.UI.Notifications;
 using Windows.UI.StartScreen;
 
@@ -12,7 +11,6 @@ namespace Aurora.Music.Core.Tools
 {
     public static class Tile
     {
-        private const string imageXML = "<tile><visual branding=\"nameAndLogo\"><binding template=\"TileMedium\" hint-presentation=\"photos\"></binding><binding template = \"TileWide\" hint-presentation=\"photos\"></binding><binding template = \"TileLarge\" hint-presentation=\"photos\"></binding></visual></tile>";
         public static void SendNormal(string title, string album, string artist, string image)
         {
             if (image.IsNullorEmpty())
@@ -376,35 +374,36 @@ namespace Aurora.Music.Core.Tools
 
         public static void UpdateImage(string id, IList<string> images, string title, string desc)
         {
-            var ment = new XmlDocument(); ment.LoadXml(imageXML);
-            if (images == null || images.Count <= 0)
-            {
-                throw new ArgumentException("Images has no value");
-            }
-
-            var visual = ment.SelectSingleNode("/tile/visual");
-            var display = ment.CreateAttribute("displayName");
-            display.Value = title;
-            visual.Attributes.Append(display);
-
-            var tileMedium = ment.SelectSingleNode("/tile/visual/binding[@template='TileMedium']");
-            var tileWide = ment.SelectSingleNode("/tile/visual/binding[@template='TileWide']");
-            var tileLarge = ment.SelectSingleNode("/tile/visual/binding[@template='TileLarge']");
-
+            var photosBinding = new TileBindingContentPhotos();
             foreach (var item in images)
             {
-                var node1 = ment.CreateElement("image");
-                node1.SetAttribute("src", item);
-                tileMedium.AppendChild(node1);
-                var node2 = ment.CreateElement("image");
-                node2.SetAttribute("src", item);
-                tileWide.AppendChild(node2);
-                var node3 = ment.CreateElement("image");
-                node3.SetAttribute("src", item);
-                tileLarge.AppendChild(node3);
+                photosBinding.Images.Add(new TileBasicImage()
+                {
+                    Source = item
+                });
             }
+            var imageTile = new TileContent()
+            {
+                Visual = new TileVisual()
+                {
+                    Branding = TileBranding.NameAndLogo,
+                    DisplayName = Consts.Localizer.GetString("AppNameText"),
+                    TileMedium = new TileBinding()
+                    {
+                        Content = photosBinding
+                    },
+                    TileLarge = new TileBinding()
+                    {
+                        Content = photosBinding
+                    },
+                    TileWide = new TileBinding()
+                    {
+                        Content = photosBinding
+                    }
+                }
+            };
 
-            var result = ment.GetXml();
+
 
             var tileContent = new TileContent()
             {
@@ -551,7 +550,7 @@ namespace Aurora.Music.Core.Tools
 
                 updater.EnableNotificationQueue(true);
 
-                var noti = new ScheduledTileNotification(ment, DateTime.Now.AddSeconds(5));
+                var noti = new ScheduledTileNotification(imageTile.GetXml(), DateTime.Now.AddSeconds(5));
                 // And send the notification
                 updater.AddToSchedule(noti);
 

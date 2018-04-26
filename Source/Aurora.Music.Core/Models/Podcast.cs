@@ -111,8 +111,10 @@ namespace Aurora.Music.Core.Models
             LastUpdate = last;
         }
 
-        public Podcast(PODCAST p)
+        public Podcast(PODCAST p) : this()
         {
+            if (p == null)
+                return;
             ID = p.ID;
             Title = p.Title;
             Description = p.Description;
@@ -127,10 +129,10 @@ namespace Aurora.Music.Core.Models
 
         internal static async Task<Podcast> BuildFromXMLAsync(string resXML, string XMLUrl)
         {
-            var a = new Podcast();
-            await a.ReadXML(resXML);
-
             var p = await SQLOperator.Current().TryGetPODCAST(XMLUrl);
+
+            var a = new Podcast(p);
+            await a.ReadXML(resXML);
 
             var fileName = $"{a.Title}-{Guid.NewGuid().ToString()}";
             if (p != null)
@@ -141,12 +143,14 @@ namespace Aurora.Music.Core.Models
             {
 
             }
+
             var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Podcasts", CreationCollisionOption.OpenIfExists);
 
             fileName = Shared.Utils.InvalidFileNameChars.Aggregate(fileName, (current, c) => current.Replace(c + "", "_"));
 
             var file = await folder.CreateFileAsync($"{fileName}.xml", CreationCollisionOption.OpenIfExists);
             await FileIO.WriteTextAsync(file, resXML);
+
             a.XMLUrl = XMLUrl;
             a.XMLPath = fileName;
             a.ID = p?.ID ?? default(int);
@@ -322,7 +326,7 @@ namespace Aurora.Music.Core.Models
             Clear();
             var ment = new XmlDocument(); ment.LoadXml(res);
 
-            XmlNamespaceManager ns = new XmlNamespaceManager(ment.NameTable);
+            var ns = new XmlNamespaceManager(ment.NameTable);
             ns.AddNamespace("itunes", "http://www.itunes.com/dtds/podcast-1.0.dtd");
 
             Title = ment.SelectSingleNode("/rss/channel/title").InnerText;

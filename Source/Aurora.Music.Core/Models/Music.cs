@@ -217,6 +217,7 @@ namespace Aurora.Music.Core.Models
             var graphAudio = oneDriveFile?.OneDriveItem?.Audio;
             var s = new Song
             {
+                IsOneDrive = oneDriveFile != null,
                 Duration = (music.duration.TotalMilliseconds < 1 && p != null) ? p.Duration : music.duration,
                 BitRate = music.bitrate,
                 FilePath = path,
@@ -487,6 +488,7 @@ namespace Aurora.Music.Core.Models
 
         public string FileType { get; set; }
         public DateTime PubDate { get; set; }
+        public bool IsOneDrive { get; set; }
 
         public async Task<bool> GetFavoriteAsync()
         {

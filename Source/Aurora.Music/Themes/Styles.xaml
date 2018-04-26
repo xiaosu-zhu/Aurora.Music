@@ -2191,7 +2191,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         PlaceholderBackground="{ThemeResource ListViewItemPlaceholderBackground}"
                         PointerOverBackground="{ThemeResource ListViewItemBackgroundPointerOver}"
                         PointerOverForeground="{ThemeResource ListViewItemForegroundPointerOver}"
-                        SelectedBackground="{ThemeResource SystemControlAccentDark2AcrylicElementAccentDark2MediumHighBrush}"
+                        SelectedBackground="{ThemeResource SystemControlBackgroundAccentBrush}"
                         SelectedForeground="{ThemeResource SystemControlForegroundAltHighBrush}"
                         SelectedPointerOverBackground="{ThemeResource ListViewItemBackgroundSelectedPointerOver}"
                         PressedBackground="{ThemeResource ListViewItemBackgroundPressed}"

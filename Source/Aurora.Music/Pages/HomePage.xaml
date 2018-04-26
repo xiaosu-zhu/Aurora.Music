@@ -504,7 +504,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         </ResourceDictionary>
     </Page.Resources>
 
-    <Grid x:Name="Main" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource SystemControlAltHighAcrylicWindowBrush}">
+    <Grid x:Name="Main" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState x:Name="Tablets">
