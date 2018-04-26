@@ -321,15 +321,14 @@ namespace Aurora.Music.Core.Models
                     var thumb = await OneDrivePropertyProvider.GetThumbnail(file);
                     if (thumb.IsNullorEmpty())
                         return string.Empty;
-                    var data = await await WebHelper.DownloadFileAsync(album, new Uri(thumb), Consts.ArtworkFolder);
-                    return data.ResultFile.Path;
+                    return thumb;
                 }
                 else
                 {
                     return s.Path;
                 }
             }
-            catch (ArgumentException)
+            catch
             {
                 return string.Empty;
             }

@@ -144,7 +144,7 @@ namespace Aurora.Music.Core.Models
         public SortMode AlbumsSort { get; set; } = SortMode.Year;
         public SortMode PlaylistSort { get; set; } = SortMode.Alphabet;
 
-        public bool OnedriveRoaming { get; set; } = true;
+        public bool OnedriveRoaming { get; set; } = false;
 
         public bool VerifyDoubanLogin()
         {

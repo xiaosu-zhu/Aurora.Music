@@ -1781,9 +1781,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                                        Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
                                                        Thickness="4" Minimum="0" Maximum="100" Width="36" Height="36"
                                                        Outline="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}"/>
-                            <StackPanel Margin="8" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                            <StackPanel Margin="8" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                 <TextBlock x:Name="ProgressUpdateTitle" FontSize="18" FontWeight="Bold" Style="{ThemeResource SubtitleTextBlockStyle}"/>
-                                <TextBlock x:Name="ProgressUpdateContent" Style="{ThemeResource BodyTextBlockStyle}"/>
+                                <TextBlock Height="40" Width="160" TextWrapping="WrapWholeWords" MaxLines="2" TextTrimming="CharacterEllipsis" x:Name="ProgressUpdateContent" Style="{ThemeResource BodyTextBlockStyle}"/>
                             </StackPanel>
                         </StackPanel>
                     </toolkit:InAppNotification.Content>
