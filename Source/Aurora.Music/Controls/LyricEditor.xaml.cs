@@ -34,6 +34,7 @@ namespace Aurora.Music.Controls
         {
             InitializeComponent();
             Current = this;
+            autoEvent = new AutoResetEvent(false);
             ApplicationView.GetForCurrentView().Consolidated += LyricEditor_Consolidated;
         }
 
@@ -71,7 +72,7 @@ namespace Aurora.Music.Controls
             }
         }
 
-        static AutoResetEvent autoEvent = new AutoResetEvent(false);
+        AutoResetEvent autoEvent;
 
         private async void PrepareStamps()
         {
@@ -79,7 +80,7 @@ namespace Aurora.Music.Controls
                 return;
 
             autoEvent.WaitOne();
-            await Task.Delay(500);
+            await Task.Delay(200);
 
             await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
@@ -177,9 +178,16 @@ namespace Aurora.Music.Controls
             PlaybackEngine.PlaybackEngine.Current.PositionUpdated += Current_PositionUpdated;
         }
 
-        public void ChangeLyric(Lyric l)
+        public async void ChangeLyric(Lyric l)
         {
             Model = l;
+            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            {
+                if (StampCanvas != null)
+                {
+                    autoEvent.Set();
+                }
+            });
         }
 
         private void Current_PositionUpdated(object sender, PlaybackEngine.PositionUpdatedArgs e)

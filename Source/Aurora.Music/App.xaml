@@ -10,7 +10,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     xmlns:local="using:Aurora.Music">
     <Application.Resources>
         <ResourceDictionary>
-            <AcrylicBrush x:Key="ContentDialogBackground" FallbackColor="{ThemeResource SystemChromeAltHighColor}" TintColor="{ThemeResource SystemAltHighColor}" TintOpacity="0.3333333" BackgroundSource="Backdrop" />
+            <AcrylicBrush x:Key="ContentDialogBackground" FallbackColor="{ThemeResource SystemChromeAltHighColor}" TintColor="{ThemeResource SystemAltHighColor}" TintOpacity="0.6666666666666667" BackgroundSource="Backdrop" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

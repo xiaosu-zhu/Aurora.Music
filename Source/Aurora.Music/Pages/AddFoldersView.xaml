@@ -39,12 +39,12 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </StackPanel>
             <TextBlock x:Uid="Filters" Text="Filters" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,8"/>
             <StackPanel Orientation="Vertical" Margin="0,8">
-                <ToggleSwitch x:Uid="DurationFilterEnable" Margin="0,8,0,0" Header="Duration Filter" IsOn="{x:Bind Context.DurationFilterEnabled,Mode=TwoWay}"/>
+                <ToggleSwitch Style="{StaticResource ColoredToggleSwitch}" x:Uid="DurationFilterEnable" Margin="0,8,0,0" Header="Duration Filter" IsOn="{x:Bind Context.DurationFilterEnabled,Mode=TwoWay}"/>
                 <StackPanel Margin="0,0,0,8" Visibility="{x:Bind Context.DurationFilterEnabled,Mode=OneWay}" Orientation="Horizontal">
                     <Slider x:Uid="DurationFilter" IsThumbToolTipEnabled="False" Minimum="200" Maximum="20000" Value="{x:Bind Context.Duration,Mode=TwoWay}" Header="Don't search files shorter than" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="320"/>
                     <TextBlock Margin="8,28,0,0" Text="{x:Bind Context.DurationString(Context.Duration),Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}"/>
                 </StackPanel>
-                <ToggleSwitch x:Uid="SizeFilterEnable" Margin="0,8,0,0" Header="Size Filter" IsOn="{x:Bind Context.SizeFilterEnabled,Mode=TwoWay}"/>
+                <ToggleSwitch Style="{StaticResource ColoredToggleSwitch}" x:Uid="SizeFilterEnable" Margin="0,8,0,0" Header="Size Filter" IsOn="{x:Bind Context.SizeFilterEnabled,Mode=TwoWay}"/>
                 <StackPanel Margin="0,0,0,8" Visibility="{x:Bind Context.SizeFilterEnabled,Mode=OneWay}" Orientation="Horizontal">
                     <Slider x:Uid="SizeFilter" IsThumbToolTipEnabled="False" Minimum="1" Maximum="4096" Value="{x:Bind Context.Size,Mode=TwoWay}" Header="Don't search files smaller than" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="320"/>
                     <TextBlock Margin="8,28,0,0" Text="{x:Bind Context.SizeString(Context.Size),Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}"/>

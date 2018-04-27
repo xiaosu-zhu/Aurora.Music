@@ -124,6 +124,7 @@ namespace Aurora.Music.Core.Storage
 
         public SONG(Song song)
         {
+            IsOneDrive = song.IsOnedrive;
             ID = song.ID;
             FilePath = song.FilePath;
             Duration = song.Duration;
@@ -169,6 +170,8 @@ namespace Aurora.Music.Core.Storage
             Year = song.Year;
             PicturePath = song.PicturePath;
         }
+
+        public bool IsOneDrive { get; set; }
 
         public double Rating { get; set; }
 
@@ -282,6 +285,7 @@ namespace Aurora.Music.Core.Storage
             ReplayGainAlbumGain = album.ReplayGainAlbumGain;
             ReplayGainAlbumPeak = album.ReplayGainAlbumPeak;
             PicturePath = album.PicturePath;
+            IsOnedrive = album.IsOnedrive;
         }
 
         public string Songs { get; set; }
@@ -299,6 +303,8 @@ namespace Aurora.Music.Core.Storage
         public virtual string AlbumArtistsSort { get; set; }
         public virtual double ReplayGainAlbumGain { get; set; }
         public virtual double ReplayGainAlbumPeak { get; set; }
+
+        public bool IsOnedrive { get; set; }
     }
 
     class PLAYLIST
@@ -868,7 +874,8 @@ namespace Aurora.Music.Core.Storage
                     PicturePath = (from aa in album where !aa.PicturePath.IsNullorEmpty() select aa.PicturePath).FirstOrDefault(),
 
                     // songs, serialized as "ID0|ID1|ID2...|IDn"
-                    Songs = string.Join('|', album.Select(x => x.ID).Distinct())
+                    Songs = string.Join('|', album.Select(x => x.ID).Distinct()),
+                    IsOnedrive = album.Any(s => s.IsOneDrive)
                 };
                 a.ID = p.ID;
                 await conn.UpdateAsync(a);
@@ -896,7 +903,8 @@ namespace Aurora.Music.Core.Storage
                     PicturePath = (from aa in album where !aa.PicturePath.IsNullorEmpty() select aa.PicturePath).FirstOrDefault(),
 
                     // songs, serialized as "ID0|ID1|ID2...|IDn"
-                    Songs = string.Join('|', album.Select(x => x.ID).Distinct())
+                    Songs = string.Join('|', album.Select(x => x.ID).Distinct()),
+                    IsOnedrive = album.Any(s => s.IsOneDrive)
                 };
                 await conn.InsertAsync(a);
             }

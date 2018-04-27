@@ -9,6 +9,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
+using Windows.UI;
+using Windows.UI.Core;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
@@ -62,7 +66,7 @@ namespace Aurora.Music.Controls
                         FetchingProgress.Visibility = Visibility.Collapsed;
                         if (pod.Subscribed)
                         {
-                            PrimaryButtonText = Consts.Localizer.GetString("UndoSubscribeText");
+                            PrimaryButtonText = Consts.Localizer.GetString("PlayText");
                             DefaultButton = ContentDialogButton.Close;
                         }
                         else
@@ -124,7 +128,7 @@ namespace Aurora.Music.Controls
                         FetchingProgress.Visibility = Visibility.Collapsed;
                         if (pod.Subscribed)
                         {
-                            PrimaryButtonText = Consts.Localizer.GetString("UndoSubscribeText");
+                            PrimaryButtonText = Consts.Localizer.GetString("PlayText");
                             DefaultButton = ContentDialogButton.Close;
                         }
                         else
@@ -155,9 +159,59 @@ namespace Aurora.Music.Controls
 
         private async void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            podcast.Subscribed = !podcast.Subscribed;
-            await podcast.SaveAsync();
-            MainPage.Current.PopMessage(string.Format(podcast.Subscribed ? Consts.Localizer.GetString("PodcastSubscribe") : Consts.Localizer.GetString("PodcastUnSubscribe"), podcast.Title));
+            if (podcast.Subscribed)
+            {
+                if (podcast.Count < 1)
+                {
+                    MainPage.Current.PopMessage("No enough podcast");
+                    return;
+                }
+
+                var def = args.GetDeferral();
+
+                var i = 0;
+                var s = podcast[i];
+                if (s.IsVideo)
+                {
+                    var videoWindowID = 0;
+                    await CoreApplication.CreateNewView().Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        var frame = new Frame();
+                        videoWindowID = ApplicationView.GetForCurrentView().Id;
+                        frame.Navigate(typeof(VideoPodcast), s.FilePath);
+                        Window.Current.Content = frame;
+                        Window.Current.Activate();
+                        ApplicationView.GetForCurrentView().Title = s.Title;
+                        CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
+                        var titleBar = ApplicationView.GetForCurrentView().TitleBar;
+                        titleBar.ButtonBackgroundColor = Colors.Transparent;
+                        titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+                        titleBar.ButtonHoverBackgroundColor = Color.FromArgb(0x33, 0x00, 0x00, 0x00);
+                        titleBar.ButtonForegroundColor = Colors.Black;
+                        titleBar.ButtonHoverForegroundColor = Colors.White;
+                        titleBar.ButtonInactiveForegroundColor = Colors.Gray;
+                    });
+                    bool viewShown = await ApplicationViewSwitcher.TryShowAsStandaloneAsync(videoWindowID);
+                    return;
+                }
+                if (podcast.Count < i + 20)
+                {
+                    var k = podcast.Count < 20 ? podcast.ToList() : podcast.GetRange(podcast.Count - 20, 20);
+                    await MainPageViewModel.Current.InstantPlay(k, k.IndexOf(s));
+                }
+                else
+                {
+                    await MainPageViewModel.Current.InstantPlay(podcast.GetRange(i, 20), 0);
+                }
+
+                def.Complete();
+            }
+            else
+            {
+                podcast.Subscribed = true;
+                await podcast.SaveAsync();
+                MainPage.Current.PopMessage(string.Format(podcast.Subscribed ? Consts.Localizer.GetString("PodcastSubscribe") : Consts.Localizer.GetString("PodcastUnSubscribe"), podcast.Title));
+            }
         }
     }
 }

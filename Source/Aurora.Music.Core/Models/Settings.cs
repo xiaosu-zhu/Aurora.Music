@@ -34,7 +34,7 @@ namespace Aurora.Music.Core.Models
         public Presets()
         {
             //                             30-75-125-250
-            //                                         500-1  2  4  8  16
+            //                                         500-1 -2 -4 -8 -16
             this["Flat"] = new float[10] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
             this["Pop"] = new float[10] { 6, 4, 2, 0, 2, 3, 0, 0, 0, 0 };
             this["Rock"] = new float[10] { 4, 3, 2, 1, 0, -1, 0, 1, 2, 3 };
@@ -143,6 +143,8 @@ namespace Aurora.Music.Core.Models
         public SortMode SongsSort { get; set; } = SortMode.Alphabet;
         public SortMode AlbumsSort { get; set; } = SortMode.Year;
         public SortMode PlaylistSort { get; set; } = SortMode.Alphabet;
+
+        public bool OnedriveRoaming { get; set; } = false;
 
         public bool VerifyDoubanLogin()
         {

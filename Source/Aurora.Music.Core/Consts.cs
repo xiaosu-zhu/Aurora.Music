@@ -10,7 +10,7 @@ using Windows.Storage;
 namespace Aurora.Music.Core
 {
     public enum SleepAction { Pause, Stop, Shutdown }
-    public static class Consts
+    public static partial class Consts
     {
         public const uint SpectrumBarCount = 16;
 

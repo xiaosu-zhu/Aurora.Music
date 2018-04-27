@@ -1518,42 +1518,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         <SplitView.Content>
             <Grid x:Name="Main" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Grid.Resources>
-                    <Storyboard x:Name="SearchBoxShow" Completed="SearchBoxShow_Completed">
-                        <DoubleAnimation Duration="0:0:0.64" Storyboard.TargetName="SearchBoxTransform" Storyboard.TargetProperty="ScaleX" To="1">
-                            <DoubleAnimation.EasingFunction>
-                                <QuinticEase/>
-                            </DoubleAnimation.EasingFunction>
-                        </DoubleAnimation>
-                        <DoubleAnimation Duration="0:0:0.64" Storyboard.TargetName="SearchBox" Storyboard.TargetProperty="Opacity" To="1">
-                            <DoubleAnimation.EasingFunction>
-                                <QuinticEase/>
-                            </DoubleAnimation.EasingFunction>
-                        </DoubleAnimation>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SearchBox" Storyboard.TargetProperty="Visibility">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SearchButton" Storyboard.TargetProperty="Visibility">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
-                        </ObjectAnimationUsingKeyFrames>
-                    </Storyboard>
-                    <Storyboard x:Name="SearchBoxCollapse">
-                        <DoubleAnimation Duration="0:0:0.64" Storyboard.TargetName="SearchBoxTransform" Storyboard.TargetProperty="ScaleX" To="0">
-                            <DoubleAnimation.EasingFunction>
-                                <QuinticEase/>
-                            </DoubleAnimation.EasingFunction>
-                        </DoubleAnimation>
-                        <DoubleAnimation Duration="0:0:0.64" Storyboard.TargetName="SearchBox" Storyboard.TargetProperty="Opacity" To="0">
-                            <DoubleAnimation.EasingFunction>
-                                <QuinticEase/>
-                            </DoubleAnimation.EasingFunction>
-                        </DoubleAnimation>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SearchBox" Storyboard.TargetProperty="Visibility">
-                            <DiscreteObjectKeyFrame KeyTime="0:0:0.64" Value="Collapsed"/>
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SearchButton" Storyboard.TargetProperty="Visibility">
-                            <DiscreteObjectKeyFrame Value="Visible"/>
-                        </ObjectAnimationUsingKeyFrames>
-                    </Storyboard>
                     <Storyboard x:Name="ProgressShow">
                         <DoubleAnimation Duration="0:0:0.64" To="8" EnableDependentAnimation="True" Storyboard.TargetName="MainSlider" Storyboard.TargetProperty="Height">
                             <DoubleAnimation.EasingFunction>
@@ -1747,26 +1711,23 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                       Height="32" x:Name="TitleBar" Loaded="TitleBar_Loaded">
                 </Grid>
                 <Grid HorizontalAlignment="Right" VerticalAlignment="Top" 
-                      Height="32" x:Name="TitleBarOverlay" Visibility="Visible" >
-                    <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="1" BorderThickness="0" BorderBrush="{x:Null}" x:Name="TitlebarBtm" Background="{StaticResource SystemControlBackgroundTransparentRevealBorderBrush}"/>
-                    <AutoSuggestBox AutoMaximizeSuggestionArea="True" Loaded="SearchBox_Loaded" LosingFocus="SearchBox_LosingFocus" 
-                                    Style="{ThemeResource BlockAutoSuggestBox}" QuerySubmitted="SearchBox_QuerySubmitted" SuggestionChosen="SearchBox_SuggestionChosen"
+                      Height="32" x:Name="TitleBarOverlay">
+                    <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="1" 
+                          BorderThickness="0" BorderBrush="{x:Null}" x:Name="TitlebarBtm" 
+                          Background="{StaticResource SystemControlBackgroundTransparentRevealBorderBrush}"/>
+                    <AutoSuggestBox AutoMaximizeSuggestionArea="True" Loaded="SearchBox_Loaded" 
+                                    LosingFocus="SearchBox_LosingFocus"
+                                    GettingFocus="SearchBox_GettingFocus"
+                                    Style="{ThemeResource BlockAutoSuggestBox}" 
+                                    QuerySubmitted="SearchBox_QuerySubmitted" 
+                                    SuggestionChosen="SearchBox_SuggestionChosen"
                                     PlaceholderText="{x:Bind Context.PlaceholderText,Mode=OneWay}" QueryIcon="Find" 
-                                    x:Name="SearchBox" TextChanged="SearchBox_TextChanged" ItemsSource="{x:Bind Context.SearchItems, Mode=OneWay}" 
-                                    RenderTransformOrigin="1,0.5"
-                                    HorizontalAlignment="Right" Opacity="0" VerticalAlignment="Stretch" Width="320" 
+                                    x:Name="SearchBox" TextChanged="SearchBox_TextChanged" 
+                                    ItemsSource="{x:Bind Context.SearchItems, Mode=OneWay}"
+                                    HorizontalAlignment="Right" VerticalAlignment="Stretch" Width="320" 
                                     ItemTemplateSelector="{StaticResource GenericItemSelector}" 
                                     ItemContainerStyleSelector="{StaticResource SongListStyleSelector}">
-                        <AutoSuggestBox.RenderTransform>
-                            <ScaleTransform ScaleX="0" ScaleY="1" x:Name="SearchBoxTransform"/>
-                        </AutoSuggestBox.RenderTransform>
                     </AutoSuggestBox>
-                    <Button AccessKey="F" Foreground="{x:Bind Context.LeftTopColor, Mode=OneWay}" x:Name="SearchButton" Click="SearchButton_Click" Background="Transparent" Style="{ThemeResource NoBorderButton}" Width="48" HorizontalAlignment="Right" VerticalAlignment="Stretch" BorderThickness="1,0,0,1" BorderBrush="{StaticResource SystemControlBackgroundTransparentRevealBorderBrush}">
-                        <Button.KeyboardAccelerators>
-                            <KeyboardAccelerator Modifiers="Control" Key="F" />
-                        </Button.KeyboardAccelerators>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE11A;" FontSize="13"/>
-                    </Button>
                 </Grid>
 
                 <toolkit:InAppNotification x:Name="InAppNotify" Style="{ThemeResource ToastNotificationStyle}" Content=""
@@ -1781,9 +1742,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                                        Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
                                                        Thickness="4" Minimum="0" Maximum="100" Width="36" Height="36"
                                                        Outline="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}"/>
-                            <StackPanel Margin="8" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                            <StackPanel Margin="8" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                 <TextBlock x:Name="ProgressUpdateTitle" FontSize="18" FontWeight="Bold" Style="{ThemeResource SubtitleTextBlockStyle}"/>
-                                <TextBlock x:Name="ProgressUpdateContent" Style="{ThemeResource BodyTextBlockStyle}"/>
+                                <TextBlock Height="40" Width="160" TextWrapping="WrapWholeWords" MaxLines="2" TextTrimming="CharacterEllipsis" x:Name="ProgressUpdateContent" Style="{ThemeResource BodyTextBlockStyle}"/>
                             </StackPanel>
                         </StackPanel>
                     </toolkit:InAppNotification.Content>

@@ -33,7 +33,7 @@ App Version(s):
 
 Windows 10 Build Number:
 - [ ] Fall Creators Update (16299)
-- [ ] Spring Creators Update (17133)
+- [ ] April Update (17134)
 - [ ] Insider Build (build number: )
 
 Device form factor:

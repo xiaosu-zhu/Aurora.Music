@@ -24,14 +24,22 @@ namespace Aurora.Music.Core.Storage
 
         }
 
+        public static async Task<bool> LogintoOnedriveAsync()
+        {
+            OneDriveService.ServicePlatformInitializer = new Microsoft.Toolkit.Uwp.Services.OneDrive.Platform.OneDriveServicePlatformInitializer();
+
+            // Hide This
+            OneDriveService.Instance.Initialize(Consts.GraphServiceKey, new[] { Microsoft.Toolkit.Services.Services.MicrosoftGraph.MicrosoftGraphScope.FilesReadAll });
+            // Hide This
+            return await OneDriveService.Instance.LoginAsync();
+        }
+
         public static async Task<OneDriveStorageFile> GetOneDriveFilesAsync(string fileName)
         {
             if (rootFolder is null)
             {
-                OneDriveService.ServicePlatformInitializer = new Microsoft.Toolkit.Uwp.Services.OneDrive.Platform.OneDriveServicePlatformInitializer();
-                OneDriveService.Instance.Initialize("daf2a654-5b98-4954-bd03-d09a375628ed", new[] { Microsoft.Toolkit.Services.Services.MicrosoftGraph.MicrosoftGraphScope.FilesReadAll });
-                if (!await OneDriveService.Instance.LoginAsync())
-                    throw new InvalidOperationException("Failed to log on");
+                if (!await LogintoOnedriveAsync())
+                    throw new InvalidOperationException("Failed to log in");
                 if (rootFolder is null)
                 {
                     var root = await OneDriveService.Instance.RootFolderAsync();
@@ -73,6 +81,10 @@ namespace Aurora.Music.Core.Storage
         public static async Task<string> GetThumbnail(OneDriveStorageFile file)
         {
             var thumb = await file.GetThumbnailSetAsync();
+            if (thumb == null)
+            {
+                return null;
+            }
             return thumb.Source ?? thumb.Large ?? thumb.Medium ?? thumb.Small;
         }
     }

@@ -383,7 +383,6 @@ namespace Aurora.Music
             // Get the size of the caption controls area and back button 
             // (returned in logical pixels), and move your content around as necessary.
             SearchBox.Margin = new Thickness(0, 0, coreTitleBar.SystemOverlayRightInset, 0);
-            SearchButton.Margin = new Thickness(0, 0, coreTitleBar.SystemOverlayRightInset, 0);
             TitlebarBtm.Width = coreTitleBar.SystemOverlayRightInset;
             // Update title bar control size as needed to account for system size changes.
             TitleBar.Height = coreTitleBar.Height;
@@ -447,14 +446,12 @@ namespace Aurora.Music
                 TitleBar.Visibility = Visibility.Visible;
                 TitlebarBtm.Visibility = Visibility.Visible;
                 SearchBox.Margin = new Thickness(0, 0, sender.SystemOverlayRightInset, 0);
-                SearchButton.Margin = new Thickness(0, 0, sender.SystemOverlayRightInset, 0);
             }
             else
             {
                 TitleBar.Visibility = Visibility.Collapsed;
                 TitlebarBtm.Visibility = Visibility.Collapsed;
                 SearchBox.Margin = new Thickness(0);
-                SearchButton.Margin = new Thickness(0);
             }
 
         }
@@ -466,12 +463,10 @@ namespace Aurora.Music
             if (sender.IsVisible)
             {
                 SearchBox.Margin = new Thickness(0, 0, sender.SystemOverlayRightInset, 0);
-                SearchButton.Margin = new Thickness(0, 0, sender.SystemOverlayRightInset, 0);
             }
             else
             {
                 SearchBox.Margin = new Thickness(0);
-                SearchButton.Margin = new Thickness(0);
             }
             // Update title bar control size as needed to account for system size changes.
             TitlebarBtm.Width = sender.SystemOverlayRightInset;
@@ -811,19 +806,10 @@ namespace Aurora.Music
             GC.Collect();
         }
 
-        private async void SearchButton_Click(object sender, RoutedEventArgs e)
+
+
+        private async void SearchBox_GettingFocus(UIElement sender, Windows.UI.Xaml.Input.GettingFocusEventArgs args)
         {
-            switch (SearchButton.Visibility)
-            {
-                case Visibility.Collapsed:
-                    SearchBoxCollapse.Begin();
-                    return;
-                default:
-                    break;
-            }
-
-            SearchBoxShow.Begin();
-
             if (SearchBox.Text.IsNullorEmpty())
             {
                 Context.SearchItems.Clear();
@@ -873,7 +859,7 @@ namespace Aurora.Music
 
         private void SearchBox_LosingFocus(UIElement sender, Windows.UI.Xaml.Input.LosingFocusEventArgs args)
         {
-            if (args.NewFocusedElement is SelectorItem t && t.Content is GenericMusicItemViewModel g && g.IsSearch)
+            if ((args.NewFocusedElement is SelectorItem t && t.Content is GenericMusicItemViewModel g && g.IsSearch) || (args.NewFocusedElement is FrameworkElement f && f.DataContext is GenericMusicItemViewModel n && n.IsSearch))
             {
                 if (Context.SearchItems[0].InnerType == MediaType.Placeholder)
                 {
@@ -881,7 +867,6 @@ namespace Aurora.Music
                     return;
                 }
             }
-            SearchBoxCollapse.Begin();
         }
 
         private void NowPanel_Click(object sender, RoutedEventArgs e)

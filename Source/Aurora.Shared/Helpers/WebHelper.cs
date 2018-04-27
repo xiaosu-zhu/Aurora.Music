@@ -331,7 +331,7 @@ namespace Aurora.Shared.Helpers
     {
         public static bool IsInternet()
         {
-            ConnectionProfile connections = NetworkInformation.GetInternetConnectionProfile();
+            var connections = NetworkInformation.GetInternetConnectionProfile();
             bool internet = connections != null && connections.GetNetworkConnectivityLevel() == NetworkConnectivityLevel.InternetAccess;
             return internet;
         }

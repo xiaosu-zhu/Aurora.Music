@@ -6,6 +6,7 @@ using Aurora.Music.Core;
 using Aurora.Music.Core.Models;
 using Aurora.Music.Core.Storage;
 using Aurora.Music.Pages;
+using Aurora.Music.PlaybackEngine;
 using Aurora.Music.Services;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
@@ -53,6 +54,38 @@ namespace Aurora.Music.ViewModels
                 }
                 catch (Exception)
                 {
+                }
+            }
+        }
+
+
+
+        private bool readOndriveRoaming = Settings.Current.OnedriveRoaming;
+        public bool ReadOndriveRoaming
+        {
+            get { return readOndriveRoaming; }
+            set
+            {
+                if (value)
+                {
+                    Task.Run(async () =>
+                    {
+                        var result = await OneDrivePropertyProvider.LogintoOnedriveAsync();
+                        readOndriveRoaming = result;
+                        Settings.Current.OnedriveRoaming = result;
+                        Settings.Current.Save();
+                        await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                        {
+                            readOndriveRoaming = result;
+                            RaisePropertyChanged("ReadOndriveRoaming");
+                        });
+                    });
+                }
+                else
+                {
+                    Settings.Current.OnedriveRoaming = false;
+                    Settings.Current.Save();
+                    SetProperty(ref readOndriveRoaming, value);
                 }
             }
         }
@@ -412,6 +445,8 @@ namespace Aurora.Music.ViewModels
             get => new DelegateCommand(async () =>
             {
                 MainPage.Current.ShowModalUI(true, "Deleting");
+                (PlaybackEngine.PlaybackEngine.Current as Player).Dispose();
+                Settings.Current.DANGER_DELETE();
                 var opr = SQLOperator.Current();
                 opr.Dispose();
                 opr = null;

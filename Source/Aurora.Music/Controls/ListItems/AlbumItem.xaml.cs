@@ -35,6 +35,11 @@ namespace Aurora.Music.Controls.ListItems
             PlayAlbum?.Invoke(Data, e);
         }
 
+        public string IsOnedrive(bool b)
+        {
+            return b ? "\uEBC3 " : "";
+        }
+
         public event RoutedEventHandler FlyoutRequired;
 
         private void Flyout_Click(object sender, RoutedEventArgs e)
@@ -123,7 +128,7 @@ namespace Aurora.Music.Controls.ListItems
         // Using a DependencyProperty as the backing store for ImageHeight.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ImageHeightProperty =
             DependencyProperty.Register("ImageHeight", typeof(double), typeof(AlbumItem), new PropertyMetadata(150d));
-        
+
 
         private void BlurBGImg_SizeChanged(object sender, SizeChangedEventArgs e)
         {

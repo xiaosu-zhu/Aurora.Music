@@ -167,6 +167,7 @@ namespace Aurora.Music.Core.Models
         internal Song(SONG song)
         {
             ID = song.ID;
+            IsOnedrive = song.IsOneDrive;
             Duration = song.Duration;
             BitRate = song.BitRate;
             Rating = song.Rating;
@@ -217,6 +218,7 @@ namespace Aurora.Music.Core.Models
             var graphAudio = oneDriveFile?.OneDriveItem?.Audio;
             var s = new Song
             {
+                IsOnedrive = oneDriveFile != null,
                 Duration = (music.duration.TotalMilliseconds < 1 && p != null) ? p.Duration : music.duration,
                 BitRate = music.bitrate,
                 FilePath = path,
@@ -282,7 +284,7 @@ namespace Aurora.Music.Core.Models
                     var s = await Consts.ArtworkFolder.TryGetItemAsync(album);
                     if (s == null)
                     {
-                        StorageFile cacheImg = await Consts.ArtworkFolder.CreateFileAsync(album, CreationCollisionOption.ReplaceExisting);
+                        var cacheImg = await Consts.ArtworkFolder.CreateFileAsync(album, CreationCollisionOption.ReplaceExisting);
                         await FileIO.WriteBytesAsync(cacheImg, pictures[0].Data.Data);
                         return cacheImg.Path;
                     }
@@ -320,15 +322,14 @@ namespace Aurora.Music.Core.Models
                     var thumb = await OneDrivePropertyProvider.GetThumbnail(file);
                     if (thumb.IsNullorEmpty())
                         return string.Empty;
-                    var data = await await WebHelper.DownloadFileAsync(album, new Uri(thumb), Consts.ArtworkFolder);
-                    return data.ResultFile.Path;
+                    return thumb;
                 }
                 else
                 {
                     return s.Path;
                 }
             }
-            catch (ArgumentException)
+            catch
             {
                 return string.Empty;
             }
@@ -487,6 +488,7 @@ namespace Aurora.Music.Core.Models
 
         public string FileType { get; set; }
         public DateTime PubDate { get; set; }
+        public bool IsOnedrive { get; set; }
 
         public async Task<bool> GetFavoriteAsync()
         {
@@ -573,7 +575,11 @@ namespace Aurora.Music.Core.Models
 
             // songs, serialized as "ID0|ID1|ID2...|IDn"
             Songs = album.Select(x => x.ID).Distinct().ToArray();
+
+            IsOnedrive = album.Any(a => a.IsOneDrive);
         }
+
+        public bool IsOnedrive { get; set; }
 
         public int[] Songs { get; set; }
 

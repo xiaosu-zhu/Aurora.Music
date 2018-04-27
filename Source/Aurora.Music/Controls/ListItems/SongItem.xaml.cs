@@ -65,6 +65,12 @@ namespace Aurora.Music.Controls.ListItems
             this.InitializeComponent();
         }
 
+
+        public string IsOnedrive(bool b)
+        {
+            return b ? "\uEBC3 " : "";
+        }
+
         private void Grid_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
             if (IsMultiSelect)

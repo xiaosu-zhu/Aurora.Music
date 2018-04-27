@@ -34,7 +34,7 @@ namespace Aurora.Shared.MVVM
             if (changed)
             {
                 backingField = Value;
-                this.RaisePropertyChanged(propertyName);
+                RaisePropertyChanged(propertyName);
             }
             return changed;
         }
