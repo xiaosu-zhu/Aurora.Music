@@ -72,6 +72,10 @@ namespace Aurora.Music.ViewModels
             var type = GetFileType();
             if (!type.IsNullorEmpty())
                 descs.Add(type);
+            if (IsOnedrive)
+            {
+                descs.Add("Not cache in local");
+            }
             return string.Join(" · ", descs);
         }
 
@@ -106,6 +110,13 @@ namespace Aurora.Music.ViewModels
 
         public double Rating { get; set; }
 
+        private bool isOnedrive;
+        public bool IsOnedrive
+        {
+            get { return isOnedrive; }
+            set { SetProperty(ref isOnedrive, value); }
+        }
+
         public SongViewModel(Song song)
         {
             Song = song;
@@ -115,6 +126,7 @@ namespace Aurora.Music.ViewModels
             {
                 FilePath = song.OnlineUri.AbsolutePath;
             }
+            IsOnedrive = song.IsOnedrive;
             Rating = song.Rating;
             FilePath = song.FilePath;
             Album = song.Album;
@@ -189,7 +201,7 @@ namespace Aurora.Music.ViewModels
         internal string GetFormattedArtists()
         {
             if (Song.Performers.IsNullorEmpty())
-                return Song.AlbumArtists.IsNullorEmpty() ? Consts.UnknownArtists : string.Join(Consts.CommaSeparator, Song.AlbumArtists);
+                return Song.AlbumArtists.IsNullorEmpty() ? (IsOnedrive ? "Not cache in local" : Consts.UnknownArtists) : string.Join(Consts.CommaSeparator, Song.AlbumArtists);
             else
             {
                 return string.Join(Consts.CommaSeparator, Song.Performers);

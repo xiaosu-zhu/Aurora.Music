@@ -16,9 +16,18 @@ namespace Aurora.Music.ViewModels
 {
     public class AlbumViewModel : ViewModelBase, IKey
     {
+
+        private bool isOnedrive;
+        public bool IsOnedrive
+        {
+            get { return isOnedrive; }
+            set { SetProperty(ref isOnedrive, value); }
+        }
+
         public AlbumViewModel(Album album)
         {
             IsOnline = album.IsOnline;
+            IsOnedrive = album.IsOnedrive;
             if (album.IsOnline)
             {
                 OnlieIDs = album.OnlineIDs;
@@ -95,7 +104,10 @@ namespace Aurora.Music.ViewModels
         private string title;
         public string Name
         {
-            get { return title; }
+            get
+            {
+                return title;
+            }
             set
             {
                 SetProperty(ref title, value);
@@ -108,7 +120,7 @@ namespace Aurora.Music.ViewModels
 
         internal string GetFormattedArtists()
         {
-            return AlbumArtists.IsNullorEmpty() ? Consts.UnknownArtists : string.Join(Consts.CommaSeparator, AlbumArtists);
+            return AlbumArtists.IsNullorEmpty() ? (IsOnedrive ? "Not cache in local" : Consts.UnknownArtists) : string.Join(Consts.CommaSeparator, AlbumArtists);
         }
 
         public virtual uint TrackCount { get; set; }

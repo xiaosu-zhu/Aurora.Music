@@ -119,7 +119,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="32"/>
+            <ColumnDefinition Width="40"/>
             <ColumnDefinition Width="8*"/>
             <ColumnDefinition x:Name="Col2" Width="6*"/>
             <ColumnDefinition x:Name="Col3" Width="2*"/>
@@ -137,8 +137,10 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <RowDefinition Height="*" x:Name="InfoCol" />
                 <RowDefinition Height="auto" x:Name="InfoCol1" />
             </Grid.RowDefinitions>
-            <TextBlock x:Name="Title" Margin="4" Text="{x:Bind Data.Title,Mode=OneWay}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"
-                   HorizontalAlignment="Stretch" VerticalAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}" ToolTipService.ToolTip="{x:Bind Data.Title,Mode=OneWay}"/>
+            <TextBlock x:Name="Title" Margin="4" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"
+                   HorizontalAlignment="Stretch" VerticalAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}" ToolTipService.ToolTip="{x:Bind Data.Title,Mode=OneWay}">
+                <Run Foreground="{ThemeResource AccentForText}" FontFamily="Segoe MDL2 Assets" Text="{x:Bind IsOnedrive(Data.IsOnedrive), Mode=OneWay}"/><Run Text="{x:Bind Data.Title,Mode=OneWay}"/>
+            </TextBlock>
             <Button Click="PlayBtn_Click" x:Load="False" Visibility="Collapsed" Grid.RowSpan="2" x:Name="PlayBtn" Grid.Column="1" Style="{ThemeResource NoBorderButton}" Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="48">
                 <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE102;" />
             </Button>
@@ -154,7 +156,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         <TextBlock x:Name="Artist" Margin="4" Grid.Column="4" Text="{x:Bind Data.GetFormattedArtists(),Mode=OneWay}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" 
                    Foreground="{ThemeResource SystemControlBackgroundBaseMediumRevealBorderBrush}" ToolTipService.ToolTip="{x:Bind Data.GetFormattedArtists(),Mode=OneWay}"
                    HorizontalAlignment="Right" VerticalAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}"/>
-        <Button Click="HeaderBtn_Click" x:Load="False" Visibility="Collapsed" Margin="-12,0,0,0" x:Name="HeaderBtn" Grid.RowSpan="2" Style="{ThemeResource NoBorderButton}" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" Background="Transparent" HorizontalAlignment="Left" VerticalAlignment="Stretch" Padding="12,0">
+        <Button Click="HeaderBtn_Click" x:Load="False" Visibility="Collapsed" Margin="-12,0,0,0" x:Name="HeaderBtn" 
+                Grid.RowSpan="2" Style="{ThemeResource NoBorderButton}" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" 
+                Background="Transparent" HorizontalAlignment="Left" VerticalAlignment="Stretch" Padding="12,0">
             <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE15B;" />
         </Button>
     </Grid>

@@ -58,6 +58,38 @@ namespace Aurora.Music.ViewModels
             }
         }
 
+
+
+        private bool readOndriveRoaming = Settings.Current.OnedriveRoaming;
+        public bool ReadOndriveRoaming
+        {
+            get { return readOndriveRoaming; }
+            set
+            {
+                if (value)
+                {
+                    Task.Run(async () =>
+                    {
+                        var result = await OneDrivePropertyProvider.LogintoOnedriveAsync();
+                        readOndriveRoaming = result;
+                        Settings.Current.OnedriveRoaming = result;
+                        Settings.Current.Save();
+                        await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                        {
+                            readOndriveRoaming = result;
+                            RaisePropertyChanged("ReadOndriveRoaming");
+                        });
+                    });
+                }
+                else
+                {
+                    Settings.Current.OnedriveRoaming = false;
+                    Settings.Current.Save();
+                    SetProperty(ref readOndriveRoaming, value);
+                }
+            }
+        }
+
         public DelegateCommand NavigateToPrivacy
         {
             get => new DelegateCommand(async () =>

@@ -60,6 +60,8 @@ namespace Aurora.Music.Controls.ListItems
 
         private void DataArtwork_ImageOpened(object sender, RoutedEventArgs e)
         {
+            if (DataArtwork == null)
+                return;
             MaxWidth = DataArtwork.PixelWidth * 150d / DataArtwork.PixelHeight;
             DataArtwork.ImageOpened -= DataArtwork_ImageOpened;
             SizeChanged += HomeItem_SizeChanged;

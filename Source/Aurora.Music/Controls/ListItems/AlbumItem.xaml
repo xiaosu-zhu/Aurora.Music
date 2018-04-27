@@ -25,64 +25,64 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <ResourceDictionary x:Key="Dark" Source="../../Themes/Dark.xaml"/>
             </ResourceDictionary.ThemeDictionaries>
 
-        <Style TargetType="Button" x:Key="RoundButton">
-            <Setter Property="Background" Value="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}" />
-            <Setter Property="Foreground" Value="{ThemeResource ButtonForeground}" />
-            <Setter Property="BorderBrush" Value="{x:Null}" />
-            <Setter Property="BorderThickness" Value="0" />
-            <Setter Property="Padding" Value="0" />
-            <Setter Property="HorizontalAlignment" Value="Center" />
-            <Setter Property="VerticalAlignment" Value="Center" />
-            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
-            <Setter Property="FontWeight" Value="Normal" />
-            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
-            <Setter Property="UseSystemFocusVisuals" Value="True" />
-            <Setter Property="FocusVisualMargin" Value="0" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Grid x:Name="RootGrid" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+            <Style TargetType="Button" x:Key="RoundButton">
+                <Setter Property="Background" Value="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}" />
+                <Setter Property="Foreground" Value="{ThemeResource ButtonForeground}" />
+                <Setter Property="BorderBrush" Value="{x:Null}" />
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="Padding" Value="0" />
+                <Setter Property="HorizontalAlignment" Value="Center" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+                <Setter Property="FontWeight" Value="Normal" />
+                <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
+                <Setter Property="UseSystemFocusVisuals" Value="True" />
+                <Setter Property="FocusVisualMargin" Value="0" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Grid x:Name="RootGrid" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
                           BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="9999">
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup x:Name="CommonStates">
-                                    <VisualState x:Name="Normal">
-                                        <Storyboard>
-                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
-                                        </Storyboard>
-                                    </VisualState>
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal">
+                                            <Storyboard>
+                                                <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                                            </Storyboard>
+                                        </VisualState>
 
-                                    <VisualState x:Name="PointerOver">
-                                        <VisualState.Setters>
-                                            <Setter Target="RootGrid.Background" Value="{ThemeResource SystemControlAltLowAcrylicElementBrush}" />
-                                            <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlForegroundAccentBrush}" />
-                                        </VisualState.Setters>
+                                        <VisualState x:Name="PointerOver">
+                                            <VisualState.Setters>
+                                                <Setter Target="RootGrid.Background" Value="{ThemeResource SystemControlAltLowAcrylicElementBrush}" />
+                                                <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlForegroundAccentBrush}" />
+                                            </VisualState.Setters>
 
-                                        <Storyboard>
-                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
-                                        </Storyboard>
-                                    </VisualState>
+                                            <Storyboard>
+                                                <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                                            </Storyboard>
+                                        </VisualState>
 
-                                    <VisualState x:Name="Pressed">
-                                        <VisualState.Setters>
-                                            <Setter Target="RootGrid.Background" Value="{ThemeResource SystemControlAltMediumLowAcrylicElementMediumBrush}" />
-                                            <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlBackgroundBaseMediumBrush}" />
-                                        </VisualState.Setters>
+                                        <VisualState x:Name="Pressed">
+                                            <VisualState.Setters>
+                                                <Setter Target="RootGrid.Background" Value="{ThemeResource SystemControlAltMediumLowAcrylicElementMediumBrush}" />
+                                                <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlBackgroundBaseMediumBrush}" />
+                                            </VisualState.Setters>
 
-                                        <Storyboard>
-                                            <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
-                                        </Storyboard>
-                                    </VisualState>
+                                            <Storyboard>
+                                                <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
+                                            </Storyboard>
+                                        </VisualState>
 
-                                    <VisualState x:Name="Disabled">
-                                        <VisualState.Setters>
-                                            <Setter Target="RootGrid.Background" Value="{ThemeResource SystemControlBackgroundBaseMediumBrush}" />
-                                            <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ButtonForegroundDisabled}" />
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                </VisualStateGroup>
+                                        <VisualState x:Name="Disabled">
+                                            <VisualState.Setters>
+                                                <Setter Target="RootGrid.Background" Value="{ThemeResource SystemControlBackgroundBaseMediumBrush}" />
+                                                <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ButtonForegroundDisabled}" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
 
-                            </VisualStateManager.VisualStateGroups>
-                            <ContentPresenter x:Name="ContentPresenter"
+                                </VisualStateManager.VisualStateGroups>
+                                <ContentPresenter x:Name="ContentPresenter"
                             BorderBrush="{x:Null}"
                             BorderThickness="0"
                             Content="{TemplateBinding Content}"
@@ -92,11 +92,11 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                             HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                             VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                             AutomationProperties.AccessibilityView="Raw" />
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -307,8 +307,10 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </StackPanel>
         </Grid>
         <StackPanel Grid.Row="1" Margin="0,8,0,0" Orientation="Vertical">
-            <TextBlock x:Name="AlbumName" MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{x:Bind Data.Name, Mode=OneWay}" 
-                               Style="{ThemeResource BaseTextBlockStyle}" Width="150" ToolTipService.ToolTip="{x:Bind Data.Name,Mode=OneWay}"/>
+            <TextBlock x:Name="AlbumName" MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap"
+                               Style="{ThemeResource BaseTextBlockStyle}" Width="150" ToolTipService.ToolTip="{x:Bind Data.Name,Mode=OneWay}">
+                <Run Foreground="{ThemeResource AccentForText}" FontFamily="Segoe MDL2 Assets" Text="{x:Bind IsOnedrive(Data.IsOnedrive), Mode=OneWay}"/><Run Text="{x:Bind Data.Name, Mode=OneWay}"/>
+            </TextBlock>
             <TextBlock x:Name="AlbumArtists" MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Width="150" FontSize="13"
                        Foreground="{ThemeResource SystemControlBackgroundBaseMediumLowRevealBorderBrush}" ToolTipService.ToolTip="{x:Bind Data.GetFormattedArtists(),Mode=OneWay}"
                        Text="{x:Bind Data.GetFormattedArtists(),TargetNullValue=, FallbackValue=, Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}"/>

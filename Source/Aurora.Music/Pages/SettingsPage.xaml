@@ -550,6 +550,13 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <StackPanel Padding="0,0,0,160" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <ToggleSwitch x:Uid="DebugMode" Header="Debug Mode" 
                                     IsOn="{Binding DebugModeEnabled,Mode=TwoWay}" Margin="0,8" />
+                        <TextBlock FontSize="12" Margin="0,8,0,-8" Text="EXPERIMENTAL" Foreground="{ThemeResource AccentForText}"/>
+                        <StackPanel Margin="0,-4,0,8" Orientation="Horizontal">
+                            <TextBlock Margin="0,0,8,0" VerticalAlignment="Center" Text="Read OneDrive Files On-Demand"/>
+                            <ToggleSwitch Style="{StaticResource ColoredToggleSwitch}" VerticalAlignment="Center"
+                                          IsOn="{x:Bind Context.ReadOndriveRoaming,Mode=TwoWay}"/>
+                        </StackPanel>
+
                         <TextBlock Margin="0,8">
                             <Run x:Uid="CacheFolderSize" Text="Cache folder size:"/>
                             <Run Text="{Binding CacheFolderSize,Mode=OneWay}"/>
