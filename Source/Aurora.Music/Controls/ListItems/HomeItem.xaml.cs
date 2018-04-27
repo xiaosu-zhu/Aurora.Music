@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
+using System;
+using System.ComponentModel;
 using Aurora.Music.ViewModels;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -15,7 +17,7 @@ namespace Aurora.Music.Controls.ListItems
     {
         public HomeItem()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
         public GenericMusicItemViewModel Data
         {
@@ -54,6 +56,27 @@ namespace Aurora.Music.Controls.ListItems
                         };
                         h.DataArtwork.ImageOpened += h.DataArtwork_ImageOpened;
                     }
+                    g.PropertyChanged += h.G_PropertyChanged;
+                }
+            }
+        }
+
+        private void G_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Artwork")
+            {
+                if (Data.Artwork == null)
+                {
+                    DataArtwork = null;
+                }
+                else
+                {
+                    DataArtwork = new BitmapImage(Data.Artwork)
+                    {
+                        DecodePixelHeight = 150,
+                        DecodePixelType = DecodePixelType.Logical
+                    };
+                    DataArtwork.ImageOpened += DataArtwork_ImageOpened;
                 }
             }
         }

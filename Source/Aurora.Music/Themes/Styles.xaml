@@ -2918,7 +2918,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         <Setter Property="MinHeight" Value="{ThemeResource TextControlThemeMinHeight}" />
         <Setter Property="Foreground" Value="{ThemeResource TextControlForeground}" />
         <Setter Property="Background" Value="{ThemeResource SystemControlTransparentBrush}" />
-        <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentRevealBorderBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource SystemControlHighlightAccentRevealBorderBrush}" />
         <Setter Property="SelectionHighlightColor" Value="{ThemeResource TextControlSelectionHighlightColor}" />
         <Setter Property="BorderThickness" Value="0,0,0,1" />
         <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
@@ -3171,7 +3171,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                             ZoomMode="Disabled" />
                         <ContentControl x:Name="PlaceholderTextContentPresenter"
                             Grid.Row="1" VerticalAlignment="Center"
-                            Foreground="{ThemeResource TextControlPlaceholderForeground}"
+                            Foreground="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}"
                             Margin="{TemplateBinding BorderThickness}"
                             Padding="{TemplateBinding Padding}"
                             IsTabStop="False"

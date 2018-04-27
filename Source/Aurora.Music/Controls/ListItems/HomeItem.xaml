@@ -71,7 +71,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         <TextBlock Text="{x:Bind Data.Title,Mode=OneWay}" Style="{ThemeResource BaseTextBlockStyle}" ToolTipService.ToolTip="{x:Bind Data.Title,Mode=OneWay}"
                        HorizontalAlignment="Left" VerticalAlignment="Center" MaxLines="1" TextWrapping="NoWrap"
                        TextTrimming="CharacterEllipsis"/>
-        <TextBlock FontSize="13" Style="{ThemeResource BodyTextBlockStyle}" ToolTipService.ToolTip="{x:Bind Data.AddtionalAndDescription(), Mode=OneWay}"
+        <TextBlock FontSize="13" Style="{ThemeResource BodyTextBlockStyle}" ToolTipService.ToolTip="{x:Bind Data.AddtionalAndDescription(Data.Addtional, Data.Description), Mode=OneWay}"
                        HorizontalAlignment="Left" VerticalAlignment="Center" MaxLines="1" TextWrapping="NoWrap" 
                        TextTrimming="CharacterEllipsis" Foreground="{ThemeResource SystemControlBackgroundBaseMediumLowRevealBorderBrush}">
             <Run Text="{x:Bind Data.Addtional,Mode=OneWay}"/>
