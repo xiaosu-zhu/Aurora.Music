@@ -57,9 +57,8 @@ namespace Aurora.Music.Core
         public static string CommaSeparator => ommaSeparator;
 
         public static string UpdateNote =>
-                            "### Note: Thank you for supporting this app become better!\r\n\r\n---\r\n\r\n" +
-                            "* **[Windows Developer Awards](https://developer.microsoft.com/en-us/windows/projects/events/build/2018/awards)**. Voting has expanded to May 5th! If you think our app is really excellent, please +1 for this app! We're appreciated for your votes!\r\n\r\n* **[Windows Developer Awards](https://developer.microsoft.com/en-us/windows/projects/events/build/2018/awards)** 投票延长到了5月5日！非常感谢您的支持！\r\n\r\n---\r\n\r\n" +
-                            "* **New**: Now you can edit lyric and save to files.";
+                            "## **[Windows Developer Awards](https://developer.microsoft.com/en-us/windows/projects/events/build/2018/awards)**\r\n---\r\n"+
+                            "* **Experimental**: Added support for Onedrive File On-Demand (Settings - Advance).";
 
         public static string UpdateNoteTitle => localizer.GetString("UpdateNoteTitle");
 

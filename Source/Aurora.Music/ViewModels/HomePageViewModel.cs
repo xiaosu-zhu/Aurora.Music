@@ -251,6 +251,7 @@ namespace Aurora.Music.ViewModels
                                     InnerType = MediaType.PlayList
                                 });
                             }
+                            j += 1;
                         }
                         for (; j < HeroList.Count;)
                         {
