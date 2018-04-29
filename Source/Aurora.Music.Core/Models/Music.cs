@@ -261,7 +261,7 @@ namespace Aurora.Music.Core.Models
                 Year = tag?.Year ?? ((uint?)graphAudio?.Year) ?? 0,
             };
             if (tag != null)
-                s.PicturePath = await GetPicturePath(tag.Pictures, music.album);
+                s.PicturePath = await GetPicturePath(tag.Pictures, music.album, path);
             else if (oneDriveFile != null)
                 s.PicturePath = await GetPicturePath(oneDriveFile, music.album);
             return s;
@@ -269,7 +269,7 @@ namespace Aurora.Music.Core.Models
             T[] asArray<T>(T value) where T : class => value is null ? null : new[] { value };
         }
 
-        private async static Task<string> GetPicturePath(IPicture[] pictures, string album)
+        private async static Task<string> GetPicturePath(IPicture[] pictures, string album, string filePath)
         {
             if (!pictures.IsNullorEmpty())
             {
@@ -300,7 +300,50 @@ namespace Aurora.Music.Core.Models
             }
             else
             {
-                return string.Empty;
+                try
+                {
+                    var folder = await StorageFolder.GetFolderFromPathAsync(System.IO.Path.GetDirectoryName(filePath));
+                    var result = folder.CreateFileQueryWithOptions(new Windows.Storage.Search.QueryOptions()
+                    {
+                        FolderDepth = Windows.Storage.Search.FolderDepth.Shallow,
+                        ApplicationSearchFilter = "System.FileName:\"cover\" System.FileExtension:=(\".jpg\" OR \".png\" OR \".jpeg\" OR \".gif\" OR \".tiff\" OR \".bmp\")"
+                    });
+                    var files = await result.GetFilesAsync();
+                    if (files.Count > 0)
+                    {
+                        if (album.IsNullorEmpty())
+                        {
+                            album = Consts.UnknownAlbum;
+                        }
+                        album = Shared.Utils.InvalidFileNameChars.Aggregate(album, (current, c) => current.Replace(c + "", "_"));
+                        album = $"{album}.{pictures[0].MimeType.Split('/').LastOrDefault().Replace("jpeg", "jpg")}";
+                        try
+                        {
+                            var s = await Consts.ArtworkFolder.TryGetItemAsync(album);
+                            if (s == null)
+                            {
+                                var cacheImg = await files[0].CopyAsync(Consts.ArtworkFolder, album, NameCollisionOption.ReplaceExisting);
+                                return cacheImg.Path;
+                            }
+                            else
+                            {
+                                return s.Path;
+                            }
+                        }
+                        catch (ArgumentException)
+                        {
+                            return string.Empty;
+                        }
+                    }
+                    else
+                    {
+                        return string.Empty;
+                    }
+                }
+                catch (Exception)
+                {
+                    return string.Empty;
+                }
             }
         }
 

@@ -480,7 +480,51 @@ namespace Aurora.Music.Core.Storage
             }
             else
             {
-                song.PicturePath = null;
+                try
+                {
+                    var folder = await StorageFolder.GetFolderFromPathAsync(System.IO.Path.GetDirectoryName(path));
+                    var result = folder.CreateFileQueryWithOptions(new Windows.Storage.Search.QueryOptions()
+                    {
+                        FolderDepth = Windows.Storage.Search.FolderDepth.Shallow,
+                        ApplicationSearchFilter = "System.FileName:\"cover\" System.FileExtension:=(\".jpg\" OR \".png\" OR \".jpeg\" OR \".gif\" OR \".tiff\" OR \".bmp\")"
+                    });
+                    var files = await result.GetFilesAsync();
+                    if (files.Count > 0)
+                    {
+                        var album = music.album;
+                        if (album.IsNullorEmpty())
+                        {
+                            album = Consts.UnknownAlbum;
+                        }
+                        album = Shared.Utils.InvalidFileNameChars.Aggregate(album, (current, c) => current.Replace(c + "", "_"));
+                        album = $"{album}.{pictures[0].MimeType.Split('/').LastOrDefault().Replace("jpeg", "jpg")}";
+                        try
+                        {
+                            var s = await Consts.ArtworkFolder.TryGetItemAsync(album);
+                            if (s == null)
+                            {
+                                var cacheImg = await files[0].CopyAsync(Consts.ArtworkFolder, album, NameCollisionOption.ReplaceExisting);
+                                song.PicturePath = cacheImg.Path;
+                            }
+                            else
+                            {
+                                song.PicturePath = s.Path;
+                            }
+                        }
+                        catch (ArgumentException)
+                        {
+                            song.PicturePath = string.Empty;
+                        }
+                    }
+                    else
+                    {
+                        song.PicturePath = string.Empty;
+                    }
+                }
+                catch (Exception)
+                {
+                    song.PicturePath = string.Empty;
+                }
             }
             return song;
         }
