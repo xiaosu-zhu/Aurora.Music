@@ -313,7 +313,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </TextBlock>
             <TextBlock x:Name="AlbumArtists" MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Width="150" FontSize="13"
                        Foreground="{ThemeResource SystemControlBackgroundBaseMediumLowRevealBorderBrush}" ToolTipService.ToolTip="{x:Bind Data.GetFormattedArtists(),Mode=OneWay}"
-                       Text="{x:Bind Data.GetFormattedArtists(),TargetNullValue=, FallbackValue=, Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}"/>
+                       Text="{x:Bind Data.GetFormattedArtists(),TargetNullValue='', FallbackValue='', Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}"/>
         </StackPanel>
     </Grid>
 </UserControl>

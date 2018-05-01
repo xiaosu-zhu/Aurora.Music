@@ -312,7 +312,7 @@ namespace Aurora.Shared.Helpers
         {
             if (fileName == null)
                 return null;
-            StorageFile sFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/" + fileName));
+            var sFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/" + fileName));
             return await FileIO.ReadTextAsync(sFile);
         }
 

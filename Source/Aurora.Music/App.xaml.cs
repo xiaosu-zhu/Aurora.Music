@@ -251,53 +251,56 @@ namespace Aurora.Music
             else
             {
                 var segments = uri.AbsolutePath.Split('/', StringSplitOptions.RemoveEmptyEntries);
-
-                var classes = GetType().GetTypeInfo().Assembly.GetTypesWithAttribute<UriActivateAttribute>();
-
-                var matches0 = from g in classes
-                               where Array.Exists(g.Item2, a => a.Relative.Equals(segments[0], StringComparison.InvariantCultureIgnoreCase) && a.Usage == ActivateUsage.Navigation)
-                               select g;
-                var firstType = matches0.FirstOrDefault();
-
-                canShowInNewWindow = firstType.Item2[0].CanShowInNewWindow;
-                navigateType = firstType.Item1;
-
-
-                for (int i = 1; i < segments.Length; i++)
+                if (segments.Length > 0)
                 {
-                    switch (segments[i].ToLower())
+                    var classes = GetType().GetTypeInfo().Assembly.GetTypesWithAttribute<UriActivateAttribute>();
+
+                    var matches0 = from g in classes
+                                   where Array.Exists(g.Item2, a => a.Relative.Equals(segments[0], StringComparison.InvariantCultureIgnoreCase) && a.Usage == ActivateUsage.Navigation)
+                                   select g;
+                    var firstType = matches0.FirstOrDefault();
+
+                    canShowInNewWindow = firstType.Item2[0].CanShowInNewWindow;
+                    navigateType = firstType.Item1;
+
+
+                    for (int i = 1; i < segments.Length; i++)
                     {
-                        case "podcast":
-                            subNavigateType = typeof(PodcastPage); canShowInNewWindow = false;
-                            break;
-                        case "songs":
-                            subNavigateType = typeof(SongsPage); canShowInNewWindow = false;
-                            break;
-                        case "albums":
-                            subNavigateType = typeof(AlbumsPage); canShowInNewWindow = false;
-                            break;
-                        case "artists":
-                            subNavigateType = typeof(ArtistsPage); canShowInNewWindow = false;
-                            break;
-                        case "playlist":
-                            subNavigateType = typeof(PlayListPage); canShowInNewWindow = false;
-                            break;
-                        case "id":
-                            if (segments.Length > i + 1 && int.TryParse(segments[++i], out int parse))
-                            {
-                                id = parse;
-                            }
-                            goto outside;
-                        case "keyword":
-                            if (segments.Length > i + 1)
-                            {
-                                keyword = segments[++i];
-                            }
-                            goto outside;
-                        default:
-                            break;
+                        switch (segments[i].ToLower())
+                        {
+                            case "podcast":
+                                subNavigateType = typeof(PodcastPage); canShowInNewWindow = false;
+                                break;
+                            case "songs":
+                                subNavigateType = typeof(SongsPage); canShowInNewWindow = false;
+                                break;
+                            case "albums":
+                                subNavigateType = typeof(AlbumsPage); canShowInNewWindow = false;
+                                break;
+                            case "artists":
+                                subNavigateType = typeof(ArtistsPage); canShowInNewWindow = false;
+                                break;
+                            case "playlist":
+                                subNavigateType = typeof(PlayListPage); canShowInNewWindow = false;
+                                break;
+                            case "id":
+                                if (segments.Length > i + 1 && int.TryParse(segments[++i], out int parse))
+                                {
+                                    id = parse;
+                                }
+                                goto outside;
+                            case "keyword":
+                                if (segments.Length > i + 1)
+                                {
+                                    keyword = segments[++i];
+                                }
+                                goto outside;
+                            default:
+                                break;
+                        }
                     }
                 }
+
 
                 outside:
                 if (canShowInNewWindow)
@@ -333,6 +336,29 @@ namespace Aurora.Music
 
                     // 确保当前窗口处于活动状态
                     Window.Current.Activate();
+
+
+
+                    var querys = System.Web.HttpUtility.ParseQueryString(uri.Query);
+                    if (querys["action"] != null)
+                    {
+                        switch (querys["action"])
+                        {
+                            case "last-play":
+                                var playerStatus = await PlayerStatus.LoadAsync();
+                                if (playerStatus != null && playerStatus.Songs != null)
+                                {
+                                    if (MainPageViewModel.Current != null)
+                                    {
+                                        await MainPageViewModel.Current.InstantPlay(playerStatus.Songs, playerStatus.Index);
+                                        PlaybackEngine.PlaybackEngine.Current.Seek(playerStatus.Position);
+                                    }
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                    }
                 }
             }
         }

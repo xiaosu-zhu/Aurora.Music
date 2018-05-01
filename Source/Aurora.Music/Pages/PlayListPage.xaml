@@ -336,7 +336,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </StackPanel>
                 <TextBlock Style="{ThemeResource BodyTextBlockStyle}">
                     <Run FontSize="13" FontFamily="Segoe MDL2 Assets" Text="&#xE8D6;" />
-                    <Run Text="{x:Bind Context.SongsCount,Mode=OneWay,TargetNullValue=Loading,FallbackValue=Loading}"/>
+                    <Run Text="{x:Bind Context.SongsCount,Mode=OneWay,TargetNullValue='Loading',FallbackValue='Loading'}"/>
                 </TextBlock>
                 <Button Command="{x:Bind Context.PlayAll}" Style="{ThemeResource PlayAllButton}"/>
                 <ComboBox x:Uid="SortBox" x:Name="SortBox" BorderBrush="{x:Null}" SelectedIndex="0" BorderThickness="0" Style="{StaticResource HorizontalComboBox}" Header="Sort by:">

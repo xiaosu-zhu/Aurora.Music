@@ -11,7 +11,7 @@
     <AssemblyName>Aurora.Music.Core</AssemblyName>
     <DefaultLanguage>zh-CN</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.16299.0</TargetPlatformVersion>
+    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.17134.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
@@ -138,6 +138,7 @@
     <Compile Include="Storage\FileTracker.cs" />
     <Compile Include="Storage\OneDrivePropertyProvider.cs" />
     <Compile Include="Storage\SQLOperator.cs" />
+    <Compile Include="Tools\AdaptiveCards.cs" />
     <Compile Include="Tools\EnvelopeDetector.cs" />
     <Compile Include="Tools\FormatHelper.cs" />
     <Compile Include="Tools\Helper.cs" />
@@ -172,11 +173,6 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <SDKReference Include="WindowsDesktop, Version=10.0.16299.0">
-      <Name>Windows Desktop Extensions for the UWP</Name>
-    </SDKReference>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Aurora.Shared\Aurora.Shared.csproj">
       <Project>{026d99cf-1c25-4dcf-ad95-1070bba9f8a8}</Project>
       <Name>Aurora.Shared</Name>
@@ -189,6 +185,11 @@
       <Project>{2355f4e1-9225-433b-98cd-f36df22d042b}</Project>
       <Name>TagLib.Sharp</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <SDKReference Include="WindowsDesktop, Version=10.0.17134.0">
+      <Name>Windows Desktop Extensions for the UWP</Name>
+    </SDKReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

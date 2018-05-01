@@ -40,7 +40,7 @@ namespace Aurora.Music.Core.Tools
                         var s = await ApplicationData.Current.TemporaryFolder.TryGetItemAsync(fileName);
                         if (s == null)
                         {
-                            StorageFile cacheImg = await ApplicationData.Current.TemporaryFolder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
+                            var cacheImg = await ApplicationData.Current.TemporaryFolder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
                             await FileIO.WriteBytesAsync(cacheImg, pictures[0].Data.Data);
                             return cacheImg.Path;
                         }

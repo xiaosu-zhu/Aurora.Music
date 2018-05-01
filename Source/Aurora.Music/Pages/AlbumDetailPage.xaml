@@ -119,15 +119,15 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <toolkit:WrapPanel HorizontalSpacing="8" VerticalSpacing="8" x:Name="Details" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
                     <TextBlock Style="{ThemeResource BodyTextBlockStyle}">
                         <Run FontSize="13" FontFamily="Segoe MDL2 Assets" Text="&#xE77B;" />
-                        <Run Text="{x:Bind Context.Album.GetFormattedArtists(),Mode=OneWay,TargetNullValue=Loading,FallbackValue=Loading}"/>
+                        <Run Text="{x:Bind Context.Album.GetFormattedArtists(),Mode=OneWay,TargetNullValue='Loading',FallbackValue='Loading'}"/>
                     </TextBlock>
                     <TextBlock Style="{ThemeResource BodyTextBlockStyle}">
                         <Run FontSize="13" FontFamily="Segoe MDL2 Assets" Text="&#xE93C;" />
-                        <Run Text="{x:Bind Context.SongsCount(Context.Album),Mode=OneWay,TargetNullValue=Loading,FallbackValue=Loading}"/>
+                        <Run Text="{x:Bind Context.SongsCount(Context.Album),Mode=OneWay,TargetNullValue='Loading',FallbackValue='Loading'}"/>
                     </TextBlock>
                     <TextBlock Style="{ThemeResource BodyTextBlockStyle}">
                         <Run FontSize="13" FontFamily="Segoe MDL2 Assets" Text="&#xEC26;" />
-                        <Run Text="{x:Bind Context.GenresToString(Context.Album),Mode=OneWay,TargetNullValue=Loading,FallbackValue=Loading}"/>
+                        <Run Text="{x:Bind Context.GenresToString(Context.Album),Mode=OneWay,TargetNullValue='Loading',FallbackValue='Loading'}"/>
                     </TextBlock>
                     <Button Style="{ThemeResource TextBlockButtonStyle}" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <TextBlock>

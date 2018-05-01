@@ -19,11 +19,13 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
+using Windows.ApplicationModel.UserActivities;
 using Windows.Foundation.Collections;
 using Windows.Media.Playback;
 using Windows.Storage;
 using Windows.System;
 using Windows.System.Threading;
+using Windows.UI.Shell;
 using Windows.UI.Text;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -707,6 +709,8 @@ namespace Aurora.Music.ViewModels
 
         public ObservableCollection<GenericMusicItemViewModel> SearchItems { get; set; } = new ObservableCollection<GenericMusicItemViewModel>();
         private bool sVisualizing;
+        private object _currentActivity;
+
         public bool IsVisualizing
         {
             get => sVisualizing; set
@@ -1041,6 +1045,7 @@ namespace Aurora.Music.ViewModels
                     {
                         Core.Tools.Tile.SendNormal(CurrentTitle, CurrentAlbum, string.Join(Consts.CommaSeparator, p.Performers ?? new string[] { }), p.PicturePath);
                     });
+
                 }
                 if (e.Items is IReadOnlyList<Song> l)
                 {
@@ -1057,6 +1062,7 @@ namespace Aurora.Music.ViewModels
                 if (e.CurrentIndex < NowPlayingList.Count)
                 {
                     CurrentIndex = e.CurrentIndex;
+
                 }
                 if (MainPage.Current.IsCurrentDouban)
                 {
@@ -1066,7 +1072,7 @@ namespace Aurora.Music.ViewModels
                 {
                     NeedShowPanel = true;
                 }
-                Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().Title = CurrentPlayingDesc();
+                ApplicationView.GetForCurrentView().Title = CurrentPlayingDesc();
             });
         }
 
@@ -1074,8 +1080,71 @@ namespace Aurora.Music.ViewModels
         {
             if (!NowPlayingList.IsNullorEmpty())
             {
-                var status = new PlayerStatus(NowPlayingList.Select(s => s.Song), CurrentIndex, CurrentPosition);
-                await status.SaveAsync();
+                var songs = NowPlayingList.Select(s => s.Song).ToList();
+                if (NowPlayingList.Count > currentIndex)
+                {
+                    var status = new PlayerStatus(songs, currentIndex, currentPosition);
+                    await status.SaveAsync();
+
+                    if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.Shell.AdaptiveCardBuilder"))
+                    {
+                        var last = NowPlayingList.Count - 1 <= currentIndex;
+
+                        string img0, img1;
+
+                        if (!NowPlayingList[currentIndex].IsOnline)
+                        {
+                            if (NowPlayingList[currentIndex].Song.PicturePath.IsNullorEmpty())
+                            {
+                                img0 = Consts.BlackPlaceholder;
+                            }
+                            else
+                            {
+                                img0 = $"ms-appdata:///temp/{NowPlayingList[currentIndex].Artwork.AbsoluteUri.Split('/').Last()}";
+                            }
+                        }
+                        else
+                        {
+                            img0 = NowPlayingList[currentIndex].Artwork.AbsoluteUri;
+                        }
+
+                        if (last)
+                        {
+                            img1 = img0;
+                        }
+                        else
+                        {
+                            if (!NowPlayingList[currentIndex + 1].IsOnline)
+                            {
+                                if (NowPlayingList[currentIndex + 1].Song.PicturePath.IsNullorEmpty())
+                                {
+                                    img1 = Consts.BlackPlaceholder;
+                                }
+                                else
+                                {
+                                    img1 = $"ms-appdata:///temp/{NowPlayingList[currentIndex + 1].Artwork.AbsoluteUri.Split('/').Last()}";
+                                }
+                            }
+                            else
+                            {
+                                img1 = NowPlayingList[currentIndex + 1].Artwork.AbsoluteUri;
+                            }
+                        }
+
+                        var json = await Core.Tools.TimelineCard.AuthorAsync(currentTitle, currentAlbum, currentArtist, img0, img1, NowPlayingList.Count);
+                        var activity = UserActivityChannel.GetDefault();
+                        var act = await activity.GetOrCreateUserActivityAsync("asmusic");
+                        act.ActivationUri = new Uri("as-music:///?action=last-play");
+                        act.VisualElements.Content = AdaptiveCardBuilder.CreateAdaptiveCardFromJson(json);
+                        act.VisualElements.DisplayText = Consts.Localizer.GetString("AppNameText");
+                        act.VisualElements.Description = "Last played in Aurora Music";
+                        await act.SaveAsync();
+                        //Dispose of any current UserActivitySession, and create a new one.
+                        (_currentActivity as UserActivitySession)?.Dispose();
+                        _currentActivity = act.CreateSession();
+                    }
+
+                }
             }
         }
 
