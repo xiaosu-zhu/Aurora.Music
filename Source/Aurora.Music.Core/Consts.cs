@@ -4,7 +4,6 @@
 using Aurora.Shared.Helpers;
 using System;
 using Windows.ApplicationModel.Resources;
-using Windows.Foundation.Metadata;
 using Windows.Storage;
 
 namespace Aurora.Music.Core
@@ -58,7 +57,7 @@ namespace Aurora.Music.Core
 
         public static string UpdateNote =>
                             "## **[Windows Developer Awards](https://developer.microsoft.com/en-us/windows/projects/events/build/2018/awards)**\r\n---\r\n"+
-                            "* **Experimental**: Added support for Onedrive File On-Demand (Settings - Advance).";
+                            "* **New**: Added Windows Timeline support(experimental, with Spring 2018 Update).";
 
         public static string UpdateNoteTitle => localizer.GetString("UpdateNoteTitle");
 
