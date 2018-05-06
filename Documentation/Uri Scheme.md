@@ -1,37 +1,53 @@
 # This doc introduces how to activate Aurora Music with Uri.
 
-## <a href="as-music:" data-linktype="external">as-music:</a>
+## `as-music:`
 
 To launch main app.
 
-## <a href="as-music:///home" data-linktype="external">as-music:///home</a>
+## `as-music:///home`
 
 To launch HomePage. Similarly,
 
-* <a href="as-music:///library" data-linktype="external">as-music:///library</a>
-* <a href="as-music:///settings" data-linktype="external">as-music:///settings</a>
-* <a href="as-music:///douban" data-linktype="external">as-music:///douban</a>
-* <a href="as-music:///download" data-linktype="external">as-music:///download</a>
-* <a href="as-music:///about" data-linktype="external">as-music:///about</a>
+* `as-music:///library`
+* `as-music:///settings`
+* `as-music:///douban`
+* `as-music:///download`
+* `as-music:///about`
 
 to navigate to specific pages.
 
-## <a href="as-music:///library/songs" data-linktype="external">as-music:///library/songs</a>
+## `as-music:///library/songs`
 
 To go to the Songs page. Similarly,
 
-* <a href="as-music:///library/albums" data-linktype="external">as-music:///library/albums</a>
-* <a href="as-music:///library/artists" data-linktype="external">as-music:///library/artists</a>
-* <a href="as-music:///library/playlist" data-linktype="external">as-music:///library/playlist</a>
+* `as-music:///library/albums`
+* `as-music:///library/artists`
+* `as-music:///library/playlist`
 
 to go to specific pages.
 
-* <a href="as-music:///library/podcast" data-linktype="external">as-music:///library/podcast</a>
+* `as-music:///library/podcast`
 
 can go to the first subscribed podcast, and
 
-* <a href="as-music:///library/podcast/id/{0}" data-linktype="external">as-music:///library/podcast/id/{0}</a>
+* `as-music:///library/podcast/id/{0}`
 
 can go to the subscribed podcast with specific id (database).
 
 
+## Query Strings
+
+For example: `as-music:///?action=last-play` let the player play last tracks directly.
+
+you can also use it with other segments, such as `as-music:///library/podcast/id/{0}?action=play` to play a podcast directly(not support yet).
+
+| key | value | description
+| --- | --- | --- |
+| `action` | `last-play` | play the last played tracks |
+|   | `play` | not support yet |
+|   | `pause` | not support yet |
+|   | `loop` | <!-- toggle loop /-->not support yet |
+|   | `shuffle` | <!-- toggle shuffle /-->not support yet |
+|   | `mute` | <!-- toggle mute /-->not support yet |
+|   | `search` | <!-- focus the search box /-->not support yet |
+| `q` | string | <!-- following with action=search, the searching text /-->not support yet |
