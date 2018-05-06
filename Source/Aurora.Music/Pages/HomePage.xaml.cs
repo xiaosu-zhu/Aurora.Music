@@ -234,5 +234,10 @@ namespace Aurora.Music.Pages
         {
             Context.Unload();
         }
+
+        private void HeroPanel_PointerReleased(object sender, PointerRoutedEventArgs e)
+        {
+
+        }
     }
 }

@@ -297,7 +297,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <Grid x:Name="HeaderGroup" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="32,32,32,12">
+        <Grid x:Name="HeaderGroup" PointerReleased="HeaderGroup_PointerReleased" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="32,32,32,12">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="*"/>

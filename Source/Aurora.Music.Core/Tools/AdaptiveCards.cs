@@ -8,7 +8,7 @@ namespace Aurora.Music.Core.Tools
         public async static Task<string> AuthorAsync(string title, string album, string performers, string img0, string img1, int count)
         {
 
-            // TODO: Notice that image url must not be ms-appdata:/// or file://, how to show local files in timeline?
+            // TODO: Notice that image url must be web content, not any ms-appdata:/// or file://, so how to show local images in timeline?
 
             var jsonText = await FileIOHelper.ReadStringFromAssetsAsync("Timeline.json");
             var desc0 = string.Format(Consts.Localizer.GetString("TileDesc"), album, performers);

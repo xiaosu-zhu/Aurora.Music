@@ -255,5 +255,10 @@ namespace Aurora.Music.Pages
         {
             MainPage.Current.IsInAppDrag = false;
         }
+
+        private async void HeaderGroup_PointerReleased(object sender, PointerRoutedEventArgs e)
+        {
+            await AlbumList.ScrollToIndex(0, ScrollPosition.Top);
+        }
     }
 }

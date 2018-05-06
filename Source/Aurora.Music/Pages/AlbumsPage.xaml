@@ -77,7 +77,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <StackPanel Orientation="Vertical" x:Name="HeaderGroup" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="32,32,32,12">
+        <StackPanel PointerReleased="HeaderGroup_PointerReleased" Orientation="Vertical" x:Name="HeaderGroup" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="32,32,32,12">
             <Border x:Name="Title" Height="48" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <TextBlock x:Uid="Albums" Text="Albums" TextTrimming="Clip" FontWeight="Bold" 
                        HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="NoWrap" MaxLines="1" 

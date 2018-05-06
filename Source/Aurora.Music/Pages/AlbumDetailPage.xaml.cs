@@ -224,5 +224,10 @@ namespace Aurora.Music.Pages
         {
             await Context.PlayAt(e.ClickedItem as SongViewModel);
         }
+
+        private async void HeaderGroup_PointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            await SongList.ScrollToIndex(0, ScrollPosition.Top);
+        }
     }
 }

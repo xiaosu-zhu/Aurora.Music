@@ -141,5 +141,10 @@ namespace Aurora.Music.Pages
         {
             MainPage.Current.SongFlyout.Hide();
         }
+
+        private async void HeaderGroup_PointerReleased(object sender, PointerRoutedEventArgs e)
+        {
+            await ArtistList.ScrollToIndex(0, ScrollPosition.Top);
+        }
     }
 }

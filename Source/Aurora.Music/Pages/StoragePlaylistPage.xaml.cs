@@ -4,6 +4,7 @@
 using Aurora.Music.Core;
 using Aurora.Music.ViewModels;
 using Aurora.Shared.Extensions;
+using Aurora.Shared.Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -234,6 +235,11 @@ namespace Aurora.Music.Pages
         {
             var s = AlbumList.SelectedItems.Select(a => (a as SongViewModel)).ToList();
             MainPage.Current.Share(s);
+        }
+
+        private async void HeaderGroup_PointerReleased(object sender, PointerRoutedEventArgs e)
+        {
+            await AlbumList.ScrollToIndex(0, ScrollPosition.Top);
         }
     }
 }
