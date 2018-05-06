@@ -336,28 +336,92 @@ namespace Aurora.Music
 
                     // 确保当前窗口处于活动状态
                     Window.Current.Activate();
+                }
 
 
-
-                    var querys = System.Web.HttpUtility.ParseQueryString(uri.Query);
-                    if (querys["action"] != null)
+                var querys = System.Web.HttpUtility.ParseQueryString(uri.Query);
+                if (querys["action"] != null)
+                {
+                    switch (querys["action"])
                     {
-                        switch (querys["action"])
-                        {
-                            case "last-play":
-                                var playerStatus = await PlayerStatus.LoadAsync();
-                                if (playerStatus != null && playerStatus.Songs != null)
+                        case "last-play":
+                            var playerStatus = await PlayerStatus.LoadAsync();
+                            if (playerStatus != null && playerStatus.Songs != null)
+                            {
+                                if (MainPageViewModel.Current != null)
                                 {
-                                    if (MainPageViewModel.Current != null)
+                                    await MainPageViewModel.Current.InstantPlay(playerStatus.Songs, playerStatus.Index);
+                                    PlaybackEngine.PlaybackEngine.Current.Seek(playerStatus.Position);
+                                }
+                            }
+                            break;
+                        case "play":
+                            if (PlaybackEngine.PlaybackEngine.Current != null)
+                            {
+                                PlaybackEngine.PlaybackEngine.Current.Play();
+                            }
+                            break;
+                        case "pause":
+                            if (PlaybackEngine.PlaybackEngine.Current != null)
+                            {
+                                PlaybackEngine.PlaybackEngine.Current.Pause();
+                            }
+                            break;
+                        case "loop":
+                            if (PlaybackEngine.PlaybackEngine.Current != null)
+                            {
+                                if (MainPageViewModel.Current != null)
+                                {
+                                    PlaybackEngine.PlaybackEngine.Current.Loop(!MainPageViewModel.Current.IsLoop);
+                                }
+                                else
+                                {
+                                    PlaybackEngine.PlaybackEngine.Current.Loop(true);
+                                }
+                            }
+                            break;
+                        case "shuffle":
+                            if (PlaybackEngine.PlaybackEngine.Current != null)
+                            {
+                                if (MainPageViewModel.Current != null)
+                                {
+                                    PlaybackEngine.PlaybackEngine.Current.Shuffle(!MainPageViewModel.Current.IsShuffle);
+                                }
+                                else
+                                {
+                                    PlaybackEngine.PlaybackEngine.Current.Shuffle(true);
+                                }
+                            }
+                            break;
+                        case "mute":
+                            if (PlaybackEngine.PlaybackEngine.Current != null)
+                            {
+                                PlaybackEngine.PlaybackEngine.Current.ChangeVolume(0);
+                            }
+                            break;
+                        case "volume":
+                            if (querys["value"] != null)
+                            {
+                                if (int.TryParse(querys["value"], out var vol))
+                                {
+                                    if (vol <= 100 && vol >= 0)
                                     {
-                                        await MainPageViewModel.Current.InstantPlay(playerStatus.Songs, playerStatus.Index);
-                                        PlaybackEngine.PlaybackEngine.Current.Seek(playerStatus.Position);
+                                        PlaybackEngine.PlaybackEngine.Current.ChangeVolume(vol);
                                     }
                                 }
-                                break;
-                            default:
-                                break;
-                        }
+                            }
+                            break;
+                        case "seek":
+                            if (querys["value"] != null)
+                            {
+                                if (TimeSpan.TryParseExact(querys["value"], @"m\:ss\.fff", null, out var time))
+                                {
+                                    PlaybackEngine.PlaybackEngine.Current.Seek(time);
+                                }
+                            }
+                            break;
+                        default:
+                            break;
                     }
                 }
             }
