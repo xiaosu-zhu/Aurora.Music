@@ -44,10 +44,12 @@ you can also use it with other segments, such as `as-music:///library/podcast/id
 | key | value | description
 | --- | --- | --- |
 | `action` | `last-play` | play the last played tracks |
-|   | `play` | not support yet |
-|   | `pause` | not support yet |
-|   | `loop` | <!-- toggle loop /-->not support yet |
-|   | `shuffle` | <!-- toggle shuffle /-->not support yet |
-|   | `mute` | <!-- toggle mute /-->not support yet |
+|   | `play` | start playing |
+|   | `pause` | pause |
+|   | `seek` | seek to a specific time, must have `value`, format: `m:ss.fff` |
+|   | `volume` | set volume, must have `value`(0~100) |
+|   | `loop` | toggle loop |
+|   | `shuffle` | toggle shuffle |
+|   | `mute` | set volume to 0 |
 |   | `search` | <!-- focus the search box /-->not support yet |
-| `q` | string | <!-- following with action=search, the searching text /-->not support yet |
+| `value` | additional value with `seek`, `volume` and `search` |
