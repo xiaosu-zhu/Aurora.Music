@@ -57,7 +57,7 @@ namespace Aurora.Music.Core
 
         public static string UpdateNote =>
                             "## **[Windows Developer Awards](https://developer.microsoft.com/en-us/windows/projects/events/build/2018/awards)**\r\n---\r\n"+
-                            "* **New**: Added Windows Timeline support(experimental, with Spring 2018 Update).";
+                            "* **New**: To quickly go to top, now you can just tap the header.";
 
         public static string UpdateNoteTitle => localizer.GetString("UpdateNoteTitle");
 

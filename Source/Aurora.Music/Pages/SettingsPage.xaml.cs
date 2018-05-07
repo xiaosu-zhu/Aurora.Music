@@ -147,7 +147,7 @@ namespace Aurora.Music.Pages
             Main.SizeChanged -= SettingsPage_SizeChanged;
         }
 
-        private async void Context_InitComplete(object sender, EventArgs e)
+        private void Context_InitComplete(object sender, EventArgs e)
         {
             // PivotItem loaded with latency, only when Pivot move to its neighbor, these controls start to load, and Items become sync with DataContext
 #pragma warning disable CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
