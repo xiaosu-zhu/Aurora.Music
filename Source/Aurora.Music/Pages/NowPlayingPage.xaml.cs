@@ -41,7 +41,7 @@ namespace Aurora.Music.Pages
 
         public NowPlayingPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             Current = this;
             Context.SongChanged += Context_SongChanged;
         }

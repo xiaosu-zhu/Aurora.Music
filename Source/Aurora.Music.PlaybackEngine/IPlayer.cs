@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.Media.Playback;
 using Windows.Storage;
+using Windows.Storage.Streams;
 
 namespace Aurora.Music.PlaybackEngine
 {
@@ -63,6 +64,8 @@ namespace Aurora.Music.PlaybackEngine
         public Song CurrentSong { get; set; }
         public bool IsLoop { get; set; }
         public bool IsShuffle { get; set; }
+
+        public RandomAccessStreamReference Thumnail { get; set; }
 
         public int CurrentIndex { get; set; }
         public IReadOnlyList<Song> Items { get; internal set; }

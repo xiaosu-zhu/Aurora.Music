@@ -67,21 +67,21 @@ namespace Aurora.Music.Pages
         {
             Context.ChangeOnlineExt((sender as ComboBox).SelectedItem);
 
-            await MainPageViewModel.Current.ReloadExtensions();
+            await MainPageViewModel.Current.ReloadExtensionsAsync();
         }
 
         private async void LyricCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Context.ChangeLyricExt((sender as ComboBox).SelectedItem);
 
-            await MainPageViewModel.Current.ReloadExtensions();
+            await MainPageViewModel.Current.ReloadExtensionsAsync();
         }
 
         private async void MetaCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Context.ChangeMetaExt((sender as ComboBox).SelectedItem);
 
-            await MainPageViewModel.Current.ReloadExtensions();
+            await MainPageViewModel.Current.ReloadExtensionsAsync();
         }
 
         private void Main_Loaded(object sender, RoutedEventArgs e)

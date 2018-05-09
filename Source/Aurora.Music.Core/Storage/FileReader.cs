@@ -57,7 +57,7 @@ namespace Aurora.Music.Core.Storage
             return songs.ConvertAll(x => new Song(x));
         }
 
-        public static async Task PlayStaticAdd(int id, int targetType, int addAmount)
+        public static async Task PlayStaticAddAsync(int id, int targetType, int addAmount)
         {
             var opr = SQLOperator.Current();
             if (targetType == 0)
@@ -171,7 +171,7 @@ namespace Aurora.Music.Core.Storage
             return list;
         }
 
-        public static async Task Read(IList<StorageFolder> folder, IList<string> filterdFolderNames)
+        public static async Task ReadAsync(IList<StorageFolder> folder, IList<string> filterdFolderNames)
         {
             var list = new List<StorageFile>();
             int i = 1;
@@ -199,10 +199,10 @@ namespace Aurora.Music.Core.Storage
             await Task.Delay(200);
             ProgressUpdated?.Invoke(null, new ProgressReport() { Description = Consts.Localizer.GetString("FolderScanFinishText"), Current = i, Total = folder.Count });
             await Task.Delay(200);
-            await ReadFileandSave(from a in list group a by a.Path into b select b.First());
+            await ReadFileandSaveAsync(from a in list group a by a.Path into b select b.First());
         }
 
-        public static async Task ReadFileandSave(IEnumerable<StorageFile> files)
+        public static async Task ReadFileandSaveAsync(IEnumerable<StorageFile> files)
         {
             var opr = SQLOperator.Current();
             var total = files.Count();
@@ -228,11 +228,12 @@ namespace Aurora.Music.Core.Storage
                             var oneDriveFile = await OneDrivePropertyProvider.GetOneDriveFilesAsync(file.Path);
                             var properties = oneDriveFile.OneDriveItem;
                             var audioProp = properties.Audio;
+                            var basic = properties.LastModifiedDateTime ?? DateTimeOffset.MinValue;
                             if (durationFilter && audioProp.Duration < duration)
                                 continue;
                             var artist = audioProp?.Artist is null ? null : new[] { audioProp.Artist };
                             var composers = audioProp?.Composers is null ? null : new[] { audioProp.Composers };
-                            var song = await Song.Create(null, file.Path, (audioProp?.Title, audioProp?.Album, artist, artist, composers, null, TimeSpan.FromMilliseconds(audioProp?.Duration ?? 0), (uint)(audioProp?.Bitrate * 1000 ?? 0), 0), null, oneDriveFile);
+                            var song = await Song.CreateAsync(null, file.Path, (audioProp?.Title, audioProp?.Album, artist, artist, composers, null, TimeSpan.FromMilliseconds(audioProp?.Duration ?? 0), (uint)(audioProp?.Bitrate * 1000 ?? 0), 0, basic.DateTime), null, oneDriveFile);
                             var t = await opr.InsertSongAsync(song);
                             if (t != null)
                             {
@@ -258,7 +259,7 @@ namespace Aurora.Music.Core.Storage
                             if (durationFilter && d.Milliseconds < duration)
                                 continue;
 
-                            var song = await Song.Create(tagTemp.Tag, file.Path, await file.GetViolatePropertiesAsync(), tagTemp.Properties, null);
+                            var song = await Song.CreateAsync(tagTemp.Tag, file.Path, await file.GetViolatePropertiesAsync(), tagTemp.Properties, null);
                             var t = await opr.InsertSongAsync(song);
                             if (t != null)
                             {
@@ -280,17 +281,17 @@ namespace Aurora.Music.Core.Storage
                 }
             }
 
-            await RemoveDuplicate();
+            await RemoveDuplicateAsync();
 
-            await SortAlbums();
+            await SortAlbumsAsync();
             Completed?.Invoke(null, EventArgs.Empty);
         }
 
-        private static async Task RemoveDuplicate()
+        private static async Task RemoveDuplicateAsync()
         {
             var opr = SQLOperator.Current();
             var songs = await opr.GetAllAsync<SONG>();
-            List<SONG> duplicates = new List<SONG>();
+            var duplicates = new List<SONG>();
             for (int i = 0; i < songs.Count; i++)
             {
                 for (int j = i + 1; j < songs.Count; j++)
@@ -318,7 +319,7 @@ namespace Aurora.Music.Core.Storage
             return songs.ConvertAll(a => new Song(a));
         }
 
-        public async static Task SortAlbums()
+        public async static Task SortAlbumsAsync()
         {
             await Task.Run(async () =>
             {
@@ -342,7 +343,7 @@ namespace Aurora.Music.Core.Storage
             });
         }
 
-        public static async Task<List<GenericMusicItem>> Search(string text)
+        public static async Task<List<GenericMusicItem>> SearchAsync(string text)
         {
             var opr = SQLOperator.Current();
             text = SQLOperator.SQLEscaping_LIKE(text);
@@ -356,15 +357,15 @@ namespace Aurora.Music.Core.Storage
             return l;
         }
 
-        public static async Task<IList<Song>> ReadFileandSendBack(List<StorageFile> files)
+        public static async Task<IList<Song>> ReadFileandSendBackAsync(List<StorageFile> files)
         {
-            List<Song> tempList = new List<Song>();
+            var tempList = new List<Song>();
             var total = files.Count;
             foreach (var file in files)
             {
                 using (var tagTemp = File.Create(file))
                 {
-                    tempList.Add(await Song.Create(tagTemp.Tag, file.Path, await file.GetViolatePropertiesAsync(), tagTemp.Properties, null));
+                    tempList.Add(await Song.CreateAsync(tagTemp.Tag, file.Path, await file.GetViolatePropertiesAsync(), tagTemp.Properties, null));
                 }
             }
             var result = from song in tempList orderby song.Track orderby song.Disc group song by song.Album;
@@ -380,14 +381,15 @@ namespace Aurora.Music.Core.Storage
         {
             using (var tagTemp = File.Create(file))
             {
-                return await Create(tagTemp.Tag, file.Path, await file.GetViolatePropertiesAsync(), tagTemp.Properties);
+                return await CreateAsync(tagTemp.Tag, file.Path, await file.GetViolatePropertiesAsync(), tagTemp.Properties);
             }
         }
 
         static readonly string[] violateProperties = new string[] { "System.Music.AlbumArtist", "System.Music.Artist" };
 
-        public static async Task<(string title, string album, string[] performer, string[] artist, string[] composer, string conductor, TimeSpan duration, uint bitrate, uint rating)> GetViolatePropertiesAsync(this StorageFile file)
+        public static async Task<(string title, string album, string[] performer, string[] artist, string[] composer, string conductor, TimeSpan duration, uint bitrate, uint rating, DateTime lastModify)> GetViolatePropertiesAsync(this StorageFile file)
         {
+            var basic = await file.GetBasicPropertiesAsync();
             var music = await file.Properties.GetMusicPropertiesAsync();
             var properties = await file.Properties.RetrievePropertiesAsync(violateProperties);
             string[] performer, artist;
@@ -413,13 +415,14 @@ namespace Aurora.Music.Core.Storage
             {
                 artist = null;
             }
-            return (music.Title, music.Album, performer, artist, music.Composers.ToArray(), music.Conductors.FirstOrDefault(), music.Duration, music.Bitrate, music.Rating);
+            return (music.Title, music.Album, performer, artist, music.Composers.ToArray(), music.Conductors.FirstOrDefault(), music.Duration, music.Bitrate, music.Rating, basic.DateModified.DateTime);
         }
 
-        private static async Task<Song> Create(Tag tag, string path, (string title, string album, string[] performer, string[] artist, string[] composer, string conductor, TimeSpan duration, uint bitrate, uint rating) music, Properties p)
+        private static async Task<Song> CreateAsync(Tag tag, string path, (string title, string album, string[] performer, string[] artist, string[] composer, string conductor, TimeSpan duration, uint bitrate, uint rating, DateTime lastModify) music, Properties p)
         {
             var song = new Song
             {
+                LastModified = music.lastModify,
                 Duration = music.duration.TotalMilliseconds < 1 ? p.Duration : music.duration,
                 BitRate = music.bitrate,
                 FilePath = path,

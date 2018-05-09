@@ -55,7 +55,7 @@ namespace Aurora.Music.ViewModels
                     {
                         list.AddRange(item.Select(a => a.Song));
                     }
-                    await MainPageViewModel.Current.InstantPlay(list);
+                    await MainPageViewModel.Current.InstantPlayAsync(list);
                 });
             }
         }
@@ -142,7 +142,7 @@ namespace Aurora.Music.ViewModels
         internal async Task PlayAlbumAsync(AlbumViewModel album)
         {
             var songs = await album.GetSongsAsync();
-            await MainPageViewModel.Current.InstantPlay(songs);
+            await MainPageViewModel.Current.InstantPlayAsync(songs);
         }
 
         internal async void ChangeSort(int selectedIndex)
@@ -216,7 +216,7 @@ namespace Aurora.Music.ViewModels
             {
                 list.AddRange(item.Select(a => a.Song));
             }
-            await MainPageViewModel.Current.InstantPlay(list, list.FindIndex(x => x.ID == songViewModel.ID));
+            await MainPageViewModel.Current.InstantPlayAsync(list, list.FindIndex(x => x.ID == songViewModel.ID));
         }
 
 

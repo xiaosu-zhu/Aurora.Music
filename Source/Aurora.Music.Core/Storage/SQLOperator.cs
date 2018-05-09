@@ -124,6 +124,7 @@ namespace Aurora.Music.Core.Storage
 
         public SONG(Song song)
         {
+            LastModified = song.LastModified;
             IsOneDrive = song.IsOnedrive;
             ID = song.ID;
             FilePath = song.FilePath;
@@ -170,6 +171,8 @@ namespace Aurora.Music.Core.Storage
             Year = song.Year;
             PicturePath = song.PicturePath;
         }
+
+        public DateTime LastModified { get; set; }
 
         public bool IsOneDrive { get; set; }
 

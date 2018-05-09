@@ -1,57 +1,62 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
+using Aurora.Music.Core.Models;
 using Aurora.Shared.Extensions;
 using System;
 using System.IO;
-using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.Storage.Streams;
 
 namespace Aurora.Music.Core.Tools
 {
     public static class Helper
     {
-        public static async Task<string> GetBuiltInArtworkAsync(string id, string name, StorageFile file)
+        public static async Task<IRandomAccessStream> UpdateSongAsync(Song song, StorageFile file)
         {
-            if (id == "0")
-            {
-                id = CreateHash64(name).ToString();
-            }
-            var options = new Windows.Storage.Search.QueryOptions(Windows.Storage.Search.CommonFileQuery.DefaultQuery, new string[] { ".jpg", ".png", ".bmp" })
-            {
-                ApplicationSearchFilter = $"System.FileName:{id}.*"
-            };
 
-            var query = ApplicationData.Current.TemporaryFolder.CreateFileQueryWithOptions(options);
-            var files = await query.GetFilesAsync();
-            if (files.Count > 0)
+            using (var tag = TagLib.File.Create(file))
             {
-                return files[0].Path;
-            }
-            else
-            {
-                using (var tag = TagLib.File.Create(file))
+                await song.UpdateAsync(tag.Tag, tag.Properties, file);
+
+                var pictures = tag.Tag.Pictures;
+                if (!pictures.IsNullorEmpty())
                 {
-                    var pictures = tag.Tag.Pictures;
-                    if (!pictures.IsNullorEmpty())
+                    // Is this right?
+                    var randomAccessStream = new InMemoryRandomAccessStream();
+                    await randomAccessStream.WriteAsync(pictures[0].Data.Data.AsBuffer());
+                    randomAccessStream.Seek(0);
+                    return randomAccessStream;
+                }
+                else
+                {
+                    // Find if there is a Cover.jpg / Cover.png
+                    try
                     {
-                        var fileName = $"{id}.{pictures[0].MimeType.Split('/').LastOrDefault().Replace("jpeg", "jpg")}";
-                        var s = await ApplicationData.Current.TemporaryFolder.TryGetItemAsync(fileName);
-                        if (s == null)
+                        var folder = await StorageFolder.GetFolderFromPathAsync(Path.GetDirectoryName(file.Path));
+                        var result = folder.CreateFileQueryWithOptions(new Windows.Storage.Search.QueryOptions()
                         {
-                            var cacheImg = await ApplicationData.Current.TemporaryFolder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
-                            await FileIO.WriteBytesAsync(cacheImg, pictures[0].Data.Data);
-                            return cacheImg.Path;
+                            FolderDepth = Windows.Storage.Search.FolderDepth.Shallow,
+                            ApplicationSearchFilter = "System.FileName:\"cover\" System.FileExtension:=(\".jpg\" OR \".png\" OR \".jpeg\" OR \".gif\" OR \".tiff\" OR \".bmp\")"
+                        });
+                        var files = await result.GetFilesAsync();
+                        if (files.Count > 0)
+                        {
+                            using (var stream = await files[0].OpenStreamForReadAsync())
+                            {
+                                return stream.AsRandomAccessStream();
+                            }
                         }
                         else
                         {
-                            return s.Path;
+                            return null;
                         }
                     }
-                    else
+                    catch
                     {
-                        return string.Empty;
+                        return null;
                     }
                 }
             }

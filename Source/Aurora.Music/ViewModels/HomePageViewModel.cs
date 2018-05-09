@@ -59,7 +59,7 @@ namespace Aurora.Music.ViewModels
                 {
                     list.AddRange(await item.GetSongsAsync());
                 }
-                await MainPageViewModel.Current.InstantPlay(list);
+                await MainPageViewModel.Current.InstantPlayAsync(list);
             });
         }
 
@@ -72,7 +72,7 @@ namespace Aurora.Music.ViewModels
                 {
                     list.AddRange(await item.GetSongsAsync());
                 }
-                await MainPageViewModel.Current.InstantPlay(list);
+                await MainPageViewModel.Current.InstantPlayAsync(list);
             });
         }
 
@@ -319,7 +319,7 @@ namespace Aurora.Music.ViewModels
 
         internal async Task RestorePlayerStatus()
         {
-            await MainPageViewModel.Current.InstantPlay(playerStatus.Songs, playerStatus.Index);
+            await MainPageViewModel.Current.InstantPlayAsync(playerStatus.Songs, playerStatus.Index);
             PlaybackEngine.PlaybackEngine.Current.Seek(playerStatus.Position);
         }
     }

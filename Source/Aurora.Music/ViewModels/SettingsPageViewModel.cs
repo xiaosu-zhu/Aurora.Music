@@ -670,7 +670,7 @@ namespace Aurora.Music.ViewModels
                     break;
             }
             MainPage.Current.ShowModalUI(false);
-            await MainPageViewModel.Current.ReloadExtensions();
+            await MainPageViewModel.Current.ReloadExtensionsAsync();
         }
 
         public ObservableCollection<ExtensionViewModel> LyricExts { get; set; } = new ObservableCollection<ExtensionViewModel>();
@@ -947,7 +947,7 @@ namespace Aurora.Music.ViewModels
                         });
                         Settings.Current.OnlinePurchase = product.IsInUserCollection;
                         Settings.Current.Save();
-                        await MainPageViewModel.Current.ReloadExtensions();
+                        await MainPageViewModel.Current.ReloadExtensionsAsync();
                     }
                 }
             });

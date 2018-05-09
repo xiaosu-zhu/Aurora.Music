@@ -332,7 +332,7 @@ namespace Aurora.Music.Pages
             {
                 var t = Task.Run(async () =>
                 {
-                    await MainPageViewModel.Current.FilesChanged();
+                    await MainPageViewModel.Current.FilesChangedAsync();
                 });
             }
         }

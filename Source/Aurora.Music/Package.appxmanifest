@@ -32,6 +32,15 @@
         </uap:InitialRotationPreference>
       </uap:VisualElements>
       <Extensions>
+        <uap3:Extension Category="windows.appExtension">
+          <uap3:AppExtension Name="Aurora.Music.Extensions" Id="BuiltIn" PublicFolder="Public" DisplayName="ms-resource:NativeText" Description="ms-resource:BuiltInText">
+            <uap3:Properties>
+              <Service>Aurora.Music.Services</Service>
+              <Category>Lyric;OnlineMusic;OnlineMeta</Category>
+              <LaunchUri>as-music:///settings/extension</LaunchUri>
+            </uap3:Properties>
+          </uap3:AppExtension>
+        </uap3:Extension>
         <Extension Category="windows.backgroundTasks" EntryPoint="Aurora.Music.Services.PodcastsFetcher">
           <BackgroundTasks>
             <Task Type="timer" />
@@ -85,15 +94,11 @@
             <Task Type="systemEvent" />
           </BackgroundTasks>
         </Extension>
-        <uap3:Extension Category="windows.appExtension">
-          <uap3:AppExtension Name="Aurora.Music.Extensions" Id="BuiltIn" PublicFolder="Public" DisplayName="ms-resource:NativeText" Description="ms-resource:BuiltInText">
-            <uap3:Properties>
-              <Service>Aurora.Music.Services</Service>
-              <Category>Lyric;OnlineMusic;OnlineMeta</Category>
-              <LaunchUri>as-music:///settings/extension</LaunchUri>
-            </uap3:Properties>
-          </uap3:AppExtension>
-        </uap3:Extension>
+        <Extension Category="windows.backgroundTasks" EntryPoint="Aurora.Music.Services.FileRetriever">
+          <BackgroundTasks>
+            <Task Type="timer" />
+          </BackgroundTasks>
+        </Extension>
       </Extensions>
     </Application>
   </Applications>

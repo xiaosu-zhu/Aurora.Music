@@ -62,7 +62,7 @@ namespace Aurora.Music.ViewModels
             {
                 return new DelegateCommand(async () =>
                 {
-                    await MainPageViewModel.Current.InstantPlay(await Album.GetSongsAsync());
+                    await MainPageViewModel.Current.InstantPlayAsync(await Album.GetSongsAsync());
                 });
             }
         }
@@ -139,7 +139,7 @@ namespace Aurora.Music.ViewModels
 
         internal async Task PlayAt(SongViewModel songViewModel)
         {
-            await MainPageViewModel.Current.InstantPlay(await Album.GetSongsAsync(), songList.IndexOf(songViewModel));
+            await MainPageViewModel.Current.InstantPlayAsync(await Album.GetSongsAsync(), songList.IndexOf(songViewModel));
         }
     }
 }

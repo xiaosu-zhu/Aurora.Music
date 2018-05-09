@@ -350,7 +350,7 @@ namespace Aurora.Music
                             {
                                 if (MainPageViewModel.Current != null)
                                 {
-                                    await MainPageViewModel.Current.InstantPlay(playerStatus.Songs, playerStatus.Index);
+                                    await MainPageViewModel.Current.InstantPlayAsync(playerStatus.Songs, playerStatus.Index);
                                     PlaybackEngine.PlaybackEngine.Current.Seek(playerStatus.Position);
                                 }
                             }

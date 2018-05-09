@@ -601,7 +601,7 @@ namespace Aurora.Music
             var text = sender.Text;
 
             text = text.Replace('\'', ' ');
-            await Context.Search(text, args);
+            await Context.SearchAsync(text, args);
         }
 
         private void PlayBtn_Click(object sender, RoutedEventArgs e)
@@ -709,7 +709,7 @@ namespace Aurora.Music
                 return;
             }
 
-            await Context.InstantPlay(list);
+            await Context.InstantPlayAsync(list);
 
 
             if (list.Count > 0)
@@ -919,16 +919,16 @@ namespace Aurora.Music
                 switch (s.Content)
                 {
                     case GenericMusicItemViewModel g:
-                        await Context.InstantPlay(await g.GetSongsAsync());
+                        await Context.InstantPlayAsync(await g.GetSongsAsync());
                         break;
                     case SongViewModel song:
-                        await Context.InstantPlay(new List<Song>() { song.Song });
+                        await Context.InstantPlayAsync(new List<Song>() { song.Song });
                         break;
                     case AlbumViewModel album:
-                        await Context.InstantPlay(await album.GetSongsAsync());
+                        await Context.InstantPlayAsync(await album.GetSongsAsync());
                         break;
                     case ArtistViewModel artist:
-                        await Context.InstantPlay(await artist.GetSongsAsync());
+                        await Context.InstantPlayAsync(await artist.GetSongsAsync());
                         break;
 
                     default:
@@ -943,16 +943,16 @@ namespace Aurora.Music
                 switch (s.Content)
                 {
                     case GenericMusicItemViewModel g:
-                        await Context.PlayNext(await g.GetSongsAsync());
+                        await Context.PlayNextAsync(await g.GetSongsAsync());
                         break;
                     case SongViewModel song:
-                        await Context.PlayNext(new List<Song>() { song.Song });
+                        await Context.PlayNextAsync(new List<Song>() { song.Song });
                         break;
                     case AlbumViewModel album:
-                        await Context.PlayNext(await album.GetSongsAsync());
+                        await Context.PlayNextAsync(await album.GetSongsAsync());
                         break;
                     case ArtistViewModel artist:
-                        await Context.PlayNext(await artist.GetSongsAsync());
+                        await Context.PlayNextAsync(await artist.GetSongsAsync());
                         break;
                     default:
                         break;

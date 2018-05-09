@@ -276,7 +276,7 @@ namespace Aurora.Music.ViewModels
             set
             {
                 SetProperty(ref fav, value);
-                Song.WriteFav(value);
+                Song.WriteFavAsync(value);
             }
         }
 

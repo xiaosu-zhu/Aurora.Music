@@ -21,31 +21,28 @@ namespace Aurora.Music.PlaybackEngine
 {
     public sealed class Player : IDisposable, IPlayer
     {
-        private MediaPlayer mediaPlayer;
         private MediaPlaybackList mediaPlaybackList;
 
         private DeviceInformation _autoDevice;
 
-        private object lockable = new object();
+        private readonly object lockable = new object();
         private int _songCountID;
         private IAsyncAction _addPlayListTask;
         private List<Song> currentList;
-
-        private bool? isPlaying;
         private bool newComing;
         private ThreadPoolTimer positionUpdateTimer;
 
-        public bool? IsPlaying { get => isPlaying; }
+        public bool? IsPlaying { get; private set; }
         private MediaPlaybackState _savedState;
         private TimeSpan _savedPosition;
         private uint _savedIndex;
 
-        public MediaPlayer MediaPlayer { get => mediaPlayer; }
+        public MediaPlayer MediaPlayer { get; private set; }
 
         public double PlaybackRate
         {
-            get => mediaPlayer.PlaybackSession.PlaybackRate;
-            set => mediaPlayer.PlaybackSession.PlaybackRate = value;
+            get => MediaPlayer.PlaybackSession.PlaybackRate;
+            set => MediaPlayer.PlaybackSession.PlaybackRate = value;
         }
 
 
@@ -58,24 +55,24 @@ namespace Aurora.Music.PlaybackEngine
 
         private List<Song> currentListBackup;
 
-        public double Volume => mediaPlayer.Volume;
+        public double Volume => MediaPlayer.Volume;
 
         public event EventHandler<PositionUpdatedArgs> PositionUpdated;
 
         public async void ChangeAudioEndPoint(string outputDeviceID)
         {
-            if (outputDeviceID.IsNullorEmpty() || outputDeviceID == mediaPlayer.AudioDevice?.Id)
+            if (outputDeviceID.IsNullorEmpty() || outputDeviceID == MediaPlayer.AudioDevice?.Id)
             {
                 return;
             }
             var outputDevice = await DeviceInformation.CreateFromIdAsync(outputDeviceID);
-            mediaPlayer.AudioDevice = outputDevice;
+            MediaPlayer.AudioDevice = outputDevice;
             Pause();
         }
 
         public void ChangeVolume(double value)
         {
-            mediaPlayer.Volume = value / 100d;
+            MediaPlayer.Volume = value / 100d;
         }
 
         public event EventHandler<DownloadProgressChangedArgs> DownloadProgressChanged;
@@ -90,34 +87,34 @@ namespace Aurora.Music.PlaybackEngine
 
             mediaPlaybackList = new MediaPlaybackList();
             mediaPlaybackList.CurrentItemChanged += MediaPlaybackList_CurrentItemChanged;
-            mediaPlayer.PlaybackSession.PlaybackStateChanged += PlaybackSession_PlaybackStateChanged;
+            MediaPlayer.PlaybackSession.PlaybackStateChanged += PlaybackSession_PlaybackStateChanged;
             //mediaPlayer.PlaybackSession.PositionChanged += PlaybackSession_PositionChangedAsync;
         }
 
         private void InitMediaPlayer()
         {
-            mediaPlayer = new MediaPlayer
+            MediaPlayer = new MediaPlayer
             {
                 AudioCategory = MediaPlayerAudioCategory.Media,
             };
             ChangeAudioEndPoint(Settings.Current.OutputDeviceID);
             ChangeVolume(Settings.Current.PlayerVolume);
 
-            _autoDevice = mediaPlayer.AudioDevice;
-            var type = mediaPlayer.AudioDeviceType;
-            var mgr = mediaPlayer.CommandManager;
+            _autoDevice = MediaPlayer.AudioDevice;
+            var type = MediaPlayer.AudioDeviceType;
+            var mgr = MediaPlayer.CommandManager;
             mgr.IsEnabled = true;
             positionUpdateTimer = ThreadPoolTimer.CreatePeriodicTimer(UpdatTimerHandler, TimeSpan.FromMilliseconds(250), UpdateTimerDestoyed);
 
 
             if (Settings.Current.AudioGraphEffects.HasFlag(Core.Models.Effects.ChannelShift))
-                mediaPlayer.AddAudioEffect(typeof(ChannelShift).FullName, false, new PropertySet()
+                MediaPlayer.AddAudioEffect(typeof(ChannelShift).FullName, false, new PropertySet()
                 {
                     ["Shift"] = Settings.Current.ChannelShift,
                     ["Mono"] = Settings.Current.StereoToMono
                 });
             if (Settings.Current.AudioGraphEffects.HasFlag(Core.Models.Effects.Equalizer))
-                mediaPlayer.AddAudioEffect(typeof(SuperEQ).FullName, false, new PropertySet()
+                MediaPlayer.AddAudioEffect(typeof(SuperEQ).FullName, false, new PropertySet()
                 {
                     ["EqualizerBand"] = new EqualizerBand[]
                     {
@@ -134,7 +131,7 @@ namespace Aurora.Music.PlaybackEngine
                     }
                 });
             if (Settings.Current.AudioGraphEffects.HasFlag(Core.Models.Effects.Limiter))
-                mediaPlayer.AddAudioEffect(typeof(Threshold).FullName, false, new PropertySet()
+                MediaPlayer.AddAudioEffect(typeof(Threshold).FullName, false, new PropertySet()
                 {
                 });
         }
@@ -150,21 +147,20 @@ namespace Aurora.Music.PlaybackEngine
 
         private void UpdatTimerHandler(ThreadPoolTimer timer)
         {
-            if (mediaPlayer.PlaybackSession.PlaybackState == MediaPlaybackState.Playing)
+            if (MediaPlayer.PlaybackSession.PlaybackState == MediaPlaybackState.Playing)
             {
-                PlaybackSession_PositionChangedAsync(mediaPlayer.PlaybackSession, null);
+                PlaybackSession_PositionChangedAsync(MediaPlayer.PlaybackSession, null);
             }
         }
 
         private void PlaybackSession_PositionChangedAsync(MediaPlaybackSession sender, object args)
         {
-            // TODO: online music can't fire
             lock (lockable)
             {
                 var updatedArgs = new PositionUpdatedArgs
                 {
                     Current = sender.Position,
-                    Total = mediaPlayer.PlaybackSession.NaturalDuration
+                    Total = MediaPlayer.PlaybackSession.NaturalDuration
                 };
                 PositionUpdated?.Invoke(this, updatedArgs);
                 DownloadProgressChanged?.Invoke(this, new DownloadProgressChangedArgs()
@@ -173,8 +169,7 @@ namespace Aurora.Music.PlaybackEngine
                 });
                 try
                 {
-                    var song = mediaPlaybackList.CurrentItem?.Source.CustomProperties[Consts.SONG] as Song;
-                    if (song == null) return;
+                    if (!(mediaPlaybackList.CurrentItem?.Source.CustomProperties[Consts.SONG] is Song song)) return;
                     if (song.IsOnline)
                     {
                         // TODO: Online Music Statistic
@@ -189,7 +184,7 @@ namespace Aurora.Music.PlaybackEngine
                             var t = ThreadPool.RunAsync(async (x) =>
                             {
                                 var opr = SQLOperator.Current();
-                                await FileReader.PlayStaticAdd(id, 0, 1);
+                                await FileReader.PlayStaticAddAsync(id, 0, 1);
                             });
                         }
                     }
@@ -207,18 +202,18 @@ namespace Aurora.Music.PlaybackEngine
         {
             // TODO: When error, restore
 
-            switch (mediaPlayer.PlaybackSession.PlaybackState)
+            switch (MediaPlayer.PlaybackSession.PlaybackState)
             {
                 case MediaPlaybackState.None:
                 case MediaPlaybackState.Opening:
                 case MediaPlaybackState.Buffering:
-                    isPlaying = null;
+                    IsPlaying = null;
                     break;
                 case MediaPlaybackState.Playing:
-                    isPlaying = true;
+                    IsPlaying = true;
                     break;
                 case MediaPlaybackState.Paused:
-                    isPlaying = false;
+                    IsPlaying = false;
                     break;
                 default:
                     break;
@@ -226,7 +221,7 @@ namespace Aurora.Music.PlaybackEngine
 
             PlaybackStatusChanged?.Invoke(this, new PlaybackStatusChangedArgs()
             {
-                PlaybackStatus = mediaPlayer.PlaybackSession.PlaybackState,
+                PlaybackStatus = MediaPlayer.PlaybackSession.PlaybackState,
                 IsLoop = mediaPlaybackList.AutoRepeatEnabled,
                 IsShuffle = isShuffle
             });
@@ -234,18 +229,18 @@ namespace Aurora.Music.PlaybackEngine
 
         private void MediaPlaybackList_CurrentItemChanged(MediaPlaybackList sender, CurrentMediaPlaybackItemChangedEventArgs args)
         {
-            switch (mediaPlayer.PlaybackSession.PlaybackState)
+            switch (MediaPlayer.PlaybackSession.PlaybackState)
             {
                 case MediaPlaybackState.None:
                 case MediaPlaybackState.Opening:
                 case MediaPlaybackState.Buffering:
-                    isPlaying = null;
+                    IsPlaying = null;
                     break;
                 case MediaPlaybackState.Playing:
-                    isPlaying = true;
+                    IsPlaying = true;
                     break;
                 case MediaPlaybackState.Paused:
-                    isPlaying = false;
+                    IsPlaying = false;
                     break;
                 default:
                     break;
@@ -260,7 +255,8 @@ namespace Aurora.Music.PlaybackEngine
                 IsLoop = mediaPlaybackList.AutoRepeatEnabled,
                 CurrentSong = currentSong,
                 CurrentIndex = currentSong == null ? -1 : currentList.FindIndex(a => a == currentSong),
-                Items = currentList
+                Items = currentList,
+                Thumnail = mediaPlaybackList.CurrentItem?.GetDisplayProperties().Thumbnail
             });
 
             // TODO: restore when error
@@ -280,7 +276,7 @@ namespace Aurora.Music.PlaybackEngine
             newComing = true;
             _addPlayListTask?.Cancel();
 
-            mediaPlayer.Pause();
+            MediaPlayer.Pause();
             mediaPlaybackList.Items.Clear();
 
             if (isShuffle)
@@ -300,12 +296,12 @@ namespace Aurora.Music.PlaybackEngine
             if (startIndex <= 0)
             {
                 var item = items[0];
-                MediaPlaybackItem mediaPlaybackItem = await GetMediaPlaybackItem(item);
+                var mediaPlaybackItem = await GetMediaPlaybackItemAsync(item);
 
                 mediaPlaybackList.Items.Add(mediaPlaybackItem);
                 mediaPlaybackList.StartingItem = mediaPlaybackItem;
 
-                mediaPlayer.Source = mediaPlaybackList;
+                MediaPlayer.Source = mediaPlaybackList;
 
                 newComing = false;
 
@@ -325,12 +321,12 @@ namespace Aurora.Music.PlaybackEngine
                 var listBefore = items.Take(startIndex);
                 var listAfter = items.TakeLast(items.Count - 1 - startIndex);
 
-                MediaPlaybackItem mediaPlaybackItem = await GetMediaPlaybackItem(item);
+                var mediaPlaybackItem = await GetMediaPlaybackItemAsync(item);
 
                 mediaPlaybackList.Items.Add(mediaPlaybackItem);
                 mediaPlaybackList.StartingItem = mediaPlaybackItem;
 
-                mediaPlayer.Source = mediaPlaybackList;
+                MediaPlayer.Source = mediaPlaybackList;
 
                 newComing = false;
 
@@ -354,7 +350,7 @@ namespace Aurora.Music.PlaybackEngine
             newComing = true;
             _addPlayListTask?.Cancel();
 
-            mediaPlayer.Pause();
+            MediaPlayer.Pause();
             mediaPlaybackList.Items.Clear();
 
             currentList.Clear();
@@ -382,7 +378,7 @@ namespace Aurora.Music.PlaybackEngine
                 var mediaPlaybackItem = new MediaPlaybackItem(mediaSource);
                 var props = mediaPlaybackItem.GetDisplayProperties();
 
-                await WriteProperties(item, props, item.PicturePath);
+                await WritePropertiesAsync(item, props, item.PicturePath);
 
                 mediaPlaybackItem.ApplyDisplayProperties(props);
                 mediaPlaybackList.Items.Add(mediaPlaybackItem);
@@ -396,7 +392,7 @@ namespace Aurora.Music.PlaybackEngine
                 startIndex = 0;
 
             mediaPlaybackList.StartingItem = mediaPlaybackList.Items[startIndex];
-            mediaPlayer.Source = mediaPlaybackList;
+            MediaPlayer.Source = mediaPlaybackList;
         }
 
         private async Task AddtoPlayListFirstAsync(IEnumerable<Song> items)
@@ -405,7 +401,7 @@ namespace Aurora.Music.PlaybackEngine
             {
                 try
                 {
-                    MediaPlaybackItem mediaPlaybackItem = await GetMediaPlaybackItem(item);
+                    var mediaPlaybackItem = await GetMediaPlaybackItemAsync(item);
 
                     if (newComing)
                         return;
@@ -425,7 +421,7 @@ namespace Aurora.Music.PlaybackEngine
             {
                 try
                 {
-                    MediaPlaybackItem mediaPlaybackItem = await GetMediaPlaybackItem(item);
+                    var mediaPlaybackItem = await GetMediaPlaybackItemAsync(item);
 
                     if (newComing)
                         return;
@@ -439,53 +435,84 @@ namespace Aurora.Music.PlaybackEngine
             }
         }
 
-        private async Task<MediaPlaybackItem> GetMediaPlaybackItem(Song item)
+        private async Task<MediaPlaybackItem> GetMediaPlaybackItemAsync(Song item)
         {
-            MediaSource mediaSource;
-            string builtin;
-
             if (item.IsOnline)
             {
-                mediaSource = MediaSource.CreateFromUri(item.OnlineUri);
-                builtin = item.PicturePath;
+                var mediaSource = MediaSource.CreateFromUri(item.OnlineUri);
+                mediaSource.CustomProperties[Consts.SONG] = item;
+                var mediaPlaybackItem = new MediaPlaybackItem(mediaSource);
+                var props = mediaPlaybackItem.GetDisplayProperties();
+
+                await WritePropertiesAsync(item, props, item.PicturePath);
+
+                mediaPlaybackItem.ApplyDisplayProperties(props);
+                return mediaPlaybackItem;
             }
             else
             {
                 try
                 {
                     /// **Local files can only create from <see cref="StorageFile"/>**
-                    StorageFile file = await StorageFile.GetFileFromPathAsync(item.FilePath);
+                    var file = await StorageFile.GetFileFromPathAsync(item.FilePath);
 
-                    builtin = await Core.Tools.Helper.GetBuiltInArtworkAsync(item.ID.ToString(), item.Title, file);
+                    var img = await Core.Tools.Helper.UpdateSongAsync(item, file);
 
-                    mediaSource = MediaSource.CreateFromStorageFile(file);
+                    var mediaSource = MediaSource.CreateFromStorageFile(file);
+
+                    mediaSource.CustomProperties[Consts.SONG] = item;
+                    var mediaPlaybackItem = new MediaPlaybackItem(mediaSource);
+                    var props = mediaPlaybackItem.GetDisplayProperties();
+
+                    if (img == null)
+                    {
+                        // Use black placeholder
+                        await WritePropertiesAsync(item, props, item.PicturePath);
+                    }
+                    else
+                    {
+                        // Use image stream
+                        WriteProperties(item, props, img);
+                    }
+                    mediaPlaybackItem.ApplyDisplayProperties(props);
+                    return mediaPlaybackItem;
                 }
-
                 catch (FileNotFoundException)
                 {
                     item.IsEmpty = true;
                     throw;
                 }
             }
-
-            item.PicturePath = builtin.IsNullorEmpty() ? item.PicturePath : builtin;
-            mediaSource.CustomProperties[Consts.SONG] = item;
-            var mediaPlaybackItem = new MediaPlaybackItem(mediaSource);
-            var props = mediaPlaybackItem.GetDisplayProperties();
-
-            await WriteProperties(item, props, builtin);
-
-            mediaPlaybackItem.ApplyDisplayProperties(props);
-            return mediaPlaybackItem;
         }
 
-        private async Task WriteProperties(Song item, MediaItemDisplayProperties props, string pic)
+        private void WriteProperties(Song item, MediaItemDisplayProperties props, IRandomAccessStream img)
+        {
+            // When to Dispose img?
+            props.Thumbnail = RandomAccessStreamReference.CreateFromStream(img);
+
+            props.Type = Windows.Media.MediaPlaybackType.Music;
+            props.MusicProperties.Title = item.Title.IsNullorEmpty() ? item.FilePath.Split('\\').LastOrDefault() : item.Title;
+            props.MusicProperties.AlbumTitle = item.Album.IsNullorEmpty() ? "" : item.Album;
+            props.MusicProperties.AlbumArtist = item.AlbumArtists.IsNullorEmpty() ? "" : string.Join(Consts.CommaSeparator, item.AlbumArtists);
+            props.MusicProperties.AlbumTrackCount = item.TrackCount;
+            props.MusicProperties.Artist = item.Performers.IsNullorEmpty() ? "" : string.Join(Consts.CommaSeparator, item.Performers);
+            props.MusicProperties.TrackNumber = item.Track;
+            if (!item.Genres.IsNullorEmpty())
+            {
+                foreach (var g in item.Genres)
+                {
+                    props.MusicProperties.Genres.Add(g);
+                }
+            }
+        }
+
+        private async Task WritePropertiesAsync(Song item, MediaItemDisplayProperties props, string pic)
         {
             if (item.IsOnline)
             {
                 if (pic.IsNullorEmpty())
                 {
-                    props.Thumbnail = RandomAccessStreamReference.CreateFromUri(new Uri(Consts.BlackPlaceholder));
+                    props.Thumbnail = null;
                 }
                 else
                 {
@@ -496,7 +523,7 @@ namespace Aurora.Music.PlaybackEngine
             {
                 if (pic.IsNullorEmpty())
                 {
-                    props.Thumbnail = RandomAccessStreamReference.CreateFromUri(new Uri(Consts.BlackPlaceholder));
+                    props.Thumbnail = null;
                 }
                 else
                 {
@@ -522,7 +549,7 @@ namespace Aurora.Music.PlaybackEngine
 
         public void PlayPause()
         {
-            switch (mediaPlayer.PlaybackSession.PlaybackState)
+            switch (MediaPlayer.PlaybackSession.PlaybackState)
             {
                 case MediaPlaybackState.Playing:
                     Pause();
@@ -552,11 +579,11 @@ namespace Aurora.Music.PlaybackEngine
                     return;
 
                 var cure = mediaPlaybackList.CurrentItem.Source.CustomProperties[Consts.SONG] as Song;
-                _savedState = mediaPlayer.PlaybackSession.PlaybackState;
-                _savedPosition = mediaPlayer.PlaybackSession.Position;
+                _savedState = MediaPlayer.PlaybackSession.PlaybackState;
+                _savedPosition = MediaPlayer.PlaybackSession.Position;
 
-                mediaPlayer.Pause();
-                mediaPlayer.Source = null;
+                MediaPlayer.Pause();
+                MediaPlayer.Source = null;
 
                 if (b is bool boo && boo)
                 {
@@ -602,9 +629,9 @@ namespace Aurora.Music.PlaybackEngine
 
                 if (_savedState == MediaPlaybackState.Playing)
                 {
-                    mediaPlayer.Play();
+                    MediaPlayer.Play();
                 }
-                mediaPlayer.PlaybackSession.Position = _savedPosition;
+                MediaPlayer.PlaybackSession.Position = _savedPosition;
             }
 
         }
@@ -641,17 +668,17 @@ namespace Aurora.Music.PlaybackEngine
             {
                 return;
             }
-            if (mediaPlayer.PlaybackSession.CanPause)
-                mediaPlayer.Pause();
-            mediaPlayer.Source = null;
+            if (MediaPlayer.PlaybackSession.CanPause)
+                MediaPlayer.Pause();
+            MediaPlayer.Source = null;
             ItemsChanged?.Invoke(this, new PlayingItemsChangedArgs() { CurrentSong = null, CurrentIndex = -1, Items = null });
         }
 
         public void Seek(TimeSpan position)
         {
-            if (mediaPlayer.PlaybackSession.CanSeek)
+            if (MediaPlayer.PlaybackSession.CanSeek)
             {
-                mediaPlayer.PlaybackSession.Position = position;
+                MediaPlayer.PlaybackSession.Position = position;
             }
         }
 
@@ -662,9 +689,9 @@ namespace Aurora.Music.PlaybackEngine
                 return;
             }
 
-            if (mediaPlayer.PlaybackSession.Position.TotalSeconds > 3)
+            if (MediaPlayer.PlaybackSession.Position.TotalSeconds > 3)
             {
-                mediaPlayer.PlaybackSession.Position = TimeSpan.Zero;
+                MediaPlayer.PlaybackSession.Position = TimeSpan.Zero;
                 return;
             }
 
@@ -690,9 +717,9 @@ namespace Aurora.Music.PlaybackEngine
                 return;
             }
 
-            if (mediaPlayer.Source == null)
+            if (MediaPlayer.Source == null)
             {
-                mediaPlayer.Source = mediaPlaybackList;
+                MediaPlayer.Source = mediaPlaybackList;
             }
 
             int i = 0;
@@ -708,20 +735,20 @@ namespace Aurora.Music.PlaybackEngine
                 await Task.Delay(500);
             }
 
-            mediaPlayer.Play();
+            MediaPlayer.Play();
             ChangeVolume(Settings.Current.PlayerVolume);
         }
 
         public void Pause()
         {
-            if (mediaPlayer.PlaybackSession.CanPause)
-                mediaPlayer.Pause();
+            if (MediaPlayer.PlaybackSession.CanPause)
+                MediaPlayer.Pause();
         }
 
 
         public void Dispose()
         {
-            mediaPlayer.Dispose();
+            MediaPlayer.Dispose();
         }
 
         public void SkiptoIndex(uint index)
@@ -734,15 +761,15 @@ namespace Aurora.Music.PlaybackEngine
 
         public async Task ReloadCurrent()
         {
-            var state = mediaPlayer.PlaybackSession.PlaybackState;
-            var position = mediaPlayer.PlaybackSession.Position;
+            var state = MediaPlayer.PlaybackSession.PlaybackState;
+            var position = MediaPlayer.PlaybackSession.Position;
 
             var index = mediaPlaybackList.CurrentItemIndex;
 
             var cure = mediaPlaybackList.CurrentItem;
             mediaPlaybackList.Items.Remove(mediaPlaybackList.CurrentItem);
             cure.Source.Dispose();
-            mediaPlayer.Source = null;
+            MediaPlayer.Source = null;
 
             if (index > currentList.Count)
             {
@@ -751,22 +778,22 @@ namespace Aurora.Music.PlaybackEngine
             else
             {
                 var item = currentList[(int)index];
-                MediaPlaybackItem mediaPlaybackItem = await GetMediaPlaybackItem(item);
+                var mediaPlaybackItem = await GetMediaPlaybackItemAsync(item);
                 mediaPlaybackList.Items.Insert((int)index, mediaPlaybackItem);
                 mediaPlaybackList.StartingItem = mediaPlaybackItem;
             }
-            mediaPlayer.Source = mediaPlaybackList;
-            mediaPlayer.PlaybackSession.Position = position;
+            MediaPlayer.Source = mediaPlaybackList;
+            MediaPlayer.PlaybackSession.Position = position;
             if (state == MediaPlaybackState.Playing)
             {
-                mediaPlayer.Play();
+                MediaPlayer.Play();
             }
         }
 
         public void RemoveCurrentItem()
         {
-            var state = mediaPlayer.PlaybackSession.PlaybackState;
-            mediaPlayer.Pause();
+            var state = MediaPlayer.PlaybackSession.PlaybackState;
+            MediaPlayer.Pause();
             var cure = mediaPlaybackList.CurrentItem;
             mediaPlaybackList.MoveNext();
             cure.Source.Dispose();
@@ -774,15 +801,15 @@ namespace Aurora.Music.PlaybackEngine
             cure = null;
             if (state == MediaPlaybackState.Playing)
             {
-                mediaPlayer.Play();
+                MediaPlayer.Play();
             }
         }
 
 #pragma warning disable 1998
         public async Task DetachCurrentItem()
         {
-            _savedState = mediaPlayer.PlaybackSession.PlaybackState;
-            _savedPosition = mediaPlayer.PlaybackSession.Position;
+            _savedState = MediaPlayer.PlaybackSession.PlaybackState;
+            _savedPosition = MediaPlayer.PlaybackSession.Position;
 
             _savedIndex = mediaPlaybackList.CurrentItemIndex;
 
@@ -796,7 +823,7 @@ namespace Aurora.Music.PlaybackEngine
                 mediaPlaybackList.Items.Remove(mediaPlaybackList.CurrentItem);
                 cure.Source.Dispose();
             }
-            mediaPlayer.Source = null;
+            MediaPlayer.Source = null;
         }
 
         public async Task ReAttachCurrentItem()
@@ -808,15 +835,15 @@ namespace Aurora.Music.PlaybackEngine
             else
             {
                 var item = currentList[(int)_savedIndex];
-                MediaPlaybackItem mediaPlaybackItem = await GetMediaPlaybackItem(item);
+                var mediaPlaybackItem = await GetMediaPlaybackItemAsync(item);
                 mediaPlaybackList.Items.Insert((int)_savedIndex, mediaPlaybackItem);
                 mediaPlaybackList.StartingItem = mediaPlaybackItem;
             }
-            mediaPlayer.Source = mediaPlaybackList;
-            mediaPlayer.PlaybackSession.Position = _savedPosition;
+            MediaPlayer.Source = mediaPlaybackList;
+            MediaPlayer.PlaybackSession.Position = _savedPosition;
             if (_savedState == MediaPlaybackState.Playing)
             {
-                mediaPlayer.Play();
+                MediaPlayer.Play();
             }
         }
 
@@ -839,7 +866,7 @@ namespace Aurora.Music.PlaybackEngine
                 {
                     var item = items[i];
 
-                    MediaPlaybackItem mediaPlaybackItem = await GetMediaPlaybackItem(item);
+                    var mediaPlaybackItem = await GetMediaPlaybackItemAsync(item);
 
                     if (newComing)
                         return;
@@ -870,17 +897,17 @@ namespace Aurora.Music.PlaybackEngine
 
         public async void ToggleEffect(Core.Models.Effects audioGraphEffects)
         {
-            mediaPlayer.RemoveAllEffects();
+            MediaPlayer.RemoveAllEffects();
 
             if (Settings.Current.AudioGraphEffects.HasFlag(Core.Models.Effects.ChannelShift))
-                mediaPlayer.AddAudioEffect(typeof(ChannelShift).FullName, false, new PropertySet()
+                MediaPlayer.AddAudioEffect(typeof(ChannelShift).FullName, false, new PropertySet()
                 {
                     ["Shift"] = Settings.Current.ChannelShift,
                     ["Mono"] = Settings.Current.StereoToMono
                 });
             if (audioGraphEffects.HasFlag(Core.Models.Effects.Equalizer))
             {
-                mediaPlayer.AddAudioEffect(typeof(SuperEQ).FullName, false, new PropertySet()
+                MediaPlayer.AddAudioEffect(typeof(SuperEQ).FullName, false, new PropertySet()
                 {
                     ["EqualizerBand"] = new EqualizerBand[]
                     {
@@ -898,7 +925,7 @@ namespace Aurora.Music.PlaybackEngine
                 });
             }
             if (Settings.Current.AudioGraphEffects.HasFlag(Core.Models.Effects.Limiter))
-                mediaPlayer.AddAudioEffect(typeof(Threshold).FullName, false, new PropertySet()
+                MediaPlayer.AddAudioEffect(typeof(Threshold).FullName, false, new PropertySet()
                 {
                 });
 
@@ -916,28 +943,28 @@ namespace Aurora.Music.PlaybackEngine
 
         public void Backward(TimeSpan timeSpan)
         {
-            var p = mediaPlayer.PlaybackSession.Position - timeSpan;
+            var p = MediaPlayer.PlaybackSession.Position - timeSpan;
             if (p.TotalMilliseconds < 0)
             {
-                mediaPlayer.PlaybackSession.Position = TimeSpan.Zero;
+                MediaPlayer.PlaybackSession.Position = TimeSpan.Zero;
                 Previous();
             }
             else
             {
-                mediaPlayer.PlaybackSession.Position -= timeSpan;
+                MediaPlayer.PlaybackSession.Position -= timeSpan;
             }
         }
 
         public void Forward(TimeSpan timeSpan)
         {
-            var p = mediaPlayer.PlaybackSession.Position + timeSpan;
-            if (p > mediaPlayer.PlaybackSession.NaturalDuration)
+            var p = MediaPlayer.PlaybackSession.Position + timeSpan;
+            if (p > MediaPlayer.PlaybackSession.NaturalDuration)
             {
                 Next();
             }
             else
             {
-                mediaPlayer.PlaybackSession.Position += timeSpan;
+                MediaPlayer.PlaybackSession.Position += timeSpan;
             }
         }
 
@@ -945,7 +972,7 @@ namespace Aurora.Music.PlaybackEngine
         {
             PlaybackStatusChanged?.Invoke(this, new PlaybackStatusChangedArgs()
             {
-                PlaybackStatus = mediaPlayer.PlaybackSession.PlaybackState,
+                PlaybackStatus = MediaPlayer.PlaybackSession.PlaybackState,
                 IsLoop = mediaPlaybackList.AutoRepeatEnabled,
                 IsShuffle = isShuffle
             });
@@ -958,7 +985,8 @@ namespace Aurora.Music.PlaybackEngine
                     IsLoop = mediaPlaybackList.AutoRepeatEnabled,
                     CurrentSong = currentSong,
                     CurrentIndex = currentSong == null ? -1 : currentList.FindIndex(a => a == currentSong),
-                    Items = currentList
+                    Items = currentList,
+                    Thumnail = mediaPlaybackList.CurrentItem?.GetDisplayProperties().Thumbnail
                 });
             }
             else

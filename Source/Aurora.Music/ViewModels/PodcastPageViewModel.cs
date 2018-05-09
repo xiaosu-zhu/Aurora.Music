@@ -93,7 +93,7 @@ namespace Aurora.Music.ViewModels
                         bool viewShown = await ApplicationViewSwitcher.TryShowAsStandaloneAsync(videoWindowID);
                         return;
                     }
-                    await MainPageViewModel.Current.InstantPlay(Model);
+                    await MainPageViewModel.Current.InstantPlayAsync(Model);
                 });
             }
         }
@@ -335,11 +335,11 @@ namespace Aurora.Music.ViewModels
             if (Model.Count < i + 20)
             {
                 var k = Model.Count < 20 ? Model.ToList() : Model.GetRange(Model.Count - 20, 20);
-                await MainPageViewModel.Current.InstantPlay(k, k.IndexOf(s));
+                await MainPageViewModel.Current.InstantPlayAsync(k, k.IndexOf(s));
             }
             else
             {
-                await MainPageViewModel.Current.InstantPlay(Model.GetRange(i, 20), 0);
+                await MainPageViewModel.Current.InstantPlayAsync(Model.GetRange(i, 20), 0);
             }
         }
     }

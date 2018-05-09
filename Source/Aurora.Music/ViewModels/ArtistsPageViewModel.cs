@@ -30,7 +30,7 @@ namespace Aurora.Music.ViewModels
             {
                 return new DelegateCommand(async () =>
                 {
-                    await MainPageViewModel.Current.InstantPlay(await FileReader.GetAllSongAsync());
+                    await MainPageViewModel.Current.InstantPlayAsync(await FileReader.GetAllSongAsync());
                 });
             }
         }

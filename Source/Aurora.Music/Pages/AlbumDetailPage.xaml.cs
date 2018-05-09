@@ -200,12 +200,12 @@ namespace Aurora.Music.Pages
 
         private async void PlayAppBarButton_Click(object sender, RoutedEventArgs e)
         {
-            await MainPageViewModel.Current.InstantPlay(SongList.SelectedItems.Select(a => (a as SongViewModel).Song).ToList());
+            await MainPageViewModel.Current.InstantPlayAsync(SongList.SelectedItems.Select(a => (a as SongViewModel).Song).ToList());
         }
 
         private async void PlayNextAppBarButton_Click(object sender, RoutedEventArgs e)
         {
-            await MainPageViewModel.Current.PlayNext(SongList.SelectedItems.Select(a => (a as SongViewModel).Song).ToList());
+            await MainPageViewModel.Current.PlayNextAsync(SongList.SelectedItems.Select(a => (a as SongViewModel).Song).ToList());
         }
 
         private async void AddCollectionAppBarButton_Click(object sender, RoutedEventArgs e)

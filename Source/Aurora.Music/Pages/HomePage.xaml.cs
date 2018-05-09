@@ -110,7 +110,7 @@ namespace Aurora.Music.Pages
 
         private async void FavList_ItemClick(object sender, ItemClickEventArgs e)
         {
-            await MainPageViewModel.Current.InstantPlay(await (e.ClickedItem as GenericMusicItemViewModel).GetSongsAsync());
+            await MainPageViewModel.Current.InstantPlayAsync(await (e.ClickedItem as GenericMusicItemViewModel).GetSongsAsync());
         }
 
         private void HeroGrid_ContextRequested(UIElement sender, ContextRequestedEventArgs e)
@@ -226,7 +226,7 @@ namespace Aurora.Music.Pages
             }
             else
             {
-                await MainPageViewModel.Current.InstantPlay(await (e.ClickedItem as GenericMusicItemViewModel).GetSongsAsync());
+                await MainPageViewModel.Current.InstantPlayAsync(await (e.ClickedItem as GenericMusicItemViewModel).GetSongsAsync());
             }
         }
 

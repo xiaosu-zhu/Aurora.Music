@@ -197,11 +197,11 @@ namespace Aurora.Music.Controls
                 if (podcast.Count < i + 20)
                 {
                     var k = podcast.Count < 20 ? podcast.ToList() : podcast.GetRange(podcast.Count - 20, 20);
-                    await MainPageViewModel.Current.InstantPlay(k, k.IndexOf(s));
+                    await MainPageViewModel.Current.InstantPlayAsync(k, k.IndexOf(s));
                 }
                 else
                 {
-                    await MainPageViewModel.Current.InstantPlay(podcast.GetRange(i, 20), 0);
+                    await MainPageViewModel.Current.InstantPlayAsync(podcast.GetRange(i, 20), 0);
                 }
 
                 def.Complete();

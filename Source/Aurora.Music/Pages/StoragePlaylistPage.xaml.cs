@@ -228,7 +228,7 @@ namespace Aurora.Music.Pages
 
         private async void PlayAppBarButton_Click(object sender, RoutedEventArgs e)
         {
-            await MainPageViewModel.Current.InstantPlay(AlbumList.SelectedItems.Select(a => (a as StorageSongViewModel).File).ToList());
+            await MainPageViewModel.Current.InstantPlayAsync(AlbumList.SelectedItems.Select(a => (a as StorageSongViewModel).File).ToList());
         }
 
         private void ShareAppBarButton_Click(object sender, RoutedEventArgs e)

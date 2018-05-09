@@ -75,12 +75,12 @@ namespace Aurora.Music.ViewModels
             catch (Exception)
             {
             }
-            await FileReader.Read(list, filtered);
+            await FileReader.ReadAsync(list, filtered);
         }
 
         private async void Opr_NewSongsAdded(object sender, SongsAddedEventArgs e)
         {
-            await FileReader.SortAlbums();
+            await FileReader.SortAlbumsAsync();
         }
 
         private async void FileReader_Completed(object sender, EventArgs e)

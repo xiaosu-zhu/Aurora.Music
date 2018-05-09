@@ -65,7 +65,7 @@ namespace Aurora.Music.ViewModels
             {
                 return new DelegateCommand(async () =>
                 {
-                    await MainPageViewModel.Current.InstantPlay(SongsList.SelectMany(a => a.Select(b => b.File)).ToList());
+                    await MainPageViewModel.Current.InstantPlayAsync(SongsList.SelectMany(a => a.Select(b => b.File)).ToList());
                 });
             }
         }
@@ -103,7 +103,7 @@ namespace Aurora.Music.ViewModels
                         using (var properties = TagLib.File.Create(item))
                         {
                             var tag = properties.Tag;
-                            var song = await Song.Create(tag, item.Path, await item.GetViolatePropertiesAsync(), properties.Properties, null);
+                            var song = await Song.CreateAsync(tag, item.Path, await item.GetViolatePropertiesAsync(), properties.Properties, null);
                             list.Add(new StorageSongViewModel(song)
                             {
                                 File = item
@@ -171,7 +171,7 @@ namespace Aurora.Music.ViewModels
         internal async Task PlayAt(StorageSongViewModel songViewModel)
         {
             //var list = await SQLOperator.Current().GetSongsAsync(Model.SongsID);
-            await MainPageViewModel.Current.InstantPlay(SongsList.SelectMany(a => a.Select(b => b.File)).ToList(), SongsList.SelectMany(a => a).ToList().FindIndex(x => x == songViewModel));
+            await MainPageViewModel.Current.InstantPlayAsync(SongsList.SelectMany(a => a.Select(b => b.File)).ToList(), SongsList.SelectMany(a => a).ToList().FindIndex(x => x == songViewModel));
         }
     }
 
