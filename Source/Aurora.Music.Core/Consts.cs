@@ -56,8 +56,8 @@ namespace Aurora.Music.Core
         public static string CommaSeparator => ommaSeparator;
 
         public static string UpdateNote =>
-                            "## **[Windows Developer Awards](https://developer.microsoft.com/en-us/windows/projects/events/build/2018/awards)**\r\n---\r\n"+
-                            "* **New**: To quickly go to top, now you can just tap the header.";
+                            "### We are going to do a UI/UX renewal, please head to [UI/UX Renewal](https://github.com/pkzxs/Aurora.Music/issues/26) and leave your comment!\r\n---\r\n" +
+                            "* **Fix**: A bunch of bugs fixed.";
 
         public static string UpdateNoteTitle => localizer.GetString("UpdateNoteTitle");
 

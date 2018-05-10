@@ -1461,4 +1461,12 @@
     <value>在极光音乐中探索你的歌曲</value>
     <comment>Explore your songs in Aurora Music</comment>
   </data>
+    <data name="TimelineTitle" xml:space="preserve">
+    <value>上次在極光音樂播放的歌曲</value>
+    <comment>Last played in Aurora Music</comment>
+  </data>
+    <data name="TimelineDetail" xml:space="preserve">
+    <value>点击这个卡片继续播放</value>
+    <comment>Tap this card to contine listening</comment>
+  </data>
 </root>

@@ -1465,4 +1465,12 @@
     <value>Explore your songs in Aurora Music</value>
     <comment>Explore your songs in Aurora Music</comment>
   </data>
+    <data name="TimelineTitle" xml:space="preserve">
+    <value>Last played in Aurora Music</value>
+    <comment>Last played in Aurora Music</comment>
+  </data>
+    <data name="TimelineDetail" xml:space="preserve">
+    <value>Tap this card to contine listening</value>
+    <comment>Tap this card to contine listening</comment>
+  </data>
 </root>

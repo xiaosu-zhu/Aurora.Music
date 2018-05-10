@@ -1,4 +1,5 @@
 ﻿using Aurora.Shared.Helpers;
+using Newtonsoft.Json.Linq;
 using System.Threading.Tasks;
 
 namespace Aurora.Music.Core.Tools
@@ -10,18 +11,50 @@ namespace Aurora.Music.Core.Tools
 
             // TODO: Notice that image url must be web content, not any ms-appdata:/// or file://, so how to show local images in timeline?
 
-            var jsonText = await FileIOHelper.ReadStringFromAssetsAsync("Timeline.json");
+
             var desc0 = string.Format(Consts.Localizer.GetString("TileDesc"), album, performers);
+
+            var jsonText = await FileIOHelper.ReadStringFromAssetsAsync("Timeline.json");
+
+            var content = JObject.Parse(jsonText);
+
+            if (img0 == null && img1 == null)
+                content.Remove("backgroundImage");
+            else
+            {
+                var channel = (JProperty)content["backgroundImage"];
+                channel.Value = img0 ?? img1;
+            }
+
+            var items = (JArray)((JObject)((JArray)content["body"])[0])["items"];
+
+            ((JValue)items[0]["text"]).Value = Consts.Localizer.GetString("TimelineTitle");
+
+            var col0 = (JArray)(items[1]["columns"]);
+
+            ((JValue)col0[1]["items"][0]["text"]).Value = title;
+            ((JValue)col0[1]["items"][1]["text"]).Value = desc0;
+
             if (img0 != null)
+                ((JValue)col0[0]["items"][0]["url"]).Value = img0;
+            else
             {
-                img0 = img0.Replace(@"\", @"\\");
+                (col0).RemoveAt(0);
             }
+
+            var col1 = (JArray)(items[2]["columns"]);
+
+            ((JValue)col1[1]["items"][0]["text"]).Value = count > 1 ? string.Format(Consts.Localizer.GetString("AndMore"), count - 1) : string.Empty;
+            ((JValue)col1[1]["items"][1]["text"]).Value = Consts.Localizer.GetString("TimelineDetail");
+
             if (img1 != null)
+                ((JValue)col1["items"][0]["url"]).Value = img1;
+            else
             {
-                img1 = img1.Replace(@"\", @"\\");
+                (col1).RemoveAt(0);
             }
-            var res = jsonText.Replace("$bg", img0 ?? Consts.BlackPlaceholder).Replace("$title", "Last played in Aurora Music").Replace("$col0", title).Replace("$desc0", desc0).Replace("$img", img1 ?? Consts.BlackPlaceholder).Replace("$col1", count > 1 ? string.Format(Consts.Localizer.GetString("AndMore"), count - 1) : string.Empty).Replace("$desc1", "Tap this card to contine listening");
-            return res;
+
+            return content.ToString();
         }
     }
 }

@@ -150,7 +150,6 @@ namespace Aurora.Music.ViewModels
         public ObservableCollection<SongViewModel> NowPlayingList { get; set; } = new ObservableCollection<SongViewModel>();
         private IPlayer player;
 
-        private string lastUriPath;
         private SolidColorBrush _lastLeftTop;
         private SolidColorBrush leftTopColor;
         public SolidColorBrush LeftTopColor
@@ -1009,7 +1008,6 @@ namespace Aurora.Music.ViewModels
                     CurrentAlbum = null;
                     CurrentArtist = null;
                     await CurrentArtwork.SetSourceAsync(await RandomAccessStreamReference.CreateFromUri(new Uri(Consts.BlackPlaceholder)).OpenReadAsync());
-                    lastUriPath = null;
                     CurrentIndex = -1;
                     NeedShowPanel = false;
                     IsPodcast = false;
@@ -1085,53 +1083,48 @@ namespace Aurora.Music.ViewModels
                         var last = NowPlayingList.Count - 1 <= currentIndex;
 
                         string img0, img1;
+                        img1 = null;
 
                         if (!NowPlayingList[currentIndex].IsOnline)
                         {
-                            if (NowPlayingList[currentIndex].Song.PicturePath.IsNullorEmpty())
-                            {
-                                img0 = Consts.BlackPlaceholder;
-                            }
-                            else
-                            {
-                                img0 = $"ms-appdata:///temp/{NowPlayingList[currentIndex].Artwork.AbsoluteUri.Split('/').Last()}";
-                            }
+                            //if (NowPlayingList[currentIndex].Song.PicturePath.IsNullorEmpty())
+                            //{
+                            //    img0 = Consts.BlackPlaceholder;
+                            //}
+                            //else
+                            //{
+                            //    img0 = $"ms-appdata:///temp/{NowPlayingList[currentIndex].Artwork.AbsoluteUri.Split('/').Last()}";
+                            //}
+                            img0 = null;
                         }
                         else
                         {
                             img0 = NowPlayingList[currentIndex].Artwork.AbsoluteUri;
                         }
 
-                        if (last)
+                        var otherArtwork = NowPlayingList.Where(a => a.Artwork.AbsoluteUri != img0);
+
+                        foreach (var item in otherArtwork)
                         {
-                            img1 = img0;
-                        }
-                        else
-                        {
-                            if (!NowPlayingList[currentIndex + 1].IsOnline)
+                            if (!item.IsOnline)
                             {
-                                if (NowPlayingList[currentIndex + 1].Song.PicturePath.IsNullorEmpty())
-                                {
-                                    img1 = Consts.BlackPlaceholder;
-                                }
-                                else
-                                {
-                                    img1 = $"ms-appdata:///temp/{NowPlayingList[currentIndex + 1].Artwork.AbsoluteUri.Split('/').Last()}";
-                                }
+                                img1 = null;
                             }
                             else
                             {
-                                img1 = NowPlayingList[currentIndex + 1].Artwork.AbsoluteUri;
+                                img1 = item.Artwork.AbsoluteUri;
                             }
+                            break;
                         }
 
                         var json = await Core.Tools.TimelineCard.AuthorAsync(currentTitle, currentAlbum, currentArtist, img0, img1, NowPlayingList.Count);
                         var activity = UserActivityChannel.GetDefault();
-                        var act = await activity.GetOrCreateUserActivityAsync("asmusic");
+                        var act = await activity.GetOrCreateUserActivityAsync(Guid.NewGuid().ToString());
+
                         act.ActivationUri = new Uri("as-music:///?action=last-play");
                         act.VisualElements.Content = AdaptiveCardBuilder.CreateAdaptiveCardFromJson(json);
                         act.VisualElements.DisplayText = Consts.Localizer.GetString("AppNameText");
-                        act.VisualElements.Description = "Last played in Aurora Music";
+                        act.VisualElements.Description = Consts.Localizer.GetString("TimelineTitle");
                         await act.SaveAsync();
                         //Dispose of any current UserActivitySession, and create a new one.
                         (_currentActivity as UserActivitySession)?.Dispose();
