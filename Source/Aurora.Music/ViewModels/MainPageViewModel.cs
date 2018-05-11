@@ -561,6 +561,23 @@ namespace Aurora.Music.ViewModels
             {
                 await FindFileChangesAsync();
             });
+            if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.Shell.AdaptiveCardBuilder"))
+            {
+                Task.Run(async () =>
+                {
+                    await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
+                    {
+                        activity = UserActivityChannel.GetDefault();
+                        act = await activity.GetOrCreateUserActivityAsync("asmusic");
+
+                        if (act.State == UserActivityState.Published)
+                        {
+                            await activity.DeleteActivityAsync("asmusic");
+                            act = await activity.GetOrCreateUserActivityAsync("asmusic");
+                        }
+                    });
+                });
+            }
         }
 
         private int changing = 0;
@@ -710,6 +727,8 @@ namespace Aurora.Music.ViewModels
         public ObservableCollection<GenericMusicItemViewModel> SearchItems { get; set; } = new ObservableCollection<GenericMusicItemViewModel>();
         private bool sVisualizing;
         private object _currentActivity;
+        private UserActivityChannel activity;
+        private UserActivity act;
 
         public bool IsVisualizing
         {
@@ -1065,6 +1084,74 @@ namespace Aurora.Music.ViewModels
                     NeedShowPanel = true;
                 }
                 ApplicationView.GetForCurrentView().Title = CurrentPlayingDesc();
+
+                if (e.CurrentSong != null && Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.Shell.AdaptiveCardBuilder"))
+                {
+                    var last = NowPlayingList.Count - 1 <= currentIndex;
+
+                    string img0, img1;
+                    img1 = null;
+
+                    if (!NowPlayingList[currentIndex].IsOnline)
+                    {
+                        //if (NowPlayingList[currentIndex].Song.PicturePath.IsNullorEmpty())
+                        //{
+                        //    img0 = Consts.BlackPlaceholder;
+                        //}
+                        //else
+                        //{
+                        //    img0 = $"ms-appdata:///temp/{NowPlayingList[currentIndex].Artwork.AbsoluteUri.Split('/').Last()}";
+                        //}
+                        img0 = null;
+                    }
+                    else
+                    {
+                        img0 = NowPlayingList[currentIndex].Artwork.AbsoluteUri;
+                    }
+
+                    var otherArtwork = NowPlayingList.Where(a => a.Artwork.AbsoluteUri != img0);
+
+                    foreach (var item in otherArtwork)
+                    {
+                        if (!item.IsOnline)
+                        {
+                            img1 = null;
+                        }
+                        else
+                        {
+                            img1 = item.Artwork.AbsoluteUri;
+                        }
+                        break;
+                    }
+
+                    var json = await Core.Tools.TimelineCard.AuthorAsync(currentTitle, currentAlbum, currentArtist, img0, img1, NowPlayingList.Count);
+
+                    act.ActivationUri = new Uri("as-music:///?action=timeline-restore");
+
+                    act.VisualElements.Content = AdaptiveCardBuilder.CreateAdaptiveCardFromJson(json);
+                    act.VisualElements.DisplayText = Consts.Localizer.GetString("AppNameText");
+                    act.VisualElements.Description = Consts.Localizer.GetString("TimelineTitle");
+                    await act.SaveAsync();
+
+                    var songs = NowPlayingList.Where(s => s.IsOnedrive || s.IsOnline).Select(s => s.Song).ToList();
+                    if (songs.Count > 0)
+                    {
+                        var status = new PlayerStatus(songs, CurrentIndex, currentPosition);
+                        await status.RoamingSaveAsync();
+                    }
+                    else
+                    {
+                        await PlayerStatus.ClearRoamingAsync();
+                    }
+
+
+                    await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                    {
+                        //Dispose of any current UserActivitySession, and create a new one.
+                        (_currentActivity as UserActivitySession)?.Dispose();
+                        _currentActivity = act.CreateSession();
+                    });
+                }
             });
         }
 
@@ -1077,60 +1164,6 @@ namespace Aurora.Music.ViewModels
                 {
                     var status = new PlayerStatus(songs, currentIndex, currentPosition);
                     await status.SaveAsync();
-
-                    if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.Shell.AdaptiveCardBuilder"))
-                    {
-                        var last = NowPlayingList.Count - 1 <= currentIndex;
-
-                        string img0, img1;
-                        img1 = null;
-
-                        if (!NowPlayingList[currentIndex].IsOnline)
-                        {
-                            //if (NowPlayingList[currentIndex].Song.PicturePath.IsNullorEmpty())
-                            //{
-                            //    img0 = Consts.BlackPlaceholder;
-                            //}
-                            //else
-                            //{
-                            //    img0 = $"ms-appdata:///temp/{NowPlayingList[currentIndex].Artwork.AbsoluteUri.Split('/').Last()}";
-                            //}
-                            img0 = null;
-                        }
-                        else
-                        {
-                            img0 = NowPlayingList[currentIndex].Artwork.AbsoluteUri;
-                        }
-
-                        var otherArtwork = NowPlayingList.Where(a => a.Artwork.AbsoluteUri != img0);
-
-                        foreach (var item in otherArtwork)
-                        {
-                            if (!item.IsOnline)
-                            {
-                                img1 = null;
-                            }
-                            else
-                            {
-                                img1 = item.Artwork.AbsoluteUri;
-                            }
-                            break;
-                        }
-
-                        var json = await Core.Tools.TimelineCard.AuthorAsync(currentTitle, currentAlbum, currentArtist, img0, img1, NowPlayingList.Count);
-                        var activity = UserActivityChannel.GetDefault();
-                        var act = await activity.GetOrCreateUserActivityAsync(Guid.NewGuid().ToString());
-
-                        act.ActivationUri = new Uri("as-music:///?action=last-play");
-                        act.VisualElements.Content = AdaptiveCardBuilder.CreateAdaptiveCardFromJson(json);
-                        act.VisualElements.DisplayText = Consts.Localizer.GetString("AppNameText");
-                        act.VisualElements.Description = Consts.Localizer.GetString("TimelineTitle");
-                        await act.SaveAsync();
-                        //Dispose of any current UserActivitySession, and create a new one.
-                        (_currentActivity as UserActivitySession)?.Dispose();
-                        _currentActivity = act.CreateSession();
-                    }
-
                 }
             }
         }

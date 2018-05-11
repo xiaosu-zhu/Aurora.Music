@@ -32,6 +32,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace Aurora.Music
 {
@@ -53,12 +54,12 @@ namespace Aurora.Music
         /// </summary>
         public App()
         {
-            this.InitializeComponent();
-            this.Suspending += OnSuspending;
-            this.Resuming += App_Resuming;
-            this.UnhandledException += App_UnhandledException;
-            this.EnteredBackground += App_EnteredBackground;
-            this.LeavingBackground += App_LeavingBackground;
+            InitializeComponent();
+            Suspending += OnSuspending;
+            Resuming += App_Resuming;
+            UnhandledException += App_UnhandledException;
+            EnteredBackground += App_EnteredBackground;
+            LeavingBackground += App_LeavingBackground;
 
             // During the transition from foreground to background the
             // memory limit allowed for the application changes. The application
@@ -352,6 +353,34 @@ namespace Aurora.Music
                                 {
                                     await MainPageViewModel.Current.InstantPlayAsync(playerStatus.Songs, playerStatus.Index);
                                     PlaybackEngine.PlaybackEngine.Current.Seek(playerStatus.Position);
+                                }
+                            }
+                            break;
+                        case "timeline-restore":
+                            if (await ApplicationData.Current.RoamingFolder.TryGetItemAsync("CheckPoint") is StorageFile file)
+                            {
+                                var json = await FileIO.ReadTextAsync(file);
+                                if (!json.IsNullorEmpty())
+                                {
+                                    var status = JsonConvert.DeserializeObject<PlayerStatus>(json);
+                                    if (status != null && status.Songs != null)
+                                    {
+                                        if (MainPageViewModel.Current != null)
+                                        {
+                                            await MainPageViewModel.Current.InstantPlayAsync(status.Songs, status.Index);
+                                            PlaybackEngine.PlaybackEngine.Current.Seek(status.Position);
+                                        }
+                                        break;
+                                    }
+                                }
+                            }
+                            var pStatus = await PlayerStatus.LoadAsync();
+                            if (pStatus != null && pStatus.Songs != null)
+                            {
+                                if (MainPageViewModel.Current != null)
+                                {
+                                    await MainPageViewModel.Current.InstantPlayAsync(pStatus.Songs, pStatus.Index);
+                                    PlaybackEngine.PlaybackEngine.Current.Seek(pStatus.Position);
                                 }
                             }
                             break;

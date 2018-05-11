@@ -52,12 +52,12 @@ namespace Aurora.Music.Core
             get => localizer;
         }
 
-        private static string ommaSeparator = localizer.GetString("CommaSeparator");
-        public static string CommaSeparator => ommaSeparator;
+        private static string commaSeparator = localizer.GetString("CommaSeparator");
+        public static string CommaSeparator => commaSeparator;
 
         public static string UpdateNote =>
                             "### We are going to do a UI/UX renewal, please head to [UI/UX Renewal](https://github.com/pkzxs/Aurora.Music/issues/26) and leave your comment!\r\n---\r\n" +
-                            "* **Fix**: A bunch of bugs fixed.";
+                            "Now, with April 2018 Update, we have a basic cross-device experience. when you play online songs or podcasts, the app can push them to the roaming storage, and next time you tap the card in Timeline, you can then restore what you listened last time in other devices.";
 
         public static string UpdateNoteTitle => localizer.GetString("UpdateNoteTitle");
 

@@ -22,11 +22,11 @@ namespace Aurora.Music.Core.Tools
                 content.Remove("backgroundImage");
             else
             {
-                var channel = (JProperty)content["backgroundImage"];
+                var channel = (JValue)content["backgroundImage"];
                 channel.Value = img0 ?? img1;
             }
 
-            var items = (JArray)((JObject)((JArray)content["body"])[0])["items"];
+            var items = (JArray)content["body"][0]["items"];
 
             ((JValue)items[0]["text"]).Value = Consts.Localizer.GetString("TimelineTitle");
 

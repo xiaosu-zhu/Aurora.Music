@@ -45,6 +45,19 @@ namespace Aurora.Music.Core.Models
             }
         }
 
+        public async Task RoamingSaveAsync()
+        {
+            try
+            {
+                var file = await ApplicationData.Current.RoamingFolder.CreateFileAsync("CheckPoint", CreationCollisionOption.OpenIfExists);
+                await FileIO.WriteTextAsync(file, JsonConvert.SerializeObject(this));
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
         public static async Task<PlayerStatus> LoadAsync()
         {
             try
@@ -60,6 +73,20 @@ namespace Aurora.Music.Core.Models
             catch (Exception)
             {
                 return null;
+            }
+        }
+
+        public static async Task ClearRoamingAsync()
+        {
+            try
+            {
+                if (await ApplicationData.Current.LocalFolder.TryGetItemAsync("CheckPoint") is StorageFile file)
+                {
+                    await file.DeleteAsync();
+                }
+            }
+            catch (Exception)
+            {
             }
         }
     }
