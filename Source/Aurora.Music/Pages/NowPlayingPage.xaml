@@ -34,7 +34,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 
             <Style x:Key="ThumbStyleA" TargetType="Thumb">
                 <Setter Property="MinWidth" Value="4"/>
-                <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"/>
+                <Setter Property="Background" Value="{ThemeResource SystemControlAltTranslucentAcrylicWindowBrush}"/>
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="Thumb">

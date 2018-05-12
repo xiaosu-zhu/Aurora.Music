@@ -184,7 +184,7 @@ namespace Aurora.Music.ViewModels
             }
         }
 
-        private BitmapImage currentArtwork = new BitmapImage();
+        private BitmapImage currentArtwork = new BitmapImage(new Uri(Consts.BlackPlaceholder));
         public BitmapImage CurrentArtwork
         {
             get { return currentArtwork; }

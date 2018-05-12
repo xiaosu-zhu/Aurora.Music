@@ -176,16 +176,6 @@ namespace Aurora.Music
 
         }
 
-        public double PaneLength(bool a)
-        {
-            return a ? Root.OpenPaneLength : Root.CompactPaneLength;
-        }
-
-        public double PaneLength1(bool a)
-        {
-            return a ? Root.OpenPaneLength - 48d : Root.CompactPaneLength;
-        }
-
         /// <summary>
         /// 0 to 100
         /// </summary>
@@ -232,7 +222,6 @@ namespace Aurora.Music
                     item.IsCurrent = false;
                 }
             }
-            Root.IsPaneOpen = false;
         }
 
         internal async void ThrowException(Windows.UI.Xaml.UnhandledExceptionEventArgs e)
@@ -302,8 +291,6 @@ namespace Aurora.Music
         {
             return a ? Orientation.Horizontal : Orientation.Vertical;
         }
-
-        private void Toggle_PaneOpened(object sender, RoutedEventArgs e) => Root.IsPaneOpen = !Root.IsPaneOpen;
 
         public void ChangeTheme()
         {
@@ -680,10 +667,10 @@ namespace Aurora.Music
                 e.DragUIOverride.IsContentVisible = false;
             }
 
-            var point = e.GetPosition(Main);
+            var point = e.GetPosition(Root);
             d.Complete();
 
-            DropHint.Margin = new Thickness(point.X - DropHint.Width / 2, point.Y - DropHint.Height / 2, Main.ActualWidth - point.X - DropHint.Width / 2, Main.ActualHeight - point.Y - DropHint.Height / 2);
+            DropHint.Margin = new Thickness(point.X - DropHint.Width / 2, point.Y - DropHint.Height / 2, Root.ActualWidth - point.X - DropHint.Width / 2, Root.ActualHeight - point.Y - DropHint.Height / 2);
             DropHint.Visibility = Visibility.Visible;
             dropTimer?.Cancel();
             dropTimer = null;
@@ -905,11 +892,6 @@ namespace Aurora.Music
 
 
             RefreshPaneCurrent();
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            Root.IsPaneOpen = false;
         }
 
         private async void MenuFlyoutPlay_Click(object sender, RoutedEventArgs e)

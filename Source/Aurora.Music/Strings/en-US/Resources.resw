@@ -157,7 +157,7 @@
     <value>Playing List</value>
     <comment>Playing list ToolTip</comment>
   </data>
-  <data name="About.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+  <data name="About.Text" xml:space="preserve">
     <value>About</value>
     <comment>About ToolTip</comment>
   </data>
@@ -1138,6 +1138,10 @@
     <comment>Subscribe</comment>
   </data>
   <data name="Podcast.Header" xml:space="preserve">
+    <value>Podcast</value>
+    <comment>Podcast</comment>
+  </data>
+  <data name="PodcastText" xml:space="preserve">
     <value>Podcast</value>
     <comment>Podcast</comment>
   </data>
