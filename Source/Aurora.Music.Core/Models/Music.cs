@@ -5,6 +5,7 @@ using Aurora.Music.Core.Storage;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
 using Microsoft.Toolkit.Services.OneDrive;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -501,33 +502,60 @@ namespace Aurora.Music.Core.Models
         public string FilePath { get; set; }
         public string PicturePath { get; set; }
 
+        [JsonIgnore]
         public string MusicBrainzReleaseId { get; set; }
+        [JsonIgnore]
         public string MusicBrainzDiscId { get; set; }
+        [JsonIgnore]
         public string MusicIpId { get; set; }
+        [JsonIgnore]
         public string AmazonId { get; set; }
+        [JsonIgnore]
         public string MusicBrainzReleaseStatus { get; set; }
+        [JsonIgnore]
         public string MusicBrainzReleaseType { get; set; }
+        [JsonIgnore]
         public string MusicBrainzReleaseCountry { get; set; }
+        [JsonIgnore]
         public double ReplayGainTrackGain { get; set; }
+        [JsonIgnore]
         public double ReplayGainTrackPeak { get; set; }
+        [JsonIgnore]
         public double ReplayGainAlbumGain { get; set; }
+        [JsonIgnore]
         public double ReplayGainAlbumPeak { get; set; }
         //public IPicture[] Pictures { get; set; }
+        [JsonIgnore]
         public string FirstAlbumArtist { get; set; }
+        [JsonIgnore]
         public string FirstAlbumArtistSort { get; set; }
+        [JsonIgnore]
         public string FirstPerformer { get; set; }
+        [JsonIgnore]
         public string FirstPerformerSort { get; set; }
+        [JsonIgnore]
         public string FirstComposerSort { get; set; }
+        [JsonIgnore]
         public string FirstComposer { get; set; }
+        [JsonIgnore]
         public string FirstGenre { get; set; }
+        [JsonIgnore]
         public string JoinedAlbumArtists { get; set; }
+        [JsonIgnore]
         public string JoinedPerformers { get; set; }
+        [JsonIgnore]
         public string JoinedPerformersSort { get; set; }
+        [JsonIgnore]
         public string JoinedComposers { get; set; }
+        [JsonIgnore]
         public string MusicBrainzTrackId { get; set; }
+        [JsonIgnore]
         public string MusicBrainzReleaseArtistId { get; set; }
+        [JsonIgnore]
         public bool IsEmpty { get; set; }
+        [JsonIgnore]
         public string MusicBrainzArtistId { get; set; }
+        [JsonIgnore]
         public TagTypes TagTypes { get; set; }
         public string Title { get; set; }
         public string TitleSort { get; set; }
@@ -538,6 +566,7 @@ namespace Aurora.Music.Core.Models
         public string[] Composers { get; set; }
         public string[] ComposersSort { get; set; }
         public string Album { get; set; }
+        [JsonIgnore]
         public string JoinedGenres { get; set; }
         public string AlbumSort { get; set; }
         public string[] Genres { get; set; }
@@ -546,8 +575,11 @@ namespace Aurora.Music.Core.Models
         public uint TrackCount { get; set; }
         public uint Disc { get; set; }
         public uint DiscCount { get; set; }
+        [JsonIgnore]
         public string Lyrics { get; set; }
+        [JsonIgnore]
         public string Grouping { get; set; }
+        [JsonIgnore]
         public uint BeatsPerMinute { get; set; }
         public string Conductor { get; set; }
         public string Copyright { get; set; }

@@ -35,14 +35,16 @@
                                     "type": "TextBlock",
                                     "text": "$col0",
                                     "weight": "bolder",
-                                    "wrap": true
+                                    "wrap": true,
+                                    "maxLines": 1
                                 },
                                 {
                                     "type": "TextBlock",
                                     "spacing": "none",
                                     "text": "$desc0",
                                     "isSubtle": true,
-                                    "wrap": true
+                                    "wrap": true,
+                                    "maxLines": 1
                                 }
                             ]
                         }
@@ -70,14 +72,16 @@
                                     "type": "TextBlock",
                                     "text": "$col1",
                                     "weight": "bolder",
-                                    "wrap": true
+                                    "wrap": true,
+                                    "maxLines": 1
                                 },
                                 {
                                     "type": "TextBlock",
                                     "spacing": "none",
                                     "text": "$desc1",
                                     "isSubtle": true,
-                                    "wrap": true
+                                    "wrap": true,
+                                    "maxLines": 1
                                 }
                             ]
                         }

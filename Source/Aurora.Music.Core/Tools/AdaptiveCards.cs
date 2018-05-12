@@ -48,7 +48,7 @@ namespace Aurora.Music.Core.Tools
             ((JValue)col1[1]["items"][1]["text"]).Value = Consts.Localizer.GetString("TimelineDetail");
 
             if (img1 != null)
-                ((JValue)col1["items"][0]["url"]).Value = img1;
+                ((JValue)col1[0]["items"][0]["url"]).Value = img1;
             else
             {
                 (col1).RemoveAt(0);

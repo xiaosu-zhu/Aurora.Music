@@ -96,13 +96,13 @@ namespace Aurora.Music.ViewModels
             player.Seek(timeSpan);
         }
 
-        private double olume = Settings.Current.PlayerVolume;
+        private double volume = Settings.Current.PlayerVolume;
         public double Volume
         {
-            get { return olume; }
+            get { return volume; }
             set
             {
-                SetProperty(ref olume, value);
+                SetProperty(ref volume, value);
                 Settings.Current.PlayerVolume = value;
                 player.ChangeVolume(value);
             }
@@ -1134,16 +1134,20 @@ namespace Aurora.Music.ViewModels
                     await act.SaveAsync();
 
                     var songs = NowPlayingList.Where(s => s.IsOnedrive || s.IsOnline).Select(s => s.Song).ToList();
-                    if (songs.Count > 0)
+#pragma warning disable CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
+                    Task.Run(async () =>
                     {
-                        var status = new PlayerStatus(songs, CurrentIndex, currentPosition);
-                        await status.RoamingSaveAsync();
-                    }
-                    else
-                    {
-                        await PlayerStatus.ClearRoamingAsync();
-                    }
-
+                        if (songs.Count > 0)
+                        {
+                            var status = new PlayerStatus(songs, currentIndex, currentPosition);
+                            await status.RoamingSaveAsync();
+                        }
+                        else
+                        {
+                            await PlayerStatus.ClearRoamingAsync();
+                        }
+                    });
+#pragma warning restore CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
 
                     await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                     {

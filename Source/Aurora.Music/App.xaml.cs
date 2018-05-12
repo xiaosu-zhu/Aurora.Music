@@ -33,6 +33,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using System.Linq;
 using Newtonsoft.Json;
+using Windows.Foundation.Collections;
 
 namespace Aurora.Music
 {
@@ -357,32 +358,114 @@ namespace Aurora.Music
                             }
                             break;
                         case "timeline-restore":
-                            if (await ApplicationData.Current.RoamingFolder.TryGetItemAsync("CheckPoint") is StorageFile file)
+#pragma warning disable CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
+                            Task.Run(async () =>
                             {
-                                var json = await FileIO.ReadTextAsync(file);
-                                if (!json.IsNullorEmpty())
+                                if (ApplicationData.Current.RoamingSettings.Values.TryGetValue("HighPriority", out var o))
                                 {
-                                    var status = JsonConvert.DeserializeObject<PlayerStatus>(json);
-                                    if (status != null && status.Songs != null)
+                                    if (o is bool b && !b)
                                     {
-                                        if (MainPageViewModel.Current != null)
-                                        {
-                                            await MainPageViewModel.Current.InstantPlayAsync(status.Songs, status.Index);
-                                            PlaybackEngine.PlaybackEngine.Current.Seek(status.Position);
-                                        }
-                                        break;
+                                        goto legacy;
                                     }
                                 }
-                            }
-                            var pStatus = await PlayerStatus.LoadAsync();
-                            if (pStatus != null && pStatus.Songs != null)
-                            {
-                                if (MainPageViewModel.Current != null)
+
+                                // check if has roaming checkpoint
+                                if (await ApplicationData.Current.LocalFolder.TryGetItemAsync("RoamingCheckPoint") is StorageFile roam)
                                 {
-                                    await MainPageViewModel.Current.InstantPlayAsync(pStatus.Songs, pStatus.Index);
-                                    PlaybackEngine.PlaybackEngine.Current.Seek(pStatus.Position);
+                                    var json = await FileIO.ReadTextAsync(roam);
+                                    if (!json.IsNullorEmpty())
+                                    {
+                                        var status = JsonConvert.DeserializeObject<PlayerStatus>(json);
+                                        if (status != null && status.Songs != null)
+                                        {
+                                            if (MainPageViewModel.Current != null)
+                                            {
+                                                await MainPageViewModel.Current.InstantPlayAsync(status.Songs, status.Index);
+                                                PlaybackEngine.PlaybackEngine.Current.Seek(status.Position);
+                                            }
+                                            return;
+                                        }
+                                    }
                                 }
-                            }
+
+                                // else try to fetch via project Rome
+                                MainPage.Current?.ShowModalUI(true, "Syncing from cloud");
+                                try
+                                {
+                                    var r = Core.Tools.ProjectRome.Current;
+                                    var hasDevice = await r.WaitForFirstDeviceAsync();
+                                    if (hasDevice)
+                                    {
+                                        var romeQ = new ValueSet
+                                        {
+                                            { "q", "pull" }
+                                        };
+                                        var result = await r.RequestRemoteResponseAsync(romeQ);
+                                        if (result != null && (int)result["status"] == 1)
+                                        {
+                                            if (result["json"] is string json)
+                                            {
+                                                var status = JsonConvert.DeserializeObject<PlayerStatus>(json);
+                                                if (status != null && status.Songs != null)
+                                                {
+                                                    if (MainPageViewModel.Current != null)
+                                                    {
+                                                        await MainPageViewModel.Current.InstantPlayAsync(status.Songs, status.Index);
+                                                        PlaybackEngine.PlaybackEngine.Current.Seek(status.Position);
+                                                    }
+
+                                                    MainPage.Current?.ShowModalUI(false);
+
+                                                    var save = await ApplicationData.Current.LocalFolder.CreateFileAsync("RoamingCheckPoint", CreationCollisionOption.ReplaceExisting);
+                                                    await FileIO.WriteTextAsync(save, json);
+                                                    return;
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                }
+                                catch (UnauthorizedAccessException e)
+                                {
+                                    MainPage.Current?.PopMessage(e.Message);
+                                }
+
+
+                                MainPage.Current?.ShowModalUI(false);
+
+                                // else check the roaming data folder
+                                if (await ApplicationData.Current.RoamingFolder.TryGetItemAsync("CheckPoint.txt") is StorageFile file)
+                                {
+                                    var json = await FileIO.ReadTextAsync(file);
+                                    if (!json.IsNullorEmpty())
+                                    {
+                                        var status = JsonConvert.DeserializeObject<PlayerStatus>(json);
+                                        if (status != null && status.Songs != null)
+                                        {
+                                            if (MainPageViewModel.Current != null)
+                                            {
+                                                await MainPageViewModel.Current.InstantPlayAsync(status.Songs, status.Index);
+                                                PlaybackEngine.PlaybackEngine.Current.Seek(status.Position);
+                                            }
+                                            return;
+                                        }
+                                    }
+                                }
+
+
+                                legacy:
+                                // else fallback to last-play
+                                var pStatus = await PlayerStatus.LoadAsync();
+                                if (pStatus != null && pStatus.Songs != null)
+                                {
+                                    if (MainPageViewModel.Current != null)
+                                    {
+                                        await MainPageViewModel.Current.InstantPlayAsync(pStatus.Songs, pStatus.Index);
+                                        PlaybackEngine.PlaybackEngine.Current.Seek(pStatus.Position);
+                                    }
+                                }
+                            });
+#pragma warning restore CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
                             break;
                         case "play":
                             if (PlaybackEngine.PlaybackEngine.Current != null)
@@ -556,7 +639,7 @@ namespace Aurora.Music
             e.Handled = true;
             Tools.Logging(e);
 
-            if (MainPage.Current is MainPage p && e.Exception is NotImplementedException)
+            if (MainPage.Current is MainPage p && (e.Exception is NotImplementedException || e.Exception is UnauthorizedAccessException))
             {
                 p.ThrowException(e);
             }

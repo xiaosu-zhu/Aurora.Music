@@ -221,6 +221,15 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
+
+        <Grid.Resources>
+            <Style BasedOn="{StaticResource RevealRoundButton}" TargetType="Button">
+                <Setter Property="Background" Value="{ThemeResource SystemControlTransparentRevealBackgroundBrush}"/>
+                <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundAltHighBrush}"/>
+                <Setter Property="BorderBrush" Value="{ThemeResource SystemControlBackgroundListMediumRevealBorderBrush}"/>
+            </Style>
+        </Grid.Resources>
+        
         <Grid.RowDefinitions>
             <RowDefinition x:Name="RowOne"
                            MinHeight="100"
@@ -249,18 +258,13 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </Grid.Background>
         </Grid>
 
-        <Grid x:Name="ArtworkBGBlur"
-              HorizontalAlignment="Stretch"
-              VerticalAlignment="Stretch"
-              Grid.ColumnSpan="2"
-              Grid.RowSpan="3"
-              Loaded="ArtworkBGBlur_Loaded">
-            <interactivity:Interaction.Behaviors>
-                <behaviors:Blur Value="32"
-                                Duration="0"
-                                AutomaticallyStart="True" />
-            </interactivity:Interaction.Behaviors>
-        </Grid>
+        <Border x:Name="ArtworkBGBlur"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Grid.ColumnSpan="2"
+                Grid.RowSpan="3"
+                Background="{ThemeResource SystemControlBlackAcrylicElementBrush}">
+        </Border>
 
         <toolkit:ImageEx Style="{ThemeResource QuickLoadImageEx}"
                          x:Name="Artwork"
@@ -327,10 +331,10 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                            Text="{x:Bind Context.NowListPreview,Mode=OneWay}"
                            Style="{ThemeResource BodyTextBlockStyle}"
                            HorizontalAlignment="Center"
+                           Margin="0,0,4,0"
                            VerticalAlignment="Center" />
                 <Button x:Uid="Previous"
                         x:Name="Previous"
-                        Style="{ThemeResource RevealRoundButton}"
                         Command="{x:Bind Context.GoPrevious}"
                         ToolTipService.ToolTip="Previous"
                         Width="48"
@@ -341,8 +345,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <SymbolIcon Symbol="Previous" />
                     </Button.Content>
                 </Button>
-                <Button Style="{ThemeResource RevealRoundButton}"
-                        Command="{x:Bind Context.PlayPause}"
+                <Button Command="{x:Bind Context.PlayPause}"
                         ToolTipService.ToolTip="{x:Bind Context.NullableBoolToString(Context.IsPlaying), Mode=OneWay}"
                         Width="48"
                         Height="48"
@@ -353,7 +356,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     </Button.Content>
                 </Button>
                 <Button x:Uid="Next"
-                        Style="{ThemeResource RevealRoundButton}"
                         Command="{x:Bind Context.GoNext}"
                         ToolTipService.ToolTip="Next"
                         Width="48"
@@ -366,7 +368,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </Button>
 
                 <Button x:Uid="GoBack"
-                        Style="{ThemeResource RevealRoundButton}"
                         Command="{x:Bind Context.ReturnNormal}"
                         ToolTipService.ToolTip="Go Back"
                         Width="48"

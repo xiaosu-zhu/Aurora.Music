@@ -144,6 +144,7 @@
     <Compile Include="Tools\EnvelopeDetector.cs" />
     <Compile Include="Tools\FormatHelper.cs" />
     <Compile Include="Tools\Helper.cs" />
+    <Compile Include="Tools\ProjectRome.cs" />
     <Compile Include="Tools\Tile.cs" />
     <Compile Include="Tools\Toast.cs" />
     <EmbeddedResource Include="Properties\Aurora.Music.Core.rd.xml" />
