@@ -28,10 +28,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 
     <Grid PointerExited="Grid_PointerExited" PointerEntered="Grid_PointerEntered" PointerPressed="Grid_PointerPressed" Padding="8"
           PointerReleased="Grid_PointerReleased" PointerCanceled="Grid_PointerExited" PointerCaptureLost="Grid_PointerExited"
-          BorderThickness="1">
-        <Grid.Background>
-            <SolidColorBrush Color="{x:Bind Data.MainColor1,Mode=OneWay}" Opacity="0.1"/>
-        </Grid.Background>
+          BorderThickness="1" Background="{ThemeResource SystemControlAltHighAcrylicWindowBrush}">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="CommonStates">
                 <VisualState x:Name="Normal">

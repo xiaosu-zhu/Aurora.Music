@@ -133,9 +133,8 @@ namespace Aurora.Music.Pages
 
             MainPageViewModel.Current.Title = Consts.Localizer.GetString("NowPlayingText");
             MainPageViewModel.Current.NeedShowTitle = true;
-            //MainPageViewModel.Current.LeftTopColor = Resources["SystemControlForegroundBaseHighBrush"] as SolidColorBrush;
-            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
-            AppViewBackButtonVisibility.Visible;
+
+            MainPageViewModel.Current.NeedShowBack = true;
 
 
             if (e.Parameter is SongViewModel s)

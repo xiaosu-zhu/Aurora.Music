@@ -913,7 +913,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <Setter Target="PositionFull.Visibility" Value="Collapsed"/>
                         <Setter Target="PlayListNarrow.Visibility" Value="Collapsed"/>
                         <Setter Target="PlayListFull.Visibility" Value="Visible"/>
-                        <Setter Target="PlayListBtn.Margin" Value="4,0"/>
+                        <Setter Target="PlayListBtn.Margin" Value="32,0,4,0"/>
                         <Setter Target="NowPanelTexts.Margin" Value="8,0"/>
                         <Setter Target="Previous.Margin" Value="4"/>
                         <Setter Target="PlayPause.Margin" Value="4"/>
@@ -1100,7 +1100,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                 </StackPanel>
                             </Button>
                             <Button AccessKey="7" ToolTipService.ToolTip="About"
-                                    Width="48" Height="48" Grid.Column="1" BorderThickness="0" 
+                                    Width="64" Height="80" Grid.Column="1" BorderThickness="0" 
                                     Command="{x:Bind Context.GotoAbout}" HorizontalAlignment="Stretch" 
                                     VerticalAlignment="Stretch" Background="{ThemeResource SystemControlTransparentBrush}"
                                     Style="{ThemeResource RevealRectangleButton}">
@@ -1128,23 +1128,26 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
               Grid.Row="2" Grid.Column="1" x:Name="NowPanel" Background="{ThemeResource SystemControlAltHighAcrylicWindowBrush}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="320"/>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="320"/>
             </Grid.ColumnDefinitions>
             <Button Style="{ThemeResource RevealRectangleButton}" BorderThickness="0" 
-                    Background="Transparent" Grid.Row="1" HorizontalContentAlignment="Left"
+                    Background="Transparent" Grid.Column="3" HorizontalContentAlignment="Right"
                     Click="NowPanel_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Button.Content>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Stretch">
-                        <toolkit:ImageEx Style="{ThemeResource QuickLoadImageEx}" PlaceholderStretch="Uniform" 
-                                         PlaceholderSource="/Assets/Images/placeholder_b.png" Margin="8" CornerRadius="4"
-                                         Grid.Row="1" x:Name="Artwork" HorizontalAlignment="Left" VerticalAlignment="Stretch" 
-                                         Stretch="Uniform" Source="{x:Bind Context.CurrentArtwork,Mode=OneWay}" 
-                                         ImageOpened="Artwork_ImageOpened"/>
-                        <StackPanel x:Name="NowPanelTexts" Padding="12" Grid.Row="1" Orientation="Vertical" 
-                                    HorizontalAlignment="Left" VerticalAlignment="Center">
+                    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Image Margin="8" Grid.Column="1" x:Name="Artwork" 
+                               HorizontalAlignment="Right" VerticalAlignment="Stretch"
+                               Stretch="Uniform" Source="{x:Bind Context.CurrentArtwork,Mode=OneWay}"
+                               ImageOpened="Artwork_ImageOpened"/>
+                        <StackPanel x:Name="NowPanelTexts" Padding="8,0" Orientation="Vertical" 
+                                    HorizontalAlignment="Right" VerticalAlignment="Center">
                             <TextBlock x:Name="Title" Text="{x:Bind Context.CurrentTitle, Mode=OneWay}" 
                                        ToolTipService.ToolTip="{x:Bind Context.CurrentTitle,Mode=OneWay}"
                                        Style="{ThemeResource BaseTextBlockStyle}" MaxLines="2" TextTrimming="CharacterEllipsis"/>
@@ -1159,11 +1162,11 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                        Foreground="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
                                        TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"/>
                         </StackPanel>
-                    </StackPanel>
+                    </Grid>
                 </Button.Content>
 
             </Button>
-            <StackPanel Grid.Row="1" Orientation="Horizontal" Grid.Column="1"
+            <StackPanel Orientation="Horizontal" Grid.Column="0"
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Button AccessKey="[" x:Uid="Previous" x:Name="Previous" Style="{ThemeResource RevealRoundButton}"
                         Command="{x:Bind Context.GoPrevious}" ToolTipService.ToolTip="Previous" 
@@ -1204,11 +1207,69 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <KeyboardAccelerator Key="F3" />
                     </Button.KeyboardAccelerators>
                 </Button>
+
+                <Button x:Name="Volume" Style="{ThemeResource RevealRoundButton}" 
+                        x:Uid="VolumeButton" ToolTipService.ToolTip="Volume" 
+                        Background="{ThemeResource SystemControlTransparentRevealBackgroundBrush}"
+                        BorderBrush="{ThemeResource SystemControlBackgroundTransparentRevealBorderBrush}"
+                        Width="48" Height="48" Margin="4" 
+                        HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                    <Button.Content>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Context.VolumeToSymbol(Context.Volume), Mode=OneWay}" />
+                    </Button.Content>
+                    <Button.Flyout>
+                        <Flyout Opened="VolumeFlyout_Open" FlyoutPresenterStyle="{ThemeResource HoriNoScrollFlyoutPresenter}">
+                            <StackPanel Padding="4,4,4,-4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Orientation="Horizontal">
+                                <Slider Style="{ThemeResource RoundSlider}" IsThumbToolTipEnabled="False" 
+                                        MinWidth="240" HorizontalAlignment="Stretch" VerticalAlignment="Center" 
+                                        Minimum="0" Maximum="100" StepFrequency="1" Value="{x:Bind Context.Volume, Mode=TwoWay}"/>
+                                <TextBlock Margin="4,0,0,10" Width="36" TextAlignment="Right" 
+                                           VerticalAlignment="Center" Style="{ThemeResource TitleTextBlockStyle}" 
+                                           TextWrapping="NoWrap" TextTrimming="None" MaxLines="1" 
+                                           HorizontalAlignment="Stretch" 
+                                           Text="{x:Bind Context.VolumeToString(Context.Volume), Mode=OneWay}"/>
+                            </StackPanel>
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
+
+                <ToggleButton x:Uid="Shuffle" x:Name="Shuffle" Style="{ThemeResource RevealRoundToggleButton}"
+                              BorderBrush="{ThemeResource SystemControlBackgroundTransparentRevealBorderBrush}"
+                              Background="{ThemeResource SystemControlTransparentRevealBackgroundBrush}"
+                              IsChecked="{x:Bind Context.IsShuffle, Mode=TwoWay}" ToolTipService.ToolTip="Shuffle"
+                              Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                    <ToggleButton.Content>
+                        <SymbolIcon Symbol="Shuffle"/>
+                    </ToggleButton.Content>
+                </ToggleButton>
+
+                <ToggleButton x:Uid="Loop" x:Name="Refresh" Style="{ThemeResource RevealRoundToggleButton}" 
+                              Background="{ThemeResource SystemControlTransparentRevealBackgroundBrush}"
+                              BorderBrush="{ThemeResource SystemControlBackgroundTransparentRevealBorderBrush}"
+                              IsChecked="{x:Bind Context.IsLoop, Mode=TwoWay}" ToolTipService.ToolTip="Loop"
+                              Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                    <ToggleButton.Content>
+                        <SymbolIcon Symbol="Refresh"/>
+                    </ToggleButton.Content>
+                </ToggleButton>
+                <Button AccessKey="E" x:Uid="Stop" x:Name="Stop" Style="{ThemeResource RevealRoundButton}" 
+                        Command="{x:Bind Context.Stop}" ToolTipService.ToolTip="Stop"
+                        Width="48" Height="48" Margin="4" BorderBrush="{ThemeResource SystemControlBackgroundTransparentRevealBorderBrush}"
+                        Background="{ThemeResource SystemControlTransparentRevealBackgroundBrush}"
+                        HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                    <Button.Content>
+                        <SymbolIcon Symbol="Stop"/>
+                    </Button.Content>
+                    <Button.KeyboardAccelerators>
+                        <KeyboardAccelerator Modifiers="Control" Key="E" />
+                        <KeyboardAccelerator Key="F4" />
+                    </Button.KeyboardAccelerators>
+                </Button>
                 <Button AccessKey="L" x:Uid="PlayList" x:Name="PlayListBtn" 
                         Style="{ThemeResource RevealRectangleButton}" 
                         BorderBrush="{ThemeResource SystemControlBackgroundTransparentRevealBorderBrush}"
                         Background="{ThemeResource SystemControlTransparentRevealBackgroundBrush}"
-                        ToolTipService.ToolTip="Playing list" Margin="4,0" 
+                        ToolTipService.ToolTip="Playing list" Margin="64,0,4,0" 
                         HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Button.Content>
                         <Grid>
@@ -1242,7 +1303,14 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     </Button.KeyboardAccelerators>
                 </Button>
             </StackPanel>
-            <StackPanel Grid.Row="1" Orientation="Horizontal" Grid.Column="3" Margin="0,0,4,0" 
+            <Slider Style="{StaticResource RoundSlider1}" Grid.Column="1" Margin="0,6,0,0"
+                    Background="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}"
+                    Foreground="{ThemeResource SystemControlBackgroundBaseMediumHighRevealBorderBrush}"
+                    HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                    Value="{x:Bind Context.PositionToValue(Context.CurrentPosition, Context.TotalDuration), Mode=OneWay}"
+                    ThumbToolTipValueConverter="{StaticResource SliderToolTipConverter}" ValueChanged="Slider_ValueChanged"
+                    x:Name="MainSlider"/>
+            <StackPanel Orientation="Horizontal" Grid.Column="2" Margin="0,0,32,0" 
                         HorizontalAlignment="Right" VerticalAlignment="Stretch">
                 <Grid Margin="0,0,4,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <TextBlock x:Name="PositionNarrow" Visibility="Collapsed" Margin="4"
@@ -1251,71 +1319,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <TextBlock x:Name="PositionFull" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4"
                                Text="{x:Bind PositionToString(Context.CurrentPosition, Context.TotalDuration), Mode=OneWay}"/>
                 </Grid>
-                <Button AccessKey="E" x:Uid="Stop" x:Name="Stop" Style="{ThemeResource RevealRoundButton}" 
-                        Command="{x:Bind Context.Stop}" ToolTipService.ToolTip="Stop"
-                        Width="48" Height="48" Margin="4" BorderBrush="{ThemeResource SystemControlBackgroundTransparentRevealBorderBrush}"
-                        Background="{ThemeResource SystemControlTransparentRevealBackgroundBrush}"
-                        HorizontalAlignment="Center" VerticalAlignment="Stretch">
-                    <Button.Content>
-                        <SymbolIcon Symbol="Stop"/>
-                    </Button.Content>
-                    <Button.KeyboardAccelerators>
-                        <KeyboardAccelerator Modifiers="Control" Key="E" />
-                        <KeyboardAccelerator Key="F4" />
-                    </Button.KeyboardAccelerators>
-                </Button>
-
-                <ToggleButton x:Uid="Shuffle" x:Name="Shuffle" Style="{ThemeResource RevealRoundToggleButton}"
-                              BorderBrush="{ThemeResource SystemControlBackgroundTransparentRevealBorderBrush}"
-                              Background="{ThemeResource SystemControlTransparentRevealBackgroundBrush}"
-                              IsChecked="{x:Bind Context.IsShuffle, Mode=TwoWay}" ToolTipService.ToolTip="Shuffle"
-                              Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
-                    <ToggleButton.Content>
-                        <SymbolIcon Symbol="Shuffle"/>
-                    </ToggleButton.Content>
-                </ToggleButton>
-
-                <ToggleButton x:Uid="Loop" x:Name="Refresh" Style="{ThemeResource RevealRoundToggleButton}" 
-                              Background="{ThemeResource SystemControlTransparentRevealBackgroundBrush}"
-                              BorderBrush="{ThemeResource SystemControlBackgroundTransparentRevealBorderBrush}"
-                              IsChecked="{x:Bind Context.IsLoop, Mode=TwoWay}" ToolTipService.ToolTip="Loop"
-                              Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
-                    <ToggleButton.Content>
-                        <SymbolIcon Symbol="Refresh"/>
-                    </ToggleButton.Content>
-                </ToggleButton>
-                <Button x:Name="Volume" Style="{ThemeResource RevealRoundButton}" 
-                        x:Uid="VolumeButton" ToolTipService.ToolTip="Volume" 
-                        Background="{ThemeResource SystemControlTransparentRevealBackgroundBrush}"
-                        BorderBrush="{ThemeResource SystemControlBackgroundTransparentRevealBorderBrush}"
-                        Width="48" Height="48" Margin="4" 
-                        HorizontalAlignment="Center" VerticalAlignment="Stretch">
-                    <Button.Content>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Context.VolumeToSymbol(Context.Volume), Mode=OneWay}" />
-                    </Button.Content>
-                    <Button.Flyout>
-                        <Flyout Opened="VolumeFlyout_Open" FlyoutPresenterStyle="{ThemeResource HoriNoScrollFlyoutPresenter}">
-                            <StackPanel Padding="4,4,4,-4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Orientation="Horizontal">
-                                <Slider Style="{ThemeResource RoundSlider}" IsThumbToolTipEnabled="False" 
-                                        MinWidth="240" HorizontalAlignment="Stretch" VerticalAlignment="Center" 
-                                        Minimum="0" Maximum="100" StepFrequency="1" Value="{x:Bind Context.Volume, Mode=TwoWay}"/>
-                                <TextBlock Margin="4,0,0,10" Width="36" TextAlignment="Right" 
-                                           VerticalAlignment="Center" Style="{ThemeResource TitleTextBlockStyle}" 
-                                           TextWrapping="NoWrap" TextTrimming="None" MaxLines="1" 
-                                           HorizontalAlignment="Stretch" 
-                                           Text="{x:Bind Context.VolumeToString(Context.Volume), Mode=OneWay}"/>
-                            </StackPanel>
-                        </Flyout>
-                    </Button.Flyout>
-                </Button>
             </StackPanel>
-            <Slider Style="{StaticResource RoundSlider1}" Grid.Column="2" Margin="8,6,8,0"
-                    Background="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}"
-                    Foreground="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}"
-                    HorizontalAlignment="Stretch" VerticalAlignment="Center"
-                    Value="{x:Bind Context.PositionToValue(Context.CurrentPosition, Context.TotalDuration), Mode=OneWay}"
-                    ThumbToolTipValueConverter="{StaticResource SliderToolTipConverter}" ValueChanged="Slider_ValueChanged"
-                    x:Name="MainSlider"/>
         </Grid>
 
         <toolkit:DropShadowPanel Grid.ColumnSpan="2" Grid.RowSpan="3" BlurRadius="48"
@@ -1337,7 +1341,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
 
         <TextBlock Visibility="{x:Bind Context.NeedShowTitle, Mode=OneWay}"
-                   OpticalMarginAlignment="None" Margin="80,12,0,0"
+                   OpticalMarginAlignment="None" Margin="96,32,0,0"
                    Grid.ColumnSpan="2" Grid.Row="1" Opacity="0.5"
                    Style="{ThemeResource TitleTextBlockStyle}"
                    FontSize="32"
@@ -1396,13 +1400,19 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         
         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent"
               x:Name="TitleBar" Loaded="TitleBar_Loaded" Grid.ColumnSpan="2" Grid.Row="0"/>
-        <Grid HorizontalAlignment="Right" VerticalAlignment="Stretch"
+        <Button HorizontalAlignment="Left" VerticalAlignment="Stretch"
+                Width="64" Height="48" Style="{ThemeResource RevealRectangleButton}"
+                BorderBrush="{ThemeResource SystemControlBackgroundTransparentRevealBorderBrush}"
+                Background="{ThemeResource SystemControlTransparentRevealBackgroundBrush}"
+                Foreground="{ThemeResource SystemControlBackgroundBaseHighRevealBorderBrush}"
+                Visibility="{x:Bind Context.NeedShowBack, Mode=OneWay}"
+                Click="BackButton_Click">
+            <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE0C4;" Style="{ThemeResource CaptionTextBlockStyle}"/>
+        </Button>
+        <Grid HorizontalAlignment="Center" VerticalAlignment="Stretch"
               Grid.Row="0" x:Name="TitleBarOverlay" Grid.Column="1">
-            <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="1"
-                  BorderThickness="0" BorderBrush="{x:Null}" x:Name="TitlebarBtm"
-                  Background="{StaticResource SystemControlBackgroundTransparentRevealBorderBrush}"/>
             <AutoSuggestBox AutoMaximizeSuggestionArea="True" Loaded="SearchBox_Loaded" 
-                            LosingFocus="SearchBox_LosingFocus"
+                            LosingFocus="SearchBox_LosingFocus" Height="32"
                             GettingFocus="SearchBox_GettingFocus"
                             Style="{ThemeResource BlockAutoSuggestBox}" 
                             QuerySubmitted="SearchBox_QuerySubmitted" 

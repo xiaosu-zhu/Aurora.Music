@@ -191,6 +191,13 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref currentArtwork, value); }
         }
 
+        private bool needShowBack;
+        public bool NeedShowBack
+        {
+            get { return needShowBack; }
+            set { SetProperty(ref needShowBack, value); }
+        }
+
         private double nowPlayingPosition;
         public double NowPlayingPosition
         {

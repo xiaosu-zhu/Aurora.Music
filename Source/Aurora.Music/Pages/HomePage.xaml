@@ -517,7 +517,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <VisualState.Setters>
                         <Setter Target="RandomPanel.Margin" Value="16,64,8,8"/>
                         <Setter Target="FavoritPanel.Margin" Value="16,64,8,8"/>
-                        <Setter Target="HeroPanel.Margin" Value="16,16,8,8"/>
+                        <Setter Target="TextContainer.Padding" Value="16,0,0,0"/>
                         <Setter Target="RandomHeader.Width" Value="16"/>
                         <Setter Target="FavHeader.MinWidth" Value="16"/>
                         <Setter Target="FavHeader.Padding" Value="16,0,0,0"/>
@@ -531,7 +531,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <VisualState.Setters>
                         <Setter Target="RandomPanel.Margin" Value="16,64,16,8"/>
                         <Setter Target="FavoritPanel.Margin" Value="16,64,16,8"/>
-                        <Setter Target="HeroPanel.Margin" Value="16,16,16,8"/>
+                        <Setter Target="TextContainer.Padding" Value="16,0,0,0"/>
                         <Setter Target="RandomHeader.Width" Value="16"/>
                         <Setter Target="FavHeader.MinWidth" Value="16"/>
                         <Setter Target="FavHeader.Padding" Value="16,0,0,0"/>
@@ -544,13 +544,13 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <AdaptiveTrigger MinWindowWidth="1008"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="RandomPanel.Margin" Value="16,64,0,8"/>
-                        <Setter Target="FavoritPanel.Margin" Value="16,64,0,8"/>
-                        <Setter Target="HeroPanel.Margin" Value="16,16,0,8"/>
-                        <Setter Target="RandomHeader.Width" Value="16"/>
-                        <Setter Target="FavHeader.MinWidth" Value="16"/>
-                        <Setter Target="FavHeader.Padding" Value="16,0,0,0"/>
-                        <Setter Target="HeroHeader.Width" Value="16"/>
+                        <Setter Target="RandomPanel.Margin" Value="32,64,0,8"/>
+                        <Setter Target="FavoritPanel.Margin" Value="32,64,0,8"/>
+                        <Setter Target="TextContainer.Padding" Value="32,0,0,0"/>
+                        <Setter Target="RandomHeader.Width" Value="32"/>
+                        <Setter Target="FavHeader.MinWidth" Value="32"/>
+                        <Setter Target="FavHeader.Padding" Value="32,0,0,0"/>
+                        <Setter Target="HeroHeader.Width" Value="32"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -589,18 +589,15 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{ThemeResource NarrowScrollViewer}"
                       VerticalScrollMode="Auto" VerticalScrollBarVisibility="Auto" IsVerticalRailEnabled="True" 
                       IsVerticalScrollChainingEnabled="True">
-            <StackPanel Margin="0,144,0,160" Orientation="Vertical" x:Name="ContentPanel"
+            <StackPanel Margin="0,240,0,160" Orientation="Vertical" x:Name="ContentPanel"
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <StackPanel x:Name="HeroPanel" Orientation="Horizontal" Margin="60,16,16,8">
-                    <TextBlock x:Uid="HeroTitle" Text="For You" x:Name="HeroTitle" Style="{ThemeResource HeaderTextBlockStyle}" FontWeight="Bold"/>
-                </StackPanel>
                 <ListView SelectionMode="None" IsItemClickEnabled="True" 
                           ItemsSource="{x:Bind Context.HeroList}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                           ItemContainerStyle="{ThemeResource HomeListViewItemStyle}" x:Name="HeroGrid"
                           ContextRequested="HeroGrid_ContextRequested" ContextCanceled="HeroGrid_ContextCanceled" 
                           ItemClick="HeroGrid_ItemClick" Margin="0" Style="{ThemeResource HorizontalListView}">
                     <ListView.Header>
-                        <Grid x:Name="HeroHeader" VerticalAlignment="Stretch" Width="60"/>
+                        <Grid x:Name="HeroHeader" VerticalAlignment="Stretch" Width="32"/>
                     </ListView.Header>
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="vm:HeroItemViewModel">
@@ -688,7 +685,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </ListView>
             </StackPanel>
         </ScrollViewer>
-        <StackPanel Loaded="Header_Loaded" x:Name="HeaderBG" Height="120" VerticalAlignment="Top" HorizontalAlignment="Stretch" Background="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}" Orientation="Vertical">
-        </StackPanel>
+        <Border Loaded="Header_Loaded" x:Name="HeaderBG" Height="120" VerticalAlignment="Top" HorizontalAlignment="Stretch" Background="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}"/>
+        <Border VerticalAlignment="Top" HorizontalAlignment="Left" x:Name="TextContainer">
+            <TextBlock x:Name="HeroTitle" Text="{x:Bind Context.WelcomeTitle, Mode=OneWay}" Style="{ThemeResource HeaderTextBlockStyle}" FontWeight="Bold"/>
+        </Border>
     </Grid>
 </Page>

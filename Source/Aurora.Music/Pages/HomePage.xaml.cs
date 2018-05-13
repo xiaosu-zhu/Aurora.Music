@@ -8,6 +8,7 @@ using Aurora.Shared.Helpers;
 using ExpressionBuilder;
 using System;
 using System.Linq;
+using System.Numerics;
 using Windows.System.Threading;
 using Windows.UI.Composition;
 using Windows.UI.Core;
@@ -48,11 +49,9 @@ namespace Aurora.Music.Pages
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            MainPageViewModel.Current.NeedShowTitle = true;
-            MainPageViewModel.Current.Title = Context.WelcomeTitle;
+            MainPageViewModel.Current.NeedShowTitle = false;
             MainPageViewModel.Current.LeftTopColor = Resources["SystemControlForegroundBaseHighBrush"] as SolidColorBrush;
-            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
-            AppViewBackButtonVisibility.Collapsed;
+            MainPageViewModel.Current.NeedShowBack = false;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -93,19 +92,33 @@ namespace Aurora.Music.Pages
 
             _props = _compositor.CreatePropertySet();
             _props.InsertScalar("progress", 0);
+            _props.InsertScalar("clampSize", (float)HeaderBG.Height);
+            _props.InsertScalar("scaleFactor", 0.7f);
 
             // Get references to our property sets for use with ExpressionNodes
             var scrollingProperties = _scrollerPropertySet.GetSpecializedReference<ManipulationPropertySetReferenceNode>();
             var props = _props.GetReference();
             var progressNode = props.GetScalarProperty("progress");
+            var clampSizeNode = props.GetScalarProperty("clampSize");
+            var scaleFactorNode = props.GetScalarProperty("scaleFactor");
 
             // Create and start an ExpressionAnimation to track scroll progress over the desired distance
-            ExpressionNode progressAnimation = EF.Clamp(-scrollingProperties.Translation.Y / ((float)HeaderBG.Height), 0, 1);
+            var progressAnimation = EF.Clamp(-scrollingProperties.Translation.Y / clampSizeNode, 0, 1);
             _props.StartAnimation("progress", progressAnimation);
 
             var headerbgVisual = ElementCompositionPreview.GetElementVisual(HeaderBG);
             var bgblurOpacityAnimation = EF.Clamp(progressNode, 0, 1);
             headerbgVisual.StartAnimation("Opacity", bgblurOpacityAnimation);
+
+            var headerVisual = ElementCompositionPreview.GetElementVisual(HeroTitle);
+            var scaleAnimation = EF.Lerp(1, scaleFactorNode, progressNode);
+            headerVisual.StartAnimation("Scale.X", scaleAnimation);
+            headerVisual.StartAnimation("Scale.Y", scaleAnimation);
+
+            var offsetAnimation = EF.Lerp(160f, 32f, progressNode);
+
+            var containerVisual = ElementCompositionPreview.GetElementVisual(TextContainer);
+            containerVisual.StartAnimation("Offset.Y", offsetAnimation);
         }
 
         private async void FavList_ItemClick(object sender, ItemClickEventArgs e)

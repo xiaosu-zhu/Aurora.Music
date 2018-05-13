@@ -59,8 +59,7 @@ namespace Aurora.Music.Pages
 
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
-            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
-            AppViewBackButtonVisibility.Visible;
+            MainPageViewModel.Current.NeedShowBack = true;
 
             if (e.Parameter == null)
             {

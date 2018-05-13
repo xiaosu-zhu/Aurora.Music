@@ -57,8 +57,7 @@ namespace Aurora.Music.Pages
         {
             base.OnNavigatedTo(e);
 
-            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
-            AppViewBackButtonVisibility.Visible;
+            MainPageViewModel.Current.NeedShowBack = true;
 
             try
             {

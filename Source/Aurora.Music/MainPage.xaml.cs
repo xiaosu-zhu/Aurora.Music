@@ -95,7 +95,7 @@ namespace Aurora.Music
             base.OnNavigatedTo(e);
             dataTransferManager.DataRequested += DataTransferManager_DataRequested;
 
-            SystemNavigationManager.GetForCurrentView().BackRequested += MaiPage_BackRequested;
+            SystemNavigationManager.GetForCurrentView().BackRequested += MainPage_BackRequested;
 
 
             if (e.Parameter is ValueTuple<Type, Type, int, string> m)
@@ -117,7 +117,7 @@ namespace Aurora.Music
             //dataTransferManager.DataRequested -= DataTransferManager_DataRequested;
         }
 
-        private void MaiPage_BackRequested(object sender, BackRequestedEventArgs e)
+        private void MainPage_BackRequested(object sender, BackRequestedEventArgs e)
         {
             if (e.Handled || ((Window.Current.Content is Frame f) && f.Content is CompactOverlayPanel)) return;
 
@@ -308,12 +308,15 @@ namespace Aurora.Music
             sender.Completed -= MainPage_Completed;
         }
 
-        public void GoBackFromNowPlaying(bool useTranslation = true)
+        public void GoBackFromNowPlaying()
         {
             if (OverlayFrame.Visibility == Visibility.Visible)
             {
                 NowPanel.Visibility = Visibility.Visible;
                 MainFrame.Visibility = Visibility.Visible;
+
+                if (MainFrame.Content is HomePage) Context.NeedShowBack = false;
+
                 (OverlayFrame.Content as NowPlayingPage).Unload();
                 OverlayFrame.Content = null;
                 var ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.NowPlayingPageInAnimation);
@@ -366,17 +369,6 @@ namespace Aurora.Music
         }
         private void TitleBar_Loaded(object sender, RoutedEventArgs e)
         {
-            var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
-            // Get the size of the caption controls area and back button 
-            // (returned in logical pixels), and move your content around as necessary.
-            SearchBox.Margin = new Thickness(0, 0, coreTitleBar.SystemOverlayRightInset, 0);
-            TitlebarBtm.Width = coreTitleBar.SystemOverlayRightInset;
-            // Update title bar control size as needed to account for system size changes.
-            TitleBar.Height = coreTitleBar.Height;
-            TitleBarOverlay.Height = coreTitleBar.Height;
-
-            coreTitleBar.LayoutMetricsChanged += CoreTitleBar_LayoutMetricsChanged;
-            coreTitleBar.IsVisibleChanged += CoreTitleBar_IsVisibleChanged;
 
             Window.Current.SetTitleBar(TitleBar);
         }
@@ -428,37 +420,11 @@ namespace Aurora.Music
 
         private void CoreTitleBar_IsVisibleChanged(CoreApplicationViewTitleBar sender, object args)
         {
-            if (sender.IsVisible)
-            {
-                TitleBar.Visibility = Visibility.Visible;
-                TitlebarBtm.Visibility = Visibility.Visible;
-                SearchBox.Margin = new Thickness(0, 0, sender.SystemOverlayRightInset, 0);
-            }
-            else
-            {
-                TitleBar.Visibility = Visibility.Collapsed;
-                TitlebarBtm.Visibility = Visibility.Collapsed;
-                SearchBox.Margin = new Thickness(0);
-            }
 
         }
 
         private void CoreTitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
         {
-            // Get the size of the caption controls area and back button 
-            // (returned in logical pixels), and move your content around as necessary.
-            if (sender.IsVisible)
-            {
-                SearchBox.Margin = new Thickness(0, 0, sender.SystemOverlayRightInset, 0);
-            }
-            else
-            {
-                SearchBox.Margin = new Thickness(0);
-            }
-            // Update title bar control size as needed to account for system size changes.
-            TitlebarBtm.Width = sender.SystemOverlayRightInset;
-            TitleBar.Height = sender.Height;
-            TitleBarOverlay.Height = sender.Height;
         }
 
         internal void ShowPodcast(string ID)
@@ -1413,6 +1379,25 @@ namespace Aurora.Music
         private void NowPlayingFlyout_ItemClick(object sender, ItemClickEventArgs e)
         {
             Context.SkiptoItem(e.ClickedItem as SongViewModel);
+        }
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            if ((Window.Current.Content is Frame f) && f.Content is CompactOverlayPanel) return;
+
+
+            if (OverlayFrame.Visibility == Visibility.Visible && OverlayFrame.Content is IRequestGoBack g)
+            {
+                g.RequestGoBack();
+                return;
+            }
+            if (MainFrame.Visibility == Visibility.Visible && MainFrame.Content is IRequestGoBack p)
+            {
+                p.RequestGoBack();
+                return;
+            }
+
+            GoBack();
         }
     }
 }
