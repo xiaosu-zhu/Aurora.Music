@@ -685,7 +685,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </ListView>
             </StackPanel>
         </ScrollViewer>
-        <Border Loaded="Header_Loaded" x:Name="HeaderBG" Height="120" VerticalAlignment="Top" HorizontalAlignment="Stretch" Background="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}"/>
+        <Border Loaded="Header_Loaded" x:Name="HeaderBG" Height="120" VerticalAlignment="Top" HorizontalAlignment="Stretch" Background="{ThemeResource SystemControlAltHighAcrylicElementBrush}"/>
         <Border VerticalAlignment="Top" HorizontalAlignment="Left" x:Name="TextContainer">
             <TextBlock x:Name="HeroTitle" Text="{x:Bind Context.WelcomeTitle, Mode=OneWay}" Style="{ThemeResource HeaderTextBlockStyle}" FontWeight="Bold"/>
         </Border>

@@ -914,7 +914,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <Setter Target="PlayListNarrow.Visibility" Value="Collapsed"/>
                         <Setter Target="PlayListFull.Visibility" Value="Visible"/>
                         <Setter Target="PlayListBtn.Margin" Value="32,0,4,0"/>
-                        <Setter Target="NowPanelTexts.Margin" Value="8,0"/>
                         <Setter Target="Previous.Margin" Value="4"/>
                         <Setter Target="PlayPause.Margin" Value="4"/>
                         <Setter Target="Next.Margin" Value="4"/>
@@ -937,7 +936,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <Setter Target="PlayListNarrow.Visibility" Value="Visible"/>
                         <Setter Target="PlayListFull.Visibility" Value="Collapsed"/>
                         <Setter Target="PlayListBtn.Margin" Value="4,0"/>
-                        <Setter Target="NowPanelTexts.Margin" Value="4,0"/>
                         <Setter Target="SearchBox.Width" Value="240"/>
                         <Setter Target="Previous.Margin" Value="2"/>
                         <Setter Target="PlayPause.Margin" Value="2"/>
@@ -1024,7 +1022,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <Button AccessKey="5" Height="80" Padding="0" VerticalContentAlignment="Stretch"
+            <Button AccessKey="5" Height="80" Padding="0" VerticalContentAlignment="Stretch" x:Uid="More"
                     HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
                     ToolTipService.ToolTip="More" Grid.Row="1" BorderThickness="0"
                     Style="{ThemeResource RevealRectangleButton}" Width="64"
@@ -1040,7 +1038,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
 
-                    <TextBlock Text="More" Style="{ThemeResource BodyTextBlockStyle}" FontSize="12"
+                    <TextBlock x:Uid="MoreButton" Text="More" Style="{ThemeResource BodyTextBlockStyle}" FontSize="12"
                                HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </StackPanel>
                 <Button.Flyout>
@@ -1146,7 +1144,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                HorizontalAlignment="Right" VerticalAlignment="Stretch"
                                Stretch="Uniform" Source="{x:Bind Context.CurrentArtwork,Mode=OneWay}"
                                ImageOpened="Artwork_ImageOpened"/>
-                        <StackPanel x:Name="NowPanelTexts" Padding="8,0" Orientation="Vertical" 
+                        <StackPanel x:Name="NowPanelTexts" Padding="4,0" Orientation="Vertical" 
                                     HorizontalAlignment="Right" VerticalAlignment="Center">
                             <TextBlock x:Name="Title" Text="{x:Bind Context.CurrentTitle, Mode=OneWay}" 
                                        ToolTipService.ToolTip="{x:Bind Context.CurrentTitle,Mode=OneWay}"

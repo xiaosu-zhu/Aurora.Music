@@ -1372,6 +1372,10 @@
     <value>More</value>
     <comment>More</comment>
   </data>
+    <data name="MoreButton.Text" xml:space="preserve">
+    <value>More</value>
+    <comment>More</comment>
+  </data>
     <data name="Library.Header" xml:space="preserve">
     <value>Library</value>
     <comment>Library</comment>

@@ -132,7 +132,7 @@ namespace Aurora.Music.Pages
             base.OnNavigatedTo(e);
 
             MainPageViewModel.Current.Title = Consts.Localizer.GetString("NowPlayingText");
-            MainPageViewModel.Current.NeedShowTitle = true;
+            MainPageViewModel.Current.NeedShowTitle = false;
 
             MainPageViewModel.Current.NeedShowBack = true;
 

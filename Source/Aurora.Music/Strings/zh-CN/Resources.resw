@@ -1449,6 +1449,10 @@
     <value>更多</value>
     <comment>More</comment>
   </data>
+    <data name="MoreButton.Text" xml:space="preserve">
+    <value>更多</value>
+    <comment>More</comment>
+  </data>
     <data name="Library.Header" xml:space="preserve">
     <value>库</value>
     <comment>Library</comment>
