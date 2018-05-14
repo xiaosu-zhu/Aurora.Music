@@ -1480,11 +1480,11 @@
     <comment>{0} {0:task|tasks} {0:is|are} in queue</comment>
   </data>
     <data name="OlderTop" xml:space="preserve">
-    <value>Older at top</value>
+    <value>Più vecchio in cima</value>
     <comment>Older at top</comment>
   </data>
     <data name="NewerTop" xml:space="preserve">
-    <value>Newer at top</value>
+    <value>Più recente in cima</value>
     <comment>Newer at top</comment>
   </data>
     <data name="SizeFilter.Header" xml:space="preserve">
@@ -1536,15 +1536,15 @@
     <comment>Wait for a While...</comment>
   </data>
     <data name="FolderScanText" xml:space="preserve">
-    <value>{0} of {1} {1:folder|folders} scanned</value>
+    <value>{0} di {1} {1:cartella|cartelle} analizzate</value>
     <comment>{0} of {1} {1:folder|folders} scanned</comment>
   </data>
     <data name="FolderScanFinishText" xml:space="preserve">
-    <value>Folders scanning completed</value>
+    <value>Analisi delle cartelle completata</value>
     <comment>Folders scanning completed</comment>
   </data>
     <data name="FileReadText" xml:space="preserve">
-    <value>{0} of {1} {1:file|files} read</value>
+    <value>{0} di {1} {1:file|file} letti</value>
     <comment>{0} of {1} {1:file|files} read</comment>
   </data>
     <data name="AlbumSortText" xml:space="preserve">
@@ -1560,27 +1560,27 @@
     <comment>More</comment>
   </data>
     <data name="Library.Header" xml:space="preserve">
-    <value>Library</value>
+    <value>Libreria</value>
     <comment>Library</comment>
   </data>
     <data name="Filters.Text" xml:space="preserve">
-    <value>Filters</value>
+    <value>Filtri</value>
     <comment>Filters</comment>
   </data>
     <data name="PinText" xml:space="preserve">
-    <value>Pin to start</value>
+    <value>Aggiungi a Start</value>
     <comment>Pin to start</comment>
   </data>
     <data name="UnPinText" xml:space="preserve">
-    <value>Unpin from start</value>
+    <value>Rimuovi da Start</value>
     <comment>Unpin from start</comment>
   </data>
     <data name="AlbumsTile" xml:space="preserve">
-    <value>Explore your albums in Aurora Music</value>
+    <value>Esplora i tuoi album in Aurora Music</value>
     <comment>Explore your albums in Aurora Music</comment>
   </data>
     <data name="SongsTile" xml:space="preserve">
-    <value>Explore your songs in Aurora Music</value>
+    <value>Esplora le tue canzoni in Aurora Music</value>
     <comment>Explore your songs in Aurora Music</comment>
   </data>
     <data name="TimelineTitle" xml:space="preserve">

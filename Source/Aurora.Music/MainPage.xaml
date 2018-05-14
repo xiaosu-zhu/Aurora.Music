@@ -913,13 +913,16 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <Setter Target="PositionFull.Visibility" Value="Collapsed"/>
                         <Setter Target="PlayListNarrow.Visibility" Value="Collapsed"/>
                         <Setter Target="PlayListFull.Visibility" Value="Visible"/>
-                        <Setter Target="PlayListBtn.Margin" Value="32,0,4,0"/>
-                        <Setter Target="Previous.Margin" Value="4"/>
-                        <Setter Target="PlayPause.Margin" Value="4"/>
-                        <Setter Target="Next.Margin" Value="4"/>
-                        <Setter Target="Stop.Margin" Value="4"/>
-                        <Setter Target="Shuffle.Margin" Value="4"/>
-                        <Setter Target="Refresh.Margin" Value="4"/>
+                        <Setter Target="PlayListBtn.Margin" Value="4,0"/>
+                        <Setter Target="PositionText.Margin" Value="4,0"/>
+                        <Setter Target="Previous.Margin" Value="2"/>
+                        <Setter Target="PlayPause.Margin" Value="2"/>
+                        <Setter Target="Next.Margin" Value="2"/>
+                        <Setter Target="Stop.Margin" Value="2"/>
+                        <Setter Target="Volume.Margin" Value="2"/>
+                        <Setter Target="Shuffle.Margin" Value="2"/>
+                        <Setter Target="Refresh.Margin" Value="2"/>
+                        <Setter Target="NowPanelButton.Width" Value="240"/>
                         <Setter Target="Stop.Visibility" Value="Collapsed"/>
                         <Setter Target="Shuffle.Visibility" Value="Visible"/>
                         <Setter Target="Refresh.Visibility" Value="Visible"/>
@@ -935,14 +938,17 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <Setter Target="PositionFull.Visibility" Value="Collapsed"/>
                         <Setter Target="PlayListNarrow.Visibility" Value="Visible"/>
                         <Setter Target="PlayListFull.Visibility" Value="Collapsed"/>
-                        <Setter Target="PlayListBtn.Margin" Value="4,0"/>
+                        <Setter Target="PlayListBtn.Margin" Value="0"/>
+                        <Setter Target="PositionText.Margin" Value="0"/>
                         <Setter Target="SearchBox.Width" Value="240"/>
-                        <Setter Target="Previous.Margin" Value="2"/>
-                        <Setter Target="PlayPause.Margin" Value="2"/>
-                        <Setter Target="Next.Margin" Value="2"/>
-                        <Setter Target="Stop.Margin" Value="2"/>
-                        <Setter Target="Shuffle.Margin" Value="2"/>
-                        <Setter Target="Refresh.Margin" Value="2"/>
+                        <Setter Target="Previous.Margin" Value="0"/>
+                        <Setter Target="PlayPause.Margin" Value="0"/>
+                        <Setter Target="Volume.Margin" Value="0"/>
+                        <Setter Target="Next.Margin" Value="0"/>
+                        <Setter Target="Stop.Margin" Value="0"/>
+                        <Setter Target="NowPanelButton.Width" Value="120"/>
+                        <Setter Target="Shuffle.Margin" Value="0"/>
+                        <Setter Target="Refresh.Margin" Value="0"/>
                         <Setter Target="Stop.Visibility" Value="Collapsed"/>
                         <Setter Target="Shuffle.Visibility" Value="Collapsed"/>
                         <Setter Target="Refresh.Visibility" Value="Collapsed"/>
@@ -1001,7 +1007,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <DataTemplate x:DataType="vm:HamPanelItem">
                         <StackPanel Background="{ThemeResource SystemControlTransparentBrush}"
                                     VerticalAlignment="Stretch" AccessKey="{x:Bind IndexNum}"
-                                    AccessKeyInvoked="Panel_AccessKeyInvoked" Height="80"
+                                    AccessKeyInvoked="Panel_AccessKeyInvoked"
                                     Opacity="{x:Bind BoolToOpacity(IsCurrent), Mode=OneWay}"
                                     x:Name="Panel" HorizontalAlignment="Stretch"
                                     Width="64" ToolTipService.ToolTip="{x:Bind Title}">
@@ -1014,15 +1020,19 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                           FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Icon}" 
                                           Foreground="{x:Bind ChangeForeground(IsCurrent),Mode=OneWay}"/>
                             </Border>
-                            <TextBlock Margin="8,0" Grid.Column="1" x:Name="Title" Text="{x:Bind Title}" 
-                                       Foreground="{x:Bind ChangeForeground(IsCurrent),Mode=OneWay}"
-                                       HorizontalAlignment="Center" VerticalAlignment="Center"
-                                       FontSize="12" Style="{ThemeResource BodyTextBlockStyle}"/>
+                            <Viewbox Stretch="Uniform" Height="32" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <TextBlock x:Name="Title" Text="{x:Bind Title}" Width="64" TextAlignment="Center"
+                                           Foreground="{x:Bind ChangeForeground(IsCurrent),Mode=OneWay}"
+                                           HorizontalAlignment="Center" VerticalAlignment="Stretch"
+                                           MaxLines="2" TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis"
+                                           FontSize="12" Style="{ThemeResource BodyTextBlockStyle}"/>
+                            </Viewbox>
+
                         </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <Button AccessKey="5" Height="80" Padding="0" VerticalContentAlignment="Stretch" x:Uid="More"
+            <Button AccessKey="5" Padding="0" VerticalContentAlignment="Stretch" x:Uid="More"
                     HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
                     ToolTipService.ToolTip="More" Grid.Row="1" BorderThickness="0"
                     Style="{ThemeResource RevealRectangleButton}" Width="64"
@@ -1037,14 +1047,17 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                   FontFamily="Segoe MDL2 Assets" Glyph="&#xE10C;" 
                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
-
-                    <TextBlock x:Uid="MoreButton" Text="More" Style="{ThemeResource BodyTextBlockStyle}" FontSize="12"
-                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Viewbox Stretch="Uniform" Height="32" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <TextBlock x:Uid="MoreButton" Text="More" Style="{ThemeResource BodyTextBlockStyle}" 
+                                   FontSize="12" MaxLines="2" TextWrapping="WrapWholeWords" 
+                                   TextTrimming="CharacterEllipsis" Width="64" TextAlignment="Center"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Viewbox>
                 </StackPanel>
                 <Button.Flyout>
                     <Flyout>
                         <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Orientation="Horizontal">
-                            <Button AccessKey="5" Height="80" Padding="0" VerticalContentAlignment="Center" 
+                            <Button AccessKey="5" Padding="0" VerticalContentAlignment="Center" 
                                     Command="{x:Bind Context.GotoDownload}" x:Name="Download"
                                     HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" 
                                     VerticalAlignment="Stretch" BorderThickness="0"
@@ -1069,13 +1082,16 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                                                    HorizontalAlignment="Center" VerticalAlignment="Center"
                                                                    Minimum="0" Maximum="100"/>
                                     </Grid>
-                                    <TextBlock Grid.Column="1" Text="{x:Bind Context.DownloadDes,Mode=OneWay}"
-                                               Style="{ThemeResource BodyTextBlockStyle}" FontSize="12" 
-                                               Margin="0,0,2,0"
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <Viewbox Stretch="Uniform" Height="32" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                        <TextBlock Text="{x:Bind Context.DownloadDes,Mode=OneWay}"
+                                                   Style="{ThemeResource BodyTextBlockStyle}" 
+                                                   FontSize="12" MaxLines="2" TextWrapping="WrapWholeWords" 
+                                                   TextTrimming="CharacterEllipsis" Width="64" TextAlignment="Center"
+                                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Viewbox>
                                 </StackPanel>
                             </Button>
-                            <Button x:Uid="MainpageSettings" AccessKey="6" Height="80" 
+                            <Button x:Uid="MainpageSettings" AccessKey="6"
                                     Command="{x:Bind Context.GotoSettings}" BorderThickness="0"
                                     Padding="0" VerticalContentAlignment="Center"
                                     HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" 
@@ -1092,13 +1108,17 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                                   FontFamily="Segoe MDL2 Assets" Glyph="&#xE115;" 
                                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     </Border>
-                                    <TextBlock x:Uid="Settings" Grid.Column="1" Margin="0,0,2,0" Text="Settings"
-                                               Style="{ThemeResource BodyTextBlockStyle}" FontSize="12"
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <Viewbox Stretch="Uniform" Height="32" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                        <TextBlock x:Uid="Settings" Text="Settings"
+                                                   Style="{ThemeResource BodyTextBlockStyle}" 
+                                                   FontSize="12" MaxLines="2" TextWrapping="WrapWholeWords" 
+                                                   TextTrimming="CharacterEllipsis" Width="64" TextAlignment="Center"
+                                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Viewbox>
                                 </StackPanel>
                             </Button>
                             <Button AccessKey="7" ToolTipService.ToolTip="About"
-                                    Width="64" Height="80" Grid.Column="1" BorderThickness="0" 
+                                    Width="64" BorderThickness="0" 
                                     Command="{x:Bind Context.GotoAbout}" HorizontalAlignment="Stretch" 
                                     VerticalAlignment="Stretch" Background="{ThemeResource SystemControlTransparentBrush}"
                                     Style="{ThemeResource RevealRectangleButton}">
@@ -1112,9 +1132,13 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                                   FontFamily="Segoe MDL2 Assets" Glyph="&#xED59;" 
                                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     </Border>
-                                    <TextBlock x:Uid="About" Grid.Column="1" Margin="0,0,2,0" Text="About"
-                                               Style="{ThemeResource BodyTextBlockStyle}" FontSize="12"
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <Viewbox Stretch="Uniform" Height="32" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                        <TextBlock x:Uid="About" Text="About"
+                                                   Style="{ThemeResource BodyTextBlockStyle}" 
+                                                   FontSize="12" MaxLines="2" TextWrapping="WrapWholeWords" 
+                                                   TextTrimming="CharacterEllipsis" Width="64" TextAlignment="Center"
+                                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Viewbox>
                                 </StackPanel>
                             </Button>
                         </StackPanel>
@@ -1129,9 +1153,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="320"/>
+                <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
-            <Button Style="{ThemeResource RevealRectangleButton}" BorderThickness="0" 
+            <Button Style="{ThemeResource RevealRectangleButton}" BorderThickness="0" x:Name="NowPanelButton"
                     Background="Transparent" Grid.Column="3" HorizontalContentAlignment="Right"
                     Click="NowPanel_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Button.Content>
@@ -1309,7 +1333,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     ThumbToolTipValueConverter="{StaticResource SliderToolTipConverter}" ValueChanged="Slider_ValueChanged"
                     x:Name="MainSlider"/>
             <StackPanel Orientation="Horizontal" Grid.Column="2" Margin="0,0,32,0" 
-                        HorizontalAlignment="Right" VerticalAlignment="Stretch">
+                        HorizontalAlignment="Right" VerticalAlignment="Stretch" x:Name="PositionText">
                 <Grid Margin="0,0,4,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <TextBlock x:Name="PositionNarrow" Visibility="Collapsed" Margin="4"
                                HorizontalAlignment="Center" VerticalAlignment="Center" 
@@ -1395,7 +1419,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                    Source="{x:Bind Context.CurrentArtwork,Mode=OneWay,TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png}">
             </Image>
         </toolkit:DropShadowPanel>
-        
+
         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent"
               x:Name="TitleBar" Loaded="TitleBar_Loaded" Grid.ColumnSpan="2" Grid.Row="0"/>
         <Button HorizontalAlignment="Left" VerticalAlignment="Stretch"

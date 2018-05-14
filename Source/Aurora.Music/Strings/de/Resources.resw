@@ -1251,83 +1251,83 @@
     <comment>Paused by system policy</comment>
   </data>
     <data name="HeroTitle.Text" xml:space="preserve">
-    <value>For You</value>
+    <value>Für Dich</value>
     <comment>For You</comment>
   </data>
     <data name="DownloadDesc" xml:space="preserve">
-    <value>{0}/{1} download task {0:is|are} running</value>
-    <comment>{0}/{1} download task {0:is|are} running</comment>
+    <value>{0}/{1} Download- {0:Vorgang|Vorgänge} {0:ist|sind} aktiv</value>
+    <comment>{0}/{1} download {0:task|tasks} {0:is|are} running</comment>
   </data>
     <data name="PodcastMarket" xml:space="preserve">
-    <value>Explore podcasts</value>
+    <value>Podcasts entdecken</value>
     <comment>Explore podcasts</comment>
   </data>
     <data name="TopCharts.Text" xml:space="preserve">
-    <value>Top Charts</value>
+    <value>Top-Charts</value>
     <comment>Top Charts</comment>
   </data>
     <data name="RssInput.PlaceholderText" xml:space="preserve">
-    <value>Enter an valid rss address to view podcasts:</value>
+    <value>Zum Betrachten der Podcasts bitte hier gültige RSS-Adresse angeben:</value>
     <comment>Enter an valid rss address to view podcasts:</comment>
   </data>
     <data name="DisplayRequestSwitch.Header" xml:space="preserve">
-    <value>Prevent screen locks when playing</value>
+    <value>BIldschirm-Timeout während der Wiedergabe verhindern</value>
     <comment>Prevent screen locks when playing</comment>
   </data>
     <data name="EffectsNote.Text" xml:space="preserve">
-    <value>NOTE: Enable audio effects may cost a little performance</value>
+    <value>Hinweis: Das Aktivieren von Audio-Effekten könnte die App-Performance geringfügig beeinträchtigen,</value>
     <comment>NOTE: Enable audio effects may cost a little performance</comment>
   </data>
     <data name="EqualizerButton.Content" xml:space="preserve">
-    <value>Equalizer Settings</value>
+    <value>Equalizer-Einstellungen</value>
     <comment>Equalizer Settings</comment>
   </data>
     <data name="ChannelShiftToggle.Header" xml:space="preserve">
-    <value>Channel shift</value>
+    <value>Channel-Tausch</value>
     <comment>Channel shift</comment>
   </data>
     <data name="ToMonoSwitch.Header" xml:space="preserve">
-    <value>Stereo to mono</value>
+    <value>Von Stereo auf Mono schalten</value>
     <comment>Stereo to mono</comment>
   </data>
     <data name="LimiterToggle.Header" xml:space="preserve">
-    <value>Limiter</value>
+    <value>Begrenzer</value>
     <comment>Limiter</comment>
   </data>
     <data name="LimiterButton.Content" xml:space="preserve">
-    <value>Limiter setting</value>
+    <value>Begrenzer-Einstellung</value>
     <comment>Limiter setting</comment>
   </data>
     <data name="CacheFolderSize.Text" xml:space="preserve">
-    <value>Cache folder size:</value>
+    <value>Größe des Cache-Ordners:</value>
     <comment>Cache folder size:</comment>
   </data>
     <data name="DataFolderSize.Text" xml:space="preserve">
-    <value>Data folder size:</value>
+    <value>Größe des Datenordners:</value>
     <comment>Data folder size:</comment>
   </data>
     <data name="OpenDataButton.Content" xml:space="preserve">
-    <value>Open data folder</value>
+    <value>Datenordner öffnen</value>
     <comment>Open data folder</comment>
   </data>
     <data name="PodcastDesc" xml:space="preserve">
-    <value>Podcast Posted @ {0}</value>
+    <value>Podcast hochgeladen um {0}</value>
     <comment>Podcast Posted @ {0}</comment>
   </data>
     <data name="ImportPlaylist.Content" xml:space="preserve">
-    <value>Import playlist</value>
+    <value>Playlist importieren</value>
     <comment>Import playlist</comment>
   </data>
     <data name="Limiter.Text" xml:space="preserve">
-    <value>Limiter</value>
+    <value>Begrenzer</value>
     <comment>Limiter</comment>
   </data>
     <data name="LimiterDialog.Title" xml:space="preserve">
-    <value>Limiter Setting</value>
+    <value>Begrenzer-Einstellung</value>
     <comment>Limiter Setting</comment>
   </data>
     <data name="LimiterDialog.CloseButtonText" xml:space="preserve">
-    <value>Close</value>
+    <value>Schließen</value>
     <comment>Close</comment>
   </data>
     <data name="Attack.Header" xml:space="preserve">
@@ -1335,11 +1335,11 @@
     <comment>Attack</comment>
   </data>
     <data name="Release.Header" xml:space="preserve">
-    <value>Release</value>
+    <value>Erschienen</value>
     <comment>Release</comment>
   </data>
     <data name="Ratio.Header" xml:space="preserve">
-    <value>Ratio</value>
+    <value>Verhältnis</value>
     <comment>Ratio</comment>
   </data>
     <data name="Gain.Header" xml:space="preserve">
@@ -1347,7 +1347,7 @@
     <comment>Gain</comment>
   </data>
     <data name="Threshold.Header" xml:space="preserve">
-    <value>Threshold</value>
+    <value>Schwellenwert</value>
     <comment>Threshold</comment>
   </data>
     <data name="MainpageSettings.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
@@ -1355,127 +1355,127 @@
     <comment>Settings</comment>
   </data>
     <data name="StudioName.Text" xml:space="preserve">
-    <value>Aurora Studio's</value>
+    <value>Aurora Studios</value>
     <comment>Aurora Studio's</comment>
   </data>
     <data name="Contributors.Text" xml:space="preserve">
-    <value>Contributors</value>
+    <value>Beitragende</value>
     <comment>Contributors</comment>
   </data>
     <data name="OpenSourceLibraries.Text" xml:space="preserve">
-    <value>Open source libraries</value>
+    <value>Open-Source-Bibliotheken</value>
     <comment>Open source libraries</comment>
   </data>
     <data name="Donate.Text" xml:space="preserve">
-    <value>Donate</value>
+    <value>Spenden</value>
     <comment>Donate</comment>
   </data>
     <data name="TaskDesc" xml:space="preserve">
-    <value>{0} {0:task|tasks} {0:is|are} in queue</value>
+    <value>{0} {0:Auftrag|Aufträge} {0:ist|sind} in der Warteschlange</value>
     <comment>{0} {0:task|tasks} {0:is|are} in queue</comment>
   </data>
     <data name="OlderTop" xml:space="preserve">
-    <value>Older at top</value>
+    <value>Ältere zuerst</value>
     <comment>Older at top</comment>
   </data>
     <data name="NewerTop" xml:space="preserve">
-    <value>Newer at top</value>
+    <value>Neuere zuerst</value>
     <comment>Newer at top</comment>
   </data>
     <data name="SizeFilter.Header" xml:space="preserve">
-    <value>Don't search files smaller than</value>
+    <value>Nicht nach Dateien suchen, die kleiner sind als</value>
     <comment>Don't search files smaller than</comment>
   </data>
     <data name="DurationFilter.Header" xml:space="preserve">
-    <value>Don't search files shorter than</value>
+    <value>Nicht nach Dateien suchen, die kürzer sind als</value>
     <comment>Don't search files shorter than</comment>
   </data>
     <data name="DurationFilterEnable.Header" xml:space="preserve">
-    <value>Duration filter</value>
+    <value>Abspieldauer-Filter</value>
     <comment>Duration filter</comment>
   </data>
     <data name="SizeFilterEnable.Header" xml:space="preserve">
-    <value>Size filter</value>
+    <value>Dateigrößen-Filter</value>
     <comment>Size filter</comment>
   </data>
     <data name="FilteredfolderText" xml:space="preserve">
-    <value>Filtered folder</value>
+    <value>Gefilterter Ordner</value>
     <comment>Filtered folder</comment>
   </data>
     <data name="FilterFoldeNote.Text" xml:space="preserve">
-    <value>Note: filtered folder names will apply to all folder</value>
+    <value>Hinweis: Namen von gefilterten Ordnern werden auf alle Ordner angewandt</value>
     <comment>Note: filtered folder names will apply to all folder</comment>
   </data>
     <data name="FilterNewFolder.Content" xml:space="preserve">
-    <value>Add a folder don't scan</value>
+    <value>Einen Ordner hinzufügen, der nicht gescannt werden soll</value>
     <comment>Add a folder don't scan</comment>
   </data>
     <data name="WelcomeTitle2.Text" xml:space="preserve">
-    <value>Fluent Feel</value>
+    <value>Fluent Design-Oberfläche</value>
     <comment>Fluent Feel</comment>
   </data>
     <data name="Welcome1.Text" xml:space="preserve">
-    <value>Using Aurora Music to delight your music experience.</value>
+    <value>Aurora Music möchte maximalen Musikgenuss ermöglichen.</value>
     <comment>Using Aurora Music to delight your music experience.</comment>
   </data>
     <data name="Welcome2.Text" xml:space="preserve">
-    <value>It is based on Fluent-deisgn System, just check out the stunning UI performance.</value>
+    <value>Es baut auf dem Fluent Design-System auf, das die rasante Performance der Oberfläche ermöglicht.</value>
     <comment>It is based on Fluent-deisgn System, just check out the stunning UI performance.</comment>
   </data>
     <data name="WelcomeTitle3.Text" xml:space="preserve">
-    <value>Before You Start</value>
+    <value>Bevor wir loslegen können</value>
     <comment>Before You Start</comment>
   </data>
     <data name="WelcomeTitle4.Text" xml:space="preserve">
-    <value>Wait for a While...</value>
+    <value>Bitte einen kleinen Augenblick Geduld...</value>
     <comment>Wait for a While...</comment>
   </data>
     <data name="FolderScanText" xml:space="preserve">
-    <value>{0} of {1} {1:folder|folders} scanned</value>
+    <value>{0} von {1} {1:Ordner|Ordnern} gescannt</value>
     <comment>{0} of {1} {1:folder|folders} scanned</comment>
   </data>
     <data name="FolderScanFinishText" xml:space="preserve">
-    <value>Folders scanning completed</value>
+    <value>Ordner-Scan abgeschlossen</value>
     <comment>Folders scanning completed</comment>
   </data>
     <data name="FileReadText" xml:space="preserve">
-    <value>{0} of {1} {1:file|files} read</value>
+    <value>{0} von {1} {1:Datei|Dateien} eingelesen</value>
     <comment>{0} of {1} {1:file|files} read</comment>
   </data>
     <data name="AlbumSortText" xml:space="preserve">
-    <value>{0} of {1} {1:album|albums} sorted</value>
+    <value>{0} von {1} {1:Album|Alben} sortiert</value>
     <comment>{0} of {1} {1:album|albums} sorted</comment>
   </data>
     <data name="More.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>More</value>
+    <value>Mehr</value>
     <comment>More</comment>
   </data>
     <data name="MoreButton.Text" xml:space="preserve">
-    <value>More</value>
+    <value>Mehr</value>
     <comment>More</comment>
   </data>
     <data name="Library.Header" xml:space="preserve">
-    <value>Library</value>
+    <value>Bibliothek</value>
     <comment>Library</comment>
   </data>
     <data name="Filters.Text" xml:space="preserve">
-    <value>Filters</value>
+    <value>Filter</value>
     <comment>Filters</comment>
   </data>
     <data name="PinText" xml:space="preserve">
-    <value>Pin to start</value>
+    <value>An Start anheften</value>
     <comment>Pin to start</comment>
   </data>
     <data name="UnPinText" xml:space="preserve">
-    <value>Unpin from start</value>
+    <value>Von Start entfernen</value>
     <comment>Unpin from start</comment>
   </data>
     <data name="AlbumsTile" xml:space="preserve">
-    <value>Explore your albums in Aurora Music</value>
+    <value>Entdecke deine Alben in Aurora Music</value>
     <comment>Explore your albums in Aurora Music</comment>
   </data>
     <data name="SongsTile" xml:space="preserve">
-    <value>Explore your songs in Aurora Music</value>
+    <value>Entdecke deine Lieder in Aurora Music</value>
     <comment>Explore your songs in Aurora Music</comment>
   </data>
     <data name="TimelineTitle" xml:space="preserve">

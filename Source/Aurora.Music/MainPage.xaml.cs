@@ -48,14 +48,12 @@ namespace Aurora.Music
 
         public MainPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
 
             Current = this;
             SongFlyout = (Resources["SongFlyout"] as MenuFlyout);
 
             dataTransferManager = DataTransferManager.GetForCurrentView();
-            //Window.Current.CoreWindow.Dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
-            //Window.Current.CoreWindow.KeyUp += MainPage_KeyUp;
         }
 
         internal void SetSleepTimer(DateTime t, SleepAction a)

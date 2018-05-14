@@ -485,10 +485,10 @@ namespace Aurora.Music.PlaybackEngine
             }
         }
 
-        private void WriteProperties(Song item, MediaItemDisplayProperties props, IRandomAccessStream img)
+        private void WriteProperties(Song item, MediaItemDisplayProperties props, RandomAccessStreamReference img)
         {
             // When to Dispose img?
-            props.Thumbnail = RandomAccessStreamReference.CreateFromStream(img);
+            props.Thumbnail = img;
 
             props.Type = Windows.Media.MediaPlaybackType.Music;
             props.MusicProperties.Title = item.Title.IsNullorEmpty() ? item.FilePath.Split('\\').LastOrDefault() : item.Title;

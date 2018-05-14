@@ -86,7 +86,7 @@ namespace Aurora.Music.Core.Tools
                     Task.Run(async () =>
                     {
                         await Task.Delay(waitTimeout);
-                        waitHandle.WaitOne();
+                        waitHandle.Set();
                     });
                     waitHandle.WaitOne();
                     return m_deviceList.Count > 0;

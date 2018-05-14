@@ -14,7 +14,7 @@ namespace Aurora.Music.Core.Tools
 {
     public static class Helper
     {
-        public static async Task<IRandomAccessStream> UpdateSongAsync(Song song, StorageFile file)
+        public static async Task<RandomAccessStreamReference> UpdateSongAsync(Song song, StorageFile file)
         {
 
             using (var tag = TagLib.File.Create(file))
@@ -28,7 +28,7 @@ namespace Aurora.Music.Core.Tools
                     var randomAccessStream = new InMemoryRandomAccessStream();
                     await randomAccessStream.WriteAsync(pictures[0].Data.Data.AsBuffer());
                     randomAccessStream.Seek(0);
-                    return randomAccessStream;
+                    return RandomAccessStreamReference.CreateFromStream(randomAccessStream);
                 }
                 else
                 {
@@ -44,10 +44,7 @@ namespace Aurora.Music.Core.Tools
                         var files = await result.GetFilesAsync();
                         if (files.Count > 0)
                         {
-                            using (var stream = await files[0].OpenStreamForReadAsync())
-                            {
-                                return stream.AsRandomAccessStream();
-                            }
+                            return RandomAccessStreamReference.CreateFromFile(files[0]);
                         }
                         else
                         {

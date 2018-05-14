@@ -1113,10 +1113,10 @@ namespace Aurora.Music.ViewModels
                     }
                     else
                     {
-                        img0 = NowPlayingList[currentIndex].Artwork.AbsoluteUri;
+                        img0 = NowPlayingList[currentIndex].Artwork?.AbsoluteUri;
                     }
 
-                    var otherArtwork = NowPlayingList.Where(a => a.Artwork.AbsoluteUri != img0);
+                    var otherArtwork = NowPlayingList.Where(a => a.Artwork?.AbsoluteUri != img0);
 
                     foreach (var item in otherArtwork)
                     {
