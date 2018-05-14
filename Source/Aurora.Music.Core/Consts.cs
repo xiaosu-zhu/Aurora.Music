@@ -58,7 +58,9 @@ namespace Aurora.Music.Core
 
         public static string UpdateNote =>
                             "### We are going to do a UI/UX renewal, please head to [UI/UX Renewal](https://github.com/pkzxs/Aurora.Music/issues/26) and leave your comment!\r\n---\r\n" +
-                            "Now, with April 2018 Update, we have a basic cross-device experience. when you play online songs or podcasts, the app can push them to the roaming storage, and next time you tap the card in Timeline, you can then restore what you listened last time in other devices.";
+                            "* **New**: Updated layouts.\r\n" +
+                            "* **New**: When a folder has \"Cover.*\" pics, will be automatically used as Album Art.\r\n" +
+                            "And a few bug fixes.";
 
         public static string UpdateNoteTitle => localizer.GetString("UpdateNoteTitle");
 

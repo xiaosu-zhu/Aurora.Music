@@ -1157,6 +1157,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </Grid.ColumnDefinitions>
             <Button Style="{ThemeResource RevealRectangleButton}" BorderThickness="0" x:Name="NowPanelButton"
                     Background="Transparent" Grid.Column="3" HorizontalContentAlignment="Right"
+                    Width="320"
                     Click="NowPanel_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Button.Content>
                     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">

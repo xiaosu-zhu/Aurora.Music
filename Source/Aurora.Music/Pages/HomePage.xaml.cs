@@ -81,7 +81,7 @@ namespace Aurora.Music.Pages
 
         private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            ContentPanel.Width = this.ActualWidth;
+            ContentPanel.Width = ActualWidth;
         }
 
         private void Header_Loaded(object sender, RoutedEventArgs e)
@@ -116,9 +116,11 @@ namespace Aurora.Music.Pages
             headerVisual.StartAnimation("Scale.Y", scaleAnimation);
 
             var offsetAnimation = EF.Lerp(160f, 32f, progressNode);
+            var opacityAnimation = EF.Lerp(1f, 0.7f, progressNode);
 
             var containerVisual = ElementCompositionPreview.GetElementVisual(TextContainer);
             containerVisual.StartAnimation("Offset.Y", offsetAnimation);
+            containerVisual.StartAnimation("Opacity", opacityAnimation);
         }
 
         private async void FavList_ItemClick(object sender, ItemClickEventArgs e)
