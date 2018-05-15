@@ -182,7 +182,7 @@ namespace Aurora.Music.Core.Tools
             }
             else
             {
-                throw new UnauthorizedAccessException("Remote system not allowed " + accessStatus);
+                //throw new UnauthorizedAccessException("Remote system not allowed " + accessStatus);
             }
         }
 

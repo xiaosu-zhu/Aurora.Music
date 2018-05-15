@@ -387,6 +387,19 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     </StackPanel>
                 </ScrollViewer>
             </PivotItem>
+            <PivotItem Header="Interface">
+                <ScrollViewer Style="{ThemeResource NarrowScrollViewer}">
+                    <StackPanel Padding="0,0,0,160" Orientation="Vertical" 
+                                HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <TextBlock Text="Preferred theme" Margin="0,12,0,0"/>
+                        <StackPanel Orientation="Vertical" Margin="0,8">
+                            <RadioButton Tag="System" Content="System"/>
+                            <RadioButton Tag="Light" Content="Light"/>
+                            <RadioButton Tag="Dark" Content="Dark"/>
+                        </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </PivotItem>
             <PivotItem x:Uid="Configuration" Header="Player Configuration">
                 <ScrollViewer Style="{ThemeResource NarrowScrollViewer}">
                     <StackPanel Padding="0,0,0,160" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">

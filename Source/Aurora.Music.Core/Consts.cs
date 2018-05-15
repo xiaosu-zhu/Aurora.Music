@@ -42,6 +42,7 @@ namespace Aurora.Music.Core
         public const string ProjectRomeService = "Aurora.Music.Rome";
 
         public const string OnlineAddOnStoreID = "9N8LMDXLQQ8V";
+        public const string DonationStoreID = "9NSKRPKPPK8H";
 
         public const string ProductID = "9NBLGGH6JVDT";
 

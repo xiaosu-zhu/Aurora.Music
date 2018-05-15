@@ -1793,7 +1793,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                               ContentTemplate="{TemplateBinding ContentTemplate}"
                               Margin="{TemplateBinding Padding}" />
                             <ScrollBar x:Name="VerticalScrollBar"
-                                           Margin="0,32,0,72"
+                                           Margin="0,32,0,0"
                  Grid.Column="1"
                  IsTabStop="False"
                  Maximum="{TemplateBinding ScrollableHeight}"

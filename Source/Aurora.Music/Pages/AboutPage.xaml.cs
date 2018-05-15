@@ -6,6 +6,8 @@ using Aurora.Music.Core;
 using Aurora.Music.ViewModels;
 using Aurora.Shared.Helpers;
 using System;
+using System.Threading.Tasks;
+using Windows.Services.Store;
 using Windows.System;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -20,6 +22,8 @@ namespace Aurora.Music.Pages
     [UriActivate("about", Usage = ActivateUsage.Navigation)]
     public sealed partial class AboutPage : Page
     {
+        private StoreContext context;
+
         public AboutPage()
         {
             BuildText = SystemInfoHelper.GetPackageVer();
@@ -87,6 +91,83 @@ namespace Aurora.Music.Pages
         {
             var u = new UpdateInfo();
             await u.ShowAsync();
+        }
+
+        private async Task ReportPurchased()
+        {
+            if (context == null)
+            {
+                context = StoreContext.GetDefault();
+                // If your app is a desktop app that uses the Desktop Bridge, you
+                // may need additional code to configure the StoreContext object.
+                // For more info, see https://aka.ms/storecontext-for-desktop.
+            }
+
+            // This is an example for a Store-managed consumable, where you specify the actual number
+            // of units that you want to report as consumed so the Store can update the remaining
+            // balance. For a developer-managed consumable where you maintain the balance, specify 1
+            // to just report the add-on as fulfilled to the Store.
+            var trackingId = Guid.NewGuid();
+
+
+            var result = await context.ReportConsumableFulfillmentAsync(Consts.DonationStoreID, 1, trackingId);
+
+            switch (result.Status)
+            {
+                case StoreConsumableStatus.Succeeded:
+                case StoreConsumableStatus.InsufficentQuantity:
+                    break;
+
+                case StoreConsumableStatus.NetworkError:
+                case StoreConsumableStatus.ServerError:
+                    MainPage.Current.PopMessage(result.ExtendedError.Message);
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        private async void Donate(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            MainPage.Current.ShowModalUI(true, Consts.Localizer.GetString("WaitingResultText"));
+
+            if (context == null)
+            {
+                context = StoreContext.GetDefault();
+                // If your app is a desktop app that uses the Desktop Bridge, you
+                // may need additional code to configure the StoreContext object.
+                // For more info, see https://aka.ms/storecontext-for-desktop.
+            }
+
+            var result = await context.RequestPurchaseAsync(Consts.DonationStoreID);
+            switch (result.Status)
+            {
+                case StorePurchaseStatus.Succeeded:
+                case StorePurchaseStatus.AlreadyPurchased:
+                    await ReportPurchased();
+#pragma warning disable CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
+                    Task.Run(async () => { await Task.Delay(2000); MainPage.Current.PopMessage("A huge thanks ❤"); });
+#pragma warning restore CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
+                    break;
+                case StorePurchaseStatus.NotPurchased:
+#pragma warning disable CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
+                    Task.Run(async () => { await Task.Delay(2000); MainPage.Current.PopMessage("Please retry"); });
+#pragma warning restore CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
+                    break;
+                case StorePurchaseStatus.NetworkError:
+                case StorePurchaseStatus.ServerError:
+#pragma warning disable CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
+                    Task.Run(async () => { await Task.Delay(2000); MainPage.Current.PopMessage("Please retry:\r\n" + result.ExtendedError.Message); });
+#pragma warning restore CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
+                    break;
+                default:
+#pragma warning disable CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
+                    Task.Run(async () => { await Task.Delay(2000); MainPage.Current.PopMessage("Please retry"); });
+#pragma warning restore CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
+                    break;
+            }
+            MainPage.Current.ShowModalUI(false);
         }
     }
 }

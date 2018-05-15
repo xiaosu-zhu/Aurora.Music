@@ -225,6 +225,26 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         </Flyout>
                     </Button.Flyout>
                 </Button>
+                <Button Style="{ThemeResource RevealRoundButton}"
+                        Click="Donate" Width="48" Height="48"
+                        Background="{ThemeResource SystemControlAltHighAcrylicWindowBrush}">
+                    <Button.Content>
+                        <Grid Width="48" Height="48" Padding="12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Border Grid.Column="0" Grid.Row="0" Margin="0,0,1,1" Background="#F05022"/>
+                            <Border Grid.Column="1" Grid.Row="0" Margin="1,0,0,1" Background="#7FBA04"/>
+                            <Border Grid.Column="0" Grid.Row="1" Margin="0,1,1,0" Background="#03A4EE"/>
+                            <Border Grid.Column="1" Grid.Row="1" Margin="1,1,0,0" Background="#FBB604"/>
+                        </Grid>
+                    </Button.Content>
+                </Button>
                 <Button Style="{ThemeResource RevealRoundButton}" Width="48" Height="48">
                     <Button.Background>
                         <AcrylicBrush FallbackColor="#1890ff" TintColor="#1890ff" TintOpacity="0.5" BackgroundSource="HostBackdrop"/>

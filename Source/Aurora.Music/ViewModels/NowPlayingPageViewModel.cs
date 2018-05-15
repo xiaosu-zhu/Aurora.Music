@@ -735,7 +735,7 @@ namespace Aurora.Music.ViewModels
             set
             {
                 SetProperty(ref isCurrentFac, value);
-                _lastSong.WriteFavAsync(value);
+                _lastSong?.WriteFavAsync(value);
             }
         }
 
@@ -1023,7 +1023,8 @@ namespace Aurora.Music.ViewModels
                         CurrentRating = Song.Rating;
 
                         SongChanged?.Invoke(Song, EventArgs.Empty);
-                        IsCurrentFavorite = await e.CurrentSong.GetFavoriteAsync();
+                        isCurrentFac = await e.CurrentSong.GetFavoriteAsync();
+                        RaisePropertyChanged("IsCurrentFavorite");
                     }
                 }
 
