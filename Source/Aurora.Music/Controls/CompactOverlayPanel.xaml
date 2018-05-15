@@ -14,6 +14,10 @@ Licensed under the MIT License. See LICENSE in the project root for license info
       xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
       xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
       Unloaded="Page_Unloaded"
+      PointerEntered="Page_PointerEntered"
+      PointerExited="Page_PointerExited"
+      PointerCanceled="Page_PointerExited"
+      PointerCaptureLost="Page_PointerExited"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
@@ -35,221 +39,176 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         <vm:NowPlayingPageViewModel x:Name="Context" />
     </Page.DataContext>
 
-    <Grid x:Name="Root"
-          Background="{ThemeResource SystemControlBackgroundBaseHighBrush}">
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup>
-                <VisualState x:Name="Narrow">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="Previous.Visibility"
-                                Value="Collapsed" />
-                        <Setter Target="PlayListFull.Visibility"
-                                Value="Collapsed" />
-                        <Setter Target="Artwork.Visibility"
-                                Value="Collapsed" />
-                        <Setter Target="ContentPanel.HorizontalAlignment"
-                                Value="Center" />
-                        <Setter Target="ButtonPanel.HorizontalAlignment"
-                                Value="Center" />
-                    </VisualState.Setters>
-                </VisualState>
-
-                <VisualState x:Name="Medium">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="240" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="Previous.Visibility"
-                                Value="Collapsed" />
-                        <Setter Target="PlayListFull.Visibility"
-                                Value="Visible" />
-                        <Setter Target="Artwork.MaxWidth"
-                                Value="200" />
-                        <Setter Target="Artwork.Visibility"
-                                Value="Visible" />
-                    </VisualState.Setters>
-                </VisualState>
-
-                <VisualState x:Name="Full">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="320" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="Previous.Visibility"
-                                Value="Visible" />
-                        <Setter Target="PlayListFull.Visibility"
-                                Value="Visible" />
-                        <Setter Target="Artwork.MaxWidth"
-                                Value="250" />
-                        <Setter Target="PlayListFull.Visibility"
-                                Value="Visible" />
-                        <Setter Target="Artwork.Visibility"
-                                Value="Visible" />
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-            <VisualStateGroup>
-                <VisualState x:Name="Short">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowHeight="0" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="Description.Visibility"
-                                Value="Collapsed" />
-                        <Setter Target="Addtional.Visibility"
-                                Value="Collapsed" />
-                        <Setter Target="Title.HorizontalAlignment"
-                                Value="Left" />
-                        <Setter Target="ContentPanel.HorizontalAlignment"
-                                Value="Left" />
-                        <Setter Target="ButtonPanel.HorizontalAlignment"
-                                Value="Left" />
-                        <Setter Target="RowOne.Height"
-                                Value="0" />
-                        <Setter Target="RowOne.MinHeight"
-                                Value="0" />
-                        <Setter Target="RowTwo.Height"
-                                Value="*" />
-                        <Setter Target="RowThree.Height"
-                                Value="*" />
-                        <Setter Target="ContentPanel.VerticalAlignment"
-                                Value="Center" />
-                        <Setter Target="ButtonPanel.VerticalAlignment"
-                                Value="Center" />
-                    </VisualState.Setters>
-                </VisualState>
-
-                <VisualState x:Name="Tall">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowHeight="250" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="Artwork.Visibility"
-                                Value="Visible" />
-                        <Setter Target="Description.Visibility"
-                                Value="Collapsed" />
-                        <Setter Target="Addtional.Visibility"
-                                Value="Collapsed" />
-                        <Setter Target="Title.FontSize"
-                                Value="20" />
-
-                        <Setter Target="Artwork.(Grid.Row)"
-                                Value="0" />
-                        <Setter Target="Artwork.(Grid.RowSpan)"
-                                Value="1" />
-                        <Setter Target="Artwork.(Grid.ColumnSpan)"
-                                Value="2" />
-
-                        <Setter Target="ButtonPanel.(Grid.ColumnSpan)"
-                                Value="2" />
-                        <Setter Target="ContentPanel.(Grid.ColumnSpan)"
-                                Value="2" />
-
-                        <Setter Target="ButtonPanel.(Grid.Column)"
-                                Value="0" />
-                        <Setter Target="ContentPanel.(Grid.Column)"
-                                Value="0" />
-
-                        <Setter Target="Artwork.VerticalAlignment"
-                                Value="Bottom" />
-                        <Setter Target="ContentPanel.VerticalAlignment"
-                                Value="Center" />
-                        <Setter Target="ButtonPanel.VerticalAlignment"
-                                Value="Center" />
-
-                        <Setter Target="Title.HorizontalAlignment"
-                                Value="Center" />
-                        <Setter Target="Description.HorizontalAlignment"
-                                Value="Center" />
-                        <Setter Target="Addtional.HorizontalAlignment"
-                                Value="Center" />
-                        <Setter Target="ButtonPanel.HorizontalAlignment"
-                                Value="Center" />
-                    </VisualState.Setters>
-                </VisualState>
-
-                <VisualState x:Name="TallFull">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowHeight="320" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="Artwork.Visibility"
-                                Value="Visible" />
-                        <Setter Target="Description.Visibility"
-                                Value="Visible" />
-                        <Setter Target="Addtional.Visibility"
-                                Value="Visible" />
-                        <Setter Target="Title.FontSize"
-                                Value="20" />
-
-                        <Setter Target="Artwork.(Grid.Row)"
-                                Value="0" />
-                        <Setter Target="Artwork.(Grid.RowSpan)"
-                                Value="1" />
-                        <Setter Target="Artwork.(Grid.ColumnSpan)"
-                                Value="2" />
-
-                        <Setter Target="ButtonPanel.(Grid.ColumnSpan)"
-                                Value="2" />
-                        <Setter Target="ContentPanel.(Grid.ColumnSpan)"
-                                Value="2" />
-
-                        <Setter Target="ButtonPanel.(Grid.Column)"
-                                Value="0" />
-                        <Setter Target="ContentPanel.(Grid.Column)"
-                                Value="0" />
-
-                        <Setter Target="Artwork.VerticalAlignment"
-                                Value="Bottom" />
-                        <Setter Target="ContentPanel.VerticalAlignment"
-                                Value="Center" />
-                        <Setter Target="ButtonPanel.VerticalAlignment"
-                                Value="Center" />
-
-                        <Setter Target="Title.HorizontalAlignment"
-                                Value="Center" />
-                        <Setter Target="Description.HorizontalAlignment"
-                                Value="Center" />
-                        <Setter Target="Addtional.HorizontalAlignment"
-                                Value="Center" />
-                        <Setter Target="ButtonPanel.HorizontalAlignment"
-                                Value="Center" />
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
-
-        <Grid.Resources>
+    <RelativePanel x:Name="Root">
+        <RelativePanel.Resources>
             <Style BasedOn="{StaticResource RevealRoundButton}" TargetType="Button">
                 <Setter Property="Background" Value="{ThemeResource SystemControlTransparentRevealBackgroundBrush}"/>
-                <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundAltHighBrush}"/>
+                <Setter Property="Foreground" Value="{ThemeResource SystemControlBackgroundBaseHighBrush}"/>
                 <Setter Property="BorderBrush" Value="{ThemeResource SystemControlBackgroundListMediumRevealBorderBrush}"/>
             </Style>
-        </Grid.Resources>
-        
-        <Grid.RowDefinitions>
-            <RowDefinition x:Name="RowOne"
-                           MinHeight="100"
-                           Height="*" />
-            <RowDefinition x:Name="RowTwo"
-                           Height="auto" />
-            <RowDefinition x:Name="RowThree"
-                           Height="auto" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
+            <Storyboard x:Name="PointerIn">
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BlurBehavior"
+                                               Storyboard.TargetProperty="Value">
+                    <DiscreteObjectKeyFrame Value="32" KeyTime="0"/>
+                </ObjectAnimationUsingKeyFrames>
+                <DoubleAnimation Storyboard.TargetName="ArtworkBGBlur"
+                                 Storyboard.TargetProperty="Opacity"
+                                 Duration="0:0:0.96"
+                                 To="1">
+                    <DoubleAnimation.EasingFunction>
+                        <QuinticEase/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetName="Left"
+                                 Storyboard.TargetProperty="X"
+                                 Duration="0:0:0.96"
+                                 To="0">
+                    <DoubleAnimation.EasingFunction>
+                        <QuinticEase/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetName="LeftTop"
+                                 Storyboard.TargetProperty="X"
+                                 Duration="0:0:0.96"
+                                 To="0">
+                    <DoubleAnimation.EasingFunction>
+                        <QuinticEase/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetName="LeftTop"
+                                 Storyboard.TargetProperty="Y"
+                                 Duration="0:0:0.96"
+                                 To="0">
+                    <DoubleAnimation.EasingFunction>
+                        <QuinticEase/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetName="Top"
+                                 Storyboard.TargetProperty="Y"
+                                 Duration="0:0:0.96"
+                                 To="0">
+                    <DoubleAnimation.EasingFunction>
+                        <QuinticEase/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetName="RightTop"
+                                 Storyboard.TargetProperty="X"
+                                 Duration="0:0:0.96"
+                                 To="0">
+                    <DoubleAnimation.EasingFunction>
+                        <QuinticEase/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetName="RightTop"
+                                 Storyboard.TargetProperty="Y"
+                                 Duration="0:0:0.96"
+                                 To="0">
+                    <DoubleAnimation.EasingFunction>
+                        <QuinticEase/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetName="Right"
+                                 Storyboard.TargetProperty="X"
+                                 Duration="0:0:0.96"
+                                 To="0">
+                    <DoubleAnimation.EasingFunction>
+                        <QuinticEase/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetName="Bottom"
+                                 Storyboard.TargetProperty="Y"
+                                 Duration="0:0:0.96"
+                                 To="0">
+                    <DoubleAnimation.EasingFunction>
+                        <QuinticEase/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+            </Storyboard>
+            <Storyboard x:Name="PointerOut">
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BlurBehavior"
+                                               Storyboard.TargetProperty="Value">
+                    <DiscreteObjectKeyFrame Value="0" KeyTime="0"/>
+                </ObjectAnimationUsingKeyFrames>
+                <DoubleAnimation Storyboard.TargetName="ArtworkBGBlur"
+                                 Storyboard.TargetProperty="Opacity"
+                                 Duration="0:0:0.96"
+                                 To="0">
+                    <DoubleAnimation.EasingFunction>
+                        <QuinticEase/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetName="Left"
+                                 Storyboard.TargetProperty="X"
+                                 Duration="0:0:0.96"
+                                 To="-640">
+                    <DoubleAnimation.EasingFunction>
+                        <QuinticEase/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetName="LeftTop"
+                                 Storyboard.TargetProperty="X"
+                                 Duration="0:0:0.96"
+                                 To="-640">
+                    <DoubleAnimation.EasingFunction>
+                        <QuinticEase/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetName="LeftTop"
+                                 Storyboard.TargetProperty="Y"
+                                 Duration="0:0:0.96"
+                                 To="-640">
+                    <DoubleAnimation.EasingFunction>
+                        <QuinticEase/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetName="Top"
+                                 Storyboard.TargetProperty="Y"
+                                 Duration="0:0:0.96"
+                                 To="-640">
+                    <DoubleAnimation.EasingFunction>
+                        <QuinticEase/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetName="RightTop"
+                                 Storyboard.TargetProperty="X"
+                                 Duration="0:0:0.96"
+                                 To="+640">
+                    <DoubleAnimation.EasingFunction>
+                        <QuinticEase/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetName="RightTop"
+                                 Storyboard.TargetProperty="Y"
+                                 Duration="0:0:0.96"
+                                 To="-640">
+                    <DoubleAnimation.EasingFunction>
+                        <QuinticEase/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetName="Right"
+                                 Storyboard.TargetProperty="X"
+                                 Duration="0:0:0.96"
+                                 To="+640">
+                    <DoubleAnimation.EasingFunction>
+                        <QuinticEase/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetName="Bottom"
+                                 Storyboard.TargetProperty="Y"
+                                 Duration="0:0:0.96"
+                                 To="+640">
+                    <DoubleAnimation.EasingFunction>
+                        <QuinticEase/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+            </Storyboard>
+        </RelativePanel.Resources>
 
         <Grid x:Name="ArtworkBG"
-              HorizontalAlignment="Stretch"
-              VerticalAlignment="Stretch"
-              Grid.ColumnSpan="2"
-              Grid.RowSpan="3"
-              Opacity="0.5">
+              RelativePanel.AlignBottomWithPanel="True"
+              RelativePanel.AlignLeftWithPanel="True"
+              RelativePanel.AlignRightWithPanel="True"
+              RelativePanel.AlignTopWithPanel="True">
             <Grid.Background>
                 <ImageBrush AlignmentX="Center"
                             AlignmentY="Center"
@@ -258,128 +217,161 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </Grid.Background>
         </Grid>
 
-        <Border x:Name="ArtworkBGBlur"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
-                Grid.ColumnSpan="2"
-                Grid.RowSpan="3"
-                Background="{ThemeResource SystemControlBlackAcrylicElementBrush}">
-        </Border>
+        <Grid x:Name="ArtworkBGBlur" Opacity="0"
+              RelativePanel.AlignBottomWithPanel="True"
+              RelativePanel.AlignLeftWithPanel="True"
+              RelativePanel.AlignRightWithPanel="True"
+              RelativePanel.AlignTopWithPanel="True">
+            <Grid HorizontalAlignment="Stretch" 
+                  VerticalAlignment="Stretch" 
+                  Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
+                <interactivity:Interaction.Behaviors>
+                    <behaviors:Blur x:Name="BlurBehavior" 
+                                    Duration="960" 
+                                    Value="0" 
+                                    Delay="0" 
+                                    AutomaticallyStart="True"/>
+                </interactivity:Interaction.Behaviors>
+            </Grid>
+        </Grid>
+        <toolkit:WrapPanel x:Name="ButtonsPanel"
+                           RelativePanel.AlignHorizontalCenterWithPanel="True"
+                           RelativePanel.AlignVerticalCenterWithPanel="True"
+                           Orientation="Horizontal" 
+                           Margin="8"
+                           HorizontalSpacing="2" 
+                           VerticalSpacing="2">
+            <Viewbox Height="48" Width="48"
+                     Stretch="Uniform"
+                     HorizontalAlignment="Center"
+                     VerticalAlignment="Center">
+                <Viewbox.RenderTransform>
+                    <TranslateTransform x:Name="Left" X="-640"/>
+                </Viewbox.RenderTransform>
+                <TextBlock x:Name="PlayListFull"
+                           TextAlignment="Center"
+                           TextTrimming="None"
+                           TextWrapping="NoWrap"
+                           MaxLines="1"
+                           Margin="0,8"
+                           Text="{x:Bind Context.NowListPreview,Mode=OneWay}"
+                           Style="{ThemeResource BodyTextBlockStyle}"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center" />
+            </Viewbox>
+            <Button x:Uid="Previous"
+                    x:Name="Previous"
+                    Command="{x:Bind Context.GoPrevious}"
+                    ToolTipService.ToolTip="Previous"
+                    Width="48"
+                    Height="48"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Stretch">
+                <Button.RenderTransform>
+                    <TranslateTransform x:Name="LeftTop" Y="-640" X="-640"/>
+                </Button.RenderTransform>
+                <Button.Content>
+                    <SymbolIcon Symbol="Previous" />
+                </Button.Content>
+            </Button>
+            <Button Command="{x:Bind Context.PlayPause}"
+                    ToolTipService.ToolTip="{x:Bind Context.NullableBoolToString(Context.IsPlaying), Mode=OneWay}"
+                    Width="48"
+                    Height="48"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Stretch">
+                <Button.RenderTransform>
+                    <TranslateTransform x:Name="Top" Y="-640"/>
+                </Button.RenderTransform>
+                <Button.Content>
+                    <SymbolIcon Symbol="{x:Bind Context.NullableBoolToSymbol(Context.IsPlaying), Mode=OneWay}" />
+                </Button.Content>
+            </Button>
+            <Button x:Uid="Next"
+                    Command="{x:Bind Context.GoNext}"
+                    ToolTipService.ToolTip="Next"
+                    Width="48"
+                    Height="48"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Stretch">
+                <Button.RenderTransform>
+                    <TranslateTransform x:Name="RightTop" Y="-640" X="+640"/>
+                </Button.RenderTransform>
+                <Button.Content>
+                    <SymbolIcon Symbol="Next" />
+                </Button.Content>
+            </Button>
 
-        <toolkit:ImageEx Style="{ThemeResource QuickLoadImageEx}"
-                         x:Name="Artwork"
-                         Stretch="Uniform"
-                         Grid.RowSpan="3"
-                         HorizontalAlignment="Stretch"
-                         VerticalAlignment="Stretch"
-                         PlaceholderStretch="Uniform"
-                         PlaceholderSource="/Assets/Images/placeholder_b.png"
-                         Margin="16"
-                         Source="{x:Bind Context.CurrentArtwork, Mode=OneWay}" />
-
+            <Button x:Uid="GoBack"
+                    Command="{x:Bind Context.ReturnNormal}"
+                    ToolTipService.ToolTip="Go Back"
+                    Width="48"
+                    Height="48"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Stretch">
+                <Button.RenderTransform>
+                    <TranslateTransform x:Name="Right" X="+640"/>
+                </Button.RenderTransform>
+                <Button.Content>
+                    <FontIcon FontFamily="Segoe MDL2 Assets"
+                              Glyph="&#xE2B3;" />
+                </Button.Content>
+            </Button>
+        </toolkit:WrapPanel>
         <StackPanel x:Name="ContentPanel"
-                    Grid.Row="1"
-                    Grid.Column="1"
-                    Margin="0,0,0,8"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Bottom">
+                    Margin="8"
+                    RelativePanel.Below="ButtonsPanel"
+                    RelativePanel.AlignHorizontalCenterWithPanel="True">
+            <StackPanel.RenderTransform>
+                <TranslateTransform x:Name="Bottom" Y="640"/>
+            </StackPanel.RenderTransform>
             <TextBlock x:Name="Title"
                        FontWeight="Bold"
                        Text="{x:Bind Context.Song.Title, Mode=OneWay}"
-                       Foreground="{x:Bind Context.AccentForeground(Context.IsAccentDark), Mode=OneWay}"
                        Style="{ThemeResource SubtitleTextBlockStyle}"
+                       FontSize="24"
                        MaxLines="2"
                        TextWrapping="WrapWholeWords"
                        TextTrimming="CharacterEllipsis"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center" />
             <TextBlock x:Name="Description"
-                       Visibility="Collapsed"
-                       Foreground="{x:Bind Context.AccentForeground(Context.IsAccentDark), Mode=OneWay}"
                        Text="{x:Bind Context.Song.Album,Mode=OneWay}"
                        Style="{ThemeResource BodyTextBlockStyle}"
                        Margin="0,4"
+                       Foreground="{ThemeResource SystemControlBackgroundBaseMediumHighBrush}"
                        MaxLines="1"
+                       FontSize="16"
                        TextWrapping="NoWrap"
                        TextTrimming="CharacterEllipsis"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center" />
             <TextBlock x:Name="Addtional"
-                       Visibility="Collapsed"
-                       Foreground="{x:Bind Context.AccentForeground(Context.IsAccentDark), Mode=OneWay}"
                        Text="{x:Bind Context.Song.GetFormattedArtists(),Mode=OneWay}"
                        Style="{ThemeResource BodyTextBlockStyle}"
                        MaxLines="1"
+                       Foreground="{ThemeResource SystemControlBackgroundBaseMediumHighBrush}"
+                       FontSize="16"
                        TextWrapping="NoWrap"
                        TextTrimming="CharacterEllipsis"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center" />
         </StackPanel>
-        <ScrollViewer x:Name="ButtonPanel"
-                      Margin="0,8,0,8"
-                      HorizontalAlignment="Center"
-                      VerticalAlignment="Top"
-                      Grid.Column="1"
-                      Grid.Row="2"
-                      VerticalScrollMode="Disabled"
-                      VerticalScrollBarVisibility="Disabled"
-                      HorizontalScrollMode="Auto"
-                      HorizontalScrollBarVisibility="Hidden">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Foreground="{ThemeResource SystemControlForegroundAltHighBrush}"
-                           x:Name="PlayListFull"
-                           Text="{x:Bind Context.NowListPreview,Mode=OneWay}"
-                           Style="{ThemeResource BodyTextBlockStyle}"
-                           HorizontalAlignment="Center"
-                           Margin="0,0,4,0"
-                           VerticalAlignment="Center" />
-                <Button x:Uid="Previous"
-                        x:Name="Previous"
-                        Command="{x:Bind Context.GoPrevious}"
-                        ToolTipService.ToolTip="Previous"
-                        Width="48"
-                        Height="48"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Stretch">
-                    <Button.Content>
-                        <SymbolIcon Symbol="Previous" />
-                    </Button.Content>
-                </Button>
-                <Button Command="{x:Bind Context.PlayPause}"
-                        ToolTipService.ToolTip="{x:Bind Context.NullableBoolToString(Context.IsPlaying), Mode=OneWay}"
-                        Width="48"
-                        Height="48"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Stretch">
-                    <Button.Content>
-                        <SymbolIcon Symbol="{x:Bind Context.NullableBoolToSymbol(Context.IsPlaying), Mode=OneWay}" />
-                    </Button.Content>
-                </Button>
-                <Button x:Uid="Next"
-                        Command="{x:Bind Context.GoNext}"
-                        ToolTipService.ToolTip="Next"
-                        Width="48"
-                        Height="48"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Stretch">
-                    <Button.Content>
-                        <SymbolIcon Symbol="Next" />
-                    </Button.Content>
-                </Button>
-
-                <Button x:Uid="GoBack"
-                        Command="{x:Bind Context.ReturnNormal}"
-                        ToolTipService.ToolTip="Go Back"
-                        Width="48"
-                        Height="48"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Stretch">
-                    <Button.Content>
-                        <FontIcon FontFamily="Segoe MDL2 Assets"
-                                  Glyph="&#xE2B3;" />
-                    </Button.Content>
-                </Button>
-            </StackPanel>
-        </ScrollViewer>
-    </Grid>
+        <Border Height="4" RelativePanel.AlignBottomWithPanel="True" 
+                RelativePanel.AlignLeftWithPanel="True"
+                RelativePanel.AlignRightWithPanel="True">
+            <Border.Background>
+                <AcrylicBrush TintOpacity="0" 
+                              FallbackColor="Transparent" 
+                              TintColor="Transparent"
+                              BackgroundSource="Backdrop"/>
+            </Border.Background>
+        </Border>
+        <ProgressBar Height="4" RelativePanel.AlignBottomWithPanel="True" 
+                     RelativePanel.AlignLeftWithPanel="True"
+                     RelativePanel.AlignRightWithPanel="True"
+                     Background="{x:Null}"
+                     Value="{x:Bind Context.PositionValue, Mode=OneWay}">
+        </ProgressBar>
+    </RelativePanel>
 </Page>

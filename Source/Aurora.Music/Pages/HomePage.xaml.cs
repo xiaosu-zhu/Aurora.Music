@@ -116,7 +116,7 @@ namespace Aurora.Music.Pages
             headerVisual.StartAnimation("Scale.Y", scaleAnimation);
 
             var offsetAnimation = EF.Lerp(160f, 32f, progressNode);
-            var opacityAnimation = EF.Lerp(1f, 0.7f, progressNode);
+            var opacityAnimation = EF.Lerp(1f, 0.6f, progressNode);
 
             var containerVisual = ElementCompositionPreview.GetElementVisual(TextContainer);
             containerVisual.StartAnimation("Offset.Y", offsetAnimation);

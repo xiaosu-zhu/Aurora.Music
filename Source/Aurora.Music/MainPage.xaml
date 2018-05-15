@@ -977,7 +977,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         </Grid.Resources>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="80"/>
+            <ColumnDefinition Width="96"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -992,7 +992,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 Grid.Column="1" Grid.Row="0"/>
 
         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-              Grid.RowSpan="3" Padding="0,48,16,0"
+              Grid.RowSpan="3" Padding="0,48,24,0"
               Background="{ThemeResource SystemControlAltTranslucentAcrylicWindowBrush}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
@@ -1000,17 +1000,17 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
             <ListView x:Name="HamPane" SelectionMode="None" IsItemClickEnabled="True" ItemClick="ListView_ItemClick"
-                      Width="64" ItemsSource="{x:Bind Context.HamList}" Grid.Row="1" 
-                      HorizontalAlignment="Left" VerticalAlignment="Stretch"
+                      ItemsSource="{x:Bind Context.HamList}" Grid.Row="1" 
+                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                       ItemContainerStyle="{ThemeResource PaneListItemStyle}">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="vm:HamPanelItem">
                         <StackPanel Background="{ThemeResource SystemControlTransparentBrush}"
                                     VerticalAlignment="Stretch" AccessKey="{x:Bind IndexNum}"
-                                    AccessKeyInvoked="Panel_AccessKeyInvoked"
+                                    AccessKeyInvoked="Panel_AccessKeyInvoked" Width="72"
                                     Opacity="{x:Bind BoolToOpacity(IsCurrent), Mode=OneWay}"
-                                    x:Name="Panel" HorizontalAlignment="Stretch"
-                                    Width="64" ToolTipService.ToolTip="{x:Bind Title}">
+                                    x:Name="Panel" HorizontalAlignment="Stretch" 
+                                    ToolTipService.ToolTip="{x:Bind Title}">
                             <StackPanel.KeyboardAccelerators>
                                 <KeyboardAccelerator Invoked="KeyboardAccelerator_Invoked" Modifiers="Control" Key="{x:Bind Index}"/>
                             </StackPanel.KeyboardAccelerators>
@@ -1020,7 +1020,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                           FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Icon}" 
                                           Foreground="{x:Bind ChangeForeground(IsCurrent),Mode=OneWay}"/>
                             </Border>
-                            <Viewbox Stretch="Uniform" Height="32" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <Viewbox Stretch="Uniform" Height="28" Margin="4,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                 <TextBlock x:Name="Title" Text="{x:Bind Title}" Width="64" TextAlignment="Center"
                                            Foreground="{x:Bind ChangeForeground(IsCurrent),Mode=OneWay}"
                                            HorizontalAlignment="Center" VerticalAlignment="Stretch"
@@ -1035,7 +1035,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <Button AccessKey="5" Padding="0" VerticalContentAlignment="Stretch" x:Uid="More"
                     HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
                     ToolTipService.ToolTip="More" Grid.Row="1" BorderThickness="0"
-                    Style="{ThemeResource RevealRectangleButton}" Width="64"
+                    Style="{ThemeResource RevealRectangleButton}"
                     Background="{ThemeResource SystemControlTransparentBrush}">
                 <Button.KeyboardAccelerators>
                     <KeyboardAccelerator Modifiers="Control" Key="Number5"/>
@@ -1047,7 +1047,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                   FontFamily="Segoe MDL2 Assets" Glyph="&#xE10C;" 
                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
-                    <Viewbox Stretch="Uniform" Height="32" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Viewbox Stretch="Uniform" Height="28" Margin="4,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <TextBlock x:Uid="MoreButton" Text="More" Style="{ThemeResource BodyTextBlockStyle}" 
                                    FontSize="12" MaxLines="2" TextWrapping="WrapWholeWords" 
                                    TextTrimming="CharacterEllipsis" Width="64" TextAlignment="Center"
@@ -1082,7 +1082,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                                                    HorizontalAlignment="Center" VerticalAlignment="Center"
                                                                    Minimum="0" Maximum="100"/>
                                     </Grid>
-                                    <Viewbox Stretch="Uniform" Height="32" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                    <Viewbox Stretch="Uniform" Height="28" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                         <TextBlock Text="{x:Bind Context.DownloadDes,Mode=OneWay}"
                                                    Style="{ThemeResource BodyTextBlockStyle}" 
                                                    FontSize="12" MaxLines="2" TextWrapping="WrapWholeWords" 
@@ -1108,7 +1108,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                                   FontFamily="Segoe MDL2 Assets" Glyph="&#xE115;" 
                                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     </Border>
-                                    <Viewbox Stretch="Uniform" Height="32" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                    <Viewbox Stretch="Uniform" Height="28" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                         <TextBlock x:Uid="Settings" Text="Settings"
                                                    Style="{ThemeResource BodyTextBlockStyle}" 
                                                    FontSize="12" MaxLines="2" TextWrapping="WrapWholeWords" 
@@ -1132,7 +1132,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                                   FontFamily="Segoe MDL2 Assets" Glyph="&#xED59;" 
                                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     </Border>
-                                    <Viewbox Stretch="Uniform" Height="32" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                    <Viewbox Stretch="Uniform" Height="28" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                         <TextBlock x:Uid="About" Text="About"
                                                    Style="{ThemeResource BodyTextBlockStyle}" 
                                                    FontSize="12" MaxLines="2" TextWrapping="WrapWholeWords" 
@@ -1346,7 +1346,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         </Grid>
 
         <toolkit:DropShadowPanel Grid.ColumnSpan="2" Grid.RowSpan="3" BlurRadius="48"
-                                 OffsetY="0" OffsetX="0" OffsetZ="0" Margin="64,48,0,80"
+                                 OffsetY="0" OffsetX="0" OffsetZ="0" Margin="72,48,0,80"
                                  HorizontalContentAlignment="Stretch"
                                  VerticalContentAlignment="Stretch"
                                  Color="{ThemeResource SystemBaseHighColor}"
@@ -1356,7 +1356,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         </toolkit:DropShadowPanel>
 
-        <Frame Grid.ColumnSpan="2" Grid.Row="1" Visibility="Visible" Margin="64,0,0,0"
+        <Frame Grid.ColumnSpan="2" Grid.Row="1" Visibility="Visible" Margin="72,0,0,0"
                HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="MainFrame"/>
 
         <Frame Grid.ColumnSpan="2" Grid.RowSpan="3" 
@@ -1364,7 +1364,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
 
         <TextBlock Visibility="{x:Bind Context.NeedShowTitle, Mode=OneWay}"
-                   OpticalMarginAlignment="None" Margin="96,32,0,0"
+                   OpticalMarginAlignment="None" Margin="104,32,0,0"
                    Grid.ColumnSpan="2" Grid.Row="1" Opacity="0.5"
                    Style="{ThemeResource TitleTextBlockStyle}"
                    FontSize="32"
@@ -1375,9 +1375,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         <Grid Visibility="Collapsed" Opacity="0" x:Name="ModalOverlay" 
               HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
               Grid.ColumnSpan="2" Grid.RowSpan="3">
-            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource SystemControlAltLowBrush}">
+            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
                 <interactivity:Interaction.Behaviors>
-                    <behaviors:Blur x:Name="BlurBehavior" Duration="1000" Value="0" Delay="0" AutomaticallyStart="True"/>
+                    <behaviors:Blur x:Name="BlurBehavior" Duration="960" Value="0" Delay="0" AutomaticallyStart="True"/>
                 </interactivity:Interaction.Behaviors>
             </Grid>
             <ProgressRing Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" x:Name="ModalRing" 

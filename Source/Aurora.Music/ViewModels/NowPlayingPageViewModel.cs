@@ -134,6 +134,7 @@ namespace Aurora.Music.ViewModels
                 });
                 var prefer = ViewModePreferences.CreateDefault(ApplicationViewMode.Default);
                 prefer.CustomSize = new Size(Window.Current.Bounds.Width, 360);
+                prefer.ViewSizePreference = ViewSizePreference.Custom;
                 bool viewShown = await ApplicationViewSwitcher.TryShowAsViewModeAsync(lyricEditorId, ApplicationViewMode.Default, prefer);
             });
         }

@@ -404,7 +404,10 @@ namespace Aurora.Music
 
         internal async Task GotoComapctOverlay()
         {
-            if (await ApplicationView.GetForCurrentView().TryEnterViewModeAsync(ApplicationViewMode.CompactOverlay))
+            var prefer = ViewModePreferences.CreateDefault(ApplicationViewMode.CompactOverlay);
+            prefer.ViewSizePreference = ViewSizePreference.Custom;
+            prefer.CustomSize = new Size(Settings.Current.CompactWidth, Settings.Current.CompactHeight);
+            if (await ApplicationView.GetForCurrentView().TryEnterViewModeAsync(ApplicationViewMode.CompactOverlay, prefer))
             {
                 (Window.Current.Content as Frame).Navigate(typeof(CompactOverlayPanel), Context.NowPlayingList[Context.CurrentIndex]);
             }

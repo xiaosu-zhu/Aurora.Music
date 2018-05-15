@@ -47,56 +47,6 @@ namespace Aurora.Music.Core.Models
 
     public class Settings
     {
-        public bool IsMeteredNetwork()
-        {
-            var connectionCost = NetworkInformation.GetInternetConnectionProfile().GetConnectionCost();
-            return !(connectionCost.NetworkCostType == NetworkCostType.Unknown || connectionCost.NetworkCostType == NetworkCostType.Unrestricted);
-        }
-
-        public static event EventHandler SettingsChanged;
-
-        private static object lockable = new object();
-
-        internal object GetSystemSize()
-        {
-            if (FileSizeFilter < 1024u)
-            {
-                return $"{FileSizeFilter}b";
-            }
-            return $"{FileSizeFilter / 1024u}kb";
-        }
-
-        private const string SETTINGS_CONTAINER = "main";
-
-        public bool IncludeMusicLibrary { get; set; } = true;
-        public ElementTheme Theme { get; set; } = ElementTheme.Default;
-
-        public bool WelcomeFinished { get; set; } = false;
-        public string OutputDeviceID { get; set; }
-        public double PlayerVolume { get; set; } = 100d;
-        public Effects AudioGraphEffects { get; set; } = Effects.None;
-        public string CategoryLastClicked { get; set; }
-
-        public string LyricExtensionID { get; set; } = string.Empty;
-        public string OnlineMusicExtensionID { get; set; } = string.Empty;
-        public string MetaExtensionID { get; set; } = string.Empty;
-
-        public Bitrate PreferredBitRate { get; set; } = Bitrate._256;
-        public bool OnlinePurchase { get; set; } = false;
-        public bool DebugModeEnabled { get; set; } = false;
-
-        public string DownloadPathToken { get; set; } = string.Empty;
-        public bool RememberFileActivatedAction { get; set; } = false;
-        public bool CopyFileWhenActivated { get; set; } = false;
-
-        public DateTime DoubanLogin { get; set; }
-        public double DoubanExpireTime { get; set; }
-        public string DoubanUserName { get; set; }
-        public string DoubanUserID { get; set; }
-        public string DoubanToken { get; set; }
-
-        public ulong LastUpdateBuild { get; set; } = 0ul;
-
         private static Settings current;
         public static Settings Current
         {
@@ -113,39 +63,6 @@ namespace Aurora.Music.Core.Models
                 }
             }
         }
-
-        public bool MetaDataEnabled { get; set; } = true;
-        public bool DataPlayEnabled { get; set; } = true;
-        public bool DataDownloadEnabled { get; set; } = true;
-        public bool IsPodcastToast { get; set; } = true;
-        public uint FetchInterval { get; set; } = 30;
-        public bool ShowPodcastsWhenSearch { get; set; } = true;
-        public bool PreventLockscreen { get; set; } = false;
-
-        public float[] Gain { get; set; } = new float[10] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-        public uint PreferredSearchCount { get; set; } = 10;
-
-        public float ChannelShift { get; set; } = 0f;
-        public bool StereoToMono { get; set; } = false;
-        public float CompressorRatio { get; set; } = 1f;
-        public float CompressorMakeUpGain { get; set; } = 0f;
-        public float CompressorAttack { get; set; } = 10f;
-        public float CompressorRelease { get; set; } = 10f;
-        public float CompressorThresholddB { get; set; } = 0f;
-
-        public bool FileSizeFilterEnabled { get; set; }
-        // Bytes
-        public uint FileSizeFilter { get; set; } = 102400u;
-        public bool FileDurationFilterEnabled { get; set; }
-        // Milliseconds
-        public uint FileDurationFilter { get; set; } = 1000u;
-
-        public SortMode SongsSort { get; set; } = SortMode.Alphabet;
-        public SortMode AlbumsSort { get; set; } = SortMode.Year;
-        public SortMode PlaylistSort { get; set; } = SortMode.Alphabet;
-
-        public bool OnedriveRoaming { get; set; } = false;
-
         public bool VerifyDoubanLogin()
         {
             var b = DoubanUserID.IsNullorEmpty() || DoubanToken.IsNullorEmpty() || DoubanLogin.AddSeconds(DoubanExpireTime) < DateTime.Now.AddDays(1);
@@ -210,5 +127,84 @@ namespace Aurora.Music.Core.Models
             var s = new Settings();
             s.Save();
         }
+
+        public static event EventHandler SettingsChanged;
+
+        private static object lockable = new object();
+
+        internal object GetSystemSize()
+        {
+            if (FileSizeFilter < 1024u)
+            {
+                return $"{FileSizeFilter}b";
+            }
+            return $"{FileSizeFilter / 1024u}kb";
+        }
+
+        private const string SETTINGS_CONTAINER = "main";
+
+        public bool IncludeMusicLibrary { get; set; } = true;
+        public ElementTheme Theme { get; set; } = ElementTheme.Default;
+
+        public bool WelcomeFinished { get; set; } = false;
+        public string OutputDeviceID { get; set; }
+        public double PlayerVolume { get; set; } = 100d;
+        public Effects AudioGraphEffects { get; set; } = Effects.None;
+        public string CategoryLastClicked { get; set; }
+
+        public string LyricExtensionID { get; set; } = string.Empty;
+        public string OnlineMusicExtensionID { get; set; } = string.Empty;
+        public string MetaExtensionID { get; set; } = string.Empty;
+
+        public Bitrate PreferredBitRate { get; set; } = Bitrate._256;
+        public bool OnlinePurchase { get; set; } = false;
+        public bool DebugModeEnabled { get; set; } = false;
+
+        public string DownloadPathToken { get; set; } = string.Empty;
+        public bool RememberFileActivatedAction { get; set; } = false;
+        public bool CopyFileWhenActivated { get; set; } = false;
+
+        public DateTime DoubanLogin { get; set; }
+        public double DoubanExpireTime { get; set; }
+        public string DoubanUserName { get; set; }
+        public string DoubanUserID { get; set; }
+        public string DoubanToken { get; set; }
+
+        public ulong LastUpdateBuild { get; set; } = 0ul;
+
+        public bool MetaDataEnabled { get; set; } = true;
+        public bool DataPlayEnabled { get; set; } = true;
+        public bool DataDownloadEnabled { get; set; } = true;
+        public bool IsPodcastToast { get; set; } = true;
+        public uint FetchInterval { get; set; } = 30;
+        public bool ShowPodcastsWhenSearch { get; set; } = true;
+        public bool PreventLockscreen { get; set; } = false;
+
+        public float[] Gain { get; set; } = new float[10] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        public uint PreferredSearchCount { get; set; } = 10;
+
+        public float ChannelShift { get; set; } = 0f;
+        public bool StereoToMono { get; set; } = false;
+        public float CompressorRatio { get; set; } = 1f;
+        public float CompressorMakeUpGain { get; set; } = 0f;
+        public float CompressorAttack { get; set; } = 10f;
+        public float CompressorRelease { get; set; } = 10f;
+        public float CompressorThresholddB { get; set; } = 0f;
+
+        public bool FileSizeFilterEnabled { get; set; }
+        // Bytes
+        public uint FileSizeFilter { get; set; } = 102400u;
+        public bool FileDurationFilterEnabled { get; set; }
+        // Milliseconds
+        public uint FileDurationFilter { get; set; } = 1000u;
+
+        public SortMode SongsSort { get; set; } = SortMode.Alphabet;
+        public SortMode AlbumsSort { get; set; } = SortMode.Year;
+        public SortMode PlaylistSort { get; set; } = SortMode.Alphabet;
+
+        public bool OnedriveRoaming { get; set; } = false;
+
+        public double CompactWidth { get; set; } = 480d;
+        public double CompactHeight { get; set; } = 480d;
     }
 }
