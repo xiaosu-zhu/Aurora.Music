@@ -131,8 +131,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="ListViewItem">
-                            <Grid x:Name="ContentBorder" CornerRadius="36,0,0,36"
-                                  Background="{TemplateBinding Background}" Height="72">
+                            <Grid x:Name="ContentBorder" CornerRadius="32,0,0,32"
+                                  Background="{TemplateBinding Background}" Height="64">
                                 <VisualStateManager.VisualStateGroups>
                                     <VisualStateGroup x:Name="CommonStates">
                                         <VisualState x:Name="Normal">
@@ -497,7 +497,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <AdaptiveTrigger MinWindowWidth="1008"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="LeftCol.Width" Value="320"/>
                         <Setter Target="Category.Visibility" Value="Visible"/>
                         <Setter Target="CategoryBtn.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
@@ -506,7 +505,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         </VisualStateManager.VisualStateGroups>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition x:Name="LeftCol" Width="320"/>
+            <ColumnDefinition x:Name="LeftCol" Width="280"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"/>
@@ -522,14 +521,14 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </ListView.ItemContainerTransitions>
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="vm:CategoryListItem">
-                    <Grid Margin="12,12" Height="48" x:Name="Panel" HorizontalAlignment="Stretch">
+                    <Grid Margin="6" Height="48" x:Name="Panel" HorizontalAlignment="Stretch">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="48"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Border CornerRadius="9999" Width="48" Height="48" Background="{ThemeResource SystemControlAltHighAcrylicWindowBrush}"/>
-                        <FontIcon Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Glyph}" />
-                        <TextBlock Margin="8,0" Grid.Column="1" x:Name="Title" Text="{x:Bind Title}"
+                        <FontIcon FontSize="15" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Glyph}" />
+                        <TextBlock Margin="8,0" Grid.Column="1" x:Name="Title" Text="{x:Bind Title}" FontSize="13"
                                    HorizontalAlignment="Left" VerticalAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}"/>
                     </Grid>
                 </DataTemplate>

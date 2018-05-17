@@ -59,9 +59,8 @@ namespace Aurora.Music.Core
 
         public static string UpdateNote =>
                             "### We are going to do a UI/UX renewal, please head to [UI/UX Renewal](https://github.com/pkzxs/Aurora.Music/issues/26) and leave your comment!\r\n---\r\n" +
-                            "* **New**: Updated layouts.\r\n" +
-                            "* **New**: When a folder has \"Cover.*\" pics, will be automatically used as Album Art.\r\n" +
-                            "And a few bug fixes.";
+                            "* **Fix**: We made small adjustments for layouts.\r\n" +
+                            "* **Fix**: We fixed an issue when navigate to \"Now playing\" page, the album art doesn't show.\r\n";
 
         public static string UpdateNoteTitle => localizer.GetString("UpdateNoteTitle");
 

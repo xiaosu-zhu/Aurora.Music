@@ -983,7 +983,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         <Grid.RowDefinitions>
             <RowDefinition Height="48"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="80"/>
+            <RowDefinition Height="72"/>
         </Grid.RowDefinitions>
 
 
@@ -1010,17 +1010,15 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                     AccessKeyInvoked="Panel_AccessKeyInvoked" Width="72"
                                     Opacity="{x:Bind BoolToOpacity(IsCurrent), Mode=OneWay}"
                                     x:Name="Panel" HorizontalAlignment="Stretch" 
-                                    ToolTipService.ToolTip="{x:Bind Title}">
+                                    ToolTipService.ToolTip="{x:Bind Title}" Height="72">
                             <StackPanel.KeyboardAccelerators>
                                 <KeyboardAccelerator Invoked="KeyboardAccelerator_Invoked" Modifiers="Control" Key="{x:Bind Index}"/>
                             </StackPanel.KeyboardAccelerators>
-                            <Border CornerRadius="999" Margin="0,8,0,4" Height="48" Width="48"
-                                    Background="{ThemeResource SystemControlAltHighAcrylicWindowBrush}">
-                                <FontIcon HorizontalAlignment="Center" VerticalAlignment="Center" 
-                                          FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Icon}" 
-                                          Foreground="{x:Bind ChangeForeground(IsCurrent),Mode=OneWay}"/>
-                            </Border>
-                            <Viewbox Stretch="Uniform" Height="28" Margin="4,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <FontIcon HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                      FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Icon}" Height="36"
+                                      Margin="0,8,0,0"
+                                      Foreground="{x:Bind ChangeForeground(IsCurrent),Mode=OneWay}"/>
+                            <Viewbox Stretch="Uniform" Height="28" Margin="4,-4,4,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                 <TextBlock x:Name="Title" Text="{x:Bind Title}" Width="64" TextAlignment="Center"
                                            Foreground="{x:Bind ChangeForeground(IsCurrent),Mode=OneWay}"
                                            HorizontalAlignment="Center" VerticalAlignment="Stretch"
@@ -1035,24 +1033,17 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <Button AccessKey="5" Padding="0" VerticalContentAlignment="Stretch" x:Uid="More"
                     HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
                     ToolTipService.ToolTip="More" Grid.Row="1" BorderThickness="0"
-                    Style="{ThemeResource RevealRectangleButton}"
+                    Style="{ThemeResource RevealRectangleButton}" Height="72"
                     Background="{ThemeResource SystemControlTransparentBrush}">
                 <Button.KeyboardAccelerators>
                     <KeyboardAccelerator Modifiers="Control" Key="Number5"/>
                 </Button.KeyboardAccelerators>
                 <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                    <Border CornerRadius="999" Margin="0,8,0,4" Width="48" Height="48"
-                            Background="{ThemeResource SystemControlAltHighAcrylicWindowBrush}">
+                    <Border Width="72" Height="72" Background="{x:Null}">
                         <FontIcon Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"
                                   FontFamily="Segoe MDL2 Assets" Glyph="&#xE10C;" 
                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
-                    <Viewbox Stretch="Uniform" Height="28" Margin="4,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <TextBlock x:Uid="MoreButton" Text="More" Style="{ThemeResource BodyTextBlockStyle}" 
-                                   FontSize="12" MaxLines="2" TextWrapping="WrapWholeWords" 
-                                   TextTrimming="CharacterEllipsis" Width="64" TextAlignment="Center"
-                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </Viewbox>
                 </StackPanel>
                 <Button.Flyout>
                     <Flyout>
@@ -1068,8 +1059,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                     <KeyboardAccelerator Modifiers="Control" Key="Number5"/>
                                 </Button.KeyboardAccelerators>
                                 <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                    <Grid CornerRadius="999" Margin="0,4" Width="48" Height="48"
-                                          Background="{ThemeResource SystemControlAltHighAcrylicWindowBrush}">
+                                    <Grid Margin="0,8,0,4" Width="48" Height="48" Background="{x:Null}">
                                         <FontIcon Visibility="{x:Bind Context.BoolNottoVisibility(Context.IsDownloading),Mode=OneWay}"
                                                   Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"
                                                   FontFamily="Segoe MDL2 Assets" Glyph="&#xE118;"
@@ -1102,8 +1092,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                     <KeyboardAccelerator Modifiers="Control" Key="Number6"/>
                                 </Button.KeyboardAccelerators>
                                 <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                    <Border CornerRadius="999" Margin="4" Width="48" Height="48"
-                                            Background="{ThemeResource SystemControlAltHighAcrylicWindowBrush}">
+                                    <Border Margin="0,8,0,4" Width="48" Height="48" Background="{x:Null}">
                                         <FontIcon Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" 
                                                   FontFamily="Segoe MDL2 Assets" Glyph="&#xE115;" 
                                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -1126,8 +1115,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                     <KeyboardAccelerator Modifiers="Control" Key="Number7"/>
                                 </Button.KeyboardAccelerators>
                                 <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                    <Border CornerRadius="999" Margin="4" Width="48" Height="48"
-                                            Background="{ThemeResource SystemControlAltHighAcrylicWindowBrush}">
+                                    <Border CornerRadius="999" Margin="0,8,0,4" Width="48" Height="48" Background="{x:Null}">
                                         <FontIcon Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" 
                                                   FontFamily="Segoe MDL2 Assets" Glyph="&#xED59;" 
                                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -1345,8 +1333,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </StackPanel>
         </Grid>
 
-        <toolkit:DropShadowPanel Grid.ColumnSpan="2" Grid.RowSpan="3" BlurRadius="48"
-                                 OffsetY="0" OffsetX="0" OffsetZ="0" Margin="72,48,0,80"
+        <toolkit:DropShadowPanel Grid.ColumnSpan="2" Grid.RowSpan="3" BlurRadius="24"
+                                 OffsetY="0" OffsetX="0" OffsetZ="0" Margin="72,48,0,72"
                                  HorizontalContentAlignment="Stretch"
                                  VerticalContentAlignment="Stretch"
                                  Color="{ThemeResource SystemBaseHighColor}"
@@ -1424,7 +1412,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent"
               x:Name="TitleBar" Loaded="TitleBar_Loaded" Grid.ColumnSpan="2" Grid.Row="0"/>
         <Button HorizontalAlignment="Left" VerticalAlignment="Stretch"
-                Width="64" Height="48" Style="{ThemeResource RevealRectangleButton}"
+                Width="72" Height="48" Style="{ThemeResource RevealRectangleButton}"
                 BorderBrush="{ThemeResource SystemControlBackgroundTransparentRevealBorderBrush}"
                 Background="{ThemeResource SystemControlTransparentRevealBackgroundBrush}"
                 Foreground="{ThemeResource SystemControlBackgroundBaseHighRevealBorderBrush}"
