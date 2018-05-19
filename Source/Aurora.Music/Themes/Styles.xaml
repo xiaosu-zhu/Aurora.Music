@@ -2918,7 +2918,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         <Setter Property="MinHeight" Value="{ThemeResource TextControlThemeMinHeight}" />
         <Setter Property="Foreground" Value="{ThemeResource TextControlForeground}" />
         <Setter Property="Background" Value="{ThemeResource SystemControlTransparentBrush}" />
-        <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundBaseLowRevealBorderBrush}" />
+        <Setter Property="BorderBrush" Value="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" />
         <Setter Property="SelectionHighlightColor" Value="{ThemeResource TextControlSelectionHighlightColor}" />
         <Setter Property="BorderThickness" Value="0,0,0,1" />
         <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />

@@ -393,9 +393,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <TextBlock Text="Preferred theme" Margin="0,12,0,0"/>
                         <StackPanel Orientation="Vertical" Margin="0,8">
-                            <RadioButton Tag="System" Content="System"/>
-                            <RadioButton Tag="Light" Content="Light"/>
-                            <RadioButton Tag="Dark" Content="Dark"/>
+                            <RadioButton x:Name="SystemTheme" Checked="RadioButton_Checked" Tag="System" Content="System"/>
+                            <RadioButton x:Name="LightTheme" Checked="RadioButton_Checked" Tag="Light" Content="Light"/>
+                            <RadioButton x:Name="DarkTheme" Checked="RadioButton_Checked" Tag="Dark" Content="Dark"/>
                         </StackPanel>
                     </StackPanel>
                 </ScrollViewer>

@@ -29,6 +29,28 @@ namespace Aurora.Music.Pages
             // slider swallowed PointerReleasedEvent
             VolumeSlider.AddHandler(PointerReleasedEvent, new PointerEventHandler(Slider_PointerReleased), true);
 
+            SystemTheme.Checked -= RadioButton_Checked;
+            LightTheme.Checked -= RadioButton_Checked;
+            DarkTheme.Checked -= RadioButton_Checked;
+            switch (Settings.Current.Theme)
+            {
+                case ElementTheme.Default:
+                    SystemTheme.IsChecked = true;
+                    break;
+                case ElementTheme.Light:
+                    LightTheme.IsChecked = true;
+                    break;
+                case ElementTheme.Dark:
+                    DarkTheme.IsChecked = true;
+                    break;
+                default:
+                    SystemTheme.IsChecked = true;
+                    break;
+            }
+            SystemTheme.Checked += RadioButton_Checked;
+            LightTheme.Checked += RadioButton_Checked;
+            DarkTheme.Checked += RadioButton_Checked;
+
             Task.Run(async () =>
             {
                 await Context.Init();
@@ -174,6 +196,26 @@ namespace Aurora.Music.Pages
                 DeviceCombo.SelectionChanged += DeviceCombo_SelectionChanged;
             });
 #pragma warning restore CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
+        }
+
+        private void RadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            var b = sender as RadioButton;
+            switch (b.Tag)
+            {
+                case "System":
+                    Context.ChangeTheme(ElementTheme.Default);
+                    break;
+                case "Light":
+                    Context.ChangeTheme(ElementTheme.Light);
+                    break;
+                case "Dark":
+                    Context.ChangeTheme(ElementTheme.Dark);
+                    break;
+                default:
+                    Context.ChangeTheme(ElementTheme.Default);
+                    break;
+            }
         }
     }
 }

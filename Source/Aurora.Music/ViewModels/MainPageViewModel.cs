@@ -117,7 +117,6 @@ namespace Aurora.Music.ViewModels
                 Title = Consts.Localizer.GetString("HomeText"),
                 TargetType = typeof(HomePage),
                 Icon="\uE80F",
-                IsCurrent = true,
                 Index = VirtualKey.Number1,
                 IndexNum = "1"
             },
@@ -1254,20 +1253,6 @@ namespace Aurora.Music.ViewModels
         public string Icon { get; set; }
 
         public Uri BG { get; set; }
-
-        private bool isPaneOpen;
-        public bool IsPaneOpen
-        {
-            get { return isPaneOpen; }
-            set { SetProperty(ref isPaneOpen, value); }
-        }
-
-        private bool isCurrent;
-        public bool IsCurrent
-        {
-            get { return isCurrent; }
-            set { SetProperty(ref isCurrent, value); }
-        }
 
         public FontWeight ChangeWeight(bool b)
         {

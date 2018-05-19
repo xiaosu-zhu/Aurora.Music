@@ -999,8 +999,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <ListView x:Name="HamPane" SelectionMode="None" IsItemClickEnabled="True" ItemClick="ListView_ItemClick"
-                      ItemsSource="{x:Bind Context.HamList}" Grid.Row="1" 
+            <ListView x:Name="HamPane" SelectionMode="Single" IsItemClickEnabled="False"
+                      ItemsSource="{x:Bind Context.HamList}" Grid.Row="1"
+                      SelectionChanged="HamPane_SelectionChanged"
                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                       ItemContainerStyle="{ThemeResource PaneListItemStyle}">
                 <ListView.ItemTemplate>
@@ -1008,7 +1009,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <StackPanel Background="{ThemeResource SystemControlTransparentBrush}"
                                     VerticalAlignment="Stretch" AccessKey="{x:Bind IndexNum}"
                                     AccessKeyInvoked="Panel_AccessKeyInvoked" Width="72"
-                                    Opacity="{x:Bind BoolToOpacity(IsCurrent), Mode=OneWay}"
                                     x:Name="Panel" HorizontalAlignment="Stretch" 
                                     ToolTipService.ToolTip="{x:Bind Title}" Height="72">
                             <StackPanel.KeyboardAccelerators>
@@ -1016,11 +1016,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                             </StackPanel.KeyboardAccelerators>
                             <FontIcon HorizontalAlignment="Center" VerticalAlignment="Center" 
                                       FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Icon}" Height="36"
-                                      Margin="0,8,0,0"
-                                      Foreground="{x:Bind ChangeForeground(IsCurrent),Mode=OneWay}"/>
+                                      Margin="0,8,0,0"/>
                             <Viewbox Stretch="Uniform" Height="28" Margin="4,-4,4,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                 <TextBlock x:Name="Title" Text="{x:Bind Title}" Width="64" TextAlignment="Center"
-                                           Foreground="{x:Bind ChangeForeground(IsCurrent),Mode=OneWay}"
                                            HorizontalAlignment="Center" VerticalAlignment="Stretch"
                                            MaxLines="2" TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis"
                                            FontSize="12" Style="{ThemeResource BodyTextBlockStyle}"/>
@@ -1052,6 +1050,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                     Command="{x:Bind Context.GotoDownload}" x:Name="Download"
                                     HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" 
                                     VerticalAlignment="Stretch" BorderThickness="0"
+                                    Click="ClearSelection"
                                     ToolTipService.ToolTip="{x:Bind Context.DownloadDes,Mode=OneWay}"
                                     Style="{ThemeResource RevealRectangleButton}" Width="64"
                                     Background="{ThemeResource SystemControlTransparentBrush}">
@@ -1059,7 +1058,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                     <KeyboardAccelerator Modifiers="Control" Key="Number5"/>
                                 </Button.KeyboardAccelerators>
                                 <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                    <Grid Margin="0,8,0,4" Width="48" Height="48" Background="{x:Null}">
+                                    <Grid Width="48" Height="48" Background="{x:Null}">
                                         <FontIcon Visibility="{x:Bind Context.BoolNottoVisibility(Context.IsDownloading),Mode=OneWay}"
                                                   Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"
                                                   FontFamily="Segoe MDL2 Assets" Glyph="&#xE118;"
@@ -1072,7 +1071,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                                                    HorizontalAlignment="Center" VerticalAlignment="Center"
                                                                    Minimum="0" Maximum="100"/>
                                     </Grid>
-                                    <Viewbox Stretch="Uniform" Height="28" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                    <Viewbox Margin="0,-4,0,0" Stretch="Uniform" Height="28" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                         <TextBlock Text="{x:Bind Context.DownloadDes,Mode=OneWay}"
                                                    Style="{ThemeResource BodyTextBlockStyle}" 
                                                    FontSize="12" MaxLines="2" TextWrapping="WrapWholeWords" 
@@ -1084,6 +1083,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                             <Button x:Uid="MainpageSettings" AccessKey="6"
                                     Command="{x:Bind Context.GotoSettings}" BorderThickness="0"
                                     Padding="0" VerticalContentAlignment="Center"
+                                    Click="ClearSelection"
                                     HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" 
                                     VerticalAlignment="Stretch" ToolTipService.ToolTip="Settings"
                                     Style="{ThemeResource RevealRectangleButton}"
@@ -1092,12 +1092,12 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                     <KeyboardAccelerator Modifiers="Control" Key="Number6"/>
                                 </Button.KeyboardAccelerators>
                                 <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                    <Border Margin="0,8,0,4" Width="48" Height="48" Background="{x:Null}">
+                                    <Border Width="48" Height="48" Background="{x:Null}">
                                         <FontIcon Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" 
                                                   FontFamily="Segoe MDL2 Assets" Glyph="&#xE115;" 
                                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     </Border>
-                                    <Viewbox Stretch="Uniform" Height="28" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                    <Viewbox Margin="0,-4,0,0" Stretch="Uniform" Height="28" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                         <TextBlock x:Uid="Settings" Text="Settings"
                                                    Style="{ThemeResource BodyTextBlockStyle}" 
                                                    FontSize="12" MaxLines="2" TextWrapping="WrapWholeWords" 
@@ -1109,18 +1109,19 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                             <Button AccessKey="7" ToolTipService.ToolTip="About"
                                     Width="64" BorderThickness="0" 
                                     Command="{x:Bind Context.GotoAbout}" HorizontalAlignment="Stretch" 
+                                    Click="ClearSelection"
                                     VerticalAlignment="Stretch" Background="{ThemeResource SystemControlTransparentBrush}"
                                     Style="{ThemeResource RevealRectangleButton}">
                                 <Button.KeyboardAccelerators>
                                     <KeyboardAccelerator Modifiers="Control" Key="Number7"/>
                                 </Button.KeyboardAccelerators>
                                 <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                    <Border CornerRadius="999" Margin="0,8,0,4" Width="48" Height="48" Background="{x:Null}">
+                                    <Border CornerRadius="999" Width="48" Height="48" Background="{x:Null}">
                                         <FontIcon Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" 
                                                   FontFamily="Segoe MDL2 Assets" Glyph="&#xED59;" 
                                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     </Border>
-                                    <Viewbox Stretch="Uniform" Height="28" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                    <Viewbox Margin="0,-4,0,0" Stretch="Uniform" Height="28" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                         <TextBlock x:Uid="About" Text="About"
                                                    Style="{ThemeResource BodyTextBlockStyle}" 
                                                    FontSize="12" MaxLines="2" TextWrapping="WrapWholeWords" 

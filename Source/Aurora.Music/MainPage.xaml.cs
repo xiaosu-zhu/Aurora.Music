@@ -54,6 +54,8 @@ namespace Aurora.Music
             SongFlyout = (Resources["SongFlyout"] as MenuFlyout);
 
             dataTransferManager = DataTransferManager.GetForCurrentView();
+
+            ChangeTheme(Settings.Current.Theme);
         }
 
         internal void SetSleepTimer(DateTime t, SleepAction a)
@@ -103,9 +105,15 @@ namespace Aurora.Music
             else
             {
                 MainFrame.Navigate(typeof(HomePage));
+                MainFrame.Navigated += MainFrame_Navigated;
             }
 
-            RefreshPaneCurrent();
+        }
+
+        private void MainFrame_Navigated(object sender, NavigationEventArgs e)
+        {
+            MainFrame.Navigated -= MainFrame_Navigated;
+            HamPane.SelectedIndex = 0;
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -197,27 +205,11 @@ namespace Aurora.Music
                 if (MainFrame.CanGoBack)
                 {
                     MainFrame.GoBack();
-                    RefreshPaneCurrent();
                     return true;
                 }
                 else
                 {
                     return false;
-                }
-            }
-        }
-
-        private void RefreshPaneCurrent()
-        {
-            foreach (var item in Context.HamList)
-            {
-                if (item.TargetType == MainFrame.Content.GetType())
-                {
-                    item.IsCurrent = true;
-                }
-                else
-                {
-                    item.IsCurrent = false;
                 }
             }
         }
@@ -274,7 +266,6 @@ namespace Aurora.Music
             if (OverlayFrame.Visibility == Visibility.Visible)
                 return;
             MainFrame.Navigate(type);
-            RefreshPaneCurrent();
         }
 
         public void Navigate(Type type, object parameter)
@@ -282,7 +273,6 @@ namespace Aurora.Music
             if (OverlayFrame.Visibility == Visibility.Visible)
                 return;
             MainFrame.Navigate(type, parameter);
-            RefreshPaneCurrent();
         }
 
         public Orientation PaneToOrientation(bool a)
@@ -296,6 +286,17 @@ namespace Aurora.Music
             {
                 iT.ChangeTheme();
             }
+            var ui = new UISettings();
+            Context.IsDarkAccent = Palette.IsDarkColor(ui.GetColorValue(UIColorType.Accent));
+        }
+
+        public void ChangeTheme(ElementTheme theme)
+        {
+            if (MainFrame.Content is IChangeTheme iT)
+            {
+                iT.ChangeTheme(theme);
+            }
+            RequestedTheme = theme;
             var ui = new UISettings();
             Context.IsDarkAccent = Palette.IsDarkColor(ui.GetColorValue(UIColorType.Accent));
         }
@@ -836,31 +837,6 @@ namespace Aurora.Music
             }
         }
 
-        private void ListView_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            if (OverlayFrame.Visibility == Visibility.Visible)
-            {
-                GoBackFromNowPlaying();
-            }
-
-            if (MainFrame.Content is SettingsPage || MainFrame.Content is AboutPage)
-            {
-                MainFrame.Navigate((e.ClickedItem as HamPanelItem).TargetType);
-                RefreshPaneCurrent();
-                return;
-            }
-
-            if ((e.ClickedItem as HamPanelItem) == Context.HamList.Find(x => x.IsCurrent))
-            {
-                RefreshPaneCurrent();
-                return;
-            }
-            MainFrame.Navigate((e.ClickedItem as HamPanelItem).TargetType);
-
-
-            RefreshPaneCurrent();
-        }
-
         private async void MenuFlyoutPlay_Click(object sender, RoutedEventArgs e)
         {
             if (SongFlyout.Target is SelectorItem s)
@@ -1240,22 +1216,6 @@ namespace Aurora.Music
 
         }
 
-        private void Root_PaneOpening(SplitView sender, object args)
-        {
-            foreach (var item in Context.HamList)
-            {
-                item.IsPaneOpen = true;
-            }
-        }
-
-        private void Root_PaneClosing(SplitView sender, SplitViewPaneClosingEventArgs args)
-        {
-            foreach (var item in Context.HamList)
-            {
-                item.IsPaneOpen = false;
-            }
-        }
-
         private void KeyboardAccelerator_Invoked(Windows.UI.Xaml.Input.KeyboardAccelerator sender, Windows.UI.Xaml.Input.KeyboardAcceleratorInvokedEventArgs args)
         {
             var item = (args.Element as Panel).DataContext as HamPanelItem;
@@ -1267,19 +1227,16 @@ namespace Aurora.Music
             if (MainFrame.Content is SettingsPage || MainFrame.Content is AboutPage)
             {
                 MainFrame.Navigate(item.TargetType);
-                RefreshPaneCurrent();
                 return;
             }
 
-            if (item == Context.HamList.Find(x => x.IsCurrent))
+            var index = HamPane.SelectedIndex;
+
+            if (index >= 0 && item == Context.HamList[index])
             {
-                RefreshPaneCurrent();
                 return;
             }
             MainFrame.Navigate(item.TargetType);
-
-
-            RefreshPaneCurrent();
         }
 
         private void Panel_AccessKeyInvoked(UIElement sender, Windows.UI.Xaml.Input.AccessKeyInvokedEventArgs args)
@@ -1293,19 +1250,15 @@ namespace Aurora.Music
             if (MainFrame.Content is SettingsPage || MainFrame.Content is AboutPage)
             {
                 MainFrame.Navigate(item.TargetType);
-                RefreshPaneCurrent();
                 return;
             }
 
-            if (item == Context.HamList.Find(x => x.IsCurrent))
+            var index = HamPane.SelectedIndex;
+            if (index >= 0 && item == Context.HamList[index])
             {
-                RefreshPaneCurrent();
                 return;
             }
             MainFrame.Navigate(item.TargetType);
-
-
-            RefreshPaneCurrent();
         }
 
         private async void Artwork_ImageOpened(object sender, RoutedEventArgs e)
@@ -1399,6 +1352,32 @@ namespace Aurora.Music
             }
 
             GoBack();
+        }
+
+        private void HamPane_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var list = sender as ListView;
+            var index = HamPane.SelectedIndex;
+            if (index < 0)
+                return;
+
+            if (OverlayFrame.Visibility == Visibility.Visible)
+            {
+                GoBackFromNowPlaying();
+            }
+
+            if (MainFrame.Content is SettingsPage || MainFrame.Content is AboutPage)
+            {
+                MainFrame.Navigate(Context.HamList[index].TargetType);
+                return;
+            }
+
+            MainFrame.Navigate((Context.HamList[index] as HamPanelItem).TargetType);
+        }
+
+        private void ClearSelection(object sender, RoutedEventArgs e)
+        {
+            HamPane.SelectedIndex = -1;
         }
     }
 }

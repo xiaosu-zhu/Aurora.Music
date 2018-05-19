@@ -29,6 +29,7 @@ using Windows.Media.Devices;
 using Windows.Services.Store;
 using Windows.Storage;
 using Windows.System;
+using Windows.UI.Xaml;
 
 namespace Aurora.Music.ViewModels
 {
@@ -226,6 +227,13 @@ namespace Aurora.Music.ViewModels
         }
 
         private bool isPodcastToast = Settings.Current.IsPodcastToast;
+
+        internal void ChangeTheme(ElementTheme theme)
+        {
+            Settings.Current.Theme = theme;
+            MainPage.Current.ChangeTheme(theme);
+        }
+
         public bool IsPodcastToast
         {
             get { return isPodcastToast; }
