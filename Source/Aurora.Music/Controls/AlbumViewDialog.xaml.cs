@@ -133,7 +133,7 @@ namespace Aurora.Music.Controls
         private async void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
             var d = args.GetDeferral();
-            List<Task<StorageFile>> tasks = new List<Task<StorageFile>>();
+            var tasks = new List<Task<StorageFile>>();
             StorageFolder folder;
             try
             {

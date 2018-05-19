@@ -78,7 +78,7 @@ namespace Aurora.Music.Pages
 
         private async void Privacy(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            await Launcher.LaunchUriAsync(new Uri("http://198.181.41.120/privacypolicy.htm"));
+            await Launcher.LaunchUriAsync(new Uri("https://github.com/pkzxs/Aurora.Music/blob/master/Documentation/Privacy%20Policy.md"));
         }
 
         private async void EaseAccess(object sender, Windows.UI.Xaml.RoutedEventArgs e)

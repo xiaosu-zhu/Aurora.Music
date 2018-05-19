@@ -637,7 +637,7 @@ namespace Aurora.Music
         private void App_UnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
         {
             e.Handled = true;
-            Tools.Logging(e);
+            Core.Tools.Helper.Logging(e);
 
             if (MainPage.Current is MainPage p && (e.Exception is NotImplementedException || e.Exception is UnauthorizedAccessException))
             {

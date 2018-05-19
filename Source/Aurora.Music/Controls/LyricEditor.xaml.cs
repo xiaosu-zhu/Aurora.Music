@@ -456,7 +456,6 @@ namespace Aurora.Music.Controls
                 {
                     Content = ex.Message
                 };
-
                 // Show the message dialog
                 await messageDialog.ShowAsync();
             }

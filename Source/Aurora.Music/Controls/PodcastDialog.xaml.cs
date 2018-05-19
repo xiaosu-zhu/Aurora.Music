@@ -39,7 +39,7 @@ namespace Aurora.Music.Controls
                     var pod = await Podcast.GetiTunesPodcast(g.OnlineAlbumID);
                     if (pod == null)
                     {
-                        await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                        await Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
                         {
                             Description.Text = "This may because of un-support rss format or network error.";
                             TitleText.Text = "Fetch failed";
@@ -75,9 +75,9 @@ namespace Aurora.Music.Controls
                         IsPrimaryButtonEnabled = true;
                     });
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                    await Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
                     {
                         Description.Text = "This may because of un-support rss format or network error.";
                         TitleText.Text = "Fetch failed";
@@ -85,6 +85,11 @@ namespace Aurora.Music.Controls
                         FetchingHeader.Visibility = Visibility.Collapsed;
                         FetchingProgress.IsIndeterminate = false;
                         FetchingProgress.Visibility = Visibility.Collapsed;
+                    });
+                    Core.Tools.Helper.Logging(ex, new Dictionary<string, string>()
+                    {
+                        ["Location"] = "PodcastDialog",
+                        ["url"] = g.OnlineAlbumID
                     });
                 }
 
@@ -101,7 +106,7 @@ namespace Aurora.Music.Controls
                     var pod = await Podcast.GetiTunesPodcast(g.AbsoluteUri);
                     if (pod == null)
                     {
-                        await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                        await Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
                         {
                             Description.Text = "This may because of un-support rss format or network error.";
                             TitleText.Text = "Fetch failed";
@@ -113,7 +118,7 @@ namespace Aurora.Music.Controls
                         return;
                     }
                     podcast = pod;
-                    await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                    await Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
                     {
                         Description.Text = pod.Description;
                         TitleText.Text = pod.Title;
@@ -137,9 +142,9 @@ namespace Aurora.Music.Controls
                         }
                     });
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                    await Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
                     {
                         Description.Text = "This may because of un-support rss format or network error.";
                         TitleText.Text = "Fetch failed";
@@ -147,6 +152,11 @@ namespace Aurora.Music.Controls
                         FetchingHeader.Visibility = Visibility.Collapsed;
                         FetchingProgress.IsIndeterminate = false;
                         FetchingProgress.Visibility = Visibility.Collapsed;
+                    });
+                    Core.Tools.Helper.Logging(ex, new Dictionary<string, string>()
+                    {
+                        ["Location"] = "PodcastDialog",
+                        ["url"] = g.AbsoluteUri
                     });
                 }
             });

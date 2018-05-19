@@ -6,10 +6,8 @@ using Aurora.Shared.Helpers;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
-using Windows.Foundation.Collections;
 
 namespace Aurora.Music.Core.Extension
 {
@@ -66,7 +64,7 @@ namespace Aurora.Music.Core.Extension
                 var res = await ApiRequestHelper.HttpGet(queryUrl, parameter);
                 return JsonConvert.DeserializeObject<ITunesSearchResult>(res);
             }
-            catch (System.Exception)
+            catch (Exception)
             {
                 return null;
             }
@@ -79,7 +77,7 @@ namespace Aurora.Music.Core.Extension
                 var res = await ApiRequestHelper.HttpGet(string.Format(topAllUrl, CultureInfoHelper.CurrentRegionISO, count));
                 return JsonConvert.DeserializeObject<ITunesTop>(res);
             }
-            catch (System.Exception)
+            catch (Exception)
             {
                 return null;
             }
@@ -91,7 +89,7 @@ namespace Aurora.Music.Core.Extension
                 var res = await ApiRequestHelper.HttpGet(string.Format(topUrl, CultureInfoHelper.CurrentRegionISO, count, key));
                 return JsonConvert.DeserializeObject<ITunesTop>(res);
             }
-            catch (System.Exception)
+            catch (Exception)
             {
                 return null;
             }

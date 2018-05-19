@@ -101,7 +101,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </Border>
             <toolkit:MarkdownTextBlock HorizontalAlignment="Center" VerticalAlignment="Stretch" LinkClicked="MarkdownTextBlock_LinkClicked"
                                        MaxWidth="320" HorizontalContentAlignment="Center" Margin="12,0"
-                                       Text="* Thanks for collaborators that are helping for tranlations:&#xD;&#xA;&#x9;* **Lucas Herr**&#xD;&#xA;&#x9;* **Данила Степовой**&#xD;&#xA;&#x9;* **Dan Olivaw**.&#xD;&#xA;* Pull requests [#4](https://github.com/pkzxs/Aurora.Music/pull/4), [#5](https://github.com/pkzxs/Aurora.Music/pull/5), [#6](https://github.com/pkzxs/Aurora.Music/pull/6), [#7](https://github.com/pkzxs/Aurora.Music/pull/7), [#9](https://github.com/pkzxs/Aurora.Music/pull/9), [#22](https://github.com/pkzxs/Aurora.Music/pull/22), [#23](https://github.com/pkzxs/Aurora.Music/pull/23) by [OpportunityLiu](https://github.com/OpportunityLiu).&#xD;&#xA;&#xD;&#xA;* And **[everyone supported development](https://github.com/pkzxs/Aurora.Music/issues)**.&#xD;&#xA;&#xD;&#xA;* And **You**."/>
+                                       Text="* Thanks for collaborators that are helping for tranlations:&#xD;&#xA;&#x9;* **Lucas Herr**&#xD;&#xA;&#x9;* **Данила Степовой**&#xD;&#xA;&#x9;* **Dan Olivaw**.&#xD;&#xA;* Pull requests [#4](https://github.com/pkzxs/Aurora.Music/pull/4), [#5](https://github.com/pkzxs/Aurora.Music/pull/5), [#6](https://github.com/pkzxs/Aurora.Music/pull/6), [#7](https://github.com/pkzxs/Aurora.Music/pull/7), [#9](https://github.com/pkzxs/Aurora.Music/pull/9), [#22](https://github.com/pkzxs/Aurora.Music/pull/22), [#23](https://github.com/pkzxs/Aurora.Music/pull/23), [#25](https://github.com/pkzxs/Aurora.Music/pull/25) by [OpportunityLiu](https://github.com/OpportunityLiu).&#xD;&#xA;&#xD;&#xA;* And **[everyone supported development](https://github.com/pkzxs/Aurora.Music/issues)**.&#xD;&#xA;&#xD;&#xA;* And **You**."/>
 
 
             <Border Padding="8,4" Margin="12,24,12,12" CornerRadius="8" Background="{ThemeResource AccentForText}" 
@@ -226,10 +226,11 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     </Button.Flyout>
                 </Button>
                 <Button Style="{ThemeResource RevealRoundButton}"
-                        Click="Donate" Width="48" Height="48"
+                        Click="Donate" Width="48" Height="48" HorizontalContentAlignment="Stretch"
+                        VerticalContentAlignment="Stretch"
                         Background="{ThemeResource SystemControlAltHighAcrylicWindowBrush}">
                     <Button.Content>
-                        <Grid Width="48" Height="48" Padding="12">
+                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>

@@ -95,7 +95,7 @@ namespace Aurora.Music.ViewModels
         {
             get => new DelegateCommand(async () =>
             {
-                await Launcher.LaunchUriAsync(new Uri("http://198.181.41.120/privacypolicy.htm"));
+                await Launcher.LaunchUriAsync(new Uri("https://github.com/pkzxs/Aurora.Music/blob/master/Documentation/Privacy%20Policy.md"));
             });
         }
 

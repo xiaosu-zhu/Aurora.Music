@@ -1050,7 +1050,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                     Command="{x:Bind Context.GotoDownload}" x:Name="Download"
                                     HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" 
                                     VerticalAlignment="Stretch" BorderThickness="0"
-                                    Click="ClearSelection"
                                     ToolTipService.ToolTip="{x:Bind Context.DownloadDes,Mode=OneWay}"
                                     Style="{ThemeResource RevealRectangleButton}" Width="64"
                                     Background="{ThemeResource SystemControlTransparentBrush}">
@@ -1083,7 +1082,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                             <Button x:Uid="MainpageSettings" AccessKey="6"
                                     Command="{x:Bind Context.GotoSettings}" BorderThickness="0"
                                     Padding="0" VerticalContentAlignment="Center"
-                                    Click="ClearSelection"
                                     HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" 
                                     VerticalAlignment="Stretch" ToolTipService.ToolTip="Settings"
                                     Style="{ThemeResource RevealRectangleButton}"
@@ -1108,8 +1106,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                             </Button>
                             <Button AccessKey="7" ToolTipService.ToolTip="About"
                                     Width="64" BorderThickness="0" 
-                                    Command="{x:Bind Context.GotoAbout}" HorizontalAlignment="Stretch" 
-                                    Click="ClearSelection"
+                                    Command="{x:Bind Context.GotoAbout}" HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch" Background="{ThemeResource SystemControlTransparentBrush}"
                                     Style="{ThemeResource RevealRectangleButton}">
                                 <Button.KeyboardAccelerators>
@@ -1346,6 +1343,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         </toolkit:DropShadowPanel>
 
         <Frame Grid.ColumnSpan="2" Grid.Row="1" Visibility="Visible" Margin="72,0,0,0"
+               Navigated="MainFrame_Navigated"
                HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="MainFrame"/>
 
         <Frame Grid.ColumnSpan="2" Grid.RowSpan="3" 

@@ -90,7 +90,7 @@ namespace Aurora.Music
             });
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
             dataTransferManager.DataRequested += DataTransferManager_DataRequested;
@@ -104,16 +104,12 @@ namespace Aurora.Music
             }
             else
             {
-                MainFrame.Navigate(typeof(HomePage));
-                MainFrame.Navigated += MainFrame_Navigated;
+                while (HamPane.Items.Count <= 0)
+                {
+                    await Task.Delay(500);
+                }
+                HamPane.SelectedIndex = 0;
             }
-
-        }
-
-        private void MainFrame_Navigated(object sender, NavigationEventArgs e)
-        {
-            MainFrame.Navigated -= MainFrame_Navigated;
-            HamPane.SelectedIndex = 0;
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -1059,7 +1055,7 @@ namespace Aurora.Music
         {
             if (SongFlyout.Target is SelectorItem s)
             {
-                List<string> paths = new List<string>();
+                var paths = new List<string>();
                 switch (s.Content)
                 {
                     case GenericMusicItemViewModel g:
@@ -1117,7 +1113,7 @@ namespace Aurora.Music
 
             if (SongFlyout.Target is SelectorItem s)
             {
-                List<string> paths = new List<string>();
+                var paths = new List<string>();
                 switch (s.Content)
                 {
                     case GenericMusicItemViewModel g:
@@ -1375,9 +1371,12 @@ namespace Aurora.Music
             MainFrame.Navigate((Context.HamList[index] as HamPanelItem).TargetType);
         }
 
-        private void ClearSelection(object sender, RoutedEventArgs e)
+        private void MainFrame_Navigated(object sender, NavigationEventArgs e)
         {
-            HamPane.SelectedIndex = -1;
+            HamPane.SelectionChanged -= HamPane_SelectionChanged;
+            var index = Context.HamList.FindIndex(a => a.TargetType == MainFrame.Content.GetType());
+            HamPane.SelectedIndex = index;
+            HamPane.SelectionChanged += HamPane_SelectionChanged;
         }
     }
 }

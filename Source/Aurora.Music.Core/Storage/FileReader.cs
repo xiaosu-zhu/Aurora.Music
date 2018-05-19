@@ -268,15 +268,13 @@ namespace Aurora.Music.Core.Storage
                         }
                     }
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
-                    Shared.Helpers.Tools.Logging(e);
                     continue;
                 }
                 finally
                 {
                     ProgressUpdated?.Invoke(null, new ProgressReport() { Description = SmartFormat.Smart.Format(scan, i, total), Current = i, Total = total });
-
                     i++;
                 }
             }

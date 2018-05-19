@@ -3,7 +3,9 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using Aurora.Music.Core.Models;
 using Aurora.Shared.Extensions;
+using Microsoft.HockeyApp;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
@@ -69,6 +71,30 @@ namespace Aurora.Music.Core.Tools
                 value += (ulong)utf8[n] << ((n * 5) % 56);
             }
             return value;
+        }
+
+        private static bool Inited = false;
+
+        public static void InitLogger()
+        {
+            // Track activity using HockeyApp
+            HockeyClient.Current.Configure(Consts.HockeyAppID);
+            Inited = true;
+        }
+
+        public static void Logging(Windows.UI.Xaml.UnhandledExceptionEventArgs e, IDictionary<string, string> properties = null)
+        {
+            if (!Inited)
+            {
+                InitLogger();
+            }
+            // Exceptions
+            HockeyClient.Current.TrackException(e.Exception, properties);
+        }
+
+        public static void Logging(Exception e, IDictionary<string, string> properties = null)
+        {
+            HockeyClient.Current.TrackException(e, properties);
         }
     }
 }
