@@ -129,10 +129,13 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                        Margin="12,0" 
                        Text="Jason Rosewell,&#xD;&#xA;Kelly Sikkema,&#xD;&#xA;Malte Wingen,&#xD;&#xA;Namroud Gorguis,&#xD;&#xA;Yvette de Wit,&#xD;&#xA;Anthony Roberts."/>
             <StackPanel Width="80" Margin="4" Orientation="Vertical">
-                <Button Style="{ThemeResource RevealRoundButton}" Background="{ThemeResource SystemControlAcrylicWindowBrush}"
+                <Button Style="{ThemeResource RevealRoundButton}"
                             HorizontalAlignment="Center" VerticalAlignment="Center" 
                             Width="48" Height="48" Click="UnSplash"
                             ToolTipService.ToolTip="Unsplash.com">
+                    <Button.Background>
+                        <AcrylicBrush FallbackColor="{ThemeResource SystemAltHighColor}" TintColor="{ThemeResource SystemAltHighColor}" TintOpacity="0.3333333333333333" BackgroundSource="HostBackdrop"/>
+                    </Button.Background>
                     <Button.Content>
                         <Viewbox Width="24" Height="24" Margin="0,-4,0,0" Stretch="Uniform">
                             <Path Fill="{ThemeResource SystemControlBackgroundBaseHighBrush}"
@@ -156,10 +159,13 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <toolkit:WrapPanel HorizontalSpacing="8" VerticalSpacing="8"
                                Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                 <StackPanel Width="80" Orientation="Vertical">
-                    <Button Style="{ThemeResource RevealRoundButton}" Background="{ThemeResource SystemControlAcrylicWindowBrush}"
+                    <Button Style="{ThemeResource RevealRoundButton}"
                             HorizontalAlignment="Center" VerticalAlignment="Center" 
                             Width="48" Height="48" Padding="8" Click="Github"
                             ToolTipService.ToolTip="For getting instructions of developing extensions">
+                        <Button.Background>
+                            <AcrylicBrush FallbackColor="{ThemeResource SystemAltHighColor}" TintColor="{ThemeResource SystemAltHighColor}" TintOpacity="0.3333333333333333" BackgroundSource="HostBackdrop"/>
+                        </Button.Background>
                         <Button.Content>
                             <BitmapIcon UriSource="ms-appx:///Assets/git-dark.png"/>
                         </Button.Content>
@@ -168,10 +174,13 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </StackPanel>
                 <StackPanel Width="80" Orientation="Vertical">
-                    <Button Style="{ThemeResource RevealRoundButton}" Background="{ThemeResource SystemControlAcrylicWindowBrush}"
+                    <Button Style="{ThemeResource RevealRoundButton}"
                             HorizontalAlignment="Center" VerticalAlignment="Center" 
                             Width="48" Height="48" Click="Tranlate"
                             ToolTipService.ToolTip="For contributing to translation">
+                        <Button.Background>
+                            <AcrylicBrush FallbackColor="{ThemeResource SystemAltHighColor}" TintColor="{ThemeResource SystemAltHighColor}" TintOpacity="0.3333333333333333" BackgroundSource="HostBackdrop"/>
+                        </Button.Background>
                         <Button.Content>
                             <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE775;" />
                         </Button.Content>
@@ -192,7 +201,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <toolkit:WrapPanel HorizontalSpacing="8" VerticalSpacing="8" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Button Style="{ThemeResource RevealRoundButton}" Width="48" Height="48">
                     <Button.Background>
-                        <AcrylicBrush FallbackColor="#09bb07" TintColor="#09bb07" TintOpacity="0.5" BackgroundSource="HostBackdrop"/>
+                        <AcrylicBrush FallbackColor="#09bb07" TintColor="#09bb07" TintOpacity="0.3333333333333333" BackgroundSource="HostBackdrop"/>
                     </Button.Background>
                     <Button.Content>
                         <BitmapIcon UriSource="/Assets/wechat-icon.png" Width="32" Height="32" Foreground="White"/>
@@ -205,7 +214,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </Button>
                 <Button Style="{ThemeResource RevealRoundButton}" Width="48" Height="48">
                     <Button.Background>
-                        <AcrylicBrush FallbackColor="#27346a" TintColor="#27346a" TintOpacity="0.5" BackgroundSource="HostBackdrop"/>
+                        <AcrylicBrush FallbackColor="#27346a" TintColor="#27346a" TintOpacity="0.3333333333333333" BackgroundSource="HostBackdrop"/>
                     </Button.Background>
                     <Button.Content>
                         <BitmapIcon UriSource="/Assets/paypal-icon.png" Width="36" Height="36" Foreground="White"/>
@@ -227,8 +236,10 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </Button>
                 <Button Style="{ThemeResource RevealRoundButton}"
                         Click="Donate" Width="48" Height="48" HorizontalContentAlignment="Stretch"
-                        VerticalContentAlignment="Stretch"
-                        Background="{ThemeResource SystemControlAltHighAcrylicWindowBrush}">
+                        VerticalContentAlignment="Stretch">
+                    <Button.Background>
+                        <AcrylicBrush FallbackColor="{ThemeResource SystemAltHighColor}" TintColor="{ThemeResource SystemAltHighColor}" TintOpacity="0.3333333333333333" BackgroundSource="HostBackdrop"/>
+                    </Button.Background>
                     <Button.Content>
                         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10">
                             <Grid.ColumnDefinitions>
@@ -248,7 +259,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </Button>
                 <Button Style="{ThemeResource RevealRoundButton}" Width="48" Height="48">
                     <Button.Background>
-                        <AcrylicBrush FallbackColor="#1890ff" TintColor="#1890ff" TintOpacity="0.5" BackgroundSource="HostBackdrop"/>
+                        <AcrylicBrush FallbackColor="#1890ff" TintColor="#1890ff" TintOpacity="0.3333333333333333" BackgroundSource="HostBackdrop"/>
                     </Button.Background>
                     <Button.Content>
                         <BitmapIcon Foreground="White" UriSource="/Assets/ali-icon.png" Width="36" Height="36"/>

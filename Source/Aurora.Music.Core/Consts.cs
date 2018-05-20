@@ -60,7 +60,8 @@ namespace Aurora.Music.Core
         public static string UpdateNote =>
                             "### We are going to do a UI/UX renewal, please head to [UI/UX Renewal](https://github.com/pkzxs/Aurora.Music/issues/26) and leave your comment!\r\n---\r\n" +
                             "### We had updated [Privacy Policy & Terms of Use](https://github.com/pkzxs/Aurora.Music/blob/master/Documentation/Privacy%20Policy.md), by using this app you should first have a look at it.\r\n---\r\n" +
-                            "* **New**: Switch themes between default, light and dark in \"Settings - Interface\".\r\n";
+                            "* **New**: Switch themes between default, light and dark in \"Settings - Interface\".\r\n" +
+                            "* **Update**: Optimized dark mode.\r\n";
 
         public static string UpdateNoteTitle => localizer.GetString("UpdateNoteTitle");
 
