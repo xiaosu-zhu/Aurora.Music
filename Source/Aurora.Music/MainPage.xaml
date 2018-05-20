@@ -914,7 +914,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <Setter Target="PlayListNarrow.Visibility" Value="Collapsed"/>
                         <Setter Target="PlayListFull.Visibility" Value="Visible"/>
                         <Setter Target="PlayListBtn.Margin" Value="4,0"/>
-                        <Setter Target="PositionText.Margin" Value="4,0"/>
+                        <Setter Target="PositionText.Margin" Value="0"/>
                         <Setter Target="Previous.Margin" Value="2"/>
                         <Setter Target="PlayPause.Margin" Value="2"/>
                         <Setter Target="Next.Margin" Value="2"/>
@@ -923,6 +923,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <Setter Target="Shuffle.Margin" Value="2"/>
                         <Setter Target="Refresh.Margin" Value="2"/>
                         <Setter Target="NowPanelButton.Width" Value="240"/>
+                        <Setter Target="NowPanelTexts.MaxWidth" Value="160"/>
                         <Setter Target="Stop.Visibility" Value="Collapsed"/>
                         <Setter Target="Shuffle.Visibility" Value="Visible"/>
                         <Setter Target="Refresh.Visibility" Value="Visible"/>
@@ -947,6 +948,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <Setter Target="Next.Margin" Value="0"/>
                         <Setter Target="Stop.Margin" Value="0"/>
                         <Setter Target="NowPanelButton.Width" Value="120"/>
+                        <Setter Target="NowPanelTexts.MaxWidth" Value="120"/>
                         <Setter Target="Shuffle.Margin" Value="0"/>
                         <Setter Target="Refresh.Margin" Value="0"/>
                         <Setter Target="Stop.Visibility" Value="Collapsed"/>
@@ -1158,22 +1160,27 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                 Background="{ThemeResource ImageDarkOverlay}" Grid.Column="1"
                                 Margin="8"/>
-                        <StackPanel x:Name="NowPanelTexts" Padding="4,0" Orientation="Vertical" 
-                                    HorizontalAlignment="Right" VerticalAlignment="Center">
-                            <TextBlock x:Name="Title" Text="{x:Bind Context.CurrentTitle, Mode=OneWay}" 
-                                       ToolTipService.ToolTip="{x:Bind Context.CurrentTitle,Mode=OneWay}"
-                                       Style="{ThemeResource BaseTextBlockStyle}" MaxLines="2" TextTrimming="CharacterEllipsis"/>
-                            <TextBlock x:Name="Album" Text="{x:Bind Context.CurrentAlbum, Mode=OneWay}" 
-                                       ToolTipService.ToolTip="{x:Bind Context.CurrentAlbum,Mode=OneWay}"
-                                       Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" FontSize="13" 
-                                       Foreground="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
-                                       TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"/>
-                            <TextBlock x:Name="Artist" Text="{x:Bind Context.CurrentArtist, Mode=OneWay}" 
-                                       ToolTipService.ToolTip="{x:Bind Context.CurrentArtist,Mode=OneWay}"
-                                       Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" FontSize="13" 
-                                       Foreground="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
-                                       TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"/>
-                        </StackPanel>
+                        <Viewbox Margin="4,8" HorizontalAlignment="Right" VerticalAlignment="Center" Stretch="Uniform">
+                            <StackPanel x:Name="NowPanelTexts" Orientation="Vertical" MaxWidth="240"
+                                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <TextBlock x:Name="Title" Text="{x:Bind Context.CurrentTitle, Mode=OneWay}" 
+                                           ToolTipService.ToolTip="{x:Bind Context.CurrentTitle,Mode=OneWay}"
+                                           TextWrapping="NoWrap" HorizontalAlignment="Right"
+                                           Style="{ThemeResource BaseTextBlockStyle}" MaxLines="1" TextTrimming="CharacterEllipsis"/>
+                                <TextBlock x:Name="Album" Text="{x:Bind Context.CurrentAlbum, Mode=OneWay}" 
+                                           ToolTipService.ToolTip="{x:Bind Context.CurrentAlbum,Mode=OneWay}"
+                                           HorizontalAlignment="Right"
+                                           Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" FontSize="13" 
+                                           Foreground="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
+                                           TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"/>
+                                <TextBlock x:Name="Artist" Text="{x:Bind Context.CurrentArtist, Mode=OneWay}" 
+                                           ToolTipService.ToolTip="{x:Bind Context.CurrentArtist,Mode=OneWay}"
+                                           HorizontalAlignment="Right"
+                                           Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" FontSize="13" 
+                                           Foreground="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
+                                           TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"/>
+                            </StackPanel>
+                        </Viewbox>
                     </Grid>
                 </Button.Content>
 
@@ -1281,7 +1288,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         Style="{ThemeResource RevealRectangleButton}" 
                         BorderBrush="{ThemeResource SystemControlBackgroundTransparentRevealBorderBrush}"
                         Background="{ThemeResource SystemControlTransparentRevealBackgroundBrush}"
-                        ToolTipService.ToolTip="Playing list" Margin="64,0,4,0" 
+                        ToolTipService.ToolTip="Playing list" Margin="4,0" 
                         HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Button.Content>
                         <Grid>
@@ -1322,9 +1329,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     Value="{x:Bind Context.PositionToValue(Context.CurrentPosition, Context.TotalDuration), Mode=OneWay}"
                     ThumbToolTipValueConverter="{StaticResource SliderToolTipConverter}" ValueChanged="Slider_ValueChanged"
                     x:Name="MainSlider"/>
-            <StackPanel Orientation="Horizontal" Grid.Column="2" Margin="0,0,32,0" 
+            <StackPanel Orientation="Horizontal" Grid.Column="2"
                         HorizontalAlignment="Right" VerticalAlignment="Stretch" x:Name="PositionText">
-                <Grid Margin="0,0,4,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <TextBlock x:Name="PositionNarrow" Visibility="Collapsed" Margin="4"
                                HorizontalAlignment="Center" VerticalAlignment="Center" 
                                Text="{x:Bind PositionNarrowToString(Context.CurrentPosition), Mode=OneWay}"/>

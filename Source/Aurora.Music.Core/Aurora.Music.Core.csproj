@@ -132,6 +132,7 @@
     <Compile Include="Models\PlayerStatus.cs" />
     <Compile Include="Models\PlayList.cs" />
     <Compile Include="Models\Podcast.cs" />
+    <Compile Include="Models\Radio.cs" />
     <Compile Include="Models\Settings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Storage\Downloader.cs" />

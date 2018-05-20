@@ -42,4 +42,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 
 
     <SolidColorBrush x:Key="AccentDarkBackground" Color="{ThemeResource SystemAccentColorDark2}" Opacity="0.666667"/>
+
+    <RevealBorderBrush x:Key="AlbumItemBorder" TargetTheme="Light" Color="Transparent" FallbackColor="Transparent" />
 </ResourceDictionary>

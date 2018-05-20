@@ -80,7 +80,7 @@ namespace Aurora.Music.Controls
 
         private void ArtworkBGBlur_Loaded(object sender, RoutedEventArgs e)
         {
-            Window.Current.SetTitleBar(TitleBar);
+            Window.Current.SetTitleBar(null);
         }
 
         private void Page_PointerEntered(object sender, PointerRoutedEventArgs e)

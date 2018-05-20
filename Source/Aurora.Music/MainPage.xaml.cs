@@ -386,7 +386,6 @@ namespace Aurora.Music
         }
         private void TitleBar_Loaded(object sender, RoutedEventArgs e)
         {
-
             Window.Current.SetTitleBar(TitleBar);
         }
 
@@ -894,12 +893,12 @@ namespace Aurora.Music
             if (await ApplicationView.GetForCurrentView().TryEnterViewModeAsync(ApplicationViewMode.Default, prefer))
             {
                 (Window.Current.Content as Frame).GoBack();
-                await Task.Delay(1000);
                 try
                 {
-                    Window.Current.SetTitleBar(TitleBar);
                     Context.RestoreFromCompactOverlay();
                     ApplicationView.GetForCurrentView().TryResizeView(new Size(sizeBefore.Width, sizeBefore.Height));
+                    Window.Current.SetTitleBar(null);
+                    Window.Current.SetTitleBar(TitleBar);
                 }
                 catch (Exception)
                 {

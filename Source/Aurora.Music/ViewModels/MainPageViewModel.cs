@@ -558,12 +558,15 @@ namespace Aurora.Music.ViewModels
                     await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
                     {
                         activity = UserActivityChannel.GetDefault();
-                        act = await activity.GetOrCreateUserActivityAsync("asmusic");
+
+                        var id = Guid.NewGuid().ToString();
+
+                        act = await activity.GetOrCreateUserActivityAsync(id);
 
                         if (act.State == UserActivityState.Published)
                         {
-                            await activity.DeleteActivityAsync("asmusic");
-                            act = await activity.GetOrCreateUserActivityAsync("asmusic");
+                            await activity.DeleteActivityAsync(id);
+                            act = await activity.GetOrCreateUserActivityAsync(id);
                         }
                     });
                 });
@@ -1141,9 +1144,15 @@ namespace Aurora.Music.ViewModels
 
                     await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                     {
-                        //Dispose of any current UserActivitySession, and create a new one.
-                        (_currentActivity as UserActivitySession)?.Dispose();
-                        _currentActivity = act.CreateSession();
+                        try
+                        {
+                            //Dispose of any current UserActivitySession, and create a new one.
+                            (_currentActivity as UserActivitySession)?.Dispose();
+                            _currentActivity = act.CreateSession();
+                        }
+                        catch (Exception)
+                        {
+                        }
                     });
                 }
             });
