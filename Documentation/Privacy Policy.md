@@ -25,4 +25,4 @@ This app would not send most of your activities when using this app. However, we
 
 ## Where We Store
 
-All the essential data that this app needs is stored in the local folder of this app, which you can access by go to "Settings - Advance" and tap the "Open data folder" button. This folder includes the database, album artworks, podcasts, logs and downloaded items. And you would have a free access to any codes of this app at [Github]("https://github.com/pkzxs/Aurora.Music") to see what we store and how we use it.
+All the essential data that this app needs is stored in the local folder of this app, which you can access by go to "Settings - Advance" and tap the "Open data folder" button. This folder includes the database, album artworks, podcasts, logs and downloaded items. And you would have a free access to any codes of this app at [Github](https://github.com/pkzxs/Aurora.Music) to see what we store and how we use it.
