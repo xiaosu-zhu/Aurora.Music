@@ -161,6 +161,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <BitmapImage UriSource="{x:Bind Data.Artwork7, TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png, Mode=OneWay}"/>
             </Image.Source>
         </Image>
+        <Border Grid.ColumnSpan="5" Grid.RowSpan="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource ImageDarkOverlay}"/>
     </Grid>
 
 </UserControl>

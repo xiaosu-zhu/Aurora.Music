@@ -39,4 +39,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     <SolidColorBrush x:Key="AccentForText" Color="{ThemeResource SystemAccentColorDark2}"/>
     <SolidColorBrush x:Key="AccentForTextPointerOver" Color="{ThemeResource SystemAccentColor}"/>
     <SolidColorBrush x:Key="AccentForTextPressed" Color="{ThemeResource SystemAccentColorDark1}"/>
+
+
+    <SolidColorBrush x:Key="AccentDarkBackground" Color="{ThemeResource SystemAccentColorDark2}" Opacity="0.666667"/>
 </ResourceDictionary>

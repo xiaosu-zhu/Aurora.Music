@@ -277,7 +277,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </Image.Source>
             </Image>
             <Border Width="{x:Bind ImageWidth,Mode=OneWay}" BorderThickness="1"
-                    Height="{x:Bind ImageHeight,Mode=OneWay}" 
+                    Height="{x:Bind ImageHeight,Mode=OneWay}" Background="{ThemeResource ImageDarkOverlay}"
                     BorderBrush="{ThemeResource SystemControlBackgroundTransparentRevealBorderBrush}"
                     HorizontalAlignment="Center" VerticalAlignment="Center"/>
             <StackPanel Orientation="Horizontal" x:Load="False" x:Name="FloatPanel" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center">

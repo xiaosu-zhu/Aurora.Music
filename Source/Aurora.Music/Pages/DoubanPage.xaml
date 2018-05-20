@@ -261,7 +261,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                     </VisualStateGroup>
                                 </VisualStateManager.VisualStateGroups>
                                 <ContentPresenter x:Name="HeaderContentPresenter" ContentTemplate="{TemplateBinding HeaderTemplate}" Content="{TemplateBinding Header}" FontWeight="{ThemeResource SliderHeaderThemeFontWeight}" Foreground="{ThemeResource SliderHeaderForeground}" Margin="{ThemeResource SliderHeaderThemeMargin}" TextWrapping="Wrap" Visibility="Collapsed" x:DeferLoadStrategy="Lazy"/>
-                                <Grid x:Name="SliderContainer" Background="{x:Null}" Control.IsTemplateFocusTarget="True" Grid.Row="1">
+                                <Grid x:Name="SliderContainer" Background="Transparent" Control.IsTemplateFocusTarget="True" Grid.Row="1">
                                     <Grid x:Name="HorizontalTemplate" MinHeight="44">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto"/>
@@ -478,6 +478,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                     <BitmapImage DecodePixelHeight="80" DecodePixelType="Logical" UriSource="{x:Bind Cover}"/>
                                 </Image.Source>
                             </Image>
+                            <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource ImageDarkOverlay}"/>
                         </Grid>
                         <TextBlock TextAlignment="Center" Width="96" FontSize="15" TextWrapping="NoWrap" 
                                    TextTrimming="Clip" HorizontalAlignment="Center" VerticalAlignment="Center" 
@@ -505,6 +506,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                     <BitmapImage DecodePixelHeight="80" DecodePixelType="Logical" UriSource="{x:Bind Cover}"/>
                                 </Image.Source>
                             </Image>
+                            <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource ImageDarkOverlay}"/>
                         </Grid>
                         <StackPanel Margin="4,0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="160">
                             <TextBlock TextAlignment="Left" Width="160" FontSize="15" TextWrapping="NoWrap" TextTrimming="Clip" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" Style="{ThemeResource BaseTextBlockStyle}" Text="{x:Bind Name}"/>
@@ -541,13 +543,12 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <Border Background="{ThemeResource SystemControlBackgroundBaseLowBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                 </Grid>
             </Grid>
-            <Border Grid.Row="1" Width="240" Height="240" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Image Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Image.Source>
-                        <BitmapImage UriSource="{x:Bind Context.Artwork, Mode=OneWay,TargetNullValue=ms-appx:///Assets/Images/now_placeholder.png}" DecodePixelHeight="240" DecodePixelType="Logical"/>
-                    </Image.Source>
-                </Image>
-            </Border>
+            <Image Grid.Row="1" Width="240" Height="240" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Image.Source>
+                    <BitmapImage UriSource="{x:Bind Context.Artwork, Mode=OneWay,TargetNullValue=ms-appx:///Assets/Images/now_placeholder.png}" DecodePixelHeight="240" DecodePixelType="Logical"/>
+                </Image.Source>
+            </Image>
+            <Border Grid.Row="1" Width="240" Height="240" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{ThemeResource ImageDarkOverlay}"/>
             <StackPanel Grid.Row="2" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12,24,12,12">
                 <TextBlock Text="{x:Bind Context.Title, Mode=OneWay}" FontWeight="Bold" FontSize="32" Style="{ThemeResource TitleTextBlockStyle}" MaxLines="2" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 <TextBlock Text="{x:Bind Context.Description, Mode=OneWay}" FontSize="16" Style="{ThemeResource BodyTextBlockStyle}" Margin="4" MaxLines="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>

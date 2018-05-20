@@ -4,6 +4,7 @@
 using AudioVisualizer;
 using Aurora.Music.Controls;
 using Aurora.Music.Core;
+using Aurora.Music.Core.Models;
 using Aurora.Music.ViewModels;
 using Aurora.Shared;
 using Aurora.Shared.Extensions;
@@ -250,7 +251,17 @@ namespace Aurora.Music.Pages
 
         internal bool IsDarkTheme()
         {
-            return Palette.IsDarkColor((Resources["SystemControlBackgroundAltHighBrush"] as SolidColorBrush).Color);
+            switch (Settings.Current.Theme)
+            {
+                case ElementTheme.Default:
+                    return Palette.IsDarkColor((Resources["SystemControlBackgroundAltHighBrush"] as SolidColorBrush).Color);
+                case ElementTheme.Light:
+                    return false;
+                case ElementTheme.Dark:
+                    return true;
+                default:
+                    return Palette.IsDarkColor((Resources["SystemControlBackgroundAltHighBrush"] as SolidColorBrush).Color);
+            }
         }
 
         private void VisualStateGroup_CurrentStateChanged(object sender, VisualStateChangedEventArgs e)

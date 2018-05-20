@@ -254,7 +254,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                     </VisualStateGroup>
                                 </VisualStateManager.VisualStateGroups>
                                 <ContentPresenter x:Name="HeaderContentPresenter" ContentTemplate="{TemplateBinding HeaderTemplate}" Content="{TemplateBinding Header}" FontWeight="{ThemeResource SliderHeaderThemeFontWeight}" Foreground="{ThemeResource SliderHeaderForeground}" Margin="{ThemeResource SliderHeaderThemeMargin}" TextWrapping="Wrap" Visibility="Collapsed" x:DeferLoadStrategy="Lazy"/>
-                                <Grid x:Name="SliderContainer" Background="{x:Null}" Control.IsTemplateFocusTarget="True" Grid.Row="1">
+                                <Grid x:Name="SliderContainer" Background="Transparent" Control.IsTemplateFocusTarget="True" Grid.Row="1">
                                     <Grid x:Name="HorizontalTemplate" MinHeight="44">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto"/>
@@ -515,7 +515,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                     </VisualStateGroup>
                                 </VisualStateManager.VisualStateGroups>
                                 <ContentPresenter x:Name="HeaderContentPresenter" ContentTemplate="{TemplateBinding HeaderTemplate}" Content="{TemplateBinding Header}" FontWeight="{ThemeResource SliderHeaderThemeFontWeight}" Foreground="{ThemeResource SliderHeaderForeground}" Margin="{ThemeResource SliderHeaderThemeMargin}" TextWrapping="Wrap" Visibility="Collapsed" x:DeferLoadStrategy="Lazy"/>
-                                <Grid x:Name="SliderContainer" Background="{x:Null}" Control.IsTemplateFocusTarget="True" Grid.Row="1">
+                                <Grid x:Name="SliderContainer" Background="Transparent" Control.IsTemplateFocusTarget="True" Grid.Row="1">
                                     <Grid x:Name="HorizontalTemplate" MinHeight="44">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto"/>
@@ -615,7 +615,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         PlaceholderBackground="{ThemeResource ListViewItemPlaceholderBackground}"
                         PointerOverBackground="Transparent"
                         PointerOverForeground="{ThemeResource AccentForText}"
-                        SelectedBackground="{ThemeResource SystemControlAccentDark2AcrylicWindowAccentDark2MediumHighBrush}"
+                        SelectedBackground="{ThemeResource AccentDarkBackground}"
                         SelectedForeground="{ThemeResource SystemControlForegroundAltHighBrush}"
                         SelectedPointerOverBackground="{ThemeResource SystemControlBackgroundAccentBrush}"
                         PressedBackground="{ThemeResource SystemControlHighlightAltTransparentBrush}"
@@ -1155,6 +1155,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                HorizontalAlignment="Right" VerticalAlignment="Stretch"
                                Stretch="Uniform" Source="{x:Bind Context.CurrentArtwork,Mode=OneWay}"
                                ImageOpened="Artwork_ImageOpened"/>
+                        <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                Background="{ThemeResource ImageDarkOverlay}" Grid.Column="1"
+                                Margin="8"/>
                         <StackPanel x:Name="NowPanelTexts" Padding="4,0" Orientation="Vertical" 
                                     HorizontalAlignment="Right" VerticalAlignment="Center">
                             <TextBlock x:Name="Title" Text="{x:Bind Context.CurrentTitle, Mode=OneWay}" 
@@ -1335,7 +1338,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                  OffsetY="0" OffsetX="0" OffsetZ="0" Margin="72,48,0,72"
                                  HorizontalContentAlignment="Stretch"
                                  VerticalContentAlignment="Stretch"
-                                 Color="{ThemeResource SystemBaseHighColor}"
+                                 Color="{StaticResource SystemBaseHighColor}"
                                  ShadowOpacity="0.5"
                                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Border Background="{x:Null}"

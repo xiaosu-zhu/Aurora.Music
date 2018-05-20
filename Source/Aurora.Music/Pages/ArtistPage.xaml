@@ -88,11 +88,14 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="20,0" Height="100" Width="100"/>
                     <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="20,0"
                         Background="{ThemeResource SystemControlBackgroundBaseLowBrush}" CornerRadius="9999"
-                        Height="{Binding ActualHeight, ElementName=ShadowImg}" Width="{Binding ActualWidth, ElementName=ShadowImg}"/>
+                        Height="100" Width="100"/>
                 </Grid>
                 <toolkit:ImageEx x:Name="Image" Style="{ThemeResource QuickLoadImageEx}" PlaceholderSource="/Assets/Images/artist_placeholder.png"
                              Stretch="Uniform" PlaceholderStretch="Uniform"  Source="{x:Bind Context.Artist.AvatarImage, Mode=OneWay}" CornerRadius="9999"
                              HorizontalAlignment="Center" VerticalAlignment="Center" Height="100" Width="100"/>
+                <Border HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Background="{ThemeResource ImageDarkOverlay}" CornerRadius="9999"
+                        Height="100" Width="100"/>
                 <StackPanel Grid.Column="1" Margin="12,0,0,0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <Border x:Name="Title" HorizontalAlignment="Left" VerticalAlignment="Stretch" Height="48">
                         <TextBlock Text="{x:Bind Context.Artist.Name, Mode=OneWay}" VerticalAlignment="Center" FontWeight="Bold" 

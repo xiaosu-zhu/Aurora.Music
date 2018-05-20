@@ -378,7 +378,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <GridView.ItemTemplate>
                         <DataTemplate x:DataType="wuxdata:ICollectionViewGroup">
                             <TextBlock Margin="12,4" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                                       Text="{x:Bind Group.ToString()}" Style="{StaticResource BaseTextBlockStyle}" 
+                                       Text="{x:Bind Group.ToString()}" Style="{ThemeResource BaseTextBlockStyle}" 
                                        MaxLines="1" TextWrapping="NoWrap"/>
                         </DataTemplate>
                     </GridView.ItemTemplate>

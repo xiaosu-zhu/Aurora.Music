@@ -91,6 +91,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <BitmapImage UriSource="{x:Bind Context.HeroImage, Mode=OneWay,TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png}" DecodePixelType="Logical" DecodePixelHeight="100"/>
                 </Image.Source>
             </Image>
+            <Border HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Background="{ThemeResource ImageDarkOverlay}"
+                    Height="{Binding ActualHeight, ElementName=Image}" Width="{Binding ActualWidth, ElementName=Image}"/>
             <StackPanel Margin="12,0,0,0" Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Grid HorizontalAlignment="Left" VerticalAlignment="Center" Height="48">
                     <CommandBar HorizontalAlignment="Left" VerticalAlignment="Stretch" 
