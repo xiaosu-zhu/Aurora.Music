@@ -41,7 +41,6 @@ namespace Aurora.Music.Pages
             Current = this;
             MainPageViewModel.Current.NeedShowTitle = Window.Current.Bounds.Width > 640;
             MainPageViewModel.Current.Title = Consts.Localizer.GetString("LibraryText");
-            MainPageViewModel.Current.LeftTopColor = Resources["SystemControlForegroundBaseHighBrush"] as SolidColorBrush;
             CategoryList = new ObservableCollection<CategoryListItem>();
         }
 

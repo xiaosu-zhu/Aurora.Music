@@ -50,7 +50,6 @@ namespace Aurora.Music.Pages
         {
             base.OnNavigatedTo(e);
             MainPageViewModel.Current.NeedShowTitle = false;
-            MainPageViewModel.Current.LeftTopColor = Resources["SystemControlForegroundBaseHighBrush"] as SolidColorBrush;
             MainPageViewModel.Current.NeedShowBack = false;
         }
 

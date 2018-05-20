@@ -594,15 +594,15 @@ namespace Aurora.Music
             var titleBar = ApplicationView.GetForCurrentView().TitleBar;
             titleBar.ButtonBackgroundColor = Colors.Transparent;
             titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-            titleBar.ButtonHoverBackgroundColor = Color.FromArgb(0x33, 0x00, 0x00, 0x00);
-            titleBar.ButtonForegroundColor = Colors.Black;
-            titleBar.ButtonHoverForegroundColor = Colors.White;
-            titleBar.ButtonInactiveForegroundColor = Color.FromArgb(0x55, 0x00, 0x00, 0x00);
 
             if (ui != null) ui.ColorValuesChanged -= Ui_ColorValuesChanged;
             ui = new UISettings();
             ui.ColorValuesChanged += Ui_ColorValuesChanged;
             ApplicationView.GetForCurrentView().SetDesiredBoundsMode(ApplicationViewBoundsMode.UseVisible);
+
+
+            // if you want not to have any window smaller than this size...
+            ApplicationView.GetForCurrentView().SetPreferredMinSize(new Windows.Foundation.Size(320, 320));
 
 
             var s = Settings.Current;
@@ -646,7 +646,7 @@ namespace Aurora.Music
 
             try
             {
-                if (Window.Current.Content is Frame f)
+                if (Window.Current?.Content is Frame f)
                 {
                     if (f.Content is WelcomePage)
                     {

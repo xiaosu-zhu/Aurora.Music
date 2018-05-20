@@ -149,21 +149,6 @@ namespace Aurora.Music.ViewModels
         public ObservableCollection<SongViewModel> NowPlayingList { get; set; } = new ObservableCollection<SongViewModel>();
         private IPlayer player;
 
-        private SolidColorBrush _lastLeftTop;
-        private SolidColorBrush leftTopColor;
-        public SolidColorBrush LeftTopColor
-        {
-            get { return leftTopColor; }
-            set
-            {
-                _lastLeftTop = leftTopColor;
-                SetProperty(ref leftTopColor, value);
-                var titleBar = ApplicationView.GetForCurrentView().TitleBar;
-                titleBar.ButtonForegroundColor = leftTopColor?.Color;
-                titleBar.ForegroundColor = leftTopColor?.Color;
-            }
-        }
-
         public LyricExtension LyricExtension { get; private set; }
         public OnlineMusicExtension OnlineMusicExtension { get; private set; }
         public OnlineMetaExtension OnlineMetaExtension { get; private set; }
@@ -219,7 +204,6 @@ namespace Aurora.Music.ViewModels
             }
             NeedShowTitle = _lastneedshow;
             Title = _lasttitle;
-            LeftTopColor = _lastLeftTop;
         }
 
         private string placeholderText = Consts.Localizer.GetString("SearchInLibraryText");

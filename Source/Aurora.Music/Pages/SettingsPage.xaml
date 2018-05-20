@@ -397,6 +397,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                             <RadioButton x:Name="LightTheme" Checked="RadioButton_Checked" Tag="Light" Content="Light"/>
                             <RadioButton x:Name="DarkTheme" Checked="RadioButton_Checked" Tag="Dark" Content="Dark"/>
                         </StackPanel>
+                        <ToggleSwitch Margin="0,8" Header="Don't show small window at top(Compact overlay)" IsOn="{Binding DontOverlay,Mode=TwoWay}"/>
                     </StackPanel>
                 </ScrollViewer>
             </PivotItem>

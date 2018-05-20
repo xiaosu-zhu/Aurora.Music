@@ -30,7 +30,6 @@ namespace Aurora.Music.Pages
             this.InitializeComponent();
             MainPageViewModel.Current.Title = Consts.Localizer.GetString("AboutText");
             MainPageViewModel.Current.NeedShowTitle = true;
-            MainPageViewModel.Current.LeftTopColor = Resources["SystemControlForegroundBaseHighBrush"] as SolidColorBrush;
         }
 
         public string BuildText { get; set; }

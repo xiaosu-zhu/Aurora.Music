@@ -31,7 +31,6 @@ namespace Aurora.Music.Pages
             this.InitializeComponent();
             MainPageViewModel.Current.Title = Consts.Localizer.GetString("DouText");
             MainPageViewModel.Current.NeedShowTitle = Window.Current.Bounds.Width >= 1008;
-            MainPageViewModel.Current.LeftTopColor = Resources["SystemControlForegroundBaseHighBrush"] as SolidColorBrush;
             MainPageViewModel.Current.NeedShowPanel = false;
         }
 

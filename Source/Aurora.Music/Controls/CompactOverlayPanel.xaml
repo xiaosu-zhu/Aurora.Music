@@ -14,10 +14,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
       xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
       xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
       Unloaded="Page_Unloaded"
-      PointerEntered="Page_PointerEntered"
-      PointerExited="Page_PointerExited"
-      PointerCanceled="Page_PointerExited"
-      PointerCaptureLost="Page_PointerExited"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
@@ -222,11 +218,11 @@ Licensed under the MIT License. See LICENSE in the project root for license info
               RelativePanel.AlignLeftWithPanel="True"
               RelativePanel.AlignRightWithPanel="True"
               RelativePanel.AlignTopWithPanel="True">
-            <Grid HorizontalAlignment="Stretch" 
-                  VerticalAlignment="Stretch" 
+            <Grid HorizontalAlignment="Stretch" Loaded="ArtworkBGBlur_Loaded"
+                  VerticalAlignment="Stretch" x:Name="BG"
                   Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
                 <interactivity:Interaction.Behaviors>
-                    <behaviors:Blur x:Name="BlurBehavior" 
+                    <behaviors:Blur x:Name="BlurBehavior"
                                     Duration="960" 
                                     Value="0" 
                                     Delay="0" 
@@ -234,6 +230,11 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </interactivity:Interaction.Behaviors>
             </Grid>
         </Grid>
+
+        <Grid RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignLeftWithPanel="True"
+              RelativePanel.AlignRightWithPanel="True" Height="32" x:Name="TitleBar"
+              Background="Transparent"/>
+
         <toolkit:WrapPanel x:Name="ButtonsPanel"
                            RelativePanel.AlignHorizontalCenterWithPanel="True"
                            RelativePanel.AlignVerticalCenterWithPanel="True"

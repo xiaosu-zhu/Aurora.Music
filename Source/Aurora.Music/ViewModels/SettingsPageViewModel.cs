@@ -226,6 +226,18 @@ namespace Aurora.Music.ViewModels
             }
         }
 
+        private bool dontOverlay = Settings.Current.DontOverlay;
+        public bool DontOverlay
+        {
+            get { return dontOverlay; }
+            set
+            {
+                Settings.Current.DontOverlay = value;
+                Settings.Current.Save();
+                SetProperty(ref dontOverlay, value);
+            }
+        }
+
         private bool isPodcastToast = Settings.Current.IsPodcastToast;
 
         internal void ChangeTheme(ElementTheme theme)

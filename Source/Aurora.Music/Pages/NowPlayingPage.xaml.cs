@@ -171,6 +171,9 @@ namespace Aurora.Music.Pages
             Visualizer.Draw -= CustomVisualizer_Draw;
             SizeChanged -= NowPlayingPage_SizeChanged;
             Context.SongChanged -= Context_SongChanged;
+            Context?.Dispose();
+            MainPageViewModel.Current.IsVisualizing = false;
+            Unload();
         }
 
         private async void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)

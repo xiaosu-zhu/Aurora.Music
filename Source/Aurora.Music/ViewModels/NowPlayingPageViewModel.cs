@@ -950,21 +950,9 @@ namespace Aurora.Music.ViewModels
         {
             get
             {
-                return new DelegateCommand(async () =>
+                return new DelegateCommand(() =>
                 {
-                    if (await ApplicationView.GetForCurrentView().TryEnterViewModeAsync(ApplicationViewMode.Default))
-                    {
-                        (Window.Current.Content as Frame).GoBack();
-                        await Task.Delay(1000);
-                        try
-                        {
-                            MainPageViewModel.Current.RestoreFromCompactOverlay();
-                        }
-                        catch (Exception)
-                        {
-
-                        }
-                    }
+                    MainPage.Current.RestoreFromCompactOverlay();
                 });
             }
         }
@@ -1032,13 +1020,11 @@ namespace Aurora.Music.ViewModels
                 {
                     await CurrentArtwork.SetSourceAsync(await e.Thumnail.OpenReadAsync());
                     CurrentColorBrush = new SolidColorBrush(await ImagingHelper.GetMainColor(e.Thumnail));
-                    MainPageViewModel.Current.LeftTopColor = AdjustColorbyTheme(CurrentColorBrush);
                 }
                 else
                 {
                     await CurrentArtwork.SetSourceAsync(await RandomAccessStreamReference.CreateFromUri(new Uri(Consts.NowPlaceholder)).OpenReadAsync());
                     CurrentColorBrush = new SolidColorBrush(new UISettings().GetColorValue(UIColorType.Accent));
-                    MainPageViewModel.Current.LeftTopColor = AdjustColorbyTheme(CurrentColorBrush);
                 }
 
                 if (e.Items is IReadOnlyList<Song> l)

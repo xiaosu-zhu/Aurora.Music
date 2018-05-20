@@ -236,6 +236,7 @@ namespace Aurora.Music
         private SleepAction sleepAction;
         private ThreadPoolTimer sleepTimer;
         private ThreadPoolTimer dropTimer;
+        private Rect sizeBefore;
 
         public bool IsCurrentDouban => MainFrame.Content is DoubanPage;
 
@@ -295,6 +296,27 @@ namespace Aurora.Music
             RequestedTheme = theme;
             var ui = new UISettings();
             Context.IsDarkAccent = Palette.IsDarkColor(ui.GetColorValue(UIColorType.Accent));
+
+            var titleBar = ApplicationView.GetForCurrentView().TitleBar;
+            switch (theme)
+            {
+                case ElementTheme.Default:
+                    break;
+                case ElementTheme.Light:
+                    titleBar.ButtonInactiveForegroundColor = Color.FromArgb(0x33, 0x00, 0x00, 0x00);
+                    titleBar.ButtonForegroundColor = Color.FromArgb(0xff, 0x00, 0x00, 0x00);
+                    titleBar.ButtonHoverForegroundColor = Color.FromArgb(0xff, 0xff, 0xff, 0xff);
+                    titleBar.ButtonHoverBackgroundColor = Color.FromArgb(0x80, 0x00, 0x00, 0x00);
+                    break;
+                case ElementTheme.Dark:
+                    titleBar.ButtonInactiveForegroundColor = Color.FromArgb(0x33, 0xdd, 0xdd, 0xdd);
+                    titleBar.ButtonForegroundColor = Color.FromArgb(0xff, 0xff, 0xff, 0xff);
+                    titleBar.ButtonHoverForegroundColor = Color.FromArgb(0xff, 0x33, 0x33, 0x33);
+                    titleBar.ButtonHoverBackgroundColor = Color.FromArgb(0x80, 0xff, 0xff, 0xff);
+                    break;
+                default:
+                    break;
+            }
         }
 
         private void MainPage_Completed(ConnectedAnimation sender, object args)
@@ -401,12 +423,14 @@ namespace Aurora.Music
 
         internal async Task GotoComapctOverlay()
         {
-            var prefer = ViewModePreferences.CreateDefault(ApplicationViewMode.CompactOverlay);
+            sizeBefore = Window.Current.Bounds;
+            var prefer = ViewModePreferences.CreateDefault(Settings.Current.DontOverlay ? ApplicationViewMode.Default : ApplicationViewMode.CompactOverlay);
             prefer.ViewSizePreference = ViewSizePreference.Custom;
             prefer.CustomSize = new Size(Settings.Current.CompactWidth, Settings.Current.CompactHeight);
-            if (await ApplicationView.GetForCurrentView().TryEnterViewModeAsync(ApplicationViewMode.CompactOverlay, prefer))
+            if (await ApplicationView.GetForCurrentView().TryEnterViewModeAsync(Settings.Current.DontOverlay ? ApplicationViewMode.Default : ApplicationViewMode.CompactOverlay, prefer))
             {
                 (Window.Current.Content as Frame).Navigate(typeof(CompactOverlayPanel), Context.NowPlayingList[Context.CurrentIndex]);
+                ApplicationView.GetForCurrentView().TryResizeView(new Size(Settings.Current.CompactWidth, Settings.Current.CompactHeight));
             }
         }
 
@@ -857,6 +881,29 @@ namespace Aurora.Music
                 }
             }
         }
+
+        internal async void RestoreFromCompactOverlay()
+        {
+            var prefer = ViewModePreferences.CreateDefault(ApplicationViewMode.Default);
+            prefer.ViewSizePreference = ViewSizePreference.Custom;
+            prefer.CustomSize = new Size(sizeBefore.Width, sizeBefore.Height);
+            if (await ApplicationView.GetForCurrentView().TryEnterViewModeAsync(ApplicationViewMode.Default, prefer))
+            {
+                (Window.Current.Content as Frame).GoBack();
+                await Task.Delay(1000);
+                try
+                {
+                    Window.Current.SetTitleBar(TitleBar);
+                    Context.RestoreFromCompactOverlay();
+                    ApplicationView.GetForCurrentView().TryResizeView(new Size(sizeBefore.Width, sizeBefore.Height));
+                }
+                catch (Exception)
+                {
+
+                }
+            }
+        }
+
         private async void MenuFlyoutPlayNext_Click(object sender, RoutedEventArgs e)
         {
             if (SongFlyout.Target is SelectorItem s)

@@ -24,7 +24,6 @@ namespace Aurora.Music.Pages
             LoactionFrame.Navigate(typeof(AddFoldersView));
             //MainPageViewModel.Current.Title = Consts.Localizer.GetString("SettingsText");
             MainPageViewModel.Current.NeedShowTitle = false;
-            MainPageViewModel.Current.LeftTopColor = Resources["SystemControlForegroundBaseHighBrush"] as SolidColorBrush;
 
             // slider swallowed PointerReleasedEvent
             VolumeSlider.AddHandler(PointerReleasedEvent, new PointerEventHandler(Slider_PointerReleased), true);

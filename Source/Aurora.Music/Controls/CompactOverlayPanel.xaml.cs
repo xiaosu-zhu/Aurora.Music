@@ -8,6 +8,7 @@ using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
@@ -37,6 +38,12 @@ namespace Aurora.Music.Controls
 
             SystemNavigationManager.GetForCurrentView().BackRequested += CompactOverlayPanel_BackRequested;
             Window.Current.SizeChanged += Current_SizeChanged;
+            RequestedTheme = Settings.Current.Theme;
+
+            AddHandler(PointerExitedEvent, new PointerEventHandler(Page_PointerExited), true);
+            AddHandler(PointerCanceledEvent, new PointerEventHandler(Page_PointerExited), true);
+            AddHandler(PointerCaptureLostEvent, new PointerEventHandler(Page_PointerExited), true);
+            AddHandler(PointerEnteredEvent, new PointerEventHandler(Page_PointerEntered), true);
         }
 
         private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
@@ -49,6 +56,13 @@ namespace Aurora.Music.Controls
         {
             base.OnNavigatedFrom(e);
             SystemNavigationManager.GetForCurrentView().BackRequested -= CompactOverlayPanel_BackRequested;
+            Window.Current.SizeChanged -= Current_SizeChanged;
+            Settings.Current.Save();
+
+            RemoveHandler(PointerExitedEvent, new PointerEventHandler(Page_PointerExited));
+            RemoveHandler(PointerCanceledEvent, new PointerEventHandler(Page_PointerExited));
+            RemoveHandler(PointerCaptureLostEvent, new PointerEventHandler(Page_PointerExited));
+            RemoveHandler(PointerEnteredEvent, new PointerEventHandler(Page_PointerEntered));
         }
 
         private void CompactOverlayPanel_BackRequested(object sender, BackRequestedEventArgs e)
@@ -66,17 +80,30 @@ namespace Aurora.Music.Controls
 
         private void ArtworkBGBlur_Loaded(object sender, RoutedEventArgs e)
         {
-            Window.Current.SetTitleBar(ArtworkBGBlur);
+            Window.Current.SetTitleBar(TitleBar);
         }
 
-        private void Page_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        private void Page_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
             PointerIn.Begin();
         }
 
-        private void Page_PointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        private bool tap = true;
+
+        private void Page_PointerExited(object sender, PointerRoutedEventArgs e)
         {
-            PointerOut.Begin();
+            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Touch || e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Pen)
+            {
+                tap = !tap;
+                if (tap)
+                {
+                    PointerOut.Begin();
+                }
+            }
+            else
+            {
+                PointerOut.Begin();
+            }
         }
     }
 }
