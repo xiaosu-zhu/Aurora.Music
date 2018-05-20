@@ -207,5 +207,6 @@ namespace Aurora.Music.Core.Models
         public double CompactWidth { get; set; } = 480d;
         public double CompactHeight { get; set; } = 480d;
         public bool DontOverlay { get; set; } = false;
+        public bool Singleton { get; set; } = false;
     }
 }

@@ -36,10 +36,12 @@ namespace Aurora.Music.Controls
             Current = this;
             autoEvent = new AutoResetEvent(false);
             ApplicationView.GetForCurrentView().Consolidated += LyricEditor_Consolidated;
+            RequestedTheme = Settings.Current.Theme;
         }
 
         private void LyricEditor_Consolidated(ApplicationView sender, ApplicationViewConsolidatedEventArgs args)
         {
+            ApplicationView.GetForCurrentView().Consolidated -= LyricEditor_Consolidated;
             PlaybackEngine.PlaybackEngine.Current.PositionUpdated -= Current_PositionUpdated;
 
             LyricModified?.Invoke(null, Model);

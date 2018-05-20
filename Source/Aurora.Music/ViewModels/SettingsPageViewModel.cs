@@ -238,6 +238,18 @@ namespace Aurora.Music.ViewModels
             }
         }
 
+        private bool singleton = Settings.Current.Singleton;
+        public bool Singleton
+        {
+            get { return singleton; }
+            set
+            {
+                Settings.Current.Singleton = value;
+                Settings.Current.Save();
+                SetProperty(ref singleton, value);
+            }
+        }
+
         private bool isPodcastToast = Settings.Current.IsPodcastToast;
 
         internal void ChangeTheme(ElementTheme theme)

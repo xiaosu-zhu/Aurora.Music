@@ -227,7 +227,7 @@ namespace Aurora.Music
             }, TimeSpan.FromMilliseconds(3000));
         }
 
-        private int lyricViewID;
+        public int LyricViewID = -1;
         private StackPanel autoSuggestPopupPanel;
         private ThreadPoolTimer dismissTimer;
         private string shareTitle;
@@ -392,10 +392,14 @@ namespace Aurora.Music
 
         internal async Task ShowLyricWindow()
         {
+            if (Settings.Current.Singleton && LyricViewID != -1)
+            {
+                return;
+            }
             await CoreApplication.CreateNewView().Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 var frame = new Frame();
-                lyricViewID = ApplicationView.GetForCurrentView().Id;
+                LyricViewID = ApplicationView.GetForCurrentView().Id;
                 frame.Navigate(typeof(LyricView), Context.NowPlayingList[Context.CurrentIndex]);
                 Window.Current.Content = frame;
                 Window.Current.Activate();
@@ -412,7 +416,7 @@ namespace Aurora.Music
             var compactOptions = ViewModePreferences.CreateDefault(ApplicationViewMode.CompactOverlay);
             compactOptions.CustomSize = new Size(1000, 100);
             compactOptions.ViewSizePreference = ViewSizePreference.Custom;
-            bool viewShown = await ApplicationViewSwitcher.TryShowAsViewModeAsync(lyricViewID, ApplicationViewMode.CompactOverlay, compactOptions);
+            bool viewShown = await ApplicationViewSwitcher.TryShowAsViewModeAsync(LyricViewID, ApplicationViewMode.CompactOverlay, compactOptions);
         }
 
         internal void HideAutoSuggestPopup()

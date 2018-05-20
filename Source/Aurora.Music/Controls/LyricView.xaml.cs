@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -27,6 +28,16 @@ namespace Aurora.Music.Controls
         public LyricView()
         {
             this.InitializeComponent();
+            ApplicationView.GetForCurrentView().Consolidated += LyricView_Consolidated;
+            RequestedTheme = Settings.Current.Theme;
+        }
+
+        private void LyricView_Consolidated(ApplicationView sender, ApplicationViewConsolidatedEventArgs args)
+        {
+            ApplicationView.GetForCurrentView().Consolidated -= LyricView_Consolidated;
+            PlaybackEngine.PlaybackEngine.Current.PositionUpdated -= LyricView_PositionUpdated;
+            PlaybackEngine.PlaybackEngine.Current.ItemsChanged -= LyricView_StatusChanged;
+            MainPage.Current.LyricViewID = -1;
         }
 
         internal SongViewModel Model

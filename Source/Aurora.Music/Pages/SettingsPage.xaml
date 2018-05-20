@@ -398,6 +398,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                             <RadioButton x:Name="DarkTheme" Checked="RadioButton_Checked" Tag="Dark" Content="Dark"/>
                         </StackPanel>
                         <ToggleSwitch Margin="0,8" Header="Don't show small window at top(Compact overlay)" IsOn="{Binding DontOverlay,Mode=TwoWay}"/>
+                        <ToggleSwitch Margin="0,8" Header="Singleton instance of lyric window" IsOn="{Binding Singleton,Mode=TwoWay}"/>
                     </StackPanel>
                 </ScrollViewer>
             </PivotItem>
