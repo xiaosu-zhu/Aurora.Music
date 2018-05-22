@@ -168,6 +168,8 @@ namespace Aurora.Music.ViewModels
             }
         }
 
+        public bool NightModeEnabled { get; set; } = Settings.Current.NightMode;
+
         private BitmapImage currentArtwork = new BitmapImage(new Uri(Consts.BlackPlaceholder));
         public BitmapImage CurrentArtwork
         {

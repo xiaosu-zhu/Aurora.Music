@@ -326,6 +326,8 @@ namespace Aurora.Music.ViewModels
             return Song.GetAlbumAsync();
         }
 
+        public bool NightModeEnabled { get; set; } = Settings.Current.NightMode;
+
         public SolidColorBrush AdjustColorbyTheme(SolidColorBrush b)
         {
             if (b == null)

@@ -321,7 +321,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </Image.Source>
             </Image>
             <Border HorizontalAlignment="Center" VerticalAlignment="Center"
-                    Background="{ThemeResource ImageDarkOverlay}"
+                    Background="{ThemeResource ImageDarkOverlay}" Visibility="{x:Bind Context.NightModeEnabled}"
                     Height="{Binding ActualHeight, ElementName=Image}" Width="{Binding ActualWidth, ElementName=Image}"/>
             <StackPanel Margin="12,0,0,0" Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Grid x:Name="Title" HorizontalAlignment="Left" VerticalAlignment="Center" Height="48">

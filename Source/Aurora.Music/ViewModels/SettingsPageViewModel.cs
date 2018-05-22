@@ -141,6 +141,18 @@ namespace Aurora.Music.ViewModels
             });
         }
 
+        private bool nightMode;
+        public bool NightMode
+        {
+            get { return nightMode; }
+            set
+            {
+                Settings.Current.NightMode = value;
+                Settings.Current.Save();
+                SetProperty(ref nightMode, value);
+            }
+        }
+
         public DelegateCommand GetExtensions
         {
             get => new DelegateCommand(async () =>

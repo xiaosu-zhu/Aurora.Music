@@ -478,7 +478,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                     <BitmapImage DecodePixelHeight="80" DecodePixelType="Logical" UriSource="{x:Bind Cover}"/>
                                 </Image.Source>
                             </Image>
-                            <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource ImageDarkOverlay}"/>
+                            <Border Visibility="{x:Bind NightModeEnabled}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource ImageDarkOverlay}"/>
                         </Grid>
                         <TextBlock TextAlignment="Center" Width="96" FontSize="15" TextWrapping="NoWrap" 
                                    TextTrimming="Clip" HorizontalAlignment="Center" VerticalAlignment="Center" 
@@ -506,7 +506,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                     <BitmapImage DecodePixelHeight="80" DecodePixelType="Logical" UriSource="{x:Bind Cover}"/>
                                 </Image.Source>
                             </Image>
-                            <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource ImageDarkOverlay}"/>
+                            <Border Visibility="{x:Bind NightModeEnabled}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource ImageDarkOverlay}"/>
                         </Grid>
                         <StackPanel Margin="4,0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="160">
                             <TextBlock TextAlignment="Left" Width="160" FontSize="15" TextWrapping="NoWrap" TextTrimming="Clip" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" Style="{ThemeResource BaseTextBlockStyle}" Text="{x:Bind Name}"/>
@@ -548,7 +548,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <BitmapImage UriSource="{x:Bind Context.Artwork, Mode=OneWay,TargetNullValue=ms-appx:///Assets/Images/now_placeholder.png}" DecodePixelHeight="240" DecodePixelType="Logical"/>
                 </Image.Source>
             </Image>
-            <Border Grid.Row="1" Width="240" Height="240" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{ThemeResource ImageDarkOverlay}"/>
+            <Border Visibility="{x:Bind Context.NightModeEnabled}" Grid.Row="1" Width="240" Height="240" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{ThemeResource ImageDarkOverlay}"/>
             <StackPanel Grid.Row="2" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12,24,12,12">
                 <TextBlock Text="{x:Bind Context.Title, Mode=OneWay}" FontWeight="Bold" FontSize="32" Style="{ThemeResource TitleTextBlockStyle}" MaxLines="2" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 <TextBlock Text="{x:Bind Context.Description, Mode=OneWay}" FontSize="16" Style="{ThemeResource BodyTextBlockStyle}" Margin="4" MaxLines="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>

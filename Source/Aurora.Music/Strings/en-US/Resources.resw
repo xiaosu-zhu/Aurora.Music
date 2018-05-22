@@ -1481,4 +1481,36 @@
     <value>Tap this card to contine listening</value>
     <comment>Tap this card to contine listening</comment>
   </data>
+    <data name="Interface.Header" xml:space="preserve">
+    <value>Interface</value>
+    <comment>Interface</comment>
+  </data>
+    <data name="PreferredTheme.Text" xml:space="preserve">
+    <value>Preferred theme</value>
+    <comment>Preferred theme</comment>
+  </data>
+    <data name="SystemTheme.Content" xml:space="preserve">
+    <value>System</value>
+    <comment>System</comment>
+  </data>
+    <data name="LightTheme.Content" xml:space="preserve">
+    <value>Light</value>
+    <comment>Light</comment>
+  </data>
+    <data name="DarkTheme.Content" xml:space="preserve">
+    <value>Dark</value>
+    <comment>Dark</comment>
+  </data>
+    <data name="NightModeSwitch.Header" xml:space="preserve">
+    <value>Night mode(decreases images' brightness in dark mode), requires restart</value>
+    <comment>Night mode(decreases images' brightness in dark mode), requires restart</comment>
+  </data>
+    <data name="DontOverlaySwitch.Header" xml:space="preserve">
+    <value>Don't show small window at top(Compact overlay)</value>
+    <comment>Don't show small window at top(Compact overlay)</comment>
+  </data>
+    <data name="SingletonSwitch.Header" xml:space="preserve">
+    <value>Singleton instance of lyric window</value>
+    <comment>Singleton instance of lyric window</comment>
+  </data>
 </root>

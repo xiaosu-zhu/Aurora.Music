@@ -1046,10 +1046,11 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     </Border>
                 </StackPanel>
                 <Button.Flyout>
-                    <Flyout>
+                    <Flyout x:Name="MoreFlyout">
                         <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Orientation="Horizontal">
                             <Button AccessKey="5" Padding="0" VerticalContentAlignment="Center" 
                                     Command="{x:Bind Context.GotoDownload}" x:Name="Download"
+                                    Click="DimissMoreFlyout"
                                     HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" 
                                     VerticalAlignment="Stretch" BorderThickness="0"
                                     ToolTipService.ToolTip="{x:Bind Context.DownloadDes,Mode=OneWay}"
@@ -1084,6 +1085,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                             <Button x:Uid="MainpageSettings" AccessKey="6"
                                     Command="{x:Bind Context.GotoSettings}" BorderThickness="0"
                                     Padding="0" VerticalContentAlignment="Center"
+                                    Click="DimissMoreFlyout"
                                     HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" 
                                     VerticalAlignment="Stretch" ToolTipService.ToolTip="Settings"
                                     Style="{ThemeResource RevealRectangleButton}"
@@ -1108,6 +1110,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                             </Button>
                             <Button AccessKey="7" ToolTipService.ToolTip="About"
                                     Width="64" BorderThickness="0" 
+                                    Click="DimissMoreFlyout"
                                     Command="{x:Bind Context.GotoAbout}" HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch" Background="{ThemeResource SystemControlTransparentBrush}"
                                     Style="{ThemeResource RevealRectangleButton}">
@@ -1159,7 +1162,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                ImageOpened="Artwork_ImageOpened"/>
                         <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                 Background="{ThemeResource ImageDarkOverlay}" Grid.Column="1"
-                                Margin="8"/>
+                                Margin="8" Visibility="{x:Bind Context.NightModeEnabled}"/>
                         <Viewbox Margin="4,8" HorizontalAlignment="Right" VerticalAlignment="Center" Stretch="Uniform">
                             <StackPanel x:Name="NowPanelTexts" Orientation="Vertical" MaxWidth="240"
                                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -1345,7 +1348,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                  OffsetY="0" OffsetX="0" OffsetZ="0" Margin="72,48,0,72"
                                  HorizontalContentAlignment="Stretch"
                                  VerticalContentAlignment="Stretch"
-                                 Color="{StaticResource SystemBaseHighColor}"
+                                 Color="#FF000000"
                                  ShadowOpacity="0.5"
                                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Border Background="{x:Null}"

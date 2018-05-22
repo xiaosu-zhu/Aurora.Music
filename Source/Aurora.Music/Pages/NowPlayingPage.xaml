@@ -1164,7 +1164,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </animations:Implicit.HideAnimations>
             </Image>
             <Border Margin="0,12" HorizontalAlignment="Left" VerticalAlignment="Bottom"
-                    Background="{ThemeResource ImageDarkOverlay}"
+                    Background="{ThemeResource ImageDarkOverlay}" Visibility="{x:Bind Context.NightModeEnabled}"
                     Height="{Binding ActualHeight, ElementName=Artwork}" Width="{Binding ActualWidth, ElementName=Artwork}"/>
             <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Stretch" Grid.Row="1">
                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" MaxLines="1"

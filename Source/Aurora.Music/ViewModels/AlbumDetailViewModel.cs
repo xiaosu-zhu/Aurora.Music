@@ -2,6 +2,7 @@
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using Aurora.Music.Core;
+using Aurora.Music.Core.Models;
 using Aurora.Music.Core.Storage;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.MVVM;
@@ -17,6 +18,8 @@ namespace Aurora.Music.ViewModels
 {
     class AlbumDetailViewModel : ViewModelBase
     {
+        public bool NightModeEnabled { get; set; } = Settings.Current.NightMode;
+
         private ObservableCollection<SongViewModel> songList;
         public ObservableCollection<SongViewModel> SongList
         {

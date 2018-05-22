@@ -66,6 +66,8 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref avatarImage, value); }
         }
 
+        public bool NightModeEnabled { get; set; } = Settings.Current.NightMode;
+
         private string name;
         public string Name
         {

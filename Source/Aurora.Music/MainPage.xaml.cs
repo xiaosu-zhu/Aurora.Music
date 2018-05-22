@@ -393,6 +393,8 @@ namespace Aurora.Music
         {
             if (Settings.Current.Singleton && LyricViewID != -1)
             {
+                // TODO: this won't work
+                await ApplicationViewSwitcher.SwitchAsync(LyricViewID, ApplicationView.GetForCurrentView().Id, ApplicationViewSwitchingOptions.Default);
                 return;
             }
             await CoreApplication.CreateNewView().Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
@@ -785,9 +787,13 @@ namespace Aurora.Music
         }
 
 
-
         private async void SearchBox_GettingFocus(UIElement sender, Windows.UI.Xaml.Input.GettingFocusEventArgs args)
         {
+            if (args.FocusState == FocusState.Programmatic)
+            {
+                return;
+            }
+            args.Handled = true;
             if (SearchBox.Text.IsNullorEmpty())
             {
                 Context.SearchItems.Clear();
@@ -830,11 +836,6 @@ namespace Aurora.Music
             }
         }
 
-        private void SearchBoxShow_Completed(object sender, object e)
-        {
-            SearchBox.Focus(FocusState.Programmatic);
-        }
-
         private void SearchBox_LosingFocus(UIElement sender, Windows.UI.Xaml.Input.LosingFocusEventArgs args)
         {
             if ((args.NewFocusedElement is SelectorItem t && t.Content is GenericMusicItemViewModel g && g.IsSearch) || (args.NewFocusedElement is FrameworkElement f && f.DataContext is GenericMusicItemViewModel n && n.IsSearch))
@@ -842,6 +843,7 @@ namespace Aurora.Music
                 if (Context.SearchItems[0].InnerType == MediaType.Placeholder)
                 {
                     args.Cancel = true;
+                    args.Handled = true;
                     return;
                 }
             }
@@ -1427,6 +1429,11 @@ namespace Aurora.Music
             var index = Context.HamList.FindIndex(a => a.TargetType == MainFrame.Content.GetType());
             HamPane.SelectedIndex = index;
             HamPane.SelectionChanged += HamPane_SelectionChanged;
+        }
+
+        private void DimissMoreFlyout(object sender, RoutedEventArgs e)
+        {
+            MoreFlyout.Hide();
         }
     }
 }

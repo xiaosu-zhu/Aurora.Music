@@ -34,6 +34,7 @@ using Windows.UI.Xaml.Navigation;
 using System.Linq;
 using Newtonsoft.Json;
 using Windows.Foundation.Collections;
+using System.Diagnostics;
 
 namespace Aurora.Music
 {
@@ -66,12 +67,12 @@ namespace Aurora.Music
             // memory limit allowed for the application changes. The application
             // has a short time to respond by bringing its memory usage
             // under the new limit.
-            MemoryManager.AppMemoryUsageLimitChanging += MemoryManager_AppMemoryUsageLimitChanging;
+            //MemoryManager.AppMemoryUsageLimitChanging += MemoryManager_AppMemoryUsageLimitChanging;
 
             // After an application is backgrounded it is expected to stay
             // under a memory target to maintain priority to keep running.
             // Subscribe to the event that informs the app of this change.
-            MemoryManager.AppMemoryUsageIncreased += MemoryManager_AppMemoryUsageIncreased;
+            //MemoryManager.AppMemoryUsageIncreased += MemoryManager_AppMemoryUsageIncreased;
         }
 
         private void App_Resuming(object sender, object e)
@@ -548,11 +549,11 @@ namespace Aurora.Music
             }
             else
             {
-                CoreApplicationView newView = CoreApplication.CreateNewView();
+                var newView = CoreApplication.CreateNewView();
                 int newViewId = 0;
                 await newView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
-                    Frame frame = new Frame();
+                    var frame = new Frame();
                     frame.Navigate(t1, (t2, id, keyword));
                     Window.Current.Content = frame;
                     // You have to activate the window in order to show it later.
