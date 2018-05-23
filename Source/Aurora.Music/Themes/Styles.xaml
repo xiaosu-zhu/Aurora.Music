@@ -13,6 +13,91 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         <ResourceDictionary Source="./Dark.xaml" x:Key="Dark"/>
     </ResourceDictionary.ThemeDictionaries>
 
+    <Style TargetType="TextBlock" x:Key="ListViewHeaderDescTextBlock" BasedOn="{StaticResource BodyTextBlockStyle}">
+        <Setter Property="Foreground" Value="{ThemeResource SystemControlHighlightBaseMediumRevealBorderBrush}"/>
+    </Style>
+
+
+    <Style TargetType="Button" x:Key="RevealRoundCornerButton">
+        <Setter Property="Background" Value="{ThemeResource RevealRoundBackground}" />
+        <Setter Property="Foreground" Value="{ThemeResource ButtonForeground}" />
+        <Setter Property="BorderBrush" Value="{ThemeResource SystemControlBackgroundTransparentRevealBorderBrush}" />
+        <Setter Property="BorderThickness" Value="{ThemeResource ListViewItemRevealBorderThemeThickness}" />
+        <Setter Property="Padding" Value="12,0" />
+        <Setter Property="Height" Value="32"/>
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="UseSystemFocusVisuals" Value="True" />
+        <Setter Property="FocusVisualMargin" Value="0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid x:Name="RootGrid" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                          BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="16">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal">
+                                    <VisualState.Setters>
+                                        <Setter Target="RootGrid.(RevealBrush.State)" Value="Normal" />
+                                    </VisualState.Setters>
+                                    <Storyboard>
+                                        <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                                    </Storyboard>
+                                </VisualState>
+
+                                <VisualState x:Name="PointerOver">
+                                    <VisualState.Setters>
+                                        <Setter Target="RootGrid.(RevealBrush.State)" Value="PointerOver" />
+                                        <Setter Target="RootGrid.Background" Value="{ThemeResource ListViewItemRevealBackgroundPointerOver}" />
+                                        <Setter Target="RootGrid.BorderBrush" Value="{ThemeResource ButtonRevealBorderBrushPointerOver}" />
+                                    </VisualState.Setters>
+
+                                    <Storyboard>
+                                        <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                                    </Storyboard>
+                                </VisualState>
+
+                                <VisualState x:Name="Pressed">
+                                    <VisualState.Setters>
+                                        <Setter Target="RootGrid.(RevealBrush.State)" Value="Pressed" />
+                                        <Setter Target="RootGrid.Background" Value="{ThemeResource ListViewItemRevealBackgroundPressed}" />
+                                        <Setter Target="RootGrid.BorderBrush" Value="{ThemeResource ButtonRevealBorderBrushPressed}" />
+                                    </VisualState.Setters>
+
+                                    <Storyboard>
+                                        <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
+                                    </Storyboard>
+                                </VisualState>
+
+                                <VisualState x:Name="Disabled">
+                                    <VisualState.Setters>
+                                        <Setter Target="RootGrid.Background" Value="{ThemeResource ButtonRevealBackgroundDisabled}" />
+                                        <Setter Target="RootGrid.BorderBrush" Value="{ThemeResource ButtonRevealBorderBrushDisabled}" />
+                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ButtonForegroundDisabled}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+
+                        </VisualStateManager.VisualStateGroups>
+                        <ContentPresenter x:Name="ContentPresenter"
+                            BorderBrush="{x:Null}"
+                            BorderThickness="0"
+                            Content="{TemplateBinding Content}"
+                            ContentTransitions="{TemplateBinding ContentTransitions}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            Padding="{TemplateBinding Padding}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                            AutomationProperties.AccessibilityView="Raw" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <!-- Default style for Windows.UI.Xaml.Controls.Primitives.ScrollBar -->
     <Style TargetType="ScrollBar">
         <Setter Property="MinWidth" Value="{ThemeResource ScrollBarSize}" />
@@ -1555,7 +1640,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         </Setter>
     </Style>
 
-    <Style TargetType="Button" BasedOn="{StaticResource TextBlockButtonStyle}" x:Key="PlayAllButton">
+    <Style TargetType="Button" BasedOn="{StaticResource RevealRoundCornerButton}" x:Key="PlayAllButton">
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="Content">
@@ -2126,12 +2211,40 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <ContentPresenter x:Name="HeaderContentPresenter" AutomationProperties.AccessibilityView="Raw" ContentTemplate="{TemplateBinding HeaderTemplate}" Content="{TemplateBinding Header}" Grid.ColumnSpan="4" Foreground="{TemplateBinding Foreground}" IsHitTestVisible="False" Visibility="Collapsed" x:DeferLoadStrategy="Lazy"/>
-                        <Grid x:Name="SwitchAreaGrid" Background="{ThemeResource ToggleSwitchContainerBackground}" Grid.ColumnSpan="3" Control.IsTemplateFocusTarget="True" Margin="0,5" Grid.RowSpan="3" Grid.Row="1"/>
-                        <ContentPresenter x:Name="OffContentPresenter" AutomationProperties.AccessibilityView="Raw" ContentTemplate="{TemplateBinding OffContentTemplate}" Content="{TemplateBinding OffContent}" Grid.Column="2" Foreground="{TemplateBinding Foreground}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" IsHitTestVisible="False" Opacity="0" Grid.RowSpan="3" Grid.Row="1" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                        <ContentPresenter x:Name="OnContentPresenter" AutomationProperties.AccessibilityView="Raw" ContentTemplate="{TemplateBinding OnContentTemplate}" Content="{TemplateBinding OnContent}" Grid.Column="2" Foreground="{TemplateBinding Foreground}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" IsHitTestVisible="False" Opacity="0" Grid.RowSpan="3" Grid.Row="1" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                        <Rectangle x:Name="OuterBorder" Fill="{ThemeResource ToggleSwitchFillOff}" Height="20" RadiusX="10" RadiusY="10" Grid.Row="2" StrokeThickness="2" Stroke="{TemplateBinding Foreground}" Width="44"/>
-                        <Rectangle x:Name="SwitchKnobBounds" Fill="{ThemeResource ToggleSwitchFillOn}" Height="20" Opacity="0" RadiusX="10" RadiusY="10" Grid.Row="2" StrokeThickness="{ThemeResource ToggleSwitchOnStrokeThickness}" Stroke="{TemplateBinding Foreground}" Width="44"/>
+                        <ContentPresenter x:Name="HeaderContentPresenter" 
+                                          AutomationProperties.AccessibilityView="Raw" 
+                                          ContentTemplate="{TemplateBinding HeaderTemplate}" 
+                                          Content="{TemplateBinding Header}" Grid.ColumnSpan="4" 
+                                          Foreground="{TemplateBinding Foreground}" 
+                                          IsHitTestVisible="False" Visibility="Collapsed" 
+                                          x:DeferLoadStrategy="Lazy"/>
+                        <Grid x:Name="SwitchAreaGrid" 
+                              Background="{ThemeResource ToggleSwitchContainerBackground}" 
+                              Grid.ColumnSpan="3" Control.IsTemplateFocusTarget="True" 
+                              Margin="0,5" Grid.RowSpan="3" Grid.Row="1"/>
+                        <ContentPresenter x:Name="OffContentPresenter" 
+                                          AutomationProperties.AccessibilityView="Raw" 
+                                          ContentTemplate="{TemplateBinding OffContentTemplate}" 
+                                          Content="{TemplateBinding OffContent}" 
+                                          Grid.Column="2" Foreground="{TemplateBinding Foreground}" 
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                          IsHitTestVisible="False" Opacity="0" Grid.RowSpan="3" Grid.Row="1" 
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        <ContentPresenter x:Name="OnContentPresenter" 
+                                          AutomationProperties.AccessibilityView="Raw" 
+                                          ContentTemplate="{TemplateBinding OnContentTemplate}" 
+                                          Content="{TemplateBinding OnContent}" Grid.Column="2" 
+                                          Foreground="{TemplateBinding Foreground}" 
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                          IsHitTestVisible="False" Opacity="0" Grid.RowSpan="3" Grid.Row="1" 
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        <Rectangle x:Name="OuterBorder" Fill="{ThemeResource ToggleSwitchFillOff}" 
+                                   Height="20" RadiusX="10" RadiusY="10" Grid.Row="2" 
+                                   StrokeThickness="2" Stroke="{TemplateBinding Foreground}" Width="44"/>
+                        <Rectangle x:Name="SwitchKnobBounds" Fill="{ThemeResource ToggleSwitchFillOn}" 
+                                   Height="20" Opacity="0" RadiusX="10" RadiusY="10" Grid.Row="2" 
+                                   StrokeThickness="{ThemeResource ToggleSwitchOnStrokeThickness}" 
+                                   Stroke="{TemplateBinding Foreground}" Width="44"/>
                         <Grid x:Name="SwitchKnob" HorizontalAlignment="Left" Height="20" Grid.Row="2" Width="20">
                             <Grid.RenderTransform>
                                 <TranslateTransform x:Name="KnobTranslateTransform"/>
@@ -2590,8 +2703,12 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         </Setter>
     </Style>
 
-    <AcrylicBrush x:Key="SystemControlAccentAcrylicElementAccentLowBrush" BackgroundSource="Backdrop" TintColor="{ThemeResource SystemAccentColor}" TintOpacity="0.2" FallbackColor="{ThemeResource SystemAccentColor}" />
-    <AcrylicBrush x:Key="SystemControlAccentAcrylicWindowAccentLowBrush" BackgroundSource="HostBackdrop" TintColor="{ThemeResource SystemAccentColor}" TintOpacity="0.2" FallbackColor="{ThemeResource SystemAccentColor}" />
+    <AcrylicBrush x:Key="SystemControlAccentAcrylicElementAccentLowBrush" 
+                  BackgroundSource="Backdrop" TintColor="{ThemeResource SystemAccentColor}" 
+                  TintOpacity="0.2" FallbackColor="{ThemeResource SystemAccentColor}" />
+    <AcrylicBrush x:Key="SystemControlAccentAcrylicWindowAccentLowBrush" 
+                  BackgroundSource="HostBackdrop" TintColor="{ThemeResource SystemAccentColor}" 
+                  TintOpacity="0.2" FallbackColor="{ThemeResource SystemAccentColor}" />
     <Style x:Key="QuickLoadImageEx" TargetType="toolkit:ImageEx">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{ThemeResource ApplicationForegroundThemeBrush}" />
@@ -2869,7 +2986,14 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <ContentPresenter x:Name="HeaderContentPresenter" ContentTemplate="{TemplateBinding HeaderTemplate}" Content="{TemplateBinding Header}" FontWeight="{ThemeResource SliderHeaderThemeFontWeight}" Foreground="{ThemeResource SliderHeaderForeground}" Margin="{ThemeResource SliderHeaderThemeMargin}" TextWrapping="Wrap" Visibility="Collapsed" x:DeferLoadStrategy="Lazy"/>
+                        <ContentPresenter x:Name="HeaderContentPresenter" 
+                                          ContentTemplate="{TemplateBinding HeaderTemplate}" 
+                                          Content="{TemplateBinding Header}" 
+                                          FontWeight="{ThemeResource SliderHeaderThemeFontWeight}" 
+                                          Foreground="{ThemeResource SliderHeaderForeground}" 
+                                          Margin="{ThemeResource SliderHeaderThemeMargin}" 
+                                          TextWrapping="Wrap" Visibility="Collapsed" 
+                                          x:DeferLoadStrategy="Lazy"/>
                         <Grid x:Name="SliderContainer" Background="{ThemeResource SliderContainerBackground}" Control.IsTemplateFocusTarget="True" Grid.Row="1">
                             <Grid x:Name="HorizontalTemplate" MinHeight="44">
                                 <Grid.ColumnDefinitions>
@@ -3309,7 +3433,16 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <ContentPresenter x:Name="ContentPresenter" AutomationProperties.AccessibilityView="Raw" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentTransitions="{TemplateBinding ContentTransitions}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Padding="{TemplateBinding Padding}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        <ContentPresenter x:Name="ContentPresenter" 
+                                          AutomationProperties.AccessibilityView="Raw" 
+                                          BorderThickness="{TemplateBinding BorderThickness}" 
+                                          BorderBrush="{TemplateBinding BorderBrush}" 
+                                          ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                          Content="{TemplateBinding Content}" 
+                                          ContentTransitions="{TemplateBinding ContentTransitions}" 
+                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                          Padding="{TemplateBinding Padding}" 
+                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -3317,12 +3450,11 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     </Style>
 
     <Style x:Key="HorizontalComboBox" TargetType="ComboBox">
-        <Setter Property="Padding" Value="0"/>
-        <Setter Property="MinWidth" Value="{ThemeResource ComboBoxThemeMinWidth}"/>
-        <Setter Property="Foreground" Value="{ThemeResource ComboBoxForeground}"/>
-        <Setter Property="Background" Value="{ThemeResource ComboBoxBackground}"/>
-        <Setter Property="BorderBrush" Value="{ThemeResource ComboBoxBorderBrush}"/>
-        <Setter Property="BorderThickness" Value="{ThemeResource ComboBoxBorderThemeThickness}"/>
+        <Setter Property="Padding" Value="12,0"/>
+        <Setter Property="Background" Value="{ThemeResource RevealRoundBackground}" />
+        <Setter Property="Foreground" Value="{ThemeResource ButtonForeground}" />
+        <Setter Property="BorderBrush" Value="{ThemeResource SystemControlBackgroundTransparentRevealBorderBrush}" />
+        <Setter Property="BorderThickness" Value="{ThemeResource ListViewItemRevealBorderThemeThickness}" />
         <Setter Property="TabNavigation" Value="Once"/>
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
@@ -3334,8 +3466,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Height" Value="32"/>
         <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
-        <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
+        <Setter Property="FontSize" Value="13"/>
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
@@ -3346,7 +3479,11 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ComboBox">
-                    <Grid x:Name="LayoutRoot">
+                    <Grid x:Name="LayoutRoot" Height="{TemplateBinding Height}" 
+                          Background="{TemplateBinding Background}" CornerRadius="16"
+                          BorderThickness="{TemplateBinding BorderThickness}"
+                          BorderBrush="{TemplateBinding BorderBrush}" 
+                          Padding="{TemplateBinding Padding}">
                         <Grid.Resources>
                             <Storyboard x:Key="OverlayOpeningAnimation">
                                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity">
@@ -3366,9 +3503,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="auto"/>
                         </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal"/>
@@ -3480,16 +3614,54 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="HeaderContentPresenter" ContentTemplate="{TemplateBinding HeaderTemplate}" Content="{TemplateBinding Header}" FlowDirection="{TemplateBinding FlowDirection}" FontWeight="{ThemeResource ComboBoxHeaderThemeFontWeight}" Margin="0,0,8,0" Visibility="Collapsed" x:DeferLoadStrategy="Lazy"/>
-                        <Border x:Name="Background" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" Grid.Column="1" Grid.ColumnSpan="2"/>
-                        <Border x:Name="HighlightBackground" Background="{ThemeResource ComboBoxBackgroundUnfocused}" BorderThickness="{TemplateBinding BorderThickness}" Grid.Column="1" BorderBrush="{ThemeResource ComboBoxBackgroundBorderBrushUnfocused}" Grid.ColumnSpan="2" Opacity="0"/>
-                        <ContentPresenter x:Name="ContentPresenter" Foreground="{ThemeResource AccentForText}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" Grid.Column="1" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
-                            <TextBlock x:Name="PlaceholderTextBlock" Foreground="{Binding PlaceholderForeground, RelativeSource={RelativeSource Mode=TemplatedParent}, TargetNullValue={ThemeResource ComboBoxPlaceHolderForegroundFocusedPressed}}" Text="{TemplateBinding PlaceholderText}"/>
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                          x:Name="HeaderContentPresenter" 
+                                          ContentTemplate="{TemplateBinding HeaderTemplate}" 
+                                          Content="{TemplateBinding Header}" 
+                                          FlowDirection="{TemplateBinding FlowDirection}" 
+                                          FontWeight="{ThemeResource ComboBoxHeaderThemeFontWeight}" 
+                                          Margin="0,0,8,0" Visibility="Collapsed" 
+                                          x:DeferLoadStrategy="Lazy"/>
+                        <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                Background="Transparent"
+                                x:Name="Background" Grid.ColumnSpan="3"/>
+                        <Border x:Name="HighlightBackground" 
+                                Background="{ThemeResource ComboBoxBackgroundUnfocused}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                BorderBrush="{ThemeResource ComboBoxBackgroundBorderBrushUnfocused}" 
+                                Grid.ColumnSpan="3" Opacity="0"/>
+                        <ContentPresenter x:Name="ContentPresenter" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Grid.Column="1" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                            <TextBlock x:Name="PlaceholderTextBlock" 
+                                       Foreground="{Binding PlaceholderForeground, RelativeSource={RelativeSource Mode=TemplatedParent}, TargetNullValue={ThemeResource ComboBoxPlaceHolderForegroundFocusedPressed}}" 
+                                       Text="{TemplateBinding PlaceholderText}"/>
                         </ContentPresenter>
-                        <FontIcon x:Name="DropDownGlyph" AutomationProperties.AccessibilityView="Raw" Grid.Column="2" FontFamily="{ThemeResource SymbolThemeFontFamily}" Foreground="{ThemeResource AccentForText}" FontSize="12" Glyph="&#xE174;" HorizontalAlignment="Center" IsHitTestVisible="False" Margin="4,0" VerticalAlignment="Center"/>
+                        <FontIcon x:Name="DropDownGlyph" 
+                                  AutomationProperties.AccessibilityView="Raw" 
+                                  Grid.Column="2" 
+                                  FontFamily="{ThemeResource SymbolThemeFontFamily}" 
+                                  FontSize="12" Glyph="&#xE174;" 
+                                  HorizontalAlignment="Center" IsHitTestVisible="False" 
+                                  Margin="4,0" VerticalAlignment="Center"/>
                         <Popup Grid.ColumnSpan="3" x:Name="Popup">
-                            <Border x:Name="PopupBorder" Background="{ThemeResource ComboBoxDropDownBackground}" BorderThickness="{ThemeResource ComboBoxDropdownBorderThickness}" BorderBrush="{ThemeResource ComboBoxDropDownBorderBrush}" HorizontalAlignment="Stretch" Margin="0,-1,0,-1">
-                                <ScrollViewer x:Name="ScrollViewer" AutomationProperties.AccessibilityView="Raw" BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}" Foreground="{ThemeResource ComboBoxDropDownForeground}" HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}" HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}" IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}" IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}" IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}" MinWidth="{Binding TemplateSettings.DropDownContentMinWidth, RelativeSource={RelativeSource Mode=TemplatedParent}}" VerticalSnapPointsType="OptionalSingle" VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}" VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}" VerticalSnapPointsAlignment="Near" ZoomMode="Disabled">
+                            <Border x:Name="PopupBorder" 
+                                    Background="{ThemeResource ComboBoxDropDownBackground}" 
+                                    BorderThickness="{ThemeResource ComboBoxDropdownBorderThickness}" 
+                                    BorderBrush="{ThemeResource ComboBoxDropDownBorderBrush}" 
+                                    HorizontalAlignment="Stretch" Margin="0,-1,0,-1">
+                                <ScrollViewer x:Name="ScrollViewer" 
+                                              AutomationProperties.AccessibilityView="Raw" 
+                                              BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}" 
+                                              Foreground="{ThemeResource ComboBoxDropDownForeground}" 
+                                              HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}" 
+                                              HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}" 
+                                              IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}" 
+                                              IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}" 
+                                              IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}" 
+                                              MinWidth="{Binding TemplateSettings.DropDownContentMinWidth, RelativeSource={RelativeSource Mode=TemplatedParent}}" 
+                                              VerticalSnapPointsType="OptionalSingle" 
+                                              VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}" 
+                                              VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}" 
+                                              VerticalSnapPointsAlignment="Near" ZoomMode="Disabled">
                                     <ItemsPresenter Margin="{ThemeResource ComboBoxDropdownContentMargin}"/>
                                 </ScrollViewer>
                             </Border>

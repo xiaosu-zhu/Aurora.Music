@@ -640,7 +640,11 @@ namespace Aurora.Music
             e.Handled = true;
             Core.Tools.Helper.Logging(e);
 
-            if (MainPage.Current is MainPage p && (e.Exception is NotImplementedException || e.Exception is UnauthorizedAccessException))
+            if (MainPage.Current is MainPage p
+#if !DEBUG
+                && (e.Exception is NotImplementedException || e.Exception is UnauthorizedAccessException)
+#endif
+                )
             {
                 p.ThrowException(e);
             }

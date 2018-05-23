@@ -299,8 +299,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 
     <StackPanel Orientation="Vertical">
         <StackPanel Margin="0,8" Orientation="Horizontal">
-            <ComboBox x:Name="Presets" SelectedIndex="0" x:Uid="Presets"
-                      BorderThickness="0" BorderBrush="{x:Null}" Style="{ThemeResource HorizontalComboBox}" Header="Presets:">
+            <ComboBox x:Name="Presets" SelectedIndex="0" x:Uid="Presets" Style="{ThemeResource HorizontalComboBox}" Header="Presets:">
                 <ComboBoxItem Content="Flat"/>
                 <ComboBoxItem Content="Custom"/>
                 <ComboBoxItem Content="Pop"/>

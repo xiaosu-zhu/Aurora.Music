@@ -57,7 +57,7 @@ namespace Aurora.Music.Pages
                 ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.AlbumItemConnectedAnimation + "_2");
                 if (ani != null)
                 {
-                    ani.TryStart(Shadow, new UIElement[] { Image });
+                    ani.TryStart(Image);
                 }
                 Context.HeroImage = s.ArtworkUri;
                 await Context.GetSongsAsync(s);

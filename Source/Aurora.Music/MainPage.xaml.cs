@@ -100,6 +100,11 @@ namespace Aurora.Music
 
             if (e.Parameter is ValueTuple<Type, Type, int, string> m)
             {
+                while (HamPane.Items.Count <= 0)
+                {
+                    await Task.Delay(500);
+                }
+
                 MainFrame.Navigate(m.Item1, (m.Item2, m.Item3, m.Item4));
             }
             else

@@ -167,7 +167,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                             <AcrylicBrush FallbackColor="{ThemeResource SystemAltHighColor}" TintColor="{ThemeResource SystemAltHighColor}" TintOpacity="0.3333333333333333" BackgroundSource="HostBackdrop"/>
                         </Button.Background>
                         <Button.Content>
-                            <BitmapIcon UriSource="ms-appx:///Assets/git-dark.png"/>
+                            <BitmapIcon UriSource="ms-appx:///Assets/Others/git-dark.png"/>
                         </Button.Content>
                     </Button>
                     <TextBlock Text="Github" Style="{ThemeResource BaseTextBlockStyle}"
@@ -204,11 +204,11 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <AcrylicBrush FallbackColor="#09bb07" TintColor="#09bb07" TintOpacity="0.3333333333333333" BackgroundSource="HostBackdrop"/>
                     </Button.Background>
                     <Button.Content>
-                        <BitmapIcon UriSource="/Assets/wechat-icon.png" Width="32" Height="32" Foreground="White"/>
+                        <BitmapIcon UriSource="/Assets/Others/wechat-icon.png" Width="32" Height="32" Foreground="White"/>
                     </Button.Content>
                     <Button.Flyout>
                         <Flyout>
-                            <BitmapIcon UriSource="/Assets/wechat.png" Width="240" Height="240"/>
+                            <BitmapIcon UriSource="/Assets/Others/wechat.png" Width="240" Height="240"/>
                         </Flyout>
                     </Button.Flyout>
                 </Button>
@@ -217,7 +217,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <AcrylicBrush FallbackColor="#27346a" TintColor="#27346a" TintOpacity="0.3333333333333333" BackgroundSource="HostBackdrop"/>
                     </Button.Background>
                     <Button.Content>
-                        <BitmapIcon UriSource="/Assets/paypal-icon.png" Width="36" Height="36" Foreground="White"/>
+                        <BitmapIcon UriSource="/Assets/Others/paypal-icon.png" Width="36" Height="36" Foreground="White"/>
                     </Button.Content>
                     <Button.Flyout>
                         <Flyout>
@@ -262,11 +262,11 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <AcrylicBrush FallbackColor="#1890ff" TintColor="#1890ff" TintOpacity="0.3333333333333333" BackgroundSource="HostBackdrop"/>
                     </Button.Background>
                     <Button.Content>
-                        <BitmapIcon Foreground="White" UriSource="/Assets/ali-icon.png" Width="36" Height="36"/>
+                        <BitmapIcon Foreground="White" UriSource="/Assets/Others/ali-icon.png" Width="36" Height="36"/>
                     </Button.Content>
                     <Button.Flyout>
                         <Flyout>
-                            <BitmapIcon UriSource="/Assets/ali.png" Width="240" Height="240"/>
+                            <BitmapIcon UriSource="/Assets/Others/ali.png" Width="240" Height="240"/>
                         </Flyout>
                     </Button.Flyout>
                 </Button>

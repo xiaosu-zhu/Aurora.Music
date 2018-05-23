@@ -37,10 +37,9 @@ namespace Aurora.Music.Pages
 
         public LibraryPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             Current = this;
-            MainPageViewModel.Current.NeedShowTitle = Window.Current.Bounds.Width > 640;
-            MainPageViewModel.Current.Title = Consts.Localizer.GetString("LibraryText");
+            MainPageViewModel.Current.NeedShowTitle = false;
             CategoryList = new ObservableCollection<CategoryListItem>();
         }
 
@@ -140,6 +139,10 @@ namespace Aurora.Music.Pages
 
             if (e.Parameter is ValueTuple<Type, int, string> m)
             {
+                if (m.Item1 == null)
+                {
+                    Category.SelectedIndex = 0;
+                }
                 if (m.Item2 != -1)
                 {
                     try

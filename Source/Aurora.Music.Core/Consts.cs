@@ -72,7 +72,8 @@ namespace Aurora.Music.Core
         private static string last = localizer.GetString("LastDayText");
         public static string Last => last;
 
-        public const string OPMLTemplate = "OPMLTemplate.xml";
+        public const string OPMLTemplate = "Data/OPMLTemplate.xml";
+        public const string TimelineJson = "Data/Timeline.json";
 
         public const string ArraySeparator = "$|$";
 

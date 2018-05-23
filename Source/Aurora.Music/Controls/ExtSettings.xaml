@@ -30,7 +30,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <StackPanel Padding="12">
                 <TextBlock Text="Meta-data provided by"/>
                 <Button Click="Button_Click_1" Margin="4" Style="{ThemeResource TextBlockButtonStyle}">
-                    <BitmapIcon Width="61" UriSource="/Assets/lastfm.png"/>
+                    <BitmapIcon Width="61" UriSource="/Assets/Others/lastfm.png"/>
                 </Button>
             </StackPanel>
             <StackPanel Padding="12">

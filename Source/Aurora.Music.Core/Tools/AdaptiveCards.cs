@@ -14,7 +14,7 @@ namespace Aurora.Music.Core.Tools
 
             var desc0 = string.Format(Consts.Localizer.GetString("TileDesc"), album, performers);
 
-            var jsonText = await FileIOHelper.ReadStringFromAssetsAsync("Timeline.json");
+            var jsonText = await FileIOHelper.ReadStringFromAssetsAsync(Consts.TimelineJson);
 
             var content = JObject.Parse(jsonText);
 

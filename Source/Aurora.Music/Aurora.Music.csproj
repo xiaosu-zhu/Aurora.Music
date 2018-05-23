@@ -288,11 +288,7 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\ali-icon.png" />
-    <Content Include="Assets\ali.png" />
-    <Content Include="Assets\file.png" />
-    <Content Include="Assets\git-dark.png" />
-    <Content Include="Assets\git-light.png" />
+    <Content Include="Assets\Data\OPMLTemplate.xml" />
     <Content Include="Assets\Images\artist_placeholder.scale-100.png" />
     <Content Include="Assets\Images\artist_placeholder.scale-125.png" />
     <Content Include="Assets\Images\artist_placeholder.scale-150.png" />
@@ -314,14 +310,31 @@
     <Content Include="Assets\Images\placeholder_b.scale-200.png" />
     <Content Include="Assets\Images\placeholder_b.scale-400.png" />
     <Content Include="Assets\Images\welcome_bg.png" />
+    <Content Include="Assets\JumpList\albums.png" />
+    <Content Include="Assets\JumpList\artists.png" />
+    <Content Include="Assets\JumpList\home.png" />
+    <Content Include="Assets\JumpList\lastplay.png" />
+    <Content Include="Assets\JumpList\library.png" />
+    <Content Include="Assets\JumpList\next.png" />
+    <Content Include="Assets\JumpList\pause.png" />
+    <Content Include="Assets\JumpList\play.png" />
+    <Content Include="Assets\JumpList\playlist.png" />
+    <Content Include="Assets\JumpList\podcast.png" />
+    <Content Include="Assets\JumpList\previous.png" />
+    <Content Include="Assets\JumpList\songs.png" />
     <Content Include="Assets\LargeTile.scale-100.png" />
     <Content Include="Assets\LargeTile.scale-125.png" />
     <Content Include="Assets\LargeTile.scale-150.png" />
     <Content Include="Assets\LargeTile.scale-200.png" />
     <Content Include="Assets\LargeTile.scale-400.png" />
-    <Content Include="Assets\lastfm.png" />
-    <Content Include="Assets\OPMLTemplate.xml" />
-    <Content Include="Assets\paypal-icon.png" />
+    <Content Include="Assets\Others\ali-icon.png" />
+    <Content Include="Assets\Others\ali.png" />
+    <Content Include="Assets\Others\file.png" />
+    <Content Include="Assets\Others\git-dark.png" />
+    <Content Include="Assets\Others\lastfm.png" />
+    <Content Include="Assets\Others\paypal-icon.png" />
+    <Content Include="Assets\Others\wechat-icon.png" />
+    <Content Include="Assets\Others\wechat.png" />
     <Content Include="Assets\SmallTile.scale-100.png" />
     <Content Include="Assets\SmallTile.scale-125.png" />
     <Content Include="Assets\SmallTile.scale-150.png" />
@@ -353,13 +366,11 @@
     <Content Include="Assets\StoreLogo.scale-150.png" />
     <Content Include="Assets\StoreLogo.scale-200.png" />
     <Content Include="Assets\StoreLogo.scale-400.png" />
-    <Content Include="Assets\wechat-icon.png" />
-    <Content Include="Assets\wechat.png" />
     <Content Include="Assets\Wide310x150Logo.scale-100.png" />
     <Content Include="Assets\Wide310x150Logo.scale-125.png" />
     <Content Include="Assets\Wide310x150Logo.scale-150.png" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
-    <Content Include="Assets\Timeline.json" />
+    <Content Include="Assets\Data\Timeline.json" />
     <None Include="Aurora.Music_StoreKey.pfx" />
     <None Include="Package.xml" />
     <None Include="Package.StoreAssociation.xml" />

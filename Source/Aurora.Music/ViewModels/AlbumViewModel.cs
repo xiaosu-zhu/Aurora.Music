@@ -115,7 +115,18 @@ namespace Aurora.Music.ViewModels
         }
 
         public virtual string[] Genres { get; set; }
-        public virtual uint Year { get; set; }
+        public uint Year { get; set; }
+        public string YearString
+        {
+            get
+            {
+                if (Year == 0u)
+                {
+                    return "Unknown year";
+                }
+                return Year.ToString("#");
+            }
+        }
         public virtual string AlbumSort { get; set; }
 
         internal string GetFormattedArtists()

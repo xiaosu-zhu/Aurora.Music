@@ -323,7 +323,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <toolkit:WrapPanel HorizontalSpacing="8" VerticalSpacing="8" Grid.Row="1" x:Name="Details" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
                 <StackPanel Orientation="Horizontal">
                     <Grid>
-                        <TextBlock VerticalAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}" x:Name="DescriptionText" 
+                        <TextBlock VerticalAlignment="Center" Style="{ThemeResource ListViewHeaderDescTextBlock}" x:Name="DescriptionText" 
                                    Text="{x:Bind Context.Description,Mode=OneWay,TargetNullValue=No&#x20;descriptions}"/>
                         <TextBox x:Uid="DescriptionPlaceholder" MinWidth="200"
                                  BorderThickness="0" BorderBrush="{x:Null}" PlaceholderText="Type some descriptions" FontSize="15"
@@ -334,7 +334,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <FontIcon FontSize="15" x:Name="DescriptionSymbol" FontFamily="Segoe MDL2 Assets" Glyph="&#xE104;" />
                     </Button>
                 </StackPanel>
-                <TextBlock Style="{ThemeResource BodyTextBlockStyle}">
+                <TextBlock Style="{ThemeResource ListViewHeaderDescTextBlock}">
                     <Run FontSize="13" FontFamily="Segoe MDL2 Assets" Text="&#xE8D6;" />
                     <Run Text="{x:Bind Context.SongsCount,Mode=OneWay,TargetNullValue='Loading',FallbackValue='Loading'}"/>
                 </TextBlock>

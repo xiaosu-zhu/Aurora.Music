@@ -1,23 +1,25 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
+
 using AudioVisualizer;
+
 using Aurora.Music.Controls;
 using Aurora.Music.Core;
 using Aurora.Music.Core.Models;
 using Aurora.Music.Core.Storage;
+using Aurora.Music.Core.Tools;
 using Aurora.Music.Pages;
 using Aurora.Music.PlaybackEngine;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
 using Aurora.Shared.MVVM;
-using Microsoft.Toolkit.Uwp.UI;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.UserActivities;
 using Windows.Foundation.Collections;
@@ -25,8 +27,8 @@ using Windows.Media.Playback;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.System;
-using Windows.System.Threading;
 using Windows.UI.Shell;
+using Windows.UI.StartScreen;
 using Windows.UI.Text;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -571,6 +573,14 @@ namespace Aurora.Music.ViewModels
                             act = await activity.GetOrCreateUserActivityAsync(id);
                         }
                     });
+                });
+            }
+            if (JumpList.IsSupported())
+            {
+                Task.Run(async () =>
+                {
+                    var jumpList = await JumpListHelper.LoadJumpListAsync();
+                    await jumpList.SaveAsync();
                 });
             }
         }
@@ -1119,7 +1129,7 @@ namespace Aurora.Music.ViewModels
                         break;
                     }
 
-                    var json = await Core.Tools.TimelineCard.AuthorAsync(currentTitle, currentAlbum, currentArtist, img0, img1, NowPlayingList.Count);
+                    var json = await TimelineCard.AuthorAsync(currentTitle, currentAlbum, currentArtist, img0, img1, NowPlayingList.Count);
 
                     act.ActivationUri = new Uri("as-music:///?action=timeline-restore");
 
