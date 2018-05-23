@@ -346,7 +346,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     <Page.DataContext>
         <vm:SettingsPageViewModel x:Name="Context" InitComplete="Context_InitComplete"/>
     </Page.DataContext>
-    <Grid x:Name="Main" MinWidth="0" Loaded="Main_Loaded" Padding="0,32,0,0"
+    <Grid x:Name="Main" MinWidth="0" Loaded="Main_Loaded" Padding="16"
           Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
@@ -379,7 +379,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
-        <Pivot Margin="0,-30,0,0" x:Name="MainPivot" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Pivot x:Name="MainPivot" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <PivotItem x:Uid="Library" Header="Library">
                 <ScrollViewer Style="{ThemeResource NarrowScrollViewer}">
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -613,7 +613,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </PivotItem>
         </Pivot>
 
-        <StackPanel Margin="0,-2,0,0" x:Name="SidePanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Padding="8,0" MinWidth="240" Grid.Column="1">
+        <StackPanel x:Name="SidePanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Padding="8,0" MinWidth="240" Grid.Column="1">
             <TextBlock x:Uid="OtherInformation" Text="Other Information" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12"/>
             <Button x:Uid="OpenSource" Content="Open Source"
                             Command="{Binding Github}"
@@ -639,7 +639,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                             Command="{Binding ShowUpdateInfo}"
                             Style="{ThemeResource TextBlockButtonStyle}" Margin="0,8"/>
         </StackPanel>
-        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top" Visibility="Collapsed"
-                Height="96" Background="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}"/>
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top" 
+              Visibility="Collapsed" Height="96" 
+              Background="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}"/>
     </Grid>
 </Page>

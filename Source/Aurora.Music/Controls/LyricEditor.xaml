@@ -317,7 +317,7 @@
             </Button>
             <TextBox AcceptsReturn="False" BorderThickness="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
                      Text="  0.0s" LostFocus="Offset_LostFocus" x:Name="Offset" KeyUp="Offset_KeyUp"
-                     BorderBrush="{ThemeResource SystemControlBackgroundBaseMediumRevealBorderBrush}" 
+                     BorderBrush="{ThemeResource SystemControlForegroundBaseMediumBrush}" 
                      PlaceholderText="Offset" Height="32" Width="144"/>
             <Button Click="Large_Forward" Style="{ThemeResource RevealRectangleButton}" Height="32" Width="48">
                 <FontIcon FontSize="16" FontFamily="Segoe MDL2 Assets" Glyph="&#xE970;" />

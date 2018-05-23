@@ -6,22 +6,19 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 <Page
     x:Class="Aurora.Music.Pages.SongsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Aurora.Music.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:list="using:Aurora.Music.Controls.ListItems"
     xmlns:vm="using:Aurora.Music.ViewModels"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:controls="using:Aurora.Music.Controls"
     xmlns:wuxdata="using:Windows.UI.Xaml.Data"
-    xmlns:list="using:Aurora.Music.Controls.ListItems"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Unloaded="Page_Unloaded"
     mc:Ignorable="d">
 
     <Page.Transitions>
         <TransitionCollection>
-            <NavigationThemeTransition>
-            </NavigationThemeTransition>
+            <NavigationThemeTransition/>
             <EntranceThemeTransition />
         </TransitionCollection>
     </Page.Transitions>
@@ -61,7 +58,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="GroupStyle.HeaderTemplate" Value="{StaticResource MediumGroupSongsHeader}"/>
-                        <Setter Target="HeaderGroup.Margin" Value="20,32,20,12"/>
                         <Setter Target="AlbumList.Padding" Value="20,0"/>
                     </VisualState.Setters>
                 </VisualState>
@@ -71,61 +67,11 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="AlbumList.Padding" Value="0"/>
-                        <Setter Target="HeaderGroup.Margin" Value="48,32,12,12"/>
                         <Setter Target="GroupStyle.HeaderTemplate" Value="{StaticResource NarrowGroupHeader}"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <StackPanel PointerReleased="HeaderGroup_PointerReleased" x:Name="HeaderGroup" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="32,32,32,12">
-            <Grid x:Name="Title" HorizontalAlignment="Left" VerticalAlignment="Center" Height="48">
-                <TextBlock x:Uid="Songs" Text="Songs" HorizontalAlignment="Left" VerticalAlignment="Center" 
-                           FontWeight="Bold" TextWrapping="NoWrap" MaxLines="1" TextTrimming="Clip"
-                           Style="{ThemeResource SubheaderTextBlockStyle}" Visibility="{x:Bind SelectionModeToTitle(AlbumList.SelectionMode),Mode=OneWay}"/>
-                <CommandBar HorizontalAlignment="Left" VerticalAlignment="Stretch" 
-                            Background="Transparent" IsOpen="False" DefaultLabelPosition="Right" Visibility="{x:Bind SelectionModeToOther(AlbumList.SelectionMode),Mode=OneWay}">
-                    <AppBarButton Click="PlayAppBarButton_Click" Label="Play">
-                        <AppBarButton.Icon>
-                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE768;" />
-                        </AppBarButton.Icon>
-                    </AppBarButton>
-                    <AppBarButton Click="PlayNextAppBarButton_Click" Label="Play Next">
-                        <AppBarButton.Icon>
-                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE298;" />
-                        </AppBarButton.Icon>
-                    </AppBarButton>
-                    <AppBarButton Click="AddCollectionAppBarButton_Click" Icon="Add" Label="Add to Collection"/>
-                    <AppBarButton Click="ShareAppBarButton_Click" Icon="Share" Label="Share"/>
-                    <AppBarButton Click="CancelButton_Click" Icon="Cancel" Label="Close"/>
-                </CommandBar>
-            </Grid>
-            <Rectangle Margin="0,8" Fill="{ThemeResource SystemControlBackgroundBaseLowBrush}" Height="0.5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-            <toolkit:WrapPanel HorizontalSpacing="8" VerticalSpacing="8" x:Name="Details" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
-                <TextBlock Style="{ThemeResource ListViewHeaderDescTextBlock}" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Run FontSize="13" FontFamily="Segoe MDL2 Assets" Text="&#xE77B;" />
-                    <Run Text="{x:Bind Context.ArtistsCount,Mode=OneWay,TargetNullValue='Loading',FallbackValue='Loading'}"/>
-                </TextBlock>
-                <TextBlock Style="{ThemeResource ListViewHeaderDescTextBlock}" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Run FontSize="13" FontFamily="Segoe MDL2 Assets" Text="&#xE8D6;" />
-                    <Run Text="{x:Bind Context.SongsCount,Mode=OneWay,TargetNullValue='Loading',FallbackValue='Loading'}"/>
-                </TextBlock>
-                <Button Command="{x:Bind Context.PlayAll}" Style="{ThemeResource PlayAllButton}" FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                <ComboBox x:Uid="SortBox" x:Name="SortBox" SelectedIndex="0" FontSize="15" BorderThickness="0" Style="{StaticResource HorizontalComboBox}" HorizontalAlignment="Center" VerticalAlignment="Center" Header="Sort by:">
-                    <ComboBoxItem x:Uid="TitleSort" Tag="Name">A-Z</ComboBoxItem>
-                    <ComboBoxItem x:Uid="Album" Tag="Album">Albums</ComboBoxItem>
-                    <ComboBoxItem x:Uid="Artist" Tag="Artists">Artists</ComboBoxItem>
-                    <ComboBoxItem x:Uid="Year" Tag="Year">Year</ComboBoxItem>
-                </ComboBox>
-                <Button Command="{x:Bind Context.PintoStart}" Style="{ThemeResource TextBlockButtonStyle}">
-                    <Button.Content>
-                        <TextBlock>
-                                <Run FontSize="13" FontFamily="Segoe MDL2 Assets" Text="{x:Bind Context.PinnedtoGlyph(Context.IsPinned),Mode=OneWay}" />
-                                <Run Text="{x:Bind Context.PinnedtoText(Context.IsPinned),Mode=OneWay}"/>
-                        </TextBlock>
-                    </Button.Content>
-                </Button>
-            </toolkit:WrapPanel>
-        </StackPanel>
         <SemanticZoom Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="Main">
             <SemanticZoom.ZoomedOutView>
                 <GridView Margin="32" HorizontalAlignment="Center" VerticalAlignment="Center" ItemContainerStyle="{ThemeResource SemanticOutItem}"
@@ -154,8 +100,83 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                           Style="{ThemeResource GeneralListView}" x:Name="AlbumList"
                           ItemContainerStyleSelector="{StaticResource SongListStyleSelector}">
                     <ListView.Header>
-                        <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Foreground="{ThemeResource AccentForText}" FontWeight="Bold" x:Uid="Retriving"
-                                   Text="Retriving Database" Margin="12,0" Visibility="{x:Bind Context.CollapseIfNotZero(Context.SongsList.Count),Mode=OneWay}"/>
+                        <StackPanel PointerReleased="HeaderGroup_PointerReleased" 
+                                    x:Name="HeaderGroup" Margin="0,32"
+                                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <Grid x:Name="Title" HorizontalAlignment="Left" VerticalAlignment="Center" Height="48">
+                                <TextBlock x:Uid="Songs" Text="Songs" 
+                                           HorizontalAlignment="Left" VerticalAlignment="Center"
+                                           FontWeight="Bold" TextWrapping="NoWrap" 
+                                           MaxLines="1" TextTrimming="Clip"
+                                           Style="{ThemeResource SubheaderTextBlockStyle}" 
+                                           Visibility="{x:Bind SelectionModeToTitle(AlbumList.SelectionMode),Mode=OneWay}"/>
+                                <CommandBar HorizontalAlignment="Left" VerticalAlignment="Stretch"
+                                            Background="Transparent" IsOpen="False" 
+                                            DefaultLabelPosition="Right" 
+                                            Visibility="{x:Bind SelectionModeToOther(AlbumList.SelectionMode),Mode=OneWay}">
+                                    <AppBarButton Click="PlayAppBarButton_Click" Label="Play">
+                                        <AppBarButton.Icon>
+                                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE768;" />
+                                        </AppBarButton.Icon>
+                                    </AppBarButton>
+                                    <AppBarButton Click="PlayNextAppBarButton_Click" Label="Play Next">
+                                        <AppBarButton.Icon>
+                                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE298;" />
+                                        </AppBarButton.Icon>
+                                    </AppBarButton>
+                                    <AppBarButton Click="AddCollectionAppBarButton_Click" Icon="Add" Label="Add to Collection"/>
+                                    <AppBarButton Click="ShareAppBarButton_Click" Icon="Share" Label="Share"/>
+                                    <AppBarButton Click="CancelButton_Click" Icon="Cancel" Label="Close"/>
+                                </CommandBar>
+                            </Grid>
+                            <toolkit:WrapPanel HorizontalSpacing="24" VerticalSpacing="8" 
+                                               x:Name="Details" Orientation="Horizontal" 
+                                               HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <TextBlock Style="{ThemeResource BodyTextBlockStyle}"
+                                           Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}" 
+                                           HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <Run FontSize="13" FontFamily="Segoe MDL2 Assets" Text="&#xE77B;" />
+                                    <Run Text="{x:Bind Context.ArtistsCount,Mode=OneWay,TargetNullValue='Loading',FallbackValue='Loading'}"/>
+                                </TextBlock>
+                                <TextBlock Style="{ThemeResource BodyTextBlockStyle}"
+                                           Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}" 
+                                           HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <Run FontSize="13" FontFamily="Segoe MDL2 Assets" Text="&#xE8D6;" />
+                                    <Run Text="{x:Bind Context.SongsCount,Mode=OneWay,TargetNullValue='Loading',FallbackValue='Loading'}"/>
+                                </TextBlock>
+                            </toolkit:WrapPanel>
+                            <toolkit:WrapPanel HorizontalSpacing="8" VerticalSpacing="8" 
+                                               Orientation="Horizontal" Margin="0,32,0,0"
+                                               HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <Button Command="{x:Bind Context.PlayAll}" Style="{ThemeResource PlayAllButton}" 
+                                        FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <ComboBox x:Uid="SortBox" x:Name="SortBox" 
+                                          SelectedIndex="0" FontSize="15" 
+                                          Style="{StaticResource HorizontalComboBox}" 
+                                          HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                          Header="Sort by:">
+                                    <ComboBoxItem x:Uid="TitleSort" Tag="Name">A-Z</ComboBoxItem>
+                                    <ComboBoxItem x:Uid="Album" Tag="Album">Albums</ComboBoxItem>
+                                    <ComboBoxItem x:Uid="Artist" Tag="Artists">Artists</ComboBoxItem>
+                                    <ComboBoxItem x:Uid="Year" Tag="Year">Year</ComboBoxItem>
+                                </ComboBox>
+                                <Button Command="{x:Bind Context.PintoStart}" Style="{ThemeResource RevealRoundCornerButton}">
+                                    <Button.Content>
+                                        <TextBlock>
+                                            <Run FontSize="13" FontFamily="Segoe MDL2 Assets" 
+                                                 Text="{x:Bind Context.PinnedtoGlyph(Context.IsPinned),Mode=OneWay}" />
+                                            <Run Text="{x:Bind Context.PinnedtoText(Context.IsPinned),Mode=OneWay}"/>
+                                        </TextBlock>
+                                    </Button.Content>
+                                </Button>
+                            </toolkit:WrapPanel>
+                            <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" 
+                                       Foreground="{ThemeResource AccentForText}" 
+                                       FontWeight="Bold" x:Uid="Retriving"
+                                       Text="Retriving Database" Padding="12,32"
+                                       HorizontalAlignment="Center"
+                                       Visibility="{x:Bind Context.CollapseIfNotZero(Context.SongsList.Count),Mode=OneWay}"/>
+                        </StackPanel>
                     </ListView.Header>
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="vm:SongViewModel">

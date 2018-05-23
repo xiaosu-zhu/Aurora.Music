@@ -30,8 +30,8 @@ namespace Aurora.Music.Pages
     {
         public PlayListPage()
         {
-            this.InitializeComponent();
-            this.NavigationCacheMode = NavigationCacheMode.Enabled;
+            InitializeComponent();
+            NavigationCacheMode = NavigationCacheMode.Enabled;
         }
 
         public void RequestGoBack()

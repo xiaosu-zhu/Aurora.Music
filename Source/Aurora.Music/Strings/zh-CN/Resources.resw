@@ -1517,4 +1517,60 @@
     <value>只创建一个歌词窗口</value>
     <comment>Singleton instance of lyric window</comment>
   </data>
+    <data name="NavigateGroup" xml:space="preserve">
+    <value>导航</value>
+    <comment>Navigation</comment>
+  </data>
+    <data name="ActionGroup" xml:space="preserve">
+    <value>操作</value>
+    <comment>Action</comment>
+  </data>
+    <data name="JumplistLastPlay" xml:space="preserve">
+    <value>上次播放</value>
+    <comment>Last played</comment>
+  </data>
+    <data name="JumplistPlay" xml:space="preserve">
+    <value>播放</value>
+    <comment>Play</comment>
+  </data>
+    <data name="JumplistPause" xml:space="preserve">
+    <value>暂停</value>
+    <comment>Pause</comment>
+  </data>
+    <data name="JumplistHome" xml:space="preserve">
+    <value>主页</value>
+    <comment>Home</comment>
+  </data>
+    <data name="JumplistLibrary" xml:space="preserve">
+    <value>音乐库</value>
+    <comment>Library</comment>
+  </data>
+    <data name="JumplistSongs" xml:space="preserve">
+    <value>全部歌曲</value>
+    <comment>Songs</comment>
+  </data>
+    <data name="JumplistAlbums" xml:space="preserve">
+    <value>全部专辑</value>
+    <comment>Albums</comment>
+  </data>
+    <data name="JumplistArtists" xml:space="preserve">
+    <value>全部歌手</value>
+    <comment>Artists</comment>
+  </data>
+    <data name="JumplistPlaylist" xml:space="preserve">
+    <value>播放列表</value>
+    <comment>Playlist</comment>
+  </data>
+    <data name="JumplistPodcast" xml:space="preserve">
+    <value>播客</value>
+    <comment>Podcast</comment>
+  </data>
+    <data name="JumplistPrevious" xml:space="preserve">
+    <value>上一首</value>
+    <comment>Previous</comment>
+  </data>
+    <data name="JumplistNext" xml:space="preserve">
+    <value>下一首</value>
+    <comment>Next</comment>
+  </data>
 </root>

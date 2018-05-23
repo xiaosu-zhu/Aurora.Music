@@ -13,6 +13,8 @@ namespace Aurora.Music.Core.Tools
             "as-music:///?action=last-play",
             "as-music:///?action=play",
             "as-music:///?action=pause",
+            "as-music:///?action=previous",
+            "as-music:///?action=next",
             "as-music:///home",
             "as-music:///library",
             "as-music:///library/songs",
@@ -25,7 +27,7 @@ namespace Aurora.Music.Core.Tools
         private static readonly string[] groups = new string[]
         {
             "NavigateGroup",
-            "ActionGroup"
+            "ActionGroup",
         };
 
         private static readonly string[] displays = new string[]
@@ -33,13 +35,15 @@ namespace Aurora.Music.Core.Tools
             "JumplistLastPlay",
             "JumplistPlay",
             "JumplistPause",
+            "JumplistPrevious",
+            "JumplistNext",
             "JumplistHome",
             "JumplistLibrary",
             "JumplistSongs",
             "JumplistAlbums",
             "JumplistArtists",
             "JumplistPlaylist",
-            "JumplistPodcast"
+            "JumplistPodcast",
         };
 
         private static readonly string[] pics = new string[]
@@ -47,6 +51,8 @@ namespace Aurora.Music.Core.Tools
             "ms-appx:///Assets/JumpList/lastplay.png",
             "ms-appx:///Assets/JumpList/play.png",
             "ms-appx:///Assets/JumpList/pause.png",
+            "ms-appx:///Assets/JumpList/previous.png",
+            "ms-appx:///Assets/JumpList/next.png",
             "ms-appx:///Assets/JumpList/home.png",
             "ms-appx:///Assets/JumpList/library.png",
             "ms-appx:///Assets/JumpList/songs.png",
@@ -71,11 +77,11 @@ namespace Aurora.Music.Core.Tools
             {
                 if (args[i].Contains("action"))
                 {
-                    jumpList.Items.Add(CreateItem(args[i], displays[i], groups[1], displays[i], new Uri(pics[i])));
+                    jumpList.Items.Add(CreateItem(args[i], Consts.Localizer.GetString(displays[i]), Consts.Localizer.GetString(groups[1]), Consts.Localizer.GetString(displays[i]), new Uri(pics[i])));
                 }
                 else
                 {
-                    jumpList.Items.Add(CreateItem(args[i], displays[i], groups[0], displays[i], new Uri(pics[i])));
+                    jumpList.Items.Add(CreateItem(args[i], Consts.Localizer.GetString(displays[i]), Consts.Localizer.GetString(groups[0]), Consts.Localizer.GetString(displays[i]), new Uri(pics[i])));
                 }
             }
 

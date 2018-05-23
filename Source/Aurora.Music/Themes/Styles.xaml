@@ -13,10 +13,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         <ResourceDictionary Source="./Dark.xaml" x:Key="Dark"/>
     </ResourceDictionary.ThemeDictionaries>
 
-    <Style TargetType="TextBlock" x:Key="ListViewHeaderDescTextBlock" BasedOn="{StaticResource BodyTextBlockStyle}">
-        <Setter Property="Foreground" Value="{ThemeResource SystemControlHighlightBaseMediumRevealBorderBrush}"/>
-    </Style>
-
 
     <Style TargetType="Button" x:Key="RevealRoundCornerButton">
         <Setter Property="Background" Value="{ThemeResource RevealRoundBackground}" />
@@ -29,7 +25,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
         <Setter Property="FontWeight" Value="Normal" />
-        <Setter Property="FontSize" Value="13" />
+        <Setter Property="FontSize" Value="15" />
         <Setter Property="UseSystemFocusVisuals" Value="True" />
         <Setter Property="FocusVisualMargin" Value="0" />
         <Setter Property="Template">

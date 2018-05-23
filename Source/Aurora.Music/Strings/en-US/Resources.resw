@@ -1513,4 +1513,60 @@
     <value>Singleton instance of lyric window</value>
     <comment>Singleton instance of lyric window</comment>
   </data>
+    <data name="NavigateGroup" xml:space="preserve">
+    <value>Navigation</value>
+    <comment>Navigation</comment>
+  </data>
+    <data name="ActionGroup" xml:space="preserve">
+    <value>Action</value>
+    <comment>Action</comment>
+  </data>
+    <data name="JumplistLastPlay" xml:space="preserve">
+    <value>Last played</value>
+    <comment>Last played</comment>
+  </data>
+    <data name="JumplistPlay" xml:space="preserve">
+    <value>Play</value>
+    <comment>Play</comment>
+  </data>
+    <data name="JumplistPause" xml:space="preserve">
+    <value>Pause</value>
+    <comment>Pause</comment>
+  </data>
+    <data name="JumplistHome" xml:space="preserve">
+    <value>Home</value>
+    <comment>Home</comment>
+  </data>
+    <data name="JumplistLibrary" xml:space="preserve">
+    <value>Library</value>
+    <comment>Library</comment>
+  </data>
+    <data name="JumplistSongs" xml:space="preserve">
+    <value>Songs</value>
+    <comment>Songs</comment>
+  </data>
+    <data name="JumplistAlbums" xml:space="preserve">
+    <value>Albums</value>
+    <comment>Albums</comment>
+  </data>
+    <data name="JumplistArtists" xml:space="preserve">
+    <value>Artists</value>
+    <comment>Artists</comment>
+  </data>
+    <data name="JumplistPlaylist" xml:space="preserve">
+    <value>Playlist</value>
+    <comment>Playlist</comment>
+  </data>
+    <data name="JumplistPodcast" xml:space="preserve">
+    <value>Podcast</value>
+    <comment>Podcast</comment>
+  </data>
+    <data name="JumplistPrevious" xml:space="preserve">
+    <value>Previous</value>
+    <comment>Previous</comment>
+  </data>
+    <data name="JumplistNext" xml:space="preserve">
+    <value>Next</value>
+    <comment>Next</comment>
+  </data>
 </root>

@@ -306,20 +306,28 @@ namespace Aurora.Music
             switch (theme)
             {
                 case ElementTheme.Default:
+                    titleBar.ButtonInactiveForegroundColor = (Color)Resources["SystemBaseLowColor"];
+                    titleBar.ButtonForegroundColor = (Color)Resources["SystemBaseHighColor"];
+                    titleBar.ButtonHoverForegroundColor = (Color)Resources["SystemAltHighColor"];
+                    titleBar.ButtonHoverBackgroundColor = (Color)Resources["SystemBaseLowColor"];
                     break;
                 case ElementTheme.Light:
-                    titleBar.ButtonInactiveForegroundColor = Color.FromArgb(0x33, 0x00, 0x00, 0x00);
-                    titleBar.ButtonForegroundColor = Color.FromArgb(0xff, 0x00, 0x00, 0x00);
+                    titleBar.ButtonInactiveForegroundColor = Color.FromArgb(0x33, 0, 0, 0);
+                    titleBar.ButtonForegroundColor = Color.FromArgb(0xff, 0, 0, 0);
                     titleBar.ButtonHoverForegroundColor = Color.FromArgb(0xff, 0xff, 0xff, 0xff);
-                    titleBar.ButtonHoverBackgroundColor = Color.FromArgb(0x80, 0x00, 0x00, 0x00);
+                    titleBar.ButtonHoverBackgroundColor = Color.FromArgb(0x33, 0, 0, 0);
                     break;
                 case ElementTheme.Dark:
-                    titleBar.ButtonInactiveForegroundColor = Color.FromArgb(0x33, 0xdd, 0xdd, 0xdd);
+                    titleBar.ButtonInactiveForegroundColor = Color.FromArgb(0x33, 0xff, 0xff, 0xff);
                     titleBar.ButtonForegroundColor = Color.FromArgb(0xff, 0xff, 0xff, 0xff);
-                    titleBar.ButtonHoverForegroundColor = Color.FromArgb(0xff, 0x33, 0x33, 0x33);
-                    titleBar.ButtonHoverBackgroundColor = Color.FromArgb(0x80, 0xff, 0xff, 0xff);
+                    titleBar.ButtonHoverForegroundColor = Color.FromArgb(0xff, 0, 0, 0);
+                    titleBar.ButtonHoverBackgroundColor = Color.FromArgb(0x33, 0xff, 0xff, 0xff);
                     break;
                 default:
+                    titleBar.ButtonInactiveForegroundColor = (Color)Resources["SystemBaseLowColor"];
+                    titleBar.ButtonForegroundColor = (Color)Resources["SystemBaseHighColor"];
+                    titleBar.ButtonHoverForegroundColor = (Color)Resources["SystemAltHighColor"];
+                    titleBar.ButtonHoverBackgroundColor = (Color)Resources["SystemBaseLowColor"];
                     break;
             }
         }

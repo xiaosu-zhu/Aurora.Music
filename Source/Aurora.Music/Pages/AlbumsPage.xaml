@@ -21,8 +21,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 
     <Page.Transitions>
         <TransitionCollection>
-            <NavigationThemeTransition>
-            </NavigationThemeTransition>
+            <NavigationThemeTransition/>
             <EntranceThemeTransition />
         </TransitionCollection>
     </Page.Transitions>
@@ -105,12 +104,12 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                           ItemContainerStyle="{StaticResource GeneralGridViewItemStyle}" x:Name="AlbumList"
                           Style="{StaticResource GeneralGridViewStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <GridView.Header>
-                        <RelativePanel PointerReleased="HeaderGroup_PointerReleased"
-                                    x:Name="HeaderGroup" Margin="12,32" Height="200"
-                                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <StackPanel PointerReleased="HeaderGroup_PointerReleased"
+                                       x:Name="HeaderGroup" Margin="12,32"
+                                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <Border x:Name="Title" Height="48"
-                                    RelativePanel.AlignLeftWithPanel="True"
-                                    RelativePanel.AlignTopWithPanel="True">
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center">
                                 <TextBlock x:Uid="Albums" Text="Albums" 
                                            TextTrimming="Clip" FontWeight="Bold"
                                            HorizontalAlignment="Left" VerticalAlignment="Center" 
@@ -119,22 +118,25 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                             </Border>
                             <toolkit:WrapPanel HorizontalSpacing="24" VerticalSpacing="8" 
                                                x:Name="Details" Orientation="Horizontal"
-                                               RelativePanel.AlignLeftWithPanel="True"
-                                               RelativePanel.Below="Title">
-                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" 
-                                           Style="{ThemeResource ListViewHeaderDescTextBlock}">
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Center">
+                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
+                                           Style="{ThemeResource BodyTextBlockStyle}"
+                                           Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}">
                                     <Run FontSize="13" FontFamily="Segoe MDL2 Assets" Text="&#xE77B;" />
                                     <Run Text="{x:Bind Context.ArtistsCount,Mode=OneWay,TargetNullValue='Loading',FallbackValue='Loading'}"/>
                                 </TextBlock>
-                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" 
-                                           Style="{ThemeResource ListViewHeaderDescTextBlock}">
+                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
+                                           Style="{ThemeResource BodyTextBlockStyle}"
+                                           Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}">
                                     <Run FontSize="13" FontFamily="Segoe MDL2 Assets" Text="&#xE93C;" />
                                     <Run Text="{x:Bind Context.SongsCount,Mode=OneWay,TargetNullValue='Loading',FallbackValue='Loading'}"/>
                                 </TextBlock>
                             </toolkit:WrapPanel>
                             <toolkit:WrapPanel HorizontalSpacing="8" VerticalSpacing="8"
-                                               RelativePanel.AlignLeftWithPanel="True"
-                                               RelativePanel.AlignBottomWithPanel="True">
+                                               x:Name="Buttons" Margin="0,32,0,0"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Center">
                                 <Button Command="{x:Bind Context.PlayAll}" 
                                         Style="{ThemeResource PlayAllButton}"
                                         HorizontalAlignment="Center" VerticalAlignment="Center" 
@@ -157,7 +159,15 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                     </Button.Content>
                                 </Button>
                             </toolkit:WrapPanel>
-                        </RelativePanel>
+
+                            <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}"
+                                       Foreground="{ThemeResource AccentForText}"
+                                       FontWeight="Bold" x:Uid="Retriving"
+                                       Text="Retriving Database" Padding="12,32"
+                                       Visibility="{x:Bind Context.CollapseIfNotZero(Context.AlbumList.Count),Mode=OneWay}"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Center"/>
+                        </StackPanel>
                     </GridView.Header>
                     <GridView.ItemTemplate>
                         <DataTemplate x:DataType="vm:AlbumViewModel">

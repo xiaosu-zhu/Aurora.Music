@@ -127,13 +127,13 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </Grid.ColumnDefinitions>
             <StackPanel Margin="4" Orientation="Vertical">
                 <TextBlock x:Uid="BitRate" Text="Bit Rate" Style="{ThemeResource BodyTextBlockStyle}"/>
-                <TextBlock Foreground="{ThemeResource SystemControlBackgroundBaseMediumRevealBorderBrush}" Text="{x:Bind BitRateToString(BitRate), Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}"/>
+                <TextBlock Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}" Text="{x:Bind BitRateToString(BitRate), Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}"/>
             </StackPanel>
             <StackPanel Margin="4" Grid.Column="1" Orientation="Vertical">
                 <TextBlock x:Uid="Duration" Text="Duration"/>
-                <TextBlock Foreground="{ThemeResource SystemControlBackgroundBaseMediumRevealBorderBrush}" Text="{x:Bind DurationtoString(Duration),Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}"/>
+                <TextBlock Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}" Text="{x:Bind DurationtoString(Duration),Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}"/>
             </StackPanel>
         </Grid>
-        <TextBlock Foreground="{ThemeResource SystemControlBackgroundBaseMediumRevealBorderBrush}" Margin="4" TextWrapping="Wrap" Text="{x:Bind FilePath,Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}"/>
+        <TextBlock Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}" Margin="4" TextWrapping="Wrap" Text="{x:Bind FilePath,Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}"/>
     </StackPanel>
 </ContentDialog>

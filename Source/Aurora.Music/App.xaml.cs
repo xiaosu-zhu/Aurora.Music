@@ -480,6 +480,18 @@ namespace Aurora.Music
                                 PlaybackEngine.PlaybackEngine.Current.Pause();
                             }
                             break;
+                        case "previous":
+                            if (PlaybackEngine.PlaybackEngine.Current != null)
+                            {
+                                PlaybackEngine.PlaybackEngine.Current.Previous();
+                            }
+                            break;
+                        case "next":
+                            if (PlaybackEngine.PlaybackEngine.Current != null)
+                            {
+                                PlaybackEngine.PlaybackEngine.Current.Next();
+                            }
+                            break;
                         case "loop":
                             if (PlaybackEngine.PlaybackEngine.Current != null)
                             {

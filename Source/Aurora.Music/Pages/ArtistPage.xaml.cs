@@ -109,7 +109,7 @@ namespace Aurora.Music.Pages
                 ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.ArtistPageInAnimation + "_2");
                 if (ani != null)
                 {
-                    ani.TryStart(Shadow, new UIElement[] { Image });
+                    ani.TryStart(Image);
                 }
                 var t = Task.Run(async () =>
                 {
