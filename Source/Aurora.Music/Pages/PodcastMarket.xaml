@@ -37,7 +37,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         </ResourceDictionary>
     </Page.Resources>
 
-    <ScrollViewer Style="{ThemeResource NarrowScrollViewer}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+    <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                   Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" SizeChanged="ScrollViewer_SizeChanged"
                   HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Hidden">
         <StackPanel x:Name="Main" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">

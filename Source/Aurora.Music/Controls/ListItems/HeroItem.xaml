@@ -3,12 +3,12 @@ Copyright (c) Aurora Studio. All rights reserved.
 
 Licensed under the MIT License. See LICENSE in the project root for license information.
 -->
-<UserControl x:Name="Root"
+<UserControl 
+    x:Name="Root"
     x:Class="Aurora.Music.Controls.ListItems.HeroItem"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Aurora.Music.Controls.ListItems"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     d:DesignHeight="300"
@@ -28,7 +28,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 
     <Grid PointerExited="Grid_PointerExited" PointerEntered="Grid_PointerEntered" PointerPressed="Grid_PointerPressed" Padding="8"
           PointerReleased="Grid_PointerReleased" PointerCanceled="Grid_PointerExited" PointerCaptureLost="Grid_PointerExited"
-          BorderThickness="1" Background="{ThemeResource SystemControlAltHighAcrylicWindowBrush}">
+          BorderThickness="1">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="CommonStates">
                 <VisualState x:Name="Normal">
@@ -90,6 +90,13 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
+
+        <Grid.Background>
+            <RevealBackgroundBrush Color="{x:Bind Data.MainColor, Mode=OneWay}" 
+                                   TargetTheme="Light" Opacity="0.1"
+                                   FallbackColor="{x:Bind Data.MainColor, Mode=OneWay}"/>
+        </Grid.Background>
+        
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="72"/>
             <ColumnDefinition Width="72"/>
@@ -121,47 +128,102 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                        TextAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" TextTrimming="CharacterEllipsis" Grid.Row="1" 
                        Margin="12,0" MaxLines="1" TextWrapping="WrapWholeWords" Opacity="0.66666667"/>
         </Grid>
-        <Image Width="136" Height="136" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="3" Grid.ColumnSpan="2" Grid.RowSpan="2" Stretch="UniformToFill">
+        <Image Width="136" Height="136" HorizontalAlignment="Center" VerticalAlignment="Center" 
+               Grid.Column="3" Grid.ColumnSpan="2" Grid.RowSpan="2" Stretch="UniformToFill">
             <Image.Source>
                 <BitmapImage UriSource="{x:Bind Data.Artwork, TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png, Mode=OneWay}"/>
             </Image.Source>
         </Image>
-        <Image Width="64" Height="64" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="2" Stretch="UniformToFill">
+        <Image Width="64" Height="64" HorizontalAlignment="Center" VerticalAlignment="Center" 
+               Grid.Column="2" Stretch="UniformToFill">
             <Image.Source>
                 <BitmapImage UriSource="{x:Bind Data.Artwork1, TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png, Mode=OneWay}"/>
             </Image.Source>
         </Image>
-        <Image Width="64" Height="64" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Grid.Column="2" Stretch="UniformToFill">
+        <Image Width="64" Height="64" HorizontalAlignment="Center" VerticalAlignment="Center" 
+               Grid.Row="1" Grid.Column="2" Stretch="UniformToFill">
             <Image.Source>
                 <BitmapImage UriSource="{x:Bind Data.Artwork2, TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png, Mode=OneWay}"/>
             </Image.Source>
         </Image>
-        <Image Width="64" Height="64" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2" Grid.Column="2" Stretch="UniformToFill">
+        <Image Width="64" Height="64" HorizontalAlignment="Center" VerticalAlignment="Center" 
+               Grid.Row="2" Grid.Column="2" Stretch="UniformToFill">
             <Image.Source>
                 <BitmapImage UriSource="{x:Bind Data.Artwork3, TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png, Mode=OneWay}"/>
             </Image.Source>
         </Image>
-        <Image Width="64" Height="64" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" Stretch="UniformToFill">
+        <Image Width="64" Height="64" HorizontalAlignment="Center" VerticalAlignment="Center" 
+               Grid.Row="2" Grid.Column="0" Stretch="UniformToFill">
             <Image.Source>
                 <BitmapImage UriSource="{x:Bind Data.Artwork4, TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png, Mode=OneWay}"/>
             </Image.Source>
         </Image>
-        <Image Width="64" Height="64" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2" Grid.Column="1" Stretch="UniformToFill">
+        <Image Width="64" Height="64" HorizontalAlignment="Center" VerticalAlignment="Center" 
+               Grid.Row="2" Grid.Column="1" Stretch="UniformToFill">
             <Image.Source>
                 <BitmapImage UriSource="{x:Bind Data.Artwork5, TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png, Mode=OneWay}"/>
             </Image.Source>
         </Image>
-        <Image Width="64" Height="64" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2" Grid.Column="3" Stretch="UniformToFill">
+        <Image Width="64" Height="64" HorizontalAlignment="Center" VerticalAlignment="Center" 
+               Grid.Row="2" Grid.Column="3" Stretch="UniformToFill">
             <Image.Source>
                 <BitmapImage UriSource="{x:Bind Data.Artwork6, TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png, Mode=OneWay}"/>
             </Image.Source>
         </Image>
-        <Image Width="64" Height="64" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2" Grid.Column="4" Stretch="UniformToFill">
+        <Image Width="64" Height="64" HorizontalAlignment="Center" VerticalAlignment="Center" 
+               Grid.Row="2" Grid.Column="4" Stretch="UniformToFill">
             <Image.Source>
                 <BitmapImage UriSource="{x:Bind Data.Artwork7, TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png, Mode=OneWay}"/>
             </Image.Source>
         </Image>
-        <Border Visibility="{x:Bind NightModeEnabled}" Grid.ColumnSpan="5" Grid.RowSpan="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource ImageDarkOverlay}"/>
+        <Border Visibility="{x:Bind NightModeEnabled}"
+                Grid.Column="3" Grid.ColumnSpan="2" Grid.RowSpan="2"
+                Width="136" Height="136"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Background="{ThemeResource ImageDarkOverlay}"/>
+        <Border Visibility="{x:Bind NightModeEnabled}"
+                Grid.Column="2"
+                Width="64" Height="64"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Background="{ThemeResource ImageDarkOverlay}"/>
+        <Border Visibility="{x:Bind NightModeEnabled}"
+                Grid.Row="1" Grid.Column="2"
+                Width="64" Height="64"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Background="{ThemeResource ImageDarkOverlay}"/>
+        <Border Visibility="{x:Bind NightModeEnabled}"
+                Grid.Row="2" Grid.Column="2"
+                Width="64" Height="64"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Background="{ThemeResource ImageDarkOverlay}"/>
+        <Border Visibility="{x:Bind NightModeEnabled}"
+                Grid.Row="2" Grid.Column="0"
+                Width="64" Height="64"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Background="{ThemeResource ImageDarkOverlay}"/>
+        <Border Visibility="{x:Bind NightModeEnabled}"
+                Grid.Row="2" Grid.Column="1"
+                Width="64" Height="64"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Background="{ThemeResource ImageDarkOverlay}"/>
+        <Border Visibility="{x:Bind NightModeEnabled}"
+                Grid.Row="2" Grid.Column="3"
+                Width="64" Height="64"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Background="{ThemeResource ImageDarkOverlay}"/>
+        <Border Visibility="{x:Bind NightModeEnabled}"
+                Grid.Row="2" Grid.Column="4"
+                Width="64" Height="64"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Background="{ThemeResource ImageDarkOverlay}"/>
     </Grid>
 
 </UserControl>

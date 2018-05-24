@@ -125,7 +125,6 @@
     <Compile Include="Extensions\StringExtension.cs" />
     <Compile Include="Extensions\Times.cs" />
     <Compile Include="Extensions\TypeExtension.cs" />
-    <Compile Include="Extensions\UIElementExtensions.cs" />
     <Compile Include="Helpers\AsyncHelper.cs" />
     <Compile Include="Helpers\BindingHelper.cs" />
     <Compile Include="Helpers\CortanaHelper.cs" />

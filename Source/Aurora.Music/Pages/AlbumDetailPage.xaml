@@ -71,7 +71,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                   ItemContainerStyleSelector="{StaticResource SongListStyleSelector}" Style="{ThemeResource GeneralListView}"
                   Padding="32,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="SongList" 
                   ItemClick="SongList_ItemClick" IsItemClickEnabled="True"
-                  SelectionMode="None" ContextRequested="SongList_ContextRequested" ContextCanceled="SongList_ContextCanceled">
+                  SelectionMode="None" 
+                  ContextRequested="SongList_ContextRequested" 
+                  ContextCanceled="SongList_ContextCanceled">
             <ListView.Header>
                 <Grid x:Name="HeaderGroup" Height="200" 
                       PointerReleased="HeaderGroup_PointerReleased" 
@@ -180,7 +182,10 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </ListView.Header>
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="vm:SongViewModel">
-                    <list:SongItem Data="{x:Bind }" IsMultiSelect="{x:Bind ListMultiSelecting, Mode=OneWay}" Play="PlayBtn_Click" RequestMultiSelect="SongItem_RequestMultiSelect"/>
+                    <list:SongItem Data="{x:Bind }" 
+                                   IsMultiSelect="{x:Bind ListMultiSelecting, Mode=OneWay}" 
+                                   Play="PlayBtn_Click"
+                                   RequestMultiSelect="SongItem_RequestMultiSelect"/>
                 </DataTemplate>
             </ListView.ItemTemplate>
             <ListView.Footer>

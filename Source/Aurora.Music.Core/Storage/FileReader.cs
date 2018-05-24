@@ -274,7 +274,7 @@ namespace Aurora.Music.Core.Storage
                 }
                 finally
                 {
-                    ProgressUpdated?.Invoke(null, new ProgressReport() { Description = SmartFormat.Smart.Format(scan, i, total), Current = i, Total = total });
+                    ProgressUpdated?.Invoke(null, new ProgressReport() { Description = SmartFormat.Smart.Format(scan, i, total), Current = i, Total = total, CanHide = true });
                     i++;
                 }
             }
@@ -329,11 +329,11 @@ namespace Aurora.Music.Core.Storage
                 int i = 1;
                 var scan = Consts.Localizer.GetString("AlbumSortText");
 
-                ProgressUpdated?.Invoke(null, new ProgressReport() { Description = SmartFormat.Smart.Format(scan, 0, count), Current = 0, Total = count });
+                ProgressUpdated?.Invoke(null, new ProgressReport() { Description = SmartFormat.Smart.Format(scan, 0, count), Current = 0, Total = count, CanHide = true });
                 foreach (var item in albums)
                 {
                     await opr.AddAlbumAsync(item);
-                    ProgressUpdated?.Invoke(null, new ProgressReport() { Description = SmartFormat.Smart.Format(scan, i, count), Current = i, Total = count });
+                    ProgressUpdated?.Invoke(null, new ProgressReport() { Description = SmartFormat.Smart.Format(scan, i, count), Current = i, Total = count, CanHide = true });
 
                     i++;
                 }
@@ -546,8 +546,11 @@ namespace Aurora.Music.Core.Storage
     {
         public string Description { get; set; }
 
+
+
         public int Current { get; set; }
 
         public int Total { get; set; }
+        public bool CanHide { get; internal set; }
     }
 }

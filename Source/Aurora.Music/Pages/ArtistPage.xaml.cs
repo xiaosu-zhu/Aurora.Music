@@ -1,24 +1,30 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+
 using Aurora.Music.Controls;
 using Aurora.Music.Controls.ListItems;
 using Aurora.Music.Core;
 using Aurora.Music.ViewModels;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
+
+using ExpressionBuilder;
+
 using Windows.System;
-using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
+
+using EF = ExpressionBuilder.ExpressionFunctions;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -321,6 +327,34 @@ namespace Aurora.Music.Pages
         private async void HeaderGroup_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
             await AlbumList.ScrollToIndex(0, ScrollPosition.Top);
+        }
+
+        private void SongsList_Loaded(object sender, RoutedEventArgs e)
+        {
+            var scrollviewer = Root;
+            var _scrollerPropertySet = ElementCompositionPreview.GetScrollViewerManipulationPropertySet(scrollviewer);
+            var _compositor = _scrollerPropertySet.Compositor;
+
+            // Get references to our property sets for use with ExpressionNodes
+            var scrollingProperties = _scrollerPropertySet.GetSpecializedReference<ManipulationPropertySetReferenceNode>();
+
+            var headerHeight = (float)(HeaderGroup.ActualHeight - (HeaderGroup.Margin.Top + HeaderGroup.Margin.Bottom));
+            var toolbarHeight = (float)Toolbar.ActualHeight;
+
+
+            var progressAnimation = EF.Conditional(-scrollingProperties.Translation.Y > headerHeight, EF.Conditional(-scrollingProperties.Translation.Y > headerHeight + toolbarHeight, 0, -scrollingProperties.Translation.Y - headerHeight - toolbarHeight), -toolbarHeight);
+
+            // 0~1
+            progressAnimation = (progressAnimation + toolbarHeight) / toolbarHeight;
+
+            var toolbarVisual = ElementCompositionPreview.GetElementVisual(Toolbar);
+
+
+            toolbarVisual.StartAnimation("Offset.Y", progressAnimation * 16 - 16);
+
+            var offset = toolbarVisual.GetReference().GetScalarProperty("Offset.Y");
+
+            toolbarVisual.StartAnimation("Opacity", progressAnimation);
         }
     }
 }

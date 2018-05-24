@@ -381,14 +381,14 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         </Grid.ColumnDefinitions>
         <Pivot x:Name="MainPivot" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <PivotItem x:Uid="Library" Header="Library">
-                <ScrollViewer Style="{ThemeResource NarrowScrollViewer}">
+                <ScrollViewer >
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <Frame x:Name="LoactionFrame" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                     </StackPanel>
                 </ScrollViewer>
             </PivotItem>
             <PivotItem x:Uid="Interface" Header="Interface">
-                <ScrollViewer Style="{ThemeResource NarrowScrollViewer}">
+                <ScrollViewer >
                     <StackPanel Padding="0,0,0,160" Orientation="Vertical" 
                                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <TextBlock x:Uid="PreferredTheme" Text="Preferred theme" Margin="0,8,0,0"/>
@@ -404,7 +404,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </ScrollViewer>
             </PivotItem>
             <PivotItem x:Uid="Configuration" Header="Player Configuration">
-                <ScrollViewer Style="{ThemeResource NarrowScrollViewer}">
+                <ScrollViewer >
                     <StackPanel Padding="0,0,0,160" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <ComboBox x:Uid="OutputEndPoint"
                                   BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}"
@@ -430,7 +430,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </ScrollViewer>
             </PivotItem>
             <PivotItem x:Uid="Podcast" Header="Podcast">
-                <ScrollViewer Style="{ThemeResource NarrowScrollViewer}">
+                <ScrollViewer >
                     <StackPanel Padding="0,0,0,160" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <ToggleSwitch x:Uid="ShowPodcastsWhenSearch" 
                                     Header="Show podcasts when search" 
@@ -465,7 +465,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </ScrollViewer>
             </PivotItem>
             <PivotItem x:Uid="Extensions" Header="Extensions">
-                <ScrollViewer Style="{ThemeResource NarrowScrollViewer}">
+                <ScrollViewer >
                     <StackPanel Padding="0,0,0,160" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <Button x:Uid="Manage" Content="Manage" Command="{Binding OpenExtensionManager}" 
                             VerticalAlignment="Center" Style="{ThemeResource ButtonRevealStyle}" Margin="0,12"/>
@@ -509,7 +509,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </ScrollViewer>
             </PivotItem>
             <PivotItem x:Uid="AudioEffects" Header="Audio Effects">
-                <ScrollViewer Style="{ThemeResource NarrowScrollViewer}">
+                <ScrollViewer >
                     <StackPanel Padding="0,0,0,160" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <StackPanel.ChildrenTransitions>
                             <TransitionCollection>
@@ -562,7 +562,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </ScrollViewer>
             </PivotItem>
             <PivotItem x:Uid="Advance" Header="Advance">
-                <ScrollViewer Style="{ThemeResource NarrowScrollViewer}">
+                <ScrollViewer >
                     <StackPanel Padding="0,0,0,160" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <ToggleSwitch x:Uid="DebugMode" Header="Debug Mode" 
                                     IsOn="{Binding DebugModeEnabled,Mode=TwoWay}" Margin="0,12" />

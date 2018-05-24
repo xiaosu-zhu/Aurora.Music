@@ -6,18 +6,15 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 <Page
     x:Class="Aurora.Music.Pages.DoubanPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Aurora.Music.Pages"
-    xmlns:vm="using:Aurora.Music.ViewModels"
-    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:controls="using:Aurora.Music.Controls"
-    xmlns:audio="using:AudioVisualizer"
-    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
-    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
-    xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
-    xmlns:star="using:StarButton"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:audio="using:AudioVisualizer"
+    xmlns:vm="using:Aurora.Music.ViewModels"
+    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
+    xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:star="using:StarButton"
     Unloaded="Page_Unloaded"
     mc:Ignorable="d">
 
@@ -464,10 +461,13 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <RowDefinition Height="*"/>
             <RowDefinition x:Name="Row1" Height="auto"/>
         </Grid.RowDefinitions>
-        <GridView animations:ReorderGridAnimation.Duration="360" Padding="0,80,0,0" ItemClick="GridView_ItemClick"
-                  HorizontalAlignment="Stretch" SelectionMode="None" IsItemClickEnabled="True" x:Name="MainList" 
+        <GridView animations:ReorderGridAnimation.Duration="360"
+                  ItemClick="GridView_ItemClick" Margin="0,32,0,0"
+                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                  SelectionMode="None" IsItemClickEnabled="True" 
+                  x:Name="MainList"
                   Background="{ThemeResource SystemControlAcrylicWindowBrush}"
-                  VerticalAlignment="Stretch" IsSynchronizedWithCurrentItem="False"
+                  IsSynchronizedWithCurrentItem="False"
                   ItemsSource="{x:Bind ChannelList.View, Mode=OneWay}">
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="vm:ChannelViewModel">
@@ -604,9 +604,11 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                  VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </StackPanel>
         </Grid>
-        <audio:CustomVisualizer Loaded="CustomVisualizer_Loaded"  Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Top"
-                                CreateResources="CustomVisualizer_CreateResources" x:Name="Visualizer" Draw="CustomVisualizer_Draw">
-        </audio:CustomVisualizer>
+        <audio:CustomVisualizer Loaded="CustomVisualizer_Loaded"
+                                Grid.Column="1" x:Name="Visualizer"
+                                HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                                CreateResources="CustomVisualizer_CreateResources" 
+                                Draw="CustomVisualizer_Draw"/>
     </Grid>
 
 </Page>

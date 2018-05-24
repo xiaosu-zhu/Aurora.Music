@@ -31,7 +31,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         </ResourceDictionary>
     </Page.Resources>
 
-    <ScrollViewer Style="{ThemeResource NarrowScrollViewer}" HorizontalScrollMode="Disabled">
+    <ScrollViewer HorizontalScrollMode="Disabled">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState>

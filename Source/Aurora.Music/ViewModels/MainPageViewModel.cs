@@ -734,6 +734,7 @@ namespace Aurora.Music.ViewModels
         private object _currentActivity;
         private UserActivityChannel activity;
         private UserActivity act;
+        private bool showed;
 
         public bool IsVisualizing
         {
@@ -977,6 +978,11 @@ namespace Aurora.Music.ViewModels
 
         private void Reader_Completed(object sender, EventArgs e)
         {
+            if (!showed)
+            {
+                return;
+            }
+            showed = false;
             var t = CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
             {
                 MainPage.Current.ProgressUpdate(100);
@@ -988,6 +994,9 @@ namespace Aurora.Music.ViewModels
 
         private void Reader_ProgressUpdated(object sender, ProgressReport e)
         {
+            if (!showed && e.CanHide)
+                return;
+            showed = true;
             var t = CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
                 MainPage.Current.ProgressUpdate();
@@ -1059,7 +1068,7 @@ namespace Aurora.Music.ViewModels
 
                     var task = Task.Run(() =>
                     {
-                        Core.Tools.Tile.SendNormal(CurrentTitle, CurrentAlbum, string.Join(Consts.CommaSeparator, p.Performers ?? new string[] { }), p.PicturePath);
+                        Tile.SendNormal(CurrentTitle, CurrentAlbum, string.Join(Consts.CommaSeparator, p.Performers ?? new string[] { }), p.PicturePath);
                     });
 
                 }

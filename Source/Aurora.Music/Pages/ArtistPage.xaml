@@ -16,6 +16,13 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     Unloaded="Page_Unloaded"
     mc:Ignorable="d">
 
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition/>
+            <EntranceThemeTransition />
+        </TransitionCollection>
+    </Page.Transitions>
+    
     <Page.DataContext>
         <vm:ArtistPageViewModel x:Name="Context"/>
     </Page.DataContext>
@@ -32,7 +39,10 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <CollectionViewSource Source="{x:Bind Context.SongsList, Mode=OneWay}" IsSourceGrouped="True" x:Name="SongsListSource"/>
         </ResourceDictionary>
     </Page.Resources>
-    <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalScrollMode="Disabled" Style="{ThemeResource NarrowScrollViewer}">
+    <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                  HorizontalScrollMode="Disabled"
+                  x:Name="Root"
+                  Loaded="SongsList_Loaded">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState x:Name="Full">
@@ -72,7 +82,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <Grid x:Name="HeaderGroup" 
                   PointerReleased="HeaderGroup_PointerReleased" 
                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                  Margin="32">
+                  Margin="32,80,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="*"/>
@@ -83,7 +93,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <Border HorizontalAlignment="Center" VerticalAlignment="Center"
                         Background="{ThemeResource ImageDarkOverlay}" CornerRadius="9999"
                         Height="200" Width="200" Visibility="{x:Bind Context.NightModeEnabled}"/>
-                <RelativePanel Grid.Column="1" Margin="16,0,0,0"
+                <RelativePanel Grid.Column="1" Margin="32,0,0,0"
                                HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <Border x:Name="Title"
                             RelativePanel.AlignTopWithPanel="True"
@@ -115,20 +125,30 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <toolkit:WrapPanel HorizontalSpacing="8" VerticalSpacing="8"
                                        RelativePanel.AlignBottomWithPanel="True"
                                        RelativePanel.AlignLeftWithPanel="True">
-                        <Button Command="{x:Bind Context.PlayAll}" Style="{ThemeResource PlayAllButton}" FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        <Button Style="{ThemeResource RevealRoundCornerButton}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Button Command="{x:Bind Context.PlayAll}" 
+                                Style="{ThemeResource PlayAllButton}" 
+                                FontSize="15" 
+                                HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Button Style="{ThemeResource RevealRoundCornerButton}" 
+                                HorizontalAlignment="Center" VerticalAlignment="Center">
                             <TextBlock>
-                            <Run FontSize="13" FontFamily="Segoe MDL2 Assets" Text="&#xEC24;" />
-                            <Run x:Uid="ArtistStory" Text="See Artist Story"/>
+                                <Run FontSize="13" FontFamily="Segoe MDL2 Assets" Text="&#xEC24;" />
+                                <Run x:Uid="ArtistStory" Text="See Artist Story"/>
                             </TextBlock>
                             <Button.Flyout>
                                 <Flyout FlyoutPresenterStyle="{ThemeResource HoriNoScrollFlyoutPresenter}">
-                                    <StackPanel MinWidth="{ThemeResource FlyoutThemeMinWidth}" Padding="0,0,8,0" x:Name="ArtistFlyout" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                        <toolkit:ImageEx x:Name="AvatarImage" Style="{ThemeResource QuickLoadImageEx}" PlaceholderSource="/Assets/Images/artist_placeholder.png"
-                                                 Stretch="Uniform" PlaceholderStretch="Uniform"  Source="{x:Bind Context.Artist.AvatarImage, Mode=OneWay}" Margin="0,8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="120"/>
-                                        <toolkit:MarkdownTextBlock IsTextSelectionEnabled="False" LinkClicked="Descriptions_LinkClicked" Text="{x:Bind Context.Artist.Description, Mode=OneWay}"
-                                                           x:Name="Descriptions" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="WrapWholeWords">
-                                        </toolkit:MarkdownTextBlock>
+                                    <StackPanel MinWidth="{ThemeResource FlyoutThemeMinWidth}" Padding="0,0,8,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                        <toolkit:ImageEx Style="{ThemeResource QuickLoadImageEx}" 
+                                                         PlaceholderSource="/Assets/Images/artist_placeholder.png"
+                                                         Stretch="Uniform" PlaceholderStretch="Uniform"
+                                                         Source="{x:Bind Context.Artist.AvatarImage, Mode=OneWay}" 
+                                                         Margin="0,8" Height="120"
+                                                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                                        <toolkit:MarkdownTextBlock IsTextSelectionEnabled="False" 
+                                                                   LinkClicked="Descriptions_LinkClicked" 
+                                                                   Text="{x:Bind Context.Artist.Description, Mode=OneWay}"
+                                                                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                                                   TextWrapping="WrapWholeWords"/>
                                     </StackPanel>
                                 </Flyout>
                             </Button.Flyout>
@@ -160,11 +180,16 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     </GridView.ItemTemplate>
                 </GridView>
 
-                <ListView IsSynchronizedWithCurrentItem="False" ContextRequested="SongsList_ContextRequested"
+                <ListView IsSynchronizedWithCurrentItem="False" 
+                          ContextRequested="SongsList_ContextRequested"
                           ContextCanceled="SongsList_ContextCanceled"
-                          IsItemClickEnabled="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                          SelectionMode="None" ItemsSource="{x:Bind SongsListSource.View, Mode=OneWay}" Padding="20,0"
-                          Style="{ThemeResource GeneralListView}" x:Name="SongsList" ItemClick="SongsList_ItemClick"
+                          IsItemClickEnabled="True" 
+                          HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                          SelectionMode="None" Padding="20,0"
+                          ItemsSource="{x:Bind SongsListSource.View, Mode=OneWay}"
+                          Style="{ThemeResource GeneralListView}" 
+                          x:Name="SongsList"
+                          ItemClick="SongsList_ItemClick"
                           ItemContainerStyleSelector="{StaticResource SongListStyleSelector}">
                     <ListView.Header>
                         <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" 
@@ -222,6 +247,53 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </ListView>
             </StackPanel>
 
+
+            <CommandBar x:Name="Toolbar" IsDynamicOverflowEnabled="True"
+                        DefaultLabelPosition="Right" Background="{x:Null}"
+                        HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                        Padding="32,0">
+                <AppBarButton Label="Play all" Command="{x:Bind Context.PlayAll}">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xE142;"
+                                  FontFamily="Segoe MDL2 Assets"/>
+                    </AppBarButton.Icon>
+                </AppBarButton>
+                <AppBarButton Label="See Artist Story">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xE142;"
+                                  FontFamily="Segoe MDL2 Assets"/>
+                    </AppBarButton.Icon>
+                    <AppBarButton.Flyout>
+                        <Flyout FlyoutPresenterStyle="{ThemeResource HoriNoScrollFlyoutPresenter}">
+                            <StackPanel MinWidth="{ThemeResource FlyoutThemeMinWidth}" Padding="0,0,8,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <toolkit:ImageEx Style="{ThemeResource QuickLoadImageEx}" 
+                                                 PlaceholderSource="/Assets/Images/artist_placeholder.png"
+                                                 Stretch="Uniform" PlaceholderStretch="Uniform"
+                                                 Source="{x:Bind Context.Artist.AvatarImage, Mode=OneWay}" 
+                                                 Margin="0,8" Height="120"
+                                                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                                <toolkit:MarkdownTextBlock IsTextSelectionEnabled="False" 
+                                                           LinkClicked="Descriptions_LinkClicked" 
+                                                           Text="{x:Bind Context.Artist.Description, Mode=OneWay}"
+                                                           HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                                                           TextWrapping="WrapWholeWords"/>
+                            </StackPanel>
+                        </Flyout>
+                    </AppBarButton.Flyout>
+                </AppBarButton>
+                <!--AppBarButton Label="{x:Bind Context.PinnedtoText(Context.IsPinned),Mode=OneWay}">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="{x:Bind Context.PinnedtoGlyph(Context.IsPinned),Mode=OneWay}"
+                                  FontFamily="Segoe MDL2 Assets"/>
+                    </AppBarButton.Icon>
+                </-->
+                <CommandBar.Content>
+                    <TextBlock x:Uid="Albums" Text="Albums" Margin="0,8"
+                               VerticalAlignment="Center" HorizontalAlignment="Left"
+                               Style="{ThemeResource TitleTextBlockStyle}"
+                               TextWrapping="NoWrap" MaxLines="1"/>
+                </CommandBar.Content>
+            </CommandBar>
         </Grid>
     </ScrollViewer>
 </Page>
