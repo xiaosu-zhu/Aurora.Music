@@ -1,6 +1,12 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
+
 using Aurora.Music.Controls;
 using Aurora.Music.Core;
 using Aurora.Music.Core.Models;
@@ -9,20 +15,21 @@ using Aurora.Music.Pages;
 using Aurora.Music.Services;
 using Aurora.Music.ViewModels;
 using Aurora.Shared.Controls;
+using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
 using Aurora.Shared.Logging;
-using Aurora.Shared.Extensions;
+
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Threading.Tasks;
+
+using Newtonsoft.Json;
+
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Background;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI;
@@ -31,10 +38,6 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using System.Linq;
-using Newtonsoft.Json;
-using Windows.Foundation.Collections;
-using System.Diagnostics;
 
 namespace Aurora.Music
 {
@@ -650,6 +653,14 @@ namespace Aurora.Music
         private void App_UnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
         {
             e.Handled = true;
+            if (e.Exception is NullReferenceException n)
+            {
+                // ignore a weird exception from data binding
+                if (n.StackTrace?.Contains("Aurora.Music.Controls.ListItems") ?? false)
+                {
+                    return;
+                }
+            }
             Core.Tools.Helper.Logging(e);
 
             if (MainPage.Current is MainPage p
