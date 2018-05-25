@@ -226,7 +226,7 @@ namespace Aurora.Music.Pages
 
         private async void HeaderGroup_PointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            await SongList.ScrollToIndex(0, ScrollPosition.Top);
+            await SongList.GetScrollViewer().ChangeViewAsync(null, 0, false);
         }
     }
 }

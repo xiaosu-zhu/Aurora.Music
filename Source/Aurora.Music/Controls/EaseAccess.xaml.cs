@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
+using Aurora.Music.Core.Models;
+
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -12,7 +14,8 @@ namespace Aurora.Music.Controls
     {
         public EaseAccess()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+            RequestedTheme = Settings.Current.Theme;
         }
 
         private void Root_Loaded(object sender, RoutedEventArgs e)

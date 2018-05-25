@@ -1,12 +1,14 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
-using Aurora.Music.Core.Models;
-using Aurora.Music.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+
+using Aurora.Music.Core.Models;
+using Aurora.Music.ViewModels;
+
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -27,7 +29,8 @@ namespace Aurora.Music.Controls
 
         public LyricView()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+            RequestedTheme = Settings.Current.Theme;
             ApplicationView.GetForCurrentView().Consolidated += LyricView_Consolidated;
             RequestedTheme = Settings.Current.Theme;
         }

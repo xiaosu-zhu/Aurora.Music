@@ -1,15 +1,16 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
-using Aurora.Music.Core;
-using Aurora.Music.Core.Models;
-using Aurora.Music.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.ApplicationModel;
+
+using Aurora.Music.Core;
+using Aurora.Music.Core.Models;
+using Aurora.Music.ViewModels;
+
 using Windows.ApplicationModel.AppExtensions;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -26,7 +27,8 @@ namespace Aurora.Music.Controls
 
         public ExtensionsManager()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+            RequestedTheme = Settings.Current.Theme;
             var t = Task.Run(async () =>
             {
                 await Init();

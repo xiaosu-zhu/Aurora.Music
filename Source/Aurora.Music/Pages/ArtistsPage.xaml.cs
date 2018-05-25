@@ -151,7 +151,7 @@ namespace Aurora.Music.Pages
 
         private async void HeaderGroup_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
-            await ArtistList.ScrollToIndex(0, ScrollPosition.Top);
+            await ArtistList.GetScrollViewer().ChangeViewAsync(null, 0, false);
         }
 
         private void ArtistList_Loaded(object sender, RoutedEventArgs e)

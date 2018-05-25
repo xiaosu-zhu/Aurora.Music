@@ -462,7 +462,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <RowDefinition x:Name="Row1" Height="auto"/>
         </Grid.RowDefinitions>
         <GridView animations:ReorderGridAnimation.Duration="360"
-                  ItemClick="GridView_ItemClick" Margin="0,32,0,0"
+                  ItemClick="GridView_ItemClick" Padding="0,32,0,0"
                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                   SelectionMode="None" IsItemClickEnabled="True" 
                   x:Name="MainList"

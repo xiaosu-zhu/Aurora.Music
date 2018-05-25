@@ -1,12 +1,6 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
-using Aurora.Music.Core;
-using Aurora.Music.Core.Storage;
-using Aurora.Music.ViewModels;
-using Aurora.Shared.Extensions;
-using Aurora.Shared.Helpers;
-using Aurora.Shared.MVVM;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,7 +9,17 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+
+using Aurora.Music.Core;
+using Aurora.Music.Core.Models;
+using Aurora.Music.Core.Storage;
+using Aurora.Music.ViewModels;
+using Aurora.Shared.Extensions;
+using Aurora.Shared.Helpers;
+using Aurora.Shared.MVVM;
+
 using TagLib;
+
 using Windows.Storage;
 using Windows.System.Threading;
 using Windows.UI.Xaml;
@@ -39,7 +43,8 @@ namespace Aurora.Music.Controls
 
         internal TagDialog(SongViewModel song)
         {
-            this.InitializeComponent();
+            InitializeComponent();
+            RequestedTheme = Settings.Current.Theme;
             Model = song;
             ID = song.ID;
             FilePath = song.FilePath;

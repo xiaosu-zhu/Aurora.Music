@@ -1,9 +1,12 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
-using Aurora.Music.Core;
-using Aurora.Music.ViewModels;
 using System;
+
+using Aurora.Music.Core;
+using Aurora.Music.Core.Models;
+using Aurora.Music.ViewModels;
+
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
@@ -18,7 +21,8 @@ namespace Aurora.Music.Controls
 
         public SearchResultDialog()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+            RequestedTheme = Settings.Current.Theme;
             Title = Consts.Localizer.GetString("OopsText");
             TitleText.Text = Consts.Localizer.GetString("SearchFailedText");
             IsSecondaryButtonEnabled = false;

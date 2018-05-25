@@ -2463,7 +2463,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="Height" Value="32"/>
         <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
-        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="FontSize" Value="15"/>
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
@@ -2500,8 +2500,17 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         </Grid.ColumnDefinitions>
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
-                                <VisualState x:Name="Normal"/>
+                                <VisualState x:Name="Normal">
+                                    <VisualState.Setters>
+                                        <Setter Target="LayoutRoot.(RevealBrush.State)" Value="Normal" />
+                                    </VisualState.Setters>
+                                </VisualState>
                                 <VisualState x:Name="PointerOver">
+                                    <VisualState.Setters>
+                                        <Setter Target="LayoutRoot.(RevealBrush.State)" Value="PointerOver" />
+                                        <Setter Target="LayoutRoot.Background" Value="{ThemeResource ListViewItemRevealBackgroundPointerOver}" />
+                                        <Setter Target="LayoutRoot.BorderBrush" Value="{ThemeResource ButtonRevealBorderBrushPointerOver}" />
+                                    </VisualState.Setters>
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AccentForTextPointerOver}"/>
@@ -2512,6 +2521,11 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="Pressed">
+                                    <VisualState.Setters>
+                                        <Setter Target="LayoutRoot.(RevealBrush.State)" Value="Pressed" />
+                                        <Setter Target="LayoutRoot.Background" Value="{ThemeResource ListViewItemRevealBackgroundPressed}" />
+                                        <Setter Target="LayoutRoot.BorderBrush" Value="{ThemeResource ToggleButtonRevealBorderBrushPressed}" />
+                                    </VisualState.Setters>
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AccentForTextPressed}"/>

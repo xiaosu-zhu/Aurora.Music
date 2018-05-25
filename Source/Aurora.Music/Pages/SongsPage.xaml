@@ -450,7 +450,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </Border.Background>
         </Border>
 
-        <Border x:Name="Title" 
+        <Border x:Name="Title" PointerReleased="HeaderGroup_PointerReleased"
                 HorizontalAlignment="Left" VerticalAlignment="Top" 
                 Height="48" Padding="32,0">
             <TextBlock x:Uid="Songs" Text="Songs" x:Name="TitleText"
@@ -462,9 +462,10 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         </Border>
 
         <CommandBar x:Name="Toolbar" IsDynamicOverflowEnabled="True"
-                        DefaultLabelPosition="Right" Background="{x:Null}"
-                        HorizontalAlignment="Stretch" VerticalAlignment="Top"
-                        Padding="32,0">
+                    PointerReleased="HeaderGroup_PointerReleased"
+                    DefaultLabelPosition="Right" Background="{x:Null}"
+                    HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                    Padding="32,0">
             <AppBarButton Click="PlayAppBarButton_Click" Label="Play"
                               Visibility="{x:Bind SelectionModeToOther(AlbumList.SelectionMode),Mode=OneWay}">
                 <AppBarButton.Icon>
@@ -472,26 +473,31 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </AppBarButton.Icon>
             </AppBarButton>
             <AppBarButton Click="PlayNextAppBarButton_Click" Label="Play Next"
-                              Visibility="{x:Bind SelectionModeToOther(AlbumList.SelectionMode),Mode=OneWay}">
+                          Visibility="{x:Bind SelectionModeToOther(AlbumList.SelectionMode),Mode=OneWay}">
                 <AppBarButton.Icon>
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE298;" />
                 </AppBarButton.Icon>
             </AppBarButton>
-            <AppBarButton Click="AddCollectionAppBarButton_Click" Icon="Add" Label="Add to Collection"
-                              Visibility="{x:Bind SelectionModeToOther(AlbumList.SelectionMode),Mode=OneWay}"/>
-            <AppBarButton Click="ShareAppBarButton_Click" Icon="Share" Label="Share"
-                              Visibility="{x:Bind SelectionModeToOther(AlbumList.SelectionMode),Mode=OneWay}"/>
-            <AppBarButton Click="CancelButton_Click" Icon="Cancel" Label="Close"
-                              Visibility="{x:Bind SelectionModeToOther(AlbumList.SelectionMode),Mode=OneWay}"/>
-            <AppBarButton Label="Play all"
-                              Visibility="{x:Bind SelectionModeToTitle(AlbumList.SelectionMode),Mode=OneWay}">
+            <AppBarButton Click="AddCollectionAppBarButton_Click" 
+                          Icon="Add" Label="Add to Collection"
+                          Visibility="{x:Bind SelectionModeToOther(AlbumList.SelectionMode),Mode=OneWay}"/>
+            <AppBarButton Click="ShareAppBarButton_Click" 
+                          Icon="Share" Label="Share"
+                          Visibility="{x:Bind SelectionModeToOther(AlbumList.SelectionMode),Mode=OneWay}"/>
+            <AppBarButton Click="CancelButton_Click" 
+                          Icon="Cancel" Label="Close"
+                          Visibility="{x:Bind SelectionModeToOther(AlbumList.SelectionMode),Mode=OneWay}"/>
+            <AppBarButton x:Uid="PlayAllAppBarButton" 
+                          Label="Play all" Command="{x:Bind Context.PlayAll}"
+                          Visibility="{x:Bind SelectionModeToTitle(AlbumList.SelectionMode),Mode=OneWay}">
                 <AppBarButton.Icon>
                     <FontIcon Glyph="&#xE142;"
                                   FontFamily="Segoe MDL2 Assets"/>
                 </AppBarButton.Icon>
             </AppBarButton>
             <AppBarButton Label="{x:Bind Context.PinnedtoText(Context.IsPinned),Mode=OneWay}"
-                              Visibility="{x:Bind SelectionModeToTitle(AlbumList.SelectionMode),Mode=OneWay}">
+                          Command="{x:Bind Context.PintoStart}"
+                          Visibility="{x:Bind SelectionModeToTitle(AlbumList.SelectionMode),Mode=OneWay}">
                 <AppBarButton.Icon>
                     <FontIcon Glyph="{x:Bind Context.PinnedtoGlyph(Context.IsPinned),Mode=OneWay}"
                                   FontFamily="Segoe MDL2 Assets"/>

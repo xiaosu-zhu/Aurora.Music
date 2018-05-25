@@ -444,6 +444,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         </Border>
 
         <Border x:Name="Title" Height="48" Padding="32,0"
+                PointerReleased="HeaderGroup_PointerReleased"
                 HorizontalAlignment="Left" VerticalAlignment="Top">
             <TextBlock x:Uid="Artists" Text="Artists" x:Name="TitleText"
                        HorizontalAlignment="Left" VerticalAlignment="Center"
@@ -455,14 +456,16 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         <CommandBar x:Name="Toolbar" IsDynamicOverflowEnabled="True"
                     DefaultLabelPosition="Right" Background="{x:Null}"
                     HorizontalAlignment="Stretch" VerticalAlignment="Top"
-                    Padding="32,0">
-            <AppBarButton Label="Play all">
+                    Padding="32,0" PointerReleased="HeaderGroup_PointerReleased">
+            <AppBarButton x:Uid="PlayAllAppBarButton"
+                          Label="Play all" Command="{x:Bind Context.PlayAll}">
                 <AppBarButton.Icon>
                     <FontIcon Glyph="&#xE142;"
                               FontFamily="Segoe MDL2 Assets"/>
                 </AppBarButton.Icon>
             </AppBarButton>
-            <AppBarButton Label="{x:Bind Context.PinnedtoText(Context.IsPinned),Mode=OneWay}">
+            <AppBarButton Command="{x:Bind Context.PintoStart}" 
+                          Label="{x:Bind Context.PinnedtoText(Context.IsPinned),Mode=OneWay}">
                 <AppBarButton.Icon>
                     <FontIcon Glyph="{x:Bind Context.PinnedtoGlyph(Context.IsPinned),Mode=OneWay}"
                               FontFamily="Segoe MDL2 Assets"/>

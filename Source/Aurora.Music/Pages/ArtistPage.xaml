@@ -252,7 +252,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         DefaultLabelPosition="Right" Background="{x:Null}"
                         HorizontalAlignment="Stretch" VerticalAlignment="Top"
                         Padding="32,0">
-                <AppBarButton Label="Play all" Command="{x:Bind Context.PlayAll}">
+                <AppBarButton x:Uid="PlayAllAppBarButton" 
+                              Label="Play all" Command="{x:Bind Context.PlayAll}">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE142;"
                                   FontFamily="Segoe MDL2 Assets"/>

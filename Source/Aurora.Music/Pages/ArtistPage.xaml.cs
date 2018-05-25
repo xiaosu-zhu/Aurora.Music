@@ -326,7 +326,7 @@ namespace Aurora.Music.Pages
 
         private async void HeaderGroup_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
-            await AlbumList.ScrollToIndex(0, ScrollPosition.Top);
+            await Root.ChangeViewAsync(null, 0, false);
         }
 
         private void SongsList_Loaded(object sender, RoutedEventArgs e)

@@ -1,10 +1,11 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
-using Aurora.Shared.Helpers;
 using System;
 using System.Reflection;
-using System.Threading.Tasks;
+using Aurora.Music.Core.Models;
+using Aurora.Shared.Helpers;
+
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -18,8 +19,8 @@ namespace Aurora.Music.Controls
         private const string form = "| {0} | {1} | {2} | {3} |\r\n";
         public OpenSource()
         {
-            this.InitializeComponent();
-
+            InitializeComponent();
+            RequestedTheme = Settings.Current.Theme;
         }
 
         private async void Main_LinkClicked(object sender, Microsoft.Toolkit.Uwp.UI.Controls.LinkClickedEventArgs e)

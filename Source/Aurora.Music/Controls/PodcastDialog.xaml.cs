@@ -1,14 +1,16 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
-using Aurora.Music.Core;
-using Aurora.Music.Core.Models;
-using Aurora.Music.ViewModels;
-using Aurora.Shared.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
+using Aurora.Music.Core;
+using Aurora.Music.Core.Models;
+using Aurora.Music.ViewModels;
+using Aurora.Shared.Extensions;
+
 using Windows.ApplicationModel.Core;
 using Windows.UI;
 using Windows.UI.Core;
@@ -29,6 +31,7 @@ namespace Aurora.Music.Controls
         public PodcastDialog(GenericMusicItemViewModel g)
         {
             InitializeComponent();
+            RequestedTheme = Settings.Current.Theme;
             TitleText.Text = g.Title;
             Author.Text = g.Description;
             Artwork.Source = new BitmapImage(g.Artwork);

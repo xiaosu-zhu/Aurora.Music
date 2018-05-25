@@ -1569,4 +1569,8 @@
     <value>下一首</value>
     <comment>Next</comment>
   </data>
+    <data name="PlayAllAppBarButton.Label" xml:space="preserve">
+    <value>全部播放</value>
+    <comment>Play All</comment>
+  </data>
 </root>

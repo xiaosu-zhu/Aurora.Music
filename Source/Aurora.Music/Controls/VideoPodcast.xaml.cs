@@ -19,7 +19,7 @@ namespace Aurora.Music.Controls
     {
         public VideoPodcast()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             RequestedTheme = Settings.Current.Theme;
         }
 

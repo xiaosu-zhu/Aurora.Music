@@ -1,12 +1,13 @@
-﻿using Aurora.Music.Core.Models;
-using Aurora.Music.Pages;
-using Aurora.Music.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Aurora.Music.Core.Models;
+using Aurora.Music.ViewModels;
+
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Popups;
@@ -33,6 +34,7 @@ namespace Aurora.Music.Controls
         public LyricEditor()
         {
             InitializeComponent();
+            RequestedTheme = Settings.Current.Theme;
             Current = this;
             autoEvent = new AutoResetEvent(false);
             ApplicationView.GetForCurrentView().Consolidated += LyricEditor_Consolidated;
