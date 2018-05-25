@@ -325,7 +325,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                     PointerReleased="HeaderGroup_PointerReleased" 
                                     x:Name="HeaderGroup" 
                                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                                    Margin="0,32">
+                                    Margin="0,80,0,32">
                             <Grid x:Name="Title" HorizontalAlignment="Left" VerticalAlignment="Center" Height="48">
                                 <TextBlock Text="{x:Bind Context.Title,Mode=OneWay}" 
                                            HorizontalAlignment="Left" VerticalAlignment="Center" 

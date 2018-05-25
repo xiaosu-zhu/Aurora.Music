@@ -106,7 +106,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <StackPanel Orientation="Vertical" x:Name="HeaderGroup"
                                     PointerReleased="HeaderGroup_PointerReleased" 
                                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                                    Margin="12,32">
+                                    Margin="0,80,0,32">
                             <Grid x:Name="Title" Height="48"
                                   HorizontalAlignment="Left" VerticalAlignment="Center">
                                 <TextBlock Text="{x:Bind Context.Title,Mode=OneWay}" 

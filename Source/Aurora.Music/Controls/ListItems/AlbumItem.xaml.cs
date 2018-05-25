@@ -17,7 +17,7 @@ namespace Aurora.Music.Controls.ListItems
     {
         public AlbumItem()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         public bool NightModeEnabled { get; set; } = Settings.Current.NightMode;

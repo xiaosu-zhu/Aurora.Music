@@ -25,7 +25,6 @@ namespace Aurora.Music.ViewModels
     {
         public SongViewModel()
         {
-
         }
 
         private bool listMultiSelecting;
@@ -211,7 +210,7 @@ namespace Aurora.Music.ViewModels
         private string title;
         public string Title
         {
-            get { return title.IsNullorEmpty() ? FilePath.Split('\\').LastOrDefault() : title; }
+            get { return title.IsNullorEmpty() ? (FilePath ?? "Unknown").Split('\\').LastOrDefault() : title; }
             set { title = value; }
         }
 

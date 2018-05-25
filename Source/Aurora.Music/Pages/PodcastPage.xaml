@@ -298,7 +298,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <Grid x:Name="HeaderGroup"
                       PointerReleased="HeaderGroup_PointerReleased"
                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                      Margin="0,32">
+                      Margin="0,80,0,32">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="*"/>
