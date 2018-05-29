@@ -26,11 +26,16 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../Themes/Styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light" Source="../../Themes/Light.xaml"/>
+                <ResourceDictionary x:Key="Dark" Source="../../Themes/Dark.xaml"/>
+            </ResourceDictionary.ThemeDictionaries>
+            
             <Style TargetType="ListViewItem" x:Key="GeneralListViewItemStyle">
                 <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
                 <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
                 <Setter Property="Background" Value="{ThemeResource ListViewItemBackground}" />
-                <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+                <Setter Property="Foreground" Value="{ThemeResource ListViewItemForeground}" />
                 <Setter Property="TabNavigation" Value="Local" />
                 <Setter Property="IsHoldingEnabled" Value="True" />
                 <Setter Property="Padding" Value="0" />
@@ -49,38 +54,38 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <Setter.Value>
                         <ControlTemplate TargetType="ListViewItem">
                             <ListViewItemPresenter ContentTransitions="{TemplateBinding ContentTransitions}"
-                        x:Name="Root" HorizontalAlignment="Stretch"
-                        Control.IsTemplateFocusTarget="True"
-                        FocusVisualMargin="{TemplateBinding FocusVisualMargin}"
-                        FocusVisualPrimaryBrush="{TemplateBinding FocusVisualPrimaryBrush}"
-                        FocusVisualPrimaryThickness="{TemplateBinding FocusVisualPrimaryThickness}"
-                        FocusVisualSecondaryBrush="{TemplateBinding FocusVisualSecondaryBrush}"
-                        FocusVisualSecondaryThickness="{TemplateBinding FocusVisualSecondaryThickness}"
-                        SelectionCheckMarkVisualEnabled="{ThemeResource ListViewItemSelectionCheckMarkVisualEnabled}"
-                        CheckBrush="{ThemeResource ListViewItemCheckBrush}"
-                        CheckBoxBrush="{ThemeResource ListViewItemCheckBoxBrush}"
-                        DragBackground="{ThemeResource ListViewItemDragBackground}"
-                        DragForeground="{ThemeResource ListViewItemDragForeground}"
-                        FocusBorderBrush="{ThemeResource ListViewItemFocusBorderBrush}"
-                        FocusSecondaryBorderBrush="{ThemeResource ListViewItemFocusSecondaryBorderBrush}"
-                        PlaceholderBackground="{ThemeResource ListViewItemPlaceholderBackground}"
-                        PointerOverBackground="{ThemeResource ListViewItemBackgroundPointerOver}"
-                        PointerOverForeground="{ThemeResource ListViewItemForegroundPointerOver}"
-                        SelectedBackground="{ThemeResource ListViewItemBackgroundSelected}"
-                        SelectedForeground="#ff4343"
-                        SelectedPointerOverBackground="{ThemeResource ListViewItemBackgroundSelectedPointerOver}"
-                        PressedBackground="{ThemeResource ListViewItemBackgroundPressed}"
-                        SelectedPressedBackground="{ThemeResource ListViewItemBackgroundSelectedPressed}"
-                        DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}"
-                        DragOpacity="{ThemeResource ListViewItemDragThemeOpacity}"
-                        ReorderHintOffset="{ThemeResource ListViewItemReorderHintThemeOffset}"
-                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                        ContentMargin="{TemplateBinding Padding}"
-                        CheckMode="{ThemeResource ListViewItemCheckMode}" RevealBackgroundShowsAboveContent="True"
-                        RevealBackground="{ThemeResource ListViewItemRevealBackground}"
-                        RevealBorderThickness="{ThemeResource ListViewItemRevealBorderThemeThickness}"
-                        RevealBorderBrush="{ThemeResource ListViewItemRevealBorderBrush}">
+                                x:Name="Root" HorizontalAlignment="Stretch"
+                                Control.IsTemplateFocusTarget="True"
+                                FocusVisualMargin="{TemplateBinding FocusVisualMargin}"
+                                FocusVisualPrimaryBrush="{TemplateBinding FocusVisualPrimaryBrush}"
+                                FocusVisualPrimaryThickness="{TemplateBinding FocusVisualPrimaryThickness}"
+                                FocusVisualSecondaryBrush="{TemplateBinding FocusVisualSecondaryBrush}"
+                                FocusVisualSecondaryThickness="{TemplateBinding FocusVisualSecondaryThickness}"
+                                SelectionCheckMarkVisualEnabled="{ThemeResource ListViewItemSelectionCheckMarkVisualEnabled}"
+                                CheckBrush="{ThemeResource ListViewItemCheckBrush}"
+                                CheckBoxBrush="{ThemeResource ListViewItemCheckBoxBrush}"
+                                DragBackground="{ThemeResource ListViewItemDragBackground}"
+                                DragForeground="{ThemeResource ListViewItemDragForeground}"
+                                FocusBorderBrush="{ThemeResource ListViewItemFocusBorderBrush}"
+                                FocusSecondaryBorderBrush="{ThemeResource ListViewItemFocusSecondaryBorderBrush}"
+                                PlaceholderBackground="{ThemeResource ListViewItemPlaceholderBackground}"
+                                PointerOverBackground="{ThemeResource ListViewItemBackgroundPointerOver}"
+                                PointerOverForeground="{ThemeResource AccentForTextPointerOver}"
+                                SelectedBackground="{ThemeResource SystemControlBackgroundAccentBrush}"
+                                SelectedForeground="{ThemeResource AccentForText}"
+                                SelectedPointerOverBackground="{ThemeResource ListViewItemBackgroundSelectedPointerOver}"
+                                PressedBackground="{ThemeResource ListViewItemBackgroundPressed}"
+                                SelectedPressedBackground="{ThemeResource ListViewItemBackgroundSelectedPressed}"
+                                DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}"
+                                DragOpacity="{ThemeResource ListViewItemDragThemeOpacity}"
+                                ReorderHintOffset="{ThemeResource ListViewItemReorderHintThemeOffset}"
+                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                ContentMargin="{TemplateBinding Padding}"
+                                CheckMode="{ThemeResource ListViewItemCheckMode}" RevealBackgroundShowsAboveContent="True"
+                                RevealBackground="{ThemeResource ListViewItemRevealBackground}"
+                                RevealBorderThickness="{ThemeResource ListViewItemRevealBorderThemeThickness}"
+                                RevealBorderBrush="{ThemeResource ListViewItemRevealBorderBrush}">
 
                                 <VisualStateManager.VisualStateGroups>
                                     <VisualStateGroup x:Name="CommonStates">
@@ -140,40 +145,65 @@ Licensed under the MIT License. See LICENSE in the project root for license info
               Padding="0,0,20,0">
         <ListView.ItemTemplate>
             <DataTemplate x:DataType="vm:PlayListViewModel">
-                <Grid Height="80">
+                <Grid Height="80" BorderBrush="{ThemeResource AccentDarkBackground}" BorderThickness="1,0,1,1">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <controls:ImageGrid Grid.RowSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ImageSources="{x:Bind HeroArtworks}"/>
-                    <Grid BorderBrush="{x:Null}" BorderThickness="0" Background="{ThemeResource SystemControlBackgroundAltMediumHighBrush}" Grid.RowSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                    </Grid>
-                    <TextBlock Margin="0,8" Style="{ThemeResource SubtitleTextBlockStyle}" VerticalAlignment="Center">
+                    <Border Grid.RowSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+                                <GradientStopCollection>
+                                    <GradientStop Color="{ThemeResource SystemAltHighColor}" Offset="0"/>
+                                    <GradientStop Color="{ThemeResource SystemAltMediumHighColor}" Offset="0.8"/>
+                                    <GradientStop Color="Transparent" Offset="1"/>
+                                </GradientStopCollection>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                    </Border>
+                    <TextBlock Margin="12,8" Style="{ThemeResource SubtitleTextBlockStyle}" VerticalAlignment="Center">
                         <Run Text="{x:Bind Title}"/>
                         <Run Text="/"/>
                         <Run Text="{x:Bind SongsCount()}"/>
                     </TextBlock>
-                    <TextBlock Margin="0,8" Text="{x:Bind Description, TargetNullValue=No&#x20;descriptions}" Grid.Row="1" VerticalAlignment="Center"/>
+                    <TextBlock Margin="12,8" Text="{x:Bind Description, TargetNullValue=No&#x20;descriptions}" Grid.Row="1" VerticalAlignment="Center"/>
                 </Grid>
             </DataTemplate>
         </ListView.ItemTemplate>
         <ListView.Header>
-            <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <Button x:Name="AddBtn" Click="Button_Click" Padding="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{ThemeResource ButtonRevealStyle}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+            <StackPanel Orientation="Vertical" 
+                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Button x:Name="AddBtn" Click="Button_Click"
+                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                        Style="{ThemeResource RevealRectangleButton}" 
+                        HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
                     <Button.Content>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <FontIcon FontSize="15" Margin="4" FontFamily="Segoe MDL2 Assets" Glyph="&#xE109;" />
-                            <TextBlock x:Uid="CreateCollection" Style="{ThemeResource BodyTextBlockStyle}" VerticalAlignment="Center" Margin="4" Text="Create a new collection"/>
+                        <StackPanel Orientation="Horizontal" 
+                                    HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <FontIcon FontSize="15" Margin="4" 
+                                      FontFamily="Segoe MDL2 Assets" 
+                                      Glyph="&#xE109;" />
+                            <TextBlock x:Uid="CreateCollection" 
+                                       Style="{ThemeResource BodyTextBlockStyle}" 
+                                       VerticalAlignment="Center" 
+                                       Margin="4" Text="Create a new collection"/>
                         </StackPanel>
                     </Button.Content>
                 </Button>
-                <Grid Visibility="Collapsed" x:Name="AddPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Grid Visibility="Collapsed" x:Name="AddPanel" 
+                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
-                    <TextBox TextChanged="PlaylistTitle_TextChanged" x:Name="PlaylistTitle" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MaxLength="20" />
-                    <Button IsEnabled="False" x:Name="AddCompleteBtn" VerticalAlignment="Stretch" Grid.Column="1" Click="Button_Click_1" Style="{ThemeResource ButtonRevealStyle}" Padding="4">
+                    <TextBox TextChanged="PlaylistTitle_TextChanged" x:Name="PlaylistTitle" 
+                             HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                             MaxLength="20" />
+                    <Button IsEnabled="False" x:Name="AddCompleteBtn" 
+                            VerticalAlignment="Stretch" Grid.Column="1" 
+                            Click="AddComplete" Padding="4"
+                            Style="{ThemeResource ButtonRevealStyle}">
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE0E7;" />
                     </Button>
                 </Grid>

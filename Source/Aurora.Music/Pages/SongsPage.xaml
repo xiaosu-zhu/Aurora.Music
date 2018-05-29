@@ -443,10 +443,13 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </SemanticZoom.ZoomedInView>
         </SemanticZoom>
 
-        <Border x:Name="TitleBG" Height="48" Padding="32,0"
+        <Border x:Name="TitleBG" Height="48"
                 HorizontalAlignment="Stretch" VerticalAlignment="Top">
             <Border.Background>
-                <media:BackdropBlurBrush Amount="16"/>
+                <AcrylicBrush BackgroundSource="Backdrop" 
+                              FallbackColor="{ThemeResource SystemAltLowColor}"
+                              TintColor="{ThemeResource SystemAltHighColor}"
+                              TintOpacity="0.3333"/>
             </Border.Background>
         </Border>
 
@@ -505,11 +508,12 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </AppBarButton>
             <CommandBar.Content>
                 <TextBlock x:Uid="Songs" Text="Songs" Margin="0,8"
-                               VerticalAlignment="Center" HorizontalAlignment="Left"
-                               Style="{ThemeResource TitleTextBlockStyle}"
-                               Foreground="{x:Null}" x:Name="ToolbarTitle"
-                               TextWrapping="NoWrap" MaxLines="1"
-                               Visibility="{x:Bind SelectionModeToTitle(AlbumList.SelectionMode),Mode=OneWay}"/>
+                           VerticalAlignment="Center" HorizontalAlignment="Left"
+                           Style="{ThemeResource TitleTextBlockStyle}"
+                           Foreground="{x:Null}" x:Name="ToolbarTitle"
+                           FontWeight="Bold"
+                           TextWrapping="NoWrap" MaxLines="1"
+                           Visibility="{x:Bind SelectionModeToTitle(AlbumList.SelectionMode),Mode=OneWay}"/>
             </CommandBar.Content>
         </CommandBar>
     </Grid>

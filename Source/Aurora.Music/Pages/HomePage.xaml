@@ -6,16 +6,12 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 <Page
     x:Class="Aurora.Music.Pages.HomePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Aurora.Music.Pages" SizeChanged="Page_SizeChanged"
-    xmlns:vm="using:Aurora.Music.ViewModels"
-    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
-    xmlns:list="using:Aurora.Music.Controls.ListItems"
-    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
-    xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:list="using:Aurora.Music.Controls.ListItems"
+    xmlns:vm="using:Aurora.Music.ViewModels"
+    SizeChanged="Page_SizeChanged"
     Unloaded="Page_Unloaded"
     mc:Ignorable="d">
 
@@ -504,7 +500,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         </ResourceDictionary>
     </Page.Resources>
 
-    <Grid x:Name="Main" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid x:Name="Main" 
+          HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+          Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState x:Name="Tablets">
@@ -608,15 +606,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <StackPanel x:Name="FavoritPanel" Orientation="Horizontal" Margin="60,16,16,8">
                     <TextBlock x:Uid="Favorite" Text="Your Favorite" x:Name="FavoritTitle" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold"/>
                     <Button Visibility="{x:Bind Context.CollapseIfZero(Context.FavList.Count),Mode=OneWay,FallbackValue=Collapsed}" 
-                            Style="{ThemeResource TextBlockButtonStyle}" Command="{x:Bind Context.PlayFav}"
-                            Margin="8,0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Button.Content>
-                            <TextBlock>
-                                <Run FontSize="13" FontFamily="Segoe MDL2 Assets" Text="&#xE142;" />
-                                <Run x:Uid="PlayAll"/>
-                            </TextBlock>
-                        </Button.Content>
-                    </Button>
+                            Style="{ThemeResource PlayAllButton}" Command="{x:Bind Context.PlayFav}"
+                            Margin="8,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </StackPanel>
                 <ListView Margin="0,8" IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" ItemClick="FavList_ItemClick"
                           ScrollViewer.IsHorizontalScrollChainingEnabled="True" ScrollViewer.IsHorizontalRailEnabled="True"
@@ -641,18 +632,18 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </ListView>
                 <StackPanel x:Name="RandomPanel" Orientation="Horizontal" Margin="60,16,16,8">
                     <TextBlock x:Uid="Lucky" Text="Feeling Lucky" x:Name="RandomTitle" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold"/>
-                    <Button Command="{x:Bind Context.PlayRandom}" Style="{ThemeResource TextBlockButtonStyle}"
+                    <Button Command="{x:Bind Context.PlayRandom}" Style="{ThemeResource RevealRoundCornerButton}"
                             Visibility="{x:Bind Context.CollapseIfZero(Context.RandomList.Count),Mode=OneWay,FallbackValue=Collapsed}" 
                             Margin="8,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Button.Content>
                             <TextBlock>
-                                <Run FontSize="13" FontFamily="Segoe MDL2 Assets" Text="&#xE142;" />
+                                <Run FontSize="13" FontFamily="Segoe MDL2 Assets" Text="&#xE142;"/>
                                 <Run x:Uid="PlayAll"/>
                             </TextBlock>
                         </Button.Content>
                     </Button>
                     <Button Visibility="{x:Bind Context.CollapseIfZero(Context.RandomList.Count),Mode=OneWay,FallbackValue=Collapsed}" 
-                            Style="{ThemeResource TextBlockButtonStyle}" Command="{x:Bind Context.ReRandom}" 
+                            Style="{ThemeResource RevealRoundCornerButton}" Command="{x:Bind Context.ReRandom}" 
                             HorizontalAlignment="Center" Margin="8,0,0,0" VerticalAlignment="Center">
                         <Button.Content>
                             <TextBlock>

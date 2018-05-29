@@ -49,6 +49,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                         <Setter Target="RootGrid.(RevealBrush.State)" Value="PointerOver" />
                                         <Setter Target="RootGrid.Background" Value="{ThemeResource ListViewItemRevealBackgroundPointerOver}" />
                                         <Setter Target="RootGrid.BorderBrush" Value="{ThemeResource ButtonRevealBorderBrushPointerOver}" />
+                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TextRevealAccentForeground}" />
                                     </VisualState.Setters>
 
                                     <Storyboard>
@@ -79,15 +80,15 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 
                         </VisualStateManager.VisualStateGroups>
                         <ContentPresenter x:Name="ContentPresenter"
-                            BorderBrush="{x:Null}"
-                            BorderThickness="0"
-                            Content="{TemplateBinding Content}"
-                            ContentTransitions="{TemplateBinding ContentTransitions}"
-                            ContentTemplate="{TemplateBinding ContentTemplate}"
-                            Padding="{TemplateBinding Padding}"
-                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                            AutomationProperties.AccessibilityView="Raw" />
+                                          BorderBrush="{x:Null}"
+                                          BorderThickness="0"
+                                          Content="{TemplateBinding Content}"
+                                          ContentTransitions="{TemplateBinding ContentTransitions}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          Padding="{TemplateBinding Padding}"
+                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          AutomationProperties.AccessibilityView="Raw" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -518,6 +519,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                         <Setter Target="RootGrid.(RevealBrush.State)" Value="PointerOver" />
                                         <Setter Target="RootGrid.Background" Value="{ThemeResource ListViewItemRevealBackgroundPointerOver}" />
                                         <Setter Target="RootGrid.BorderBrush" Value="{ThemeResource ButtonRevealBorderBrushPointerOver}" />
+                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TextRevealAccentForeground}" />
                                     </VisualState.Setters>
 
                                     <Storyboard>
@@ -591,6 +593,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                         <Setter Target="RootGrid.(RevealBrush.State)" Value="PointerOver" />
                                         <Setter Target="RootGrid.Background" Value="{ThemeResource ListViewItemRevealBackgroundPointerOver}" />
                                         <Setter Target="RootGrid.BorderBrush" Value="{ThemeResource ButtonRevealBorderBrushPointerOver}" />
+                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TextRevealAccentForeground}" />
                                     </VisualState.Setters>
                                     <Storyboard>
                                         <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
@@ -648,7 +651,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <ControlTemplate TargetType="ToggleButton">
                     <Grid x:Name="RootGrid" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
                           BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="9999">
-
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal">
@@ -665,6 +667,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                         <Setter Target="RootGrid.(RevealBrush.State)" Value="PointerOver" />
                                         <Setter Target="RootGrid.Background" Value="{ThemeResource ListViewItemRevealBackgroundPointerOver}" />
                                         <Setter Target="RootGrid.BorderBrush" Value="{ThemeResource ToggleButtonRevealBorderBrushPointerOver}" />
+                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TextRevealAccentForeground}" />
                                     </VisualState.Setters>
 
                                     <Storyboard>

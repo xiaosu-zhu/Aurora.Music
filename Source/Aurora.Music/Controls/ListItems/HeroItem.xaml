@@ -92,9 +92,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         </VisualStateManager.VisualStateGroups>
 
         <Grid.Background>
-            <RevealBackgroundBrush Color="{x:Bind Data.MainColor, Mode=OneWay}" 
-                                   TargetTheme="Light" Opacity="0.1"
-                                   FallbackColor="{x:Bind Data.MainColor, Mode=OneWay}"/>
+            <SolidColorBrush Color="{x:Bind Data.MainColor, Mode=OneWay}" Opacity="0.2"/>
         </Grid.Background>
         
         <Grid.ColumnDefinitions>

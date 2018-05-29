@@ -65,7 +65,6 @@ namespace Aurora.Music.Core.Tools
         public static async Task<JumpList> LoadJumpListAsync()
         {
             var jumpList = await JumpList.LoadCurrentAsync();
-            jumpList.SystemGroupKind = JumpListSystemGroupKind.Recent;
             var items = (from a in jumpList.Items where a.Arguments.StartsWith("as-music") select a).ToList();
 
             foreach (var j in items)

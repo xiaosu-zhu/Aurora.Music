@@ -114,10 +114,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.0.8</Version>
-    </PackageReference>
-    <PackageReference Include="Win2D.uwp">
-      <Version>1.22.0</Version>
+      <Version>6.1.4</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

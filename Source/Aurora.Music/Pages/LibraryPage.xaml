@@ -429,7 +429,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"/>
-        <ListView Grid.Column="0" x:Name="Category" Margin="12,32,0,32" 
+        <ListView Grid.Column="0" x:Name="Category" Padding="12,32,0,32" 
                   AllowDrop="True" Drop="Grid_Drop" DragOver="Grid_DragOver"
                   BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" 
                   BorderThickness="0,0,1,0"

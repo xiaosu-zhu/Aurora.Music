@@ -11,7 +11,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:list="using:Aurora.Music.Controls.ListItems"
     xmlns:vm="using:Aurora.Music.ViewModels"
-    xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:wuxdata="using:Windows.UI.Xaml.Data"
@@ -395,7 +394,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                 <Button Command="{x:Bind Context.PintoStart}" Style="{ThemeResource RevealRoundCornerButton}">
                                     <Button.Content>
                                         <TextBlock>
-                                            <Run FontSize="13" FontFamily="Segoe MDL2 Assets" Text="{x:Bind Context.PinnedtoGlyph(Context.IsPinned),Mode=OneWay}" />
+                                            <Run FontSize="13" FontFamily="Segoe MDL2 Assets" 
+                                                 Text="{x:Bind Context.PinnedtoGlyph(Context.IsPinned),Mode=OneWay}" />
                                             <Run Text="{x:Bind Context.PinnedtoText(Context.IsPinned),Mode=OneWay}"/>
                                         </TextBlock>
                                     </Button.Content>
@@ -425,10 +425,13 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </SemanticZoom.ZoomedInView>
         </SemanticZoom>
 
-        <Border x:Name="TitleBG" Height="48" Padding="32,0"
+        <Border x:Name="TitleBG" Height="48"
                 HorizontalAlignment="Stretch" VerticalAlignment="Top">
             <Border.Background>
-                <media:BackdropBlurBrush Amount="16"/>
+                <AcrylicBrush BackgroundSource="Backdrop" 
+                              FallbackColor="{ThemeResource SystemAltLowColor}"
+                              TintColor="{ThemeResource SystemAltHighColor}"
+                              TintOpacity="0.3333"/>
             </Border.Background>
         </Border>
 
@@ -464,6 +467,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </AppBarButton>
             <CommandBar.Content>
                 <TextBlock x:Uid="Albums" Text="Albums" Margin="0,8"
+                           FontWeight="Bold"
                            VerticalAlignment="Center" HorizontalAlignment="Left"
                            Style="{ThemeResource TitleTextBlockStyle}"
                            Foreground="{x:Null}" x:Name="ToolbarTitle"

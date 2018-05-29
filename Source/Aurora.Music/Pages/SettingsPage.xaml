@@ -400,6 +400,11 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <ToggleSwitch x:Uid="NightModeSwitch" Margin="0,8,0,12" Header="Night mode(decreases images' brightness in dark mode), requires restart" IsOn="{x:Bind Context.NightMode, Mode=TwoWay}"/>
                         <ToggleSwitch x:Uid="DontOverlaySwitch" Margin="0,12" Header="Don't show small window at top(Compact overlay)" IsOn="{Binding DontOverlay,Mode=TwoWay}"/>
                         <ToggleSwitch x:Uid="SingletonSwitch" Margin="0,12" Header="Singleton instance of lyric window" IsOn="{Binding Singleton,Mode=TwoWay}"/>
+
+                        <ToggleSwitch IsOn="{Binding DataPlayEnabled, Mode=TwoWay}"
+                                      Header="Using metered connection to fetch online contents" Margin="0,12" />
+                        <ToggleSwitch IsOn="{Binding DataDownloadEnabled, Mode=TwoWay}"
+                                      Header="Using metered connection to download online contents" Margin="0,12"/>
                     </StackPanel>
                 </ScrollViewer>
             </PivotItem>
@@ -495,10 +500,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                 HorizontalAlignment="Left" ItemTemplate="{StaticResource ExtensionTemplate}"
                                 IsEnabled="{Binding OnlinePurchase,Mode=OneWay}" 
                                 ItemsSource="{Binding OnlineExts}" Header="Online Music Extension" Margin="0,12"/>
-                        <ToggleSwitch Visibility="Collapsed" IsOn="{Binding DataPlayEnabled, Mode=TwoWay}" 
-                                    Header="Using metered connection to play online contents" Margin="0,12" />
-                        <ToggleSwitch Visibility="Collapsed" IsOn="{Binding DataDownloadEnabled, Mode=TwoWay}" 
-                                    Header="Using metered connection to download online contents" Margin="0,12"/>
                         <Button x:Uid="DownloadPath" IsEnabled="{Binding OnlinePurchase,Mode=OneWay}" 
                             Margin="0,12,0,0" Content="Download Path" Command="{Binding DownloadPath}" 
                             Style="{ThemeResource ButtonRevealStyle}" />

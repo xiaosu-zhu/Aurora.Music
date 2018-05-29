@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using Aurora.Music.Core;
 using Aurora.Music.Core.Models;
 using Aurora.Music.ViewModels;
-
+using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppExtensions;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;

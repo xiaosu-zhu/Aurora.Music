@@ -76,6 +76,11 @@ namespace Aurora.Music
             // under a memory target to maintain priority to keep running.
             // Subscribe to the event that informs the app of this change.
             //MemoryManager.AppMemoryUsageIncreased += MemoryManager_AppMemoryUsageIncreased;
+
+            //if (SystemInfoHelper.GetDeviceFormFactorType() == DeviceFormFactorType.Xbox)
+            //{
+                FocusVisualKind = FocusVisualKind.Reveal;
+            //}
         }
 
         private void App_Resuming(object sender, object e)

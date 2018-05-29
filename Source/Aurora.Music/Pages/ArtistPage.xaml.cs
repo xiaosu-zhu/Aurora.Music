@@ -3,6 +3,7 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using System;
 using System.Linq;
+using System.Numerics;
 using System.Threading.Tasks;
 
 using Aurora.Music.Controls;
@@ -338,14 +339,14 @@ namespace Aurora.Music.Pages
             // Get references to our property sets for use with ExpressionNodes
             var scrollingProperties = _scrollerPropertySet.GetSpecializedReference<ManipulationPropertySetReferenceNode>();
 
-            var headerHeight = (float)(HeaderGroup.ActualHeight - (HeaderGroup.Margin.Top + HeaderGroup.Margin.Bottom));
-            var toolbarHeight = (float)Toolbar.ActualHeight;
+            var headerHeight = (float)(HeaderGroup.ActualHeight);
+            var finalHeight = (float)TitleBG.ActualHeight;
 
 
-            var progressAnimation = EF.Conditional(-scrollingProperties.Translation.Y > headerHeight, EF.Conditional(-scrollingProperties.Translation.Y > headerHeight + toolbarHeight, 0, -scrollingProperties.Translation.Y - headerHeight - toolbarHeight), -toolbarHeight);
+            var progressAnimation = EF.Conditional(-scrollingProperties.Translation.Y > headerHeight, EF.Conditional(-scrollingProperties.Translation.Y > headerHeight + finalHeight, 0, -scrollingProperties.Translation.Y - headerHeight - finalHeight), -finalHeight);
 
             // 0~1
-            progressAnimation = (progressAnimation + toolbarHeight) / toolbarHeight;
+            progressAnimation = (progressAnimation + finalHeight) / finalHeight;
 
             var toolbarVisual = ElementCompositionPreview.GetElementVisual(Toolbar);
 
@@ -355,6 +356,49 @@ namespace Aurora.Music.Pages
             var offset = toolbarVisual.GetReference().GetScalarProperty("Offset.Y");
 
             toolbarVisual.StartAnimation("Opacity", progressAnimation);
+
+            var moving = 80f;
+
+            var movingAnimation = EF.Conditional(-scrollingProperties.Translation.Y > moving, 0f, moving + scrollingProperties.Translation.Y);
+
+            var horiMovingAni = EF.Clamp(-scrollingProperties.Translation.Y / moving, 0, 1);
+            horiMovingAni = EF.Lerp(0, (float)(80f - ImageGrid.Height), horiMovingAni);
+
+            var scaleAnimation = EF.Clamp(-scrollingProperties.Translation.Y / moving, 0, 1);
+            var textScaleAnimation = EF.Lerp(1, (float)(ToolbarTitle.ActualHeight / TitleText.ActualHeight), scaleAnimation);
+
+            var titleVisual = ElementCompositionPreview.GetElementVisual(Title);
+            titleVisual.StartAnimation("Offset.Y", movingAnimation);
+            titleVisual.StartAnimation("Offset.X", horiMovingAni);
+
+
+            var titleTextVisual = ElementCompositionPreview.GetElementVisual(TitleText);
+            titleTextVisual.CenterPoint = new Vector3(32f, (float)TitleText.ActualHeight / 2, 0);
+            titleTextVisual.StartAnimation("Scale.X", textScaleAnimation);
+            titleTextVisual.StartAnimation("Scale.Y", textScaleAnimation);
+
+            var bgVisual = ElementCompositionPreview.GetElementVisual(TitleBG);
+            bgVisual.StartAnimation("Opacity", scaleAnimation);
+
+            var marginTop = (float)((TitleBG.ActualHeight - 80f) / 2);
+
+            var imgMovingAnimation = EF.Conditional(-scrollingProperties.Translation.Y > (moving - marginTop), marginTop, moving + scrollingProperties.Translation.Y);
+
+            var imageScaleAnimation = EF.Lerp(1, (float)(80f / ImageGrid.Height), scaleAnimation);
+
+            var imageVisual = ElementCompositionPreview.GetElementVisual(ImageGrid);
+
+            imageVisual.CenterPoint = new Vector3(32f, 0, 0);
+            imageVisual.StartAnimation("Scale.X", imageScaleAnimation);
+            imageVisual.StartAnimation("Scale.Y", imageScaleAnimation);
+
+            imageVisual.StartAnimation("Offset.Y", imgMovingAnimation);
+        }
+
+        private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            Title.Width = ActualWidth - 240 - 32;
+            ToolbarTitle.Width = Title.Width * ToolbarTitle.ActualHeight / TitleText.ActualHeight;
         }
     }
 }

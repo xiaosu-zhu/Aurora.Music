@@ -14,6 +14,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     Unloaded="Page_Unloaded"
+    SizeChanged="Page_SizeChanged"
     mc:Ignorable="d">
 
     <Page.Transitions>
@@ -22,7 +23,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <EntranceThemeTransition />
         </TransitionCollection>
     </Page.Transitions>
-    
+
     <Page.DataContext>
         <vm:ArtistPageViewModel x:Name="Context"/>
     </Page.DataContext>
@@ -37,12 +38,253 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <ResourceDictionary x:Key="Dark" Source="../Themes/Dark.xaml"/>
             </ResourceDictionary.ThemeDictionaries>
             <CollectionViewSource Source="{x:Bind Context.SongsList, Mode=OneWay}" IsSourceGrouped="True" x:Name="SongsListSource"/>
+
+            <Style TargetType="ScrollViewer">
+                <Setter Property="HorizontalScrollMode" Value="Auto" />
+                <Setter Property="VerticalScrollMode" Value="Auto" />
+                <Setter Property="IsHorizontalRailEnabled" Value="True" />
+                <Setter Property="IsVerticalRailEnabled" Value="True" />
+                <Setter Property="IsTabStop" Value="False" />
+                <Setter Property="ZoomMode" Value="Disabled" />
+                <Setter Property="HorizontalContentAlignment" Value="Left" />
+                <Setter Property="VerticalContentAlignment" Value="Top" />
+                <Setter Property="VerticalScrollBarVisibility" Value="Visible" />
+                <Setter Property="Padding" Value="0" />
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="BorderBrush" Value="Transparent" />
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ScrollViewer">
+                            <Border x:Name="Root" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="ScrollingIndicatorStates">
+                                        <VisualStateGroup.Transitions>
+                                            <VisualTransition From="MouseIndicator" To="NoIndicator">
+                                                <Storyboard>
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="VerticalScrollBar" Storyboard.TargetProperty="IndicatorMode">
+                                                        <DiscreteObjectKeyFrame KeyTime="{ThemeResource ScrollViewerSeparatorContractDelay}">
+                                                            <DiscreteObjectKeyFrame.Value>
+                                                                <ScrollingIndicatorMode>None</ScrollingIndicatorMode>
+                                                            </DiscreteObjectKeyFrame.Value>
+                                                        </DiscreteObjectKeyFrame>
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HorizontalScrollBar" Storyboard.TargetProperty="IndicatorMode">
+                                                        <DiscreteObjectKeyFrame KeyTime="{ThemeResource ScrollViewerSeparatorContractDelay}">
+                                                            <DiscreteObjectKeyFrame.Value>
+                                                                <ScrollingIndicatorMode>None</ScrollingIndicatorMode>
+                                                            </DiscreteObjectKeyFrame.Value>
+                                                        </DiscreteObjectKeyFrame>
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </VisualTransition>
+                                            <VisualTransition From="MouseIndicatorFull" To="NoIndicator">
+                                                <Storyboard>
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="VerticalScrollBar" Storyboard.TargetProperty="IndicatorMode">
+                                                        <DiscreteObjectKeyFrame KeyTime="{ThemeResource ScrollViewerSeparatorContractDelay}">
+                                                            <DiscreteObjectKeyFrame.Value>
+                                                                <ScrollingIndicatorMode>None</ScrollingIndicatorMode>
+                                                            </DiscreteObjectKeyFrame.Value>
+                                                        </DiscreteObjectKeyFrame>
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HorizontalScrollBar" Storyboard.TargetProperty="IndicatorMode">
+                                                        <DiscreteObjectKeyFrame KeyTime="{ThemeResource ScrollViewerSeparatorContractDelay}">
+                                                            <DiscreteObjectKeyFrame.Value>
+                                                                <ScrollingIndicatorMode>None</ScrollingIndicatorMode>
+                                                            </DiscreteObjectKeyFrame.Value>
+                                                        </DiscreteObjectKeyFrame>
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </VisualTransition>
+                                            <VisualTransition From="MouseIndicatorFull" To="MouseIndicator">
+                                                <Storyboard>
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="VerticalScrollBar" Storyboard.TargetProperty="IndicatorMode">
+                                                        <DiscreteObjectKeyFrame KeyTime="{ThemeResource ScrollViewerSeparatorContractDelay}">
+                                                            <DiscreteObjectKeyFrame.Value>
+                                                                <ScrollingIndicatorMode>MouseIndicator</ScrollingIndicatorMode>
+                                                            </DiscreteObjectKeyFrame.Value>
+                                                        </DiscreteObjectKeyFrame>
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HorizontalScrollBar" Storyboard.TargetProperty="IndicatorMode">
+                                                        <DiscreteObjectKeyFrame KeyTime="{ThemeResource ScrollViewerSeparatorContractDelay}">
+                                                            <DiscreteObjectKeyFrame.Value>
+                                                                <ScrollingIndicatorMode>MouseIndicator</ScrollingIndicatorMode>
+                                                            </DiscreteObjectKeyFrame.Value>
+                                                        </DiscreteObjectKeyFrame>
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </VisualTransition>
+                                            <VisualTransition From="TouchIndicator" To="NoIndicator">
+                                                <Storyboard>
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="VerticalScrollBar" Storyboard.TargetProperty="IndicatorMode">
+                                                        <DiscreteObjectKeyFrame KeyTime="0:0:0.5">
+                                                            <DiscreteObjectKeyFrame.Value>
+                                                                <ScrollingIndicatorMode>None</ScrollingIndicatorMode>
+                                                            </DiscreteObjectKeyFrame.Value>
+                                                        </DiscreteObjectKeyFrame>
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HorizontalScrollBar" Storyboard.TargetProperty="IndicatorMode">
+                                                        <DiscreteObjectKeyFrame KeyTime="0:0:0.5">
+                                                            <DiscreteObjectKeyFrame.Value>
+                                                                <ScrollingIndicatorMode>None</ScrollingIndicatorMode>
+                                                            </DiscreteObjectKeyFrame.Value>
+                                                        </DiscreteObjectKeyFrame>
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </VisualTransition>
+                                        </VisualStateGroup.Transitions>
+                                        <VisualState x:Name="NoIndicator"/>
+                                        <VisualState x:Name="TouchIndicator">
+
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="VerticalScrollBar" Storyboard.TargetProperty="IndicatorMode">
+                                                    <DiscreteObjectKeyFrame KeyTime="0">
+                                                        <DiscreteObjectKeyFrame.Value>
+                                                            <ScrollingIndicatorMode>TouchIndicator</ScrollingIndicatorMode>
+                                                        </DiscreteObjectKeyFrame.Value>
+                                                    </DiscreteObjectKeyFrame>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HorizontalScrollBar" Storyboard.TargetProperty="IndicatorMode">
+                                                    <DiscreteObjectKeyFrame KeyTime="0">
+                                                        <DiscreteObjectKeyFrame.Value>
+                                                            <ScrollingIndicatorMode>TouchIndicator</ScrollingIndicatorMode>
+                                                        </DiscreteObjectKeyFrame.Value>
+                                                    </DiscreteObjectKeyFrame>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="MouseIndicator">
+
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="VerticalScrollBar" Storyboard.TargetProperty="IndicatorMode">
+                                                    <DiscreteObjectKeyFrame KeyTime="0">
+                                                        <DiscreteObjectKeyFrame.Value>
+                                                            <ScrollingIndicatorMode>MouseIndicator</ScrollingIndicatorMode>
+                                                        </DiscreteObjectKeyFrame.Value>
+                                                    </DiscreteObjectKeyFrame>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HorizontalScrollBar" Storyboard.TargetProperty="IndicatorMode">
+                                                    <DiscreteObjectKeyFrame KeyTime="0">
+                                                        <DiscreteObjectKeyFrame.Value>
+                                                            <ScrollingIndicatorMode>MouseIndicator</ScrollingIndicatorMode>
+                                                        </DiscreteObjectKeyFrame.Value>
+                                                    </DiscreteObjectKeyFrame>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="MouseIndicatorFull">
+
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="VerticalScrollBar" Storyboard.TargetProperty="IndicatorMode">
+                                                    <DiscreteObjectKeyFrame KeyTime="0">
+                                                        <DiscreteObjectKeyFrame.Value>
+                                                            <ScrollingIndicatorMode>MouseIndicator</ScrollingIndicatorMode>
+                                                        </DiscreteObjectKeyFrame.Value>
+                                                    </DiscreteObjectKeyFrame>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HorizontalScrollBar" Storyboard.TargetProperty="IndicatorMode">
+                                                    <DiscreteObjectKeyFrame KeyTime="0">
+                                                        <DiscreteObjectKeyFrame.Value>
+                                                            <ScrollingIndicatorMode>MouseIndicator</ScrollingIndicatorMode>
+                                                        </DiscreteObjectKeyFrame.Value>
+                                                    </DiscreteObjectKeyFrame>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+
+                                    <VisualStateGroup x:Name="ScrollBarSeparatorStates">
+                                        <VisualStateGroup.Transitions>
+                                            <VisualTransition From="ScrollBarSeparatorExpanded" To="ScrollBarSeparatorCollapsed">
+                                                <Storyboard>
+                                                    <DoubleAnimation Duration="{ThemeResource ScrollViewerSeparatorContractDuration}"
+                                                        BeginTime="{ThemeResource ScrollViewerSeparatorContractBeginTime}"
+                                                        Storyboard.TargetName="ScrollBarSeparator"
+                                                        Storyboard.TargetProperty="Opacity"
+                                                        To="0" />
+                                                </Storyboard>
+                                            </VisualTransition>
+                                        </VisualStateGroup.Transitions>
+                                        <VisualState x:Name="ScrollBarSeparatorCollapsed" />
+                                        <VisualState x:Name="ScrollBarSeparatorExpanded">
+                                            <Storyboard>
+                                                <DoubleAnimation Duration="{ThemeResource ScrollViewerSeparatorExpandDuration}"
+                                                  BeginTime="{ThemeResource ScrollViewerSeparatorExpandBeginTime}"
+                                                  Storyboard.TargetName="ScrollBarSeparator"
+                                                  Storyboard.TargetProperty="Opacity"
+                                                  To="1" />
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="ScrollBarSeparatorExpandedWithoutAnimation">
+                                            <Storyboard>
+                                                <DoubleAnimation Duration="0"
+                                                    BeginTime="{ThemeResource ScrollViewerSeparatorExpandBeginTime}"
+                                                    Storyboard.TargetName="ScrollBarSeparator"
+                                                    Storyboard.TargetProperty="Opacity"
+                                                    To="1" />
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="ScrollBarSeparatorCollapsedWithoutAnimation" >
+                                            <Storyboard>
+                                                <DoubleAnimation Duration="0"
+                                                    BeginTime="{ThemeResource ScrollViewerSeparatorContractBeginTime}"
+                                                    Storyboard.TargetName="ScrollBarSeparator"
+                                                    Storyboard.TargetProperty="Opacity"
+                                                    To="0" />
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+
+                                </VisualStateManager.VisualStateGroups>
+                                <Grid Background="{TemplateBinding Background}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <ScrollContentPresenter x:Name="ScrollContentPresenter"
+                                                            Grid.RowSpan="2"
+                                                            Grid.ColumnSpan="2"
+                                                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                            Margin="{TemplateBinding Padding}" />
+                                    <Grid Grid.RowSpan="2"
+                                          Grid.ColumnSpan="2" />
+                                    <ScrollBar x:Name="VerticalScrollBar"
+                                               Grid.Column="1"
+                                               IsTabStop="False"
+                                               Margin="0,128,0,0"
+                                               Maximum="{TemplateBinding ScrollableHeight}"
+                                               Orientation="Vertical"
+                                               Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
+                                               Value="{TemplateBinding VerticalOffset}"
+                                               ViewportSize="{TemplateBinding ViewportHeight}"
+                                               HorizontalAlignment="Right" />
+                                    <ScrollBar x:Name="HorizontalScrollBar"
+                                               IsTabStop="False"
+                                               Maximum="{TemplateBinding ScrollableWidth}"
+                                               Orientation="Horizontal"
+                                               Grid.Row="1"
+                                               Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"
+                                               Value="{TemplateBinding HorizontalOffset}"
+                                               ViewportSize="{TemplateBinding ViewportWidth}" />
+                                    <Border x:Name="ScrollBarSeparator"
+                                            Grid.Row="1"
+                                            Grid.Column="1"
+                                            Opacity="0"
+                                            Background="{ThemeResource ScrollViewerScrollBarSeparatorBackground}" />
+                                </Grid>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
         </ResourceDictionary>
     </Page.Resources>
-    <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                  HorizontalScrollMode="Disabled"
-                  x:Name="Root"
-                  Loaded="SongsList_Loaded">
+    <Grid>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState x:Name="Full">
@@ -56,7 +298,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="GroupStyle.HeaderTemplate" Value="{StaticResource MediumGroupSongsHeader}"/>
-                        <Setter Target="HeaderGroup.Margin" Value="20,32,20,12"/>
                         <Setter Target="AlbumList.Padding" Value="20,0"/>
                     </VisualState.Setters>
                 </VisualState>
@@ -65,236 +306,262 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <AdaptiveTrigger MinWindowWidth="0"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="HeaderGroup.Margin" Value="48,32,12,12"/>
                         <Setter Target="GroupStyle.HeaderTemplate" Value="{StaticResource NarrowGroupHeader}"/>
                         <Setter Target="AlbumList.Padding" Value="0"/>
-                        <Setter Target="SongsList.Padding" Value="0"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+        <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                      HorizontalScrollMode="Disabled"
+                      x:Name="Root"
+                      Loaded="SongsList_Loaded">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
 
-            <Grid x:Name="HeaderGroup" 
-                  PointerReleased="HeaderGroup_PointerReleased" 
-                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                  Margin="32,80,0,0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <toolkit:ImageEx x:Name="Image" Style="{ThemeResource QuickLoadImageEx}" PlaceholderSource="/Assets/Images/artist_placeholder.png"
-                                 Stretch="Uniform" PlaceholderStretch="Uniform"  Source="{x:Bind Context.Artist.AvatarImage, Mode=OneWay}" CornerRadius="9999"
-                                 HorizontalAlignment="Center" VerticalAlignment="Center" Height="200" Width="200"/>
-                <Border HorizontalAlignment="Center" VerticalAlignment="Center"
-                        Background="{ThemeResource ImageDarkOverlay}" CornerRadius="9999"
-                        Height="200" Width="200" Visibility="{x:Bind Context.NightModeEnabled}"/>
-                <RelativePanel Grid.Column="1" Margin="32,0,0,0"
-                               HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                    <Border x:Name="Title"
-                            RelativePanel.AlignTopWithPanel="True"
-                            RelativePanel.AlignLeftWithPanel="True"
-                            Height="48">
-                        <TextBlock Text="{x:Bind Context.Artist.Name, Mode=OneWay}" 
-                                   VerticalAlignment="Center" HorizontalAlignment="Left"
-                                   FontWeight="Bold" TextWrapping="NoWrap" 
-                                   MaxLines="1" TextTrimming="Clip"
-                                   Style="{ThemeResource SubheaderTextBlockStyle}"/>
-                    </Border>
-                    <toolkit:WrapPanel HorizontalSpacing="24" VerticalSpacing="8" 
-                                       x:Name="Details" Orientation="Horizontal"
-                                       RelativePanel.AlignLeftWithPanel="True"
-                                       RelativePanel.Below="Title">
-                        <TextBlock Style="{ThemeResource BodyTextBlockStyle}"
-                                   Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}" 
-                                   HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <Run FontSize="13" FontFamily="Segoe MDL2 Assets" Text="&#xEC26;" />
-                            <Run Text="{x:Bind Context.Genres,Mode=OneWay,TargetNullValue='Loading',FallbackValue='Loading'}"/>
-                        </TextBlock>
-                        <TextBlock Style="{ThemeResource BodyTextBlockStyle}"
-                                   Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
-                                   HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <Run FontSize="13" FontFamily="Segoe MDL2 Assets" Text="&#xE93C;" />
-                            <Run Text="{x:Bind Context.SongsCount,Mode=OneWay,TargetNullValue='Loading',FallbackValue='Loading'}"/>
-                        </TextBlock>
-                    </toolkit:WrapPanel>
-                    <toolkit:WrapPanel HorizontalSpacing="8" VerticalSpacing="8"
-                                       RelativePanel.AlignBottomWithPanel="True"
-                                       RelativePanel.AlignLeftWithPanel="True">
-                        <Button Command="{x:Bind Context.PlayAll}" 
-                                Style="{ThemeResource PlayAllButton}" 
-                                FontSize="15" 
-                                HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        <Button Style="{ThemeResource RevealRoundCornerButton}" 
-                                HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <TextBlock>
-                                <Run FontSize="13" FontFamily="Segoe MDL2 Assets" Text="&#xEC24;" />
-                                <Run x:Uid="ArtistStory" Text="See Artist Story"/>
+                <Grid x:Name="HeaderGroup" 
+                      PointerReleased="HeaderGroup_PointerReleased" 
+                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                      Margin="240,128,32,0">
+                    <RelativePanel Height="152"
+                                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <toolkit:WrapPanel HorizontalSpacing="24" VerticalSpacing="8" 
+                                           x:Name="Details" Orientation="Horizontal"
+                                           RelativePanel.AlignLeftWithPanel="True"
+                                           RelativePanel.AlignTopWithPanel="True">
+                            <TextBlock Style="{ThemeResource BodyTextBlockStyle}"
+                                       Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}" 
+                                       HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Run FontSize="13" FontFamily="Segoe MDL2 Assets" Text="&#xEC26;" />
+                                <Run Text="{x:Bind Context.Genres,Mode=OneWay,TargetNullValue='Loading',FallbackValue='Loading'}"/>
                             </TextBlock>
-                            <Button.Flyout>
-                                <Flyout FlyoutPresenterStyle="{ThemeResource HoriNoScrollFlyoutPresenter}">
-                                    <StackPanel MinWidth="{ThemeResource FlyoutThemeMinWidth}" Padding="0,0,8,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                        <toolkit:ImageEx Style="{ThemeResource QuickLoadImageEx}" 
-                                                         PlaceholderSource="/Assets/Images/artist_placeholder.png"
-                                                         Stretch="Uniform" PlaceholderStretch="Uniform"
-                                                         Source="{x:Bind Context.Artist.AvatarImage, Mode=OneWay}" 
-                                                         Margin="0,8" Height="120"
-                                                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                                        <toolkit:MarkdownTextBlock IsTextSelectionEnabled="False" 
-                                                                   LinkClicked="Descriptions_LinkClicked" 
-                                                                   Text="{x:Bind Context.Artist.Description, Mode=OneWay}"
-                                                                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                                                                   TextWrapping="WrapWholeWords"/>
-                                    </StackPanel>
-                                </Flyout>
-                            </Button.Flyout>
-                        </Button>
-                    </toolkit:WrapPanel>
-                </RelativePanel>
+                            <TextBlock Style="{ThemeResource BodyTextBlockStyle}"
+                                       Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Run FontSize="13" FontFamily="Segoe MDL2 Assets" Text="&#xE93C;" />
+                                <Run Text="{x:Bind Context.SongsCount,Mode=OneWay,TargetNullValue='Loading',FallbackValue='Loading'}"/>
+                            </TextBlock>
+                        </toolkit:WrapPanel>
+                        <toolkit:WrapPanel HorizontalSpacing="8" VerticalSpacing="8"
+                                           RelativePanel.AlignBottomWithPanel="True"
+                                           RelativePanel.AlignLeftWithPanel="True">
+                            <Button Command="{x:Bind Context.PlayAll}" 
+                                    Style="{ThemeResource PlayAllButton}" 
+                                    FontSize="15" 
+                                    HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Button Style="{ThemeResource RevealRoundCornerButton}" 
+                                    HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <TextBlock>
+                                    <Run FontSize="13" FontFamily="Segoe MDL2 Assets" Text="&#xEC24;" />
+                                    <Run x:Uid="ArtistStory" Text="See Artist Story"/>
+                                </TextBlock>
+                                <Button.Flyout>
+                                    <Flyout FlyoutPresenterStyle="{ThemeResource HoriNoScrollFlyoutPresenter}">
+                                        <StackPanel MinWidth="{ThemeResource FlyoutThemeMinWidth}" Padding="0,0,8,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                            <toolkit:ImageEx Style="{ThemeResource QuickLoadImageEx}" 
+                                                             PlaceholderSource="/Assets/Images/artist_placeholder.png"
+                                                             Stretch="Uniform" PlaceholderStretch="Uniform"
+                                                             Source="{x:Bind Context.Artist.AvatarImage, Mode=OneWay}" 
+                                                             Margin="0,8" Height="120"
+                                                             HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                                            <toolkit:MarkdownTextBlock IsTextSelectionEnabled="False" 
+                                                                       LinkClicked="Descriptions_LinkClicked" 
+                                                                       Text="{x:Bind Context.Artist.Description, Mode=OneWay}"
+                                                                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                                                       TextWrapping="WrapWholeWords"/>
+                                        </StackPanel>
+                                    </Flyout>
+                                </Button.Flyout>
+                            </Button>
+                        </toolkit:WrapPanel>
+                    </RelativePanel>
+                </Grid>
+                <StackPanel Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <StackPanel.ChildrenTransitions>
+                        <TransitionCollection>
+                            <RepositionThemeTransition/>
+                        </TransitionCollection>
+                    </StackPanel.ChildrenTransitions>
+                    <GridView animations:ReorderGridAnimation.Duration="360" ShowsScrollingPlaceholders="True" 
+                      ItemClick="AlbumList_ItemClick" IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True"
+                      SelectionMode="None" ItemsSource="{x:Bind Context.AlbumList, Mode=OneWay}" Padding="32"
+                      ContextRequested="AlbumList_ContextRequested" ContextCanceled="AlbumList_ContextCanceled"
+                      ItemContainerStyle="{StaticResource GeneralGridViewItemStyle}" x:Name="AlbumList" Height="300"
+                      Style="{StaticResource HorizontalGridViewStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <GridView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <ItemsWrapGrid Orientation="Vertical"/>
+                            </ItemsPanelTemplate>
+                        </GridView.ItemsPanel>
+                        <GridView.ItemTemplate>
+                            <DataTemplate x:DataType="vm:AlbumViewModel">
+                                <list:AlbumItem Data="{x:Bind }" PlayAlbum="PlayAlbum_Click" FlyoutRequired="Flyout_Click"/>
+                            </DataTemplate>
+                        </GridView.ItemTemplate>
+                    </GridView>
+
+                    <ListView IsSynchronizedWithCurrentItem="False" 
+                              ContextRequested="SongsList_ContextRequested"
+                              ContextCanceled="SongsList_ContextCanceled"
+                              IsItemClickEnabled="True" 
+                              HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                              SelectionMode="None" Padding="20,0"
+                              ItemsSource="{x:Bind SongsListSource.View, Mode=OneWay}"
+                              Style="{ThemeResource GeneralListView}" 
+                              x:Name="SongsList"
+                              ItemClick="SongsList_ItemClick"
+                              ItemContainerStyleSelector="{StaticResource SongListStyleSelector}">
+                        <ListView.Header>
+                            <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" 
+                                       Foreground="{ThemeResource AccentForText}" FontWeight="Bold" 
+                                       x:Uid="Retriving" Text="Retriving Database" Padding="12,32"
+                                       HorizontalAlignment="Center"
+                                       Visibility="{x:Bind Context.CollapseIfNotZero(Context.SongsList.Count),Mode=OneWay}"/>
+                        </ListView.Header>
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="vm:SongViewModel">
+                                <list:SongItem Data="{x:Bind }" IsMultiSelect="False" Play="SongItem_Play"/>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                        <ListView.GroupStyle>
+                            <GroupStyle x:Name="GroupStyle" HeaderTemplate="{StaticResource NormalGroupSongsHeader}">
+                                <GroupStyle.HeaderContainerStyle>
+                                    <Style TargetType="ListViewHeaderItem">
+                                        <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+                                        <Setter Property="FontSize" Value="{ThemeResource ListViewHeaderItemThemeFontSize}" />
+                                        <Setter Property="Background" Value="{ThemeResource ListViewHeaderItemBackground}" />
+                                        <Setter Property="Margin" Value="12,0,12,4" />
+                                        <Setter Property="Padding" Value="0,8,0,0" />
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                                        <Setter Property="MinHeight" Value="{ThemeResource ListViewHeaderItemMinHeight}" />
+                                        <Setter Property="UseSystemFocusVisuals" Value="True" />
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="ListViewHeaderItem">
+                                                    <StackPanel Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" 
+                                                                BorderThickness="{TemplateBinding BorderThickness}">
+                                                        <ContentPresenter x:Name="ContentPresenter"
+                                                                          Margin="{TemplateBinding Padding}" Content="{TemplateBinding Content}" 
+                                                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                                          ContentTransitions="{TemplateBinding ContentTransitions}" 
+                                                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                                        <Rectangle Stroke="{ThemeResource ListViewHeaderItemDividerStroke}"
+                                                                   StrokeThickness="0.5"
+                                                                   Height="1"
+                                                                   VerticalAlignment="Bottom"
+                                                                   HorizontalAlignment="Stretch"
+                                                                   Margin="0,8,0,0" />
+                                                    </StackPanel>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </GroupStyle.HeaderContainerStyle>
+                            </GroupStyle>
+                        </ListView.GroupStyle>
+                        <ListView.Footer>
+                            <Border Height="160"/>
+                        </ListView.Footer>
+                    </ListView>
+                </StackPanel>
             </Grid>
-            <StackPanel Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <StackPanel.ChildrenTransitions>
-                    <TransitionCollection>
-                        <RepositionThemeTransition/>
-                    </TransitionCollection>
-                </StackPanel.ChildrenTransitions>
-                <GridView animations:ReorderGridAnimation.Duration="360" ShowsScrollingPlaceholders="True" 
-                  ItemClick="AlbumList_ItemClick" IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True"
-                  SelectionMode="None" ItemsSource="{x:Bind Context.AlbumList, Mode=OneWay}" Padding="32"
-                  ContextRequested="AlbumList_ContextRequested" ContextCanceled="AlbumList_ContextCanceled"
-                  ItemContainerStyle="{StaticResource GeneralGridViewItemStyle}" x:Name="AlbumList" Height="300"
-                  Style="{StaticResource HorizontalGridViewStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                    <GridView.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <ItemsWrapGrid Orientation="Vertical"/>
-                        </ItemsPanelTemplate>
-                    </GridView.ItemsPanel>
-                    <GridView.ItemTemplate>
-                        <DataTemplate x:DataType="vm:AlbumViewModel">
-                            <list:AlbumItem Data="{x:Bind }" PlayAlbum="PlayAlbum_Click" FlyoutRequired="Flyout_Click"/>
-                        </DataTemplate>
-                    </GridView.ItemTemplate>
-                </GridView>
+        </ScrollViewer>
 
-                <ListView IsSynchronizedWithCurrentItem="False" 
-                          ContextRequested="SongsList_ContextRequested"
-                          ContextCanceled="SongsList_ContextCanceled"
-                          IsItemClickEnabled="True" 
-                          HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                          SelectionMode="None" Padding="20,0"
-                          ItemsSource="{x:Bind SongsListSource.View, Mode=OneWay}"
-                          Style="{ThemeResource GeneralListView}" 
-                          x:Name="SongsList"
-                          ItemClick="SongsList_ItemClick"
-                          ItemContainerStyleSelector="{StaticResource SongListStyleSelector}">
-                    <ListView.Header>
-                        <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" 
-                                   Foreground="{ThemeResource AccentForText}" FontWeight="Bold" 
-                                   x:Uid="Retriving" Text="Retriving Database" Padding="12,32"
-                                   HorizontalAlignment="Center"
-                                   Visibility="{x:Bind Context.CollapseIfNotZero(Context.SongsList.Count),Mode=OneWay}"/>
-                    </ListView.Header>
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="vm:SongViewModel">
-                            <list:SongItem Data="{x:Bind }" IsMultiSelect="{x:Bind ListMultiSelecting, Mode=OneWay}" Play="SongItem_Play" RequestMultiSelect="SongItem_RequestMultiSelect"/>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                    <ListView.GroupStyle>
-                        <GroupStyle x:Name="GroupStyle" HeaderTemplate="{StaticResource NormalGroupSongsHeader}">
-                            <GroupStyle.HeaderContainerStyle>
-                                <Style TargetType="ListViewHeaderItem">
-                                    <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
-                                    <Setter Property="FontSize" Value="{ThemeResource ListViewHeaderItemThemeFontSize}" />
-                                    <Setter Property="Background" Value="{ThemeResource ListViewHeaderItemBackground}" />
-                                    <Setter Property="Margin" Value="12,0,12,4" />
-                                    <Setter Property="Padding" Value="0,8,0,0" />
-                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                    <Setter Property="VerticalContentAlignment" Value="Stretch" />
-                                    <Setter Property="MinHeight" Value="{ThemeResource ListViewHeaderItemMinHeight}" />
-                                    <Setter Property="UseSystemFocusVisuals" Value="True" />
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="ListViewHeaderItem">
-                                                <StackPanel Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" 
-                                                            BorderThickness="{TemplateBinding BorderThickness}">
-                                                    <ContentPresenter x:Name="ContentPresenter"
-                                                                      Margin="{TemplateBinding Padding}" Content="{TemplateBinding Content}" 
-                                                                      ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                                      ContentTransitions="{TemplateBinding ContentTransitions}" 
-                                                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
-                                                    <Rectangle Stroke="{ThemeResource ListViewHeaderItemDividerStroke}"
-                                                               StrokeThickness="0.5"
-                                                               Height="1"
-                                                               VerticalAlignment="Bottom"
-                                                               HorizontalAlignment="Stretch"
-                                                               Margin="0,8,0,0" />
-                                                </StackPanel>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </GroupStyle.HeaderContainerStyle>
-                        </GroupStyle>
-                    </ListView.GroupStyle>
-                    <ListView.Footer>
-                        <Border Height="160"/>
-                    </ListView.Footer>
-                </ListView>
-            </StackPanel>
+        <Border x:Name="TitleBG" Height="96"
+                HorizontalAlignment="Stretch" VerticalAlignment="Top">
+            <Border.Background>
+                <AcrylicBrush BackgroundSource="Backdrop" 
+                            FallbackColor="{ThemeResource SystemAltLowColor}"
+                            TintColor="{ThemeResource SystemAltHighColor}"
+                            TintOpacity="0.3333"/>
+            </Border.Background>
+        </Border>
 
+        <Grid HorizontalAlignment="Left" VerticalAlignment="Top" 
+              x:Name="ImageGrid" Height="200" Width="200">
+            <toolkit:ImageEx x:Name="Image" Style="{ThemeResource QuickLoadImageEx}" 
+                             PlaceholderSource="/Assets/Images/artist_placeholder.png"
+                             Stretch="Uniform" PlaceholderStretch="Uniform"
+                             Source="{x:Bind Context.Artist.AvatarImage, Mode=OneWay}" 
+                             CornerRadius="9999" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                             Height="200" Width="200"/>
+            <Border HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Background="{ThemeResource ImageDarkOverlay}" CornerRadius="9999"
+                    Height="200" Width="200" Visibility="{x:Bind Context.NightModeEnabled}"/>
+            <Grid.RenderTransform>
+                <TranslateTransform X="32"/>
+            </Grid.RenderTransform>
+        </Grid>
 
-            <CommandBar x:Name="Toolbar" IsDynamicOverflowEnabled="True"
-                        DefaultLabelPosition="Right" Background="{x:Null}"
-                        HorizontalAlignment="Stretch" VerticalAlignment="Top"
-                        Padding="32,0">
-                <AppBarButton x:Uid="PlayAllAppBarButton" 
-                              Label="Play all" Command="{x:Bind Context.PlayAll}">
-                    <AppBarButton.Icon>
-                        <FontIcon Glyph="&#xE142;"
-                                  FontFamily="Segoe MDL2 Assets"/>
-                    </AppBarButton.Icon>
-                </AppBarButton>
-                <AppBarButton Label="See Artist Story">
-                    <AppBarButton.Icon>
-                        <FontIcon Glyph="&#xE142;"
-                                  FontFamily="Segoe MDL2 Assets"/>
-                    </AppBarButton.Icon>
-                    <AppBarButton.Flyout>
-                        <Flyout FlyoutPresenterStyle="{ThemeResource HoriNoScrollFlyoutPresenter}">
-                            <StackPanel MinWidth="{ThemeResource FlyoutThemeMinWidth}" Padding="0,0,8,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                <toolkit:ImageEx Style="{ThemeResource QuickLoadImageEx}" 
-                                                 PlaceholderSource="/Assets/Images/artist_placeholder.png"
-                                                 Stretch="Uniform" PlaceholderStretch="Uniform"
-                                                 Source="{x:Bind Context.Artist.AvatarImage, Mode=OneWay}" 
-                                                 Margin="0,8" Height="120"
-                                                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                                <toolkit:MarkdownTextBlock IsTextSelectionEnabled="False" 
-                                                           LinkClicked="Descriptions_LinkClicked" 
-                                                           Text="{x:Bind Context.Artist.Description, Mode=OneWay}"
-                                                           HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                                                           TextWrapping="WrapWholeWords"/>
-                            </StackPanel>
-                        </Flyout>
-                    </AppBarButton.Flyout>
-                </AppBarButton>
-                <!--AppBarButton Label="{x:Bind Context.PinnedtoText(Context.IsPinned),Mode=OneWay}">
-                    <AppBarButton.Icon>
-                        <FontIcon Glyph="{x:Bind Context.PinnedtoGlyph(Context.IsPinned),Mode=OneWay}"
-                                  FontFamily="Segoe MDL2 Assets"/>
-                    </AppBarButton.Icon>
-                </-->
-                <CommandBar.Content>
-                    <TextBlock x:Uid="Albums" Text="Albums" Margin="0,8"
+        <Border x:Name="Title" Height="48"
+                HorizontalAlignment="Left" VerticalAlignment="Top">
+            <TextBlock Text="{x:Bind Context.Artist.Name, Mode=OneWay}" 
+                       VerticalAlignment="Center" HorizontalAlignment="Left"
+                       FontWeight="Bold" TextWrapping="NoWrap" 
+                       MaxLines="1" TextTrimming="CharacterEllipsis"
+                       x:Name="TitleText"
+                       Style="{ThemeResource SubheaderTextBlockStyle}"/>
+            <Border.RenderTransform>
+                <TranslateTransform X="240"/>
+            </Border.RenderTransform>
+        </Border>
+
+        <CommandBar x:Name="Toolbar" IsDynamicOverflowEnabled="True"
+                    DefaultLabelPosition="Right" Background="{x:Null}"
+                    HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                    Padding="16,0,32,0">
+            <AppBarButton x:Uid="PlayAllAppBarButton" 
+                            Label="Play all" Command="{x:Bind Context.PlayAll}">
+                <AppBarButton.Icon>
+                    <FontIcon Glyph="&#xE142;" FontFamily="Segoe MDL2 Assets"/>
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <AppBarButton Label="See Artist Story">
+                <AppBarButton.Icon>
+                    <FontIcon Glyph="&#xEC24;" FontFamily="Segoe MDL2 Assets"/>
+                </AppBarButton.Icon>
+                <AppBarButton.Flyout>
+                    <Flyout FlyoutPresenterStyle="{ThemeResource HoriNoScrollFlyoutPresenter}">
+                        <StackPanel MinWidth="{ThemeResource FlyoutThemeMinWidth}" 
+                                    Padding="0,0,8,0" 
+                                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <toolkit:ImageEx Style="{ThemeResource QuickLoadImageEx}" 
+                                             PlaceholderSource="/Assets/Images/artist_placeholder.png"
+                                             Stretch="Uniform" PlaceholderStretch="Uniform"
+                                             Source="{x:Bind Context.Artist.AvatarImage, Mode=OneWay}" 
+                                             Margin="0,8" Height="120"
+                                             HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                            <toolkit:MarkdownTextBlock IsTextSelectionEnabled="False" 
+                                                       LinkClicked="Descriptions_LinkClicked" 
+                                                       Text="{x:Bind Context.Artist.Description, Mode=OneWay}"
+                                                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                                                       TextWrapping="WrapWholeWords"/>
+                        </StackPanel>
+                    </Flyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
+            <!--AppBarButton Label="{x:Bind Context.PinnedtoText(Context.IsPinned),Mode=OneWay}">
+                <AppBarButton.Icon>
+                    <FontIcon Glyph="{x:Bind Context.PinnedtoGlyph(Context.IsPinned),Mode=OneWay}"
+                                FontFamily="Segoe MDL2 Assets"/>
+                </AppBarButton.Icon>
+            </-->
+            <CommandBar.Content>
+                <StackPanel Orientation="Horizontal" Opacity="0" Height="48" Margin="112,0,0,0">
+                    <TextBlock Text="{x:Bind Context.Artist.Name, Mode=OneWay}" Margin="0,8"
                                VerticalAlignment="Center" HorizontalAlignment="Left"
                                Style="{ThemeResource TitleTextBlockStyle}"
-                               TextWrapping="NoWrap" MaxLines="1"/>
-                </CommandBar.Content>
-            </CommandBar>
-        </Grid>
-    </ScrollViewer>
+                               FontWeight="Bold"
+                               TextWrapping="NoWrap" MaxLines="1"
+                               TextTrimming="CharacterEllipsis"
+                               x:Name="ToolbarTitle"/>
+                </StackPanel>
+            </CommandBar.Content>
+        </CommandBar>
+    </Grid>
 </Page>

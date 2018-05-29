@@ -287,6 +287,8 @@ namespace Aurora.Music.Pages
 
             toolbarVisual.StartAnimation("Offset.Y", progressAnimation * 16 - 16);
 
+            var bgVisual = ElementCompositionPreview.GetElementVisual(TitleBG);
+            bgVisual.StartAnimation("Opacity", progressAnimation);
             toolbarVisual.StartAnimation("Opacity", progressAnimation);
 
 

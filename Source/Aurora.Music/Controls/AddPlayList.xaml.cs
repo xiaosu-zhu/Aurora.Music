@@ -100,7 +100,7 @@ namespace Aurora.Music.Controls
             AddPanel.Visibility = Visibility.Visible;
         }
 
-        private async void Button_Click_1(object sender, RoutedEventArgs e)
+        private async void AddComplete(object sender, RoutedEventArgs e)
         {
             if (PlaylistTitle.Text.IsNullorEmpty())
             {
@@ -117,7 +117,8 @@ namespace Aurora.Music.Controls
             AddBtn.Visibility = Visibility.Visible;
             PlaylistTitle.Text = string.Empty;
             AddPanel.Visibility = Visibility.Collapsed;
-            await LibraryPage.Current?.AddPlayList(p);
+            if (LibraryPage.Current != null)
+                await LibraryPage.Current.AddPlayList(p);
         }
 
         private void PlaylistTitle_TextChanged(object sender, TextChangedEventArgs e)

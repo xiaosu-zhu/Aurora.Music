@@ -1415,7 +1415,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 Width="72" Height="48" Style="{ThemeResource RevealRectangleButton}"
                 BorderBrush="{ThemeResource SystemControlBackgroundTransparentRevealBorderBrush}"
                 Background="{ThemeResource SystemControlTransparentRevealBackgroundBrush}"
-                Foreground="{ThemeResource SystemControlBackgroundBaseHighRevealBorderBrush}"
                 Visibility="{x:Bind Context.NeedShowBack, Mode=OneWay}"
                 Click="BackButton_Click">
             <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE0C4;" Style="{ThemeResource CaptionTextBlockStyle}"/>
