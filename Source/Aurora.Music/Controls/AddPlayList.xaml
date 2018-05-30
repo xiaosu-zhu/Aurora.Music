@@ -156,7 +156,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                             <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
                                 <GradientStopCollection>
                                     <GradientStop Color="{ThemeResource SystemAltHighColor}" Offset="0"/>
-                                    <GradientStop Color="{ThemeResource SystemAltMediumHighColor}" Offset="0.8"/>
+                                    <GradientStop Color="{ThemeResource SystemAltMediumColor}" Offset="0.5"/>
+                                    <GradientStop Color="{ThemeResource SystemAltLowColor}" Offset="0.75"/>
                                     <GradientStop Color="Transparent" Offset="1"/>
                                 </GradientStopCollection>
                             </LinearGradientBrush>

@@ -4,7 +4,7 @@
 using System;
 using System.Linq;
 using System.Numerics;
-using System.Threading;
+
 using Aurora.Music.Controls;
 using Aurora.Music.Core;
 using Aurora.Music.ViewModels;

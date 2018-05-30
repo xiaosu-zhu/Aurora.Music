@@ -12,7 +12,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     xmlns:list="using:Aurora.Music.Controls.ListItems"
     xmlns:vm="using:Aurora.Music.ViewModels"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
     xmlns:wuxdata="using:Windows.UI.Xaml.Data"
     Unloaded="Page_Unloaded"
     mc:Ignorable="d">

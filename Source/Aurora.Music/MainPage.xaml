@@ -1160,27 +1160,44 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                 Background="{ThemeResource ImageDarkOverlay}" Grid.Column="1"
                                 Margin="8" Visibility="{x:Bind Context.NightModeEnabled}"/>
-                        <Viewbox Margin="4,8" HorizontalAlignment="Right" VerticalAlignment="Center" Stretch="Uniform">
-                            <StackPanel x:Name="NowPanelTexts" Orientation="Vertical" MaxWidth="240"
-                                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <Grid x:Name="NowPanelTexts" Margin="4,8" 
+                              HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="4*"/>
+                                <RowDefinition Height="3*"/>
+                                <RowDefinition Height="3*"/>
+                            </Grid.RowDefinitions>
+                            <Viewbox HorizontalAlignment="Right" VerticalAlignment="Stretch" 
+                                     Stretch="Uniform" Grid.Row="0">
                                 <TextBlock x:Name="Title" Text="{x:Bind Context.CurrentTitle, Mode=OneWay}" 
                                            ToolTipService.ToolTip="{x:Bind Context.CurrentTitle,Mode=OneWay}"
                                            TextWrapping="NoWrap" HorizontalAlignment="Right"
-                                           Style="{ThemeResource BaseTextBlockStyle}" MaxLines="1" TextTrimming="CharacterEllipsis"/>
+                                           Style="{ThemeResource BaseTextBlockStyle}" MaxLines="1" 
+                                           TextTrimming="CharacterEllipsis" MaxWidth="240"/>
+
+                            </Viewbox>
+                            <Viewbox HorizontalAlignment="Right" VerticalAlignment="Stretch" 
+                                     Stretch="Uniform" Grid.Row="1">
                                 <TextBlock x:Name="Album" Text="{x:Bind Context.CurrentAlbum, Mode=OneWay}" 
                                            ToolTipService.ToolTip="{x:Bind Context.CurrentAlbum,Mode=OneWay}"
                                            HorizontalAlignment="Right"
-                                           Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" FontSize="13" 
+                                           Style="{ThemeResource BodyTextBlockStyle}" 
+                                           MaxLines="1" FontSize="13" 
                                            Foreground="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
-                                           TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"/>
+                                           TextWrapping="NoWrap" MaxWidth="240"
+                                           TextTrimming="CharacterEllipsis"/>
+                            </Viewbox>
+                            <Viewbox HorizontalAlignment="Right" VerticalAlignment="Stretch" 
+                                     Stretch="Uniform" Grid.Row="2">
                                 <TextBlock x:Name="Artist" Text="{x:Bind Context.CurrentArtist, Mode=OneWay}" 
                                            ToolTipService.ToolTip="{x:Bind Context.CurrentArtist,Mode=OneWay}"
                                            HorizontalAlignment="Right"
-                                           Style="{ThemeResource BodyTextBlockStyle}" MaxLines="1" FontSize="13" 
+                                           Style="{ThemeResource BodyTextBlockStyle}" 
+                                           MaxLines="1" FontSize="13" MaxWidth="240"
                                            Foreground="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
                                            TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"/>
-                            </StackPanel>
-                        </Viewbox>
+                            </Viewbox>
+                        </Grid>
                     </Grid>
                 </Button.Content>
 

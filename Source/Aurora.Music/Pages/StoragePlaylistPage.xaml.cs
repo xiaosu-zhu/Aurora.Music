@@ -1,27 +1,28 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
+using System;
+using System.Linq;
+using System.Numerics;
+
 using Aurora.Music.Core;
 using Aurora.Music.ViewModels;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+
+using ExpressionBuilder;
+
 using Windows.Storage;
-using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
+
+using EF = ExpressionBuilder.ExpressionFunctions;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -239,6 +240,51 @@ namespace Aurora.Music.Pages
         private async void HeaderGroup_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
             await AlbumList.GetScrollViewer().ChangeViewAsync(null, 0, false);
+        }
+
+        private void AlbumList_Loaded(object sender, RoutedEventArgs e)
+        {
+            var scrollviewer = AlbumList.GetScrollViewer();
+            var _scrollerPropertySet = ElementCompositionPreview.GetScrollViewerManipulationPropertySet(scrollviewer);
+            var _compositor = _scrollerPropertySet.Compositor;
+
+            // Get references to our property sets for use with ExpressionNodes
+            var scrollingProperties = _scrollerPropertySet.GetSpecializedReference<ManipulationPropertySetReferenceNode>();
+
+            var headerHeight = (float)(HeaderGroup.ActualHeight - (0f + HeaderGroup.Margin.Bottom));
+            var toolbarHeight = (float)Toolbar.ActualHeight;
+
+
+            var progressAnimation = EF.Conditional(-scrollingProperties.Translation.Y > headerHeight, EF.Conditional(-scrollingProperties.Translation.Y > headerHeight + toolbarHeight, 0, -scrollingProperties.Translation.Y - headerHeight - toolbarHeight), -toolbarHeight);
+
+            // 0~1
+            progressAnimation = (progressAnimation + toolbarHeight) / toolbarHeight;
+
+            var toolbarVisual = ElementCompositionPreview.GetElementVisual(Toolbar);
+
+
+            toolbarVisual.StartAnimation("Offset.Y", progressAnimation * 16 - 16);
+
+            var bgVisual = ElementCompositionPreview.GetElementVisual(TitleBG);
+            bgVisual.StartAnimation("Opacity", progressAnimation);
+            toolbarVisual.StartAnimation("Opacity", progressAnimation);
+
+
+            var moving = 80f;
+
+            var movingAnimation = EF.Conditional(-scrollingProperties.Translation.Y > moving, 0f, moving + scrollingProperties.Translation.Y);
+
+            var scaleAnimation = EF.Clamp(-scrollingProperties.Translation.Y / moving, 0, 1);
+            scaleAnimation = EF.Lerp(1, (float)(ToolbarTitle.ActualHeight / TitleText.ActualHeight), scaleAnimation);
+
+            var titleVisual = ElementCompositionPreview.GetElementVisual(Title);
+            titleVisual.StartAnimation("Offset.Y", movingAnimation);
+
+            var titleTextVisual = ElementCompositionPreview.GetElementVisual(TitleText);
+
+            titleTextVisual.CenterPoint = new Vector3(0, (float)TitleText.ActualHeight / 2, 0);
+            titleTextVisual.StartAnimation("Scale.X", scaleAnimation);
+            titleTextVisual.StartAnimation("Scale.Y", scaleAnimation);
         }
     }
 }
