@@ -26,7 +26,7 @@ namespace Aurora.Music.Core.Storage
 
         public static async Task<bool> LogintoOnedriveAsync()
         {
-            OneDriveService.ServicePlatformInitializer = new Microsoft.Toolkit.Uwp.Services.OneDrive.Platform.OneDriveServicePlatformInitializer();
+            OneDriveService.ServicePlatformInitializer = new Microsoft.Toolkit.Services.OneDrive.Uwp.OneDriveServicePlatformInitializer();
 
             // Hide This
             OneDriveService.Instance.Initialize(Consts.GraphServiceKey, new[] { Microsoft.Toolkit.Services.Services.MicrosoftGraph.MicrosoftGraphScope.FilesReadAll });
@@ -42,7 +42,7 @@ namespace Aurora.Music.Core.Storage
                     throw new InvalidOperationException("Failed to log in");
                 if (rootFolder is null)
                 {
-                    var root = await OneDriveService.Instance.RootFolderAsync();
+                    var root = await OneDriveService.Instance.AppRootFolderAsync();
                     Interlocked.CompareExchange(ref rootFolder, root, null);
                 }
             }

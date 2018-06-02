@@ -29,6 +29,7 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
@@ -387,17 +388,8 @@ namespace Aurora.Music
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
             {
-                InAppNotify.Content = msg;
-                InAppNotify.Show();
+                InAppNotify.Show(msg, 3000);
             });
-            dismissTimer?.Cancel();
-            dismissTimer = ThreadPoolTimer.CreateTimer(async (x) =>
-            {
-                await Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
-                {
-                    InAppNotify.Dismiss();
-                });
-            }, TimeSpan.FromMilliseconds(3000));
         }
         private void TitleBar_Loaded(object sender, RoutedEventArgs e)
         {
@@ -1449,6 +1441,78 @@ namespace Aurora.Music
         private void DimissMoreFlyout(object sender, RoutedEventArgs e)
         {
             MoreFlyout.Hide();
+        }
+
+        private void NowPanelButton_ContextRequested(UIElement sender, Windows.UI.Xaml.Input.ContextRequestedEventArgs args)
+        {
+            var model = Context.CurrentSong;
+            if (model == null)
+            {
+                return;
+            }
+
+            var requestedElement = (FrameworkElement)args.OriginalSource;
+
+            var albumMenu = SongFlyout.Items.First(x => x.Name == "AlbumMenu") as MenuFlyoutItem;
+            albumMenu.Text = model.Album;
+            albumMenu.Visibility = Visibility.Visible;
+
+            // remove performers in flyout
+            var index = SongFlyout.Items.IndexOf(albumMenu);
+            while (!(SongFlyout.Items[index + 1] is MenuFlyoutSeparator))
+            {
+                SongFlyout.Items.RemoveAt(index + 1);
+            }
+            // add song's performers to flyout
+            if (!model.Performers.IsNullorEmpty())
+            {
+                if (model.Performers.Length == 1)
+                {
+                    var menuItem = new MenuFlyoutItem()
+                    {
+                        Text = $"{model.Performers[0]}",
+                        Icon = new FontIcon()
+                        {
+                            Glyph = "\uE136"
+                        }
+                    };
+                    menuItem.Click += MenuFlyoutArtist_Click;
+                    SongFlyout.Items.Insert(index + 1, menuItem);
+                }
+                else
+                {
+                    var sub = new MenuFlyoutSubItem()
+                    {
+                        Text = $"{Consts.Localizer.GetString("PerformersText")}:",
+                        Icon = new FontIcon()
+                        {
+                            Glyph = "\uE136"
+                        }
+                    };
+                    foreach (var item in model.Performers)
+                    {
+                        var menuItem = new MenuFlyoutItem()
+                        {
+                            Text = item
+                        };
+                        menuItem.Click += MenuFlyoutArtist_Click;
+                        sub.Items.Add(menuItem);
+                    }
+                    SongFlyout.Items.Insert(index + 1, sub);
+                }
+
+
+                if (args.TryGetPosition(requestedElement, out var point))
+                {
+                    SongFlyout.ShowAt(requestedElement, point);
+                }
+                else
+                {
+                    SongFlyout.ShowAt(requestedElement);
+                }
+
+                args.Handled = true;
+            }
         }
     }
 }

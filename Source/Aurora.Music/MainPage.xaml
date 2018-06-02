@@ -1145,7 +1145,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </Grid.ColumnDefinitions>
             <Button Style="{ThemeResource RevealRectangleButton}" BorderThickness="0" x:Name="NowPanelButton"
                     Background="Transparent" Grid.Column="3" HorizontalContentAlignment="Right"
-                    Width="320"
+                    Width="320" ContextRequested="NowPanelButton_ContextRequested"
                     Click="NowPanel_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Button.Content>
                     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -1183,7 +1183,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                            HorizontalAlignment="Right"
                                            Style="{ThemeResource BodyTextBlockStyle}" 
                                            MaxLines="1" FontSize="13" 
-                                           Foreground="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
+                                           Foreground="{ThemeResource SystemControlBackgroundBaseMediumLowRevealBorderBrush}"
                                            TextWrapping="NoWrap" MaxWidth="240"
                                            TextTrimming="CharacterEllipsis"/>
                             </Viewbox>
@@ -1194,7 +1194,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                            HorizontalAlignment="Right"
                                            Style="{ThemeResource BodyTextBlockStyle}" 
                                            MaxLines="1" FontSize="13" MaxWidth="240"
-                                           Foreground="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
+                                           Foreground="{ThemeResource SystemControlBackgroundBaseMediumLowRevealBorderBrush}"
                                            TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"/>
                             </Viewbox>
                         </Grid>
@@ -1382,7 +1382,12 @@ Licensed under the MIT License. See LICENSE in the project root for license info
               Grid.ColumnSpan="2" Grid.RowSpan="3">
             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
                 <interactivity:Interaction.Behaviors>
-                    <behaviors:Blur x:Name="BlurBehavior" Duration="960" Value="0" Delay="0" AutomaticallyStart="True"/>
+                    <behaviors:Blur x:Name="BlurBehavior" Duration="960"
+                                    EasingType="Quintic"
+                                    EasingMode="EaseOut"
+                                    Value="0" 
+                                    Delay="0" 
+                                    AutomaticallyStart="True"/>
                 </interactivity:Interaction.Behaviors>
             </Grid>
             <ProgressRing Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" x:Name="ModalRing" 
@@ -1394,7 +1399,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         </Grid>
 
         <toolkit:InAppNotification x:Name="InAppNotify" Style="{ThemeResource ToastNotificationStyle}" Content=""
-                                    AnimationDuration="0:0:0.64" VerticalOffset="16" HorizontalOffset="0"/>
+                                   Grid.ColumnSpan="2" Grid.RowSpan="3"
+                                   AnimationDuration="0:0:0.64" VerticalOffset="16" HorizontalOffset="0"/>
 
         <toolkit:InAppNotification x:Name="ProgressUpdateNotify" Style="{ThemeResource ProgressNotificationStyle}"
                                    Grid.ColumnSpan="2" Grid.RowSpan="3"

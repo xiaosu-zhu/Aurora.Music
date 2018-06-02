@@ -455,7 +455,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     </ControlTemplate>
 
     <Style x:Key="ToastNotificationStyle" TargetType="toolkit:InAppNotification">
-        <Setter Property="Background" Value="{ThemeResource SystemControlBlackAcrylicElementBrush}" />
+        <Setter Property="Background" Value="{ThemeResource SystemControlBaseTranslucentAcrylicElementBrush}" />
         <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundAltHighBrush}" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Bottom" />

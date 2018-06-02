@@ -348,6 +348,16 @@ namespace Aurora.Music.ViewModels
 
         internal async Task<AlbumInfo> GetAlbumInfoAsync(string album, string artist)
         {
+            if (!Settings.Current.DataPlayEnabled)
+            {
+                return new AlbumInfo()
+                {
+                    AltArtwork = null,
+                    Description = "Disabled fetching according to setting",
+                    Artist = artist,
+                    Name = album
+                };
+            }
             var querys = new ValueSet()
             {
                 new KeyValuePair<string,object>("album", album),
@@ -365,6 +375,15 @@ namespace Aurora.Music.ViewModels
 
         internal async Task<Core.Models.Artist> GetArtistInfoAsync(string artist)
         {
+            if (!Settings.Current.DataPlayEnabled)
+            {
+                return new Core.Models.Artist()
+                {
+                    AvatarUri = null,
+                    Description = "Disabled fetching according to setting",
+                    Name = artist
+                };
+            }
             var querys = new ValueSet()
             {
                 new KeyValuePair<string, object>("action", "artist"),
@@ -676,11 +695,12 @@ namespace Aurora.Music.ViewModels
                 isShuffle = e.IsShuffle;
                 RaisePropertyChanged("IsLoop");
                 RaisePropertyChanged("IsShuffle");
+
+                if (e.PlaybackStatus == MediaPlaybackState.Playing && Settings.Current.PreventLockscreen)
+                {
+                    ActivateDisplay();
+                }
             });
-            if (e.PlaybackStatus == MediaPlaybackState.Playing && Settings.Current.PreventLockscreen)
-            {
-                ActivateDisplay();
-            }
         }
 
         public async Task ReloadExtensionsAsync()
@@ -746,6 +766,7 @@ namespace Aurora.Music.ViewModels
         }
 
         public List<FileTracker> Trackers { get; private set; } = new List<FileTracker>();
+        public Song CurrentSong { get; private set; }
 
         internal async Task SearchAsync(string text, AutoSuggestBoxTextChangedEventArgs args)
         {
@@ -1035,6 +1056,7 @@ namespace Aurora.Music.ViewModels
             {
                 if (e.CurrentIndex == -1)
                 {
+                    CurrentSong = null;
                     NowPlayingList.Clear();
                     NowListPreview = "-/-";
                     CurrentTitle = null;
@@ -1050,6 +1072,7 @@ namespace Aurora.Music.ViewModels
 
                 if (e.CurrentSong != null)
                 {
+                    CurrentSong = e.CurrentSong;
                     var p = e.CurrentSong;
                     CurrentTitle = p.Title.IsNullorEmpty() ? p.FilePath.Split('\\').LastOrDefault() : p.Title;
                     IsPodcast = p.IsPodcast;
@@ -1200,20 +1223,39 @@ namespace Aurora.Music.ViewModels
 
         internal async Task InstantPlayAsync(IList<Song> songs, int startIndex = 0)
         {
-            await player.NewPlayList(songs, startIndex);
-            player.Play();
+            if (songs.Any(a => a.IsOnline) && !Settings.Current.DataPlayEnabled)
+            {
+                MainPage.Current.PopMessage("Filtered online songs according to setting");
+                songs = songs.Where(a => !a.IsOnline).ToList();
+            }
+            Task.Run(async () =>
+            {
+                await player.NewPlayList(songs, startIndex);
+                player.Play();
+            });
         }
 
         internal async Task InstantPlayAsync(List<StorageFile> list, int startIndex = 0)
         {
-            await player.NewPlayList(list, startIndex);
-            player.Play();
+            Task.Run(async () =>
+            {
+                await player.NewPlayList(list, startIndex);
+                player.Play();
+            });
         }
 
         internal async Task PlayNextAsync(IList<Song> songs)
         {
-            await player.AddtoNextPlay(songs);
-            player.Play();
+            if (songs.Any(a => a.IsOnline) && !Settings.Current.DataPlayEnabled)
+            {
+                MainPage.Current.PopMessage("Filtered online songs according to setting");
+                songs = songs.Where(a => !a.IsOnline).ToList();
+            }
+            Task.Run(async () =>
+            {
+                await player.AddtoNextPlay(songs);
+                player.Play();
+            });
         }
 
         public Symbol NullableBoolToSymbol(bool? b)

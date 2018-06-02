@@ -107,7 +107,7 @@ namespace Aurora.Music.ViewModels
                     });
                 });
             });
-            Core.Models.AlbumInfo info = null;
+            AlbumInfo info = null;
             try
             {
                 if (Album.Name != null)

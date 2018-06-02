@@ -470,6 +470,11 @@ namespace Aurora.Music.ViewModels
         {
             if (Song.IsOnline)
             {
+                if (!Settings.Current.DataDownloadEnabled)
+                {
+                    MainPage.Current.PopMessage("Disabled downloading according to setting");
+                    return;
+                }
                 StorageFolder folder;
                 try
                 {

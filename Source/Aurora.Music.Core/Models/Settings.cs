@@ -173,8 +173,8 @@ namespace Aurora.Music.Core.Models
         public ulong LastUpdateBuild { get; set; } = 0ul;
 
         public bool MetaDataEnabled { get; set; } = true;
-        public bool DataPlayEnabled { get; set; } = true;
-        public bool DataDownloadEnabled { get; set; } = true;
+        public bool DataPlayEnabled { get; set; } = false;
+        public bool DataDownloadEnabled { get; set; } = false;
         public bool IsPodcastToast { get; set; } = true;
         public uint FetchInterval { get; set; } = 30;
         public bool ShowPodcastsWhenSearch { get; set; } = true;

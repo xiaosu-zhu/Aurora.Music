@@ -226,18 +226,6 @@ namespace Aurora.Music.ViewModels
             });
         }
 
-        private bool metaDataEnabled = Settings.Current.MetaDataEnabled;
-        public bool MetaDataEnabled
-        {
-            get { return metaDataEnabled; }
-            set
-            {
-                Settings.Current.MetaDataEnabled = value;
-                Settings.Current.Save();
-                SetProperty(ref metaDataEnabled, value);
-            }
-        }
-
         private bool dontOverlay = Settings.Current.DontOverlay;
         public bool DontOverlay
         {

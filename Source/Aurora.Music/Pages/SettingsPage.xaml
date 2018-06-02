@@ -335,11 +335,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <controls:VolumeToStringConverter x:Key="VolumeToStringConverter"/>
             <controls:BooleanNottoVisibilityConverter x:Key="BooleanNottoVisibilityConverter"/>
             <controls:IntervalToStringConverter x:Key="IntervalToStringConverter"/>
-            <ControlTemplate x:Name="ScrollViewerScrollBarlessTemplate" TargetType="ScrollViewer">
-                <Grid Background="{TemplateBinding Background}">
-                    <ScrollContentPresenter x:Name="ScrollContentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Margin="{TemplateBinding Padding}"/>
-                </Grid>
-            </ControlTemplate>
         </ResourceDictionary>
     </Page.Resources>
 
@@ -484,8 +479,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                 BorderThickness="1" VerticalAlignment="Stretch"
                                 HorizontalAlignment="Left" ItemTemplate="{StaticResource ExtensionTemplate}"
                                 ItemsSource="{Binding MetaExts}" Header="MetaData Extension" Margin="0,12"/>
-                        <ToggleSwitch Visibility="Collapsed" IsOn="{Binding MetaDataEnabled, Mode=TwoWay}" 
-                                    Header="Automatically retrieve album/artist metadata" Margin="0,12" />
                         <TextBlock Visibility="{Binding OnlinePurchase, Converter={StaticResource BooleanNottoVisibilityConverter}, Mode=OneWay}" 
                                 Style="{ThemeResource BodyTextBlockStyle}" IsTextSelectionEnabled="False" Margin="0,12">
                                 <Run x:Uid="ExtensionIntro" Text="You can enable or restore online extensibility from"/>

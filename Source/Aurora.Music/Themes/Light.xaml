@@ -22,8 +22,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     <AcrylicBrush x:Key="SystemControlBaseTranslucentAcrylicElementBrush" BackgroundSource="Backdrop" TintColor="{StaticResource SystemBaseHighColor}" TintOpacity="0.5" FallbackColor="{StaticResource SystemBaseLowColor}" />
     <AcrylicBrush x:Key="SystemControlBaseTranslucentAcrylicWindowBrush" BackgroundSource="HostBackdrop" TintColor="{StaticResource SystemBaseHighColor}" TintOpacity="0.5" FallbackColor="{StaticResource SystemBaseLowColor}" />
 
-    <AcrylicBrush x:Key="SystemControlBlackAcrylicElementBrush" BackgroundSource="Backdrop" TintColor="{StaticResource SystemBaseHighColor}" TintOpacity="0.33333" FallbackColor="{StaticResource SystemBaseMediumColor}" />
-
     <RevealBorderBrush x:Key="SystemControlBackgroundAltLowRevealBrush" TargetTheme="Light" Color="{StaticResource SystemRevealAltLowColor}" FallbackColor="{StaticResource SystemAltLowColor}" />
     <RevealBorderBrush x:Key="SystemControlBackgroundAltHighRevealBrush" TargetTheme="Light" Color="{StaticResource SystemRevealAltHighColor}" FallbackColor="{StaticResource SystemAltHighColor}" />
     <RevealBorderBrush x:Key="SystemControlBackgroundAltMediumRevealBrush" TargetTheme="Light" Color="{StaticResource SystemRevealAltMediumColor}" FallbackColor="{StaticResource SystemAltHighColor}" />

@@ -225,7 +225,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <behaviors:Blur x:Name="BlurBehavior"
                                     Duration="960" 
                                     Value="0" 
-                                    Delay="0" 
+                                    Delay="0"
+                                    EasingType="Quintic"
+                                    EasingMode="EaseOut"
                                     AutomaticallyStart="True"/>
                 </interactivity:Interaction.Behaviors>
             </Grid>

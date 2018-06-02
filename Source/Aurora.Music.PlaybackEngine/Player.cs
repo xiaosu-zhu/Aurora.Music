@@ -270,7 +270,7 @@ namespace Aurora.Music.PlaybackEngine
         {
             if (items.IsNullorEmpty())
             {
-                throw new ArgumentNullException("Items empty");
+                return;
             }
 
             newComing = true;
@@ -344,7 +344,7 @@ namespace Aurora.Music.PlaybackEngine
         {
             if (items.IsNullorEmpty())
             {
-                throw new ArgumentNullException("Items empty");
+                return;
             }
 
             newComing = true;
