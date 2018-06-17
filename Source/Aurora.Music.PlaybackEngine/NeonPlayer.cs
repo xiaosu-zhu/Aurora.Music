@@ -384,7 +384,6 @@ namespace Aurora.Music.PlaybackEngine
                 return;
             }
 
-            newComing = true;
             _addPlayListTask?.Cancel();
 
             MediaPlayer.Pause();
@@ -405,22 +404,11 @@ namespace Aurora.Music.PlaybackEngine
 
             foreach (var file in items)
             {
-                MediaSource mediaSource;
-
                 var item = await FileReader.ReadFileAsync(file);
-
-                mediaSource = MediaSource.CreateFromStorageFile(file);
-                mediaSource.CustomProperties[Consts.SONG] = item;
-
-                var mediaPlaybackItem = new MediaPlaybackItem(mediaSource);
-                var props = mediaPlaybackItem.GetDisplayProperties();
-
-                await WritePropertiesAsync(item, props, item.PicturePath);
-
-                mediaPlaybackItem.ApplyDisplayProperties(props);
-                mediaPlaybackList.Items.Add(mediaPlaybackItem);
+                item.File = file;
                 currentList.Add(item);
             }
+
             if (startIndex > mediaPlaybackList.Items.Count - 1)
             {
                 startIndex = mediaPlaybackList.Items.Count - 1;
@@ -428,8 +416,32 @@ namespace Aurora.Music.PlaybackEngine
             if (startIndex < 0)
                 startIndex = 0;
 
+            // head
+            var headIndex = startIndex - 1;
+            if (headIndex < 0)
+            {
+                headIndex = currentList.Count - 1;
+            }
+            var head = await GetMediaPlaybackItemAsync(currentList[headIndex]);
+            mediaPlaybackList.Items.Add(head);
+            // current
+            var mid = await GetMediaPlaybackItemAsync(currentList[startIndex]);
+            mediaPlaybackList.Items.Add(mid);
+            // tail
+            var tailIndex = startIndex + 1;
+            if (tailIndex >= items.Count)
+            {
+                tailIndex = 0;
+            }
+            var tail = await GetMediaPlaybackItemAsync(currentList[tailIndex]);
+            mediaPlaybackList.Items.Add(tail);
+
+            mediaPlaybackList.StartingItem = mid;
+
             mediaPlaybackList.StartingItem = mediaPlaybackList.Items[startIndex];
             MediaPlayer.Source = mediaPlaybackList;
+
+            PlaybackSession_PlaybackStateChanged(null, null);
         }
 
         private async Task<MediaPlaybackItem> GetMediaPlaybackItemAsync(Song item)
@@ -451,7 +463,17 @@ namespace Aurora.Music.PlaybackEngine
                 try
                 {
                     /// **Local files can only create from <see cref="StorageFile"/>**
-                    var file = await StorageFile.GetFileFromPathAsync(item.FilePath);
+
+                    StorageFile file;
+
+                    if (item.File != null)
+                    {
+                        file = item.File;
+                    }
+                    else
+                    {
+                        file = await StorageFile.GetFileFromPathAsync(item.FilePath);
+                    }
 
                     var img = await Core.Tools.Helper.UpdateSongAsync(item, file);
 
@@ -940,7 +962,6 @@ namespace Aurora.Music.PlaybackEngine
             }
         }
 
-        // TODO
         public async Task AddtoNextPlay(IList<Song> items)
         {
             if (mediaPlaybackList.CurrentItem == null)
@@ -954,26 +975,7 @@ namespace Aurora.Music.PlaybackEngine
             // NOTE: add to current song list
             currentList.InsertRange(curIdx + 1, items);
 
-            for (int i = 0; i < items.Count; i++)
-            {
-                try
-                {
-                    var item = items[i];
 
-                    var mediaPlaybackItem = await GetMediaPlaybackItemAsync(item);
-
-                    if (newComing)
-                        return;
-
-
-                    mediaPlaybackList.Items.Insert(curIdx + 1 + i, mediaPlaybackItem);
-
-                }
-                catch (FileNotFoundException)
-                {
-                    continue;
-                }
-            }
             ItemsChanged?.Invoke(this, new PlayingItemsChangedArgs()
             {
                 IsShuffle = isShuffle,

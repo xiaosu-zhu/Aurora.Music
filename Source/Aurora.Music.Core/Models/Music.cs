@@ -602,6 +602,7 @@ namespace Aurora.Music.Core.Models
         public DateTime PubDate { get; set; }
         public bool IsOnedrive { get; set; }
         public DateTime LastModified { get; set; }
+        public StorageFile File { get; set; }
 
         public async Task<bool> GetFavoriteAsync()
         {

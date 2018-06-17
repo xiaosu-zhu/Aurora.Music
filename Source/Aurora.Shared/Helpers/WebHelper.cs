@@ -336,13 +336,6 @@ namespace Aurora.Shared.Helpers
             return internet;
         }
 
-
-        public static bool IsMeteredNetwork()
-        {
-            var connectionCost = NetworkInformation.GetInternetConnectionProfile().GetConnectionCost();
-            return !(connectionCost.NetworkCostType == NetworkCostType.Unknown || connectionCost.NetworkCostType == NetworkCostType.Unrestricted);
-        }
-
         public static async Task<IAsyncOperationWithProgress<DownloadOperation, DownloadOperation>> DownloadFileAsync(string name, Uri uri, StorageFolder folder = null)
         {
             var downloader = new BackgroundDownloader();

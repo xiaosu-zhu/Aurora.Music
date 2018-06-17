@@ -348,7 +348,7 @@ namespace Aurora.Music.ViewModels
 
         internal async Task<AlbumInfo> GetAlbumInfoAsync(string album, string artist)
         {
-            if (!Settings.Current.DataPlayEnabled)
+            if (!Settings.Current.DataPlayEnabled && Microsoft.Toolkit.Uwp.Connectivity.NetworkHelper.Instance.ConnectionInformation.IsInternetOnMeteredConnection)
             {
                 return new AlbumInfo()
                 {
@@ -375,7 +375,7 @@ namespace Aurora.Music.ViewModels
 
         internal async Task<Core.Models.Artist> GetArtistInfoAsync(string artist)
         {
-            if (!Settings.Current.DataPlayEnabled)
+            if (!Settings.Current.DataPlayEnabled && Microsoft.Toolkit.Uwp.Connectivity.NetworkHelper.Instance.ConnectionInformation.IsInternetOnMeteredConnection)
             {
                 return new Core.Models.Artist()
                 {
@@ -1223,7 +1223,7 @@ namespace Aurora.Music.ViewModels
 
         internal async Task InstantPlayAsync(IList<Song> songs, int startIndex = 0)
         {
-            if (songs.Any(a => a.IsOnline) && !Settings.Current.DataPlayEnabled)
+            if (songs.Any(a => a.IsOnline) && !Settings.Current.DataPlayEnabled && Microsoft.Toolkit.Uwp.Connectivity.NetworkHelper.Instance.ConnectionInformation.IsInternetOnMeteredConnection)
             {
                 MainPage.Current.PopMessage("Filtered online songs according to setting");
                 songs = songs.Where(a => !a.IsOnline).ToList();
@@ -1246,7 +1246,7 @@ namespace Aurora.Music.ViewModels
 
         internal async Task PlayNextAsync(IList<Song> songs)
         {
-            if (songs.Any(a => a.IsOnline) && !Settings.Current.DataPlayEnabled)
+            if (songs.Any(a => a.IsOnline) && !Settings.Current.DataPlayEnabled && Microsoft.Toolkit.Uwp.Connectivity.NetworkHelper.Instance.ConnectionInformation.IsInternetOnMeteredConnection)
             {
                 MainPage.Current.PopMessage("Filtered online songs according to setting");
                 songs = songs.Where(a => !a.IsOnline).ToList();
