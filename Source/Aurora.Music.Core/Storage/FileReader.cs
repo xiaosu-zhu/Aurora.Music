@@ -36,7 +36,7 @@ namespace Aurora.Music.Core.Storage
                 {
                     var options = new Windows.Storage.Search.QueryOptions
                     {
-                        FileTypeFilter = { ".flac", ".wav", ".m4a", ".aac", ".mp3", ".wma" },
+                        FileTypeFilter = { ".flac", ".wav", ".m4a", ".aac", ".mp3", ".wma", ".ogg", ".oga" },
                         FolderDepth = Windows.Storage.Search.FolderDepth.Deep,
                         IndexerOption = Windows.Storage.Search.IndexerOption.DoNotUseIndexer,
                     };
@@ -104,6 +104,35 @@ namespace Aurora.Music.Core.Storage
                 res.AddRange(otherGrouping.ToList().ConvertAll(a => new Album(a)));
             }
             return res;
+        }
+
+        public static async Task<int> CountAsync<T>() where T : new()
+        {
+            if (typeof(T) == typeof(Song))
+            {
+                return await SQLOperator.Current().CountAsync<SONG>();
+            }
+            if (typeof(T) == typeof(Album))
+            {
+                return await SQLOperator.Current().CountAsync<ALBUM>();
+            }
+            if (typeof(T) == typeof(Artist))
+            {
+                return await SQLOperator.Current().CountAsync<Artist>();
+            }
+            if (typeof(T) == typeof(PlayList))
+            {
+                return await SQLOperator.Current().CountAsync<PLAYLIST>();
+            }
+            if (typeof(T) == typeof(Podcast))
+            {
+                return await SQLOperator.Current().CountAsync<PODCAST>();
+            }
+            if (typeof(T) == typeof(StorageFolder))
+            {
+                return await SQLOperator.Current().CountAsync<FOLDER>();
+            }
+            return await SQLOperator.Current().CountAsync<T>();
         }
 
         public static async Task<List<GenericMusicItem>> GetFavListAsync()

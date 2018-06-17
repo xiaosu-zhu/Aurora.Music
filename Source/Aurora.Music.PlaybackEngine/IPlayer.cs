@@ -9,7 +9,7 @@ using Windows.Storage.Streams;
 
 namespace Aurora.Music.PlaybackEngine
 {
-    public interface IPlayer
+    public interface IPlayer : IDisposable
     {
         [UriActivate("?action=play", Usage = ActivateUsage.Query)]
         void Play();
@@ -30,6 +30,8 @@ namespace Aurora.Music.PlaybackEngine
         void Loop(bool? isOn);
         void Shuffle(bool? isOn);
 
+        MediaPlayer MediaPlayer { get; }
+
         bool? IsPlaying { get; }
         double PlaybackRate { get; set; }
         double Volume { get; }
@@ -39,7 +41,7 @@ namespace Aurora.Music.PlaybackEngine
         event EventHandler<PlaybackStatusChangedArgs> PlaybackStatusChanged;
         event EventHandler<DownloadProgressChangedArgs> DownloadProgressChanged;
 
-        void SkiptoIndex(uint index);
+        void SkiptoIndex(int index);
         Task ReloadCurrent();
         void RemoveCurrentItem();
         Task DetachCurrentItem();
@@ -65,6 +67,8 @@ namespace Aurora.Music.PlaybackEngine
         public bool IsLoop { get; set; }
         public bool IsShuffle { get; set; }
 
+        public bool IsOneLoop { get; set; }
+
         public RandomAccessStreamReference Thumnail { get; set; }
 
         public int CurrentIndex { get; set; }
@@ -76,6 +80,7 @@ namespace Aurora.Music.PlaybackEngine
         public MediaPlaybackState PlaybackStatus { get; set; }
         public bool IsShuffle { get; set; }
         public bool IsLoop { get; set; }
+        public bool IsOneLoop { get; set; }
     }
 
     public class PositionUpdatedArgs

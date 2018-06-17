@@ -675,7 +675,7 @@ namespace Aurora.Music.ViewModels
                 visualizerSource.SourceChanged -= VisualizerSource_SourceChanged;
                 visualizerSource = null;
             }
-            if (player is Player p)
+            if (player is IPlayer p)
             {
                 visualizerSource = new PlaybackSource(p.MediaPlayer);
                 visualizerSource.SourceChanged += VisualizerSource_SourceChanged;
@@ -1278,7 +1278,7 @@ namespace Aurora.Music.ViewModels
 
         internal void SkiptoItem(SongViewModel songViewModel)
         {
-            player.SkiptoIndex(songViewModel.Index);
+            player.SkiptoIndex((int)songViewModel.Index);
         }
 
         public double PositionToValue(TimeSpan t1, TimeSpan total)

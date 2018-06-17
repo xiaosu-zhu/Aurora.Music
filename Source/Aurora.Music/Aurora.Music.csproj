@@ -382,6 +382,7 @@
     <Content Include="Assets\LargeTile.scale-400.png" />
     <Content Include="Assets\Others\ali-icon.png" />
     <Content Include="Assets\Others\ali.png" />
+    <Content Include="Assets\Others\art.txt" />
     <Content Include="Assets\Others\file.png" />
     <Content Include="Assets\Others\git-dark.png" />
     <Content Include="Assets\Others\lastfm.png" />

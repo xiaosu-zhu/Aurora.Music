@@ -111,8 +111,14 @@ namespace Aurora.Music.Pages
             LrcCombo.SelectionChanged += LyricCombo_SelectionChanged;
             MetaCombo.SelectionChanged += MetaCombo_SelectionChanged;
             DeviceCombo.SelectionChanged += DeviceCombo_SelectionChanged;
+            EngineCombo.SelectionChanged += EngineCombo_SelectionChanged;
             MainPivot.Height = Main.ActualHeight - Main.Padding.Top - Main.Padding.Top;
             Main.SizeChanged += SettingsPage_SizeChanged;
+        }
+
+        private void EngineCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Context.EngineIndex = EngineCombo.SelectedIndex;
         }
 
         private void DeviceCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -193,6 +199,14 @@ namespace Aurora.Music.Pages
                 DeviceCombo.SelectionChanged -= DeviceCombo_SelectionChanged;
                 DeviceCombo.SelectedIndex = Context.AudioSelectedIndex;
                 DeviceCombo.SelectionChanged += DeviceCombo_SelectionChanged;
+            });
+
+            Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
+            {
+                while (EngineCombo.Items.Count < 1) await Task.Delay(500);
+                EngineCombo.SelectionChanged -= EngineCombo_SelectionChanged;
+                EngineCombo.SelectedIndex = Context.EngineIndex;
+                EngineCombo.SelectionChanged += EngineCombo_SelectionChanged;
             });
 #pragma warning restore CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
         }

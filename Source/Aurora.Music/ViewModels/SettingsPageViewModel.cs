@@ -211,6 +211,8 @@ namespace Aurora.Music.ViewModels
                 folderPicker.FileTypeFilter.Add(".flac");
                 folderPicker.FileTypeFilter.Add(".aac");
                 folderPicker.FileTypeFilter.Add(".wma");
+                folderPicker.FileTypeFilter.Add(".ogg");
+                folderPicker.FileTypeFilter.Add(".oga");
                 folderPicker.FileTypeFilter.Add(".m3u");
                 folderPicker.FileTypeFilter.Add(".m3u8");
                 folderPicker.FileTypeFilter.Add(".wpl");
@@ -477,7 +479,7 @@ namespace Aurora.Music.ViewModels
             get => new DelegateCommand(async () =>
             {
                 MainPage.Current.ShowModalUI(true, "Deleting");
-                (PlaybackEngine.PlaybackEngine.Current as Player).Dispose();
+                (PlaybackEngine.PlaybackEngine.Current).Dispose();
                 Settings.Current.DANGER_DELETE();
                 var opr = SQLOperator.Current();
                 opr.Dispose();
@@ -791,9 +793,44 @@ namespace Aurora.Music.ViewModels
             _catalog.PackageUninstalling += _catalog_PackageUninstalling;
             _catalog.PackageUpdating += _catalog_PackageUpdating;
             _catalog.PackageStatusChanged += _catalog_PackageStatusChanged;
+
+
+            foreach (var e in Enum.GetValues(typeof(Engine)).Cast<Engine>())
+            {
+                EngineList.Add(new EngineViewModel()
+                {
+                    Engine = e
+                });
+            }
+
+
+            EngineIndex = (int)Settings.Current.PlaybackEngine;
         }
 
         public ObservableCollection<DeviceInformationViewModel> DevicList { get; set; } = new ObservableCollection<DeviceInformationViewModel>();
+
+        public ObservableCollection<EngineViewModel> EngineList { get; set; } = new ObservableCollection<EngineViewModel>();
+
+        private string engineHint;
+        public string EngineHint
+        {
+            get { return engineHint; }
+            set { SetProperty(ref engineHint, value); }
+        }
+
+        private int engineIndex;
+        public int EngineIndex
+        {
+            get { return engineIndex; }
+            set
+            {
+                SetProperty(ref engineIndex, value);
+                Settings.Current.PlaybackEngine = (Engine)value;
+                Settings.Current.Save();
+                EngineHint = Consts.EngineHint[value % 4];
+            }
+        }
+
         private StoreContext context;
         private AppExtensionCatalog _catalog;
         private StorageFolder downloadFolder;
@@ -1170,6 +1207,28 @@ namespace Aurora.Music.ViewModels
         public override string ToString()
         {
             return Name;
+        }
+    }
+
+    class EngineViewModel : ViewModelBase
+    {
+        public Engine Engine { get; set; }
+
+        public override string ToString()
+        {
+            switch (Engine)
+            {
+                case Engine.System:
+                    return "System";
+                case Engine.Neon:
+                    return "Neon";
+                case Engine.NAudio:
+                    return "NAudio (Not implemented)";
+                case Engine.BASS:
+                    return "BASS (Not implemented)";
+                default:
+                    return "";
+            }
         }
     }
 }

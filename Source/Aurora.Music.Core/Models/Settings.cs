@@ -5,7 +5,9 @@ using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Windows.Networking.Connectivity;
+using Windows.Storage;
 using Windows.UI.Xaml;
 
 namespace Aurora.Music.Core.Models
@@ -15,6 +17,11 @@ namespace Aurora.Music.Core.Models
     public enum Effects
     {
         None = 0, Reverb = 1, Limiter = 2, Equalizer = 4, ChannelShift = 8, All = Reverb | Limiter | Equalizer | ChannelShift
+    }
+
+    public enum Engine
+    {
+        System, Neon, NAudio, BASS
     }
 
     public enum Bitrate
@@ -209,5 +216,23 @@ namespace Aurora.Music.Core.Models
         public bool DontOverlay { get; set; } = false;
         public bool Singleton { get; set; } = false;
         public bool NightMode { get; set; } = false;
+
+        public Engine PlaybackEngine { get; set; } = Engine.System;
+
+        public static List<int> LibraryIndex()
+        {
+            var j = AsyncHelper.RunSync(async () => await FileIOHelper.ReadStringFromLocalAsync("LibraryIndex"));
+            if (j == null)
+            {
+                return null;
+            }
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<List<int>>(j);
+        }
+        public static async Task SaveLibraryIndex(List<int> l)
+        {
+            var j = Newtonsoft.Json.JsonConvert.SerializeObject(l);
+            var file = await FileIOHelper.GetFileFromLocalAsync("LibraryIndex");
+            await FileIO.WriteTextAsync(file, j);
+        }
     }
 }

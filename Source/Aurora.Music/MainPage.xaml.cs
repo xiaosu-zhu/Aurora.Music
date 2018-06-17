@@ -475,6 +475,11 @@ namespace Aurora.Music
 
         private async void SearchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
+            if (sender.Text.Equals("Aurora Music", StringComparison.InvariantCultureIgnoreCase))
+            {
+                Magic.Text = await FileIOHelper.ReadStringFromAssetsAsync("Others/art.txt");
+                MagicBorder.Visibility = Visibility.Visible;
+            }
             if (args.ChosenSuggestion is GenericMusicItemViewModel g)
             {
                 if (g.Title.IsNullorEmpty())
@@ -1451,17 +1456,19 @@ namespace Aurora.Music
                 return;
             }
 
+            var flyout = Resources["NowPlayingFlyout"] as MenuFlyout;
+
             var requestedElement = (FrameworkElement)args.OriginalSource;
 
-            var albumMenu = SongFlyout.Items.First(x => x.Name == "AlbumMenu") as MenuFlyoutItem;
+            var albumMenu = flyout.Items.First(x => x.Name == "NowPlayingAlbum") as MenuFlyoutItem;
             albumMenu.Text = model.Album;
             albumMenu.Visibility = Visibility.Visible;
 
             // remove performers in flyout
-            var index = SongFlyout.Items.IndexOf(albumMenu);
-            while (!(SongFlyout.Items[index + 1] is MenuFlyoutSeparator))
+            var index = flyout.Items.IndexOf(albumMenu);
+            while (!(flyout.Items[index + 1] is MenuFlyoutSeparator))
             {
-                SongFlyout.Items.RemoveAt(index + 1);
+                flyout.Items.RemoveAt(index + 1);
             }
             // add song's performers to flyout
             if (!model.Performers.IsNullorEmpty())
@@ -1477,7 +1484,7 @@ namespace Aurora.Music
                         }
                     };
                     menuItem.Click += MenuFlyoutArtist_Click;
-                    SongFlyout.Items.Insert(index + 1, menuItem);
+                    flyout.Items.Insert(index + 1, menuItem);
                 }
                 else
                 {
@@ -1498,21 +1505,78 @@ namespace Aurora.Music
                         menuItem.Click += MenuFlyoutArtist_Click;
                         sub.Items.Add(menuItem);
                     }
-                    SongFlyout.Items.Insert(index + 1, sub);
+                    flyout.Items.Insert(index + 1, sub);
                 }
 
 
                 if (args.TryGetPosition(requestedElement, out var point))
                 {
-                    SongFlyout.ShowAt(requestedElement, point);
+                    flyout.ShowAt(requestedElement, point);
                 }
                 else
                 {
-                    SongFlyout.ShowAt(requestedElement);
+                    flyout.ShowAt(requestedElement);
                 }
 
                 args.Handled = true;
             }
+        }
+
+        private async void NowPlayingAlbum_Click(object sender, RoutedEventArgs e)
+        {
+            var song = new SongViewModel(Context.CurrentSong);
+            var viewModel = await song.GetAlbumAsync();
+
+            var d = new AlbumViewDialog(viewModel);
+            await d.ShowAsync();
+        }
+
+        private async void NowPlayingAddCollectioin_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new AddPlayList(Context.CurrentSong.ID);
+
+            await dialog.ShowAsync();
+        }
+
+        private void NowPlayingShare_Click(object sender, RoutedEventArgs e)
+        {
+            var shareTitle = $"I'm sharing {Context.CurrentTitle} to you";
+            var shareDesc = $"{new SongViewModel(Context.CurrentSong).ToString()}";
+            DataTransferManager.ShowShareUI();
+        }
+
+        private async void NowPlayingTag_Click(object sender, RoutedEventArgs e)
+        {
+            await new TagDialog(new SongViewModel(Context.CurrentSong)).ShowAsync();
+        }
+
+        private async void NowPlayingExplorer_Click(object sender, RoutedEventArgs e)
+        {
+            if (Context.CurrentSong.IsOnline)
+            {
+                PopMessage("Online Item");
+                return;
+            }
+            var path = Context.CurrentSong.FilePath;
+            if (!path.IsNullorEmpty())
+            {
+                var file = await StorageFile.GetFileFromPathAsync(path);
+                var option = new FolderLauncherOptions();
+                option.ItemsToSelect.Add(file);
+                await Launcher.LaunchFolderAsync(await file.GetParentAsync(), option);
+            }
+        }
+
+        private void HideMagic(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            e.Handled = true;
+            MagicBorder.Visibility = Visibility.Collapsed;
+        }
+
+        private void MagicBorderHide(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        {
+            e.Handled = true;
+            MagicBorder.Visibility = Visibility.Collapsed;
         }
     }
 }

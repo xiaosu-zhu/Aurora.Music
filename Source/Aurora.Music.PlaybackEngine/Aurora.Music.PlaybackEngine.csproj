@@ -110,6 +110,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="IPlayer.cs" />
+    <Compile Include="NeonPlayer.cs" />
     <Compile Include="NPlayer.cs" />
     <Compile Include="PlaybackEngine.cs" />
     <Compile Include="Player.cs" />

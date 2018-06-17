@@ -37,6 +37,8 @@ namespace Aurora.Music.ViewModels
                     folderPicker.FileTypeFilter.Add(".flac");
                     folderPicker.FileTypeFilter.Add(".aac");
                     folderPicker.FileTypeFilter.Add(".wma");
+                    folderPicker.FileTypeFilter.Add(".ogg");
+                    folderPicker.FileTypeFilter.Add(".oga");
                     folderPicker.FileTypeFilter.Add(".m3u");
                     folderPicker.FileTypeFilter.Add(".m3u8");
                     folderPicker.FileTypeFilter.Add(".wpl");
@@ -87,6 +89,8 @@ namespace Aurora.Music.ViewModels
                     folderPicker.FileTypeFilter.Add(".flac");
                     folderPicker.FileTypeFilter.Add(".aac");
                     folderPicker.FileTypeFilter.Add(".wma");
+                    folderPicker.FileTypeFilter.Add(".ogg");
+                    folderPicker.FileTypeFilter.Add(".oga");
                     folderPicker.FileTypeFilter.Add(".m3u");
                     folderPicker.FileTypeFilter.Add(".m3u8");
                     folderPicker.FileTypeFilter.Add(".wpl");

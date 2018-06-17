@@ -59,7 +59,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
-        <ListView IsSynchronizedWithCurrentItem="False" 
+        <ListView IsSynchronizedWithCurrentItem="False" Loaded="SongList_Loaded"
                   ItemsSource="{x:Bind Context.SongList, Mode=OneWay}"
                   ItemContainerStyleSelector="{StaticResource SongListStyleSelector}" 
                   Style="{ThemeResource GeneralListView}"

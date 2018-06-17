@@ -243,7 +243,28 @@ namespace Aurora.Music.Pages
             Col1.Width = new GridLength(Image.ActualWidth);
             ToolbarTitle.Margin = new Thickness(Image.ActualWidth * 80 / 200 + 32, 8, 0, 8);
 
+            var scrollviewer = SongList.GetScrollViewer();
+            var _scrollerPropertySet = ElementCompositionPreview.GetScrollViewerManipulationPropertySet(scrollviewer);
+            var _compositor = _scrollerPropertySet.Compositor;
+            var moving = 80f;
 
+            // Get references to our property sets for use with ExpressionNodes
+            var scrollingProperties = _scrollerPropertySet.GetSpecializedReference<ManipulationPropertySetReferenceNode>();
+
+            var horiMovingAni = EF.Clamp(-scrollingProperties.Translation.Y / moving, 0, 1);
+            horiMovingAni = EF.Lerp(0, (float)((80f / ImageGrid.ActualHeight * ImageGrid.ActualWidth) - ImageGrid.ActualWidth), horiMovingAni);
+
+            var scaleAnimation = EF.Clamp(-scrollingProperties.Translation.Y / moving, 0, 1);
+            var textScaleAnimation = EF.Lerp(1, (float)(ToolbarTitle.ActualHeight / TitleText.ActualHeight), scaleAnimation);
+
+            var titleVisual = ElementCompositionPreview.GetElementVisual(Title);
+            
+            titleVisual.StopAnimation("offset.X");
+            titleVisual.StartAnimation("Offset.X", horiMovingAni);
+        }
+
+        private void SongList_Loaded(object sender, RoutedEventArgs e)
+        {
             var scrollviewer = SongList.GetScrollViewer();
             var _scrollerPropertySet = ElementCompositionPreview.GetScrollViewerManipulationPropertySet(scrollviewer);
             var _compositor = _scrollerPropertySet.Compositor;

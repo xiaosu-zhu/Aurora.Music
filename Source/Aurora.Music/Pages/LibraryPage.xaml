@@ -431,6 +431,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"/>
         <ListView Grid.Column="0" x:Name="Category" Padding="12,32,0,32" 
                   AllowDrop="True" Drop="Grid_Drop" DragOver="Grid_DragOver"
+                  CanReorderItems="True" ReorderMode="Enabled"
+                  CanDragItems="True"
                   BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" 
                   BorderThickness="0,0,1,0"
                   ScrollViewer.VerticalScrollBarVisibility="Hidden"
@@ -445,15 +447,29 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </ListView.ItemContainerTransitions>
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="vm:CategoryListItem">
-                    <Grid Margin="6" Height="48" x:Name="Panel" HorizontalAlignment="Stretch">
+                    <Grid Margin="8" Height="48" x:Name="Panel" HorizontalAlignment="Stretch">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="48"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Border CornerRadius="9999" Width="48" Height="48" Background="{ThemeResource SystemControlAltHighAcrylicWindowBrush}"/>
-                        <FontIcon FontSize="15" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Glyph}" />
-                        <TextBlock Margin="8,0" Grid.Column="1" x:Name="Title" Text="{x:Bind Title}" FontSize="13"
-                                   HorizontalAlignment="Left" VerticalAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}"/>
+                        <Border CornerRadius="9999" Width="48" Height="48" 
+                                Background="{ThemeResource SystemControlAltHighAcrylicWindowBrush}"/>
+                        <FontIcon FontSize="15" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" 
+                                  HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                  FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Glyph}" />
+                        <StackPanel Grid.Column="1" 
+                                    HorizontalAlignment="Left" VerticalAlignment="Center" 
+                                    Orientation="Vertical">
+                            <TextBlock Margin="8,0" x:Name="Title" MaxLines="1"
+                                       TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis"
+                                       Text="{x:Bind Title}" FontSize="15"
+                                       HorizontalAlignment="Left" VerticalAlignment="Center" 
+                                       Style="{ThemeResource BodyTextBlockStyle}"/>
+                            <TextBlock Margin="8,0" Text="{x:Bind Desc}" FontSize="13"
+                                       MaxLines="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"
+                                       HorizontalAlignment="Left" VerticalAlignment="Center"
+                                       Style="{ThemeResource BodyTextBlockStyle}" Opacity="0.66667"/>
+                        </StackPanel>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>

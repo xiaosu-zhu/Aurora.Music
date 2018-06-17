@@ -411,7 +411,27 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                   BorderThickness="1" HorizontalAlignment="Left" VerticalAlignment="Center"
                                   IsSynchronizedWithCurrentItem="False" x:Name="DeviceCombo"
                                   Header="Output Endpoint" ItemsSource="{Binding DevicList}" Margin="0,8"/>
-                        <TextBlock x:Uid="OutputDefaultHint" FontSize="13" Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource SystemControlBackgroundBaseMediumLowRevealBorderBrush}" Text="'System default' will be applied at next launch." HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,12"/>
+                        <TextBlock x:Uid="OutputDefaultHint" FontSize="13" 
+                                   Style="{ThemeResource BodyTextBlockStyle}" 
+                                   Foreground="{ThemeResource SystemControlBackgroundBaseMediumLowRevealBorderBrush}" 
+                                   Text="'System default' will be applied at next launch." 
+                                   HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,12"/>
+
+                        <ComboBox x:Uid="PlaybackEngineBox"
+                                  BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}"
+                                  BorderThickness="1" HorizontalAlignment="Left" VerticalAlignment="Center"
+                                  IsSynchronizedWithCurrentItem="False" x:Name="EngineCombo"
+                                  Header="Playback Engine" ItemsSource="{Binding EngineList}" Margin="0,8"/>
+                        <TextBlock FontSize="13" Style="{ThemeResource BodyTextBlockStyle}"
+                                   Foreground="{ThemeResource SystemControlBackgroundBaseMediumLowRevealBorderBrush}"
+                                   HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,4"
+                                   Text="{Binding EngineHint, Mode=OneWay}"/>
+                        <TextBlock x:Uid="EngineChangeHint" FontSize="13" 
+                                   Style="{ThemeResource BodyTextBlockStyle}" 
+                                   Foreground="{ThemeResource SystemControlBackgroundBaseMediumHighRevealBorderBrush}" 
+                                   Text="Engines will be applied at next launch." 
+                                   HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,12"/>
+
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,12,0,0">
                             <Slider x:Uid="VolumeLevel" Style="{StaticResource RoundSlider}" x:Name="VolumeSlider"
                                 Foreground="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" 

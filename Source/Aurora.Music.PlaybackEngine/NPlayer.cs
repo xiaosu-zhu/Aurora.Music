@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.Media.Playback;
 using Windows.Storage;
 using Windows.Storage.Streams;
 
@@ -28,6 +29,8 @@ namespace Aurora.Music.PlaybackEngine
         public double PlaybackRate { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public double Volume => throw new NotImplementedException();
+
+        public MediaPlayer MediaPlayer => throw new NotImplementedException();
 
         public event EventHandler<PositionUpdatedArgs> PositionUpdated;
         public event EventHandler<PlayingItemsChangedArgs> ItemsChanged;
@@ -134,7 +137,7 @@ namespace Aurora.Music.PlaybackEngine
             throw new NotImplementedException();
         }
 
-        public void SkiptoIndex(uint index)
+        public void SkiptoIndex(int index)
         {
             throw new NotImplementedException();
         }

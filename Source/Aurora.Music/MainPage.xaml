@@ -12,6 +12,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     xmlns:controls="using:Aurora.Music.Controls"
     xmlns:vm="using:Aurora.Music.ViewModels"
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
+    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     Unloaded="Page_Unloaded"
@@ -876,6 +877,49 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     </MenuFlyoutItem>
                 </MenuFlyoutSubItem>
             </MenuFlyout>
+
+
+            <MenuFlyout x:Key="NowPlayingFlyout">
+                <MenuFlyoutItem Click="NowPlayingAlbum_Click" x:Name="NowPlayingAlbum">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE93C;" />
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <MenuFlyoutSeparator/>
+                <MenuFlyoutItem x:Uid="AddCollection" 
+                                x:Name="NowPlayingAddCollectioin"
+                                Text="Add to Collection"
+                                Click="NowPlayingAddCollectioin_Click">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE7B8;" />
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <MenuFlyoutSeparator/>
+                <MenuFlyoutItem x:Uid="Share"
+                                x:Name="NowPlayingShare"
+                                Click="NowPlayingShare_Click"
+                                Text="Share">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE72D;" />
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem x:Uid="ModifyTag" 
+                                x:Name="NowPlayingTag" 
+                                Click="NowPlayingTag_Click"
+                                Text="Modify Tag">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE929;" />
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem x:Uid="OpenExplorer"
+                                x:Name="NowPlayingExplorer"
+                                Click="NowPlayingExplorer_Click"
+                                Text="Open in Explorer">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEC50;" />
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+            </MenuFlyout>
         </ResourceDictionary>
     </Page.Resources>
 
@@ -1054,7 +1098,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                     Style="{ThemeResource RevealRectangleButton}" Width="64"
                                     Background="{ThemeResource SystemControlTransparentBrush}">
                                 <Button.KeyboardAccelerators>
-                                    <KeyboardAccelerator Modifiers="Control" Key="Number5"/>
+                                    <KeyboardAccelerator Modifiers="Control" Key="Number6"/>
                                 </Button.KeyboardAccelerators>
                                 <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                     <Grid Width="48" Height="48" Background="{x:Null}">
@@ -1088,7 +1132,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                     Style="{ThemeResource RevealRectangleButton}"
                                     Width="64" Background="{ThemeResource SystemControlTransparentBrush}">
                                 <Button.KeyboardAccelerators>
-                                    <KeyboardAccelerator Modifiers="Control" Key="Number6"/>
+                                    <KeyboardAccelerator Modifiers="Control" Key="Number7"/>
                                 </Button.KeyboardAccelerators>
                                 <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                     <Border Width="48" Height="48" Background="{x:Null}">
@@ -1112,7 +1156,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                     VerticalAlignment="Stretch" Background="{ThemeResource SystemControlTransparentBrush}"
                                     Style="{ThemeResource RevealRectangleButton}">
                                 <Button.KeyboardAccelerators>
-                                    <KeyboardAccelerator Modifiers="Control" Key="Number7"/>
+                                    <KeyboardAccelerator Modifiers="Control" Key="Number8"/>
                                 </Button.KeyboardAccelerators>
                                 <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                     <Border CornerRadius="999" Width="48" Height="48" Background="{x:Null}">
@@ -1182,8 +1226,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                            ToolTipService.ToolTip="{x:Bind Context.CurrentAlbum,Mode=OneWay}"
                                            HorizontalAlignment="Right"
                                            Style="{ThemeResource BodyTextBlockStyle}" 
-                                           MaxLines="1" FontSize="13" 
-                                           Foreground="{ThemeResource SystemControlBackgroundBaseMediumLowRevealBorderBrush}"
+                                           MaxLines="1" FontSize="13"
                                            TextWrapping="NoWrap" MaxWidth="240"
                                            TextTrimming="CharacterEllipsis"/>
                             </Viewbox>
@@ -1194,7 +1237,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                            HorizontalAlignment="Right"
                                            Style="{ThemeResource BodyTextBlockStyle}" 
                                            MaxLines="1" FontSize="13" MaxWidth="240"
-                                           Foreground="{ThemeResource SystemControlBackgroundBaseMediumLowRevealBorderBrush}"
                                            TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"/>
                             </Viewbox>
                         </Grid>
@@ -1458,6 +1500,22 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                             ItemContainerStyleSelector="{StaticResource SongListStyleSelector}">
             </AutoSuggestBox>
         </Grid>
+
+        <Border Visibility="Collapsed" x:Name="MagicBorder" Grid.ColumnSpan="3" Grid.RowSpan="3"
+                Background="{ThemeResource SystemControlAltTranslucentAcrylicElementBrush}"
+                PointerReleased="HideMagic" PointerCanceled="HideMagic"
+                PointerCaptureLost="HideMagic" KeyUp="MagicBorderHide"
+                HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <animations:Implicit.ShowAnimations>
+                <animations:OpacityAnimation Duration="0:0:0.64" From="0" To="1.0"/>
+            </animations:Implicit.ShowAnimations>
+            <animations:Implicit.HideAnimations>
+                <animations:OpacityAnimation Duration="0:0:0.64" From="1.0" To="0"/>
+            </animations:Implicit.HideAnimations>
+            <Viewbox Stretch="Uniform" Margin="32" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <TextBlock x:Name="Magic" FontFamily="Courier New" TextWrapping="WrapWholeWords" TextTrimming="None" MaxLines="999"/>
+            </Viewbox>
+        </Border>
     </Grid>
 
 </Page>

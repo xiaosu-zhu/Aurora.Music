@@ -1505,7 +1505,7 @@ namespace Aurora.Music.Core.Storage
 
         public async Task<List<SEARCHHISTORY>> GetSearchHistoryAsync()
         {
-            return await conn.QueryAsync<SEARCHHISTORY>("SELECT * FROM SEARCHHISTORY ORDER BY ID DESC LIMIT 10");
+            return await conn.QueryAsync<SEARCHHISTORY>("SELECT * FROM SEARCHHISTORY ORDER BY ID DESC LIMIT 100");
         }
 
         internal async Task<int> UpdatePodcastAsync(PODCAST p)
@@ -1573,6 +1573,11 @@ namespace Aurora.Music.Core.Storage
             {
                 await conn.DeleteAsync(item);
             }
+        }
+
+        public async Task<int> CountAsync<T>() where T : new()
+        {
+            return await conn.Table<T>().CountAsync();
         }
     }
 }
