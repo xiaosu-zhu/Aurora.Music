@@ -1120,27 +1120,44 @@ namespace TagLib.Ogg
 		///    current instance or an empty array if none are present.
 		/// </value>
 		/// <remarks>
-		///    <para>This property is implemented using the COVERART
-		///    field.</para>
+		///    <para>This property is implemented using the METADATA_BLOCK_PICTURE
+		///    field, set value to this field will clear the old COVERART tags.</para>
 		/// </remarks>
 		public override IPicture [] Pictures {
-			get {
-				string[] covers = GetField ("COVERART");
-				IPicture[] pictures = new Picture[covers.Length];
-				for (int ii = 0; ii < covers.Length; ii++) {
-					ByteVector data = new ByteVector (Convert.FromBase64String (covers[ii]));
-					pictures[ii] = new Picture (data);
-				}
-				return pictures;
-			}
-			set {
-				string[] covers = new string[value.Length];
-				for (int ii = 0; ii < value.Length; ii++) {
-					IPicture old = value[ii];
-					covers[ii] = Convert.ToBase64String (old.Data.Data);
-				}
-				SetField ("COVERART", covers);
-			}
+            get
+            {
+                // see https://wiki.xiph.org/VorbisComment#METADATA_BLOCK_PICTURE
+                string[] covers = GetField("METADATA_BLOCK_PICTURE");
+                if (covers.Length == 0)
+                {
+                    covers = GetField("COVERART");
+                    IPicture[] cvpictures = new Picture[covers.Length];
+                    for (int ii = 0; ii < covers.Length; ii++)
+                    {
+                        var data = new ByteVector(Convert.FromBase64String(covers[ii]));
+                        cvpictures[ii] = new Picture(data);
+                    }
+                    return cvpictures;
+                }
+                IPicture[] pictures = new Flac.Picture[covers.Length];
+                for (int ii = 0; ii < covers.Length; ii++)
+                {
+                    var data = new ByteVector(Convert.FromBase64String(covers[ii]));
+                    pictures[ii] = new Flac.Picture(data);
+                }
+                return pictures;
+            }
+            set
+            {
+                string[] covers = new string[value.Length];
+                for (int ii = 0; ii < value.Length; ii++)
+                {
+                    var old = value[ii];
+                    covers[ii] = Convert.ToBase64String(new Flac.Picture(old).Render().Data);
+                }
+                SetField("METADATA_BLOCK_PICTURE", covers);
+                RemoveField("COVERART");
+            }
 		}
 
 		/// <summary>
