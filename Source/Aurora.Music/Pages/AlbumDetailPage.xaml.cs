@@ -1,15 +1,18 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
+using System;
+using System.Linq;
+using System.Numerics;
+
 using Aurora.Music.Controls;
 using Aurora.Music.Core;
 using Aurora.Music.ViewModels;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
-using Microsoft.Toolkit.Uwp.UI.Animations.Expressions;
-using System;
-using System.Linq;
-using System.Numerics;
+
+using ExpressionBuilder;
+
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -18,7 +21,8 @@ using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
-using EF = Microsoft.Toolkit.Uwp.UI.Animations.Expressions.ExpressionFunctions;
+
+using EF = ExpressionBuilder.ExpressionFunctions;
 
 
 namespace Aurora.Music.Pages
@@ -254,7 +258,7 @@ namespace Aurora.Music.Pages
             var textScaleAnimation = EF.Lerp(1, (float)(ToolbarTitle.ActualHeight / TitleText.ActualHeight), scaleAnimation);
 
             var titleVisual = ElementCompositionPreview.GetElementVisual(Title);
-
+            
             titleVisual.StopAnimation("offset.X");
             titleVisual.StartAnimation("Offset.X", horiMovingAni);
         }

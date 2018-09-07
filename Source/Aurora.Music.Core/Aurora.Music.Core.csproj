@@ -109,6 +109,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Consts.cs" />
+    <Compile Include="Excluded.cs" />
     <Compile Include="Extension\ITunesSearcher.cs" />
     <Compile Include="Extension\Json\GecimiJson.cs" />
     <Compile Include="Extension\Json\QQMusic.cs" />
