@@ -72,7 +72,7 @@ namespace Aurora.Music.Controls
                     SongTitle = song.Title;
                     Duration = song.Duration;
                     BitRate = song.BitRate;
-                    Rating = prop.rating;
+                    Rating = oldRating = prop.rating;
                     MusicBrainzArtistId = song.MusicBrainzArtistId;
                     MusicBrainzDiscId = song.MusicBrainzDiscId;
                     MusicBrainzReleaseArtistId = song.MusicBrainzReleaseArtistId;
@@ -199,14 +199,17 @@ namespace Aurora.Music.Controls
                 MainPage.Current.PopMessage("Updating tags failed");
                 succeed = false;
             }
-            try
+            if (oldRating != newRating)
             {
-                await Model.Song.WriteRatingAsync(Rating);
-            }
-            catch (Exception)
-            {
-                MainPage.Current.PopMessage("Updating rating failed");
-                succeed = false;
+                try
+                {
+                    await Model.Song.WriteRatingAsync(Rating);
+                }
+                catch (Exception)
+                {
+                    MainPage.Current.PopMessage("Updating rating failed");
+                    succeed = false;
+                }
             }
             await PlaybackEngine.PlaybackEngine.Current.ReAttachCurrentItem();
             if (succeed)
@@ -856,13 +859,13 @@ namespace Aurora.Music.Controls
         public bool IsOnline { get; set; }
         public Uri OnlineUri { get; set; }
         public string OnlineID { get; set; }
-        private uint rating;
+        private uint oldRating, newRating;
         private StorageFile file;
 
         public uint Rating
         {
-            get { return rating; }
-            set { SetProperty(ref rating, value); }
+            get { return newRating; }
+            set { SetProperty(ref newRating, value); }
         }
         public string OnlineAlbumID { get; set; }
         public string FileType { get; internal set; }
