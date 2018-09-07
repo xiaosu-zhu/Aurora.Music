@@ -1,11 +1,10 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
-using System;
-using System.Reflection;
 using Aurora.Music.Core.Models;
 using Aurora.Shared.Helpers;
-
+using System;
+using System.Reflection;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -32,7 +31,7 @@ namespace Aurora.Music.Controls
         {
             var text = "You can explorer currently using open source libraries below:\r\n\r\n| Name | Version | License | Site |\r\n| --- | --- | --- | --- |\r\n";
 
-            AssemblyName name = typeof(TagLib.Tag).Assembly.GetName();
+            var name = typeof(TagLib.Tag).Assembly.GetName();
             text += string.Format(form, "taglib-sharp", $"{name.Version.ToVersionString()}", "[GNU LGPL v2.1](https://github.com/mono/taglib-sharp/blob/master/COPYING)", "[github.com/mono/taglib-sharp](https://github.com/mono/taglib-sharp)");
 
             text += string.Format(form, "SQLite for Universal Windows Platform", $"3.22.0", "[Public Domain](http://www.sqlite.org/copyright.html)", "[sqlite.org](http://www.sqlite.org/)");
@@ -49,9 +48,6 @@ namespace Aurora.Music.Controls
             text += string.Format(form, "NAudio", $"1.8.4", "[MS-PL](https://github.com/naudio/NAudio/blob/master/license.txt)", "[github.com/naudio/NAudio](https://github.com/naudio/NAudio)");
 
             text += string.Format(form, "UWPAudioVisualizer", $"0.1.96", "[MIT License](https://github.com/clarkezone/audiovisualizer/blob/master/LICENSE)", "[github.com/clarkezone/audiovisualizer](https://github.com/clarkezone/audiovisualizer)");
-
-            name = typeof(ExpressionBuilder.ColorNode).Assembly.GetName();
-            text += string.Format(form, "ExpressionBuilder", $"{name.Version.ToVersionString()}", "[MIT License](https://github.com/Microsoft/WindowsUIDevLabs/blob/master/LICENSE.txt)", "[github.com/Microsoft/ExpressionBuilder](https://github.com/Microsoft/WindowsUIDevLabs/tree/master/ExpressionBuilder)");
 
             name = typeof(ColorThiefDotNet.ColorThief).Assembly.GetName();
             text += string.Format(form, "ColorThief.NET", $"{name.Version.ToVersionString()}", "[MIT License](https://github.com/KSemenenko/ColorThief/blob/master/LICENSE)", "[github.com/KSemenenko/ColorThief](https://github.com/KSemenenko/ColorThief)");

@@ -11,7 +11,7 @@ using Aurora.Music.ViewModels;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
 
-using ExpressionBuilder;
+using Microsoft.Toolkit.Uwp.UI.Animations.Expressions;
 
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
@@ -23,7 +23,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
-using EF = ExpressionBuilder.ExpressionFunctions;
+using EF = Microsoft.Toolkit.Uwp.UI.Animations.Expressions.ExpressionFunctions;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 

@@ -29,7 +29,7 @@ namespace Aurora.Music.Core.Storage
             OneDriveService.ServicePlatformInitializer = new Microsoft.Toolkit.Services.OneDrive.Uwp.OneDriveServicePlatformInitializer();
 
             // Hide This
-            OneDriveService.Instance.Initialize(Consts.GraphServiceKey, new[] { Microsoft.Toolkit.Services.Services.MicrosoftGraph.MicrosoftGraphScope.FilesReadAll });
+            // OneDriveService.Instance.Initialize(Consts.GraphServiceKey, new[] { Microsoft.Toolkit.Services.Services.MicrosoftGraph.MicrosoftGraphScope.FilesReadAll });
             // Hide This
             return await OneDriveService.Instance.LoginAsync();
         }

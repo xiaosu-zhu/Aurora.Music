@@ -725,10 +725,6 @@
       <Project>{026d99cf-1c25-4dcf-ad95-1070bba9f8a8}</Project>
       <Name>Aurora.Shared</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ExpressionBuilder\ExpressionBuilder.csproj">
-      <Project>{97f79cb4-fb7b-4dc3-8a08-28fa5694a73c}</Project>
-      <Name>ExpressionBuilder</Name>
-    </ProjectReference>
     <ProjectReference Include="..\LrcParser\LrcParser.csproj">
       <Project>{e24bad49-f0a6-4c07-b4d9-3d3644a22c69}</Project>
       <Name>LrcParser</Name>

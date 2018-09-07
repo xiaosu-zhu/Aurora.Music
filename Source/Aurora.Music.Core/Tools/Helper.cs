@@ -79,7 +79,7 @@ namespace Aurora.Music.Core.Tools
         public static void InitLogger()
         {
             // Track activity using HockeyApp
-            HockeyClient.Current.Configure(Consts.HockeyAppID);
+            // HockeyClient.Current.Configure(Consts.HockeyAppID);
             Inited = true;
         }
 
