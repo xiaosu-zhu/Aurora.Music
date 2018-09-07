@@ -1,6 +1,13 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
+using Aurora.Music.Core;
+using Aurora.Music.Core.Models;
+using Aurora.Music.Core.Storage;
+using Aurora.Music.ViewModels;
+using Aurora.Shared.Extensions;
+using Aurora.Shared.Helpers;
+using Aurora.Shared.MVVM;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,17 +16,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-
-using Aurora.Music.Core;
-using Aurora.Music.Core.Models;
-using Aurora.Music.Core.Storage;
-using Aurora.Music.ViewModels;
-using Aurora.Shared.Extensions;
-using Aurora.Shared.Helpers;
-using Aurora.Shared.MVVM;
-
 using TagLib;
-
 using Windows.Storage;
 using Windows.System.Threading;
 using Windows.UI.Xaml;
@@ -66,7 +63,7 @@ namespace Aurora.Music.Controls
             }
             file = await StorageFile.GetFileFromPathAsync(path);
             var props = await file.GetViolatePropertiesAsync();
-            using (var tagTemp = TagLib.File.Create(file.Path))
+            using (var tagTemp = TagLib.File.Create(file.AsAbstraction()))
             {
                 var song = tagTemp.Tag;
                 await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
@@ -152,7 +149,7 @@ namespace Aurora.Music.Controls
                 }
                 else
                 {
-                    using (var tagTemp = TagLib.File.Create(file.Path))
+                    using (var tagTemp = TagLib.File.Create(file.AsAbstraction()))
                     {
                         tagTemp.Tag.Title = SongTitle;
                         tagTemp.Tag.MusicBrainzArtistId = MusicBrainzArtistId;
@@ -219,7 +216,7 @@ namespace Aurora.Music.Controls
         {
         }
 
-        DelegateCommand ChangeArtwork
+        private DelegateCommand ChangeArtwork
         {
             get => new DelegateCommand(async () =>
               {
@@ -240,7 +237,7 @@ namespace Aurora.Music.Controls
 
                       Artwork = new BitmapImage(new Uri(img.Path));
 
-                      using (var tagTemp = TagLib.File.Create(file.Path))
+                      using (var tagTemp = TagLib.File.Create(file.AsAbstraction()))
                       {
                           using (var stream = await img.OpenReadAsync())
                           {

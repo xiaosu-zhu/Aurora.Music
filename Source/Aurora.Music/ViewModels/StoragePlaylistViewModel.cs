@@ -1,24 +1,25 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
+using Aurora.Music.Core;
+using Aurora.Music.Core.Models;
+using Aurora.Music.Core.Storage;
+using Aurora.Music.Pages;
+using Aurora.Shared.MVVM;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
-using Windows.Media.Playlists;
 using System.Threading.Tasks;
-using Aurora.Shared.MVVM;
-using Windows.Storage;
-using System.Collections.ObjectModel;
-using Aurora.Music.Core.Models;
+using TagLib;
 using Windows.ApplicationModel.Core;
-using Aurora.Music.Core.Storage;
-using Aurora.Music.Core;
-using Aurora.Music.Pages;
+using Windows.Media.Playlists;
+using Windows.Storage;
 
 namespace Aurora.Music.ViewModels
 {
-    class StoragePlaylistViewModel : ViewModelBase
+    internal class StoragePlaylistViewModel : ViewModelBase
     {
         private Playlist playlist;
 
@@ -100,7 +101,7 @@ namespace Aurora.Music.ViewModels
                 {
                     try
                     {
-                        using (var properties = TagLib.File.Create(item))
+                        using (var properties = TagLib.File.Create(item.AsAbstraction()))
                         {
                             var tag = properties.Tag;
                             var song = await Song.CreateAsync(tag, item.Path, await item.GetViolatePropertiesAsync(), properties.Properties, null);

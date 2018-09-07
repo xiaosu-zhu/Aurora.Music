@@ -114,7 +114,7 @@ namespace Aurora.Music.Core.Storage
 
         public static async Task AddTags(IStorageFile resultFile, Song downloadSong)
         {
-            using (var tagTemp = TagLib.File.Create(resultFile.Path))
+            using (var tagTemp = TagLib.File.Create(resultFile.AsAbstraction()))
             {
                 tagTemp.Tag.Title = downloadSong.Title;
                 tagTemp.Tag.Album = downloadSong.Album;

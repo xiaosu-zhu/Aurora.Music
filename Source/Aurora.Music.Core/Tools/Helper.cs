@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using TagLib;
 using Windows.Storage;
 using Windows.Storage.Streams;
 
@@ -19,7 +20,7 @@ namespace Aurora.Music.Core.Tools
         public static async Task<RandomAccessStreamReference> UpdateSongAsync(Song song, StorageFile file)
         {
 
-            using (var tag = TagLib.File.Create(file))
+            using (var tag = TagLib.File.Create(file.AsAbstraction()))
             {
                 await song.UpdateAsync(tag.Tag, tag.Properties, file);
 
