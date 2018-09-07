@@ -582,7 +582,7 @@ namespace Aurora.Music.Core.Models
             return Shared.Utils.InvalidFileNameChars.Aggregate(string.Concat(f), (current, c) => current.Replace(c + "", "_"));
         }
 
-        internal async Task UpdatePropertiesAsync(Tag tag, string path, (string title, string album, string[] performer, string[] artist, string[] composer, string conductor, TimeSpan duration, uint bitrate, uint rating, DateTime lastModify) music, Properties p, OneDriveStorageFile oneDriveFile)
+        public async Task UpdatePropertiesAsync(Tag tag, string path, (string title, string album, string[] performer, string[] artist, string[] composer, string conductor, TimeSpan duration, uint bitrate, uint rating, DateTime lastModify) music, Properties p, OneDriveStorageFile oneDriveFile)
         {
             var graphAudio = oneDriveFile?.OneDriveItem?.Audio;
 
@@ -659,7 +659,7 @@ namespace Aurora.Music.Core.Models
         }
 
 
-        internal async Task UpdateAsync(Tag tag, Properties p, StorageFile file)
+        public async Task UpdateAsync(Tag tag, Properties p, StorageFile file)
         {
             if (ID == 0 || IsOnline)
             {

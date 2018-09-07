@@ -56,22 +56,23 @@ namespace Aurora.Music.Controls
         private async Task Init()
         {
             var path = Model.FilePath;
+            file = await StorageFile.GetFileFromPathAsync(path);
             if (Model.IsOnline || path.IsNullorEmpty())
             {
                 PrimaryButtonText = null;
                 return;
             }
-            file = await StorageFile.GetFileFromPathAsync(path);
-            var props = await file.GetViolatePropertiesAsync();
             using (var tagTemp = TagLib.File.Create(file.AsAbstraction()))
             {
-                var song = tagTemp.Tag;
+                var song = Model.Song;
+                var prop = await file.GetViolatePropertiesAsync();
+                await song.UpdatePropertiesAsync(tagTemp.Tag, path, prop, tagTemp.Properties, null);
                 await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
                 {
-                    SongTitle = props.title;
-                    Duration = props.duration.TotalMilliseconds < 1 ? tagTemp.Properties.Duration : props.duration;
-                    BitRate = props.bitrate;
-                    Rating = props.rating;
+                    SongTitle = song.Title;
+                    Duration = song.Duration;
+                    BitRate = song.BitRate;
+                    Rating = prop.rating;
                     MusicBrainzArtistId = song.MusicBrainzArtistId;
                     MusicBrainzDiscId = song.MusicBrainzDiscId;
                     MusicBrainzReleaseArtistId = song.MusicBrainzReleaseArtistId;
@@ -82,8 +83,8 @@ namespace Aurora.Music.Controls
                     MusicBrainzTrackId = song.MusicBrainzTrackId;
                     MusicIpId = song.MusicIpId;
                     BeatsPerMinute = song.BeatsPerMinute;
-                    Album = props.album;
-                    AlbumArtists = props.artist;
+                    Album = song.Album;
+                    AlbumArtists = song.AlbumArtists;
                     AlbumArtistsSort = song.AlbumArtistsSort;
                     AlbumSort = song.AlbumSort;
                     AmazonId = song.AmazonId;
@@ -96,25 +97,25 @@ namespace Aurora.Music.Controls
                     ReplayGainAlbumPeak = song.ReplayGainAlbumPeak;
                     Comment = song.Comment;
                     Disc = song.Disc;
-                    Composers = props.composer;
+                    Composers = song.Composers;
                     ComposersSort = song.ComposersSort;
-                    Conductor = props.conductor;
+                    Conductor = song.Conductor;
                     DiscCount = song.DiscCount;
                     Copyright = song.Copyright;
                     Genres = song.Genres;
                     Grouping = song.Grouping;
                     Lyrics = song.Lyrics;
-                    Performers = props.performer;
+                    Performers = song.Performers;
                     PerformersSort = song.PerformersSort;
                     Year = song.Year;
                     SampleRate = tagTemp.Properties.AudioSampleRate;
                     AudioChannels = tagTemp.Properties.AudioChannels;
 
-                    if (song.Pictures != null && song.Pictures.Length > 0)
+                    if (!song.PicturePath.IsNullorEmpty())
                     {
-                        using (var memoryStream = new MemoryStream(song.Pictures[0].Data.Data))
+                        using (var stream = await (await StorageFile.GetFileFromPathAsync(song.PicturePath)).OpenReadAsync())
                         {
-                            await Artwork.SetSourceAsync(memoryStream.AsRandomAccessStream());
+                            await Artwork.SetSourceAsync(stream);
                         }
                     }
                     else
@@ -204,7 +205,7 @@ namespace Aurora.Music.Controls
             }
             catch (Exception)
             {
-                MainPage.Current.PopMessage("Updating tags failed");
+                MainPage.Current.PopMessage("Updating rating failed");
                 succeed = false;
             }
             await PlaybackEngine.PlaybackEngine.Current.ReAttachCurrentItem();
