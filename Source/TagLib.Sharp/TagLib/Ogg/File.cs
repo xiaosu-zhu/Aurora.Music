@@ -117,7 +117,7 @@ namespace TagLib.Ogg
 		///    specified read style.
 		/// </summary>
 		/// <param name="abstraction">
-		///    A <see cref="IFileAbstraction" /> object to use when
+		///    A <see cref="TagLib.File.IFileAbstraction" /> object to use when
 		///    reading from and writing to the file.
 		/// </param>
 		/// <param name="propertiesStyle">
@@ -148,7 +148,7 @@ namespace TagLib.Ogg
 		///    average read style.
 		/// </summary>
 		/// <param name="abstraction">
-		///    A <see cref="IFileAbstraction" /> object to use when
+		///    A <see cref="TagLib.File.IFileAbstraction" /> object to use when
 		///    reading from and writing to the file.
 		/// </param>
 		/// <exception cref="ArgumentNullException">
@@ -172,6 +172,9 @@ namespace TagLib.Ogg
 		/// </summary>
 		public override void Save ()
 		{
+			// Boilerplate
+			PreSave();
+
 			Mode = AccessMode.Write;
 			try {
 				long end;
@@ -340,7 +343,7 @@ namespace TagLib.Ogg
 				codecs.Add (streams [id].Codec);
 			}
 			
-			if (propertiesStyle == ReadStyle.None)
+			if ((propertiesStyle & ReadStyle.Average) == 0)
 				return;
 			
 			PageHeader last_header = LastPageHeader;

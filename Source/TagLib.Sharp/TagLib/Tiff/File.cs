@@ -98,7 +98,7 @@ namespace TagLib.Tiff
 		///    specified read style.
 		/// </summary>
 		/// <param name="abstraction">
-		///    A <see cref="IFileAbstraction" /> object to use when
+		///    A <see cref="TagLib.File.IFileAbstraction" /> object to use when
 		///    reading from and writing to the file.
 		/// </param>
 		/// <param name="propertiesStyle">
@@ -129,7 +129,7 @@ namespace TagLib.Tiff
 		///    cref="File" /> for a specified file abstraction.
 		/// </summary>
 		/// <param name="abstraction">
-		///    A <see cref="IFileAbstraction" /> object to use when
+		///    A <see cref="TagLib.File.IFileAbstraction" /> object to use when
 		///    reading from and writing to the file.
 		/// </param>
 		/// <exception cref="ArgumentNullException">
@@ -167,6 +167,9 @@ namespace TagLib.Tiff
 		/// </summary>
 		public override void Save ()
 		{
+			// Boilerplate
+			PreSave();
+
 			Mode = AccessMode.Write;
 			try {
 				WriteFile ();
@@ -241,7 +244,7 @@ namespace TagLib.Tiff
 					ImageTag.AddTag (new XmpTag (xmp_entry.Data.ToString (), this));
 				}
 
-				if (propertiesStyle == ReadStyle.None)
+				if ((propertiesStyle & ReadStyle.Average) == 0)
 					return;
 
 				properties = ExtractProperties ();
