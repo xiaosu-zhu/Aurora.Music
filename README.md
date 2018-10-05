@@ -36,6 +36,8 @@ Here are a few screenshots:
 
 ## Documents and Samples
 
+Please first refer to **[Something about build and deploy](./Source)**.
+
 Please read instructions for extension development from **[here](./Documentation)**, inside there is a simple tutorial to let you make your own extension, as well as a detailed query explanation.
 
 There's also a code sample **[here](./Samples)**, clone it and deploy, you can see what happens to lyrics.
