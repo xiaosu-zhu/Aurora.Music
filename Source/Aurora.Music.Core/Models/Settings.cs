@@ -6,7 +6,6 @@ using Aurora.Shared.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Windows.Networking.Connectivity;
 using Windows.Storage;
 using Windows.UI.Xaml;
 
