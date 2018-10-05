@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3" xmlns:uap4="http://schemas.microsoft.com/appx/manifest/uap/windows10/4" IgnorableNamespaces="uap mp uap3 uap4">
   <Identity Name="6727Aurora-ZXS.10476770C0EE5" Publisher="CN=C726CFE3-60F0-4B5C-8D98-3381263565AE" Version="2.0.80.0" />
   <mp:PhoneIdentity PhoneProductId="743dcb49-5f9d-472b-996d-be7602b35973" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
@@ -70,6 +70,8 @@
               <uap:FileType ContentType="audio/x-ms-wma">.wma</uap:FileType>
               <uap:FileType ContentType="audio/flac">.flac</uap:FileType>
               <uap:FileType ContentType="audio/aac">.aac</uap:FileType>
+              <uap:FileType ContentType="audio/ogg">.ogg</uap:FileType>
+              <uap:FileType ContentType="audio/ogg">.oga</uap:FileType>
             </uap:SupportedFileTypes>
           </uap:FileTypeAssociation>
         </uap:Extension>
@@ -85,6 +87,8 @@
               <uap:FileType>.wma</uap:FileType>
               <uap:FileType>.aac</uap:FileType>
               <uap:FileType>.flac</uap:FileType>
+              <uap:FileType>.ogg</uap:FileType>
+              <uap:FileType>.oga</uap:FileType>
             </uap:SupportedFileTypes>
             <uap:DataFormat>StorageItems</uap:DataFormat>
           </uap:ShareTarget>

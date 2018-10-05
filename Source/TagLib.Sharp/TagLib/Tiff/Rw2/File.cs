@@ -136,7 +136,7 @@ namespace TagLib.Tiff.Rw2
 		///    specified read style.
 		/// </summary>
 		/// <param name="abstraction">
-		///    A <see cref="IFileAbstraction" /> object to use when
+		///    A <see cref="TagLib.File.IFileAbstraction" /> object to use when
 		///    reading from and writing to the file.
 		/// </param>
 		/// <param name="propertiesStyle">
@@ -160,7 +160,7 @@ namespace TagLib.Tiff.Rw2
 		///    cref="File" /> for a specified file abstraction.
 		/// </summary>
 		/// <param name="abstraction">
-		///    A <see cref="IFileAbstraction" /> object to use when
+		///    A <see cref="TagLib.File.IFileAbstraction" /> object to use when
 		///    reading from and writing to the file.
 		/// </param>
 		/// <exception cref="ArgumentNullException">
@@ -244,7 +244,7 @@ namespace TagLib.Tiff.Rw2
 
 				TagTypesOnDisk = TagTypes;
 
-				if (propertiesStyle != ReadStyle.None)
+				if ((propertiesStyle & ReadStyle.Average) != 0)
 					properties = ExtractProperties ();
 
 			} finally {

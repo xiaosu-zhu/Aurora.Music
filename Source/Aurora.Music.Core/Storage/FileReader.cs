@@ -180,7 +180,7 @@ namespace Aurora.Music.Core.Storage
             return res;
         }
 
-        public async static Task<List<Album>> GetAlbumsAsync()
+        public static async Task<List<Album>> GetAlbumsAsync()
         {
             var opr = SQLOperator.Current();
             var albums = await opr.GetAllAsync<ALBUM>();
@@ -279,7 +279,7 @@ namespace Aurora.Music.Core.Storage
                     }
                     else
                     {
-                        using (var tagTemp = File.Create(file.Path))
+                        using (var tagTemp = File.Create(file.AsAbstraction()))
                         {
                             var prop = await file.Properties.GetMusicPropertiesAsync();
 
@@ -346,7 +346,7 @@ namespace Aurora.Music.Core.Storage
             return songs.ConvertAll(a => new Song(a));
         }
 
-        public async static Task SortAlbumsAsync()
+        public static async Task SortAlbumsAsync()
         {
             await Task.Run(async () =>
             {
@@ -390,7 +390,7 @@ namespace Aurora.Music.Core.Storage
             var total = files.Count;
             foreach (var file in files)
             {
-                using (var tagTemp = File.Create(file))
+                using (var tagTemp = File.Create(file.AsAbstraction()))
                 {
                     tempList.Add(await Song.CreateAsync(tagTemp.Tag, file.Path, await file.GetViolatePropertiesAsync(), tagTemp.Properties, null));
                 }
@@ -406,13 +406,13 @@ namespace Aurora.Music.Core.Storage
 
         public static async Task<Song> ReadFileAsync(StorageFile file)
         {
-            using (var tagTemp = File.Create(file))
+            using (var tagTemp = File.Create(file.AsAbstraction()))
             {
                 return await CreateAsync(tagTemp.Tag, file.Path, await file.GetViolatePropertiesAsync(), tagTemp.Properties);
             }
         }
 
-        static readonly string[] violateProperties = new string[] { "System.Music.AlbumArtist", "System.Music.Artist" };
+        private static readonly string[] violateProperties = new string[] { "System.Music.AlbumArtist", "System.Music.Artist" };
 
         public static async Task<(string title, string album, string[] performer, string[] artist, string[] composer, string conductor, TimeSpan duration, uint bitrate, uint rating, DateTime lastModify)> GetViolatePropertiesAsync(this StorageFile file)
         {

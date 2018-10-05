@@ -151,7 +151,7 @@ namespace TagLib.Aiff
 		///    specified read style.
 		/// </summary>
 		/// <param name="abstraction">
-		///    A <see cref="IFileAbstraction" /> object to use when
+		///    A <see cref="TagLib.File.IFileAbstraction" /> object to use when
 		///    reading from and writing to the file.
 		/// </param>
 		/// <param name="propertiesStyle">
@@ -191,7 +191,7 @@ namespace TagLib.Aiff
 		///    average read style.
 		/// </summary>
 		/// <param name="abstraction">
-		///    A <see cref="IFileAbstraction" /> object to use when
+		///    A <see cref="TagLib.File.IFileAbstraction" /> object to use when
 		///    reading from and writing to the file.
 		/// </param>
 		/// <exception cref="ArgumentNullException">
@@ -244,6 +244,9 @@ namespace TagLib.Aiff
 		/// </summary>
 		public override void Save()
 		{
+			// Boilerplate
+			PreSave();
+
 			Mode = AccessMode.Write;
 			try
 			{
@@ -517,7 +520,7 @@ namespace TagLib.Aiff
 				if (read_tags && tag == null)
 				{
 					tag = new Id3v2.Tag(this,
-					                    id3_chunk_pos + 8);
+					                    id3_chunk_pos + 8, style);
 				}
 
 				// Get the length of the tag out of the ID3 chunk

@@ -1,6 +1,13 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
+using Aurora.Music.Core;
+using Aurora.Music.Core.Models;
+using Aurora.Music.Core.Storage;
+using Aurora.Music.ViewModels;
+using Aurora.Shared.Extensions;
+using Aurora.Shared.Helpers;
+using Aurora.Shared.MVVM;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,17 +16,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-
-using Aurora.Music.Core;
-using Aurora.Music.Core.Models;
-using Aurora.Music.Core.Storage;
-using Aurora.Music.ViewModels;
-using Aurora.Shared.Extensions;
-using Aurora.Shared.Helpers;
-using Aurora.Shared.MVVM;
-
 using TagLib;
-
 using Windows.Storage;
 using Windows.System.Threading;
 using Windows.UI.Xaml;
@@ -59,22 +56,23 @@ namespace Aurora.Music.Controls
         private async Task Init()
         {
             var path = Model.FilePath;
+            file = await StorageFile.GetFileFromPathAsync(path);
             if (Model.IsOnline || path.IsNullorEmpty())
             {
                 PrimaryButtonText = null;
                 return;
             }
-            file = await StorageFile.GetFileFromPathAsync(path);
-            var props = await file.GetViolatePropertiesAsync();
-            using (var tagTemp = TagLib.File.Create(file.Path))
+            using (var tagTemp = TagLib.File.Create(file.AsAbstraction()))
             {
-                var song = tagTemp.Tag;
+                var song = Model.Song;
+                var prop = await file.GetViolatePropertiesAsync();
+                await song.UpdatePropertiesAsync(tagTemp.Tag, path, prop, tagTemp.Properties, null);
                 await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
                 {
-                    SongTitle = props.title;
-                    Duration = props.duration.TotalMilliseconds < 1 ? tagTemp.Properties.Duration : props.duration;
-                    BitRate = props.bitrate;
-                    Rating = props.rating;
+                    SongTitle = song.Title;
+                    Duration = song.Duration;
+                    BitRate = song.BitRate;
+                    Rating = oldRating = prop.rating;
                     MusicBrainzArtistId = song.MusicBrainzArtistId;
                     MusicBrainzDiscId = song.MusicBrainzDiscId;
                     MusicBrainzReleaseArtistId = song.MusicBrainzReleaseArtistId;
@@ -85,8 +83,8 @@ namespace Aurora.Music.Controls
                     MusicBrainzTrackId = song.MusicBrainzTrackId;
                     MusicIpId = song.MusicIpId;
                     BeatsPerMinute = song.BeatsPerMinute;
-                    Album = props.album;
-                    AlbumArtists = props.artist;
+                    Album = song.Album;
+                    AlbumArtists = song.AlbumArtists;
                     AlbumArtistsSort = song.AlbumArtistsSort;
                     AlbumSort = song.AlbumSort;
                     AmazonId = song.AmazonId;
@@ -99,25 +97,25 @@ namespace Aurora.Music.Controls
                     ReplayGainAlbumPeak = song.ReplayGainAlbumPeak;
                     Comment = song.Comment;
                     Disc = song.Disc;
-                    Composers = props.composer;
+                    Composers = song.Composers;
                     ComposersSort = song.ComposersSort;
-                    Conductor = props.conductor;
+                    Conductor = song.Conductor;
                     DiscCount = song.DiscCount;
                     Copyright = song.Copyright;
                     Genres = song.Genres;
                     Grouping = song.Grouping;
                     Lyrics = song.Lyrics;
-                    Performers = props.performer;
+                    Performers = song.Performers;
                     PerformersSort = song.PerformersSort;
                     Year = song.Year;
                     SampleRate = tagTemp.Properties.AudioSampleRate;
                     AudioChannels = tagTemp.Properties.AudioChannels;
 
-                    if (song.Pictures != null && song.Pictures.Length > 0)
+                    if (!song.PicturePath.IsNullorEmpty())
                     {
-                        using (var memoryStream = new MemoryStream(song.Pictures[0].Data.Data))
+                        using (var stream = await (await StorageFile.GetFileFromPathAsync(song.PicturePath)).OpenReadAsync())
                         {
-                            await Artwork.SetSourceAsync(memoryStream.AsRandomAccessStream());
+                            await Artwork.SetSourceAsync(stream);
                         }
                     }
                     else
@@ -152,7 +150,7 @@ namespace Aurora.Music.Controls
                 }
                 else
                 {
-                    using (var tagTemp = TagLib.File.Create(file.Path))
+                    using (var tagTemp = TagLib.File.Create(file.AsAbstraction()))
                     {
                         tagTemp.Tag.Title = SongTitle;
                         tagTemp.Tag.MusicBrainzArtistId = MusicBrainzArtistId;
@@ -201,14 +199,17 @@ namespace Aurora.Music.Controls
                 MainPage.Current.PopMessage("Updating tags failed");
                 succeed = false;
             }
-            try
+            if (oldRating != newRating)
             {
-                await Model.Song.WriteRatingAsync(Rating);
-            }
-            catch (Exception)
-            {
-                MainPage.Current.PopMessage("Updating tags failed");
-                succeed = false;
+                try
+                {
+                    await Model.Song.WriteRatingAsync(Rating);
+                }
+                catch (Exception)
+                {
+                    MainPage.Current.PopMessage("Updating rating failed");
+                    succeed = false;
+                }
             }
             await PlaybackEngine.PlaybackEngine.Current.ReAttachCurrentItem();
             if (succeed)
@@ -219,7 +220,7 @@ namespace Aurora.Music.Controls
         {
         }
 
-        DelegateCommand ChangeArtwork
+        private DelegateCommand ChangeArtwork
         {
             get => new DelegateCommand(async () =>
               {
@@ -240,7 +241,7 @@ namespace Aurora.Music.Controls
 
                       Artwork = new BitmapImage(new Uri(img.Path));
 
-                      using (var tagTemp = TagLib.File.Create(file.Path))
+                      using (var tagTemp = TagLib.File.Create(file.AsAbstraction()))
                       {
                           using (var stream = await img.OpenReadAsync())
                           {
@@ -858,13 +859,13 @@ namespace Aurora.Music.Controls
         public bool IsOnline { get; set; }
         public Uri OnlineUri { get; set; }
         public string OnlineID { get; set; }
-        private uint rating;
+        private uint oldRating, newRating;
         private StorageFile file;
 
         public uint Rating
         {
-            get { return rating; }
-            set { SetProperty(ref rating, value); }
+            get { return newRating; }
+            set { SetProperty(ref newRating, value); }
         }
         public string OnlineAlbumID { get; set; }
         public string FileType { get; internal set; }
