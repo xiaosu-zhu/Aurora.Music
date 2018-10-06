@@ -164,9 +164,9 @@ namespace Aurora.Music.ViewModels
             }
         }
 
-        public string DurationtoString(TimeSpan t)
+        public string DurationtoString(TimeSpan t1)
         {
-            return t.ToString($@"m\{CultureInfoHelper.CurrentCulture.DateTimeFormat.TimeSeparator}ss", CultureInfoHelper.CurrentCulture);
+            return $"{(int)(Math.Floor(t1.TotalMinutes))}{CultureInfoHelper.CurrentCulture.DateTimeFormat.TimeSeparator}{t1.Seconds.ToString("00")}";
         }
 
         public string PubDatetoString(DateTime d)

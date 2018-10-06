@@ -509,9 +509,9 @@ namespace Aurora.Music.Controls
             return $"{(bitrate / 1000.0).ToString("0.#", CultureInfoHelper.CurrentCulture)} Kbps";
         }
 
-        public string DurationtoString(TimeSpan t)
+        public string DurationtoString(TimeSpan t1)
         {
-            return t.ToString($@"m\{CultureInfoHelper.CurrentCulture.DateTimeFormat.TimeSeparator}ss\{CultureInfoHelper.CurrentCulture.NumberFormat.NumberDecimalSeparator}ff", CultureInfoHelper.CurrentCulture);
+            return $"{(int)(Math.Floor(t1.TotalMinutes))}{CultureInfoHelper.CurrentCulture.DateTimeFormat.TimeSeparator}{t1.Seconds.ToString("00")}{CultureInfoHelper.CurrentCulture.NumberFormat.NumberDecimalSeparator}{(t1.Milliseconds / 10).ToString("00")}";
         }
 
         private TimeSpan duration;
