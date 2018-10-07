@@ -29,8 +29,15 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <ResourceDictionary x:Key="Light" Source="../Themes/Light.xaml"/>
                 <ResourceDictionary x:Key="Dark" Source="../Themes/Dark.xaml"/>
             </ResourceDictionary.ThemeDictionaries>
-        </ResourceDictionary>
+            <CollectionViewSource x:Name="SongListSource" Source="{x:Bind Context.SongList, Mode=OneWay}" IsSourceGrouped="True"/>
 
+            <DataTemplate x:Key="DiscHeader">
+                <TextBlock FontWeight="Bold" Foreground="{ThemeResource AccentForText}">
+                    <Run Text="Disc"/>
+                    <Run Text="{Binding Key}"/>
+                </TextBlock>
+            </DataTemplate>
+        </ResourceDictionary>
     </Page.Resources>
     <Grid>
         <VisualStateManager.VisualStateGroups>
@@ -60,7 +67,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         </VisualStateManager.VisualStateGroups>
 
         <ListView IsSynchronizedWithCurrentItem="False" Loaded="SongList_Loaded"
-                  ItemsSource="{x:Bind Context.SongList, Mode=OneWay}"
+                  ItemsSource="{x:Bind SongListSource.View, Mode=OneWay}"
                   ItemContainerStyleSelector="{StaticResource SongListStyleSelector}" 
                   Style="{ThemeResource GeneralListView}"
                   Padding="32,0" x:Name="SongList" 
@@ -153,6 +160,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <ListView.Footer>
                 <Border Height="160"/>
             </ListView.Footer>
+            <ListView.GroupStyle>
+                <GroupStyle x:Name="GroupStyle" HeaderTemplate="{StaticResource DiscHeader}"/>
+            </ListView.GroupStyle>
         </ListView>
 
 

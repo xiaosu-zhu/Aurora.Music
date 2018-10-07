@@ -49,6 +49,14 @@ namespace Aurora.Music.ViewModels
         public bool IsPodcast { get; set; }
         public bool IsVideo { get; set; }
 
+        private uint disc = 1;
+        public uint Disc
+        {
+            get { return disc; }
+            set { disc = value; }
+        }
+
+
         public string GetAddtionalDesc()
         {
             var descs = new List<string>();
@@ -136,6 +144,7 @@ namespace Aurora.Music.ViewModels
             PubDate = song.PubDate;
             IsPodcast = song.IsPodcast;
             IsVideo = song.IsVideo;
+            Disc = song.Disc;
         }
 
         private DateTime pubDate;

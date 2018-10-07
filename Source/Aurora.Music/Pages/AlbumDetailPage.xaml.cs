@@ -173,7 +173,10 @@ namespace Aurora.Music.Pages
             SongList.IsItemClickEnabled = false;
             foreach (var item in Context.SongList)
             {
-                item.ListMultiSelecting = true;
+                foreach (var song in item)
+                {
+                    song.ListMultiSelecting = true;
+                }
             }
         }
 
@@ -201,7 +204,10 @@ namespace Aurora.Music.Pages
             SongList.IsItemClickEnabled = true;
             foreach (var item in Context.SongList)
             {
-                item.ListMultiSelecting = false;
+                foreach (var song in item)
+                {
+                    song.ListMultiSelecting = false;
+                }
             }
         }
 

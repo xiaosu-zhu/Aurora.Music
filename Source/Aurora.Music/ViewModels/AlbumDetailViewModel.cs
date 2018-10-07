@@ -8,6 +8,7 @@ using Aurora.Shared.Extensions;
 using Aurora.Shared.MVVM;
 using SmartFormat;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,8 +21,8 @@ namespace Aurora.Music.ViewModels
     {
         public bool NightModeEnabled { get; set; } = Settings.Current.NightMode;
 
-        private ObservableCollection<SongViewModel> songList;
-        public ObservableCollection<SongViewModel> SongList
+        private ObservableCollection<GroupedItem<SongViewModel>> songList;
+        public ObservableCollection<GroupedItem<SongViewModel>> SongList
         {
             get { return songList; }
             set { SetProperty(ref songList, value); }
@@ -72,7 +73,7 @@ namespace Aurora.Music.ViewModels
 
         public AlbumDetailViewModel()
         {
-            SongList = new ObservableCollection<SongViewModel>();
+            SongList = new ObservableCollection<GroupedItem<SongViewModel>>();
         }
 
         public async Task GetSongsAsync(AlbumViewModel a)
@@ -82,26 +83,46 @@ namespace Aurora.Music.ViewModels
             await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
                 SongList.Clear();
+
+                var songViewmodels = new List<SongViewModel>();
+
                 for (int i = 0; i < a.Songs.Count; i++)
                 {
-                    SongList.Add(new SongViewModel(a.Songs[i])
+                    songViewmodels.Add(new SongViewModel(a.Songs[i])
                     {
                         Index = (uint)i
                     });
                 }
+
+                var group = GroupedItem<SongViewModel>.CreateGroups(songViewmodels, s => s.Disc);
+
+                foreach (var item in group)
+                {
+                    var ordered = item.OrderBy(s => s.Track).ToList();
+                    item.Clear();
+                    foreach (var o in ordered)
+                    {
+                        item.Add(o);
+                    }
+                    SongList.Add(item);
+                }
+
                 Task.Run(async () =>
                 {
                     var favors = await SQLOperator.Current().GetFavoriteAsync();
                     await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                     {
-                        foreach (var song in SongList)
+                        foreach (var disc in SongList)
                         {
-                            if (favors.Contains(song.ID))
+                            foreach (var song in disc)
                             {
-                                if (favors.Count == 0)
-                                    return;
-                                song.Favorite = true;
-                                favors.Remove(song.ID);
+                                if (favors.Contains(song.ID))
+                                {
+                                    if (favors.Count == 0)
+                                        return;
+                                    song.Favorite = true;
+                                    favors.Remove(song.ID);
+                                }
                             }
                         }
                     });
@@ -142,7 +163,8 @@ namespace Aurora.Music.ViewModels
 
         internal async Task PlayAt(SongViewModel songViewModel)
         {
-            await MainPageViewModel.Current.InstantPlayAsync(await Album.GetSongsAsync(), songList.IndexOf(songViewModel));
+            var playList = SongList.SelectMany(a => a).ToList();
+            await MainPageViewModel.Current.InstantPlayAsync(await Album.GetSongsAsync(), playList.IndexOf(songViewModel));
         }
     }
 }
