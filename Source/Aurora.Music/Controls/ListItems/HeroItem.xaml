@@ -33,18 +33,21 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <VisualStateGroup x:Name="CommonStates">
                 <VisualState x:Name="Normal">
                     <VisualState.Setters>
+                        <Setter Target="BackgroundOverlay.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
                     <Storyboard>
                     </Storyboard>
                 </VisualState>
                 <VisualState x:Name="PointerOver">
                     <VisualState.Setters>
+                        <Setter Target="BackgroundOverlay.Visibility" Value="Visible"/>
                     </VisualState.Setters>
                     <Storyboard>
                     </Storyboard>
                 </VisualState>
                 <VisualState x:Name="Pressed">
                     <VisualState.Setters>
+                        <Setter Target="BackgroundOverlay.Visibility" Value="Visible"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -107,6 +110,12 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <RowDefinition Height="72"/>
             <RowDefinition Height="72"/>
         </Grid.RowDefinitions>
+
+        <Border Grid.ColumnSpan="5" Grid.RowSpan="3" x:Name="BackgroundOverlay" 
+                HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                Background="{ThemeResource ButtonPointerOverBackgroundThemeBrush}" 
+                Opacity="1" Visibility="Collapsed" Margin="-8"/>
+
         <Grid Grid.ColumnSpan="2" Grid.RowSpan="2" Margin="4">
             <Grid.Background>
                 <LinearGradientBrush EndPoint="1,0" StartPoint="0,1">

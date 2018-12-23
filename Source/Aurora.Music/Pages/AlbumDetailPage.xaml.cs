@@ -4,7 +4,7 @@
 using System;
 using System.Linq;
 using System.Numerics;
-
+using System.Threading.Tasks;
 using Aurora.Music.Controls;
 using Aurora.Music.Core;
 using Aurora.Music.ViewModels;
@@ -55,18 +55,9 @@ namespace Aurora.Music.Pages
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+            // await Task.Delay(300);
             if (e.Parameter is AlbumViewModel s)
             {
-                var ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.AlbumItemConnectedAnimation + "_1");
-                if (ani != null)
-                {
-                    ani.TryStart(Title, new UIElement[] { Details });
-                }
-                ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.AlbumItemConnectedAnimation + "_2");
-                if (ani != null)
-                {
-                    ani.TryStart(Image);
-                }
                 Context.HeroImage = s.ArtworkUri;
                 await Context.GetSongsAsync(s);
             }
@@ -267,6 +258,17 @@ namespace Aurora.Music.Pages
             
             titleVisual.StopAnimation("offset.X");
             titleVisual.StartAnimation("Offset.X", horiMovingAni);
+
+            var ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.AlbumItemConnectedAnimation + "_1");
+            if (ani != null)
+            {
+                ani.TryStart(Title, new UIElement[] { Details });
+            }
+            ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.AlbumItemConnectedAnimation + "_2");
+            if (ani != null)
+            {
+                ani.TryStart(Image);
+            }
         }
 
         private void SongList_Loaded(object sender, RoutedEventArgs e)

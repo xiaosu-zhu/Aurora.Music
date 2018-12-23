@@ -162,5 +162,10 @@ namespace Aurora.Music.Pages
                 MainPageViewModel.Current.NeedShowTitle = false;
             }
         }
+
+        private void Visualizer_Draw(object sender, VisualizerDrawEventArgs args)
+        {
+
+        }
     }
 }

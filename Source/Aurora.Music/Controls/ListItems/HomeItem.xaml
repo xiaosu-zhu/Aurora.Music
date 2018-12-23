@@ -28,24 +28,32 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited" PointerPressed="Grid_PointerPressed"
-          PointerReleased="Grid_PointerReleased" PointerCanceled="Grid_PointerExited" PointerCaptureLost="Grid_PointerExited">
+    <Grid PointerEntered="Grid_PointerEntered" 
+          PointerExited="Grid_PointerExited" 
+          PointerPressed="Grid_PointerPressed"
+          PointerReleased="Grid_PointerReleased" 
+          PointerCanceled="Grid_PointerExited" 
+          PointerCaptureLost="Grid_PointerExited"
+          x:Name="Root">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="CommonStates">
                 <VisualState x:Name="Normal">
                     <VisualState.Setters>
+                        <Setter Target="Root.Background" Value="{x:Null}"/>
                     </VisualState.Setters>
                     <Storyboard>
                     </Storyboard>
                 </VisualState>
                 <VisualState x:Name="PointerOver">
                     <VisualState.Setters>
+                        <Setter Target="Root.Background" Value="{ThemeResource ButtonPointerOverBackgroundThemeBrush}"/>
                     </VisualState.Setters>
                     <Storyboard>
                     </Storyboard>
                 </VisualState>
                 <VisualState x:Name="Pressed">
                     <VisualState.Setters>
+                        <Setter Target="Root.Background" Value="{ThemeResource ButtonPointerOverBackgroundThemeBrush}"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

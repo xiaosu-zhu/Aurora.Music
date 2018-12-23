@@ -612,7 +612,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                 Grid.Column="1" x:Name="Visualizer"
                                 HorizontalAlignment="Stretch" VerticalAlignment="Top"
                                 CreateResources="CustomVisualizer_CreateResources" 
-                                Draw="CustomVisualizer_Draw"/>
+                                Draw="Visualizer_Draw"/>
     </Grid>
 
 </Page>

@@ -958,6 +958,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <Setter Target="PositionText.Margin" Value="0"/>
                         <Setter Target="Previous.Margin" Value="2"/>
                         <Setter Target="PlayPause.Margin" Value="2"/>
+                        <Setter Target="SearchBox.Margin" Value="-96,0,0,0"/>
                         <Setter Target="Next.Margin" Value="2"/>
                         <Setter Target="Stop.Margin" Value="2"/>
                         <Setter Target="Volume.Margin" Value="2"/>
@@ -983,6 +984,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <Setter Target="PlayListBtn.Margin" Value="0"/>
                         <Setter Target="PositionText.Margin" Value="0"/>
                         <Setter Target="SearchBox.Width" Value="240"/>
+                        <Setter Target="SearchBox.Margin" Value="-96,0,0,0"/>
                         <Setter Target="Previous.Margin" Value="0"/>
                         <Setter Target="PlayPause.Margin" Value="0"/>
                         <Setter Target="Volume.Margin" Value="0"/>
@@ -1400,12 +1402,12 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </StackPanel>
         </Grid>
 
-        <toolkit:DropShadowPanel Grid.ColumnSpan="2" Grid.RowSpan="3" BlurRadius="24"
+        <toolkit:DropShadowPanel Grid.ColumnSpan="2" Grid.RowSpan="3" BlurRadius="16"
                                  OffsetY="0" OffsetX="0" OffsetZ="0" Margin="72,48,0,72"
                                  HorizontalContentAlignment="Stretch"
                                  VerticalContentAlignment="Stretch"
                                  Color="#FF000000"
-                                 ShadowOpacity="0.5"
+                                 ShadowOpacity="0.3333"
                                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Border Background="{x:Null}"
                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
