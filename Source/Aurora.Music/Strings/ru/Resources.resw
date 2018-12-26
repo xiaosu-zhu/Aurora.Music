@@ -451,6 +451,10 @@
     <value>Детали Автора</value>
     <comment>Artist Details</comment>
   </data>
+    <data name="ArtistDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Играть</value>
+    <comment>Play</comment>
+  </data>
     <data name="ArtistDialog.CloseButtonText" xml:space="preserve">
     <value>Закрыть</value>
     <comment>Close</comment>

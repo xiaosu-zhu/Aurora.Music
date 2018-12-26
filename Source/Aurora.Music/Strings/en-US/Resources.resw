@@ -525,6 +525,10 @@
     <value>Artist Details</value>
     <comment>Artist Details</comment>
   </data>
+  <data name="ArtistDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Play</value>
+    <comment>Play</comment>
+  </data>
   <data name="ArtistDialog.CloseButtonText" xml:space="preserve">
     <value>Close</value>
     <comment>Close</comment>

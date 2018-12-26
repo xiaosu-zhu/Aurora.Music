@@ -43,7 +43,7 @@ namespace Aurora.Music.Pages
         public ArtistPage()
         {
             this.InitializeComponent();
-            this.NavigationCacheMode = NavigationCacheMode.Enabled;
+            this.NavigationCacheMode = NavigationCacheMode.Disabled;
         }
 
         public void RequestGoBack()
@@ -106,22 +106,13 @@ namespace Aurora.Music.Pages
             }
             if (e.Parameter is ArtistViewModel s && _lastParameter != s.RawName)
             {
-                _lastParameter = s.RawName;
-                Context.Artist = s;
-                var ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.ArtistPageInAnimation + "_1");
-                if (ani != null)
-                {
-                    ani.TryStart(Title, new UIElement[] { Details });
-                }
-                ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.ArtistPageInAnimation + "_2");
-                if (ani != null)
-                {
-                    ani.TryStart(Image);
-                }
                 var t = Task.Run(async () =>
                 {
                     await Context.Init(s);
+
                 });
+                _lastParameter = s.RawName;
+                Context.Artist = s;
             }
         }
 
@@ -393,6 +384,23 @@ namespace Aurora.Music.Pages
             imageVisual.StartAnimation("Scale.Y", imageScaleAnimation);
 
             imageVisual.StartAnimation("Offset.Y", imgMovingAnimation);
+
+            Task.Run(async () =>
+            {
+                await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                {
+                    var ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.ArtistPageInAnimation + "_1");
+                    if (ani != null)
+                    {
+                        ani.TryStart(Title, new UIElement[] { Details });
+                    }
+                    ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.ArtistPageInAnimation + "_2");
+                    if (ani != null)
+                    {
+                        ani.TryStart(Image);
+                    }
+                });
+            });
         }
 
         private void Page_SizeChanged(object sender, SizeChangedEventArgs e)

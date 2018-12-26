@@ -7,6 +7,8 @@ using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
 using ExpressionBuilder;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Numerics;
 using Windows.System.Threading;
@@ -124,7 +126,15 @@ namespace Aurora.Music.Pages
 
         private async void FavList_ItemClick(object sender, ItemClickEventArgs e)
         {
-            await MainPageViewModel.Current.InstantPlayAsync(await (e.ClickedItem as GenericMusicItemViewModel).GetSongsAsync());
+            var collection = (sender as ListView).ItemsSource as ObservableCollection<GenericMusicItemViewModel>;
+            var songs = new List<Core.Models.Song>();
+            foreach (var item in collection)
+            {
+                songs.AddRange(await item.GetSongsAsync());
+            }
+            var current = (await (e.ClickedItem as GenericMusicItemViewModel).GetSongsAsync())[0];
+            var start = songs.FindIndex(a => a.ID == current.ID);
+            await MainPageViewModel.Current.InstantPlayAsync(songs, start);
         }
 
         private void HeroGrid_ContextRequested(UIElement sender, ContextRequestedEventArgs e)

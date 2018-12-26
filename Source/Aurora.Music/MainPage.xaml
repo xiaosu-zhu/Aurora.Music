@@ -1075,20 +1075,16 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </ListView>
             <Button AccessKey="5" Padding="0" VerticalContentAlignment="Stretch" x:Uid="More"
                     HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
-                    ToolTipService.ToolTip="More" Grid.Row="1" BorderThickness="0"
-                    Style="{ThemeResource RevealRectangleButton}" Height="72"
-                    Background="{ThemeResource SystemControlTransparentBrush}">
+                    ToolTipService.ToolTip="More" Grid.Row="1" 
+                    BorderBrush="{ThemeResource SystemControlBackgroundTransparentRevealBorderBrush}"
+                    Background="{ThemeResource SystemControlTransparentRevealBackgroundBrush}"
+                    Style="{ThemeResource RevealRectangleButton}" Height="72">
                 <Button.KeyboardAccelerators>
                     <KeyboardAccelerator Modifiers="Control" Key="Number5"/>
                 </Button.KeyboardAccelerators>
-                <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                    <Border Width="72" Height="72" Background="{x:Null}">
-                        <FontIcon Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"
-                                  FontFamily="Segoe MDL2 Assets" Glyph="&#xE10C;" 
-                                  HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </Border>
-                </StackPanel>
-                <Button.Flyout>
+                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE10C;"
+                          HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Button.Flyout>
                     <Flyout x:Name="MoreFlyout">
                         <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Orientation="Horizontal">
                             <Button AccessKey="5" Padding="0" VerticalContentAlignment="Center" 

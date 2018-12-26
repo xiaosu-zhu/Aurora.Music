@@ -543,6 +543,10 @@
     <value>Dettagli artista</value>
     <comment>Artist Details</comment>
   </data>
+    <data name="ArtistDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Riproduci</value>
+    <comment>Play</comment>
+  </data>
     <data name="ArtistDialog.CloseButtonText" xml:space="preserve">
     <value>Chiudi</value>
     <comment>Close</comment>

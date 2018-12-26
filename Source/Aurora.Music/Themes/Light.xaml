@@ -47,8 +47,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 
 
     <RevealBorderBrush x:Key="TextRevealAccentForeground" 
-                       FallbackColor="{ThemeResource SystemAccentColorDark2}"
-                       Color="{ThemeResource SystemAccentColorDark2}" 
+                       FallbackColor="{ThemeResource SystemAccentColorDark1}"
+                       Color="{ThemeResource SystemAccentColorDark1}" 
                        TargetTheme="Light"/>
 
     <RevealBorderBrush x:Key="AlbumItemBorder" TargetTheme="Light" Color="Transparent" FallbackColor="Transparent" />

@@ -619,6 +619,7 @@ namespace Aurora.Music
             if (ui != null) ui.ColorValuesChanged -= Ui_ColorValuesChanged;
             ui = new UISettings();
             ui.ColorValuesChanged += Ui_ColorValuesChanged;
+            titleBar.ButtonHoverBackgroundColor = ui.GetColorValue(UIColorType.AccentDark1);
             ApplicationView.GetForCurrentView().SetDesiredBoundsMode(ApplicationViewBoundsMode.UseVisible);
 
 

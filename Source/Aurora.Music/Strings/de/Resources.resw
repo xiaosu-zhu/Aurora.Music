@@ -529,6 +529,10 @@
     <value>Details zum Interpret</value>
     <comment>Artist Details</comment>
   </data>
+    <data name="ArtistDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Abspielen</value>
+    <comment>Play</comment>
+  </data>
     <data name="ArtistDialog.CloseButtonText" xml:space="preserve">
     <value>Schließen</value>
     <comment>Close</comment>

@@ -306,6 +306,7 @@ namespace Aurora.Music
             Context.IsDarkAccent = Palette.IsDarkColor(ui.GetColorValue(UIColorType.Accent));
 
             var titleBar = ApplicationView.GetForCurrentView().TitleBar;
+            // titleBar.ButtonHoverBackgroundColor = Colors.Red;
             switch (theme)
             {
                 case ElementTheme.Default:
@@ -414,6 +415,7 @@ namespace Aurora.Music
                 CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
                 Window.Current.SetTitleBar(frame);
                 var titleBar = ApplicationView.GetForCurrentView().TitleBar;
+                titleBar.ButtonHoverBackgroundColor = Colors.Red;
                 titleBar.ButtonBackgroundColor = Colors.Transparent;
                 titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
                 titleBar.ButtonHoverBackgroundColor = Color.FromArgb(0x33, 0x00, 0x00, 0x00);

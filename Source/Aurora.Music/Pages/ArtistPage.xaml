@@ -72,8 +72,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                       HorizontalScrollMode="Disabled"
                       x:Name="Root"
-                      ext:ScrollViewerExtensions.VerticalScrollBarMargin="0,128,0,0"
-                      Loaded="SongsList_Loaded">
+                      ext:ScrollViewerExtensions.VerticalScrollBarMargin="0,128,0,0">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
@@ -81,6 +80,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </Grid.RowDefinitions>
 
                 <Grid x:Name="HeaderGroup" 
+                      Loaded="SongsList_Loaded"
                       PointerReleased="HeaderGroup_PointerReleased" 
                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                       Margin="240,128,32,0">
@@ -125,7 +125,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                                              Source="{x:Bind Context.Artist.AvatarImage, Mode=OneWay}" 
                                                              Margin="0,8" Height="120"
                                                              HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                                            <toolkit:MarkdownTextBlock IsTextSelectionEnabled="False" 
+                                            <toolkit:MarkdownTextBlock IsTextSelectionEnabled="False" Background="{x:Null}"
                                                                        LinkClicked="Descriptions_LinkClicked" 
                                                                        Text="{x:Bind Context.Artist.Description, Mode=OneWay}"
                                                                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch"

@@ -83,8 +83,8 @@ namespace Aurora.Music.ViewModels
                 SetProperty(ref currentColorBrush, value);
                 var c = currentColorBrush.Color;
                 c.ColorToHSV(out var h, out var s, out var v);
-                CurrentColor[0] = ImagingHelper.ColorFromHSV(h, s, 0.8);
-                CurrentColor[1] = ImagingHelper.ColorFromHSV(h, s, 0.6);
+                CurrentColor[0] = ImagingHelper.ColorFromHSV(h, s, 0.6);
+                CurrentColor[1] = ImagingHelper.ColorFromHSV(h, s, 0.2);
             }
         }
 
@@ -114,6 +114,7 @@ namespace Aurora.Music.ViewModels
         }
 
         private static int lyricEditorId = -1;
+
 
         public DelegateCommand OpenLyricEditor
         {

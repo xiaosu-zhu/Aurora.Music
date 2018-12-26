@@ -17,7 +17,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     DefaultButton="Close"
     mc:Ignorable="d">
     <ScrollViewer Loaded="Root_Loaded" x:Name="Root" HorizontalScrollMode="Disabled" Padding="0,0,20,0">
-        <toolkit:MarkdownTextBlock x:Name="Main" 
+        <toolkit:MarkdownTextBlock x:Name="Main" Background="{x:Null}"
                                    Text="# Access Keys&#xD;&#xA;---&#xD;&#xA;Pressing the `Alt` key initializes access key functionality and displays all currently available key combinations in Key Tips. Then hit the specific key to invoke interactions binded to this element.&#xD;&#xA;&#xD;&#xA;# Keyboard Accelerators&#xD;&#xA;---&#xD;&#xA;Here are shortcut keys that supports:&#xD;&#xA;&#xD;&#xA;| Key | Function |&#xD;&#xA;| --- | --- |&#xD;&#xA;| `Ctrl + P, F2` | Play/Pause |&#xD;&#xA;| `F1` | Go Previous |&#xD;&#xA;| `F3` | Go Next |&#xD;&#xA;| `Ctrl + 1/2/3/4...` | Navigate to pages |&#xD;&#xA;| `Ctrl + F` | Search |&#xD;&#xA;| `Ctrl + E` | Stop Playing |&#xD;&#xA;| `Ctrl + O` | Open Side Menu |&#xD;&#xA;| `Ctrl + L` | Open Playing list |"/>
     </ScrollViewer>
 </ContentDialog>

@@ -145,5 +145,10 @@ namespace Aurora.Music.Controls
         {
             MainPage.Current.SongFlyout.Hide();
         }
+
+        private async void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+            await MainPageViewModel.Current.InstantPlayAsync(Context.SongsList.SelectMany(a => a.Select(s => s.Song)).ToList());
+        }
     }
 }

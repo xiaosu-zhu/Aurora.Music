@@ -119,6 +119,16 @@ namespace Aurora.Music.Pages
             await dialog.ShowAsync();
         }
 
+        private async void ClickArtistViewDialog(object sender, RoutedEventArgs e)
+        {
+            var artist = Context.Song.GetFormattedArtists();
+            var dialog = new ArtistViewDialog(new ArtistViewModel()
+            {
+                Name = artist,
+            });
+            await dialog.ShowAsync();
+        }
+
         public void RequestGoBack()
         {
             ConnectedAnimationService.GetForCurrentView().PrepareToAnimate(Consts.NowPlayingPageInAnimation, Artwork);
@@ -146,21 +156,29 @@ namespace Aurora.Music.Pages
             {
                 throw new Exception();
             }
-            var ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.NowPlayingPageInAnimation);
-            if (ani != null)
+            return;
+            Task.Run(async () =>
             {
-                ani.TryStart(Artwork, new UIElement[] { Root });
-            }
-            ani = ConnectedAnimationService.GetForCurrentView().GetAnimation($"{Consts.NowPlayingPageInAnimation}_1");
-            if (ani != null)
-            {
-                ani.TryStart(Title);
-            }
-            ani = ConnectedAnimationService.GetForCurrentView().GetAnimation($"{Consts.NowPlayingPageInAnimation}_2");
-            if (ani != null)
-            {
-                ani.TryStart(Album);
-            }
+                await Task.Delay(160);
+                await Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+                {
+                    var ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.NowPlayingPageInAnimation);
+                    if (ani != null)
+                    {
+                        ani.TryStart(Artwork, new UIElement[] { Root });
+                    }
+                    ani = ConnectedAnimationService.GetForCurrentView().GetAnimation($"{Consts.NowPlayingPageInAnimation}_1");
+                    if (ani != null)
+                    {
+                        ani.TryStart(Title);
+                    }
+                    ani = ConnectedAnimationService.GetForCurrentView().GetAnimation($"{Consts.NowPlayingPageInAnimation}_2");
+                    if (ani != null)
+                    {
+                        ani.TryStart(Album);
+                    }
+                });
+            });
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -382,15 +400,30 @@ namespace Aurora.Music.Pages
                 float spectrumBarHeight = barSize.Y * (1.0f - (logPeakSpectrum[0][index] + logPeakSpectrum[1][index]) / -100.0f);
 
                 var decayPoint = new Vector2(X, canvasHeight - barWidth - spectrumBarHeight);
-                drawingSession.FillCircle(decayPoint, barSize.X / 2, Context.CurrentColor[0]);
+                drawingSession.FillCircle(decayPoint, barSize.X / 2, Context.CurrentColor[1]);
             }
         }
 
         private async void Artwork_ImageOpened(object sender, RoutedEventArgs e)
         {
+            var ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.NowPlayingPageInAnimation);
+            if (ani != null)
+            {
+                ani.TryStart(Artwork, new UIElement[] { Root });
+            }
+            ani = ConnectedAnimationService.GetForCurrentView().GetAnimation($"{Consts.NowPlayingPageInAnimation}_1");
+            if (ani != null)
+            {
+                ani.TryStart(Title);
+            }
+            ani = ConnectedAnimationService.GetForCurrentView().GetAnimation($"{Consts.NowPlayingPageInAnimation}_2");
+            if (ani != null)
+            {
+                ani.TryStart(Album);
+            }
             await Task.Delay(200);
             var service = ConnectedAnimationService.GetForCurrentView();
-            var ani = service.GetAnimation("DropAni");
+            ani = service.GetAnimation("DropAni");
             if (ani != null)
                 ani.TryStart(SongPanel);
         }

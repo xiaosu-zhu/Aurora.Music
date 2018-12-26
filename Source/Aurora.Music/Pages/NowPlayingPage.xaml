@@ -1166,23 +1166,33 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     Background="{ThemeResource ImageDarkOverlay}" Visibility="{x:Bind Context.NightModeEnabled}"
                     Height="{Binding ActualHeight, ElementName=Artwork}" Width="{Binding ActualWidth, ElementName=Artwork}"/>
             <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Stretch" Grid.Row="1">
-                <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" MaxLines="1"
-                               Margin="0,4,0,0" Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush), Mode=OneWay}" 
-                           ToolTipService.ToolTip="{x:Bind Context.Song.GetFormattedArtists(),Mode=OneWay}"
-                               Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Context.Song.GetFormattedArtists(),Mode=OneWay}"/>
+                <Button HorizontalAlignment="Left" VerticalAlignment="Center" 
+                        Style="{ThemeResource TextBlockButtonStyle}" Click="ClickArtistViewDialog"
+                        Margin="0,4,0,0" Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush), Mode=OneWay}"
+                        ToolTipService.ToolTip="{x:Bind Context.Song.GetFormattedArtists(),Mode=OneWay}">
+                    <TextBlock TextTrimming="CharacterEllipsis" 
+                               TextWrapping="NoWrap" 
+                               MaxLines="1" 
+                               Text="{x:Bind Context.Song.GetFormattedArtists(),Mode=OneWay}"/>
+                </Button>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
                     <TextBlock x:Name="Title" Margin="0,2,0,0" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" MaxLines="1"
-                               Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush), Mode=OneWay}" 
                                Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold" ToolTipService.ToolTip="{x:Bind Context.Song.Title,Mode=OneWay}"
                                Text="{x:Bind Context.Song.Title,Mode=OneWay}"/>
                     <FontIcon Visibility="{x:Bind Context.Song.IsOnline,Mode=OneWay}"
-                              FontSize="24" Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush),Mode=OneWay}"
+                              FontSize="24"
                               VerticalAlignment="Center" Margin="8,4,0,0" FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Context.GlyphOfOnline(Context.Song),Mode=OneWay}" />
                 </StackPanel>
-                <TextBlock Margin="0,4,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" x:Name="Album"
-                            TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" MaxLines="1" ToolTipService.ToolTip="{x:Bind Context.Song.Album,Mode=OneWay}"
-                               Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush), Mode=OneWay}" 
-                               Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Context.Song.Album,Mode=OneWay}"/>
+                <Button Margin="0,4,0,0" 
+                        HorizontalAlignment="Left" VerticalAlignment="Center" 
+                        x:Name="Album" Click="OpenAlbumViewDialog"
+                        ToolTipService.ToolTip="{x:Bind Context.Song.Album,Mode=OneWay}"
+                        Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush), Mode=OneWay}"
+                        Style="{ThemeResource TextBlockButtonStyle}">
+                    <TextBlock Text="{x:Bind Context.Song.Album,Mode=OneWay}"
+                               TextTrimming="CharacterEllipsis" 
+                               TextWrapping="NoWrap" MaxLines="1"/>
+                </Button>
                 <toolkit:DropShadowPanel Margin="0,8,0,0" HorizontalAlignment="Left" VerticalAlignment="Stretch" Color="{ThemeResource SystemAltHighColor}" ShadowOpacity="0.66" BlurRadius="8" OffsetX="0" OffsetY="0">
                     <TextBlock Style="{ThemeResource BodyTextBlockStyle}" ToolTipService.ToolTip="{x:Bind Context.Song.GetAddtionalDesc(),Mode=OneWay}"
                                Text="{x:Bind Context.Song.GetAddtionalDesc(),Mode=OneWay}" Foreground="{ThemeResource SystemControlBackgroundBaseHighRevealBorderBrush}" 

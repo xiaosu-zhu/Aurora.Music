@@ -525,6 +525,10 @@
     <value>歌手详情</value>
     <comment>Artist Details</comment>
   </data>
+    <data name="ArtistDialog.PrimaryButtonText" xml:space="preserve">
+    <value>播放</value>
+    <comment>Play</comment>
+  </data>
   <data name="ArtistDialog.CloseButtonText" xml:space="preserve">
     <value>关闭</value>
     <comment>Close</comment>

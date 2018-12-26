@@ -259,16 +259,22 @@ namespace Aurora.Music.Pages
             titleVisual.StopAnimation("offset.X");
             titleVisual.StartAnimation("Offset.X", horiMovingAni);
 
-            var ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.AlbumItemConnectedAnimation + "_1");
-            if (ani != null)
+            Task.Run(async () =>
             {
-                ani.TryStart(Title, new UIElement[] { Details });
-            }
-            ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.AlbumItemConnectedAnimation + "_2");
-            if (ani != null)
-            {
-                ani.TryStart(Image);
-            }
+                await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                {
+                    var ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.AlbumItemConnectedAnimation + "_1");
+                    if (ani != null)
+                    {
+                        ani.TryStart(Title, new UIElement[] { Details });
+                    }
+                    ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.AlbumItemConnectedAnimation + "_2");
+                    if (ani != null)
+                    {
+                        ani.TryStart(Image);
+                    }
+                });
+            });
         }
 
         private void SongList_Loaded(object sender, RoutedEventArgs e)

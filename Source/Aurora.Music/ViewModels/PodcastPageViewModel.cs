@@ -140,7 +140,7 @@ namespace Aurora.Music.ViewModels
                     Model.Subscribed = !Model.Subscribed;
                     await Model.SaveAsync();
                     IsSubscribe = Model.Subscribed;
-                    MainPage.Current.PopMessage(Model.Subscribed ? "Subscribed" : "Un-Subscribed");
+                    MainPage.Current.PopMessage(Model.Subscribed ? Consts.Localizer.GetString("SubscribeText") : Consts.Localizer.GetString("UnSubscribeText"));
                 });
             }
         }

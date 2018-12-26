@@ -135,10 +135,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                                 </Image.Source>
                                             </Image>
                                             <toolkit:MarkdownTextBlock IsTextSelectionEnabled="False" LinkClicked="Descriptions_LinkClicked"
-                                                                       Text="{x:Bind Context.Album.Description, Mode=OneWay}"
+                                                                       Text="{x:Bind Context.Album.Description, Mode=OneWay}" Background="{x:Null}"
                                                                        Height="75" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                                                                       TextWrapping="WrapWholeWords">
-                                            </toolkit:MarkdownTextBlock>
+                                                                       TextWrapping="WrapWholeWords"/>
                                         </StackPanel>
                                     </Flyout>
                                 </Button.Flyout>
@@ -266,10 +265,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                 </Image.Source>
                             </Image>
                             <toolkit:MarkdownTextBlock IsTextSelectionEnabled="False" LinkClicked="Descriptions_LinkClicked"
-                                                       Text="{x:Bind Context.Album.Description, Mode=OneWay}"
+                                                       Text="{x:Bind Context.Album.Description, Mode=OneWay}" Background="{x:Null}"
                                                        Height="75" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                                                       TextWrapping="WrapWholeWords">
-                            </toolkit:MarkdownTextBlock>
+                                                       TextWrapping="WrapWholeWords"/>
                         </StackPanel>
                     </Flyout>
                 </AppBarButton.Flyout>
