@@ -1,15 +1,17 @@
 # Something about build and deploy
 
-System requirement:
+System requirements:
 * Windows 10 version 1709 or higher
 * Visual Studio 2017 with Windows 10 SDK 10.0.16299
-* Please enable the development mode
+* Please enable dev mode in system settings
 
 
 
 
 
-You may notice that, there's something missed in the solution:
+You may notice that, there're something missed in the solution:
+
+
 1. **The `excluded.cs`**
 
 
@@ -30,8 +32,7 @@ namespace Aurora.Music.Core
 ```
 
 
-These two api keys is for app diagnostic (Hockey App), and Onedrive support (Microsoft Graph Service). You can register an ID for them, 
-If you don't want so, just find all references in the whole solution and comment all lines.
+One is for app diagnostic (Hockey App), and another is for Onedrive support (Microsoft Graph Service). You can register in the associated web site and require api keys, If you don't want so, just find all references in the whole solution and comment them.
 
 
 
