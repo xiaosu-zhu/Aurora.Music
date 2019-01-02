@@ -17,7 +17,7 @@ You may notice that, there're something missed in the solution:
 
 ![](https://i.loli.net/2018/10/05/5bb6bcaa7dc48.png)
 
-This is a file that contains following code:
+This file contains following code:
 
 ``` csharp
 namespace Aurora.Music.Core
@@ -39,4 +39,4 @@ One is for app diagnostic (Hockey App), and another is for Onedrive support (Mic
 
 2. **The Store Key and Temporary Key in the solution**
 
-These files are created by Visual Studio for Windows Store packages, just ignore them.
+These files are created by Visual Studio for store upload, just ignore them.
