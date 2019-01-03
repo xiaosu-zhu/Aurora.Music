@@ -1,292 +1,299 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{026D99CF-1C25-4DCF-AD95-1070BBA9F8A8}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Aurora.Shared</RootNamespace>
-    <AssemblyName>Aurora.Shared</AssemblyName>
-    <DefaultLanguage>zh-CN</DefaultLanguage>
-    <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.16299.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.10586.0</TargetPlatformMinVersion>
-    <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <RuntimeIdentifiers>win10-arm;win10-arm-aot;win10-x86;win10-x86-aot;win10-x64;win10-x64-aot</RuntimeIdentifiers>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <LangVersion>7.2</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <LangVersion>7.2</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <PlatformTarget>x86</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x86\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <NoWarn>;2008</NoWarn>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <PlatformTarget>x86</PlatformTarget>
-    <OutputPath>bin\x86\Release\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <Optimize>true</Optimize>
-    <NoWarn>;2008</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
-    <PlatformTarget>ARM</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\ARM\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <NoWarn>;2008</NoWarn>
-    <DebugType>full</DebugType>
-    <PlatformTarget>ARM</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
-    <PlatformTarget>ARM</PlatformTarget>
-    <OutputPath>bin\ARM\Release\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <Optimize>true</Optimize>
-    <NoWarn>;2008</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>ARM</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <PlatformTarget>x64</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x64\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <NoWarn>;2008</NoWarn>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <Optimize>false</Optimize>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <PlatformTarget>x64</PlatformTarget>
-    <OutputPath>bin\x64\Release\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <Optimize>true</Optimize>
-    <NoWarn>;2008</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-  </PropertyGroup>
-  <ItemGroup>
-    <Compile Include="Algorithm\Complex.cs" />
-    <Compile Include="Algorithm\FFT.cs" />
-    <Compile Include="Controls\GraphBox.cs" />
-    <Compile Include="Controls\IChangeTheme.cs" />
-    <Compile Include="Controls\LoadingDot.cs" />
-    <Compile Include="Controls\RefreshableListView.cs" />
-    <Compile Include="Controls\SwitchGrid.cs" />
-    <Compile Include="Converters\Converters.cs" />
-    <Compile Include="CrashLog.cs" />
-    <Compile Include="Extensions\BoolExtensions.cs" />
-    <Compile Include="Extensions\EnumExtensions.cs" />
-    <Compile Include="Extensions\EnumrableExtesion.cs" />
-    <Compile Include="Extensions\FileExtension.cs" />
-    <Compile Include="Extensions\FrameworkElementExtensions.cs" />
-    <Compile Include="Extensions\IntExtension.cs" />
-    <Compile Include="Extensions\StringExtension.cs" />
-    <Compile Include="Extensions\Times.cs" />
-    <Compile Include="Extensions\TypeExtension.cs" />
-    <Compile Include="Helpers\AsyncHelper.cs" />
-    <Compile Include="Helpers\BindingHelper.cs" />
-    <Compile Include="Helpers\CortanaHelper.cs" />
-    <Compile Include="Helpers\Crypto\CryptoHelper.cs" />
-    <Compile Include="Helpers\DateTimeHelper.cs" />
-    <Compile Include="Helpers\EasingHelper.cs" />
-    <Compile Include="Helpers\FileIOHelper.cs" />
-    <Compile Include="Helpers\ImagingHelper.cs" />
-    <Compile Include="Helpers\InteractionHelper.cs" />
-    <Compile Include="Helpers\JsonHelper.cs" />
-    <Compile Include="Helpers\MemoryRandomAccessStream.cs" />
-    <Compile Include="Helpers\EncodingHelper.cs" />
-    <Compile Include="Helpers\NavigationAttribute.cs" />
-    <Compile Include="Helpers\StringHelper.cs" />
-    <Compile Include="Helpers\SystemInfoHelper.cs" />
-    <Compile Include="Helpers\Tools.cs" />
-    <Compile Include="Helpers\UIHelper.cs" />
-    <Compile Include="Extensions\VisualTreeHelperExtensions.cs" />
-    <Compile Include="Logging\LoggingDispatcher.cs" />
-    <Compile Include="MVVM\DelegateCommand.cs" />
-    <Compile Include="MVVM\Events\RefreshCompletedEventArgs.cs" />
-    <Compile Include="MVVM\ILOCollection.cs" />
-    <Compile Include="MVVM\LazyLoadCollection.cs" />
-    <Compile Include="MVVM\ViewModelBase.cs" />
-    <Compile Include="Palette.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Helpers\SettingsHelper.cs" />
-    <Compile Include="Helpers\WebHelper.cs" />
-    <Compile Include="SQLite\SQLite.cs" />
-    <Compile Include="SQLite\SQLiteAsync.cs" />
-    <Compile Include="Utils.cs" />
-    <EmbeddedResource Include="Properties\com.aurora.shared.rd.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="Themes\Generic.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="ksemenenko.ColorThief">
-      <Version>1.1.1.4</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.1.9</Version>
-    </PackageReference>
-    <PackageReference Include="System.ValueTuple">
-      <Version>4.5.0</Version>
-    </PackageReference>
-    <PackageReference Include="WriteableBitmapEx">
-      <Version>1.5.1</Version>
-    </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
-    <SDKReference Include="Microsoft.VCLibs, Version=14.0">
-      <Name>Visual C++ 2015 Runtime for Universal Windows Platform Apps</Name>
-    </SDKReference>
-    <SDKReference Include="SQLite.UWP.2015, Version=3.26.0">
-      <Name>SQLite for Universal Windows Platform</Name>
-    </SDKReference>
-  </ItemGroup>
-  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
-    <VisualStudioVersion>14.0</VisualStudioVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'BETA|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\BETA\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <NoStdLib>true</NoStdLib>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <LangVersion>7.2</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'BETA|x86'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x86\BETA\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <NoWarn>;2008</NoWarn>
-    <NoStdLib>true</NoStdLib>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'BETA|ARM'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\ARM\BETA\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <NoWarn>;2008</NoWarn>
-    <NoStdLib>true</NoStdLib>
-    <DebugType>full</DebugType>
-    <PlatformTarget>ARM</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'BETA|x64'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x64\BETA\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINDOWS_UWP;BETA</DefineConstants>
-    <NoWarn>;2008</NoWarn>
-    <NoStdLib>true</NoStdLib>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|AnyCPU'">
-    <OutputPath>bin\Test\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;BETA</DefineConstants>
-    <Optimize>true</Optimize>
-    <NoStdLib>true</NoStdLib>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <LangVersion>7.2</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|x86'">
-    <OutputPath>bin\x86\Test\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;BETA</DefineConstants>
-    <Optimize>true</Optimize>
-    <NoWarn>;2008</NoWarn>
-    <NoStdLib>true</NoStdLib>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|ARM'">
-    <OutputPath>bin\ARM\Test\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;BETA</DefineConstants>
-    <Optimize>true</Optimize>
-    <NoWarn>;2008</NoWarn>
-    <NoStdLib>true</NoStdLib>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>ARM</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|x64'">
-    <OutputPath>bin\x64\Test\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;BETA</DefineConstants>
-    <Optimize>true</Optimize>
-    <NoWarn>;2008</NoWarn>
-    <NoStdLib>true</NoStdLib>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+    <PropertyGroup>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+        <ProjectGuid>{026D99CF-1C25-4DCF-AD95-1070BBA9F8A8}</ProjectGuid>
+        <OutputType>Library</OutputType>
+        <AppDesignerFolder>Properties</AppDesignerFolder>
+        <RootNamespace>Aurora.Shared</RootNamespace>
+        <AssemblyName>Aurora.Shared</AssemblyName>
+        <DefaultLanguage>zh-CN</DefaultLanguage>
+        <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
+        <TargetPlatformVersion>10.0.17134.0</TargetPlatformVersion>
+        <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
+        <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
+        <FileAlignment>512</FileAlignment>
+        <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+        <RuntimeIdentifiers>win10-arm;win10-arm-aot;win10-x86;win10-x86-aot;win10-x64;win10-x64-aot</RuntimeIdentifiers>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>full</DebugType>
+        <Optimize>false</Optimize>
+        <OutputPath>bin\Debug\</OutputPath>
+        <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+        <LangVersion>7.2</LangVersion>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <DebugType>pdbonly</DebugType>
+        <Optimize>true</Optimize>
+        <OutputPath>bin\Release\</OutputPath>
+        <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+        <LangVersion>7.2</LangVersion>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+        <PlatformTarget>x86</PlatformTarget>
+        <DebugSymbols>true</DebugSymbols>
+        <OutputPath>bin\x86\Debug\</OutputPath>
+        <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+        <NoWarn>;2008</NoWarn>
+        <DebugType>full</DebugType>
+        <PlatformTarget>x86</PlatformTarget>
+        <UseVSHostingProcess>false</UseVSHostingProcess>
+        <ErrorReport>prompt</ErrorReport>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+        <PlatformTarget>x86</PlatformTarget>
+        <OutputPath>bin\x86\Release\</OutputPath>
+        <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+        <Optimize>true</Optimize>
+        <NoWarn>;2008</NoWarn>
+        <DebugType>pdbonly</DebugType>
+        <PlatformTarget>x86</PlatformTarget>
+        <UseVSHostingProcess>false</UseVSHostingProcess>
+        <ErrorReport>prompt</ErrorReport>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
+        <PlatformTarget>ARM</PlatformTarget>
+        <DebugSymbols>true</DebugSymbols>
+        <OutputPath>bin\ARM\Debug\</OutputPath>
+        <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+        <NoWarn>;2008</NoWarn>
+        <DebugType>full</DebugType>
+        <PlatformTarget>ARM</PlatformTarget>
+        <UseVSHostingProcess>false</UseVSHostingProcess>
+        <ErrorReport>prompt</ErrorReport>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
+        <PlatformTarget>ARM</PlatformTarget>
+        <OutputPath>bin\ARM\Release\</OutputPath>
+        <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+        <Optimize>true</Optimize>
+        <NoWarn>;2008</NoWarn>
+        <DebugType>pdbonly</DebugType>
+        <PlatformTarget>ARM</PlatformTarget>
+        <UseVSHostingProcess>false</UseVSHostingProcess>
+        <ErrorReport>prompt</ErrorReport>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+        <PlatformTarget>x64</PlatformTarget>
+        <DebugSymbols>true</DebugSymbols>
+        <OutputPath>bin\x64\Debug\</OutputPath>
+        <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+        <NoWarn>;2008</NoWarn>
+        <DebugType>full</DebugType>
+        <PlatformTarget>x64</PlatformTarget>
+        <UseVSHostingProcess>false</UseVSHostingProcess>
+        <ErrorReport>prompt</ErrorReport>
+        <Optimize>false</Optimize>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+        <PlatformTarget>x64</PlatformTarget>
+        <OutputPath>bin\x64\Release\</OutputPath>
+        <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+        <Optimize>true</Optimize>
+        <NoWarn>;2008</NoWarn>
+        <DebugType>pdbonly</DebugType>
+        <PlatformTarget>x64</PlatformTarget>
+        <UseVSHostingProcess>false</UseVSHostingProcess>
+        <ErrorReport>prompt</ErrorReport>
+    </PropertyGroup>
+    <ItemGroup>
+        <Compile Include="Algorithm\Complex.cs" />
+        <Compile Include="Algorithm\FFT.cs" />
+        <Compile Include="Controls\GraphBox.cs" />
+        <Compile Include="Controls\IChangeTheme.cs" />
+        <Compile Include="Controls\LoadingDot.cs" />
+        <Compile Include="Controls\RefreshableListView.cs" />
+        <Compile Include="Controls\SwitchGrid.cs" />
+        <Compile Include="Converters\Converters.cs" />
+        <Compile Include="CrashLog.cs" />
+        <Compile Include="Extensions\BoolExtensions.cs" />
+        <Compile Include="Extensions\EnumExtensions.cs" />
+        <Compile Include="Extensions\EnumrableExtesion.cs" />
+        <Compile Include="Extensions\FileExtension.cs" />
+        <Compile Include="Extensions\FrameworkElementExtensions.cs" />
+        <Compile Include="Extensions\IntExtension.cs" />
+        <Compile Include="Extensions\StringExtension.cs" />
+        <Compile Include="Extensions\Times.cs" />
+        <Compile Include="Extensions\TypeExtension.cs" />
+        <Compile Include="Helpers\AsyncHelper.cs" />
+        <Compile Include="Helpers\BindingHelper.cs" />
+        <Compile Include="Helpers\CortanaHelper.cs" />
+        <Compile Include="Helpers\Crypto\CryptoHelper.cs" />
+        <Compile Include="Helpers\DateTimeHelper.cs" />
+        <Compile Include="Helpers\EasingHelper.cs" />
+        <Compile Include="Helpers\FileIOHelper.cs" />
+        <Compile Include="Helpers\ImagingHelper.cs" />
+        <Compile Include="Helpers\InteractionHelper.cs" />
+        <Compile Include="Helpers\JsonHelper.cs" />
+        <Compile Include="Helpers\MemoryRandomAccessStream.cs" />
+        <Compile Include="Helpers\EncodingHelper.cs" />
+        <Compile Include="Helpers\NavigationAttribute.cs" />
+        <Compile Include="Helpers\StringHelper.cs" />
+        <Compile Include="Helpers\SystemInfoHelper.cs" />
+        <Compile Include="Helpers\Tools.cs" />
+        <Compile Include="Helpers\UIHelper.cs" />
+        <Compile Include="Extensions\VisualTreeHelperExtensions.cs" />
+        <Compile Include="Logging\LoggingDispatcher.cs" />
+        <Compile Include="MVVM\DelegateCommand.cs" />
+        <Compile Include="MVVM\Events\RefreshCompletedEventArgs.cs" />
+        <Compile Include="MVVM\ILOCollection.cs" />
+        <Compile Include="MVVM\LazyLoadCollection.cs" />
+        <Compile Include="MVVM\ViewModelBase.cs" />
+        <Compile Include="Palette.cs" />
+        <Compile Include="Properties\AssemblyInfo.cs" />
+        <Compile Include="Helpers\SettingsHelper.cs" />
+        <Compile Include="Helpers\WebHelper.cs" />
+        <Compile Include="SQLite\SQLite.cs" />
+        <Compile Include="SQLite\SQLiteAsync.cs" />
+        <Compile Include="Utils.cs" />
+        <Compile Include="TagLibUwpFileExtension.cs" />
+        <EmbeddedResource Include="Properties\com.aurora.shared.rd.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <Page Include="Themes\Generic.xaml">
+            <Generator>MSBuild:Compile</Generator>
+            <SubType>Designer</SubType>
+        </Page>
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="ksemenenko.ColorThief">
+            <Version>1.1.1.4</Version>
+        </PackageReference>
+        <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
+            <Version>6.1.9</Version>
+        </PackageReference>
+        <PackageReference Include="System.ValueTuple">
+            <Version>4.5.0</Version>
+        </PackageReference>
+        <PackageReference Include="WriteableBitmapEx">
+            <Version>1.5.1</Version>
+        </PackageReference>
+    </ItemGroup>
+    <ItemGroup>
+        <SDKReference Include="Microsoft.VCLibs, Version=14.0">
+            <Name>Visual C++ 2015 Runtime for Universal Windows Platform Apps</Name>
+        </SDKReference>
+        <SDKReference Include="SQLite.UWP.2015, Version=3.26.0">
+            <Name>SQLite for Universal Windows Platform</Name>
+        </SDKReference>
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\TagLib\src\taglib-sharp.csproj">
+            <Project>{56569777-4F05-44EB-9F34-E8C40159BB0B}</Project>
+            <Name>taglib-sharp</Name>
+        </ProjectReference>
+    </ItemGroup>
+    <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
+        <VisualStudioVersion>14.0</VisualStudioVersion>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'BETA|AnyCPU'">
+        <DebugSymbols>true</DebugSymbols>
+        <OutputPath>bin\BETA\</OutputPath>
+        <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+        <NoStdLib>true</NoStdLib>
+        <DebugType>full</DebugType>
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <UseVSHostingProcess>false</UseVSHostingProcess>
+        <ErrorReport>prompt</ErrorReport>
+        <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+        <LangVersion>7.2</LangVersion>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'BETA|x86'">
+        <DebugSymbols>true</DebugSymbols>
+        <OutputPath>bin\x86\BETA\</OutputPath>
+        <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+        <NoWarn>;2008</NoWarn>
+        <NoStdLib>true</NoStdLib>
+        <DebugType>full</DebugType>
+        <PlatformTarget>x86</PlatformTarget>
+        <UseVSHostingProcess>false</UseVSHostingProcess>
+        <ErrorReport>prompt</ErrorReport>
+        <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'BETA|ARM'">
+        <DebugSymbols>true</DebugSymbols>
+        <OutputPath>bin\ARM\BETA\</OutputPath>
+        <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+        <NoWarn>;2008</NoWarn>
+        <NoStdLib>true</NoStdLib>
+        <DebugType>full</DebugType>
+        <PlatformTarget>ARM</PlatformTarget>
+        <UseVSHostingProcess>false</UseVSHostingProcess>
+        <ErrorReport>prompt</ErrorReport>
+        <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'BETA|x64'">
+        <DebugSymbols>true</DebugSymbols>
+        <OutputPath>bin\x64\BETA\</OutputPath>
+        <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINDOWS_UWP;BETA</DefineConstants>
+        <NoWarn>;2008</NoWarn>
+        <NoStdLib>true</NoStdLib>
+        <DebugType>full</DebugType>
+        <PlatformTarget>x64</PlatformTarget>
+        <UseVSHostingProcess>false</UseVSHostingProcess>
+        <ErrorReport>prompt</ErrorReport>
+        <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|AnyCPU'">
+        <OutputPath>bin\Test\</OutputPath>
+        <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;BETA</DefineConstants>
+        <Optimize>true</Optimize>
+        <NoStdLib>true</NoStdLib>
+        <DebugType>pdbonly</DebugType>
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <UseVSHostingProcess>false</UseVSHostingProcess>
+        <ErrorReport>prompt</ErrorReport>
+        <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+        <LangVersion>7.2</LangVersion>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|x86'">
+        <OutputPath>bin\x86\Test\</OutputPath>
+        <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;BETA</DefineConstants>
+        <Optimize>true</Optimize>
+        <NoWarn>;2008</NoWarn>
+        <NoStdLib>true</NoStdLib>
+        <DebugType>pdbonly</DebugType>
+        <PlatformTarget>x86</PlatformTarget>
+        <UseVSHostingProcess>false</UseVSHostingProcess>
+        <ErrorReport>prompt</ErrorReport>
+        <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|ARM'">
+        <OutputPath>bin\ARM\Test\</OutputPath>
+        <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;BETA</DefineConstants>
+        <Optimize>true</Optimize>
+        <NoWarn>;2008</NoWarn>
+        <NoStdLib>true</NoStdLib>
+        <DebugType>pdbonly</DebugType>
+        <PlatformTarget>ARM</PlatformTarget>
+        <UseVSHostingProcess>false</UseVSHostingProcess>
+        <ErrorReport>prompt</ErrorReport>
+        <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|x64'">
+        <OutputPath>bin\x64\Test\</OutputPath>
+        <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;BETA</DefineConstants>
+        <Optimize>true</Optimize>
+        <NoWarn>;2008</NoWarn>
+        <NoStdLib>true</NoStdLib>
+        <DebugType>pdbonly</DebugType>
+        <PlatformTarget>x64</PlatformTarget>
+        <UseVSHostingProcess>false</UseVSHostingProcess>
+        <ErrorReport>prompt</ErrorReport>
+        <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    </PropertyGroup>
+    <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+    <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>

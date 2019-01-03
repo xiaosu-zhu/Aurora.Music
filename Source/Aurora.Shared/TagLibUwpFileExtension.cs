@@ -9,10 +9,9 @@ using Windows.Storage;
 
 namespace TagLib
 {
-
     public static class UwpFileExtension
     {
-        private sealed class UwpFile : File.IFileAbstraction
+        private sealed class UwpFile : TagLib.File.IFileAbstraction
         {
             private readonly IStorageFile file;
 
