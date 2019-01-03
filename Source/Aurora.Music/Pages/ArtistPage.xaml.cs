@@ -49,7 +49,7 @@ namespace Aurora.Music.Pages
         public void RequestGoBack()
         {
             _lastParameter = Guid.NewGuid().ToString();
-            ConnectedAnimationService.GetForCurrentView().PrepareToAnimate(Consts.ArtistPageInAnimation + "_1", Title);
+            ConnectedAnimationService.GetForCurrentView().PrepareToAnimate(Consts.ArtistPageInAnimation + "_1", TitleText);
             ConnectedAnimationService.GetForCurrentView().PrepareToAnimate(Consts.ArtistPageInAnimation + "_2", Image);
             LibraryPage.Current.GoBack();
             UnloadObject(this);
@@ -392,7 +392,7 @@ namespace Aurora.Music.Pages
                     var ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.ArtistPageInAnimation + "_1");
                     if (ani != null)
                     {
-                        ani.TryStart(Title, new UIElement[] { Details });
+                        ani.TryStart(TitleText, new UIElement[] { Details });
                     }
                     ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.ArtistPageInAnimation + "_2");
                     if (ani != null)
