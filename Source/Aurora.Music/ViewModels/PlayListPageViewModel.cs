@@ -58,7 +58,7 @@ namespace Aurora.Music.ViewModels
             {
                 return new DelegateCommand(async () =>
                 {
-                    await MainPageViewModel.Current.InstantPlay(await SQLOperator.Current().GetSongsAsync(Model.SongsID));
+                    await MainPageViewModel.Current.InstantPlayAsync(await SQLOperator.Current().GetSongsAsync(Model.SongsID));
                 });
             }
         }
@@ -219,7 +219,7 @@ namespace Aurora.Music.ViewModels
         internal async Task PlayAt(SongViewModel songViewModel)
         {
             var list = await SQLOperator.Current().GetSongsAsync(Model.SongsID);
-            await MainPageViewModel.Current.InstantPlay(list, list.FindIndex(x => x.ID == songViewModel.ID));
+            await MainPageViewModel.Current.InstantPlayAsync(list, list.FindIndex(x => x.ID == songViewModel.ID));
         }
 
         internal async Task EditDescription(string text)

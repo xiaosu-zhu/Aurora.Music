@@ -16,24 +16,44 @@ Licensed under the MIT License. See LICENSE in the project root for license info
              d:DesignHeight="300"
              d:DesignWidth="400">
 
-    <StackPanel PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited" PointerPressed="Grid_PointerPressed"
-                Orientation="Vertical" PointerReleased="Grid_PointerReleased" PointerCanceled="Grid_PointerExited" PointerCaptureLost="Grid_PointerExited">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Themes/Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light" Source="../../Themes/Light.xaml"/>
+                <ResourceDictionary x:Key="Dark" Source="../../Themes/Dark.xaml"/>
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid PointerEntered="Grid_PointerEntered" 
+          PointerExited="Grid_PointerExited" 
+          PointerPressed="Grid_PointerPressed"
+          PointerReleased="Grid_PointerReleased" 
+          PointerCanceled="Grid_PointerExited" 
+          PointerCaptureLost="Grid_PointerExited"
+          x:Name="Root">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="CommonStates">
                 <VisualState x:Name="Normal">
                     <VisualState.Setters>
+                        <Setter Target="Root.Background" Value="{x:Null}"/>
                     </VisualState.Setters>
                     <Storyboard>
                     </Storyboard>
                 </VisualState>
                 <VisualState x:Name="PointerOver">
                     <VisualState.Setters>
+                        <Setter Target="Root.Background" Value="{ThemeResource ButtonPointerOverBackgroundThemeBrush}"/>
                     </VisualState.Setters>
                     <Storyboard>
                     </Storyboard>
                 </VisualState>
                 <VisualState x:Name="Pressed">
                     <VisualState.Setters>
+                        <Setter Target="Root.Background" Value="{ThemeResource ButtonPointerOverBackgroundThemeBrush}"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -65,18 +85,24 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="150"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
         <Image x:Name="Artwork" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="150" Stretch="Uniform"
-                   Source="{x:Bind DataArtwork,TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png,Mode=OneWay}"
-                   ToolTipService.ToolTip="{x:Bind Data.Title,Mode=OneWay}"/>
+               Source="{x:Bind DataArtwork,TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png,Mode=OneWay}"
+               ToolTipService.ToolTip="{x:Bind Data.Title,Mode=OneWay}"/>
+        <Border Visibility="{x:Bind NightModeEnabled}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="150" Background="{ThemeResource ImageDarkOverlay}"/>
         <TextBlock Text="{x:Bind Data.Title,Mode=OneWay}" Style="{ThemeResource BaseTextBlockStyle}" ToolTipService.ToolTip="{x:Bind Data.Title,Mode=OneWay}"
                        HorizontalAlignment="Left" VerticalAlignment="Center" MaxLines="1" TextWrapping="NoWrap"
-                       TextTrimming="CharacterEllipsis"/>
-        <TextBlock FontSize="13" Style="{ThemeResource BodyTextBlockStyle}" ToolTipService.ToolTip="{x:Bind Data.AddtionalAndDescription(), Mode=OneWay}"
-                       HorizontalAlignment="Left" VerticalAlignment="Center" MaxLines="1" TextWrapping="NoWrap" 
+                       TextTrimming="CharacterEllipsis" Grid.Row="1"/>
+        <TextBlock FontSize="13" Style="{ThemeResource BodyTextBlockStyle}" ToolTipService.ToolTip="{x:Bind Data.AddtionalAndDescription(Data.Addtional, Data.Description), Mode=OneWay}"
+                       HorizontalAlignment="Left" VerticalAlignment="Center" MaxLines="1" TextWrapping="NoWrap" Grid.Row="2"
                        TextTrimming="CharacterEllipsis" Foreground="{ThemeResource SystemControlBackgroundBaseMediumLowRevealBorderBrush}">
             <Run Text="{x:Bind Data.Addtional,Mode=OneWay}"/>
             <Run Text="·"/>
             <Run Text="{x:Bind Data.Description,Mode=OneWay}"/>
         </TextBlock>
-    </StackPanel>
+    </Grid>
 </UserControl>

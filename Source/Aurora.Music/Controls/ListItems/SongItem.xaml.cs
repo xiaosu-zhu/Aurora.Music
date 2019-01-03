@@ -62,7 +62,7 @@ namespace Aurora.Music.Controls.ListItems
 
         public SongItem()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
 

@@ -17,7 +17,7 @@ namespace Aurora.Music.Core.Tools
         {
             var toastContent = new ToastContent()
             {
-                Header = new ToastHeader("Podcast", "Podcast", "as-music:///library/podcast"),
+                Header = new ToastHeader("Podcast", Consts.Localizer.GetString("PodcastText"), "as-music:///library/podcast"),
                 ActivationType = ToastActivationType.Foreground,
                 Visual = new ToastVisual()
                 {

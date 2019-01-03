@@ -6,18 +6,15 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 <Page
     x:Class="Aurora.Music.Pages.DoubanPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Aurora.Music.Pages"
-    xmlns:vm="using:Aurora.Music.ViewModels"
-    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:controls="using:Aurora.Music.Controls"
-    xmlns:audio="using:AudioVisualizer"
-    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
-    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
-    xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
-    xmlns:star="using:StarButton"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:audio="using:AudioVisualizer"
+    xmlns:vm="using:Aurora.Music.ViewModels"
+    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
+    xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:star="using:StarButton"
     Unloaded="Page_Unloaded"
     mc:Ignorable="d">
 
@@ -261,7 +258,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                     </VisualStateGroup>
                                 </VisualStateManager.VisualStateGroups>
                                 <ContentPresenter x:Name="HeaderContentPresenter" ContentTemplate="{TemplateBinding HeaderTemplate}" Content="{TemplateBinding Header}" FontWeight="{ThemeResource SliderHeaderThemeFontWeight}" Foreground="{ThemeResource SliderHeaderForeground}" Margin="{ThemeResource SliderHeaderThemeMargin}" TextWrapping="Wrap" Visibility="Collapsed" x:DeferLoadStrategy="Lazy"/>
-                                <Grid x:Name="SliderContainer" Background="{x:Null}" Control.IsTemplateFocusTarget="True" Grid.Row="1">
+                                <Grid x:Name="SliderContainer" Background="Transparent" Control.IsTemplateFocusTarget="True" Grid.Row="1">
                                     <Grid x:Name="HorizontalTemplate" MinHeight="44">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto"/>
@@ -464,10 +461,13 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <RowDefinition Height="*"/>
             <RowDefinition x:Name="Row1" Height="auto"/>
         </Grid.RowDefinitions>
-        <GridView animations:ReorderGridAnimation.Duration="360" Padding="0,80,0,0" ItemClick="GridView_ItemClick"
-                  HorizontalAlignment="Stretch" SelectionMode="None" IsItemClickEnabled="True" x:Name="MainList" 
+        <GridView animations:ReorderGridAnimation.Duration="360"
+                  ItemClick="GridView_ItemClick" Padding="0,32,0,0"
+                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                  SelectionMode="None" IsItemClickEnabled="True" 
+                  x:Name="MainList"
                   Background="{ThemeResource SystemControlAcrylicWindowBrush}"
-                  VerticalAlignment="Stretch" IsSynchronizedWithCurrentItem="False"
+                  IsSynchronizedWithCurrentItem="False"
                   ItemsSource="{x:Bind ChannelList.View, Mode=OneWay}">
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="vm:ChannelViewModel">
@@ -478,6 +478,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                     <BitmapImage DecodePixelHeight="80" DecodePixelType="Logical" UriSource="{x:Bind Cover}"/>
                                 </Image.Source>
                             </Image>
+                            <Border Visibility="{x:Bind NightModeEnabled}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource ImageDarkOverlay}"/>
                         </Grid>
                         <TextBlock TextAlignment="Center" Width="96" FontSize="15" TextWrapping="NoWrap" 
                                    TextTrimming="Clip" HorizontalAlignment="Center" VerticalAlignment="Center" 
@@ -505,6 +506,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                     <BitmapImage DecodePixelHeight="80" DecodePixelType="Logical" UriSource="{x:Bind Cover}"/>
                                 </Image.Source>
                             </Image>
+                            <Border Visibility="{x:Bind NightModeEnabled}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource ImageDarkOverlay}"/>
                         </Grid>
                         <StackPanel Margin="4,0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="160">
                             <TextBlock TextAlignment="Left" Width="160" FontSize="15" TextWrapping="NoWrap" TextTrimming="Clip" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" Style="{ThemeResource BaseTextBlockStyle}" Text="{x:Bind Name}"/>
@@ -530,7 +532,11 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <TranslateTransform Y="16"/>
                 </Grid.RenderTransform>
                 <interactivity:Interaction.Behaviors>
-                    <behaviors:Blur Value="16" Duration="0" Delay="0" AutomaticallyStart="True"/>
+                    <behaviors:Blur Value="16" Duration="0"
+                                    EasingType="Quintic"
+                                    EasingMode="EaseOut"
+                                    Delay="0" 
+                                    AutomaticallyStart="True"/>
                 </interactivity:Interaction.Behaviors>
                 <Grid Width="240" Height="240" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Image Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -541,13 +547,12 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <Border Background="{ThemeResource SystemControlBackgroundBaseLowBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                 </Grid>
             </Grid>
-            <Border Grid.Row="1" Width="240" Height="240" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Image Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Image.Source>
-                        <BitmapImage UriSource="{x:Bind Context.Artwork, Mode=OneWay,TargetNullValue=ms-appx:///Assets/Images/now_placeholder.png}" DecodePixelHeight="240" DecodePixelType="Logical"/>
-                    </Image.Source>
-                </Image>
-            </Border>
+            <Image Grid.Row="1" Width="240" Height="240" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Image.Source>
+                    <BitmapImage UriSource="{x:Bind Context.Artwork, Mode=OneWay,TargetNullValue=ms-appx:///Assets/Images/now_placeholder.png}" DecodePixelHeight="240" DecodePixelType="Logical"/>
+                </Image.Source>
+            </Image>
+            <Border Visibility="{x:Bind Context.NightModeEnabled}" Grid.Row="1" Width="240" Height="240" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{ThemeResource ImageDarkOverlay}"/>
             <StackPanel Grid.Row="2" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12,24,12,12">
                 <TextBlock Text="{x:Bind Context.Title, Mode=OneWay}" FontWeight="Bold" FontSize="32" Style="{ThemeResource TitleTextBlockStyle}" MaxLines="2" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 <TextBlock Text="{x:Bind Context.Description, Mode=OneWay}" FontSize="16" Style="{ThemeResource BodyTextBlockStyle}" Margin="4" MaxLines="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -603,9 +608,11 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                  VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </StackPanel>
         </Grid>
-        <audio:CustomVisualizer Loaded="CustomVisualizer_Loaded"  Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Top"
-                                CreateResources="CustomVisualizer_CreateResources" x:Name="Visualizer" Draw="CustomVisualizer_Draw">
-        </audio:CustomVisualizer>
+        <audio:CustomVisualizer Loaded="CustomVisualizer_Loaded"
+                                Grid.Column="1" x:Name="Visualizer"
+                                HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                                CreateResources="CustomVisualizer_CreateResources" 
+                                Draw="Visualizer_Draw"/>
     </Grid>
 
 </Page>

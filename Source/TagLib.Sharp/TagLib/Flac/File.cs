@@ -120,7 +120,7 @@ namespace TagLib.Flac {
 		///    specified read style.
 		/// </summary>
 		/// <param name="abstraction">
-		///    A <see cref="IFileAbstraction" /> object to use when
+		///    A <see cref="TagLib.File.IFileAbstraction" /> object to use when
 		///    reading from and writing to the file.
 		/// </param>
 		/// <param name="propertiesStyle">
@@ -144,7 +144,7 @@ namespace TagLib.Flac {
 		///    average read style.
 		/// </summary>
 		/// <param name="abstraction">
-		///    A <see cref="IFileAbstraction" /> object to use when
+		///    A <see cref="TagLib.File.IFileAbstraction" /> object to use when
 		///    reading from and writing to the file.
 		/// </param>
 		/// <exception cref="ArgumentNullException">
@@ -186,6 +186,9 @@ namespace TagLib.Flac {
 		/// </summary>
 		public override void Save ()
 		{
+			// Boilerplate
+			PreSave();
+
 			Mode = AccessMode.Write;
 			try {
 				// Update the tags at the beginning of the file.
@@ -363,7 +366,7 @@ namespace TagLib.Flac {
 			
 			TagTypesOnDisk |= metadata.TagTypes;
 			
-			if (propertiesStyle != ReadStyle.None) {
+			if ((propertiesStyle & ReadStyle.Average) != 0) {
 				// Check that the first block is a
 				// METADATA_BLOCK_STREAMINFO.
 				if (blocks.Count == 0 ||
@@ -474,7 +477,7 @@ namespace TagLib.Flac {
 		///    name="types" />.
 		/// </param>
 		/// <param name="types">
-		///    A <see cref="BlockType[]" /> containing the types to look
+		///    A <see cref="T:BlockType[]" /> containing the types to look
 		///    for or not look for as specified by <paramref name="mode"
 		///    />.
 		/// </param>
@@ -658,7 +661,7 @@ namespace TagLib.Flac {
 		///    the media represented by the current instance.
 		/// </summary>
 		/// <value>
-		///    A <see cref="IPicture[]" /> containing a collection of
+		///    A <see cref="T:IPicture[]" /> containing a collection of
 		///    pictures associated with the media represented by the
 		///    current instance or an empty array if none are present.
 		/// </value>

@@ -312,7 +312,7 @@ namespace Aurora.Shared.Helpers
         {
             if (fileName == null)
                 return null;
-            StorageFile sFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/" + fileName));
+            var sFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/" + fileName));
             return await FileIO.ReadTextAsync(sFile);
         }
 
@@ -441,9 +441,13 @@ namespace Aurora.Shared.Helpers
         {
             if (fileName == null)
                 return null;
-            StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
-            StorageFile file = await storageFolder.CreateFileAsync(fileName, CreationCollisionOption.OpenIfExists);
-            return await FileIO.ReadTextAsync(file);
+            var storageFolder = ApplicationData.Current.LocalFolder;
+            var file = await storageFolder.TryGetItemAsync(fileName);
+            if (file is StorageFile f)
+            {
+                return await FileIO.ReadTextAsync(f);
+            }
+            return null;
         }
 
         public static async Task<string> ReadLastFromLocalAsync(string fileName)

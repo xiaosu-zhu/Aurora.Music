@@ -90,42 +90,28 @@ namespace Aurora.Shared.Helpers
 
 
         public static DeviceFormFactorType GetDeviceFormFactorType()
-
         {
-
             switch (AnalyticsInfo.VersionInfo.DeviceFamily)
-
             {
-
                 case "Windows.Mobile":
-
                     return DeviceFormFactorType.Phone;
-
                 case "Windows.Desktop":
-
                     return UIViewSettings.GetForCurrentView().UserInteractionMode == UserInteractionMode.Mouse
-
                         ? DeviceFormFactorType.Desktop
-
                         : DeviceFormFactorType.Tablet;
-
                 case "Windows.Universal":
-
                     return DeviceFormFactorType.IoT;
-
                 case "Windows.Team":
-
                     return DeviceFormFactorType.SurfaceHub;
-
+                case "Windows.Xbox":
+                    return DeviceFormFactorType.Xbox;
                 default:
-
                     return DeviceFormFactorType.Other;
-
             }
         }
         public static async Task<string> GetCurrentUserNameAsync()
         {
-            IReadOnlyList<User> users = await User.FindAllAsync();
+            var users = await User.FindAllAsync();
 
             var current = users.Where(p => p.AuthenticationStatus == UserAuthenticationStatus.LocallyAuthenticated &&
                                         p.Type == UserType.LocalUser).FirstOrDefault();
@@ -147,20 +133,13 @@ namespace Aurora.Shared.Helpers
 
 
     public enum DeviceFormFactorType
-
     {
-
         Phone,
-
         Desktop,
-
         Tablet,
-
         IoT,
-
         SurfaceHub,
-
+        Xbox,
         Other
-
     }
 }

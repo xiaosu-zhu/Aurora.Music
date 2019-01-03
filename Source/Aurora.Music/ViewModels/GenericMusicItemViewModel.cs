@@ -17,24 +17,45 @@ using Windows.UI.Xaml.Media;
 
 namespace Aurora.Music.ViewModels
 {
-    public class GenericMusicItemViewModel : ViewModelBase
+    public class GenericMusicItemViewModel : ViewModelBase, IPreloadable<GenericMusicItemViewModel>
     {
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public string Addtional { get; set; }
+        private string title;
+        public string Title
+        {
+            get { return title; }
+            set { SetProperty(ref title, value); }
+        }
+
+        private string description;
+        public string Description
+        {
+            get { return description; }
+            set { SetProperty(ref description, value); }
+        }
+
+        private string additional;
+        public string Addtional
+        {
+            get { return additional; }
+            set { SetProperty(ref additional, value); }
+        }
 
         public Visibility SearchDeleteVis(string s)
         {
             return s == "\uE16D" ? Visibility.Collapsed : Visibility.Visible;
         }
 
-        public string AddtionalAndDescription()
+        public string AddtionalAndDescription(string a, string b)
         {
-            return $"{Addtional} · {Description}";
+            return $"{a} · {b}";
         }
 
+        private Uri artwork;
         public Uri Artwork
-        { get; set; }
+        {
+            get { return artwork; }
+            set { SetProperty(ref artwork, value); }
+        }
 
         private bool isOnline;
         public bool IsOnline
@@ -50,7 +71,12 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref isAvaliable, value); }
         }
 
-        public Color MainColor { get; set; }
+        private Color mainColor;
+        public Color MainColor
+        {
+            get { return mainColor; }
+            set { SetProperty(ref mainColor, value); }
+        }
 
         public int[] IDs { get; set; }
         public string[] OnlineIDs { get; set; }
@@ -62,7 +88,7 @@ namespace Aurora.Music.ViewModels
 
         public GenericMusicItemViewModel()
         {
-
+            preloaded = false;
         }
 
         public string OnlineToSymbol(bool b)
@@ -71,6 +97,9 @@ namespace Aurora.Music.ViewModels
         }
 
         public MediaType InnerType { get; set; }
+
+        private bool preloaded = true;
+        public bool Preloaded => preloaded;
 
         public SolidColorBrush GetMainColorBrush(double d)
         {
@@ -220,17 +249,71 @@ namespace Aurora.Music.ViewModels
                     return null;
             }
         }
+
+        public void LoadWithActual(GenericMusicItemViewModel item)
+        {
+            Title = item.Title;
+            Addtional = item.Addtional;
+            Artwork = item.Artwork;
+            ContextualID = item.ContextualID;
+            Description = item.Description;
+            IDs = item.IDs;
+            InnerType = item.InnerType;
+            IsAvaliable = item.IsAvaliable;
+            IsOnline = item.IsOnline;
+            IsSearch = item.IsSearch;
+            MainColor = item.MainColor;
+            OnlineAlbumID = item.OnlineAlbumID;
+            OnlineIDs = item.OnlineIDs;
+
+            preloaded = true;
+        }
     }
 
-    public class HeroItemViewModel : GenericMusicItemViewModel
+    public class HeroItemViewModel : GenericMusicItemViewModel, IPreloadable<HeroItemViewModel>
     {
-        public Uri Artwork1 { get; set; }
-        public Uri Artwork2 { get; set; }
-        public Uri Artwork3 { get; set; }
-        public Uri Artwork4 { get; set; }
-        public Uri Artwork5 { get; set; }
-        public Uri Artwork6 { get; set; }
-        public Uri Artwork7 { get; set; }
+        private Uri artwork1;
+        public Uri Artwork1
+        {
+            get { return artwork1; }
+            set { SetProperty(ref artwork1, value); }
+        }
+        private Uri artwork2;
+        public Uri Artwork2
+        {
+            get { return artwork2; }
+            set { SetProperty(ref artwork2, value); }
+        }
+        private Uri artwork3;
+        public Uri Artwork3
+        {
+            get { return artwork3; }
+            set { SetProperty(ref artwork3, value); }
+        }
+        private Uri artwork4;
+        public Uri Artwork4
+        {
+            get { return artwork4; }
+            set { SetProperty(ref artwork4, value); }
+        }
+        private Uri artwork5;
+        public Uri Artwork5
+        {
+            get { return artwork5; }
+            set { SetProperty(ref artwork5, value); }
+        }
+        private Uri artwork6;
+        public Uri Artwork6
+        {
+            get { return artwork6; }
+            set { SetProperty(ref artwork6, value); }
+        }
+        private Uri artwork7;
+        public Uri Artwork7
+        {
+            get { return artwork7; }
+            set { SetProperty(ref artwork7, value); }
+        }
 
         public Color MainColor1
         {
@@ -245,6 +328,20 @@ namespace Aurora.Music.ViewModels
 
                 return ImagingHelper.ColorFromHSV(h, s, v);
             }
+        }
+
+        public void LoadWithActual(HeroItemViewModel item)
+        {
+            LoadWithActual(item as GenericMusicItemViewModel);
+            Artwork1 = item.Artwork1;
+            Artwork2 = item.Artwork2;
+            Artwork3 = item.Artwork3;
+            Artwork4 = item.Artwork4;
+            Artwork5 = item.Artwork5;
+            Artwork6 = item.Artwork6;
+            Artwork7 = item.Artwork7;
+
+            RaisePropertyChanged("MainColor1");
         }
     }
 }

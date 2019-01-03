@@ -6,18 +6,17 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 <Page
     x:Class="Aurora.Music.Pages.NowPlayingPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Aurora.Music.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:audio="using:AudioVisualizer"
     xmlns:controls="using:Aurora.Music.Controls"
     xmlns:list="using:Aurora.Music.Controls.ListItems"
     xmlns:vm="using:Aurora.Music.ViewModels"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
-    xmlns:audio="using:AudioVisualizer"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:star="using:StarButton"
     Unloaded="Page_Unloaded"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -34,7 +33,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 
             <Style x:Key="ThumbStyleA" TargetType="Thumb">
                 <Setter Property="MinWidth" Value="4"/>
-                <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"/>
+                <Setter Property="Background" Value="{ThemeResource SystemControlAltTranslucentAcrylicWindowBrush}"/>
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="Thumb">
@@ -270,7 +269,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                     </VisualStateGroup>
                                 </VisualStateManager.VisualStateGroups>
                                 <ContentPresenter x:Name="HeaderContentPresenter" ContentTemplate="{TemplateBinding HeaderTemplate}" Content="{TemplateBinding Header}" FontWeight="{ThemeResource SliderHeaderThemeFontWeight}" Foreground="{ThemeResource SliderHeaderForeground}" Margin="{ThemeResource SliderHeaderThemeMargin}" TextWrapping="Wrap" Visibility="Collapsed" x:DeferLoadStrategy="Lazy"/>
-                                <Grid x:Name="SliderContainer" Background="{x:Null}" Control.IsTemplateFocusTarget="True" Grid.Row="1">
+                                <Grid x:Name="SliderContainer" Background="Transparent" Control.IsTemplateFocusTarget="True" Grid.Row="1">
                                     <Grid x:Name="HorizontalTemplate" MinHeight="44">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto"/>
@@ -542,7 +541,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                     </VisualStateGroup>
                                 </VisualStateManager.VisualStateGroups>
                                 <ContentPresenter x:Name="HeaderContentPresenter" ContentTemplate="{TemplateBinding HeaderTemplate}" Content="{TemplateBinding Header}" FontWeight="{ThemeResource SliderHeaderThemeFontWeight}" Foreground="{ThemeResource SliderHeaderForeground}" Margin="{ThemeResource SliderHeaderThemeMargin}" TextWrapping="Wrap" Visibility="Collapsed" x:DeferLoadStrategy="Lazy"/>
-                                <Grid x:Name="SliderContainer" Background="{x:Null}" Control.IsTemplateFocusTarget="True" Grid.Row="1">
+                                <Grid x:Name="SliderContainer" Background="Transparent" Control.IsTemplateFocusTarget="True" Grid.Row="1">
                                     <Grid x:Name="HorizontalTemplate" MinHeight="44">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto"/>
@@ -986,7 +985,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         <vm:NowPlayingPageViewModel x:Name="Context"/>
     </Page.DataContext>
 
-    <Grid x:Name="Root" Padding="4,80,4,0" Background="{ThemeResource SystemControlAltTranslucentAcrylicWindowBrush}">
+    <Grid x:Name="Root" Padding="32,80,32,0" Background="{ThemeResource SystemControlAltTranslucentAcrylicWindowBrush}">
 
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
@@ -1151,48 +1150,53 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <animations:OpacityAnimation From="1" To="0" Duration="0:0:0.64"/>
                 </animations:Implicit.HideAnimations>
             </audio:CustomVisualizer>
-            <toolkit:ImageEx Margin="0,12" x:Name="Artwork" Style="{ThemeResource QuickLoadImageEx}" Visibility="{x:Bind Context.BoolNottoVisibility(Context.IsVisualizing),Mode=OneWay}"
-                             PlaceholderStretch="Uniform" Stretch="Uniform" HorizontalAlignment="Left" VerticalAlignment="Bottom" PlaceholderSource="/Assets/Images/now_placeholder.png"
-                             Source="{x:Bind Context.CurrentArtwork,Mode=OneWay}" ImageOpened="Artwork_ImageOpened">
+            <Image Margin="0,12" x:Name="Artwork" 
+                   Visibility="{x:Bind Context.BoolNottoVisibility(Context.IsVisualizing),Mode=OneWay}"
+                   Stretch="Uniform" HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                   Source="{x:Bind Context.CurrentArtwork,Mode=OneWay, TargetNullValue='ms-appx:///Assets/Images/now_placeholder.png', FallbackValue='ms-appx:///Assets/Images/now_placeholder.png'}" 
+                   ImageOpened="Artwork_ImageOpened">
                 <animations:Implicit.ShowAnimations>
                     <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.64"/>
                 </animations:Implicit.ShowAnimations>
                 <animations:Implicit.HideAnimations>
                     <animations:OpacityAnimation From="1" To="0" Duration="0:0:0.64"/>
                 </animations:Implicit.HideAnimations>
-            </toolkit:ImageEx>
+            </Image>
+            <Border Margin="0,12" HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                    Background="{ThemeResource ImageDarkOverlay}" Visibility="{x:Bind Context.NightModeEnabled}"
+                    Height="{Binding ActualHeight, ElementName=Artwork}" Width="{Binding ActualWidth, ElementName=Artwork}"/>
             <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Stretch" Grid.Row="1">
-                <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" MaxLines="1"
-                               Margin="0,4,0,0" Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush), Mode=OneWay}" 
-                           ToolTipService.ToolTip="{x:Bind Context.Song.GetFormattedArtists(),Mode=OneWay}"
-                               Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Context.Song.GetFormattedArtists(),Mode=OneWay}"/>
+                <Button HorizontalAlignment="Left" VerticalAlignment="Center" 
+                        Style="{ThemeResource TextBlockButtonStyle}" Click="ClickArtistViewDialog"
+                        Margin="0,4,0,0" Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush), Mode=OneWay}"
+                        ToolTipService.ToolTip="{x:Bind Context.Song.GetFormattedArtists(),Mode=OneWay}">
+                    <TextBlock TextTrimming="CharacterEllipsis" 
+                               TextWrapping="NoWrap" 
+                               MaxLines="1" 
+                               Text="{x:Bind Context.Song.GetFormattedArtists(),Mode=OneWay}"/>
+                </Button>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
                     <TextBlock x:Name="Title" Margin="0,2,0,0" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" MaxLines="1"
-                               Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush), Mode=OneWay}" 
                                Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold" ToolTipService.ToolTip="{x:Bind Context.Song.Title,Mode=OneWay}"
                                Text="{x:Bind Context.Song.Title,Mode=OneWay}"/>
                     <FontIcon Visibility="{x:Bind Context.Song.IsOnline,Mode=OneWay}"
-                              FontSize="24" Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush),Mode=OneWay}"
+                              FontSize="24"
                               VerticalAlignment="Center" Margin="8,4,0,0" FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Context.GlyphOfOnline(Context.Song),Mode=OneWay}" />
                 </StackPanel>
-                <TextBlock Margin="0,4,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" x:Name="Album"
-                            TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" MaxLines="1" ToolTipService.ToolTip="{x:Bind Context.Song.Album,Mode=OneWay}"
-                               Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush), Mode=OneWay}" 
-                               Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Context.Song.Album,Mode=OneWay}"/>
+                <Button Margin="0,4,0,0" 
+                        HorizontalAlignment="Left" VerticalAlignment="Center" 
+                        x:Name="Album" Click="OpenAlbumViewDialog"
+                        ToolTipService.ToolTip="{x:Bind Context.Song.Album,Mode=OneWay}"
+                        Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush), Mode=OneWay}"
+                        Style="{ThemeResource TextBlockButtonStyle}">
+                    <TextBlock Text="{x:Bind Context.Song.Album,Mode=OneWay}"
+                               TextTrimming="CharacterEllipsis" 
+                               TextWrapping="NoWrap" MaxLines="1"/>
+                </Button>
                 <toolkit:DropShadowPanel Margin="0,8,0,0" HorizontalAlignment="Left" VerticalAlignment="Stretch" Color="{ThemeResource SystemAltHighColor}" ShadowOpacity="0.66" BlurRadius="8" OffsetX="0" OffsetY="0">
                     <TextBlock Style="{ThemeResource BodyTextBlockStyle}" ToolTipService.ToolTip="{x:Bind Context.Song.GetAddtionalDesc(),Mode=OneWay}"
                                Text="{x:Bind Context.Song.GetAddtionalDesc(),Mode=OneWay}" Foreground="{ThemeResource SystemControlBackgroundBaseHighRevealBorderBrush}" 
-                               TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" MaxLines="1">
-                    <!--Run Text="2017"/>
-                    <Run Text="·"/>
-                    <Run Text="Pop"/>
-                    <Run Text="·"/>
-                    <Run Text="2/10 Track"/>
-                    <Run Text="·"/>
-                    <Run Text="1/1 Disc"/>
-                    <Run Text="·"/>
-                    <Run Text="256 Kbps"/-->
-                    </TextBlock>
+                               TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" MaxLines="1"/>
                 </toolkit:DropShadowPanel>
                 <StackPanel Visibility="{x:Bind Context.BoolNottoVisibility(Context.Song.IsPodcast),Mode=OneWay}" Margin="0,12,0,0" Orientation="Horizontal">
                     <RatingControl Value="{x:Bind Context.CurrentRating,Mode=OneWay}" ValueChanged="RatingControl_ValueChanged" IsClearEnabled="True" VerticalAlignment="Center" IsReadOnly="False"/>

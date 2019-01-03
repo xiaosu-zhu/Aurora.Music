@@ -1,29 +1,34 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
+
 using AudioVisualizer;
+
 using Aurora.Music.Controls;
 using Aurora.Music.Core;
 using Aurora.Music.Core.Models;
 using Aurora.Music.Core.Storage;
+using Aurora.Music.Core.Tools;
 using Aurora.Music.Pages;
 using Aurora.Music.PlaybackEngine;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
 using Aurora.Shared.MVVM;
-using Microsoft.Toolkit.Uwp.UI;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+
 using Windows.ApplicationModel.Core;
+using Windows.ApplicationModel.UserActivities;
 using Windows.Foundation.Collections;
 using Windows.Media.Playback;
 using Windows.Storage;
+using Windows.Storage.Streams;
 using Windows.System;
-using Windows.System.Threading;
+using Windows.UI.Shell;
+using Windows.UI.StartScreen;
 using Windows.UI.Text;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -93,13 +98,13 @@ namespace Aurora.Music.ViewModels
             player.Seek(timeSpan);
         }
 
-        private double olume = Settings.Current.PlayerVolume;
+        private double volume = Settings.Current.PlayerVolume;
         public double Volume
         {
-            get { return olume; }
+            get { return volume; }
             set
             {
-                SetProperty(ref olume, value);
+                SetProperty(ref volume, value);
                 Settings.Current.PlayerVolume = value;
                 player.ChangeVolume(value);
             }
@@ -114,7 +119,6 @@ namespace Aurora.Music.ViewModels
                 Title = Consts.Localizer.GetString("HomeText"),
                 TargetType = typeof(HomePage),
                 Icon="\uE80F",
-                IsCurrent = true,
                 Index = VirtualKey.Number1,
                 IndexNum = "1"
             },
@@ -147,22 +151,6 @@ namespace Aurora.Music.ViewModels
         public ObservableCollection<SongViewModel> NowPlayingList { get; set; } = new ObservableCollection<SongViewModel>();
         private IPlayer player;
 
-        private string lastUriPath;
-        private SolidColorBrush _lastLeftTop;
-        private SolidColorBrush leftTopColor;
-        public SolidColorBrush LeftTopColor
-        {
-            get { return leftTopColor; }
-            set
-            {
-                _lastLeftTop = leftTopColor;
-                SetProperty(ref leftTopColor, value);
-                var titleBar = ApplicationView.GetForCurrentView().TitleBar;
-                titleBar.ButtonForegroundColor = leftTopColor.Color;
-                titleBar.ForegroundColor = leftTopColor.Color;
-            }
-        }
-
         public LyricExtension LyricExtension { get; private set; }
         public OnlineMusicExtension OnlineMusicExtension { get; private set; }
         public OnlineMetaExtension OnlineMetaExtension { get; private set; }
@@ -182,11 +170,20 @@ namespace Aurora.Music.ViewModels
             }
         }
 
-        private BitmapImage currentArtwork;
+        public bool NightModeEnabled { get; set; } = Settings.Current.NightMode;
+
+        private BitmapImage currentArtwork = new BitmapImage(new Uri(Consts.BlackPlaceholder));
         public BitmapImage CurrentArtwork
         {
             get { return currentArtwork; }
             set { SetProperty(ref currentArtwork, value); }
+        }
+
+        private bool needShowBack;
+        public bool NeedShowBack
+        {
+            get { return needShowBack; }
+            set { SetProperty(ref needShowBack, value); }
         }
 
         private double nowPlayingPosition;
@@ -211,7 +208,6 @@ namespace Aurora.Music.ViewModels
             }
             NeedShowTitle = _lastneedshow;
             Title = _lasttitle;
-            LeftTopColor = _lastLeftTop;
         }
 
         private string placeholderText = Consts.Localizer.GetString("SearchInLibraryText");
@@ -352,6 +348,16 @@ namespace Aurora.Music.ViewModels
 
         internal async Task<AlbumInfo> GetAlbumInfoAsync(string album, string artist)
         {
+            if (!Settings.Current.DataPlayEnabled && Microsoft.Toolkit.Uwp.Connectivity.NetworkHelper.Instance.ConnectionInformation.IsInternetOnMeteredConnection)
+            {
+                return new AlbumInfo()
+                {
+                    AltArtwork = null,
+                    Description = "Disabled fetching according to setting",
+                    Artist = artist,
+                    Name = album
+                };
+            }
             var querys = new ValueSet()
             {
                 new KeyValuePair<string,object>("album", album),
@@ -369,6 +375,15 @@ namespace Aurora.Music.ViewModels
 
         internal async Task<Core.Models.Artist> GetArtistInfoAsync(string artist)
         {
+            if (!Settings.Current.DataPlayEnabled && Microsoft.Toolkit.Uwp.Connectivity.NetworkHelper.Instance.ConnectionInformation.IsInternetOnMeteredConnection)
+            {
+                return new Core.Models.Artist()
+                {
+                    AvatarUri = null,
+                    Description = "Disabled fetching according to setting",
+                    Name = artist
+                };
+            }
             var querys = new ValueSet()
             {
                 new KeyValuePair<string, object>("action", "artist"),
@@ -528,6 +543,12 @@ namespace Aurora.Music.ViewModels
             player = PlaybackEngine.PlaybackEngine.Current;
             if (Settings.Current.LastUpdateBuild < SystemInfoHelper.GetPackageVersionNum())
             {
+                if(Consts.UpdateNote == null)
+                {
+                    Settings.Current.LastUpdateBuild = SystemInfoHelper.GetPackageVersionNum();
+                    Settings.Current.Save();
+                    return;
+                }
                 var i = new UpdateInfo();
 #pragma warning disable CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
                 i.ShowAsync();
@@ -553,12 +574,40 @@ namespace Aurora.Music.ViewModels
             });
             Task.Run(async () =>
             {
-                await ReloadExtensions();
+                await ReloadExtensionsAsync();
             });
             Task.Run(async () =>
             {
-                await FindFileChanges();
+                await FindFileChangesAsync();
             });
+            if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.Shell.AdaptiveCardBuilder"))
+            {
+                Task.Run(async () =>
+                {
+                    await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
+                    {
+                        activity = UserActivityChannel.GetDefault();
+
+                        var id = Guid.NewGuid().ToString();
+
+                        act = await activity.GetOrCreateUserActivityAsync(id);
+
+                        if (act.State == UserActivityState.Published)
+                        {
+                            await activity.DeleteActivityAsync(id);
+                            act = await activity.GetOrCreateUserActivityAsync(id);
+                        }
+                    });
+                });
+            }
+            if (JumpList.IsSupported())
+            {
+                Task.Run(async () =>
+                {
+                    var jumpList = await JumpListHelper.LoadJumpListAsync();
+                    await jumpList.SaveAsync();
+                });
+            }
         }
 
         private int changing = 0;
@@ -571,7 +620,7 @@ namespace Aurora.Music.ViewModels
             {
                 return;
             }
-            await FilesChanged();
+            await FilesChangedAsync();
         }
 
         private bool isdownloading;
@@ -632,7 +681,7 @@ namespace Aurora.Music.ViewModels
                 visualizerSource.SourceChanged -= VisualizerSource_SourceChanged;
                 visualizerSource = null;
             }
-            if (player is Player p)
+            if (player is IPlayer p)
             {
                 visualizerSource = new PlaybackSource(p.MediaPlayer);
                 visualizerSource.SourceChanged += VisualizerSource_SourceChanged;
@@ -652,14 +701,15 @@ namespace Aurora.Music.ViewModels
                 isShuffle = e.IsShuffle;
                 RaisePropertyChanged("IsLoop");
                 RaisePropertyChanged("IsShuffle");
+
+                if (e.PlaybackStatus == MediaPlaybackState.Playing && Settings.Current.PreventLockscreen)
+                {
+                    ActivateDisplay();
+                }
             });
-            if (e.PlaybackStatus == MediaPlaybackState.Playing && Settings.Current.PreventLockscreen)
-            {
-                ActivateDisplay();
-            }
         }
 
-        public async Task ReloadExtensions()
+        public async Task ReloadExtensionsAsync()
         {
             LyricExtension = await Extension.Load<LyricExtension>(Settings.Current.LyricExtensionID);
             if (Settings.Current.OnlinePurchase)
@@ -707,6 +757,11 @@ namespace Aurora.Music.ViewModels
 
         public ObservableCollection<GenericMusicItemViewModel> SearchItems { get; set; } = new ObservableCollection<GenericMusicItemViewModel>();
         private bool sVisualizing;
+        private object _currentActivity;
+        private UserActivityChannel activity;
+        private UserActivity act;
+        private bool showed;
+
         public bool IsVisualizing
         {
             get => sVisualizing; set
@@ -717,14 +772,15 @@ namespace Aurora.Music.ViewModels
         }
 
         public List<FileTracker> Trackers { get; private set; } = new List<FileTracker>();
+        public Song CurrentSong { get; private set; }
 
-        internal async Task Search(string text, AutoSuggestBoxTextChangedEventArgs args)
+        internal async Task SearchAsync(string text, AutoSuggestBoxTextChangedEventArgs args)
         {
             var dd = CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
                 MainPage.Current.ShowAutoSuggestPopup();
             });
-            List<Task> tasks = new List<Task>();
+            var tasks = new List<Task>();
             if (OnlineMusicExtension != null)
             {
                 tasks.Add(Task.Run(async () =>
@@ -776,7 +832,7 @@ namespace Aurora.Music.ViewModels
                     if (!notChanged)
                         return;
 
-                    var podcasts = await SearchPodcasts(text);
+                    var podcasts = await SearchPodcastsAsync(text);
 
                     await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                     {
@@ -806,7 +862,7 @@ namespace Aurora.Music.ViewModels
                 }));
             tasks.Add(Task.Run(async () =>
             {
-                var result = await FileReader.Search(text);
+                var result = await FileReader.SearchAsync(text);
 
                 await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                 {
@@ -838,12 +894,12 @@ namespace Aurora.Music.ViewModels
             { MainPage.Current.HideAutoSuggestPopup(); });
         }
 
-        private async Task<List<OnlineMusicItem>> SearchPodcasts(string text)
+        private async Task<List<OnlineMusicItem>> SearchPodcastsAsync(string text)
         {
             return await Podcast.SearchPodcasts(text);
         }
 
-        public async Task FilesChanged()
+        public async Task FilesChangedAsync()
         {
             var foldersDB = await SQLOperator.Current().GetAllAsync<FOLDER>();
             var filtered = new List<string>();
@@ -889,11 +945,11 @@ namespace Aurora.Music.ViewModels
 
             if (!(addedFiles.Count == 0))
             {
-                await FileReader.ReadFileandSave(addedFiles);
+                await FileReader.ReadFileandSaveAsync(addedFiles);
             }
         }
 
-        private async Task FindFileChanges()
+        private async Task FindFileChangesAsync()
         {
             var foldersDB = await SQLOperator.Current().GetAllAsync<FOLDER>();
             var filtered = new List<string>();
@@ -938,7 +994,7 @@ namespace Aurora.Music.ViewModels
 
             if (!(addedFiles.Count == 0))
             {
-                await FileReader.ReadFileandSave(addedFiles);
+                await FileReader.ReadFileandSaveAsync(addedFiles);
             }
         }
 
@@ -949,6 +1005,11 @@ namespace Aurora.Music.ViewModels
 
         private void Reader_Completed(object sender, EventArgs e)
         {
+            if (!showed)
+            {
+                return;
+            }
+            showed = false;
             var t = CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
             {
                 MainPage.Current.ProgressUpdate(100);
@@ -960,6 +1021,9 @@ namespace Aurora.Music.ViewModels
 
         private void Reader_ProgressUpdated(object sender, ProgressReport e)
         {
+            if (!showed && e.CanHide)
+                return;
+            showed = true;
             var t = CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
                 MainPage.Current.ProgressUpdate();
@@ -970,7 +1034,7 @@ namespace Aurora.Music.ViewModels
 
         private async void Reader_NewSongsAdded(object sender, SongsAddedEventArgs e)
         {
-            await FileReader.SortAlbums();
+            await FileReader.SortAlbumsAsync();
         }
 
         private async void Player_PositionUpdated(object sender, PositionUpdatedArgs e)
@@ -998,13 +1062,13 @@ namespace Aurora.Music.ViewModels
             {
                 if (e.CurrentIndex == -1)
                 {
+                    CurrentSong = null;
                     NowPlayingList.Clear();
                     NowListPreview = "-/-";
                     CurrentTitle = null;
                     CurrentAlbum = null;
                     CurrentArtist = null;
-                    CurrentArtwork = null;
-                    lastUriPath = null;
+                    await CurrentArtwork.SetSourceAsync(await RandomAccessStreamReference.CreateFromUri(new Uri(Consts.BlackPlaceholder)).OpenReadAsync());
                     CurrentIndex = -1;
                     NeedShowPanel = false;
                     IsPodcast = false;
@@ -1014,33 +1078,28 @@ namespace Aurora.Music.ViewModels
 
                 if (e.CurrentSong != null)
                 {
+                    CurrentSong = e.CurrentSong;
                     var p = e.CurrentSong;
                     CurrentTitle = p.Title.IsNullorEmpty() ? p.FilePath.Split('\\').LastOrDefault() : p.Title;
                     IsPodcast = p.IsPodcast;
                     CurrentAlbum = p.Album.IsNullorEmpty() ? Consts.UnknownAlbum : p.Album;
                     CurrentArtist = p.Performers == null ? (p.AlbumArtists == null ? Consts.UnknownArtists : string.Join(Consts.CommaSeparator, p.AlbumArtists)) : string.Join(Consts.CommaSeparator, p.Performers);
-                    if (!p.PicturePath.IsNullorEmpty())
-                    {
-                        if (lastUriPath == p.PicturePath)
-                        {
 
-                        }
-                        else
-                        {
-                            var u = new Uri(p.PicturePath);
-                            CurrentArtwork = u.IsLoopback ? new BitmapImage(u) : await ImageCache.Instance.GetFromCacheAsync(u);
-                            lastUriPath = p.PicturePath;
-                        }
+                    if (e.Thumnail != null)
+                    {
+                        await CurrentArtwork.SetSourceAsync(await e.Thumnail.OpenReadAsync());
                     }
                     else
                     {
-                        CurrentArtwork = new BitmapImage(new Uri(Consts.BlackPlaceholder));
-                        lastUriPath = string.Empty;
+                        var thumb = RandomAccessStreamReference.CreateFromUri(new Uri(Consts.BlackPlaceholder));
+                        await CurrentArtwork.SetSourceAsync(await thumb.OpenReadAsync());
                     }
+
                     var task = Task.Run(() =>
                     {
-                        Core.Tools.Tile.SendNormal(CurrentTitle, CurrentAlbum, string.Join(Consts.CommaSeparator, p.Performers ?? new string[] { }), p.PicturePath);
+                        Tile.SendNormal(CurrentTitle, CurrentAlbum, string.Join(Consts.CommaSeparator, p.Performers ?? new string[] { }), p.PicturePath);
                     });
+
                 }
                 if (e.Items is IReadOnlyList<Song> l)
                 {
@@ -1057,6 +1116,7 @@ namespace Aurora.Music.ViewModels
                 if (e.CurrentIndex < NowPlayingList.Count)
                 {
                     CurrentIndex = e.CurrentIndex;
+
                 }
                 if (MainPage.Current.IsCurrentDouban)
                 {
@@ -1066,7 +1126,85 @@ namespace Aurora.Music.ViewModels
                 {
                     NeedShowPanel = true;
                 }
-                Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().Title = CurrentPlayingDesc();
+                ApplicationView.GetForCurrentView().Title = CurrentPlayingDesc();
+
+                if (e.CurrentSong != null && Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.Shell.AdaptiveCardBuilder"))
+                {
+                    var last = NowPlayingList.Count - 1 <= currentIndex;
+
+                    string img0, img1;
+                    img1 = null;
+
+                    if (!NowPlayingList[currentIndex].IsOnline)
+                    {
+                        //if (NowPlayingList[currentIndex].Song.PicturePath.IsNullorEmpty())
+                        //{
+                        //    img0 = Consts.BlackPlaceholder;
+                        //}
+                        //else
+                        //{
+                        //    img0 = $"ms-appdata:///temp/{NowPlayingList[currentIndex].Artwork.AbsoluteUri.Split('/').Last()}";
+                        //}
+                        img0 = null;
+                    }
+                    else
+                    {
+                        img0 = NowPlayingList[currentIndex].Artwork?.AbsoluteUri;
+                    }
+
+                    var otherArtwork = NowPlayingList.Where(a => a.Artwork?.AbsoluteUri != img0);
+
+                    foreach (var item in otherArtwork)
+                    {
+                        if (!item.IsOnline)
+                        {
+                            img1 = null;
+                        }
+                        else
+                        {
+                            img1 = item.Artwork.AbsoluteUri;
+                        }
+                        break;
+                    }
+
+                    var json = await TimelineCard.AuthorAsync(currentTitle, currentAlbum, currentArtist, img0, img1, NowPlayingList.Count);
+
+                    act.ActivationUri = new Uri("as-music:///?action=timeline-restore");
+
+                    act.VisualElements.Content = AdaptiveCardBuilder.CreateAdaptiveCardFromJson(json);
+                    act.VisualElements.DisplayText = Consts.Localizer.GetString("AppNameText");
+                    act.VisualElements.Description = Consts.Localizer.GetString("TimelineTitle");
+                    await act.SaveAsync();
+
+                    var songs = NowPlayingList.Where(s => s.IsOnedrive || s.IsOnline).Select(s => s.Song).ToList();
+#pragma warning disable CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
+                    Task.Run(async () =>
+                    {
+                        if (songs.Count > 0)
+                        {
+                            var status = new PlayerStatus(songs, currentIndex, currentPosition);
+                            await status.RoamingSaveAsync();
+                        }
+                        else
+                        {
+                            await PlayerStatus.ClearRoamingAsync();
+                        }
+                    });
+#pragma warning restore CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
+
+                    await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                    {
+                        try
+                        {
+                            //Dispose of any current UserActivitySession, and create a new one.
+                            (_currentActivity as UserActivitySession)?.Dispose();
+                            _currentActivity = act.CreateSession();
+                        }
+                        catch (Exception)
+                        {
+                        }
+                    });
+                }
             });
         }
 
@@ -1074,8 +1212,12 @@ namespace Aurora.Music.ViewModels
         {
             if (!NowPlayingList.IsNullorEmpty())
             {
-                var status = new PlayerStatus(NowPlayingList.Select(s => s.Song), CurrentIndex, CurrentPosition);
-                await status.SaveAsync();
+                var songs = NowPlayingList.Select(s => s.Song).ToList();
+                if (NowPlayingList.Count > currentIndex)
+                {
+                    var status = new PlayerStatus(songs, currentIndex, currentPosition);
+                    await status.SaveAsync();
+                }
             }
         }
 
@@ -1085,22 +1227,41 @@ namespace Aurora.Music.ViewModels
             //player.PositionUpdated -= Player_PositionUpdated;
         }
 
-        internal async Task InstantPlay(IList<Song> songs, int startIndex = 0)
+        internal async Task InstantPlayAsync(IList<Song> songs, int startIndex = 0)
         {
-            await player.NewPlayList(songs, startIndex);
-            player.Play();
+            if (songs.Any(a => a.IsOnline) && !Settings.Current.DataPlayEnabled && Microsoft.Toolkit.Uwp.Connectivity.NetworkHelper.Instance.ConnectionInformation.IsInternetOnMeteredConnection)
+            {
+                MainPage.Current.PopMessage("Filtered online songs according to setting");
+                songs = songs.Where(a => !a.IsOnline).ToList();
+            }
+            Task.Run(async () =>
+            {
+                await player.NewPlayList(songs, startIndex);
+                player.Play();
+            });
         }
 
-        internal async Task InstantPlay(List<StorageFile> list, int startIndex = 0)
+        internal async Task InstantPlayAsync(List<StorageFile> list, int startIndex = 0)
         {
-            await player.NewPlayList(list, startIndex);
-            player.Play();
+            Task.Run(async () =>
+            {
+                await player.NewPlayList(list, startIndex);
+                player.Play();
+            });
         }
 
-        internal async Task PlayNext(IList<Song> songs)
+        internal async Task PlayNextAsync(IList<Song> songs)
         {
-            await player.AddtoNextPlay(songs);
-            player.Play();
+            if (songs.Any(a => a.IsOnline) && !Settings.Current.DataPlayEnabled && Microsoft.Toolkit.Uwp.Connectivity.NetworkHelper.Instance.ConnectionInformation.IsInternetOnMeteredConnection)
+            {
+                MainPage.Current.PopMessage("Filtered online songs according to setting");
+                songs = songs.Where(a => !a.IsOnline).ToList();
+            }
+            Task.Run(async () =>
+            {
+                await player.AddtoNextPlay(songs);
+                player.Play();
+            });
         }
 
         public Symbol NullableBoolToSymbol(bool? b)
@@ -1123,7 +1284,7 @@ namespace Aurora.Music.ViewModels
 
         internal void SkiptoItem(SongViewModel songViewModel)
         {
-            player.SkiptoIndex(songViewModel.Index);
+            player.SkiptoIndex((int)songViewModel.Index);
         }
 
         public double PositionToValue(TimeSpan t1, TimeSpan total)
@@ -1137,7 +1298,7 @@ namespace Aurora.Music.ViewModels
 
         internal async Task<IList<Song>> ComingNewSongsAsync(List<StorageFile> list)
         {
-            return await FileReader.ReadFileandSendBack(list);
+            return await FileReader.ReadFileandSendBackAsync(list);
         }
     }
 
@@ -1154,20 +1315,6 @@ namespace Aurora.Music.ViewModels
         public string Icon { get; set; }
 
         public Uri BG { get; set; }
-
-        private bool isPaneOpen;
-        public bool IsPaneOpen
-        {
-            get { return isPaneOpen; }
-            set { SetProperty(ref isPaneOpen, value); }
-        }
-
-        private bool isCurrent;
-        public bool IsCurrent
-        {
-            get { return isCurrent; }
-            set { SetProperty(ref isCurrent, value); }
-        }
 
         public FontWeight ChangeWeight(bool b)
         {

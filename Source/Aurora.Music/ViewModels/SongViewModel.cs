@@ -25,7 +25,6 @@ namespace Aurora.Music.ViewModels
     {
         public SongViewModel()
         {
-
         }
 
         private bool listMultiSelecting;
@@ -49,6 +48,14 @@ namespace Aurora.Music.ViewModels
 
         public bool IsPodcast { get; set; }
         public bool IsVideo { get; set; }
+
+        private uint disc = 1;
+        public uint Disc
+        {
+            get { return disc; }
+            set { disc = value; }
+        }
+
 
         public string GetAddtionalDesc()
         {
@@ -137,6 +144,7 @@ namespace Aurora.Music.ViewModels
             PubDate = song.PubDate;
             IsPodcast = song.IsPodcast;
             IsVideo = song.IsVideo;
+            Disc = song.Disc;
         }
 
         private DateTime pubDate;
@@ -165,9 +173,9 @@ namespace Aurora.Music.ViewModels
             }
         }
 
-        public string DurationtoString(TimeSpan t)
+        public string DurationtoString(TimeSpan t1)
         {
-            return t.ToString($@"m\{CultureInfoHelper.CurrentCulture.DateTimeFormat.TimeSeparator}ss", CultureInfoHelper.CurrentCulture);
+            return $"{(int)(Math.Floor(t1.TotalMinutes))}{CultureInfoHelper.CurrentCulture.DateTimeFormat.TimeSeparator}{t1.Seconds.ToString("00")}";
         }
 
         public string PubDatetoString(DateTime d)
@@ -211,7 +219,7 @@ namespace Aurora.Music.ViewModels
         private string title;
         public string Title
         {
-            get { return title.IsNullorEmpty() ? FilePath.Split('\\').LastOrDefault() : title; }
+            get { return title.IsNullorEmpty() ? (FilePath ?? "Unknown").Split('\\').LastOrDefault() : title; }
             set { title = value; }
         }
 
@@ -276,7 +284,7 @@ namespace Aurora.Music.ViewModels
             set
             {
                 SetProperty(ref fav, value);
-                Song.WriteFav(value);
+                Song.WriteFavAsync(value);
             }
         }
 

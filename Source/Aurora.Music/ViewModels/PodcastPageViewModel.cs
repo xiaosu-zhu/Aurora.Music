@@ -31,6 +31,8 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref songsList, value); }
         }
 
+        public bool NightModeEnabled { get; set; } = Settings.Current.NightMode;
+
         private Uri heroImage;
         public Uri HeroImage
         {
@@ -93,7 +95,7 @@ namespace Aurora.Music.ViewModels
                         bool viewShown = await ApplicationViewSwitcher.TryShowAsStandaloneAsync(videoWindowID);
                         return;
                     }
-                    await MainPageViewModel.Current.InstantPlay(Model);
+                    await MainPageViewModel.Current.InstantPlayAsync(Model);
                 });
             }
         }
@@ -138,7 +140,7 @@ namespace Aurora.Music.ViewModels
                     Model.Subscribed = !Model.Subscribed;
                     await Model.SaveAsync();
                     IsSubscribe = Model.Subscribed;
-                    MainPage.Current.PopMessage(Model.Subscribed ? "Subscribed" : "Un-Subscribed");
+                    MainPage.Current.PopMessage(Model.Subscribed ? Consts.Localizer.GetString("SubscribeText") : Consts.Localizer.GetString("UnSubscribeText"));
                 });
             }
         }
@@ -335,11 +337,11 @@ namespace Aurora.Music.ViewModels
             if (Model.Count < i + 20)
             {
                 var k = Model.Count < 20 ? Model.ToList() : Model.GetRange(Model.Count - 20, 20);
-                await MainPageViewModel.Current.InstantPlay(k, k.IndexOf(s));
+                await MainPageViewModel.Current.InstantPlayAsync(k, k.IndexOf(s));
             }
             else
             {
-                await MainPageViewModel.Current.InstantPlay(Model.GetRange(i, 20), 0);
+                await MainPageViewModel.Current.InstantPlayAsync(Model.GetRange(i, 20), 0);
             }
         }
     }

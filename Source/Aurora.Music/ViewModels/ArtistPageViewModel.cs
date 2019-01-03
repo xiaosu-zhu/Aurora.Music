@@ -34,6 +34,8 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref songsList, value); }
         }
 
+        public bool NightModeEnabled { get; set; } = Settings.Current.NightMode;
+
         private ArtistViewModel artist;
         public ArtistViewModel Artist
         {
@@ -69,7 +71,7 @@ namespace Aurora.Music.ViewModels
             {
                 return new DelegateCommand(async () =>
                 {
-                    await MainPageViewModel.Current.InstantPlay(SongsList.SelectMany(a => a.Select(s => s.Song)).ToList());
+                    await MainPageViewModel.Current.InstantPlayAsync(SongsList.SelectMany(a => a.Select(s => s.Song)).ToList());
                 });
             }
         }
@@ -81,7 +83,7 @@ namespace Aurora.Music.ViewModels
             {
                 list.AddRange(item.Select(a => a.Song));
             }
-            await MainPageViewModel.Current.InstantPlay(list, list.FindIndex(x => x.ID == songViewModel.ID));
+            await MainPageViewModel.Current.InstantPlayAsync(list, list.FindIndex(x => x.ID == songViewModel.ID));
         }
 
 
@@ -184,7 +186,7 @@ namespace Aurora.Music.ViewModels
         internal async Task PlayAlbumAsync(AlbumViewModel album)
         {
             var songs = await album.GetSongsAsync();
-            await MainPageViewModel.Current.InstantPlay(songs);
+            await MainPageViewModel.Current.InstantPlayAsync(songs);
         }
     }
 }

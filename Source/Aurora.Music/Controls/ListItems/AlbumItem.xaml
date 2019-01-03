@@ -255,7 +255,11 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         <Grid x:Name="Arts" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ToolTipService.ToolTip="{x:Bind Data.GetBrief(),Mode=OneWay}">
             <Grid Width="180" Height="180" Margin="-15" x:Name="BlurBG" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <interactivity:Interaction.Behaviors>
-                    <behaviors:Blur x:Name="BlurBehavior" Value="0" Duration="200" Delay="0" AutomaticallyStart="True"/>
+                    <behaviors:Blur x:Name="BlurBehavior" Value="0" 
+                                    Duration="200" Delay="0"
+                                    EasingType="Quintic"
+                                    EasingMode="EaseOut"
+                                    AutomaticallyStart="True"/>
                     <behaviors:Offset x:Name="Offset" OffsetX="0" OffsetY="0" Duration="200" Delay="0" AutomaticallyStart="True"/>
                 </interactivity:Interaction.Behaviors>
                 <Image x:Name="BlurBGImg" HorizontalAlignment="Center" VerticalAlignment="Center" 
@@ -277,8 +281,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </Image.Source>
             </Image>
             <Border Width="{x:Bind ImageWidth,Mode=OneWay}" BorderThickness="1"
-                    Height="{x:Bind ImageHeight,Mode=OneWay}" 
-                    BorderBrush="{ThemeResource SystemControlBackgroundTransparentRevealBorderBrush}"
+                    Height="{x:Bind ImageHeight,Mode=OneWay}" Background="{ThemeResource ImageDarkOverlay}"
+                    BorderBrush="{ThemeResource AlbumItemBorder}" Visibility="{x:Bind NightModeEnabled}"
                     HorizontalAlignment="Center" VerticalAlignment="Center"/>
             <StackPanel Orientation="Horizontal" x:Load="False" x:Name="FloatPanel" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Button RenderTransformOrigin="0.5,0.5" Margin="4" Click="Play_Click" 
@@ -313,7 +317,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </TextBlock>
             <TextBlock x:Name="AlbumArtists" MaxLines="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Width="150" FontSize="13"
                        Foreground="{ThemeResource SystemControlBackgroundBaseMediumLowRevealBorderBrush}" ToolTipService.ToolTip="{x:Bind Data.GetFormattedArtists(),Mode=OneWay}"
-                       Text="{x:Bind Data.GetFormattedArtists(),TargetNullValue=, FallbackValue=, Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}"/>
+                       Text="{x:Bind Data.GetFormattedArtists(),TargetNullValue='', FallbackValue='', Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}"/>
         </StackPanel>
     </Grid>
 </UserControl>

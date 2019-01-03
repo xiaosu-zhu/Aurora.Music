@@ -11,17 +11,20 @@
     <AssemblyName>Aurora.Music</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.16299.0</TargetPlatformVersion>
+    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.17134.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
     <PackageCertificateKeyFile>Aurora.Music_StoreKey.pfx</PackageCertificateKeyFile>
-    <PackageCertificateThumbprint>12F1A93CDDE6DB394D671F78BA42CE946482D96E</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>B1222C153E32E976858C7B16CB3F3ADF1C5D24F9</PackageCertificateThumbprint>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
     <AppxBundlePlatforms>x86|x64</AppxBundlePlatforms>
+    <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
+    <AppInstallerUpdateFrequency>1</AppInstallerUpdateFrequency>
+    <AppInstallerCheckForUpdateFrequency>OnApplicationRun</AppInstallerCheckForUpdateFrequency>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -33,6 +36,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
+    <LangVersion>7.2</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -45,6 +49,7 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+    <LangVersion>7.2</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
@@ -283,11 +288,7 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\ali-icon.png" />
-    <Content Include="Assets\ali.png" />
-    <Content Include="Assets\file.png" />
-    <Content Include="Assets\git-dark.png" />
-    <Content Include="Assets\git-light.png" />
+    <Content Include="Assets\Data\OPMLTemplate.xml" />
     <Content Include="Assets\Images\artist_placeholder.scale-100.png" />
     <Content Include="Assets\Images\artist_placeholder.scale-125.png" />
     <Content Include="Assets\Images\artist_placeholder.scale-150.png" />
@@ -309,15 +310,85 @@
     <Content Include="Assets\Images\placeholder_b.scale-200.png" />
     <Content Include="Assets\Images\placeholder_b.scale-400.png" />
     <Content Include="Assets\Images\welcome_bg.png" />
+    <Content Include="Assets\JumpList\albums.scale-100.png" />
+    <Content Include="Assets\JumpList\albums.scale-125.png" />
+    <Content Include="Assets\JumpList\albums.scale-150.png" />
+    <Content Include="Assets\JumpList\albums.scale-200.png" />
+    <Content Include="Assets\JumpList\albums.scale-400.png" />
+    <Content Include="Assets\JumpList\artists.scale-100.png" />
+    <Content Include="Assets\JumpList\artists.scale-125.png" />
+    <Content Include="Assets\JumpList\artists.scale-150.png" />
+    <Content Include="Assets\JumpList\artists.scale-200.png" />
+    <Content Include="Assets\JumpList\artists.scale-400.png" />
+    <Content Include="Assets\JumpList\douban.scale-100.png" />
+    <Content Include="Assets\JumpList\douban.scale-125.png" />
+    <Content Include="Assets\JumpList\douban.scale-150.png" />
+    <Content Include="Assets\JumpList\douban.scale-200.png" />
+    <Content Include="Assets\JumpList\douban.scale-400.png" />
+    <Content Include="Assets\JumpList\home.scale-100.png" />
+    <Content Include="Assets\JumpList\home.scale-125.png" />
+    <Content Include="Assets\JumpList\home.scale-150.png" />
+    <Content Include="Assets\JumpList\home.scale-200.png" />
+    <Content Include="Assets\JumpList\home.scale-400.png" />
+    <Content Include="Assets\JumpList\lastplay.scale-100.png" />
+    <Content Include="Assets\JumpList\lastplay.scale-125.png" />
+    <Content Include="Assets\JumpList\lastplay.scale-150.png" />
+    <Content Include="Assets\JumpList\lastplay.scale-200.png" />
+    <Content Include="Assets\JumpList\lastplay.scale-400.png" />
+    <Content Include="Assets\JumpList\library.scale-100.png" />
+    <Content Include="Assets\JumpList\library.scale-125.png" />
+    <Content Include="Assets\JumpList\library.scale-150.png" />
+    <Content Include="Assets\JumpList\library.scale-200.png" />
+    <Content Include="Assets\JumpList\library.scale-400.png" />
+    <Content Include="Assets\JumpList\next.scale-100.png" />
+    <Content Include="Assets\JumpList\next.scale-125.png" />
+    <Content Include="Assets\JumpList\next.scale-150.png" />
+    <Content Include="Assets\JumpList\next.scale-200.png" />
+    <Content Include="Assets\JumpList\next.scale-400.png" />
+    <Content Include="Assets\JumpList\pause.scale-100.png" />
+    <Content Include="Assets\JumpList\pause.scale-125.png" />
+    <Content Include="Assets\JumpList\pause.scale-150.png" />
+    <Content Include="Assets\JumpList\pause.scale-200.png" />
+    <Content Include="Assets\JumpList\pause.scale-400.png" />
+    <Content Include="Assets\JumpList\play.scale-100.png" />
+    <Content Include="Assets\JumpList\play.scale-125.png" />
+    <Content Include="Assets\JumpList\play.scale-150.png" />
+    <Content Include="Assets\JumpList\play.scale-200.png" />
+    <Content Include="Assets\JumpList\play.scale-400.png" />
+    <Content Include="Assets\JumpList\playlist.scale-100.png" />
+    <Content Include="Assets\JumpList\playlist.scale-125.png" />
+    <Content Include="Assets\JumpList\playlist.scale-150.png" />
+    <Content Include="Assets\JumpList\playlist.scale-200.png" />
+    <Content Include="Assets\JumpList\playlist.scale-400.png" />
+    <Content Include="Assets\JumpList\podcast.scale-100.png" />
+    <Content Include="Assets\JumpList\podcast.scale-125.png" />
+    <Content Include="Assets\JumpList\podcast.scale-150.png" />
+    <Content Include="Assets\JumpList\podcast.scale-200.png" />
+    <Content Include="Assets\JumpList\podcast.scale-400.png" />
+    <Content Include="Assets\JumpList\previous.scale-100.png" />
+    <Content Include="Assets\JumpList\previous.scale-125.png" />
+    <Content Include="Assets\JumpList\previous.scale-150.png" />
+    <Content Include="Assets\JumpList\previous.scale-200.png" />
+    <Content Include="Assets\JumpList\previous.scale-400.png" />
+    <Content Include="Assets\JumpList\songs.scale-100.png" />
+    <Content Include="Assets\JumpList\songs.scale-125.png" />
+    <Content Include="Assets\JumpList\songs.scale-150.png" />
+    <Content Include="Assets\JumpList\songs.scale-200.png" />
+    <Content Include="Assets\JumpList\songs.scale-400.png" />
     <Content Include="Assets\LargeTile.scale-100.png" />
     <Content Include="Assets\LargeTile.scale-125.png" />
     <Content Include="Assets\LargeTile.scale-150.png" />
     <Content Include="Assets\LargeTile.scale-200.png" />
     <Content Include="Assets\LargeTile.scale-400.png" />
-    <Content Include="Assets\lastfm.png" />
-    <Content Include="Assets\logo.svg" />
-    <Content Include="Assets\OPMLTemplate.xml" />
-    <Content Include="Assets\paypal-icon.png" />
+    <Content Include="Assets\Others\ali-icon.png" />
+    <Content Include="Assets\Others\ali.png" />
+    <Content Include="Assets\Others\art.txt" />
+    <Content Include="Assets\Others\file.png" />
+    <Content Include="Assets\Others\git-dark.png" />
+    <Content Include="Assets\Others\lastfm.png" />
+    <Content Include="Assets\Others\paypal-icon.png" />
+    <Content Include="Assets\Others\wechat-icon.png" />
+    <Content Include="Assets\Others\wechat.png" />
     <Content Include="Assets\SmallTile.scale-100.png" />
     <Content Include="Assets\SmallTile.scale-125.png" />
     <Content Include="Assets\SmallTile.scale-150.png" />
@@ -331,7 +402,13 @@
     <Content Include="Assets\Square150x150Logo.scale-125.png" />
     <Content Include="Assets\Square150x150Logo.scale-150.png" />
     <Content Include="Assets\Square150x150Logo.scale-400.png" />
+    <Content Include="Assets\Square44x44Logo.altform-lightunplated_targetsize-16.png" />
+    <Content Include="Assets\Square44x44Logo.altform-lightunplated_targetsize-24.png" />
+    <Content Include="Assets\Square44x44Logo.altform-lightunplated_targetsize-256.png" />
+    <Content Include="Assets\Square44x44Logo.altform-lightunplated_targetsize-32.png" />
+    <Content Include="Assets\Square44x44Logo.altform-lightunplated_targetsize-48.png" />
     <Content Include="Assets\Square44x44Logo.altform-unplated_targetsize-16.png" />
+    <Content Include="Assets\Square44x44Logo.altform-unplated_targetsize-24.png" />
     <Content Include="Assets\Square44x44Logo.altform-unplated_targetsize-256.png" />
     <Content Include="Assets\Square44x44Logo.altform-unplated_targetsize-32.png" />
     <Content Include="Assets\Square44x44Logo.altform-unplated_targetsize-48.png" />
@@ -349,21 +426,22 @@
     <Content Include="Assets\StoreLogo.scale-150.png" />
     <Content Include="Assets\StoreLogo.scale-200.png" />
     <Content Include="Assets\StoreLogo.scale-400.png" />
-    <Content Include="Assets\wechat-icon.png" />
-    <Content Include="Assets\wechat.png" />
     <Content Include="Assets\Wide310x150Logo.scale-100.png" />
     <Content Include="Assets\Wide310x150Logo.scale-125.png" />
     <Content Include="Assets\Wide310x150Logo.scale-150.png" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
+    <Content Include="Assets\Data\Timeline.json" />
     <None Include="Aurora.Music_StoreKey.pfx" />
     <None Include="Package.xml" />
+    <None Include="Package.StoreAssociation.xml" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
     <Content Include="Assets\Square150x150Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
-    <PRIResource Include="Strings\zh-TW\Resources.resw" />
+    <PRIResource Include="Strings\zh-TW\Resources.resw">
+      <SubType>Designer</SubType>
+    </PRIResource>
     <PRIResource Include="Strings\it\Resources.resw">
       <SubType>Designer</SubType>
     </PRIResource>
@@ -599,32 +677,35 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.0.8</Version>
+      <Version>6.1.9</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp.Connectivity">
+      <Version>5.0.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications">
-      <Version>2.2.0</Version>
+      <Version>5.0.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI">
-      <Version>2.2.0</Version>
+      <Version>5.0.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls">
-      <Version>2.2.0</Version>
+      <Version>5.0.0</Version>
     </PackageReference>
     <PackageReference Include="SmartFormat.NET">
-      <Version>2.2.0</Version>
+      <Version>2.3.1.1</Version>
     </PackageReference>
     <PackageReference Include="UWPAudioVisualizer">
       <Version>0.1.96</Version>
     </PackageReference>
     <PackageReference Include="Win2D.uwp">
-      <Version>1.21.0</Version>
+      <Version>1.23.0</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <SDKReference Include="Microsoft.VCLibs, Version=14.0">
       <Name>Visual C++ 2015 Runtime for Universal Windows Platform Apps</Name>
     </SDKReference>
-    <SDKReference Include="WindowsDesktop, Version=10.0.16299.0">
+    <SDKReference Include="WindowsDesktop, Version=10.0.17134.0">
       <Name>Windows Desktop Extensions for the UWP</Name>
     </SDKReference>
   </ItemGroup>
@@ -671,6 +752,7 @@
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+  <ProjectExtensions />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

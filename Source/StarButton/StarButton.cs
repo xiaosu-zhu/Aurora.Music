@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using System.Windows.Input;
+
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -18,7 +18,7 @@ namespace StarButton
 
         public StarButton()
         {
-            this.DefaultStyleKey = typeof(StarButton);
+            DefaultStyleKey = typeof(StarButton);
             Loaded += StarButton_Loaded;
             Unloaded += StarButton_Unloaded;
         }
@@ -37,7 +37,7 @@ namespace StarButton
         private Grid Root;
         private Ellipse Bloom;
 
-        private object lockable = new object();
+        private readonly object lockable = new object();
 
         protected override void OnApplyTemplate()
         {

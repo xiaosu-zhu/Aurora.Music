@@ -1,8 +1,10 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
-using Aurora.Music.Core;
 using System;
+
+using Aurora.Music.Core;
+using Aurora.Music.Core.Models;
 using Windows.UI.Xaml.Controls;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“内容对话框”项模板
@@ -13,7 +15,8 @@ namespace Aurora.Music.Controls
     {
         public SleepTimer()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+            RequestedTheme = Settings.Current.Theme;
             Time.Time = DateTime.Now.TimeOfDay + TimeSpan.FromMinutes(10);
         }
 

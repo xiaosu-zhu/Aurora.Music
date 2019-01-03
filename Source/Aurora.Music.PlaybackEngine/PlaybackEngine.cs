@@ -2,6 +2,8 @@
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
+using Aurora.Music.Core.Models;
+
 namespace Aurora.Music.PlaybackEngine
 {
     public static class PlaybackEngine
@@ -17,7 +19,21 @@ namespace Aurora.Music.PlaybackEngine
                 }
                 else
                 {
-                    var p = new Player();
+                    IPlayer p;
+                    switch (Settings.Current.PlaybackEngine)
+                    {
+                        case Engine.System:
+                            p = new Player();
+                            break;
+                        case Engine.Neon:
+                            p = new NeonPlayer();
+                            break;
+                        default:
+                            p = new Player();
+                            Settings.Current.PlaybackEngine = Engine.System;
+                            Settings.Current.Save();
+                            break;
+                    }
                     current = p;
                     return p;
                 }

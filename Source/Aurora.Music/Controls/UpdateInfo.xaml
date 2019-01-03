@@ -18,6 +18,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     DefaultButton="Close"
     CloseButtonText="Close">
     <ScrollViewer Loaded="Root_Loaded" x:Name="Root" HorizontalScrollMode="Disabled" VerticalScrollMode="Enabled">
-        <toolkit:MarkdownTextBlock IsTextSelectionEnabled="False" x:Name="Note" LinkClicked="Note_LinkClicked"/>
+        <toolkit:MarkdownTextBlock Background="{x:Null}" IsTextSelectionEnabled="False" x:Name="Note" LinkClicked="Note_LinkClicked"/>
     </ScrollViewer>
 </ContentDialog>

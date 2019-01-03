@@ -22,7 +22,7 @@ namespace Aurora.Music.Services
 
         public void Run(IBackgroundTaskInstance taskInstance)
         {
-            this.backgroundTaskDeferral = taskInstance.GetDeferral(); // Get a deferral so that the service isn't terminated.
+            backgroundTaskDeferral = taskInstance.GetDeferral(); // Get a deferral so that the service isn't terminated.
             taskInstance.Canceled += OnTaskCanceled; // Associate a cancellation handler with the background task.
 
             // Retrieve the app service connection and set up a listener for incoming app service requests.
@@ -37,8 +37,8 @@ namespace Aurora.Music.Services
             // and we don't want this call to get cancelled while we are waiting.
             var messageDeferral = args.GetDeferral();
 
-            ValueSet message = args.Request.Message;
-            ValueSet returnData = new ValueSet();
+            var message = args.Request.Message;
+            var returnData = new ValueSet();
 
             string command = message["q"] as string;
 
@@ -133,7 +133,7 @@ namespace Aurora.Music.Services
                             var song = await OnlineMusicSearcher.GetSongAsync(message["id"] as string);
                             if (song != null && !song.DataItems.IsNullorEmpty())
                             {
-                                DateTime.TryParseExact(song.DataItems[0].Album.Time_Public, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime t);
+                                DateTime.TryParseExact(song.DataItems[0].Album.Time_Public, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var t);
 
                                 // TODO: property
                                 var songRes = new PropertySet
@@ -163,7 +163,7 @@ namespace Aurora.Music.Services
                             var album = await OnlineMusicSearcher.GetAlbumAsync(message["id"] as string);
                             if (album != null && album.Data != null)
                             {
-                                DateTime.TryParseExact(album.Data.GetAlbumInfo.Fpublic_Time, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime t);
+                                DateTime.TryParseExact(album.Data.GetAlbumInfo.Fpublic_Time, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var t);
                                 var albumRes = new PropertySet
                                 {
                                     ["name"] = album.Data.GetAlbumInfo.Falbum_Name,
@@ -262,10 +262,10 @@ namespace Aurora.Music.Services
 
         private void OnTaskCanceled(IBackgroundTaskInstance sender, BackgroundTaskCancellationReason reason)
         {
-            if (this.backgroundTaskDeferral != null)
+            if (backgroundTaskDeferral != null)
             {
                 // Complete the service deferral.
-                this.backgroundTaskDeferral.Complete();
+                backgroundTaskDeferral.Complete();
             }
         }
 

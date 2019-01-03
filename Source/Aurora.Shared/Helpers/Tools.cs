@@ -302,15 +302,5 @@ namespace Aurora.Shared.Helpers
             }
             return 31;
         }
-
-        public static void Logging(UnhandledExceptionEventArgs e)
-        {
-            LoggingDispatcher.Current.Log(e.Exception);
-        }
-
-        public static void Logging(Exception e)
-        {
-            LoggingDispatcher.Current.Log(e);
-        }
     }
 }

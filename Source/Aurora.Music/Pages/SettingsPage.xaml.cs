@@ -24,10 +24,31 @@ namespace Aurora.Music.Pages
             LoactionFrame.Navigate(typeof(AddFoldersView));
             //MainPageViewModel.Current.Title = Consts.Localizer.GetString("SettingsText");
             MainPageViewModel.Current.NeedShowTitle = false;
-            MainPageViewModel.Current.LeftTopColor = Resources["SystemControlForegroundBaseHighBrush"] as SolidColorBrush;
 
             // slider swallowed PointerReleasedEvent
             VolumeSlider.AddHandler(PointerReleasedEvent, new PointerEventHandler(Slider_PointerReleased), true);
+
+            SystemTheme.Checked -= RadioButton_Checked;
+            LightTheme.Checked -= RadioButton_Checked;
+            DarkTheme.Checked -= RadioButton_Checked;
+            switch (Settings.Current.Theme)
+            {
+                case ElementTheme.Default:
+                    SystemTheme.IsChecked = true;
+                    break;
+                case ElementTheme.Light:
+                    LightTheme.IsChecked = true;
+                    break;
+                case ElementTheme.Dark:
+                    DarkTheme.IsChecked = true;
+                    break;
+                default:
+                    SystemTheme.IsChecked = true;
+                    break;
+            }
+            SystemTheme.Checked += RadioButton_Checked;
+            LightTheme.Checked += RadioButton_Checked;
+            DarkTheme.Checked += RadioButton_Checked;
 
             Task.Run(async () =>
             {
@@ -67,21 +88,21 @@ namespace Aurora.Music.Pages
         {
             Context.ChangeOnlineExt((sender as ComboBox).SelectedItem);
 
-            await MainPageViewModel.Current.ReloadExtensions();
+            await MainPageViewModel.Current.ReloadExtensionsAsync();
         }
 
         private async void LyricCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Context.ChangeLyricExt((sender as ComboBox).SelectedItem);
 
-            await MainPageViewModel.Current.ReloadExtensions();
+            await MainPageViewModel.Current.ReloadExtensionsAsync();
         }
 
         private async void MetaCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Context.ChangeMetaExt((sender as ComboBox).SelectedItem);
 
-            await MainPageViewModel.Current.ReloadExtensions();
+            await MainPageViewModel.Current.ReloadExtensionsAsync();
         }
 
         private void Main_Loaded(object sender, RoutedEventArgs e)
@@ -90,8 +111,14 @@ namespace Aurora.Music.Pages
             LrcCombo.SelectionChanged += LyricCombo_SelectionChanged;
             MetaCombo.SelectionChanged += MetaCombo_SelectionChanged;
             DeviceCombo.SelectionChanged += DeviceCombo_SelectionChanged;
+            EngineCombo.SelectionChanged += EngineCombo_SelectionChanged;
             MainPivot.Height = Main.ActualHeight - Main.Padding.Top - Main.Padding.Top;
             Main.SizeChanged += SettingsPage_SizeChanged;
+        }
+
+        private void EngineCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Context.EngineIndex = EngineCombo.SelectedIndex;
         }
 
         private void DeviceCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -147,7 +174,7 @@ namespace Aurora.Music.Pages
             Main.SizeChanged -= SettingsPage_SizeChanged;
         }
 
-        private async void Context_InitComplete(object sender, EventArgs e)
+        private void Context_InitComplete(object sender, EventArgs e)
         {
             // PivotItem loaded with latency, only when Pivot move to its neighbor, these controls start to load, and Items become sync with DataContext
 #pragma warning disable CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
@@ -173,7 +200,35 @@ namespace Aurora.Music.Pages
                 DeviceCombo.SelectedIndex = Context.AudioSelectedIndex;
                 DeviceCombo.SelectionChanged += DeviceCombo_SelectionChanged;
             });
+
+            Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
+            {
+                while (EngineCombo.Items.Count < 1) await Task.Delay(500);
+                EngineCombo.SelectionChanged -= EngineCombo_SelectionChanged;
+                EngineCombo.SelectedIndex = Context.EngineIndex;
+                EngineCombo.SelectionChanged += EngineCombo_SelectionChanged;
+            });
 #pragma warning restore CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
+        }
+
+        private void RadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            var b = sender as RadioButton;
+            switch (b.Tag)
+            {
+                case "System":
+                    Context.ChangeTheme(ElementTheme.Default);
+                    break;
+                case "Light":
+                    Context.ChangeTheme(ElementTheme.Light);
+                    break;
+                case "Dark":
+                    Context.ChangeTheme(ElementTheme.Dark);
+                    break;
+                default:
+                    Context.ChangeTheme(ElementTheme.Default);
+                    break;
+            }
         }
     }
 }

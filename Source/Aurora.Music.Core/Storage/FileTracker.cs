@@ -25,7 +25,7 @@ namespace Aurora.Music.Core.Storage
             Folder = f;
             var options = new QueryOptions
             {
-                FileTypeFilter = { ".flac", ".wav", ".m4a", ".aac", ".mp3", ".wma" },
+                FileTypeFilter = { ".flac", ".wav", ".m4a", ".aac", ".mp3", ".wma", ".ogg", ".oga" },
                 FolderDepth = FolderDepth.Deep,
                 IndexerOption = IndexerOption.DoNotUseIndexer,
                 UserSearchFilter = ComposeFilters(filteredFolderNames),
@@ -114,7 +114,7 @@ namespace Aurora.Music.Core.Storage
 
         public static async Task AddTags(IStorageFile resultFile, Song downloadSong)
         {
-            using (var tagTemp = TagLib.File.Create(resultFile.Path))
+            using (var tagTemp = TagLib.File.Create(resultFile.AsAbstraction()))
             {
                 tagTemp.Tag.Title = downloadSong.Title;
                 tagTemp.Tag.Album = downloadSong.Album;

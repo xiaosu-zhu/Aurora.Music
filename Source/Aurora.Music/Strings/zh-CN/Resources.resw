@@ -157,7 +157,7 @@
     <value>正在播放列表</value>
     <comment>Playing list ToolTip</comment>
   </data>
-  <data name="About.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+  <data name="About.Text" xml:space="preserve">
     <value>关于</value>
     <comment>About ToolTip</comment>
   </data>
@@ -524,6 +524,10 @@
   <data name="ArtistDialog.Title" xml:space="preserve">
     <value>歌手详情</value>
     <comment>Artist Details</comment>
+  </data>
+    <data name="ArtistDialog.PrimaryButtonText" xml:space="preserve">
+    <value>播放</value>
+    <comment>Play</comment>
   </data>
   <data name="ArtistDialog.CloseButtonText" xml:space="preserve">
     <value>关闭</value>
@@ -1145,6 +1149,10 @@
     <value>播客</value>
     <comment>Podcast</comment>
   </data>
+    <data name="PodcastText" xml:space="preserve">
+    <value>播客</value>
+    <comment>Podcast</comment>
+  </data>
   <data name="ShowPodcastsWhenSearch.Header" xml:space="preserve">
     <value>搜索时包含播客结果</value>
     <comment>Show podcasts when search</comment>
@@ -1445,6 +1453,10 @@
     <value>更多</value>
     <comment>More</comment>
   </data>
+    <data name="MoreButton.Text" xml:space="preserve">
+    <value>更多</value>
+    <comment>More</comment>
+  </data>
     <data name="Library.Header" xml:space="preserve">
     <value>库</value>
     <comment>Library</comment>
@@ -1468,5 +1480,105 @@
     <data name="SongsTile" xml:space="preserve">
     <value>在极光音乐中探索你的歌曲</value>
     <comment>Explore your songs in Aurora Music</comment>
+  </data>
+    <data name="TimelineTitle" xml:space="preserve">
+    <value>上次在极光音乐播放的歌曲</value>
+    <comment>Last played in Aurora Music</comment>
+  </data>
+    <data name="TimelineDetail" xml:space="preserve">
+    <value>点击这个卡片继续播放</value>
+    <comment>Tap this card to contine listening</comment>
+  </data>
+    <data name="Interface.Header" xml:space="preserve">
+    <value>界面</value>
+    <comment>Interface</comment>
+  </data>
+    <data name="PreferredTheme.Text" xml:space="preserve">
+    <value>偏好的模式</value>
+    <comment>Preferred theme</comment>
+  </data>
+    <data name="SystemTheme.Content" xml:space="preserve">
+    <value>跟随系统</value>
+    <comment>System</comment>
+  </data>
+    <data name="LightTheme.Content" xml:space="preserve">
+    <value>明亮</value>
+    <comment>Light</comment>
+  </data>
+    <data name="DarkTheme.Content" xml:space="preserve">
+    <value>暗黑</value>
+    <comment>Dark</comment>
+  </data>
+    <data name="NightModeSwitch.Header" xml:space="preserve">
+    <value>夜晚模式（暗黑色调下减少图片亮度），需要重新启动</value>
+    <comment>Night mode(decreases images' brightness in dark mode), requires restart</comment>
+  </data>
+    <data name="DontOverlaySwitch.Header" xml:space="preserve">
+    <value>不要把小窗（画中画）置于最前</value>
+    <comment>Don't show small window at top(Compact overlay)</comment>
+  </data>
+    <data name="SingletonSwitch.Header" xml:space="preserve">
+    <value>只创建一个歌词窗口</value>
+    <comment>Singleton instance of lyric window</comment>
+  </data>
+    <data name="NavigateGroup" xml:space="preserve">
+    <value>导航</value>
+    <comment>Navigation</comment>
+  </data>
+    <data name="ActionGroup" xml:space="preserve">
+    <value>操作</value>
+    <comment>Action</comment>
+  </data>
+    <data name="JumplistLastPlay" xml:space="preserve">
+    <value>上次播放</value>
+    <comment>Last played</comment>
+  </data>
+    <data name="JumplistPlay" xml:space="preserve">
+    <value>播放</value>
+    <comment>Play</comment>
+  </data>
+    <data name="JumplistPause" xml:space="preserve">
+    <value>暂停</value>
+    <comment>Pause</comment>
+  </data>
+    <data name="JumplistHome" xml:space="preserve">
+    <value>主页</value>
+    <comment>Home</comment>
+  </data>
+    <data name="JumplistLibrary" xml:space="preserve">
+    <value>音乐库</value>
+    <comment>Library</comment>
+  </data>
+    <data name="JumplistSongs" xml:space="preserve">
+    <value>全部歌曲</value>
+    <comment>Songs</comment>
+  </data>
+    <data name="JumplistAlbums" xml:space="preserve">
+    <value>全部专辑</value>
+    <comment>Albums</comment>
+  </data>
+    <data name="JumplistArtists" xml:space="preserve">
+    <value>全部歌手</value>
+    <comment>Artists</comment>
+  </data>
+    <data name="JumplistPlaylist" xml:space="preserve">
+    <value>播放列表</value>
+    <comment>Playlist</comment>
+  </data>
+    <data name="JumplistPodcast" xml:space="preserve">
+    <value>播客</value>
+    <comment>Podcast</comment>
+  </data>
+    <data name="JumplistPrevious" xml:space="preserve">
+    <value>上一首</value>
+    <comment>Previous</comment>
+  </data>
+    <data name="JumplistNext" xml:space="preserve">
+    <value>下一首</value>
+    <comment>Next</comment>
+  </data>
+    <data name="PlayAllAppBarButton.Label" xml:space="preserve">
+    <value>全部播放</value>
+    <comment>Play All</comment>
   </data>
 </root>

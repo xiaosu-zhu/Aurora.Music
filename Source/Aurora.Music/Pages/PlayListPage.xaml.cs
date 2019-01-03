@@ -1,22 +1,26 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
+using System;
+using System.Linq;
+using System.Numerics;
 using Aurora.Music.Controls;
 using Aurora.Music.Core;
 using Aurora.Music.Core.Models;
 using Aurora.Music.ViewModels;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
-using System;
-using System.Linq;
-using Windows.UI.Core;
+using ExpressionBuilder;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
+
+using EF = ExpressionBuilder.ExpressionFunctions;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -30,8 +34,8 @@ namespace Aurora.Music.Pages
     {
         public PlayListPage()
         {
-            this.InitializeComponent();
-            this.NavigationCacheMode = NavigationCacheMode.Enabled;
+            InitializeComponent();
+            NavigationCacheMode = NavigationCacheMode.Enabled;
         }
 
         public void RequestGoBack()
@@ -55,8 +59,7 @@ namespace Aurora.Music.Pages
 
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
-            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
-            AppViewBackButtonVisibility.Visible;
+            MainPageViewModel.Current.NeedShowBack = true;
 
             if (e.Parameter == null)
             {
@@ -264,12 +267,12 @@ namespace Aurora.Music.Pages
 
         private async void PlayAppBarButton_Click(object sender, RoutedEventArgs e)
         {
-            await MainPageViewModel.Current.InstantPlay(AlbumList.SelectedItems.Select(a => (a as SongViewModel).Song).ToList());
+            await MainPageViewModel.Current.InstantPlayAsync(AlbumList.SelectedItems.Select(a => (a as SongViewModel).Song).ToList());
         }
 
         private async void PlayNextAppBarButton_Click(object sender, RoutedEventArgs e)
         {
-            await MainPageViewModel.Current.PlayNext(AlbumList.SelectedItems.Select(a => (a as SongViewModel).Song).ToList());
+            await MainPageViewModel.Current.PlayNextAsync(AlbumList.SelectedItems.Select(a => (a as SongViewModel).Song).ToList());
         }
 
         private async void AddCollectionAppBarButton_Click(object sender, RoutedEventArgs e)
@@ -282,6 +285,56 @@ namespace Aurora.Music.Pages
         {
             var s = AlbumList.SelectedItems.Select(a => (a as SongViewModel)).ToList();
             MainPage.Current.Share(s);
+        }
+
+        private async void HeaderGroup_PointerReleased(object sender, PointerRoutedEventArgs e)
+        {
+            await AlbumList.GetScrollViewer().ChangeViewAsync(null, 0, false);
+        }
+
+        private void AlbumList_Loaded(object sender, RoutedEventArgs e)
+        {
+            var scrollviewer = AlbumList.GetScrollViewer();
+            var _scrollerPropertySet = ElementCompositionPreview.GetScrollViewerManipulationPropertySet(scrollviewer);
+            var _compositor = _scrollerPropertySet.Compositor;
+
+            // Get references to our property sets for use with ExpressionNodes
+            var scrollingProperties = _scrollerPropertySet.GetSpecializedReference<ManipulationPropertySetReferenceNode>();
+
+            var headerHeight = (float)(HeaderGroup.ActualHeight - (0f + HeaderGroup.Margin.Bottom));
+            var toolbarHeight = (float)Toolbar.ActualHeight;
+
+
+            var progressAnimation = EF.Conditional(-scrollingProperties.Translation.Y > headerHeight, EF.Conditional(-scrollingProperties.Translation.Y > headerHeight + toolbarHeight, 0, -scrollingProperties.Translation.Y - headerHeight - toolbarHeight), -toolbarHeight);
+
+            // 0~1
+            progressAnimation = (progressAnimation + toolbarHeight) / toolbarHeight;
+
+            var toolbarVisual = ElementCompositionPreview.GetElementVisual(Toolbar);
+
+
+            toolbarVisual.StartAnimation("Offset.Y", progressAnimation * 16 - 16);
+
+            var bgVisual = ElementCompositionPreview.GetElementVisual(TitleBG);
+            bgVisual.StartAnimation("Opacity", progressAnimation);
+            toolbarVisual.StartAnimation("Opacity", progressAnimation);
+
+
+            var moving = 80f;
+
+            var movingAnimation = EF.Conditional(-scrollingProperties.Translation.Y > moving, 0f, moving + scrollingProperties.Translation.Y);
+
+            var scaleAnimation = EF.Clamp(-scrollingProperties.Translation.Y / moving, 0, 1);
+            scaleAnimation = EF.Lerp(1, (float)(ToolbarTitle.ActualHeight / TitleText.ActualHeight), scaleAnimation);
+
+            var titleVisual = ElementCompositionPreview.GetElementVisual(Title);
+            titleVisual.StartAnimation("Offset.Y", movingAnimation);
+
+            var titleTextVisual = ElementCompositionPreview.GetElementVisual(TitleText);
+
+            titleTextVisual.CenterPoint = new Vector3(0, (float)TitleText.ActualHeight / 2, 0);
+            titleTextVisual.StartAnimation("Scale.X", scaleAnimation);
+            titleTextVisual.StartAnimation("Scale.Y", scaleAnimation);
         }
     }
 }

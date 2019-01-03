@@ -1,8 +1,10 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
-using Aurora.Music.Core.Models;
 using System;
+
+using Aurora.Music.Core.Models;
+
 using Windows.System;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -18,7 +20,8 @@ namespace Aurora.Music.Controls
     {
         public ExtSettings()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+            RequestedTheme = Settings.Current.Theme;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

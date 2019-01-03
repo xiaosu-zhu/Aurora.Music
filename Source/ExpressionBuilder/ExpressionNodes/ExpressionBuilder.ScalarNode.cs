@@ -1,9 +1,10 @@
+﻿
+using System.Globalization;
 ///---------------------------------------------------------------------------------------------------------------------
 /// <copyright company="Microsoft">
 ///     Copyright (c) Microsoft Corporation.  All rights reserved.
 /// </copyright>
 ///---------------------------------------------------------------------------------------------------------------------
-
 namespace ExpressionBuilder
 {
 // Ignore warning: 'ScalarNode' defines operator == or operator != but does not override Object.Equals(object o) && Object.GetHashCode()
@@ -65,7 +66,10 @@ namespace ExpressionBuilder
 
         internal protected override string GetValue()
         {
-            return _value.ToString();
+            // when using Russian, French etc, this ToString will let 3.4 -> 3,4, that's incorrect
+            // return _value.ToString();
+
+            return _value.ToString(CultureInfo.InvariantCulture);
         }
 
         private float _value;

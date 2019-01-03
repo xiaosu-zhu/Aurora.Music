@@ -2,6 +2,7 @@
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using Aurora.Music.Core;
+using Aurora.Music.Core.Models;
 using Aurora.Music.ViewModels;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -16,8 +17,10 @@ namespace Aurora.Music.Controls.ListItems
     {
         public AlbumItem()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
+
+        public bool NightModeEnabled { get; set; } = Settings.Current.NightMode;
 
         public AlbumViewModel Data
         {

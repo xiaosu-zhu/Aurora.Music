@@ -36,7 +36,7 @@ namespace Aurora.Music.Core.Storage
                 {
                     var options = new Windows.Storage.Search.QueryOptions
                     {
-                        FileTypeFilter = { ".flac", ".wav", ".m4a", ".aac", ".mp3", ".wma" },
+                        FileTypeFilter = { ".flac", ".wav", ".m4a", ".aac", ".mp3", ".wma", ".ogg", ".oga" },
                         FolderDepth = Windows.Storage.Search.FolderDepth.Deep,
                         IndexerOption = Windows.Storage.Search.IndexerOption.DoNotUseIndexer,
                     };
@@ -57,7 +57,7 @@ namespace Aurora.Music.Core.Storage
             return songs.ConvertAll(x => new Song(x));
         }
 
-        public static async Task PlayStaticAdd(int id, int targetType, int addAmount)
+        public static async Task PlayStaticAddAsync(int id, int targetType, int addAmount)
         {
             var opr = SQLOperator.Current();
             if (targetType == 0)
@@ -106,6 +106,35 @@ namespace Aurora.Music.Core.Storage
             return res;
         }
 
+        public static async Task<int> CountAsync<T>() where T : new()
+        {
+            if (typeof(T) == typeof(Song))
+            {
+                return await SQLOperator.Current().CountAsync<SONG>();
+            }
+            if (typeof(T) == typeof(Album))
+            {
+                return await SQLOperator.Current().CountAsync<ALBUM>();
+            }
+            if (typeof(T) == typeof(Artist))
+            {
+                return await SQLOperator.Current().CountAsync<Artist>();
+            }
+            if (typeof(T) == typeof(PlayList))
+            {
+                return await SQLOperator.Current().CountAsync<PLAYLIST>();
+            }
+            if (typeof(T) == typeof(Podcast))
+            {
+                return await SQLOperator.Current().CountAsync<PODCAST>();
+            }
+            if (typeof(T) == typeof(StorageFolder))
+            {
+                return await SQLOperator.Current().CountAsync<FOLDER>();
+            }
+            return await SQLOperator.Current().CountAsync<T>();
+        }
+
         public static async Task<List<GenericMusicItem>> GetFavListAsync()
         {
             return await SQLOperator.Current().GetFavListAsync();
@@ -151,7 +180,7 @@ namespace Aurora.Music.Core.Storage
             return res;
         }
 
-        public async static Task<List<Album>> GetAlbumsAsync()
+        public static async Task<List<Album>> GetAlbumsAsync()
         {
             var opr = SQLOperator.Current();
             var albums = await opr.GetAllAsync<ALBUM>();
@@ -171,7 +200,7 @@ namespace Aurora.Music.Core.Storage
             return list;
         }
 
-        public static async Task Read(IList<StorageFolder> folder, IList<string> filterdFolderNames)
+        public static async Task ReadAsync(IList<StorageFolder> folder, IList<string> filterdFolderNames)
         {
             var list = new List<StorageFile>();
             int i = 1;
@@ -199,10 +228,10 @@ namespace Aurora.Music.Core.Storage
             await Task.Delay(200);
             ProgressUpdated?.Invoke(null, new ProgressReport() { Description = Consts.Localizer.GetString("FolderScanFinishText"), Current = i, Total = folder.Count });
             await Task.Delay(200);
-            await ReadFileandSave(from a in list group a by a.Path into b select b.First());
+            await ReadFileandSaveAsync(from a in list group a by a.Path into b select b.First());
         }
 
-        public static async Task ReadFileandSave(IEnumerable<StorageFile> files)
+        public static async Task ReadFileandSaveAsync(IEnumerable<StorageFile> files)
         {
             var opr = SQLOperator.Current();
             var total = files.Count();
@@ -228,11 +257,12 @@ namespace Aurora.Music.Core.Storage
                             var oneDriveFile = await OneDrivePropertyProvider.GetOneDriveFilesAsync(file.Path);
                             var properties = oneDriveFile.OneDriveItem;
                             var audioProp = properties.Audio;
+                            var basic = properties.LastModifiedDateTime ?? DateTimeOffset.MinValue;
                             if (durationFilter && audioProp.Duration < duration)
                                 continue;
                             var artist = audioProp?.Artist is null ? null : new[] { audioProp.Artist };
                             var composers = audioProp?.Composers is null ? null : new[] { audioProp.Composers };
-                            var song = await Song.Create(null, file.Path, (audioProp?.Title, audioProp?.Album, artist, artist, composers, null, TimeSpan.FromMilliseconds(audioProp?.Duration ?? 0), (uint)(audioProp?.Bitrate * 1000 ?? 0), 0), null, oneDriveFile);
+                            var song = await Song.CreateAsync(null, file.Path, (audioProp?.Title, audioProp?.Album, artist, artist, composers, null, TimeSpan.FromMilliseconds(audioProp?.Duration ?? 0), (uint)(audioProp?.Bitrate * 1000 ?? 0), 0, basic.DateTime), null, oneDriveFile);
                             var t = await opr.InsertSongAsync(song);
                             if (t != null)
                             {
@@ -249,7 +279,7 @@ namespace Aurora.Music.Core.Storage
                     }
                     else
                     {
-                        using (var tagTemp = File.Create(file.Path))
+                        using (var tagTemp = File.Create(file.AsAbstraction()))
                         {
                             var prop = await file.Properties.GetMusicPropertiesAsync();
 
@@ -258,7 +288,7 @@ namespace Aurora.Music.Core.Storage
                             if (durationFilter && d.Milliseconds < duration)
                                 continue;
 
-                            var song = await Song.Create(tagTemp.Tag, file.Path, await file.GetViolatePropertiesAsync(), tagTemp.Properties, null);
+                            var song = await Song.CreateAsync(tagTemp.Tag, file.Path, await file.GetViolatePropertiesAsync(), tagTemp.Properties, null);
                             var t = await opr.InsertSongAsync(song);
                             if (t != null)
                             {
@@ -267,30 +297,28 @@ namespace Aurora.Music.Core.Storage
                         }
                     }
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
-                    Shared.Helpers.Tools.Logging(e);
                     continue;
                 }
                 finally
                 {
-                    ProgressUpdated?.Invoke(null, new ProgressReport() { Description = SmartFormat.Smart.Format(scan, i, total), Current = i, Total = total });
-
+                    ProgressUpdated?.Invoke(null, new ProgressReport() { Description = SmartFormat.Smart.Format(scan, i, total), Current = i, Total = total, CanHide = true });
                     i++;
                 }
             }
 
-            await RemoveDuplicate();
+            await RemoveDuplicateAsync();
 
-            await SortAlbums();
+            await SortAlbumsAsync();
             Completed?.Invoke(null, EventArgs.Empty);
         }
 
-        private static async Task RemoveDuplicate()
+        private static async Task RemoveDuplicateAsync()
         {
             var opr = SQLOperator.Current();
             var songs = await opr.GetAllAsync<SONG>();
-            List<SONG> duplicates = new List<SONG>();
+            var duplicates = new List<SONG>();
             for (int i = 0; i < songs.Count; i++)
             {
                 for (int j = i + 1; j < songs.Count; j++)
@@ -318,7 +346,7 @@ namespace Aurora.Music.Core.Storage
             return songs.ConvertAll(a => new Song(a));
         }
 
-        public async static Task SortAlbums()
+        public static async Task SortAlbumsAsync()
         {
             await Task.Run(async () =>
             {
@@ -330,11 +358,11 @@ namespace Aurora.Music.Core.Storage
                 int i = 1;
                 var scan = Consts.Localizer.GetString("AlbumSortText");
 
-                ProgressUpdated?.Invoke(null, new ProgressReport() { Description = SmartFormat.Smart.Format(scan, 0, count), Current = 0, Total = count });
+                ProgressUpdated?.Invoke(null, new ProgressReport() { Description = SmartFormat.Smart.Format(scan, 0, count), Current = 0, Total = count, CanHide = true });
                 foreach (var item in albums)
                 {
                     await opr.AddAlbumAsync(item);
-                    ProgressUpdated?.Invoke(null, new ProgressReport() { Description = SmartFormat.Smart.Format(scan, i, count), Current = i, Total = count });
+                    ProgressUpdated?.Invoke(null, new ProgressReport() { Description = SmartFormat.Smart.Format(scan, i, count), Current = i, Total = count, CanHide = true });
 
                     i++;
                 }
@@ -342,7 +370,7 @@ namespace Aurora.Music.Core.Storage
             });
         }
 
-        public static async Task<List<GenericMusicItem>> Search(string text)
+        public static async Task<List<GenericMusicItem>> SearchAsync(string text)
         {
             var opr = SQLOperator.Current();
             text = SQLOperator.SQLEscaping_LIKE(text);
@@ -356,15 +384,15 @@ namespace Aurora.Music.Core.Storage
             return l;
         }
 
-        public static async Task<IList<Song>> ReadFileandSendBack(List<StorageFile> files)
+        public static async Task<IList<Song>> ReadFileandSendBackAsync(List<StorageFile> files)
         {
-            List<Song> tempList = new List<Song>();
+            var tempList = new List<Song>();
             var total = files.Count;
             foreach (var file in files)
             {
-                using (var tagTemp = File.Create(file))
+                using (var tagTemp = File.Create(file.AsAbstraction()))
                 {
-                    tempList.Add(await Song.Create(tagTemp.Tag, file.Path, await file.GetViolatePropertiesAsync(), tagTemp.Properties, null));
+                    tempList.Add(await Song.CreateAsync(tagTemp.Tag, file.Path, await file.GetViolatePropertiesAsync(), tagTemp.Properties, null));
                 }
             }
             var result = from song in tempList orderby song.Track orderby song.Disc group song by song.Album;
@@ -378,16 +406,17 @@ namespace Aurora.Music.Core.Storage
 
         public static async Task<Song> ReadFileAsync(StorageFile file)
         {
-            using (var tagTemp = File.Create(file))
+            using (var tagTemp = File.Create(file.AsAbstraction()))
             {
-                return await Create(tagTemp.Tag, file.Path, await file.GetViolatePropertiesAsync(), tagTemp.Properties);
+                return await CreateAsync(tagTemp.Tag, file.Path, await file.GetViolatePropertiesAsync(), tagTemp.Properties);
             }
         }
 
-        static readonly string[] violateProperties = new string[] { "System.Music.AlbumArtist", "System.Music.Artist" };
+        private static readonly string[] violateProperties = new string[] { "System.Music.AlbumArtist", "System.Music.Artist" };
 
-        public static async Task<(string title, string album, string[] performer, string[] artist, string[] composer, string conductor, TimeSpan duration, uint bitrate, uint rating)> GetViolatePropertiesAsync(this StorageFile file)
+        public static async Task<(string title, string album, string[] performer, string[] artist, string[] composer, string conductor, TimeSpan duration, uint bitrate, uint rating, DateTime lastModify)> GetViolatePropertiesAsync(this StorageFile file)
         {
+            var basic = await file.GetBasicPropertiesAsync();
             var music = await file.Properties.GetMusicPropertiesAsync();
             var properties = await file.Properties.RetrievePropertiesAsync(violateProperties);
             string[] performer, artist;
@@ -413,13 +442,14 @@ namespace Aurora.Music.Core.Storage
             {
                 artist = null;
             }
-            return (music.Title, music.Album, performer, artist, music.Composers.ToArray(), music.Conductors.FirstOrDefault(), music.Duration, music.Bitrate, music.Rating);
+            return (music.Title, music.Album, performer, artist, music.Composers.ToArray(), music.Conductors.FirstOrDefault(), music.Duration, music.Bitrate, music.Rating, basic.DateModified.DateTime);
         }
 
-        private static async Task<Song> Create(Tag tag, string path, (string title, string album, string[] performer, string[] artist, string[] composer, string conductor, TimeSpan duration, uint bitrate, uint rating) music, Properties p)
+        private static async Task<Song> CreateAsync(Tag tag, string path, (string title, string album, string[] performer, string[] artist, string[] composer, string conductor, TimeSpan duration, uint bitrate, uint rating, DateTime lastModify) music, Properties p)
         {
             var song = new Song
             {
+                LastModified = music.lastModify,
                 Duration = music.duration.TotalMilliseconds < 1 ? p.Duration : music.duration,
                 BitRate = music.bitrate,
                 FilePath = path,
@@ -480,7 +510,51 @@ namespace Aurora.Music.Core.Storage
             }
             else
             {
-                song.PicturePath = null;
+                try
+                {
+                    var folder = await StorageFolder.GetFolderFromPathAsync(System.IO.Path.GetDirectoryName(path));
+                    var result = folder.CreateFileQueryWithOptions(new Windows.Storage.Search.QueryOptions()
+                    {
+                        FolderDepth = Windows.Storage.Search.FolderDepth.Shallow,
+                        ApplicationSearchFilter = "System.FileName:\"cover\" System.FileExtension:=(\".jpg\" OR \".png\" OR \".jpeg\" OR \".gif\" OR \".tiff\" OR \".bmp\")"
+                    });
+                    var files = await result.GetFilesAsync();
+                    if (files.Count > 0)
+                    {
+                        var album = music.album;
+                        if (album.IsNullorEmpty())
+                        {
+                            album = Consts.UnknownAlbum;
+                        }
+                        album = Shared.Utils.InvalidFileNameChars.Aggregate(album, (current, c) => current.Replace(c + "", "_"));
+                        album = $"{album}.{pictures[0].MimeType.Split('/').LastOrDefault().Replace("jpeg", "jpg")}";
+                        try
+                        {
+                            var s = await Consts.ArtworkFolder.TryGetItemAsync(album);
+                            if (s == null)
+                            {
+                                var cacheImg = await files[0].CopyAsync(Consts.ArtworkFolder, album, NameCollisionOption.ReplaceExisting);
+                                song.PicturePath = cacheImg.Path;
+                            }
+                            else
+                            {
+                                song.PicturePath = s.Path;
+                            }
+                        }
+                        catch (ArgumentException)
+                        {
+                            song.PicturePath = string.Empty;
+                        }
+                    }
+                    else
+                    {
+                        song.PicturePath = string.Empty;
+                    }
+                }
+                catch (Exception)
+                {
+                    song.PicturePath = string.Empty;
+                }
             }
             return song;
         }
@@ -501,8 +575,11 @@ namespace Aurora.Music.Core.Storage
     {
         public string Description { get; set; }
 
+
+
         public int Current { get; set; }
 
         public int Total { get; set; }
+        public bool CanHide { get; internal set; }
     }
 }

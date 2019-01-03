@@ -1,11 +1,14 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
-using Aurora.Music.Core;
-using Aurora.Music.ViewModels;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+
+using Aurora.Music.Core;
+using Aurora.Music.Core.Models;
+using Aurora.Music.ViewModels;
+
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -21,7 +24,8 @@ namespace Aurora.Music.Controls
     {
         public ArtistViewDialog()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+            RequestedTheme = Settings.Current.Theme;
         }
 
         internal ArtistViewDialog(ArtistViewModel artist)
@@ -140,6 +144,11 @@ namespace Aurora.Music.Controls
         private void AlbumList_ContextCanceled(UIElement sender, RoutedEventArgs args)
         {
             MainPage.Current.SongFlyout.Hide();
+        }
+
+        private async void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+            await MainPageViewModel.Current.InstantPlayAsync(Context.SongsList.SelectMany(a => a.Select(s => s.Song)).ToList());
         }
     }
 }

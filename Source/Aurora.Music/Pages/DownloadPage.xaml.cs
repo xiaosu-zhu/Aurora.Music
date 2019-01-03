@@ -34,7 +34,6 @@ namespace Aurora.Music.Pages
             this.InitializeComponent();
             MainPageViewModel.Current.Title = Consts.Localizer.GetString("DownloadText");
             MainPageViewModel.Current.NeedShowTitle = true;
-            MainPageViewModel.Current.LeftTopColor = Resources["SystemControlForegroundBaseHighBrush"] as SolidColorBrush;
         }
 
         private void Page_Unloaded(object sender, RoutedEventArgs e)

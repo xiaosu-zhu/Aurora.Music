@@ -64,7 +64,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <Button.Content>
                     <Grid>
                         <Image Source="{x:Bind Artwork, Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Uniform"/>
-                        <StackPanel Orientation="Vertical" Visibility="Collapsed" x:Name="ForeGrid" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{ThemeResource SystemControlBlackAcrylicElementBrush}" BorderBrush="{x:Null}" BorderThickness="0">
+                        <StackPanel Orientation="Vertical" Visibility="Collapsed" x:Name="ForeGrid" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{ThemeResource SystemControlBaseTranslucentAcrylicElementBrush}" BorderBrush="{x:Null}" BorderThickness="0">
                             <FontIcon Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Margin="0,12,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe MDL2 Assets" Glyph="&#xE104;" />
                             <TextBlock x:Uid="Instantly" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Text="Instantly" Style="{ThemeResource BaseTextBlockStyle}" Margin="8,4,8,12"/>
                         </StackPanel>
@@ -127,13 +127,13 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </Grid.ColumnDefinitions>
             <StackPanel Margin="4" Orientation="Vertical">
                 <TextBlock x:Uid="BitRate" Text="Bit Rate" Style="{ThemeResource BodyTextBlockStyle}"/>
-                <TextBlock Foreground="{ThemeResource SystemControlBackgroundBaseMediumRevealBorderBrush}" Text="{x:Bind BitRateToString(BitRate), Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}"/>
+                <TextBlock Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}" Text="{x:Bind BitRateToString(BitRate), Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}"/>
             </StackPanel>
             <StackPanel Margin="4" Grid.Column="1" Orientation="Vertical">
                 <TextBlock x:Uid="Duration" Text="Duration"/>
-                <TextBlock Foreground="{ThemeResource SystemControlBackgroundBaseMediumRevealBorderBrush}" Text="{x:Bind DurationtoString(Duration),Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}"/>
+                <TextBlock Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}" Text="{x:Bind DurationtoString(Duration),Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}"/>
             </StackPanel>
         </Grid>
-        <TextBlock Foreground="{ThemeResource SystemControlBackgroundBaseMediumRevealBorderBrush}" Margin="4" TextWrapping="Wrap" Text="{x:Bind FilePath,Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}"/>
+        <TextBlock Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}" Margin="4" TextWrapping="Wrap" Text="{x:Bind FilePath,Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}"/>
     </StackPanel>
 </ContentDialog>

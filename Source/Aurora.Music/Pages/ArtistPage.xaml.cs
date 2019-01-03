@@ -1,24 +1,31 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
+using System;
+using System.Linq;
+using System.Numerics;
+using System.Threading.Tasks;
+
 using Aurora.Music.Controls;
 using Aurora.Music.Controls.ListItems;
 using Aurora.Music.Core;
 using Aurora.Music.ViewModels;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
+
+using ExpressionBuilder;
+
 using Windows.System;
-using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
+
+using EF = ExpressionBuilder.ExpressionFunctions;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -36,13 +43,13 @@ namespace Aurora.Music.Pages
         public ArtistPage()
         {
             this.InitializeComponent();
-            this.NavigationCacheMode = NavigationCacheMode.Enabled;
+            this.NavigationCacheMode = NavigationCacheMode.Disabled;
         }
 
         public void RequestGoBack()
         {
             _lastParameter = Guid.NewGuid().ToString();
-            ConnectedAnimationService.GetForCurrentView().PrepareToAnimate(Consts.ArtistPageInAnimation + "_1", Title);
+            ConnectedAnimationService.GetForCurrentView().PrepareToAnimate(Consts.ArtistPageInAnimation + "_1", TitleText);
             ConnectedAnimationService.GetForCurrentView().PrepareToAnimate(Consts.ArtistPageInAnimation + "_2", Image);
             LibraryPage.Current.GoBack();
             UnloadObject(this);
@@ -57,8 +64,7 @@ namespace Aurora.Music.Pages
         {
             base.OnNavigatedTo(e);
 
-            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
-            AppViewBackButtonVisibility.Visible;
+            MainPageViewModel.Current.NeedShowBack = true;
 
             try
             {
@@ -100,22 +106,13 @@ namespace Aurora.Music.Pages
             }
             if (e.Parameter is ArtistViewModel s && _lastParameter != s.RawName)
             {
-                _lastParameter = s.RawName;
-                Context.Artist = s;
-                var ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.ArtistPageInAnimation + "_1");
-                if (ani != null)
-                {
-                    ani.TryStart(Title, new UIElement[] { Details });
-                }
-                ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.ArtistPageInAnimation + "_2");
-                if (ani != null)
-                {
-                    ani.TryStart(Shadow, new UIElement[] { Image });
-                }
                 var t = Task.Run(async () =>
                 {
                     await Context.Init(s);
+
                 });
+                _lastParameter = s.RawName;
+                Context.Artist = s;
             }
         }
 
@@ -317,6 +314,99 @@ namespace Aurora.Music.Pages
         private void SongsList_ContextCanceled(UIElement sender, RoutedEventArgs args)
         {
             MainPage.Current.SongFlyout.Hide();
+        }
+
+        private async void HeaderGroup_PointerReleased(object sender, PointerRoutedEventArgs e)
+        {
+            await Root.ChangeViewAsync(null, 0, false);
+        }
+
+        private void SongsList_Loaded(object sender, RoutedEventArgs e)
+        {
+            var scrollviewer = Root;
+            var _scrollerPropertySet = ElementCompositionPreview.GetScrollViewerManipulationPropertySet(scrollviewer);
+            var _compositor = _scrollerPropertySet.Compositor;
+
+            // Get references to our property sets for use with ExpressionNodes
+            var scrollingProperties = _scrollerPropertySet.GetSpecializedReference<ManipulationPropertySetReferenceNode>();
+
+            var headerHeight = (float)(HeaderGroup.ActualHeight);
+            var finalHeight = (float)TitleBG.ActualHeight;
+
+
+            var progressAnimation = EF.Conditional(-scrollingProperties.Translation.Y > headerHeight, EF.Conditional(-scrollingProperties.Translation.Y > headerHeight + finalHeight, 0, -scrollingProperties.Translation.Y - headerHeight - finalHeight), -finalHeight);
+
+            // 0~1
+            progressAnimation = (progressAnimation + finalHeight) / finalHeight;
+
+            var toolbarVisual = ElementCompositionPreview.GetElementVisual(Toolbar);
+
+
+            toolbarVisual.StartAnimation("Offset.Y", progressAnimation * 16 - 16);
+
+            var offset = toolbarVisual.GetReference().GetScalarProperty("Offset.Y");
+
+            toolbarVisual.StartAnimation("Opacity", progressAnimation);
+
+            var moving = 80f;
+
+            var movingAnimation = EF.Conditional(-scrollingProperties.Translation.Y > moving, 0f, moving + scrollingProperties.Translation.Y);
+
+            var horiMovingAni = EF.Clamp(-scrollingProperties.Translation.Y / moving, 0, 1);
+            horiMovingAni = EF.Lerp(0, (float)(80f - ImageGrid.Height), horiMovingAni);
+
+            var scaleAnimation = EF.Clamp(-scrollingProperties.Translation.Y / moving, 0, 1);
+            var textScaleAnimation = EF.Lerp(1, (float)(ToolbarTitle.ActualHeight / TitleText.ActualHeight), scaleAnimation);
+
+            var titleVisual = ElementCompositionPreview.GetElementVisual(Title);
+            titleVisual.StartAnimation("Offset.Y", movingAnimation);
+            titleVisual.StartAnimation("Offset.X", horiMovingAni);
+
+
+            var titleTextVisual = ElementCompositionPreview.GetElementVisual(TitleText);
+            titleTextVisual.CenterPoint = new Vector3(32f, (float)TitleText.ActualHeight / 2, 0);
+            titleTextVisual.StartAnimation("Scale.X", textScaleAnimation);
+            titleTextVisual.StartAnimation("Scale.Y", textScaleAnimation);
+
+            var bgVisual = ElementCompositionPreview.GetElementVisual(TitleBG);
+            bgVisual.StartAnimation("Opacity", scaleAnimation);
+
+            var marginTop = (float)((TitleBG.ActualHeight - 80f) / 2);
+
+            var imgMovingAnimation = EF.Conditional(-scrollingProperties.Translation.Y > (moving - marginTop), marginTop, moving + scrollingProperties.Translation.Y);
+
+            var imageScaleAnimation = EF.Lerp(1, (float)(80f / ImageGrid.Height), scaleAnimation);
+
+            var imageVisual = ElementCompositionPreview.GetElementVisual(ImageGrid);
+
+            imageVisual.CenterPoint = new Vector3(32f, 0, 0);
+            imageVisual.StartAnimation("Scale.X", imageScaleAnimation);
+            imageVisual.StartAnimation("Scale.Y", imageScaleAnimation);
+
+            imageVisual.StartAnimation("Offset.Y", imgMovingAnimation);
+
+            Task.Run(async () =>
+            {
+                await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                {
+                    var ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.ArtistPageInAnimation + "_1");
+                    if (ani != null)
+                    {
+                        ani.TryStart(TitleText, new UIElement[] { Details });
+                    }
+                    ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.ArtistPageInAnimation + "_2");
+                    if (ani != null)
+                    {
+                        ani.TryStart(Image);
+                    }
+                });
+            });
+        }
+
+        private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            Title.Width = ActualWidth - 240 - 32;
+            ToolbarTitle.Width = Title.Width * ToolbarTitle.ActualHeight / TitleText.ActualHeight;
         }
     }
 }

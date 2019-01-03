@@ -7,7 +7,10 @@ using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
 using ExpressionBuilder;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Numerics;
 using Windows.System.Threading;
 using Windows.UI.Composition;
 using Windows.UI.Core;
@@ -48,11 +51,8 @@ namespace Aurora.Music.Pages
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            MainPageViewModel.Current.NeedShowTitle = true;
-            MainPageViewModel.Current.Title = Context.WelcomeTitle;
-            MainPageViewModel.Current.LeftTopColor = Resources["SystemControlForegroundBaseHighBrush"] as SolidColorBrush;
-            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
-            AppViewBackButtonVisibility.Collapsed;
+            MainPageViewModel.Current.NeedShowTitle = false;
+            MainPageViewModel.Current.NeedShowBack = false;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -82,7 +82,7 @@ namespace Aurora.Music.Pages
 
         private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            ContentPanel.Width = this.ActualWidth;
+            ContentPanel.Width = ActualWidth;
         }
 
         private void Header_Loaded(object sender, RoutedEventArgs e)
@@ -93,24 +93,48 @@ namespace Aurora.Music.Pages
 
             _props = _compositor.CreatePropertySet();
             _props.InsertScalar("progress", 0);
+            _props.InsertScalar("clampSize", (float)HeaderBG.Height);
+            _props.InsertScalar("scaleFactor", 0.7f);
 
             // Get references to our property sets for use with ExpressionNodes
             var scrollingProperties = _scrollerPropertySet.GetSpecializedReference<ManipulationPropertySetReferenceNode>();
             var props = _props.GetReference();
             var progressNode = props.GetScalarProperty("progress");
+            var clampSizeNode = props.GetScalarProperty("clampSize");
+            var scaleFactorNode = props.GetScalarProperty("scaleFactor");
 
             // Create and start an ExpressionAnimation to track scroll progress over the desired distance
-            ExpressionNode progressAnimation = EF.Clamp(-scrollingProperties.Translation.Y / ((float)HeaderBG.Height), 0, 1);
+            var progressAnimation = EF.Clamp(-scrollingProperties.Translation.Y / clampSizeNode, 0, 1);
             _props.StartAnimation("progress", progressAnimation);
 
             var headerbgVisual = ElementCompositionPreview.GetElementVisual(HeaderBG);
             var bgblurOpacityAnimation = EF.Clamp(progressNode, 0, 1);
             headerbgVisual.StartAnimation("Opacity", bgblurOpacityAnimation);
+
+            var headerVisual = ElementCompositionPreview.GetElementVisual(HeroTitle);
+            var scaleAnimation = EF.Lerp(1, scaleFactorNode, progressNode);
+            headerVisual.StartAnimation("Scale.X", scaleAnimation);
+            headerVisual.StartAnimation("Scale.Y", scaleAnimation);
+
+            var offsetAnimation = EF.Lerp(160f, 32f, progressNode);
+            var opacityAnimation = EF.Lerp(1f, 0.6f, progressNode);
+
+            var containerVisual = ElementCompositionPreview.GetElementVisual(TextContainer);
+            containerVisual.StartAnimation("Offset.Y", offsetAnimation);
+            containerVisual.StartAnimation("Opacity", opacityAnimation);
         }
 
         private async void FavList_ItemClick(object sender, ItemClickEventArgs e)
         {
-            await MainPageViewModel.Current.InstantPlay(await (e.ClickedItem as GenericMusicItemViewModel).GetSongsAsync());
+            var collection = (sender as ListView).ItemsSource as ObservableCollection<GenericMusicItemViewModel>;
+            var songs = new List<Core.Models.Song>();
+            foreach (var item in collection)
+            {
+                songs.AddRange(await item.GetSongsAsync());
+            }
+            var current = (await (e.ClickedItem as GenericMusicItemViewModel).GetSongsAsync())[0];
+            var start = songs.FindIndex(a => a.ID == current.ID);
+            await MainPageViewModel.Current.InstantPlayAsync(songs, start);
         }
 
         private void HeroGrid_ContextRequested(UIElement sender, ContextRequestedEventArgs e)
@@ -226,13 +250,18 @@ namespace Aurora.Music.Pages
             }
             else
             {
-                await MainPageViewModel.Current.InstantPlay(await (e.ClickedItem as GenericMusicItemViewModel).GetSongsAsync());
+                await MainPageViewModel.Current.InstantPlayAsync(await (e.ClickedItem as GenericMusicItemViewModel).GetSongsAsync());
             }
         }
 
         private void Page_Unloaded(object sender, RoutedEventArgs e)
         {
             Context.Unload();
+        }
+
+        private void HeroPanel_PointerReleased(object sender, PointerRoutedEventArgs e)
+        {
+
         }
     }
 }

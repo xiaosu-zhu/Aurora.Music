@@ -19,7 +19,7 @@
 
 极光音乐致力于为 Windows 10 平台带来现代，流畅的音乐体验。极光音乐使用 MIT 许可，你可以从这里分叉然后构建你自己的个性化音乐播放器。
 
-同时，极光音乐可以扩展功能，我们为歌词、媒体信息、在线音乐保留了接口。通过你开发的扩展，极光音乐就能扩充它的能力。我们同样计划引入更高级的扩展功能，比如音频效果、界面布局等等。请见[待完成]()。
+同时，极光音乐可以扩展功能，我们为歌词、媒体信息、在线音乐保留了接口。通过你开发的扩展，极光音乐就能扩充它的能力。我们同样计划引入更高级的扩展功能，比如音频效果、界面布局等等。请见[待完成](https://github.com/pkzxs/Aurora.Music/blob/master/README_CN.md#待完成)。
 
 下面是一些运行截图：
 
@@ -72,7 +72,7 @@
 | Json.NET | [MIT License](https://github.com/JamesNK/Newtonsoft.Json/blob/master/LICENSE.md) | [newtonsoft.com](https://www.newtonsoft.com/json) |
 | NAudio | [MS-PL](https://github.com/naudio/NAudio/blob/master/license.txt) | [github.com/naudio/NAudio](https://github.com/naudio/NAudio) |
 | UWPAudioVisualizer | [MIT License](https://github.com/clarkezone/audiovisualizer/blob/master/LICENSE) | [github.com/clarkezone/audiovisualizer](https://github.com/clarkezone/audiovisualizer) |
-| ExpressionBuilder | [MIT License](https://github.com/Microsoft/WindowsUIDevLabs/blob/master/LICENSE.txt) | [github.com/Microsoft/ExpressionBuilder](https://github.com/Microsoft/WindowsUIDevLabs/tree/master/ExpressionBuilder) |
+| ExpressionBuilder | [MIT License](https://github.com/Microsoft/WindowsUIDevLabs/blob/master/LICENSE.txt) | [github.com/Microsoft/ExpressionBuilder](https://github.com/Microsoft/WindowsCompositionSamples/tree/master/ExpressionBuilder) |
 | ColorThief.NET | [MIT License](https://github.com/KSemenenko/ColorThief/blob/master/LICENSE) | [github.com/KSemenenko/ColorThief](https://github.com/KSemenenko/ColorThief) |
 | SmartFormat | [MIT License](https://github.com/scottrippey/SmartFormat.NET/wiki/License) | [github.com/scottrippey/SmartFormat.NET](https://github.com/scottrippey/SmartFormat.NET) |
 | WriteableBitmapEx | [MIT License](https://github.com/teichgraf/WriteableBitmapEx/blob/master/LICENSE) | [github.com/teichgraf/WriteableBitmapEx/](https://github.com/teichgraf/WriteableBitmapEx/) |
@@ -82,4 +82,4 @@
 
 [/Source/Taglib.Sharp](./Source/TagLib.Sharp/) 是从 [mono/taglib-sharp](https://github.com/mono/taglib-sharp) 移植到 UWP 平台的。
 
-[/Source/ExpressionBuilder](./Source/ExpressionBuilder/) 来自于 [Microsoft/WindowsUIDevLabs](https://github.com/Microsoft/WindowsUIDevLabs)。
+[/Source/ExpressionBuilder](./Source/ExpressionBuilder/) 来自于 [Microsoft/WindowsCompositionSamples](https://github.com/Microsoft/WindowsCompositionSamples)。

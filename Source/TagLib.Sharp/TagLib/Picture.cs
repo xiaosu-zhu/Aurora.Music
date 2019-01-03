@@ -143,9 +143,16 @@ namespace TagLib {
 		///    The picture is the logo of the publisher or record
 		///    company.
 		/// </summary>
-		PublisherLogo = 0x14
+		PublisherLogo = 0x14,
+
+
+		/// <summary>
+		///    In fact, this is not a Picture, but another file-type.
+		/// </summary>
+		NotAPicture = 0xff
+
 	}
-	
+
 	/// <summary>
 	///    This interface provides generic information about a picture,
 	///    including its contents, as used by various formats.
@@ -172,7 +179,21 @@ namespace TagLib {
 		///    instance.
 		/// </value>
 		PictureType Type {get; set;}
-		
+
+
+
+		/// <summary>
+		///    Gets and sets a filename of the picture stored in the
+		///    current instance.
+		/// </summary>
+		/// <value>
+		///    A <see cref="string" /> object containing the filename,
+		///    with its extension, of the picture stored in the current 
+		///    instance.
+		/// </value>
+		string Filename { get; set; }
+
+
 		/// <summary>
 		///    Gets and sets a description of the picture stored in the
 		///    current instance.
@@ -211,7 +232,12 @@ namespace TagLib {
 		///    Contains the content type.
 		/// </summary>
 		private PictureType type;
-		
+
+		/// <summary>
+		///    Contains the filename.
+		/// </summary>
+		private string filename;
+
 		/// <summary>
 		///    Contains the description.
 		/// </summary>
@@ -221,13 +247,97 @@ namespace TagLib {
 		///    Contains the picture data.
 		/// </summary>
 		private ByteVector data;
-		
+
 		#endregion
-		
-		
-		
+
+		#region Constants
+
+		/// <summary>
+		///    Look-Up-Table associating a file-extension to 
+		///    a Mime-Type 
+		/// </summary>
+		private static readonly string[] lutExtensionMime = new string[] {
+			"aac", "audio/aac", // AAC audio file
+			"abw", "application/x-abiword", // AbiWord document
+			"arc", "application/octet-stream", // Archive document (multiple files embedded)
+			"avi", "video/x-msvideo", // AVI: Audio Video Interleave
+			"azw", "application/vnd.amazon.ebook", // Amazon Kindle eBook format
+			"bin", "application/octet-stream", // Any kind of binary data
+			"bmp", "image/bmp", // BMP image data
+			"bmp", "image/x-windows-bmp", // BMP image data
+			"bm", "image/bmp", // BMP image data
+			"bz", "application/x-bzip", // BZip archive
+			"bz2", "application/x-bzip2", // BZip2 archive
+			"csh", "application/x-csh", // C-Shell script
+			"css", "text/css", // Cascading Style Sheets (CSS)
+			"csv", "text/csv", // Comma-separated values (CSV)
+			"doc", "application/msword", // Microsoft Word
+			"eot", "application/vnd.ms-fontobject", // MS Embedded OpenType fonts
+			"epub", "application/epub+zip", // Electronic publication (EPUB)
+			"gif", "image/gif", // Graphics Interchange Format (GIF)
+			"htm", "text/html", // HyperText Markup Language (HTML)text / html
+			"html", "text/html", // HyperText Markup Language (HTML)text / html
+			"ico", "image/x-icon", // Icon format
+			"ics", "text/calendar", // iCalendar format
+			"jar", "application/java-archive", // Java Archive (JAR)
+			"jpg", "image/jpeg", // JPEG images
+			"jpeg", "image/jpeg", // JPEG images
+			"js", "application/javascript", // JavaScript (ECMAScript)
+			"json", "application/json", // JSON format
+			"mid", "audio/midi", // Musical Instrument Digital Interface (MIDI)
+			"midi", "audio/midi", // Musical Instrument Digital Interface (MIDI)
+			"mp3", "audio/mpeg",
+			"mp1", "audio/mpeg",
+			"mp2", "audio/mpeg",
+			"mpg", "video/mpeg",
+			"mpeg", "video/mpeg", // MPEG Video
+			"m4a", "audio/mp4",
+			"mp4", "video/mp4",
+			"m4v", "video/mp4",
+			"mpkg", "application/vnd.apple.installer+xml", // Apple Installer Package
+			"odp", "application/vnd.oasis.opendocument.presentation", // OpenDocuemnt presentation document
+			"ods", "application/vnd.oasis.opendocument.spreadsheet", // OpenDocuemnt spreadsheet document
+			"odt", "application/vnd.oasis.opendocument.text", // OpenDocument text document
+			"oga", "audio/ogg", // OGG audio
+			"ogg", "audio/ogg",
+			"ogx", "application/ogg", // OGG
+			"ogv", "video/ogg",
+			"otf", "font/otf", // OpenType font
+			"png", "image/png", // Portable Network Graphics
+			"pdf", "application/pdf", // Adobe Portable Document Format (PDF)
+			"ppt", "application/vnd.ms-powerpoint", // Microsoft PowerPoint
+			"rar", "application/x-rar-compressed", // RAR archive
+			"rtf", "application/rtf", // Rich Text Format (RTF)
+			"sh", "application/x-sh", // Bourne shell script
+			"svg", "image/svg+xml", // Scalable Vector Graphics (SVG)
+			"swf", "application/x-shockwave-flash", // Small web format (SWF) or Adobe Flash document
+			"tar", "application/x-tar", // Tape Archive (TAR)
+			"tif", "image/tiff", //  Tagged Image File Format(TIFF)
+			"tiff", "image/tiff", //  Tagged Image File Format(TIFF)
+			"ts", "video/vnd.dlna.mpeg-tts", // Typescript file
+			"ttf", "font/ttf", // TrueType Font
+			"vsd", "application/vnd.visio", // Microsoft Visio
+			"wav", "audio/x-wav", // Waveform Audio Format
+			"weba", "audio/webm", // WEBM audio
+			"webm", "video/webm", // WEBM video
+			"webp", "image/webp", // WEBP image
+			"woff", "font/woff", // Web Open Font Format (WOFF)
+			"woff2", "font/woff2", // Web Open Font Format (WOFF)
+			"xhtml", "application/xhtml+xml", // XHTML
+			"xls", "application/vnd.ms", // excel application
+			"xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // excel 2007 application
+			"xml", "application/xml", // XML
+			"xul", "application/vnd.mozilla.xul+xml", // XUL
+			"zip", "application/zip", // ZIP archive
+			"3gp", "video/3gpp", // 3GPP audio/video container
+			"3g2", "video/3gpp2", // 3GPP2 audio/video container
+			"7z", "application/x-7z-compressed", // 7-zip archive
+		};
+
+		#endregion
+
 		#region Constructors
-		
+
 		/// <summary>
 		///    Constructs and initializes a new instance of <see
 		///    cref="Picture" /> with no data or values.
@@ -254,10 +364,12 @@ namespace TagLib {
 				throw new ArgumentNullException ("path");
 			
 			Data = ByteVector.FromPath (path);
-			FillInMimeFromData ();
-			Description = path;
+			filename = System.IO.Path.GetFileName(path);
+			description = filename;
+			mime_type = GetMimeFromExtension(filename);
+			type = mime_type.StartsWith("image/") ? PictureType.FrontCover : PictureType.NotAPicture;
 		}
-		
+
 		/// <summary>
 		///    Constructs and initializes a new instance of <see
 		///    cref="Picture" /> by reading in the contents of a
@@ -277,8 +389,29 @@ namespace TagLib {
 				throw new ArgumentNullException ("abstraction");
 			
 			Data = ByteVector.FromFile (abstraction);
-			FillInMimeFromData ();
-			Description = abstraction.Name;
+			filename = abstraction.Name;
+			description = abstraction.Name;
+
+			if (!string.IsNullOrEmpty(filename) && filename.Contains("."))
+			{
+				mime_type = GetMimeFromExtension(filename);
+				type = mime_type.StartsWith("image/") ? PictureType.FrontCover : PictureType.NotAPicture;
+			}
+			else
+			{
+				string ext = GetExtensionFromData(data);
+				MimeType = GetMimeFromExtension(ext);
+				if (ext != null)
+				{
+					type = PictureType.FrontCover;
+					filename = description = "cover" + ext;
+				}
+				else
+				{
+					type = PictureType.NotAPicture;
+					filename = "UnknownType";
+				}
+			}
 		}
 		
 		/// <summary>
@@ -299,15 +432,47 @@ namespace TagLib {
 				throw new ArgumentNullException ("data");
 			
 			Data = new ByteVector (data);
-			FillInMimeFromData ();
+			string ext = GetExtensionFromData(data);
+			MimeType = GetMimeFromExtension(ext);
+			if (ext != null)
+			{
+				type = PictureType.FrontCover;
+				filename = description = "cover" + ext;
+			}
+			else
+			{
+				type = PictureType.NotAPicture;
+				filename = "UnknownType";
+			}
 		}
-		
+
+
+		/// <summary>
+		///    Constructs and initializes a new instance of <see
+		///    cref="Picture" /> by doing a shallow copy of <see 
+		///    cref="IPicture" />.
+		/// </summary>
+		/// <param name="picture">
+		///    A <see cref="IPicture"/> object containing picture data
+		///    to convert to an Picture.
+		/// </param>
+		public Picture(IPicture picture)
+		{
+			mime_type = picture.MimeType;
+			type = picture.Type;
+			filename = picture.Filename;
+			description = picture.Description;
+			data = picture.Data;
+		}
+
+
+
 		#endregion
-		
-		
-		
-		#region Public Static Methods
-		
+
+
+
+		#region Legacy Factory methods
+
 		/// <summary>
 		///    Creates a new <see cref="Picture" />, populating it with
 		///    the contents of a file.
@@ -378,7 +543,21 @@ namespace TagLib {
 			get { return type; }
 			set { type = value; }
 		}
-		
+
+		/// <summary>
+		///    Gets and sets a filename of the picture stored in the
+		///    current instance.
+		/// </summary>
+		/// <value>
+		///    A <see cref="string" /> object containing a fielname, with
+		///    extension, of the picture stored in the current instance.
+		/// </value>
+		public string Filename
+		{
+			get { return filename; }
+			set { filename = value; }
+		}
+
 		/// <summary>
 		///    Gets and sets a description of the picture stored in the
 		///    current instance.
@@ -404,47 +583,114 @@ namespace TagLib {
 			get { return data; }
 			set { data = value; }
 		}
-		
+
 		#endregion
-		
-		
-		
-		#region Private Methods
-		
+
+
+
+		#region Public static Methods (class functions)
+
 		/// <summary>
-		///    Fills in the mime type of the current instance by reading
-		///    the first few bytes of the file. If the format cannot be
-		///    identified, it assumed to be a JPEG file.
+		///    Retrieve a mime type from raw file data by reading
+		///    the first few bytes of the file. 
+		///    Less accurate than <see cref="GetExtensionFromMime"/>.
 		/// </summary>
-		private void FillInMimeFromData ()
+		/// <param name="data">
+		///    file name with extension, or just extension of a file
+		/// </param>
+		/// <returns>File-extension as <see cref="string"/>, or null if 
+		///    not identified</returns>
+		public static string GetExtensionFromData (ByteVector data)
 		{
-			string mimetype = "image/jpeg";
-			string ext = "jpg";
-			
-			if (Data.Count >= 4 &&
-				(Data[1] == 'P' &&
-				 Data[2] == 'N' &&
-				 Data[3] == 'G')) {
-				mimetype = "image/png";
-				ext = "png";
-			} else if (Data.Count >= 3 &&
-				(Data[0] == 'G' &&
-				 Data[1] == 'I' &&
-				 Data[2] == 'F')) {
-				mimetype = "image/gif";
-				ext = "gif";
-			} else if (Data.Count >= 2 &&
-				(Data[0] == 'B' &&
-				 Data[1] == 'M')) {
-				mimetype = "image/bmp";
-				ext = "bmp";
+			string ext = null;
+
+			// No picture, unless it is corrupted, can fit in a file of less than 4 bytes
+			if (data.Count >= 4)
+			{
+				if (data[1] == 'P' && data[2] == 'N' && data[3] == 'G')
+				{
+					ext = ".png";
+				}
+				else if (data[0] == 'G' && data[1] == 'I' && data[2] == 'F')
+				{
+					ext = ".gif";
+				}
+				else if (data[0] == 'B' && data[1] == 'M')
+				{
+					ext = ".bmp";
+				}
+				else if (data[0] == 0xFF && data[1] == 0xD8 && data[2] == 0xFF && data[3] == 0xE0 )
+				{
+					ext = ".jpg";
+				}
+
 			}
-			
-			MimeType = mimetype;
-			Type = PictureType.FrontCover;
-			Description = "cover." + ext;
+
+			return ext;
 		}
-		
+
+		/// <summary>
+		///    Gets the file-extension that fits a mime-type. 
+		///    More accurate than <see cref="GetExtensionFromData"/>.
+		/// </summary>
+		/// <param name="mime">
+		///    Mime-type as <see cref="string"/>.
+		/// </param>
+		/// <returns>File-extension as <see cref="string"/>, or null if 
+		///    not identified</returns>
+		public static string GetExtensionFromMime(string mime)
+		{
+			// Default
+			string ext = null;
+
+			for (int i = 1; i< lutExtensionMime.Length; i += 2)
+			{
+				if (lutExtensionMime[i] == mime)
+				{
+					ext = lutExtensionMime[i - 1];
+					break;
+				}
+			}
+
+			return ext;
+		}
+
+
+		/// <summary>
+		///    Gets the mime type of from a file-name (it's extensions). 
+		///    If the format cannot be identified, it assumed to be a Binary file.
+		/// </summary>
+		/// <param name="name">
+		///    file name with extension, or just extension of a file
+		/// </param>
+		/// <returns>Mime-type as <see cref="string"/></returns>
+		public static string GetMimeFromExtension(string name)
+		{
+			// Default
+			string mime_type = "application/octet-stream";
+
+			// Get extension from Filename
+			if (string.IsNullOrEmpty(name)) return mime_type;
+			var ext = System.IO.Path.GetExtension(name);
+			if (string.IsNullOrEmpty(ext))
+				ext = name;
+			else
+				ext = ext.Substring(1);
+
+			ext = ext.ToLower();
+
+			for (int i = 0; i < lutExtensionMime.Length; i += 2)
+			{
+				if (lutExtensionMime[i] == ext)
+				{
+					mime_type = lutExtensionMime[i + 1];
+					break;
+				}
+			}
+
+			return mime_type;
+		}
+
 		#endregion
 	}
 }

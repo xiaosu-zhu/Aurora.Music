@@ -1,18 +1,19 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
+
 using Aurora.Music.Core;
 using Aurora.Music.Core.Models;
 using Aurora.Music.Core.Storage;
 using Aurora.Music.ViewModels;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
+
 using Windows.Storage;
 using Windows.System;
 using Windows.System.Threading;
@@ -42,6 +43,7 @@ namespace Aurora.Music.Controls
         internal AlbumViewDialog(AlbumViewModel album)
         {
             InitializeComponent();
+            RequestedTheme = Settings.Current.Theme;
             if (album == null)
             {
                 Title = Consts.Localizer.GetString("OopsText");
@@ -126,14 +128,14 @@ namespace Aurora.Music.Controls
         private async void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
             MainPage.Current.ShowModalUI(true, "Prepare to Play");
-            await MainPageViewModel.Current.InstantPlay(await album.GetSongsAsync());
+            await MainPageViewModel.Current.InstantPlayAsync(await album.GetSongsAsync());
             MainPage.Current.ShowModalUI(false);
         }
 
         private async void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
             var d = args.GetDeferral();
-            List<Task<StorageFile>> tasks = new List<Task<StorageFile>>();
+            var tasks = new List<Task<StorageFile>>();
             StorageFolder folder;
             try
             {

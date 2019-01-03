@@ -1,9 +1,11 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
-using Aurora.Music.Core.Models;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+
+using Aurora.Music.Core.Models;
+
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -18,7 +20,8 @@ namespace Aurora.Music.Controls
 
         public DropSongsDialog()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+            RequestedTheme = Settings.Current.Theme;
         }
 
         public DropSongsDialog(IList<StorageFile> files)

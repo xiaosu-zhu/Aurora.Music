@@ -124,6 +124,7 @@ namespace Aurora.Music.Core.Storage
 
         public SONG(Song song)
         {
+            LastModified = song.LastModified;
             IsOneDrive = song.IsOnedrive;
             ID = song.ID;
             FilePath = song.FilePath;
@@ -170,6 +171,8 @@ namespace Aurora.Music.Core.Storage
             Year = song.Year;
             PicturePath = song.PicturePath;
         }
+
+        public DateTime LastModified { get; set; }
 
         public bool IsOneDrive { get; set; }
 
@@ -1502,7 +1505,7 @@ namespace Aurora.Music.Core.Storage
 
         public async Task<List<SEARCHHISTORY>> GetSearchHistoryAsync()
         {
-            return await conn.QueryAsync<SEARCHHISTORY>("SELECT * FROM SEARCHHISTORY ORDER BY ID DESC LIMIT 10");
+            return await conn.QueryAsync<SEARCHHISTORY>("SELECT * FROM SEARCHHISTORY ORDER BY ID DESC LIMIT 100");
         }
 
         internal async Task<int> UpdatePodcastAsync(PODCAST p)
@@ -1570,6 +1573,11 @@ namespace Aurora.Music.Core.Storage
             {
                 await conn.DeleteAsync(item);
             }
+        }
+
+        public async Task<int> CountAsync<T>() where T : new()
+        {
+            return await conn.Table<T>().CountAsync();
         }
     }
 }

@@ -39,6 +39,8 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref artwork, value); }
         }
 
+        public bool NightModeEnabled { get; set; } = Settings.Current.NightMode;
+
         private string sid;
         private string title;
         public string Title

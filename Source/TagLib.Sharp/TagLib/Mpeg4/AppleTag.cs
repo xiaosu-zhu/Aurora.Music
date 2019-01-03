@@ -151,7 +151,7 @@ namespace TagLib.Mpeg4 {
 		///    Gets all data boxes that match any of the provided types.
 		/// </summary>
 		/// <param name="types">
-		///    A <see cref="ByteVector[]" /> containing list of box
+		///    A <see cref="T:ByteVector[]" /> containing list of box
 		///    types to match.
 		/// </param>
 		/// <returns>
@@ -179,8 +179,7 @@ namespace TagLib.Mpeg4 {
 		///    A <see cref="T:System.Collections.Generic.IEnumerable`1" /> object enumerating the
 		///    matching boxes.
 		/// </returns>
-		public IEnumerable<AppleDataBox> DataBoxes (string mean,
-		                                            string name)
+		public IEnumerable<AppleDataBox> DataBoxes (string mean, string name)
 		{
 			// These children will have a box type of "----"
 			foreach (Box box in ilst_box.Children) {
@@ -212,7 +211,7 @@ namespace TagLib.Mpeg4 {
 				}
 			}
 		}
-		
+
 		/// <summary>
 		///    Gets all text values contained in a specified box type.
 		/// </summary>
@@ -221,7 +220,7 @@ namespace TagLib.Mpeg4 {
 		///    type to match.
 		/// </param>
 		/// <returns>
-		///    A <see cref="string[]" /> containing text from all
+		///    A <see cref="T:string[]" /> containing text from all
 		///    matching boxes.
 		/// </returns>
 		public string [] GetText (ByteVector type) {
@@ -246,7 +245,7 @@ namespace TagLib.Mpeg4 {
 		///    add to the new instance.
 		/// </param>
 		/// <param name="boxes">
-		///    A <see cref="AppleDataBox[]" /> containing boxes to add
+		///    A <see cref="T:AppleDataBox[]" /> containing boxes to add
 		///    for the specified type.
 		/// </param>
 		public void SetData (ByteVector type, AppleDataBox [] boxes)
@@ -331,8 +330,7 @@ namespace TagLib.Mpeg4 {
 		///    A <see cref="uint" /> value containing flags to use for
 		///    the added box.
 		/// </param>
-		public void SetData (ByteVector type, ByteVector data,
-		                     uint flags)
+		public void SetData (ByteVector type, ByteVector data, uint flags)
 		{
 			if (data == null || data.Count == 0)
 				ClearData (type);
@@ -340,7 +338,7 @@ namespace TagLib.Mpeg4 {
 				SetData (type, new ByteVectorCollection (data),
 					flags);
 		}
-      
+	
 		/// <summary>
 		///    Sets the text for a specified box type.
 		/// </summary>
@@ -349,7 +347,7 @@ namespace TagLib.Mpeg4 {
 		///    add to the new instance.
 		/// </param>
 		/// <param name="text">
-		///    A <see cref="string[]" /> containing text to store.
+		///    A <see cref="T:string[]" /> containing text to store.
 		/// </param>
 		public void SetText (ByteVector type, string [] text)
 		{
@@ -629,13 +627,68 @@ namespace TagLib.Mpeg4 {
 				SetText (BoxType.Nam, value);
 			}
 		}
+
+		/// <summary>
+		///    Gets and sets a short description, one-liner. 
+		///    It represents the tagline of the Video/music.
+		/// </summary>
+		/// <value>
+		///    A <see cref="string" /> containing the subtitle
+		///    the media represented by the current instance 
+		///    or an empty array if no value is present.
+		/// </value>
+		/// <remarks>
+		///    This property is implemented using the "Subt" data box.
+		///    Should be: ----:com.apple.iTunes:SUBTITLE
+		/// </remarks>
+		public override string Subtitle
+		{
+			get
+			{
+				string[] text = GetText(BoxType.Subt);
+				return text.Length == 0 ? null : text[0];
+			}
+			set
+			{
+				SetText(BoxType.Subt, value);
+			}
+		}
+
+		/// <summary>
+		///    Gets and sets a short description of the media.
+		///    For a music, this could be the comment that the artist
+		///    made of its artwork. For a video, this should be a 
+		///    short summary of the story/plot, but a spoiler. This
+		///    should give the impression of what to expect in the
+		///    media.
+		/// </summary>
+		/// <value>
+		///    A <see cref="string" /> containing the subtitle
+		///    the media represented by the current instance 
+		///    or an empty array if no value is present.
+		/// </value>
+		/// <remarks>
+		///    This property is implemented using the "Desc" data box.
+		/// </remarks>
+		public override string Description
+		{
+			get
+			{
+				string[] text = GetText(BoxType.Desc);
+				return text.Length == 0 ? null : text[0];
+			}
+			set
+			{
+				SetText(BoxType.Desc, value);
+			}
+		}
 		
 		/// <summary>
 		///    Gets and sets the performers or artists who performed in
 		///    the media described by the current instance.
 		/// </summary>
 		/// <value>
-		///    A <see cref="string[]" /> containing the performers or
+		///    A <see cref="T:string[]" /> containing the performers or
 		///    artists who performed in the media described by the
 		///    current instance or an empty array if no value is
 		///    present.
@@ -647,14 +700,55 @@ namespace TagLib.Mpeg4 {
 			get {return GetText (BoxType.Art);}
 			set {SetText (BoxType.Art, value);}
 		}
-		
+
+		/// <summary>
+		///    Gets and sets the Charaters for a video media, or
+		///    instruments played for music media. 
+		///    This should match the <see cref="Performers"/> array (for
+		///    each person correspond one/more role). Several roles for
+		///    the same artist/actor can be made up with semicolons. 
+		///    For example, "Marty McFly; Marty McFly Jr.; Marlene McFly".
+		/// </summary>
+		/// <remarks>
+		///    This property is implemented using the "role" data box.
+		/// </remarks>
+		public override string[] PerformersRole
+		{
+			get
+			{
+				string[] ret =  GetText(BoxType.Role);
+				if (ret == null) return ret;
+
+				// Reformat '/' to ';'
+				for (int i = 0; i < ret.Length; i++)
+				{
+					ret[i] = ret[i].Replace('/', ';').Trim();
+				}
+				return ret;
+			}
+			set
+			{
+				string[] ret = value;
+				if (ret != null)
+				{
+					// Reformat ';' to '/'
+					for (int i = 0; i < ret.Length; i++)
+					{
+						ret[i] = ret[i].Replace(';', '/');
+					}
+				}
+				SetText(BoxType.Role, value);
+			}
+		}
+
+
 		/// <summary>
 		///    Gets and sets the band or artist who is credited in the
 		///    creation of the entire album or collection containing the
 		///    media described by the current instance.
 		/// </summary>
 		/// <value>
-		///    A <see cref="string[]" /> containing the band or artist
+		///    A <see cref="T:string[]" /> containing the band or artist
 		///    who is credited in the creation of the entire album or
 		///    collection containing the media described by the current
 		///    instance or an empty array if no value is present.
@@ -672,7 +766,7 @@ namespace TagLib.Mpeg4 {
 		///    the current instance.
 		/// </summary>
 		/// <value>
-		///    A <see cref="string[]" /> containing the composers of the
+		///    A <see cref="T:string[]" /> containing the composers of the
 		///    media represented by the current instance or an empty
 		///    array if no value is present.
 		/// </value>
@@ -729,7 +823,7 @@ namespace TagLib.Mpeg4 {
 		///    current instance.
 		/// </summary>
 		/// <value>
-		///    A <see cref="string[]" /> containing the genres of the
+		///    A <see cref="T:string[]" /> containing the genres of the
 		///    media represented by the current instance or an empty
 		///    array if no value is present.
 		/// </value>
@@ -1082,7 +1176,44 @@ namespace TagLib.Mpeg4 {
 			}
 			set {SetText(BoxType.Cprt, value);}
 		}
-		
+
+		/// <summary>
+		///    Gets and sets the date at which the tag has been written.
+		/// </summary>
+		/// <value>
+		///    A nullable <see cref="DateTime" /> object containing the 
+		///    date at which the tag has been written, or <see 
+		///    langword="null" /> if no value present.
+		/// </value>
+		/// <remarks>
+		///    This property is implemented using the "dtag" data box.
+		/// </remarks>
+		public override DateTime? DateTagged
+		{
+			get
+			{
+				string[] text = GetText(BoxType.Dtag);
+				string value = text.Length == 0 ? null : text[0];
+				if (value != null)
+				{
+					DateTime date;
+					if (DateTime.TryParseExact(value, "yyyy-MM-dd HH:mm:ss", null, DateTimeStyles.None, out date))
+					{
+						return date;
+					}
+				}
+				return null;
+			}
+			set
+			{
+				string date = null;
+				if (value != null)
+				{
+					date = string.Format("{0:yyyy-MM-dd HH:mm:ss}", value);
+				}
+				SetText(BoxType.Dtag, date);
+			}
+		}
 		/// <summary>
 		///    Gets and sets the sort names for the band or artist who
 		///    is credited in the creation of the entire album or
@@ -1090,7 +1221,7 @@ namespace TagLib.Mpeg4 {
 		///    current instance.
 		/// </summary>
 		/// <value>
-		///    A <see cref="string[]" /> containing the sort names
+		///    A <see cref="T:string[]" /> containing the sort names
 		///    for the band or artist who is credited in the creation
 		///    of the entire album or collection containing the media
 		///    described by the current instance or an empty array if
@@ -1112,7 +1243,7 @@ namespace TagLib.Mpeg4 {
 		///    who performed in the media described by the current instance.
 		/// </summary>
 		/// <value>
-		///    A <see cref="string[]" /> containing the sort names for
+		///    A <see cref="T:string[]" /> containing the sort names for
 		///    the performers or artists who performed in the media
 		///    described by the current instance, or an empty array if
 		///    no value is present. 
@@ -1132,7 +1263,7 @@ namespace TagLib.Mpeg4 {
 		///    in the media described by the current instance.
 		/// </summary>
 		/// <value>
-		///    A <see cref="string[]" /> containing the sort names for
+		///    A <see cref="T:string[]" /> containing the sort names for
 		///    the Composers in the media described by the current instance,
 		///    or an empty array if no value is present. 
 		/// </value>
@@ -1208,6 +1339,23 @@ namespace TagLib.Mpeg4 {
 		}
 
 		/// <summary>
+		///    Gets and sets the MusicBrainz ReleaseGroupID
+		/// </summary>
+		/// <value>
+		///    A <see cref="string" /> containing the MusicBrainz
+		///    ReleaseGroupID for the media described by the current 
+		///    instance, or null if no value is present. 
+		/// </value>
+		/// <remarks>
+		///    This property is implemented using the "dash"/"----" box type.
+		///    http://musicbrainz.org/doc/PicardTagMapping
+		/// </remarks>
+		public override string MusicBrainzReleaseGroupId {
+			get { return GetDashBox("com.apple.iTunes", "MusicBrainz Release Group Id"); }
+			set { SetDashBox("com.apple.iTunes", "MusicBrainz Release Group Id", value); }
+		}
+
+		/// <summary>
 		///    Gets and sets the MusicBrainz ReleaseID
 		/// </summary>
 		/// <value>
@@ -1254,8 +1402,8 @@ namespace TagLib.Mpeg4 {
 		///    http://musicbrainz.org/doc/PicardTagMapping
 		/// </remarks>
 		public override string MusicBrainzTrackId {
-		    get {return GetDashBox("com.apple.iTunes","MusicBrainz Track Id");}
-		    set {SetDashBox("com.apple.iTunes", "MusicBrainz Track Id", value);}
+			get {return GetDashBox("com.apple.iTunes","MusicBrainz Track Id");}
+			set {SetDashBox("com.apple.iTunes", "MusicBrainz Track Id", value);}
 		}
 
 		/// <summary>
@@ -1360,20 +1508,20 @@ namespace TagLib.Mpeg4 {
 			set {SetDashBox("com.apple.iTunes", "MusicBrainz Album Release Country",value);}
 		}
 
-    /// <summary>
-    ///    Gets and sets the ReplayGain Track Value of the media represented by
-    ///    the current instance.
-    /// </summary>
-    /// <value>
-    ///    A <see cref="double" /> containing the ReplayGain Track Value of the
-    ///    media represented by the current instance or an empty
-    ///    array if no value is present.
-    /// </value>
-    /// <remarks>
-    ///    This property is implemented using the "dash"/"----" box type.
-    /// </remarks>
-    public override double ReplayGainTrackGain
-    {
+	/// <summary>
+	///    Gets and sets the ReplayGain Track Value of the media represented by
+	///    the current instance.
+	/// </summary>
+	/// <value>
+	///    A <see cref="double" /> containing the ReplayGain Track Value of the
+	///    media represented by the current instance or an empty
+	///    array if no value is present.
+	/// </value>
+	/// <remarks>
+	///    This property is implemented using the "dash"/"----" box type.
+	/// </remarks>
+	public override double ReplayGainTrackGain
+	{
 			get
 			{
 				string text = GetDashBox("com.apple.iTunes", "REPLAYGAIN_TRACK_GAIN");
@@ -1403,20 +1551,20 @@ namespace TagLib.Mpeg4 {
 			}
 		}
 
-    /// <summary>
-    ///    Gets and sets the ReplayGain Peak Value of the media represented by
-    ///    the current instance.
-    /// </summary>
-    /// <value>
-    ///    A <see cref="double" /> containing the ReplayGain Peak Value of the
-    ///    media represented by the current instance or an empty
-    ///    array if no value is present.
-    /// </value>
-    /// <remarks>
-    ///    This property is implemented using the "dash"/"----" box type.
-    /// </remarks>
-    public override double ReplayGainTrackPeak
-    {
+	/// <summary>
+	///    Gets and sets the ReplayGain Peak Value of the media represented by
+	///    the current instance.
+	/// </summary>
+	/// <value>
+	///    A <see cref="double" /> containing the ReplayGain Peak Value of the
+	///    media represented by the current instance or an empty
+	///    array if no value is present.
+	/// </value>
+	/// <remarks>
+	///    This property is implemented using the "dash"/"----" box type.
+	/// </remarks>
+	public override double ReplayGainTrackPeak
+	{
 			get
 			{
 				string text;
@@ -1437,20 +1585,20 @@ namespace TagLib.Mpeg4 {
 			}
 		}
 
-    /// <summary>
-    ///    Gets and sets the ReplayGain Album Value of the media represented by
-    ///    the current instance.
-    /// </summary>
-    /// <value>
-    ///    A <see cref="double" /> containing the ReplayGain Album Value of the
-    ///    media represented by the current instance or an empty
-    ///    array if no value is present.
-    /// </value>
-    /// <remarks>
-    ///    This property is implemented using the "dash"/"----" box type.
-    /// </remarks>
-    public override double ReplayGainAlbumGain
-    {
+	/// <summary>
+	///    Gets and sets the ReplayGain Album Value of the media represented by
+	///    the current instance.
+	/// </summary>
+	/// <value>
+	///    A <see cref="double" /> containing the ReplayGain Album Value of the
+	///    media represented by the current instance or an empty
+	///    array if no value is present.
+	/// </value>
+	/// <remarks>
+	///    This property is implemented using the "dash"/"----" box type.
+	/// </remarks>
+	public override double ReplayGainAlbumGain
+	{
 			get
 			{
 				string text = GetDashBox("com.apple.iTunes", "REPLAYGAIN_ALBUM_GAIN");
@@ -1480,20 +1628,20 @@ namespace TagLib.Mpeg4 {
 			}
 		}
 
-    /// <summary>
-    ///    Gets and sets the ReplayGain Album Peak Value of the media represented by
-    ///    the current instance.
-    /// </summary>
-    /// <value>
-    ///    A <see cref="double" /> containing the ReplayGain Album Peak Value of the
-    ///    media represented by the current instance or an empty
-    ///    array if no value is present.
-    /// </value>
-    /// <remarks>
-    ///    This property is implemented using the "dash"/"----" box type.
-    /// </remarks>
-    public override double ReplayGainAlbumPeak
-    {
+	/// <summary>
+	///    Gets and sets the ReplayGain Album Peak Value of the media represented by
+	///    the current instance.
+	/// </summary>
+	/// <value>
+	///    A <see cref="double" /> containing the ReplayGain Album Peak Value of the
+	///    media represented by the current instance or an empty
+	///    array if no value is present.
+	/// </value>
+	/// <remarks>
+	///    This property is implemented using the "dash"/"----" box type.
+	/// </remarks>
+	public override double ReplayGainAlbumPeak
+	{
 			get
 			{
 				string text;
@@ -1519,7 +1667,7 @@ namespace TagLib.Mpeg4 {
 		///    the media represented by the current instance.
 		/// </summary>
 		/// <value>
-		///    A <see cref="IPicture[]" /> containing a collection of
+		///    A <see cref="T:IPicture[]" /> containing a collection of
 		///    pictures associated with the media represented by the
 		///    current instance or an empty array if none are present.
 		/// </value>
@@ -1532,7 +1680,6 @@ namespace TagLib.Mpeg4 {
 				
 				foreach (AppleDataBox box in DataBoxes(BoxType.Covr)) {
 					Picture p = new Picture (box.Data);
-					p.Type = PictureType.FrontCover;
 					l.Add (p);
 				}
 				
@@ -1556,8 +1703,11 @@ namespace TagLib.Mpeg4 {
 					else if (value [i].MimeType == "image/png")
 						type = (uint)
 							AppleDataBox.FlagType.ContainsPngData;
-					
-					boxes [i] = new AppleDataBox (value [i].Data, type);
+					else if (value[i].MimeType == "image/x-windows-bmp")
+						type = (uint)
+							AppleDataBox.FlagType.ContainsBmpData;
+
+					boxes[i] = new AppleDataBox (value [i].Data, type);
 				}
 				
 				SetData(BoxType.Covr, boxes);

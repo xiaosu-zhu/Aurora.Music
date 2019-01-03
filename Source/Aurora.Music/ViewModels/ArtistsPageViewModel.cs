@@ -30,7 +30,7 @@ namespace Aurora.Music.ViewModels
             {
                 return new DelegateCommand(async () =>
                 {
-                    await MainPageViewModel.Current.InstantPlay(await FileReader.GetAllSongAsync());
+                    await MainPageViewModel.Current.InstantPlayAsync(await FileReader.GetAllSongAsync());
                 });
             }
         }
@@ -108,7 +108,7 @@ namespace Aurora.Music.ViewModels
         }
         public string PinnedtoText(bool b)
         {
-            return b ? "Unpin from start" : "Pin to start";
+            return b ? Consts.Localizer.GetString("UnPinText") : Consts.Localizer.GetString("PinText");
         }
 
         public DelegateCommand PintoStart

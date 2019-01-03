@@ -5,8 +5,10 @@ using Aurora.Music.Core.Storage;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
 using Microsoft.Toolkit.Services.OneDrive;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -151,7 +153,7 @@ namespace Aurora.Music.Core.Models
             {
                 return false;
             }
-            if (s.IsOnline != this.IsOnline)
+            if (s.IsOnline != IsOnline)
             {
                 return false;
             }
@@ -167,6 +169,7 @@ namespace Aurora.Music.Core.Models
         internal Song(SONG song)
         {
             ID = song.ID;
+            LastModified = song.LastModified;
             IsOnedrive = song.IsOneDrive;
             Duration = song.Duration;
             BitRate = song.BitRate;
@@ -213,63 +216,56 @@ namespace Aurora.Music.Core.Models
             AudioChannels = song.AudioChannels;
         }
 
-        public static async Task<Song> Create(Tag tag, string path, (string title, string album, string[] performer, string[] artist, string[] composer, string conductor, TimeSpan duration, uint bitrate, uint rating) music, Properties p, OneDriveStorageFile oneDriveFile)
+        public static async Task<Song> CreateAsync(Tag tag, string path, (string title, string album, string[] performer, string[] artist, string[] composer, string conductor, TimeSpan duration, uint bitrate, uint rating, DateTime lastModify) music, Properties p, OneDriveStorageFile oneDriveFile)
         {
             var graphAudio = oneDriveFile?.OneDriveItem?.Audio;
-            var s = new Song
-            {
-                IsOnedrive = oneDriveFile != null,
-                Duration = (music.duration.TotalMilliseconds < 1 && p != null) ? p.Duration : music.duration,
-                BitRate = music.bitrate,
-                FilePath = path,
-                Rating = (uint)Math.Round(music.rating / 20.0),
-                MusicBrainzArtistId = tag?.MusicBrainzArtistId,
-                MusicBrainzDiscId = tag?.MusicBrainzDiscId,
-                MusicBrainzReleaseArtistId = tag?.MusicBrainzReleaseArtistId,
-                MusicBrainzReleaseCountry = tag?.MusicBrainzReleaseCountry,
-                MusicBrainzReleaseId = tag?.MusicBrainzReleaseId,
-                MusicBrainzReleaseStatus = tag?.MusicBrainzReleaseStatus,
-                MusicBrainzReleaseType = tag?.MusicBrainzReleaseType,
-                MusicBrainzTrackId = tag?.MusicBrainzTrackId,
-                MusicIpId = tag?.MusicIpId,
-                BeatsPerMinute = tag?.BeatsPerMinute ?? 0,
-                Album = music.album,
-                AlbumArtists = music.artist,
-                AlbumArtistsSort = tag?.AlbumArtistsSort,
-                AlbumSort = tag?.AlbumSort,
-                AmazonId = tag?.AmazonId,
-                Title = music.title,
-                TitleSort = tag?.TitleSort,
-                Track = tag?.Track ?? ((uint?)graphAudio?.Track) ?? 0,
-                TrackCount = tag?.TrackCount ?? ((uint?)graphAudio?.TrackCount) ?? 0,
-                ReplayGainTrackGain = tag?.ReplayGainTrackGain ?? double.NaN,
-                ReplayGainTrackPeak = tag?.ReplayGainTrackPeak ?? double.NaN,
-                ReplayGainAlbumGain = tag?.ReplayGainAlbumGain ?? double.NaN,
-                ReplayGainAlbumPeak = tag?.ReplayGainAlbumPeak ?? double.NaN,
-                Comment = tag?.Comment,
-                Disc = tag?.Disc ?? ((uint?)graphAudio?.Disc) ?? 0,
-                Composers = music.composer,
-                ComposersSort = tag?.ComposersSort,
-                Conductor = music.conductor,
-                DiscCount = tag?.DiscCount ?? ((uint?)graphAudio?.DiscCount) ?? 0,
-                Copyright = tag?.Copyright,
-                Genres = tag?.Genres ?? asArray(graphAudio?.Genre) ?? Array.Empty<string>(),
-                Grouping = tag?.Grouping,
-                Lyrics = tag?.Lyrics,
-                Performers = music.performer,
-                PerformersSort = tag?.PerformersSort,
-                Year = tag?.Year ?? ((uint?)graphAudio?.Year) ?? 0,
-            };
-            if (tag != null)
-                s.PicturePath = await GetPicturePath(tag.Pictures, music.album);
-            else if (oneDriveFile != null)
-                s.PicturePath = await GetPicturePath(oneDriveFile, music.album);
+            var s = new Song();
+            await s.UpdatePropertiesAsync(tag, path, music, p, oneDriveFile);
             return s;
-
-            T[] asArray<T>(T value) where T : class => value is null ? null : new[] { value };
         }
 
-        private async static Task<string> GetPicturePath(IPicture[] pictures, string album)
+
+        private static async Task<string> FindCoverPictureAsync(string album, string filePath)
+        {
+            try
+            {
+                var folder = await StorageFolder.GetFolderFromPathAsync(System.IO.Path.GetDirectoryName(filePath));
+                var result = folder.CreateFileQueryWithOptions(new Windows.Storage.Search.QueryOptions()
+                {
+                    FolderDepth = Windows.Storage.Search.FolderDepth.Shallow,
+                    ApplicationSearchFilter = "System.FileName:\"cover\" System.FileExtension:=(\".jpg\" OR \".png\" OR \".jpeg\" OR \".gif\" OR \".tiff\" OR \".bmp\")"
+                });
+                var files = await result.GetFilesAsync();
+                if (files.Count > 0)
+                {
+                    if (album.IsNullorEmpty())
+                    {
+                        album = Consts.UnknownAlbum;
+                    }
+                    album = Shared.Utils.InvalidFileNameChars.Aggregate(album, (current, c) => current.Replace(c + "", "_"));
+                    album = $"{album}.{files[0].FileType}";
+                    try
+                    {
+                        var cacheImg = await files[0].CopyAsync(Consts.ArtworkFolder, album, NameCollisionOption.ReplaceExisting);
+                        return cacheImg.Path;
+                    }
+                    catch (ArgumentException)
+                    {
+                        return string.Empty;
+                    }
+                }
+                else
+                {
+                    return string.Empty;
+                }
+            }
+            catch (Exception)
+            {
+                return string.Empty;
+            }
+        }
+
+        private static async Task<string> GetPicturePathAsync(IPicture[] pictures, string album, string filePath)
         {
             if (!pictures.IsNullorEmpty())
             {
@@ -300,11 +296,46 @@ namespace Aurora.Music.Core.Models
             }
             else
             {
-                return string.Empty;
+                try
+                {
+                    var folder = await StorageFolder.GetFolderFromPathAsync(System.IO.Path.GetDirectoryName(filePath));
+                    var result = folder.CreateFileQueryWithOptions(new Windows.Storage.Search.QueryOptions()
+                    {
+                        FolderDepth = Windows.Storage.Search.FolderDepth.Shallow,
+                        ApplicationSearchFilter = "System.FileName:\"cover\" System.FileExtension:=(\".jpg\" OR \".png\" OR \".jpeg\" OR \".gif\" OR \".tiff\" OR \".bmp\")"
+                    });
+                    var files = await result.GetFilesAsync();
+                    if (files.Count > 0)
+                    {
+                        if (album.IsNullorEmpty())
+                        {
+                            album = Consts.UnknownAlbum;
+                        }
+                        album = Shared.Utils.InvalidFileNameChars.Aggregate(album, (current, c) => current.Replace(c + "", "_"));
+                        album = $"{album}.{files[0].FileType}";
+                        try
+                        {
+                            var cacheImg = await files[0].CopyAsync(Consts.ArtworkFolder, album, NameCollisionOption.ReplaceExisting);
+                            return cacheImg.Path;
+                        }
+                        catch (ArgumentException)
+                        {
+                            return string.Empty;
+                        }
+                    }
+                    else
+                    {
+                        return string.Empty;
+                    }
+                }
+                catch (Exception)
+                {
+                    return string.Empty;
+                }
             }
         }
 
-        private async static Task<string> GetPicturePath(OneDriveStorageFile file, string album)
+        private static async Task<string> GetPicturePathAsync(OneDriveStorageFile file, string album)
         {
             if (file is null)
                 return string.Empty;
@@ -402,7 +433,7 @@ namespace Aurora.Music.Core.Models
             }
         }
 
-        public async void WriteFav(bool isCurrentFavorite)
+        public async void WriteFavAsync(bool isCurrentFavorite)
         {
             if (IsOnline)
             {
@@ -421,33 +452,60 @@ namespace Aurora.Music.Core.Models
         public string FilePath { get; set; }
         public string PicturePath { get; set; }
 
+        [JsonIgnore]
         public string MusicBrainzReleaseId { get; set; }
+        [JsonIgnore]
         public string MusicBrainzDiscId { get; set; }
+        [JsonIgnore]
         public string MusicIpId { get; set; }
+        [JsonIgnore]
         public string AmazonId { get; set; }
+        [JsonIgnore]
         public string MusicBrainzReleaseStatus { get; set; }
+        [JsonIgnore]
         public string MusicBrainzReleaseType { get; set; }
+        [JsonIgnore]
         public string MusicBrainzReleaseCountry { get; set; }
+        [JsonIgnore]
         public double ReplayGainTrackGain { get; set; }
+        [JsonIgnore]
         public double ReplayGainTrackPeak { get; set; }
+        [JsonIgnore]
         public double ReplayGainAlbumGain { get; set; }
+        [JsonIgnore]
         public double ReplayGainAlbumPeak { get; set; }
         //public IPicture[] Pictures { get; set; }
+        [JsonIgnore]
         public string FirstAlbumArtist { get; set; }
+        [JsonIgnore]
         public string FirstAlbumArtistSort { get; set; }
+        [JsonIgnore]
         public string FirstPerformer { get; set; }
+        [JsonIgnore]
         public string FirstPerformerSort { get; set; }
+        [JsonIgnore]
         public string FirstComposerSort { get; set; }
+        [JsonIgnore]
         public string FirstComposer { get; set; }
+        [JsonIgnore]
         public string FirstGenre { get; set; }
+        [JsonIgnore]
         public string JoinedAlbumArtists { get; set; }
+        [JsonIgnore]
         public string JoinedPerformers { get; set; }
+        [JsonIgnore]
         public string JoinedPerformersSort { get; set; }
+        [JsonIgnore]
         public string JoinedComposers { get; set; }
+        [JsonIgnore]
         public string MusicBrainzTrackId { get; set; }
+        [JsonIgnore]
         public string MusicBrainzReleaseArtistId { get; set; }
+        [JsonIgnore]
         public bool IsEmpty { get; set; }
+        [JsonIgnore]
         public string MusicBrainzArtistId { get; set; }
+        [JsonIgnore]
         public TagTypes TagTypes { get; set; }
         public string Title { get; set; }
         public string TitleSort { get; set; }
@@ -458,6 +516,7 @@ namespace Aurora.Music.Core.Models
         public string[] Composers { get; set; }
         public string[] ComposersSort { get; set; }
         public string Album { get; set; }
+        [JsonIgnore]
         public string JoinedGenres { get; set; }
         public string AlbumSort { get; set; }
         public string[] Genres { get; set; }
@@ -466,8 +525,11 @@ namespace Aurora.Music.Core.Models
         public uint TrackCount { get; set; }
         public uint Disc { get; set; }
         public uint DiscCount { get; set; }
+        [JsonIgnore]
         public string Lyrics { get; set; }
+        [JsonIgnore]
         public string Grouping { get; set; }
+        [JsonIgnore]
         public uint BeatsPerMinute { get; set; }
         public string Conductor { get; set; }
         public string Copyright { get; set; }
@@ -489,6 +551,8 @@ namespace Aurora.Music.Core.Models
         public string FileType { get; set; }
         public DateTime PubDate { get; set; }
         public bool IsOnedrive { get; set; }
+        public DateTime LastModified { get; set; }
+        public StorageFile File { get; set; }
 
         public async Task<bool> GetFavoriteAsync()
         {
@@ -516,6 +580,94 @@ namespace Aurora.Music.Core.Models
         {
             var f = FilePath.TakeLast(FilePath.Length - FilePath.LastIndexOf('/') - 1);
             return Shared.Utils.InvalidFileNameChars.Aggregate(string.Concat(f), (current, c) => current.Replace(c + "", "_"));
+        }
+
+        public async Task UpdatePropertiesAsync(Tag tag, string path, (string title, string album, string[] performer, string[] artist, string[] composer, string conductor, TimeSpan duration, uint bitrate, uint rating, DateTime lastModify) music, Properties p, OneDriveStorageFile oneDriveFile)
+        {
+            var graphAudio = oneDriveFile?.OneDriveItem?.Audio;
+
+            LastModified = music.lastModify;
+            IsOnedrive = oneDriveFile != null;
+            Duration = (TimeSpan)mergeData(d => d is TimeSpan dd && dd.TotalMilliseconds > 0, new TimeSpan(),
+                music.duration,
+                p?.Duration,
+                TimeSpan.FromMilliseconds(graphAudio?.Duration ?? 0));
+            BitRate = mergeUint(music.bitrate, (uint?)(p?.AudioBitrate * 1000), (uint?)(graphAudio?.Bitrate * 1000));
+            AudioChannels = p?.AudioChannels ?? 0;
+            SampleRate = p?.AudioSampleRate ?? 0;
+            FilePath = path;
+            Rating = (uint)Math.Round(music.rating / 20.0);
+            MusicBrainzArtistId = tag?.MusicBrainzArtistId;
+            MusicBrainzDiscId = tag?.MusicBrainzDiscId;
+            MusicBrainzReleaseArtistId = tag?.MusicBrainzReleaseArtistId;
+            MusicBrainzReleaseCountry = tag?.MusicBrainzReleaseCountry;
+            MusicBrainzReleaseId = tag?.MusicBrainzReleaseId;
+            MusicBrainzReleaseStatus = tag?.MusicBrainzReleaseStatus;
+            MusicBrainzReleaseType = tag?.MusicBrainzReleaseType;
+            MusicBrainzTrackId = tag?.MusicBrainzTrackId;
+            MusicIpId = tag?.MusicIpId;
+            BeatsPerMinute = tag?.BeatsPerMinute ?? 0;
+            Album = mergeStr(music.album, tag?.Album);
+            AlbumArtists = mergeArr(music.artist, tag?.AlbumArtists);
+            AlbumArtistsSort = tag?.AlbumArtistsSort;
+            AlbumSort = tag?.AlbumSort;
+            AmazonId = tag?.AmazonId;
+            Title = mergeStr(music.title, tag.Title, System.IO.Path.GetFileNameWithoutExtension(path));
+            TitleSort = tag?.TitleSort;
+            Track = mergeUint(tag?.Track, ((uint?)graphAudio?.Track));
+            TrackCount = mergeUint(tag?.TrackCount, ((uint?)graphAudio?.TrackCount));
+            ReplayGainTrackGain = tag?.ReplayGainTrackGain ?? double.NaN;
+            ReplayGainTrackPeak = tag?.ReplayGainTrackPeak ?? double.NaN;
+            ReplayGainAlbumGain = tag?.ReplayGainAlbumGain ?? double.NaN;
+            ReplayGainAlbumPeak = tag?.ReplayGainAlbumPeak ?? double.NaN;
+            Comment = tag?.Comment;
+            Disc = mergeUint(tag?.Disc, ((uint?)graphAudio?.Disc));
+            Composers = mergeArr(music.composer, tag?.Composers);
+            ComposersSort = tag?.ComposersSort;
+            Conductor = mergeStr(music.conductor, tag?.Conductor);
+            DiscCount = mergeUint(tag?.DiscCount, ((uint?)graphAudio?.DiscCount));
+            Copyright = tag?.Copyright;
+            Genres = mergeArr(tag?.Genres, asArray(graphAudio?.Genre));
+            Grouping = tag?.Grouping;
+            Lyrics = tag?.Lyrics;
+            Performers = mergeArr(music.performer, tag?.Performers);
+            PerformersSort = tag?.PerformersSort;
+            Year = mergeUint(tag?.Year, ((uint?)graphAudio?.Year));
+
+            if (tag != null)
+                PicturePath = await GetPicturePathAsync(tag.Pictures, Album, path);
+            else if (oneDriveFile != null)
+                PicturePath = await GetPicturePathAsync(oneDriveFile, Album);
+            else
+                PicturePath = await FindCoverPictureAsync(Album, path);
+
+
+            T mergeData<T>(Predicate<T> isValidValue, T def, params T[] candidates)
+            {
+                Debug.Assert(candidates != null && candidates.Length > 0);
+                var result = Array.FindIndex(candidates, isValidValue);
+                if (result < 0)
+                    return def;
+                return candidates[result];
+            }
+
+            string mergeStr(params string[] candidates) => mergeData<string>(st => st is string ss && !string.IsNullOrWhiteSpace(ss), "", candidates);
+            uint mergeUint(params uint?[] candidates) => mergeData<uint?>(ui => ui is uint uu && uu != 0, 0, candidates).GetValueOrDefault();
+            T[] mergeArr<T>(params T[][] candidates) => mergeData(arr => arr is T[] a && a.Length != 0, Array.Empty<T>(), candidates);
+
+            T[] asArray<T>(T value) where T : class => value is null ? null : new[] { value };
+        }
+
+
+        public async Task UpdateAsync(Tag tag, Properties p, StorageFile file)
+        {
+            if (ID == 0 || IsOnline)
+            {
+                return;
+            }
+            var music = await file.GetViolatePropertiesAsync();
+            await UpdatePropertiesAsync(tag, file.Path, music, p, null);
+            await SQLOperator.Current().UpdateSongAsync(this);
         }
     }
 

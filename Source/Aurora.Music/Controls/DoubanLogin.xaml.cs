@@ -1,15 +1,18 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
-using Aurora.Music.Core;
-using Aurora.Music.Core.Models;
-using Aurora.Shared.Extensions;
-using Aurora.Shared.Helpers;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+
+using Aurora.Music.Core;
+using Aurora.Music.Core.Models;
+using Aurora.Shared.Extensions;
+using Aurora.Shared.Helpers;
+
+using Newtonsoft.Json;
+
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -26,7 +29,8 @@ namespace Aurora.Music.Controls
 
         public DoubanLogin()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+            RequestedTheme = Settings.Current.Theme;
         }
 
         private async void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)

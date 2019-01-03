@@ -1,6 +1,12 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
+
 using Aurora.Music.Controls;
 using Aurora.Music.Core;
 using Aurora.Music.Core.Models;
@@ -9,20 +15,21 @@ using Aurora.Music.Pages;
 using Aurora.Music.Services;
 using Aurora.Music.ViewModels;
 using Aurora.Shared.Controls;
+using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
 using Aurora.Shared.Logging;
-using Aurora.Shared.Extensions;
+
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Threading.Tasks;
+
+using Newtonsoft.Json;
+
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Background;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI;
@@ -31,7 +38,6 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using System.Linq;
 
 namespace Aurora.Music
 {
@@ -53,23 +59,28 @@ namespace Aurora.Music
         /// </summary>
         public App()
         {
-            this.InitializeComponent();
-            this.Suspending += OnSuspending;
-            this.Resuming += App_Resuming;
-            this.UnhandledException += App_UnhandledException;
-            this.EnteredBackground += App_EnteredBackground;
-            this.LeavingBackground += App_LeavingBackground;
+            InitializeComponent();
+            Suspending += OnSuspending;
+            Resuming += App_Resuming;
+            UnhandledException += App_UnhandledException;
+            EnteredBackground += App_EnteredBackground;
+            LeavingBackground += App_LeavingBackground;
 
             // During the transition from foreground to background the
             // memory limit allowed for the application changes. The application
             // has a short time to respond by bringing its memory usage
             // under the new limit.
-            MemoryManager.AppMemoryUsageLimitChanging += MemoryManager_AppMemoryUsageLimitChanging;
+            //MemoryManager.AppMemoryUsageLimitChanging += MemoryManager_AppMemoryUsageLimitChanging;
 
             // After an application is backgrounded it is expected to stay
             // under a memory target to maintain priority to keep running.
             // Subscribe to the event that informs the app of this change.
-            MemoryManager.AppMemoryUsageIncreased += MemoryManager_AppMemoryUsageIncreased;
+            //MemoryManager.AppMemoryUsageIncreased += MemoryManager_AppMemoryUsageIncreased;
+
+            //if (SystemInfoHelper.GetDeviceFormFactorType() == DeviceFormFactorType.Xbox)
+            //{
+                FocusVisualKind = FocusVisualKind.Reveal;
+            //}
         }
 
         private void App_Resuming(object sender, object e)
@@ -251,53 +262,56 @@ namespace Aurora.Music
             else
             {
                 var segments = uri.AbsolutePath.Split('/', StringSplitOptions.RemoveEmptyEntries);
-
-                var classes = GetType().GetTypeInfo().Assembly.GetTypesWithAttribute<UriActivateAttribute>();
-
-                var matches0 = from g in classes
-                               where Array.Exists(g.Item2, a => a.Relative.Equals(segments[0], StringComparison.InvariantCultureIgnoreCase) && a.Usage == ActivateUsage.Navigation)
-                               select g;
-                var firstType = matches0.FirstOrDefault();
-
-                canShowInNewWindow = firstType.Item2[0].CanShowInNewWindow;
-                navigateType = firstType.Item1;
-
-
-                for (int i = 1; i < segments.Length; i++)
+                if (segments.Length > 0)
                 {
-                    switch (segments[i].ToLower())
+                    var classes = GetType().GetTypeInfo().Assembly.GetTypesWithAttribute<UriActivateAttribute>();
+
+                    var matches0 = from g in classes
+                                   where Array.Exists(g.Item2, a => a.Relative.Equals(segments[0], StringComparison.InvariantCultureIgnoreCase) && a.Usage == ActivateUsage.Navigation)
+                                   select g;
+                    var firstType = matches0.FirstOrDefault();
+
+                    canShowInNewWindow = firstType.Item2[0].CanShowInNewWindow;
+                    navigateType = firstType.Item1;
+
+
+                    for (int i = 1; i < segments.Length; i++)
                     {
-                        case "podcast":
-                            subNavigateType = typeof(PodcastPage); canShowInNewWindow = false;
-                            break;
-                        case "songs":
-                            subNavigateType = typeof(SongsPage); canShowInNewWindow = false;
-                            break;
-                        case "albums":
-                            subNavigateType = typeof(AlbumsPage); canShowInNewWindow = false;
-                            break;
-                        case "artists":
-                            subNavigateType = typeof(ArtistsPage); canShowInNewWindow = false;
-                            break;
-                        case "playlist":
-                            subNavigateType = typeof(PlayListPage); canShowInNewWindow = false;
-                            break;
-                        case "id":
-                            if (segments.Length > i + 1 && int.TryParse(segments[++i], out int parse))
-                            {
-                                id = parse;
-                            }
-                            goto outside;
-                        case "keyword":
-                            if (segments.Length > i + 1)
-                            {
-                                keyword = segments[++i];
-                            }
-                            goto outside;
-                        default:
-                            break;
+                        switch (segments[i].ToLower())
+                        {
+                            case "podcast":
+                                subNavigateType = typeof(PodcastPage); canShowInNewWindow = false;
+                                break;
+                            case "songs":
+                                subNavigateType = typeof(SongsPage); canShowInNewWindow = false;
+                                break;
+                            case "albums":
+                                subNavigateType = typeof(AlbumsPage); canShowInNewWindow = false;
+                                break;
+                            case "artists":
+                                subNavigateType = typeof(ArtistsPage); canShowInNewWindow = false;
+                                break;
+                            case "playlist":
+                                subNavigateType = typeof(PlayListPage); canShowInNewWindow = false;
+                                break;
+                            case "id":
+                                if (segments.Length > i + 1 && int.TryParse(segments[++i], out int parse))
+                                {
+                                    id = parse;
+                                }
+                                goto outside;
+                            case "keyword":
+                                if (segments.Length > i + 1)
+                                {
+                                    keyword = segments[++i];
+                                }
+                                goto outside;
+                            default:
+                                break;
+                        }
                     }
                 }
+
 
                 outside:
                 if (canShowInNewWindow)
@@ -334,6 +348,215 @@ namespace Aurora.Music
                     // 确保当前窗口处于活动状态
                     Window.Current.Activate();
                 }
+
+
+                var querys = System.Web.HttpUtility.ParseQueryString(uri.Query);
+                if (querys["action"] != null)
+                {
+                    switch (querys["action"])
+                    {
+                        case "last-play":
+                            var playerStatus = await PlayerStatus.LoadAsync();
+                            if (playerStatus != null && playerStatus.Songs != null)
+                            {
+                                if (MainPageViewModel.Current != null)
+                                {
+                                    await MainPageViewModel.Current.InstantPlayAsync(playerStatus.Songs, playerStatus.Index);
+                                    PlaybackEngine.PlaybackEngine.Current.Seek(playerStatus.Position);
+                                }
+                            }
+                            break;
+                        case "timeline-restore":
+#pragma warning disable CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
+                            Task.Run(async () =>
+                            {
+                                if (ApplicationData.Current.RoamingSettings.Values.TryGetValue("HighPriority", out var o))
+                                {
+                                    if (o is bool b && !b)
+                                    {
+                                        goto legacy;
+                                    }
+                                }
+
+                                // check if has roaming checkpoint
+                                if (await ApplicationData.Current.LocalFolder.TryGetItemAsync("RoamingCheckPoint") is StorageFile roam)
+                                {
+                                    var json = await FileIO.ReadTextAsync(roam);
+                                    if (!json.IsNullorEmpty())
+                                    {
+                                        var status = JsonConvert.DeserializeObject<PlayerStatus>(json);
+                                        if (status != null && status.Songs != null)
+                                        {
+                                            if (MainPageViewModel.Current != null)
+                                            {
+                                                await MainPageViewModel.Current.InstantPlayAsync(status.Songs, status.Index);
+                                                PlaybackEngine.PlaybackEngine.Current.Seek(status.Position);
+                                            }
+                                            return;
+                                        }
+                                    }
+                                }
+
+                                // else try to fetch via project Rome
+                                MainPage.Current?.ShowModalUI(true, "Syncing from cloud");
+                                try
+                                {
+                                    var r = Core.Tools.ProjectRome.Current;
+                                    var hasDevice = await r.WaitForFirstDeviceAsync();
+                                    if (hasDevice)
+                                    {
+                                        var romeQ = new ValueSet
+                                        {
+                                            { "q", "pull" }
+                                        };
+                                        var result = await r.RequestRemoteResponseAsync(romeQ);
+                                        if (result != null && (int)result["status"] == 1)
+                                        {
+                                            if (result["json"] is string json)
+                                            {
+                                                var status = JsonConvert.DeserializeObject<PlayerStatus>(json);
+                                                if (status != null && status.Songs != null)
+                                                {
+                                                    if (MainPageViewModel.Current != null)
+                                                    {
+                                                        await MainPageViewModel.Current.InstantPlayAsync(status.Songs, status.Index);
+                                                        PlaybackEngine.PlaybackEngine.Current.Seek(status.Position);
+                                                    }
+
+                                                    MainPage.Current?.ShowModalUI(false);
+
+                                                    var save = await ApplicationData.Current.LocalFolder.CreateFileAsync("RoamingCheckPoint", CreationCollisionOption.ReplaceExisting);
+                                                    await FileIO.WriteTextAsync(save, json);
+                                                    return;
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                }
+                                catch (UnauthorizedAccessException e)
+                                {
+                                    MainPage.Current?.PopMessage(e.Message);
+                                }
+
+
+                                MainPage.Current?.ShowModalUI(false);
+
+                                // else check the roaming data folder
+                                if (await ApplicationData.Current.RoamingFolder.TryGetItemAsync("CheckPoint.txt") is StorageFile file)
+                                {
+                                    var json = await FileIO.ReadTextAsync(file);
+                                    if (!json.IsNullorEmpty())
+                                    {
+                                        var status = JsonConvert.DeserializeObject<PlayerStatus>(json);
+                                        if (status != null && status.Songs != null)
+                                        {
+                                            if (MainPageViewModel.Current != null)
+                                            {
+                                                await MainPageViewModel.Current.InstantPlayAsync(status.Songs, status.Index);
+                                                PlaybackEngine.PlaybackEngine.Current.Seek(status.Position);
+                                            }
+                                            return;
+                                        }
+                                    }
+                                }
+
+
+                                legacy:
+                                // else fallback to last-play
+                                var pStatus = await PlayerStatus.LoadAsync();
+                                if (pStatus != null && pStatus.Songs != null)
+                                {
+                                    if (MainPageViewModel.Current != null)
+                                    {
+                                        await MainPageViewModel.Current.InstantPlayAsync(pStatus.Songs, pStatus.Index);
+                                        PlaybackEngine.PlaybackEngine.Current.Seek(pStatus.Position);
+                                    }
+                                }
+                            });
+#pragma warning restore CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
+                            break;
+                        case "play":
+                            if (PlaybackEngine.PlaybackEngine.Current != null)
+                            {
+                                PlaybackEngine.PlaybackEngine.Current.Play();
+                            }
+                            break;
+                        case "pause":
+                            if (PlaybackEngine.PlaybackEngine.Current != null)
+                            {
+                                PlaybackEngine.PlaybackEngine.Current.Pause();
+                            }
+                            break;
+                        case "previous":
+                            if (PlaybackEngine.PlaybackEngine.Current != null)
+                            {
+                                PlaybackEngine.PlaybackEngine.Current.Previous();
+                            }
+                            break;
+                        case "next":
+                            if (PlaybackEngine.PlaybackEngine.Current != null)
+                            {
+                                PlaybackEngine.PlaybackEngine.Current.Next();
+                            }
+                            break;
+                        case "loop":
+                            if (PlaybackEngine.PlaybackEngine.Current != null)
+                            {
+                                if (MainPageViewModel.Current != null)
+                                {
+                                    PlaybackEngine.PlaybackEngine.Current.Loop(!MainPageViewModel.Current.IsLoop);
+                                }
+                                else
+                                {
+                                    PlaybackEngine.PlaybackEngine.Current.Loop(true);
+                                }
+                            }
+                            break;
+                        case "shuffle":
+                            if (PlaybackEngine.PlaybackEngine.Current != null)
+                            {
+                                if (MainPageViewModel.Current != null)
+                                {
+                                    PlaybackEngine.PlaybackEngine.Current.Shuffle(!MainPageViewModel.Current.IsShuffle);
+                                }
+                                else
+                                {
+                                    PlaybackEngine.PlaybackEngine.Current.Shuffle(true);
+                                }
+                            }
+                            break;
+                        case "mute":
+                            if (PlaybackEngine.PlaybackEngine.Current != null)
+                            {
+                                PlaybackEngine.PlaybackEngine.Current.ChangeVolume(0);
+                            }
+                            break;
+                        case "volume":
+                            if (querys["value"] != null)
+                            {
+                                if (int.TryParse(querys["value"], out var vol))
+                                {
+                                    if (vol <= 100 && vol >= 0)
+                                    {
+                                        PlaybackEngine.PlaybackEngine.Current.ChangeVolume(vol);
+                                    }
+                                }
+                            }
+                            break;
+                        case "seek":
+                            if (querys["value"] != null)
+                            {
+                                if (TimeSpan.TryParseExact(querys["value"], @"m\:ss\.fff", null, out var time))
+                                {
+                                    PlaybackEngine.PlaybackEngine.Current.Seek(time);
+                                }
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
             }
         }
 
@@ -346,11 +569,11 @@ namespace Aurora.Music
             }
             else
             {
-                CoreApplicationView newView = CoreApplication.CreateNewView();
+                var newView = CoreApplication.CreateNewView();
                 int newViewId = 0;
                 await newView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
-                    Frame frame = new Frame();
+                    var frame = new Frame();
                     frame.Navigate(t1, (t2, id, keyword));
                     Window.Current.Content = frame;
                     // You have to activate the window in order to show it later.
@@ -392,15 +615,16 @@ namespace Aurora.Music
             var titleBar = ApplicationView.GetForCurrentView().TitleBar;
             titleBar.ButtonBackgroundColor = Colors.Transparent;
             titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-            titleBar.ButtonHoverBackgroundColor = Color.FromArgb(0x33, 0x00, 0x00, 0x00);
-            titleBar.ButtonForegroundColor = Colors.Black;
-            titleBar.ButtonHoverForegroundColor = Colors.White;
-            titleBar.ButtonInactiveForegroundColor = Color.FromArgb(0x55, 0x00, 0x00, 0x00);
 
             if (ui != null) ui.ColorValuesChanged -= Ui_ColorValuesChanged;
             ui = new UISettings();
             ui.ColorValuesChanged += Ui_ColorValuesChanged;
+            titleBar.ButtonHoverBackgroundColor = ui.GetColorValue(UIColorType.AccentDark1);
             ApplicationView.GetForCurrentView().SetDesiredBoundsMode(ApplicationViewBoundsMode.UseVisible);
+
+
+            // if you want not to have any window smaller than this size...
+            ApplicationView.GetForCurrentView().SetPreferredMinSize(new Windows.Foundation.Size(320, 320));
 
 
             var s = Settings.Current;
@@ -435,16 +659,28 @@ namespace Aurora.Music
         private void App_UnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
         {
             e.Handled = true;
-            Tools.Logging(e);
+            if (e.Exception is NullReferenceException n)
+            {
+                // ignore a weird exception from data binding
+                if (n.StackTrace?.Contains("Aurora.Music.Controls.ListItems") ?? false)
+                {
+                    return;
+                }
+            }
+            Core.Tools.Helper.Logging(e);
 
-            if (MainPage.Current is MainPage p && e.Exception is NotImplementedException)
+            if (MainPage.Current is MainPage p
+#if !DEBUG
+                && (e.Exception is NotImplementedException || e.Exception is UnauthorizedAccessException)
+#endif
+                )
             {
                 p.ThrowException(e);
             }
 
             try
             {
-                if (Window.Current.Content is Frame f)
+                if (Window.Current?.Content is Frame f)
                 {
                     if (f.Content is WelcomePage)
                     {

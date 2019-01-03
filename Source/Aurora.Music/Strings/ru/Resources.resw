@@ -79,7 +79,7 @@
     <value>Список Проигрываемых</value>
     <comment>Playing list ToolTip</comment>
   </data>
-    <data name="About.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <data name="About.Text" xml:space="preserve">
     <value>О приложении</value>
     <comment>About ToolTip</comment>
   </data>
@@ -450,6 +450,10 @@
     <data name="ArtistDialog.Title" xml:space="preserve">
     <value>Детали Автора</value>
     <comment>Artist Details</comment>
+  </data>
+    <data name="ArtistDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Играть</value>
+    <comment>Play</comment>
   </data>
     <data name="ArtistDialog.CloseButtonText" xml:space="preserve">
     <value>Закрыть</value>
@@ -1068,6 +1072,10 @@
     <value>Подкаст</value>
     <comment>Podcast</comment>
   </data>
+    <data name="PodcastText" xml:space="preserve">
+    <value>Подкаст</value>
+    <comment>Podcast</comment>
+  </data>
     <data name="ShowPodcastsWhenSearch.Header" xml:space="preserve">
     <value>Показывать подкасты при поиске</value>
     <comment>Show podcasts when search</comment>
@@ -1321,23 +1329,23 @@
     <comment>Filtered folder</comment>
   </data>
     <data name="FilterFoldeNote.Text" xml:space="preserve">
-    <value>Note: filtered folder names will apply to all folder</value>
+    <value>Заметка:Отфильтрованные названия папок будут применяться для всех папок</value>
     <comment>Note: filtered folder names will apply to all folder</comment>
   </data>
     <data name="FilterNewFolder.Content" xml:space="preserve">
-    <value>Add a folder don't scan</value>
+    <value>Добавить папку в исключение</value>
     <comment>Add a folder don't scan</comment>
   </data>
     <data name="WelcomeTitle2.Text" xml:space="preserve">
-    <value>Fluent Feel</value>
+    <value>Ощущите Fluent-Design</value>
     <comment>Fluent Feel</comment>
   </data>
     <data name="Welcome1.Text" xml:space="preserve">
-    <value>Using Aurora Music to delight your music experience.</value>
+    <value>Пользуйтесь Aurora Music чтобы получать наслаждение от вашей музыки.</value>
     <comment>Using Aurora Music to delight your music experience.</comment>
   </data>
     <data name="Welcome2.Text" xml:space="preserve">
-    <value>It is based on Fluent-deisgn System, just check out the stunning UI performance.</value>
+    <value>Основан на системе Fluent-Design, просто проверьте потрясающий UI</value>
     <comment>It is based on Fluent-deisgn System, just check out the stunning UI performance.</comment>
   </data>
     <data name="WelcomeTitle3.Text" xml:space="preserve">
@@ -1349,7 +1357,7 @@
     <comment>Wait for a While...</comment>
   </data>
     <data name="FolderScanText" xml:space="preserve">
-    <value>{0} of {1} {1:folder|folders} scanned</value>
+    <value>{0} из {1} {1:папка|папок} сканировано</value>
     <comment>{0} of {1} {1:folder|folders} scanned</comment>
   </data>
     <data name="FolderScanFinishText" xml:space="preserve">
@@ -1357,39 +1365,51 @@
     <comment>Folders scanning completed</comment>
   </data>
     <data name="FileReadText" xml:space="preserve">
-    <value>{0} of {1} {1:file|files} read</value>
+    <value>{0} из {1} {1:файл|файлов} прочитано</value>
     <comment>{0} of {1} {1:file|files} read</comment>
   </data>
     <data name="AlbumSortText" xml:space="preserve">
-    <value>{0} of {1} {1:album|albums} sorted</value>
+    <value>{0} из {1} {1:альбом|альбомов} сортировано</value>
     <comment>{0} of {1} {1:album|albums} sorted</comment>
   </data>
     <data name="More.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>More</value>
+    <value>Больше</value>
+    <comment>More</comment>
+  </data>
+    <data name="MoreButton.Text" xml:space="preserve">
+    <value>Больше</value>
     <comment>More</comment>
   </data>
     <data name="Library.Header" xml:space="preserve">
-    <value>Library</value>
+    <value>Библиотека</value>
     <comment>Library</comment>
   </data>
     <data name="Filters.Text" xml:space="preserve">
-    <value>Filters</value>
+    <value>Фильтры</value>
     <comment>Filters</comment>
   </data>
     <data name="PinText" xml:space="preserve">
-    <value>Pin to start</value>
+    <value>Закрепить в начальный экран</value>
     <comment>Pin to start</comment>
   </data>
     <data name="UnPinText" xml:space="preserve">
-    <value>Unpin from start</value>
+    <value>Открепить из начального экрана</value>
     <comment>Unpin from start</comment>
   </data>
     <data name="AlbumsTile" xml:space="preserve">
-    <value>Explore your albums in Aurora Music</value>
+    <value>Ищите свои альбомы в Aurora Music</value>
     <comment>Explore your albums in Aurora Music</comment>
   </data>
     <data name="SongsTile" xml:space="preserve">
-    <value>Explore your songs in Aurora Music</value>
+    <value>Ищите свои песни в Aurora Music</value>
     <comment>Explore your songs in Aurora Music</comment>
+  </data>
+    <data name="TimelineTitle" xml:space="preserve">
+    <value>Last played in Aurora Music</value>
+    <comment>Last played in Aurora Music</comment>
+  </data>
+    <data name="TimelineDetail" xml:space="preserve">
+    <value>Tap this card to contine listening</value>
+    <comment>Tap this card to contine listening</comment>
   </data>
 </root>

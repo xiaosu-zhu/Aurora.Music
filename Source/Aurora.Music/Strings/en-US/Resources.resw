@@ -157,7 +157,7 @@
     <value>Playing List</value>
     <comment>Playing list ToolTip</comment>
   </data>
-  <data name="About.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+  <data name="About.Text" xml:space="preserve">
     <value>About</value>
     <comment>About ToolTip</comment>
   </data>
@@ -524,6 +524,10 @@
   <data name="ArtistDialog.Title" xml:space="preserve">
     <value>Artist Details</value>
     <comment>Artist Details</comment>
+  </data>
+  <data name="ArtistDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Play</value>
+    <comment>Play</comment>
   </data>
   <data name="ArtistDialog.CloseButtonText" xml:space="preserve">
     <value>Close</value>
@@ -1141,6 +1145,10 @@
     <value>Podcast</value>
     <comment>Podcast</comment>
   </data>
+  <data name="PodcastText" xml:space="preserve">
+    <value>Podcast</value>
+    <comment>Podcast</comment>
+  </data>
   <data name="ShowPodcastsWhenSearch.Header" xml:space="preserve">
     <value>Show podcasts when search</value>
     <comment>Show podcasts when search</comment>
@@ -1441,6 +1449,10 @@
     <value>More</value>
     <comment>More</comment>
   </data>
+    <data name="MoreButton.Text" xml:space="preserve">
+    <value>More</value>
+    <comment>More</comment>
+  </data>
     <data name="Library.Header" xml:space="preserve">
     <value>Library</value>
     <comment>Library</comment>
@@ -1464,5 +1476,105 @@
     <data name="SongsTile" xml:space="preserve">
     <value>Explore your songs in Aurora Music</value>
     <comment>Explore your songs in Aurora Music</comment>
+  </data>
+    <data name="TimelineTitle" xml:space="preserve">
+    <value>Last played in Aurora Music</value>
+    <comment>Last played in Aurora Music</comment>
+  </data>
+    <data name="TimelineDetail" xml:space="preserve">
+    <value>Tap this card to contine listening</value>
+    <comment>Tap this card to contine listening</comment>
+  </data>
+    <data name="Interface.Header" xml:space="preserve">
+    <value>Interface</value>
+    <comment>Interface</comment>
+  </data>
+    <data name="PreferredTheme.Text" xml:space="preserve">
+    <value>Preferred theme</value>
+    <comment>Preferred theme</comment>
+  </data>
+    <data name="SystemTheme.Content" xml:space="preserve">
+    <value>System</value>
+    <comment>System</comment>
+  </data>
+    <data name="LightTheme.Content" xml:space="preserve">
+    <value>Light</value>
+    <comment>Light</comment>
+  </data>
+    <data name="DarkTheme.Content" xml:space="preserve">
+    <value>Dark</value>
+    <comment>Dark</comment>
+  </data>
+    <data name="NightModeSwitch.Header" xml:space="preserve">
+    <value>Night mode(decreases images' brightness in dark mode), requires restart</value>
+    <comment>Night mode(decreases images' brightness in dark mode), requires restart</comment>
+  </data>
+    <data name="DontOverlaySwitch.Header" xml:space="preserve">
+    <value>Don't show small window at top(Compact overlay)</value>
+    <comment>Don't show small window at top(Compact overlay)</comment>
+  </data>
+    <data name="SingletonSwitch.Header" xml:space="preserve">
+    <value>Singleton instance of lyric window</value>
+    <comment>Singleton instance of lyric window</comment>
+  </data>
+    <data name="NavigateGroup" xml:space="preserve">
+    <value>Navigation</value>
+    <comment>Navigation</comment>
+  </data>
+    <data name="ActionGroup" xml:space="preserve">
+    <value>Action</value>
+    <comment>Action</comment>
+  </data>
+    <data name="JumplistLastPlay" xml:space="preserve">
+    <value>Last played</value>
+    <comment>Last played</comment>
+  </data>
+    <data name="JumplistPlay" xml:space="preserve">
+    <value>Play</value>
+    <comment>Play</comment>
+  </data>
+    <data name="JumplistPause" xml:space="preserve">
+    <value>Pause</value>
+    <comment>Pause</comment>
+  </data>
+    <data name="JumplistHome" xml:space="preserve">
+    <value>Home</value>
+    <comment>Home</comment>
+  </data>
+    <data name="JumplistLibrary" xml:space="preserve">
+    <value>Library</value>
+    <comment>Library</comment>
+  </data>
+    <data name="JumplistSongs" xml:space="preserve">
+    <value>Songs</value>
+    <comment>Songs</comment>
+  </data>
+    <data name="JumplistAlbums" xml:space="preserve">
+    <value>Albums</value>
+    <comment>Albums</comment>
+  </data>
+    <data name="JumplistArtists" xml:space="preserve">
+    <value>Artists</value>
+    <comment>Artists</comment>
+  </data>
+    <data name="JumplistPlaylist" xml:space="preserve">
+    <value>Playlist</value>
+    <comment>Playlist</comment>
+  </data>
+    <data name="JumplistPodcast" xml:space="preserve">
+    <value>Podcast</value>
+    <comment>Podcast</comment>
+  </data>
+    <data name="JumplistPrevious" xml:space="preserve">
+    <value>Previous</value>
+    <comment>Previous</comment>
+  </data>
+    <data name="JumplistNext" xml:space="preserve">
+    <value>Next</value>
+    <comment>Next</comment>
+  </data>
+    <data name="PlayAllAppBarButton.Label" xml:space="preserve">
+    <value>Play All</value>
+    <comment>Play All</comment>
   </data>
 </root>

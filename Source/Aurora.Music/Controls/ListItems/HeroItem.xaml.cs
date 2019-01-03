@@ -2,6 +2,7 @@
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using System;
+using Aurora.Music.Core.Models;
 using Aurora.Music.ViewModels;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -17,6 +18,9 @@ namespace Aurora.Music.Controls.ListItems
         {
             this.InitializeComponent();
         }
+
+        public bool NightModeEnabled { get; set; } = Settings.Current.NightMode;
+
         public HeroItemViewModel Data
         {
             get { return (HeroItemViewModel)GetValue(DataProperty); }
@@ -25,7 +29,7 @@ namespace Aurora.Music.Controls.ListItems
         // Using a DependencyProperty as the backing store for Data.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty DataProperty =
             DependencyProperty.Register("Data", typeof(HeroItemViewModel), typeof(HeroItem), new PropertyMetadata(null));
-        
+
         private void Grid_PointerExited(object sender, PointerRoutedEventArgs e)
         {
             VisualStateManager.GoToState(this, "Normal", false);

@@ -29,6 +29,7 @@ using Windows.Media.Devices;
 using Windows.Services.Store;
 using Windows.Storage;
 using Windows.System;
+using Windows.UI.Xaml;
 
 namespace Aurora.Music.ViewModels
 {
@@ -94,7 +95,7 @@ namespace Aurora.Music.ViewModels
         {
             get => new DelegateCommand(async () =>
             {
-                await Launcher.LaunchUriAsync(new Uri("http://198.181.41.120/privacypolicy.htm"));
+                await Launcher.LaunchUriAsync(new Uri("https://github.com/pkzxs/Aurora.Music/blob/master/Documentation/Privacy%20Policy.md"));
             });
         }
 
@@ -138,6 +139,18 @@ namespace Aurora.Music.ViewModels
             {
                 await Launcher.LaunchUriAsync(new Uri("https://github.com/pkzxs/Aurora.Music/issues"));
             });
+        }
+
+        private bool nightMode;
+        public bool NightMode
+        {
+            get { return nightMode; }
+            set
+            {
+                Settings.Current.NightMode = value;
+                Settings.Current.Save();
+                SetProperty(ref nightMode, value);
+            }
         }
 
         public DelegateCommand GetExtensions
@@ -198,6 +211,8 @@ namespace Aurora.Music.ViewModels
                 folderPicker.FileTypeFilter.Add(".flac");
                 folderPicker.FileTypeFilter.Add(".aac");
                 folderPicker.FileTypeFilter.Add(".wma");
+                folderPicker.FileTypeFilter.Add(".ogg");
+                folderPicker.FileTypeFilter.Add(".oga");
                 folderPicker.FileTypeFilter.Add(".m3u");
                 folderPicker.FileTypeFilter.Add(".m3u8");
                 folderPicker.FileTypeFilter.Add(".wpl");
@@ -213,19 +228,38 @@ namespace Aurora.Music.ViewModels
             });
         }
 
-        private bool metaDataEnabled = Settings.Current.MetaDataEnabled;
-        public bool MetaDataEnabled
+        private bool dontOverlay = Settings.Current.DontOverlay;
+        public bool DontOverlay
         {
-            get { return metaDataEnabled; }
+            get { return dontOverlay; }
             set
             {
-                Settings.Current.MetaDataEnabled = value;
+                Settings.Current.DontOverlay = value;
                 Settings.Current.Save();
-                SetProperty(ref metaDataEnabled, value);
+                SetProperty(ref dontOverlay, value);
+            }
+        }
+
+        private bool singleton = Settings.Current.Singleton;
+        public bool Singleton
+        {
+            get { return singleton; }
+            set
+            {
+                Settings.Current.Singleton = value;
+                Settings.Current.Save();
+                SetProperty(ref singleton, value);
             }
         }
 
         private bool isPodcastToast = Settings.Current.IsPodcastToast;
+
+        internal void ChangeTheme(ElementTheme theme)
+        {
+            Settings.Current.Theme = theme;
+            MainPage.Current.ChangeTheme(theme);
+        }
+
         public bool IsPodcastToast
         {
             get { return isPodcastToast; }
@@ -445,7 +479,7 @@ namespace Aurora.Music.ViewModels
             get => new DelegateCommand(async () =>
             {
                 MainPage.Current.ShowModalUI(true, "Deleting");
-                (PlaybackEngine.PlaybackEngine.Current as Player).Dispose();
+                (PlaybackEngine.PlaybackEngine.Current).Dispose();
                 Settings.Current.DANGER_DELETE();
                 var opr = SQLOperator.Current();
                 opr.Dispose();
@@ -670,7 +704,7 @@ namespace Aurora.Music.ViewModels
                     break;
             }
             MainPage.Current.ShowModalUI(false);
-            await MainPageViewModel.Current.ReloadExtensions();
+            await MainPageViewModel.Current.ReloadExtensionsAsync();
         }
 
         public ObservableCollection<ExtensionViewModel> LyricExts { get; set; } = new ObservableCollection<ExtensionViewModel>();
@@ -759,9 +793,44 @@ namespace Aurora.Music.ViewModels
             _catalog.PackageUninstalling += _catalog_PackageUninstalling;
             _catalog.PackageUpdating += _catalog_PackageUpdating;
             _catalog.PackageStatusChanged += _catalog_PackageStatusChanged;
+
+
+            foreach (var e in Enum.GetValues(typeof(Engine)).Cast<Engine>())
+            {
+                EngineList.Add(new EngineViewModel()
+                {
+                    Engine = e
+                });
+            }
+
+
+            EngineIndex = (int)Settings.Current.PlaybackEngine;
         }
 
         public ObservableCollection<DeviceInformationViewModel> DevicList { get; set; } = new ObservableCollection<DeviceInformationViewModel>();
+
+        public ObservableCollection<EngineViewModel> EngineList { get; set; } = new ObservableCollection<EngineViewModel>();
+
+        private string engineHint;
+        public string EngineHint
+        {
+            get { return engineHint; }
+            set { SetProperty(ref engineHint, value); }
+        }
+
+        private int engineIndex;
+        public int EngineIndex
+        {
+            get { return engineIndex; }
+            set
+            {
+                SetProperty(ref engineIndex, value);
+                Settings.Current.PlaybackEngine = (Engine)value;
+                Settings.Current.Save();
+                EngineHint = Consts.EngineHint[value % 4];
+            }
+        }
+
         private StoreContext context;
         private AppExtensionCatalog _catalog;
         private StorageFolder downloadFolder;
@@ -947,7 +1016,7 @@ namespace Aurora.Music.ViewModels
                         });
                         Settings.Current.OnlinePurchase = product.IsInUserCollection;
                         Settings.Current.Save();
-                        await MainPageViewModel.Current.ReloadExtensions();
+                        await MainPageViewModel.Current.ReloadExtensionsAsync();
                     }
                 }
             });
@@ -1138,6 +1207,28 @@ namespace Aurora.Music.ViewModels
         public override string ToString()
         {
             return Name;
+        }
+    }
+
+    class EngineViewModel : ViewModelBase
+    {
+        public Engine Engine { get; set; }
+
+        public override string ToString()
+        {
+            switch (Engine)
+            {
+                case Engine.System:
+                    return "System";
+                case Engine.Neon:
+                    return "Neon";
+                case Engine.NAudio:
+                    return "NAudio (Not implemented)";
+                case Engine.BASS:
+                    return "BASS (Not implemented)";
+                default:
+                    return "";
+            }
         }
     }
 }

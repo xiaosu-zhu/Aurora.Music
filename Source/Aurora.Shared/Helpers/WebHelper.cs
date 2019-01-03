@@ -200,7 +200,7 @@ namespace Aurora.Shared.Helpers
                         }
                     }
 
-                    using (HttpResponseMessage response = await httpClient.SendRequestAsync(request))
+                    using (var response = await httpClient.SendRequestAsync(request))
                     {
                         if (ignoreStatus)
                         {

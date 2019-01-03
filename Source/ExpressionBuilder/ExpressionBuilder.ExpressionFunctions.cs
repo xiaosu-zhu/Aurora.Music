@@ -32,11 +32,11 @@ namespace ExpressionBuilder
         //        
 
         /// <summary> Returns the angle (in radians) whose cosine is the specified number. </summary>
-        /// <param name="val">Value between –1 and 1, for which to calculate the arccosine (the inverse cosine).</param>
+        /// <param name="val">Value between ? and 1, for which to calculate the arccosine (the inverse cosine).</param>
         public static ScalarNode ACos(ScalarNode val)                  { return Function<ScalarNode>(ExpressionNodeType.Acos, val);       }
 
         /// <summary> Returns the angle (in radians) whose sine is the specified number. </summary>
-        /// <param name="val">Value between –1 and 1, for which to calculate the arcsine (the inverse sine).</param>
+        /// <param name="val">Value between ? and 1, for which to calculate the arcsine (the inverse sine).</param>
         public static ScalarNode ASin(ScalarNode val)                  { return Function<ScalarNode>(ExpressionNodeType.Asin, val);       }
 
         /// <summary> Returns the angle (in radians) whose tangent is the specified number. </summary>

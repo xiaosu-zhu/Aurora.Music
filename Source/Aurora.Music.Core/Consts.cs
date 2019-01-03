@@ -4,7 +4,6 @@
 using Aurora.Shared.Helpers;
 using System;
 using Windows.ApplicationModel.Resources;
-using Windows.Foundation.Metadata;
 using Windows.Storage;
 
 namespace Aurora.Music.Core
@@ -34,14 +33,16 @@ namespace Aurora.Music.Core
         public const string ArtistPageInAnimation = "ARTIST_PAGE_IN";
         public const string AlbumItemConnectedAnimation = "ALBUM_DETAIL_IN";
 
-        public static readonly string[] FileTypes = { ".flac", ".wav", ".m4a", ".aac", ".mp3", ".wma" };
+        public static readonly string[] FileTypes = { ".flac", ".wav", ".m4a", ".aac", ".mp3", ".wma", ".ogg", ".oga" };
         public static readonly string[] PlaylistType = { "m3u", ".m3u8", ".wpl", ".zpl" };
 
         public const string ExtensionContract = "Aurora.Music.Extensions";
         public const string AppUserModelId = "6727Aurora-ZXS.10476770C0EE5_fxqtv0574xgme!App";
         public const string PackageFamilyName = "6727Aurora-ZXS.10476770C0EE5_fxqtv0574xgme";
+        public const string ProjectRomeService = "Aurora.Music.Rome";
 
         public const string OnlineAddOnStoreID = "9N8LMDXLQQ8V";
+        public const string DonationStoreID = "9NSKRPKPPK8H";
 
         public const string ProductID = "9NBLGGH6JVDT";
 
@@ -53,13 +54,10 @@ namespace Aurora.Music.Core
             get => localizer;
         }
 
-        private static string ommaSeparator = localizer.GetString("CommaSeparator");
-        public static string CommaSeparator => ommaSeparator;
+        private static string commaSeparator = localizer.GetString("CommaSeparator");
+        public static string CommaSeparator => commaSeparator;
 
-        public static string UpdateNote =>
-                            "### Note: Thank you for supporting this app become better!\r\n\r\n---\r\n\r\n" +
-                            "* **[Windows Developer Awards](https://developer.microsoft.com/en-us/windows/projects/events/build/2018/awards)**. Voting has expanded to May 5th! If you think our app is really excellent, please +1 for this app! We're appreciated for your votes!\r\n\r\n* **[Windows Developer Awards](https://developer.microsoft.com/en-us/windows/projects/events/build/2018/awards)** 投票延长到了5月5日！非常感谢您的支持！\r\n\r\n---\r\n\r\n" +
-                            "* **New**: Now you can edit lyric and save to files.";
+        public static string UpdateNote => "* **Fix**: Fixed a few display issues and updated dependencies.\r\n";
 
         public static string UpdateNoteTitle => localizer.GetString("UpdateNoteTitle");
 
@@ -70,7 +68,8 @@ namespace Aurora.Music.Core
         private static string last = localizer.GetString("LastDayText");
         public static string Last => last;
 
-        public const string OPMLTemplate = "OPMLTemplate.xml";
+        public const string OPMLTemplate = "Data/OPMLTemplate.xml";
+        public const string TimelineJson = "Data/Timeline.json";
 
         public const string ArraySeparator = "$|$";
 
@@ -98,5 +97,13 @@ namespace Aurora.Music.Core
             }
             return Localizer.GetString("MidnightText");
         }
+
+        public static readonly string[] EngineHint = new string[]
+        {
+            "The original media player provided by system with built-in features.",
+            "Making a small change on original media player to reduce memory and cpu usage.",
+            "NAudio by Mark Heath, not supported yet.",
+            "The BASS audio library, not suppported yes."
+        };
     }
 }

@@ -36,6 +36,8 @@ Here are a few screenshots:
 
 ## Documents and Samples
 
+Please first refer to **[Something about build and deploy](./Source)**.
+
 Please read instructions for extension development from **[here](./Documentation)**, inside there is a simple tutorial to let you make your own extension, as well as a detailed query explanation.
 
 There's also a code sample **[here](./Samples)**, clone it and deploy, you can see what happens to lyrics.
@@ -73,7 +75,7 @@ You can explorer currently using open source libraries below:
 | Json.NET | [MIT License](https://github.com/JamesNK/Newtonsoft.Json/blob/master/LICENSE.md) | [newtonsoft.com](https://www.newtonsoft.com/json) |
 | NAudio | [MS-PL](https://github.com/naudio/NAudio/blob/master/license.txt) | [github.com/naudio/NAudio](https://github.com/naudio/NAudio) |
 | UWPAudioVisualizer | [MIT License](https://github.com/clarkezone/audiovisualizer/blob/master/LICENSE) | [github.com/clarkezone/audiovisualizer](https://github.com/clarkezone/audiovisualizer) |
-| ExpressionBuilder | [MIT License](https://github.com/Microsoft/WindowsUIDevLabs/blob/master/LICENSE.txt) | [github.com/Microsoft/ExpressionBuilder](https://github.com/Microsoft/WindowsUIDevLabs/tree/master/ExpressionBuilder) |
+| ExpressionBuilder | [MIT License](https://github.com/Microsoft/WindowsUIDevLabs/blob/master/LICENSE.txt) | [github.com/Microsoft/WindowsCompositionSamples](https://github.com/Microsoft/WindowsCompositionSamples/tree/master/ExpressionBuilder) |
 | ColorThief.NET | [MIT License](https://github.com/KSemenenko/ColorThief/blob/master/LICENSE) | [github.com/KSemenenko/ColorThief](https://github.com/KSemenenko/ColorThief) |
 | SmartFormat | [MIT License](https://github.com/scottrippey/SmartFormat.NET/wiki/License) | [github.com/scottrippey/SmartFormat.NET](https://github.com/scottrippey/SmartFormat.NET) |
 | WriteableBitmapEx | [MIT License](https://github.com/teichgraf/WriteableBitmapEx/blob/master/LICENSE) | [github.com/teichgraf/WriteableBitmapEx/](https://github.com/teichgraf/WriteableBitmapEx/) |
@@ -83,5 +85,5 @@ You can explorer currently using open source libraries below:
 
 [/Source/Taglib.Sharp](./Source/TagLib.Sharp/) is ported to UWP from [mono/taglib-sharp](https://github.com/mono/taglib-sharp).
 
-[/Source/ExpressionBuilder](./Source/ExpressionBuilder/) is from [Microsoft/WindowsUIDevLabs](https://github.com/Microsoft/WindowsUIDevLabs)
+[/Source/ExpressionBuilder](./Source/ExpressionBuilder/) is from [Microsoft/WindowsCompositionSamples](https://github.com/Microsoft/WindowsCompositionSamples)
 

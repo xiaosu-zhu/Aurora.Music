@@ -15,10 +15,12 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         <GradientStop Color="Transparent" Offset="1"/>
     </LinearGradientBrush>
 
-    <AcrylicBrush x:Key="SystemControlAltTranslucentAcrylicElementBrush" BackgroundSource="Backdrop" TintColor="{StaticResource SystemChromeAltHighColor}" TintOpacity="0.6666666666666667" FallbackColor="{StaticResource SystemChromeMediumColor}" />
-    <AcrylicBrush x:Key="SystemControlAltTranslucentAcrylicWindowBrush" BackgroundSource="HostBackdrop" TintColor="{StaticResource SystemChromeAltHighColor}" TintOpacity="0.6666666666666667" FallbackColor="{StaticResource SystemChromeMediumColor}" />
+    <AcrylicBrush x:Key="SystemControlAltTranslucentAcrylicElementBrush" BackgroundSource="Backdrop" TintColor="{StaticResource SystemChromeAltHighColor}" TintOpacity="0.5" FallbackColor="{StaticResource SystemChromeMediumColor}" />
+    <AcrylicBrush x:Key="SystemControlAltTranslucentAcrylicWindowBrush" BackgroundSource="HostBackdrop" TintColor="{StaticResource SystemChromeAltHighColor}" TintOpacity="0.5" FallbackColor="{StaticResource SystemChromeMediumColor}" />
 
-    <AcrylicBrush x:Key="SystemControlBlackAcrylicElementBrush" BackgroundSource="Backdrop" TintColor="{StaticResource SystemBaseHighColor}" TintOpacity="0.33333" FallbackColor="{StaticResource SystemBaseMediumColor}" />
+
+    <AcrylicBrush x:Key="SystemControlBaseTranslucentAcrylicElementBrush" BackgroundSource="Backdrop" TintColor="{StaticResource SystemBaseHighColor}" TintOpacity="0.5" FallbackColor="{StaticResource SystemBaseLowColor}" />
+    <AcrylicBrush x:Key="SystemControlBaseTranslucentAcrylicWindowBrush" BackgroundSource="HostBackdrop" TintColor="{StaticResource SystemBaseHighColor}" TintOpacity="0.5" FallbackColor="{StaticResource SystemBaseLowColor}" />
 
     <RevealBorderBrush x:Key="SystemControlBackgroundAltLowRevealBrush" TargetTheme="Light" Color="{StaticResource SystemRevealAltLowColor}" FallbackColor="{StaticResource SystemAltLowColor}" />
     <RevealBorderBrush x:Key="SystemControlBackgroundAltHighRevealBrush" TargetTheme="Light" Color="{StaticResource SystemRevealAltHighColor}" FallbackColor="{StaticResource SystemAltHighColor}" />
@@ -26,7 +28,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     <RevealBorderBrush x:Key="SystemControlBackgroundAltMediumHighRevealBrush" TargetTheme="Light" Color="{StaticResource SystemRevealAltMediumHighColor}" FallbackColor="{StaticResource SystemAltHighColor}" />
 
     <SolidColorBrush x:Key="SystemControlAltLowBrush" Color="{StaticResource SystemAltLowColor}"/>
-    <RevealBackgroundBrush x:Key="RevealRoundBackground" FallbackColor="{StaticResource SystemChromeMediumColor}" Color="{StaticResource SystemChromeMediumColor}" Opacity="0.33"/>
+    <RevealBackgroundBrush x:Key="RevealRoundBackground" FallbackColor="{StaticResource SystemChromeMediumColor}" Color="{StaticResource SystemChromeMediumColor}" Opacity="0.5"/>
 
     <SolidColorBrush x:Key="SongListEvenBrush" Color="{StaticResource SystemChromeMediumLowColor}" Opacity="0.5"/>
     <SolidColorBrush x:Key="SongListOddBrush" Color="Transparent"/>
@@ -39,4 +41,16 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     <SolidColorBrush x:Key="AccentForText" Color="{ThemeResource SystemAccentColorDark2}"/>
     <SolidColorBrush x:Key="AccentForTextPointerOver" Color="{ThemeResource SystemAccentColor}"/>
     <SolidColorBrush x:Key="AccentForTextPressed" Color="{ThemeResource SystemAccentColorDark1}"/>
+
+
+    <SolidColorBrush x:Key="AccentDarkBackground" Color="{ThemeResource SystemAccentColorDark2}" Opacity="0.666667"/>
+
+
+    <RevealBorderBrush x:Key="TextRevealAccentForeground" 
+                       FallbackColor="{ThemeResource SystemAccentColorDark1}"
+                       Color="{ThemeResource SystemAccentColorDark1}" 
+                       TargetTheme="Light"/>
+
+    <RevealBorderBrush x:Key="AlbumItemBorder" TargetTheme="Light" Color="Transparent" FallbackColor="Transparent" />
+    <SolidColorBrush x:Key="ImageDarkOverlay" Color="Transparent" Opacity="0"/>
 </ResourceDictionary>

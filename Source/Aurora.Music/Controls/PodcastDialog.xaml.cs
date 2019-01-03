@@ -1,14 +1,16 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
-using Aurora.Music.Core;
-using Aurora.Music.Core.Models;
-using Aurora.Music.ViewModels;
-using Aurora.Shared.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
+using Aurora.Music.Core;
+using Aurora.Music.Core.Models;
+using Aurora.Music.ViewModels;
+using Aurora.Shared.Extensions;
+
 using Windows.ApplicationModel.Core;
 using Windows.UI;
 using Windows.UI.Core;
@@ -29,6 +31,7 @@ namespace Aurora.Music.Controls
         public PodcastDialog(GenericMusicItemViewModel g)
         {
             InitializeComponent();
+            RequestedTheme = Settings.Current.Theme;
             TitleText.Text = g.Title;
             Author.Text = g.Description;
             Artwork.Source = new BitmapImage(g.Artwork);
@@ -39,7 +42,7 @@ namespace Aurora.Music.Controls
                     var pod = await Podcast.GetiTunesPodcast(g.OnlineAlbumID);
                     if (pod == null)
                     {
-                        await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                        await Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
                         {
                             Description.Text = "This may because of un-support rss format or network error.";
                             TitleText.Text = "Fetch failed";
@@ -75,9 +78,9 @@ namespace Aurora.Music.Controls
                         IsPrimaryButtonEnabled = true;
                     });
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                    await Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
                     {
                         Description.Text = "This may because of un-support rss format or network error.";
                         TitleText.Text = "Fetch failed";
@@ -85,6 +88,11 @@ namespace Aurora.Music.Controls
                         FetchingHeader.Visibility = Visibility.Collapsed;
                         FetchingProgress.IsIndeterminate = false;
                         FetchingProgress.Visibility = Visibility.Collapsed;
+                    });
+                    Core.Tools.Helper.Logging(ex, new Dictionary<string, string>()
+                    {
+                        ["Location"] = "PodcastDialog",
+                        ["url"] = g.OnlineAlbumID
                     });
                 }
 
@@ -101,7 +109,7 @@ namespace Aurora.Music.Controls
                     var pod = await Podcast.GetiTunesPodcast(g.AbsoluteUri);
                     if (pod == null)
                     {
-                        await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                        await Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
                         {
                             Description.Text = "This may because of un-support rss format or network error.";
                             TitleText.Text = "Fetch failed";
@@ -113,7 +121,7 @@ namespace Aurora.Music.Controls
                         return;
                     }
                     podcast = pod;
-                    await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                    await Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
                     {
                         Description.Text = pod.Description;
                         TitleText.Text = pod.Title;
@@ -137,9 +145,9 @@ namespace Aurora.Music.Controls
                         }
                     });
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                    await Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
                     {
                         Description.Text = "This may because of un-support rss format or network error.";
                         TitleText.Text = "Fetch failed";
@@ -147,6 +155,11 @@ namespace Aurora.Music.Controls
                         FetchingHeader.Visibility = Visibility.Collapsed;
                         FetchingProgress.IsIndeterminate = false;
                         FetchingProgress.Visibility = Visibility.Collapsed;
+                    });
+                    Core.Tools.Helper.Logging(ex, new Dictionary<string, string>()
+                    {
+                        ["Location"] = "PodcastDialog",
+                        ["url"] = g.AbsoluteUri
                     });
                 }
             });
@@ -197,11 +210,11 @@ namespace Aurora.Music.Controls
                 if (podcast.Count < i + 20)
                 {
                     var k = podcast.Count < 20 ? podcast.ToList() : podcast.GetRange(podcast.Count - 20, 20);
-                    await MainPageViewModel.Current.InstantPlay(k, k.IndexOf(s));
+                    await MainPageViewModel.Current.InstantPlayAsync(k, k.IndexOf(s));
                 }
                 else
                 {
-                    await MainPageViewModel.Current.InstantPlay(podcast.GetRange(i, 20), 0);
+                    await MainPageViewModel.Current.InstantPlayAsync(podcast.GetRange(i, 20), 0);
                 }
 
                 def.Complete();

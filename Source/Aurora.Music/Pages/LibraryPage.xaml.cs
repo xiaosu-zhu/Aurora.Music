@@ -1,23 +1,21 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
-using Aurora.Music.Core;
-using Aurora.Music.Core.Models;
-using Aurora.Music.Core.Storage;
-using Aurora.Music.ViewModels;
-using Aurora.Shared.Extensions;
-using Aurora.Shared.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+
+using Aurora.Music.Core;
+using Aurora.Music.Core.Models;
+using Aurora.Music.Core.Storage;
+using Aurora.Music.ViewModels;
+using Aurora.Shared.Helpers;
+
 using Windows.Storage;
-using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
@@ -37,12 +35,22 @@ namespace Aurora.Music.Pages
 
         public LibraryPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             Current = this;
-            MainPageViewModel.Current.NeedShowTitle = Window.Current.Bounds.Width > 640;
-            MainPageViewModel.Current.Title = Consts.Localizer.GetString("LibraryText");
-            MainPageViewModel.Current.LeftTopColor = Resources["SystemControlForegroundBaseHighBrush"] as SolidColorBrush;
+            MainPageViewModel.Current.NeedShowTitle = false;
             CategoryList = new ObservableCollection<CategoryListItem>();
+        }
+
+        private void CategoryList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            // Update Index in order to handle collection add/remove;
+            var i = 0;
+            var list = CategoryList.ToList();
+            list.Sort((a, b) => a.Index.CompareTo(b.Index));
+            foreach (var item in list)
+            {
+                item.Index = i++;
+            }
         }
 
         internal void RemovePlayList(PlayList model)
@@ -57,6 +65,8 @@ namespace Aurora.Music.Pages
 
         internal async Task AddPlayList(PlayListViewModel p)
         {
+
+            CategoryList.CollectionChanged -= CategoryList_CollectionChanged;
             Category.SelectionChanged -= Category_SelectionChanged;
             await InitCategoryList();
             var item = CategoryList.FirstOrDefault(x => x.Title == Settings.Current.CategoryLastClicked);
@@ -69,28 +79,40 @@ namespace Aurora.Music.Pages
             {
                 Category.SelectedIndex = 0;
             }
+
+            CategoryList.CollectionChanged += CategoryList_CollectionChanged;
         }
 
         private async Task InitCategoryList()
         {
             CategoryList.Clear();
-            CategoryList.Add(new CategoryListItem
+
+            var list = new List<CategoryListItem>();
+            var i = 3;
+
+            list.Add(new CategoryListItem
             {
                 Title = Consts.Localizer.GetString("SongsText"),
                 Glyph = "\uE189",
-                NavigatType = typeof(SongsPage)
+                NavigatType = typeof(SongsPage),
+                Index = 0,
+                Desc = SmartFormat.Smart.Format(Consts.Localizer.GetString("SmartSongs"), await FileReader.CountAsync<Song>())
             });
-            CategoryList.Add(new CategoryListItem
+            list.Add(new CategoryListItem
             {
                 Title = Consts.Localizer.GetString("AlbumsText"),
                 Glyph = "\uE93C",
-                NavigatType = typeof(AlbumsPage)
+                NavigatType = typeof(AlbumsPage),
+                Index = 1,
+                Desc = SmartFormat.Smart.Format(Consts.Localizer.GetString("SmartAlbums"), await FileReader.CountAsync<Album>())
             });
-            CategoryList.Add(new CategoryListItem
+            list.Add(new CategoryListItem
             {
                 Title = Consts.Localizer.GetString("ArtistsText"),
                 Glyph = "\uE77B",
-                NavigatType = typeof(ArtistsPage)
+                NavigatType = typeof(ArtistsPage),
+                Index = 2,
+                Desc = SmartFormat.Smart.Format(Consts.Localizer.GetString("SmartArtists"), (await SQLOperator.Current().GetArtistsAsync()).Count)
             });
 
             playlists = await SQLOperator.Current().GetPlayListBriefAsync();
@@ -101,35 +123,74 @@ namespace Aurora.Music.Pages
 
             foreach (var playlist in playlists)
             {
-                CategoryList.Add(new CategoryListItem
+                list.Add(new CategoryListItem
                 {
-                    Title = playlist.ToString(),
+                    Title = playlist.Title,
                     Glyph = "\uE142",
                     NavigatType = typeof(PlayListPage),
-                    ID = playlist.ID
+                    ID = playlist.ID,
+                    Index = i++,
+                    Desc = playlist.Description
                 });
             }
             foreach (var item in files)
             {
-                CategoryList.Add(new CategoryListItem
+                list.Add(new CategoryListItem
                 {
                     Title = item.DisplayName,
                     Parameter = item.Name,
                     Glyph = "\uE142",
                     ID = -1,
-                    NavigatType = typeof(StoragePlaylistPage)
+                    NavigatType = typeof(StoragePlaylistPage),
+                    Index = i++,
+                    Desc = item.Path
                 });
             }
             foreach (var podcast in podcasts)
             {
-                CategoryList.Add(new CategoryListItem
+                list.Add(new CategoryListItem
                 {
                     Title = podcast.Title,
                     Glyph = "\uE95A",
                     NavigatType = typeof(PodcastPage),
-                    ID = podcast.ID
+                    ID = podcast.ID,
+                    Index = i++,
+                    Desc = podcast.Description
                 });
             }
+
+            ReorderList(ref list);
+
+
+            foreach (var item in list)
+            {
+                CategoryList.Add(item);
+            }
+        }
+
+        private void ReorderList(ref List<CategoryListItem> list)
+        {
+            var index = Settings.LibraryIndex();
+
+            if (index == null)
+            {
+                return;
+            }
+
+            var c = new List<CategoryListItem>();
+
+            foreach (var i in index)
+            {
+                var item = list.Find(a => a.Index == i);
+                if (item != null)
+                {
+                    list.Remove(item);
+                    c.Add(item);
+                }
+            }
+
+            c.AddRange(list);
+            list = c;
         }
 
         protected async override void OnNavigatedTo(NavigationEventArgs e)
@@ -141,6 +202,10 @@ namespace Aurora.Music.Pages
 
             if (e.Parameter is ValueTuple<Type, int, string> m)
             {
+                if (m.Item1 == null)
+                {
+                    Category.SelectedIndex = 0;
+                }
                 if (m.Item2 != -1)
                 {
                     try
@@ -177,6 +242,10 @@ namespace Aurora.Music.Pages
                     Category.SelectedIndex = 0;
                 }
             }
+
+
+
+            CategoryList.CollectionChanged += CategoryList_CollectionChanged;
         }
 
         private void Category_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -210,6 +279,14 @@ namespace Aurora.Music.Pages
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             base.OnNavigatingFrom(e);
+
+            CategoryList.CollectionChanged -= CategoryList_CollectionChanged;
+
+            var dump = CategoryList.ToList().ConvertAll(a => a.Index);
+            Task.Run(async () =>
+            {
+                await Settings.SaveLibraryIndex(dump);
+            });
         }
 
         public void RequestGoBack()
@@ -332,7 +409,7 @@ namespace Aurora.Music.Pages
             {
                 var t = Task.Run(async () =>
                 {
-                    await MainPageViewModel.Current.FilesChanged();
+                    await MainPageViewModel.Current.FilesChangedAsync();
                 });
             }
         }

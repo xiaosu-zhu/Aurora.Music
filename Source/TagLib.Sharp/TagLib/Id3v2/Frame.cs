@@ -39,7 +39,7 @@ namespace TagLib.Id3v2 {
 		/// <summary>
 		///    Contains the frame's header.
 		/// </summary>
-		private FrameHeader header;
+		protected FrameHeader header;
 		
 		/// <summary>
 		///    Contains the frame's grouping ID.
@@ -474,11 +474,11 @@ namespace TagLib.Id3v2 {
 			ByteVector data = frameData.Mid (data_offset,
 				data_length);
 
-            if ((Flags & FrameFlags.Unsynchronisation) != 0) {
-                int before_length = data.Count;
+			if ((Flags & FrameFlags.Unsynchronisation) != 0) {
+				int before_length = data.Count;
 				SynchData.ResynchByteVector (data);
-                data_length -= (data.Count - before_length);
-            }
+				data_length -= (data.Count - before_length);
+			}
 			
 			// FIXME: Implement encryption.
 			if ((Flags & FrameFlags.Encryption) != 0)
@@ -525,7 +525,7 @@ namespace TagLib.Id3v2 {
 		public virtual Frame Clone ()
 		{
 			int index = 0;
-			return FrameFactory.CreateFrame (Render (4), ref index,
+			return FrameFactory.CreateFrame(Render(4), null, ref index,
 				4, false);
 		}
 		
