@@ -34,4 +34,6 @@ These files are created by Visual Studio for store upload, just ignore them.
 
 ### taglib-sharp
 
-The project `taglib-sharp` is imported as a git submodule, run `git submodule init`
+The project [`taglib-sharp`](https://github.com/mono/taglib-sharp) is imported as a git submodule, run `git submodule update --init` to clone the submodule.
+
+To upgrade the submodule, run `git pull` in `/Source/TagLib`, then add a commit for this project.
