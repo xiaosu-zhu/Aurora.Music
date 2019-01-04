@@ -1,8 +1,8 @@
 # Something about build and deploy
 
 ## System requirements
-* Windows 10 version 1709 or higher
-* Visual Studio 2017 with Windows 10 SDK 10.0.16299
+* Windows 10 version 1803 or higher
+* Visual Studio 2017 with Windows 10 SDK 10.0.17134
 * Please enable dev mode in system settings
 
 ## Fix the missing files
