@@ -742,9 +742,9 @@
       <Project>{013c6cda-318b-4ee7-a1c3-80df4bb9c092}</Project>
       <Name>StarButton</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TagLib.Sharp\TagLib.Sharp.csproj">
-      <Project>{2355f4e1-9225-433b-98cd-f36df22d042b}</Project>
-      <Name>TagLib.Sharp</Name>
+    <ProjectReference Include="..\TagLib\src\taglib-sharp.csproj">
+      <Project>{56569777-4f05-44eb-9f34-e8c40159bb0b}</Project>
+      <Name>taglib-sharp</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

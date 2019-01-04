@@ -1,0 +1,3 @@
+[submodule "Source/TagLib"]
+	path = Source/TagLib
+	url = https://github.com/mono/taglib-sharp.git

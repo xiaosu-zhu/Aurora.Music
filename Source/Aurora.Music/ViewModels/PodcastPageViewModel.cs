@@ -11,7 +11,6 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using TagLib.Id3v2;
 using Windows.ApplicationModel.Core;
 using Windows.UI;
 using Windows.UI.Core;
@@ -21,7 +20,7 @@ using Windows.UI.Xaml;
 
 namespace Aurora.Music.ViewModels
 {
-    class PodcastPageViewModel : ViewModelBase
+    internal class PodcastPageViewModel : ViewModelBase
     {
 
         private ObservableCollection<SongViewModel> songsList;
