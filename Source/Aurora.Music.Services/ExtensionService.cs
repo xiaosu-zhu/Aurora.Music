@@ -101,7 +101,7 @@ namespace Aurora.Music.Services
                         case "search":
                             var result = await OnlineMusicSearcher.SearchAsync(message["keyword"] as string);
                             var resultList = new List<PropertySet>();
-                            if (result == null && result.Data != null)
+                            if (result == null || result.Data == null)
                             {
                                 returnData.Add("status", 0);
                                 break;
@@ -112,12 +112,12 @@ namespace Aurora.Music.Services
                                 var set = new PropertySet
                                 {
                                     ["title"] = item.Title,
-                                    ["description"] = item.SingerItems[0]?.Title,
-                                    ["addtional"] = item.Album.Title,
-                                    ["picture_path"] = OnlineMusicSearcher.GeneratePicturePathByID(item.Album.Mid),
+                                    ["description"] = item.SingerItems[0]?.Name,
+                                    ["addtional"] = item.AlbumName,
+                                    ["picture_path"] = OnlineMusicSearcher.GeneratePicturePathByID(item.AlbumMid),
                                     ["type"] = "song",
                                     ["id"] = new string[] { item.Mid },
-                                    ["album_id"] = item.Album.Mid
+                                    ["album_id"] = item.AlbumMid
                                 };
                                 resultList.Add(set);
                             }

@@ -19,26 +19,25 @@ namespace Aurora.Music.Core.Extension
 {
     public class OnlineMusicSearcher
     {
-        private const string url = "https://c.y.qq.com/soso/fcgi-bin/client_search_cp";
+        private const string seachUrl = @"http://i.y.qq.com/s.music/fcgi-bin/search_for_qq_cp?g_tk=938407465&uin=0&format=jsonp&inCharset=utf-8&outCharset=utf-8&notice=0&platform=h5&needNewCode=1&w={0}&zhidaqu=1&catZhida=1&t=0&flag=1&ie=utf-8&sem=1&aggr=0&perpage=100&n={1}&p=0&remoteplace=txt.mqq.all&_=1459991037831&jsonpCallback=jsonp4";
 
         public static async Task<QQMusicSearchJson> SearchAsync(string keyword)
         {
-            var queryString = HttpUtility.ParseQueryString(string.Empty);
-            queryString["format"] = "json";
-            queryString["aggr"] = "1";
-            queryString["lossless"] = "1";
-            queryString["cr"] = "1";
-            queryString["new_json"] = "1";
-            queryString["p"] = "1";
-            queryString["n"] = Settings.Current.PreferredSearchCount.ToString();
-            queryString["w"] = keyword;
-
-            var result = await ApiRequestHelper.HttpGet(url, queryString);
+            var url = string.Format(seachUrl, keyword, Settings.Current.PreferredSearchCount.ToString());
+            var header = new Dictionary<string, string>()
+            {
+                ["Accept-Language"] = "zh-CN",
+                ["Accept"] = "application/json, text/plain, */*",
+                ["Referer"] = "http://y.qq.com/",
+                ["Origin"] = "http://y.qq.com/",
+            };
+            var result = await ApiRequestHelper.HttpGet(url, addHeader: header);
             try
             {
                 if (result != null)
                 {
-                    return JsonConvert.DeserializeObject<QQMusicSearchJson>(result);
+                    var length = result.Length - 8;
+                    return JsonConvert.DeserializeObject<QQMusicSearchJson>(result.Substring(7, length));
                 }
                 return null;
             }
@@ -102,7 +101,7 @@ namespace Aurora.Music.Core.Extension
             throw new NotImplementedException();
         }
 
-        private const string fileUrl = "https://c.y.qq.com/base/fcgi-bin/fcg_musicexpress.fcg";
+        private const string fileUrl = @"https://u.y.qq.com/cgi-bin/musicu.fcg?loginUin=0&hostUin=0&format=json&inCharset=utf8&outCharset=utf-8&notice=0&platform=yqq.json&needNewCode=0&data=%7B%22req_0%22%3A%7B%22module%22%3A%22vkey.GetVkeyServer%22%2C%22method%22%3A%22CgiGetVkey%22%2C%22param%22%3A%7B%22guid%22%3A%2210000%22%2C%22songmid%22%3A%5B%22{0}%22%5D%2C%22songtype%22%3A%5B0%5D%2C%22uin%22%3A%220%22%2C%22loginflag%22%3A1%2C%22platform%22%3A%2220%22%7D%7D%2C%22comm%22%3A%7B%22uin%22%3A0%2C%22format%22%3A%22json%22%2C%22ct%22%3A20%2C%22cv%22%3A0%7D%7D";
         private const string streamUrl = "https://dl.stream.qqmusic.qq.com/";
 
         private static readonly List<QQMusicFileFormat> fileFormats = new List<QQMusicFileFormat>()
@@ -126,31 +125,21 @@ namespace Aurora.Music.Core.Extension
 
         public static async Task<string> GenerateFileUriByID(string media_ID, uint bitrate)
         {
-            if ((DateTime.Now - stamp).TotalMinutes > 1 || !key.IsNullorEmpty())
+            var result = await ApiRequestHelper.HttpGet(string.Format(fileUrl, media_ID));
+            if (result.IsNullorEmpty())
             {
-                guid = (Shared.Helpers.Tools.Random.Next() % 10000000000);
-                stamp = DateTime.Now;
-                var queryString = HttpUtility.ParseQueryString(string.Empty);
-                queryString["json"] = "3";
-                queryString["guid"] = guid.ToString();
-                queryString["format"] = "json";
-                var result = await ApiRequestHelper.HttpGet(fileUrl, queryString);
-                if (result.IsNullorEmpty())
-                {
-                    return null;
-                }
-                var stage = JsonConvert.DeserializeObject<QQMusicFileJson>(result);
-                if (stage.Code != 0)
-                {
-                    return null;
-                }
-                key = stage.Key;
+                return null;
             }
-
-            var f = fileFormats.First(x => x.BitRate <= bitrate);
-
-            var final = streamUrl + f.Prefix + media_ID + f.Format + "?vkey=" + key + "&guid=" + guid.ToString() + "&uid=0&fromtag=30";
-            return final;
+            var data = JsonConvert.DeserializeObject<QQMusicFileJson>(result);
+            try
+            {
+                var final = data.req_0.data.Sip[0] + data.req_0.data.MidUrlInfo[0].purl;
+                return final;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         class QQMusicFileFormat

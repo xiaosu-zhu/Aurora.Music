@@ -252,43 +252,43 @@ namespace Aurora.Music.Core.Extension.Json
         ///<summary>
         /// 
         /// </summary>
-        [DataMember(Name = "pay_down")]
+        [DataMember(Name = "payalbum")]
         public int Pay_Down { get; set; }
 
         ///<summary>
         /// 
         /// </summary>
-        [DataMember(Name = "pay_month")]
+        [DataMember(Name = "payalbumprice")]
         public int Pay_Month { get; set; }
 
         ///<summary>
         /// 
         /// </summary>
-        [DataMember(Name = "pay_play")]
+        [DataMember(Name = "paydownload")]
         public int Pay_Play { get; set; }
 
         ///<summary>
         /// 
         /// </summary>
-        [DataMember(Name = "pay_status")]
+        [DataMember(Name = "payinfo")]
         public int Pay_Status { get; set; }
 
         ///<summary>
         /// 
         /// </summary>
-        [DataMember(Name = "price_album")]
+        [DataMember(Name = "payplay")]
         public int Price_Album { get; set; }
 
         ///<summary>
         /// 
         /// </summary>
-        [DataMember(Name = "price_track")]
+        [DataMember(Name = "paytrackmouth")]
         public int Price_Track { get; set; }
 
         ///<summary>
         /// 
         /// </summary>
-        [DataMember(Name = "time_free")]
+        [DataMember(Name = "paytrackprice")]
         public int Time_Free { get; set; }
 
     }
@@ -315,31 +315,12 @@ namespace Aurora.Music.Core.Extension.Json
         /// </summary>
         [DataMember(Name = "name")]
         public string Name { get; set; }
-
+        
         ///<summary>
         /// 五月天
         /// </summary>
-        [DataMember(Name = "title")]
-        public string Title { get; set; }
-
-        ///<summary>
-        /// 五月天
-        /// </summary>
-        [DataMember(Name = "title_hilight")]
-        public string Title_Hilight { get; set; }
-
-        ///<summary>
-        /// 
-        /// </summary>
-        [DataMember(Name = "type")]
-        public int Type { get; set; }
-
-        ///<summary>
-        /// 
-        /// </summary>
-        [DataMember(Name = "uin")]
-        public int Uin { get; set; }
-
+        [DataMember(Name = "name_hilight")]
+        public string Name_Hilight { get; set; }
     }
 
 
@@ -583,7 +564,7 @@ namespace Aurora.Music.Core.Extension.Json
         public VolumeModel Volume { get; set; }
 
     }
-    
+
 
     [DataContract]
     public class ListItemModel
@@ -591,15 +572,39 @@ namespace Aurora.Music.Core.Extension.Json
         ///<summary>
         /// 
         /// </summary>
-        [DataMember(Name = "action")]
-        public ActionModel Action { get; set; }
+        [DataMember(Name = "albumid")]
+        public int AlbumId { get; set; }
 
         ///<summary>
         /// 
         /// </summary>
-        [DataMember(Name = "album")]
-        public AlbumModel Album { get; set; }
+        [DataMember(Name = "albummid")]
+        public string AlbumMid { get; set; }
 
+        ///<summary>
+        /// 
+        /// </summary>
+        [DataMember(Name = "albumname")]
+        public string AlbumName { get; set; }
+
+        ///<summary>
+        /// 
+        /// </summary>
+        [DataMember(Name = "songmid")]
+        public string Mid { get; set; }
+
+        ///<summary>
+        /// 
+        /// </summary>
+        [DataMember(Name = "album_hilight")]
+        public string AlbumNameHighlight { get; set; }
+
+        ///<summary>
+        /// 
+        /// </summary>
+        [DataMember(Name = "alertid")]
+        public int alertid { get; set; }
+        
         ///<summary>
         /// 
         /// </summary>
@@ -615,44 +620,14 @@ namespace Aurora.Music.Core.Extension.Json
         ///<summary>
         /// 
         /// </summary>
-        [DataMember(Name = "file")]
-        public FileModel File { get; set; }
-
-        ///<summary>
-        /// 
-        /// </summary>
-        [DataMember(Name = "fnote")]
-        public int Fnote { get; set; }
-
-        ///<summary>
-        /// 
-        /// </summary>
-        [DataMember(Name = "genre")]
-        public int Genre { get; set; }
+        [DataMember(Name = "format")]
+        public string Format { get; set; }
 
         ///<summary>
         /// 
         /// </summary>
         [DataMember(Name = "grp")]
         public List<GrpItemModel> GrpItems { get; set; }
-
-        ///<summary>
-        /// 
-        /// </summary>
-        [DataMember(Name = "id")]
-        public int Id { get; set; }
-
-        ///<summary>
-        /// 
-        /// </summary>
-        [DataMember(Name = "index_album")]
-        public int Index_Album { get; set; }
-
-        ///<summary>
-        /// 
-        /// </summary>
-        [DataMember(Name = "index_cd")]
-        public int Index_Cd { get; set; }
 
         ///<summary>
         /// 
@@ -665,18 +640,6 @@ namespace Aurora.Music.Core.Extension.Json
         /// </summary>
         [DataMember(Name = "isonly")]
         public int Isonly { get; set; }
-
-        ///<summary>
-        /// 
-        /// </summary>
-        [DataMember(Name = "ksong")]
-        public KsongModel Ksong { get; set; }
-
-        ///<summary>
-        /// 
-        /// </summary>
-        [DataMember(Name = "language")]
-        public int Language { get; set; }
 
         ///<summary>
         /// 《疯岳撬佳人》电影插曲
@@ -693,32 +656,14 @@ namespace Aurora.Music.Core.Extension.Json
         ///<summary>
         /// 
         /// </summary>
-        [DataMember(Name = "mid")]
-        public string Mid { get; set; }
-
-        ///<summary>
-        /// 
-        /// </summary>
-        [DataMember(Name = "mv")]
-        public MvModel Mv { get; set; }
-
-        ///<summary>
-        /// 你不是真正的快乐
-        /// </summary>
-        [DataMember(Name = "name")]
-        public string Name { get; set; }
-
-        ///<summary>
-        /// 
-        /// </summary>
-        [DataMember(Name = "newStatus")]
-        public int NewStatus { get; set; }
+        [DataMember(Name = "msgid")]
+        public int MsgId { get; set; }
 
         ///<summary>
         /// 
         /// </summary>
         [DataMember(Name = "nt")]
-        public long Nt { get; set; }
+        public ulong Mv { get; set; }
 
         ///<summary>
         /// 
@@ -741,14 +686,50 @@ namespace Aurora.Music.Core.Extension.Json
         ///<summary>
         /// 
         /// </summary>
-        [DataMember(Name = "status")]
-        public int Status { get; set; }
+        [DataMember(Name = "size128")]
+        public long size128 { get; set; }
 
         ///<summary>
-        /// 《疯岳撬佳人》电影插曲
+        /// 
         /// </summary>
-        [DataMember(Name = "subtitle")]
-        public string Subtitle { get; set; }
+        [DataMember(Name = "size320")]
+        public long size320 { get; set; }
+
+        ///<summary>
+        /// 
+        /// </summary>
+        [DataMember(Name = "sizeape")]
+        public long sizeape { get; set; }
+
+        ///<summary>
+        /// 
+        /// </summary>
+        [DataMember(Name = "sizeflac")]
+        public long sizeflac { get; set; }
+
+        ///<summary>
+        /// 
+        /// </summary>
+        [DataMember(Name = "sizeogg")]
+        public long sizeogg { get; set; }
+
+        ///<summary>
+        /// 
+        /// </summary>
+        [DataMember(Name = "songid")]
+        public long songid { get; set; }
+
+        ///<summary>
+        ///
+        /// </summary>
+        [DataMember(Name = "stream")]
+        public int Stream { get; set; }
+
+        ///<summary>
+        ///
+        /// </summary>
+        [DataMember(Name = "switch")]
+        public int Switch { get; set; }
 
         ///<summary>
         /// 
@@ -761,23 +742,17 @@ namespace Aurora.Music.Core.Extension.Json
         /// </summary>
         [DataMember(Name = "tag")]
         public int Tag { get; set; }
-
-        ///<summary>
-        /// 
-        /// </summary>
-        [DataMember(Name = "time_public")]
-        public string Time_Public { get; set; }
-
+        
         ///<summary>
         /// 你不是真正的快乐
         /// </summary>
-        [DataMember(Name = "title")]
+        [DataMember(Name = "songname")]
         public string Title { get; set; }
 
         ///<summary>
         /// 你不是真正的快乐
         /// </summary>
-        [DataMember(Name = "title_hilight")]
+        [DataMember(Name = "songname_hilight")]
         public string Title_Hilight { get; set; }
 
         ///<summary>
@@ -789,7 +764,7 @@ namespace Aurora.Music.Core.Extension.Json
         ///<summary>
         /// 
         /// </summary>
-        [DataMember(Name = "url")]
+        [DataMember(Name = "songurl")]
         public string Url { get; set; }
 
         ///<summary>
@@ -801,8 +776,8 @@ namespace Aurora.Music.Core.Extension.Json
         ///<summary>
         /// 
         /// </summary>
-        [DataMember(Name = "volume")]
-        public VolumeModel Volume { get; set; }
+        [DataMember(Name = "vid")]
+        public string Vid { get; set; }
 
     }
 
@@ -972,32 +947,63 @@ namespace Aurora.Music.Core.Extension.Json
         ///<summary>
         /// 
         /// </summary>
+        [DataMember(Name = "req_0")]
+        public Req_0 req_0 { get; set; }
+
+        ///<summary>
+        /// 
+        /// </summary>
+        [DataMember(Name = "ts")]
+        public ulong ts { get; set; }
+    }
+
+    [DataContract]
+    public class Req_0
+    {
+        ///<summary>
+        /// 
+        /// </summary>
+        [DataMember(Name = "code")]
+        public int Code { get; set; }
+        ///<summary>
+        /// 
+        /// </summary>
+        [DataMember(Name = "data")]
+        public QQFileData data { get; set; }
+    }
+
+    [DataContract]
+    public class QQFileData
+    {
+        [DataMember(Name = "expiration")]
+        public ulong Expiration { get; set; }
+
+        [DataMember(Name = "login_key")]
+        public string LoginKey { get; set; }
+
+        [DataMember(Name = "msg")]
+        public string Msg { get; set; }
+
+        [DataMember(Name = "retcode")]
+        public int RetCode { get; set; }
+
+        [DataMember(Name = "servercheck")]
+        public string ServerCheck { get; set; }
+
         [DataMember(Name = "sip")]
-        public List<string> SipItems { get; set; }
+        public List<string> Sip { get; set; }
 
-        ///<summary>
-        /// 
-        /// </summary>
-        [DataMember(Name = "thirdip")]
-        public List<string> ThirdipItems { get; set; }
+        [DataMember(Name = "midurlinfo")]
+        public List<MidUrlInfo> MidUrlInfo { get; set; }
+    }
 
-        ///<summary>
-        /// 
-        /// </summary>
-        [DataMember(Name = "testfile2g")]
-        public string Testfile2g { get; set; }
+    [DataContract]
+    public class MidUrlInfo
+    {
+        [DataMember(Name = "filename")]
+        public string filename { get; set; }
 
-        ///<summary>
-        /// 
-        /// </summary>
-        [DataMember(Name = "testfilewifi")]
-        public string Testfilewifi { get; set; }
-
-        ///<summary>
-        /// 
-        /// </summary>
-        [DataMember(Name = "key")]
-        public string Key { get; set; }
-
+        [DataMember(Name = "purl")]
+        public string purl { get; set; }
     }
 }
