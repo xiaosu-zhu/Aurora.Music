@@ -43,7 +43,7 @@ namespace Aurora.Music.Controls
 
         private async void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            MainPage.Current.ShowModalUI(true, "Prepare to Play");
+            MainPage.Current.ShowModalUI(true, Consts.Localizer.GetString("PrepareToPlay"));
             await MainPageViewModel.Current.InstantPlayAsync(await currentItem.GetSongsAsync());
             MainPage.Current.ShowModalUI(false);
         }

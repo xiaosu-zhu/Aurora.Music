@@ -147,7 +147,7 @@ namespace Aurora.Music.Services
                                     ["bit_rate"] = Settings.Current.GetPreferredBitRate() * 1000,
                                     ["track"] = song.DataItems[0].Index_Album,
                                     ["track_count"] = 0,
-                                    ["duration"] = TimeSpan.Zero.ToString()
+                                    ["duration"] = TimeSpan.FromSeconds(song.DataItems[0].Interval).ToString()
                                 };
                                 songRes["album_artists"] = songRes["performers"];
                                 var picture = OnlineMusicSearcher.GeneratePicturePathByID(song.DataItems[0].Album.Mid);
@@ -188,7 +188,7 @@ namespace Aurora.Music.Services
                                         ["bit_rate"] = Settings.Current.GetPreferredBitRate() * 1000,
                                         ["picture_path"] = OnlineMusicSearcher.GeneratePicturePathByID(x.Album.Mid),
                                         ["track"] = x.Index_Album,
-                                        ["duration"] = TimeSpan.Zero.ToString(),
+                                        ["duration"] = TimeSpan.FromSeconds(x.Interval).ToString(),
                                         ["file_url"] = AsyncHelper.RunSync(async () => await OnlineMusicSearcher.GenerateFileUriByID(x.Mid, Settings.Current.GetPreferredBitRate())),
                                         ["file_type"] = OnlineMusicSearcher.GenerateFileTypeByID(x.Mid, Settings.Current.GetPreferredBitRate())
                                     };

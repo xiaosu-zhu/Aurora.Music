@@ -12,6 +12,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:star="using:StarButton"
     xmlns:vm="using:Aurora.Music.ViewModels"
+    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
@@ -41,6 +42,18 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     <ListView ItemContainerStyleSelector="{StaticResource SongListStyleSelector}" ItemTemplate="{StaticResource NarrowSongListTemplate}"
               ContextRequested="SongList_ContextRequested" ContextCanceled="SongList_ContextCanceled" HorizontalAlignment="Stretch"
               ItemsSource="{x:Bind SongList}" Padding="0,0,20,0">
+        <ListView.Resources>
+            <Storyboard x:Name="DetailExpand">
+                <DoubleAnimation Storyboard.TargetName="Descriptions" Storyboard.TargetProperty="Heigh" From="75">
+                    <DoubleAnimation.EasingFunction>
+                        <QuinticEase/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+            </Storyboard>
+            <Storyboard x:Name="DetailCollapse">
+
+            </Storyboard>
+        </ListView.Resources>
         <ListView.Header>
             <Grid Margin="0,0,0,24">
                 <Grid.ColumnDefinitions>
@@ -51,28 +64,38 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-                <toolkit:DropShadowPanel HorizontalAlignment="Stretch" VerticalAlignment="Center" OffsetX="0" OffsetY="0" BlurRadius="16" ShadowOpacity="0.666" Grid.RowSpan="2" Margin="16,16,32,16">
-                    <Image x:Name="Artwork" Width="150" HorizontalAlignment="Stretch" VerticalAlignment="Center" Stretch="Uniform"/>
-                </toolkit:DropShadowPanel>
-                <StackPanel Grid.Column="1" Margin="0" VerticalAlignment="Center">
-                    <TextBlock Margin="0,4" x:Name="Album" Text="" Style="{ThemeResource TitleTextBlockStyle}"/>
-                    <TextBlock Margin="0,4" x:Name="Artist" Text="" Style="{ThemeResource SubtitleTextBlockStyle}"/>
-                    <TextBlock Margin="0,4,0,8" x:Name="Brief" Text="" Style="{ThemeResource BodyTextBlockStyle}"/>
+                <Image x:Name="Artwork" Width="150" HorizontalAlignment="Stretch" VerticalAlignment="Center" Stretch="Uniform"/>
+                <TextBlock Grid.Column="1" VerticalAlignment="Top" Margin="8,0" x:Name="Album" 
+                           Text="" Style="{ThemeResource TitleTextBlockStyle}" MaxLines="2" 
+                           TextTrimming="CharacterEllipsis" TextWrapping="WrapWholeWords"/>
+                <StackPanel Grid.Column="1" Margin="8,0" VerticalAlignment="Bottom">
+                    <TextBlock Margin="0,4" x:Name="Artist" Text="" Style="{ThemeResource SubtitleTextBlockStyle}"
+                               TextTrimming="CharacterEllipsis" 
+                               TextWrapping="NoWrap" MaxLines="1"/>
+                    <TextBlock Margin="0" x:Name="Brief" Text="" 
+                               Style="{ThemeResource BodyTextBlockStyle}" 
+                               TextTrimming="CharacterEllipsis" 
+                               TextWrapping="NoWrap" MaxLines="1"/>
                 </StackPanel>
-                <Button HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Background="{x:Null}"
-                        HorizontalAlignment="Stretch" x:Name="DetailPanel" Click="DetailPanel_Click"
-                        BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}"
-                        BorderThickness="1" Grid.Column="1" Grid.Row="1" VerticalAlignment="Stretch" Padding="0">
-                    <StackPanel Padding="8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                                Background="{ThemeResource SystemControlAltHighAcrylicElementBrush}">
-                        <toolkit:MarkdownTextBlock IsTextSelectionEnabled="False" 
-                                                   LinkClicked="Descriptions_LinkClicked" 
-                                                   Text="" x:Name="Descriptions" Height="75" 
-                                                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                                                   TextWrapping="WrapWholeWords"/>
-                        <FontIcon x:Name="DescriIndicator" FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="10" Glyph="&#xE09D;" />
-                    </StackPanel>
-                </Button>
+                <StackPanel Grid.ColumnSpan="2" Grid.Row="1" 
+                            x:Name="DetailPanel" Padding="8" 
+                            HorizontalAlignment="Stretch" 
+                            VerticalAlignment="Stretch">
+                    <Button HorizontalContentAlignment="Right" VerticalContentAlignment="Stretch"
+                            Style="{ThemeResource TextBlockButtonStyle}"
+                            HorizontalAlignment="Stretch" Click="DetailPanel_Click"
+                            Content="{x:Bind MoreButtonText(Descriptions.Height), Mode=OneWay}"
+                            BorderThickness="0" VerticalAlignment="Stretch" 
+                            Padding="0"/>
+                    <toolkit:MarkdownTextBlock IsTextSelectionEnabled="False"
+                                               LinkClicked="Descriptions_LinkClicked"
+                                               Background="{x:Null}" 
+                                               Height="{StaticResource DescriptionHeight}"
+                                               Text="" x:Name="Descriptions"
+                                               HorizontalAlignment="Stretch"
+                                               VerticalAlignment="Stretch"
+                                               TextWrapping="WrapWholeWords"/>
+                </StackPanel>
             </Grid>
         </ListView.Header>
     </ListView>

@@ -26,6 +26,13 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref title, value); }
         }
 
+        private bool hasMultipleItem;
+        public bool HasMultipleItem
+        {
+            get { return hasMultipleItem; }
+            set { SetProperty(ref hasMultipleItem, value); }
+        }
+
         private string description;
         public string Description
         {
@@ -113,7 +120,6 @@ namespace Aurora.Music.ViewModels
         {
             MainColor.ColorToHSV(out var h, out var s, out var v);
             v *= d;
-
             return ImagingHelper.ColorFromHSV(h, s, v);
         }
 
@@ -126,6 +132,7 @@ namespace Aurora.Music.ViewModels
             Description = SmartFormat.Smart.Format(Consts.Localizer.GetString("SmartSongs"), (album.Songs.Length + album.Songs.Length));
             Artwork = album.PicturePath.IsNullorEmpty() ? null : new Uri(album.PicturePath);
             IDs = album.Songs;
+            HasMultipleItem = IDs.Length > 1;
         }
 
         public GenericMusicItemViewModel(Song song)
@@ -137,6 +144,7 @@ namespace Aurora.Music.ViewModels
             Description = song.Album;
             Artwork = song.PicturePath.IsNullorEmpty() ? null : new Uri(song.PicturePath);
             IDs = new int[] { song.ID };
+            HasMultipleItem = IDs.Length > 1;
         }
 
         public GenericMusicItemViewModel(GenericMusicItem item)
@@ -147,11 +155,13 @@ namespace Aurora.Music.ViewModels
                 IsOnline = true;
                 OnlineIDs = o.OnlineID;
                 OnlineAlbumID = o.OnlineAlbumId;
+                HasMultipleItem = OnlineIDs.Length > 1;
             }
             else
             {
                 ContextualID = item.ContextualID;
                 IDs = item.IDs;
+                HasMultipleItem = IDs.Length > 1;
             }
             InnerType = item.InnerType;
             Title = item.Title;
@@ -265,6 +275,10 @@ namespace Aurora.Music.ViewModels
             MainColor = item.MainColor;
             OnlineAlbumID = item.OnlineAlbumID;
             OnlineIDs = item.OnlineIDs;
+            if (IDs != null)
+                HasMultipleItem = item.IDs.Length > 1;
+            else if (OnlineIDs != null)
+                HasMultipleItem = item.OnlineIDs.Length > 1;
 
             preloaded = true;
         }

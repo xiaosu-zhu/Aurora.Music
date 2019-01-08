@@ -36,6 +36,121 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <ResourceDictionary x:Key="Light" Source="../Themes/Light.xaml"/>
                 <ResourceDictionary x:Key="Dark" Source="../Themes/Dark.xaml"/>
             </ResourceDictionary.ThemeDictionaries>
+
+            <Style TargetType="GridViewItem" x:Key="GeneralGridViewItemStyle">
+                <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+                <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+                <Setter Property="TabNavigation" Value="Local"/>
+                <Setter Property="IsHoldingEnabled" Value="True"/>
+                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+                <Setter Property="Margin" Value="0"/>
+                <Setter Property="Padding" Value="0,12"/>
+                <Setter Property="MinWidth" Value="{ThemeResource GridViewItemMinWidth}"/>
+                <Setter Property="MinHeight" Value="{ThemeResource GridViewItemMinHeight}"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="GridViewItem">
+                            <Grid x:Name="ContentBorder"
+                Background="{x:Null}"
+                BorderBrush="{x:Null}"
+                BorderThickness="0">
+                                <Grid.Transitions>
+                                    <TransitionCollection>
+                                        <RepositionThemeTransition/>
+                                    </TransitionCollection>
+                                </Grid.Transitions>
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal">
+                                            <Storyboard>
+                                                <PointerUpThemeAnimation Storyboard.TargetName="ContentPresenter" />
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="PointerOver">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AccentForTextPointerOver}" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <PointerUpThemeAnimation Storyboard.TargetName="ContentPresenter" />
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Pressed">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AccentForTextPressed}" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <PointerDownThemeAnimation TargetName="ContentPresenter" />
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Selected">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <PointerUpThemeAnimation Storyboard.TargetName="ContentPresenter" />
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="PointerOverSelected">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <PointerUpThemeAnimation Storyboard.TargetName="ContentPresenter" />
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="PressedSelected">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <PointerDownThemeAnimation TargetName="ContentPresenter" />
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                    <VisualStateGroup x:Name="DisabledStates">
+                                        <VisualState x:Name="Enabled"/>
+                                        <VisualState x:Name="Disabled">
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                    <VisualStateGroup x:Name="FocusStates">
+                                        <VisualState x:Name="Unfocused"/>
+                                        <VisualState x:Name="Focused">
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                    <VisualStateGroup x:Name="MultiSelectStates">
+                                        <VisualState x:Name="MultiSelectDisabled">
+                                        </VisualState>
+                                        <VisualState x:Name="MultiSelectEnabled">
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                    <VisualStateGroup x:Name="DataVirtualizationStates">
+                                        <VisualState x:Name="DataAvailable"/>
+                                        <VisualState x:Name="DataPlaceholder">
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                    <VisualStateGroup x:Name="ReorderHintStates">
+                                        <VisualState x:Name="NoReorderHint"/>
+                                        <VisualState x:Name="BottomReorderHint">
+                                        </VisualState>
+                                        <VisualState x:Name="DraggingTarget">
+                                        </VisualState>
+                                        <VisualState x:Name="MultipleDraggingPrimary">
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <ContentPresenter x:Name="ContentPresenter" Background="Transparent"
+                            ContentTransitions="{TemplateBinding ContentTransitions}"
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                            Margin="{TemplateBinding Padding}" />
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
         </ResourceDictionary>
     </ContentDialog.Resources>
 
@@ -47,7 +162,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
               x:Name="AlbumList">
         <GridView.ItemTemplate>
             <DataTemplate x:DataType="vm:AlbumViewModel">
-                <list:AlbumItem Data="{x:Bind }" PlayAlbum="PlayAlbum_Click" FlyoutRequired="Flyout_Click"/>
+                <Viewbox Height="160" Width="150" Stretch="Uniform">
+                    <list:AlbumItem Data="{x:Bind }" PlayAlbum="PlayAlbum_Click" FlyoutRequired="Flyout_Click"/>
+                </Viewbox>
             </DataTemplate>
         </GridView.ItemTemplate>
         <GridView.Header>
@@ -59,29 +176,30 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     </Grid.ColumnDefinitions>
                     <toolkit:ImageEx x:Name="AvatarImage" Style="{ThemeResource QuickLoadImageEx}" PlaceholderSource="/Assets/Images/artist_placeholder.png"
                                  Stretch="Uniform" PlaceholderStretch="Uniform"  Source="{x:Bind Context.Artist.AvatarImage, Mode=OneWay}" 
-                                 CornerRadius="999" Margin="8" HorizontalAlignment="Center" VerticalAlignment="Center" Width="64" Height="64">
+                                 CornerRadius="999" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" Height="120">
                     </toolkit:ImageEx>
-                    <StackPanel Margin="8" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Orientation="Vertical">
-                        <TextBlock Style="{ThemeResource TitleTextBlockStyle}" Text="{x:Bind Context.Artist.Name, Mode=OneWay}"/>
-                        <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind AlbumCount(Context.AlbumList.Count),Mode=OneWay}"/>
-                    </StackPanel>
+                    <TextBlock Grid.Column="1" Margin="8,0"
+                               HorizontalAlignment="Stretch"
+                               VerticalAlignment="Top" MaxLines="1"
+                               Style="{ThemeResource TitleTextBlockStyle}" 
+                               Text="{x:Bind Context.Artist.Name, Mode=OneWay}"/>
+                    <TextBlock Grid.Column="1" Margin="8,0"
+                               HorizontalAlignment="Stretch" 
+                               VerticalAlignment="Bottom" MaxLines="1"
+                               Style="{ThemeResource BodyTextBlockStyle}" 
+                               Text="{x:Bind AlbumCount(Context.AlbumList.Count),Mode=OneWay}"/>
                 </Grid>
-                <Button Padding="0" Click="Button_Click" Margin="8" Background="{x:Null}"
-                        HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" 
+                <Button Click="Button_Click" Margin="8" Style="{ThemeResource TextBlockButtonStyle}"
+                        HorizontalContentAlignment="Right" VerticalContentAlignment="Stretch" 
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                        BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}"
-                        BorderThickness="1">
-                    <StackPanel Padding="8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                                Background="{ThemeResource SystemControlAltHighAcrylicElementBrush}">
-                        <toolkit:MarkdownTextBlock IsTextSelectionEnabled="False" 
-                                                   LinkClicked="Descriptions_LinkClicked" 
-                                                   Text="{x:Bind Context.Artist.Description, Mode=OneWay}" 
-                                                   x:Name="Descriptions" Height="75" 
-                                                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                                                   TextWrapping="WrapWholeWords"/>
-                        <FontIcon x:Name="DescriIndicator" FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="10" Glyph="&#xE09D;" />
-                    </StackPanel>
-                </Button>
+                        Content="{x:Bind MoreButtonText(Descriptions.Height), Mode=OneWay}"/>
+                <toolkit:MarkdownTextBlock IsTextSelectionEnabled="False"
+                                           LinkClicked="Descriptions_LinkClicked"
+                                           Text="{x:Bind Context.Artist.Description, Mode=OneWay}"
+                                           x:Name="Descriptions" Background="{x:Null}"
+                                           Height="{StaticResource DescriptionHeight}"
+                                           HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                           TextWrapping="WrapWholeWords"/>
             </StackPanel>
         </GridView.Header>
     </GridView>

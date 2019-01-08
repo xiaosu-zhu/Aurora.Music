@@ -398,7 +398,7 @@ namespace Aurora.Music
                                 }
 
                                 // else try to fetch via project Rome
-                                MainPage.Current?.ShowModalUI(true, "Syncing from cloud");
+                                MainPage.Current?.ShowModalUI(true, Consts.Localizer.GetString("Syncing"));
                                 try
                                 {
                                     var r = Core.Tools.ProjectRome.Current;

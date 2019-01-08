@@ -1490,4 +1490,28 @@
     <value>Tap this card to contine listening</value>
     <comment>Tap this card to contine listening</comment>
   </data>
+    <data name="MoreButtonExpand" xml:space="preserve">
+    <value>More</value>
+    <comment>More</comment>
+  </data>
+    <data name="MoreButtonCollapse" xml:space="preserve">
+    <value>Less</value>
+    <comment>Less</comment>
+  </data>
+    <data name="PrepareToPlay" xml:space="preserve">
+    <value>Prepare to Play</value>
+    <comment>Prepare to Play</comment>
+  </data>
+    <data name="LoadingFiles" xml:space="preserve">
+    <value>Loading Files</value>
+    <comment>Loading Files</comment>
+  </data>
+    <data name="Deleting" xml:space="preserve">
+    <value>Deleting</value>
+    <comment>Deleting</comment>
+  </data>
+    <data name="Syncing" xml:space="preserve">
+    <value>Syncing from cloud</value>
+    <comment>Syncing from cloud</comment>
+  </data>
 </root>

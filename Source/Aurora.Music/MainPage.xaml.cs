@@ -513,7 +513,7 @@ namespace Aurora.Music
                     var result = await dialog.ShowAsync();
                     if (result == ContentDialogResult.Secondary)
                     {
-                        ShowModalUI(true, "Prepare to Show");
+                        ShowModalUI(true, Consts.Localizer.GetString("WaitingResultText"));
                         var view = new AlbumViewDialog(await g.FindAssociatedAlbumAsync());
                         ShowModalUI(false);
                         result = await view.ShowAsync();
@@ -549,7 +549,7 @@ namespace Aurora.Music
                         var result = await dialog.ShowAsync();
                         if (result == ContentDialogResult.Secondary)
                         {
-                            ShowModalUI(true, "Prepare to Show");
+                            ShowModalUI(true, Consts.Localizer.GetString("WaitingResultText"));
                             var view = new AlbumViewDialog(await Context.SearchItems[0].FindAssociatedAlbumAsync());
                             ShowModalUI(false);
                             result = await view.ShowAsync();
@@ -685,7 +685,7 @@ namespace Aurora.Music
 
         private async Task FileActivation(IReadOnlyList<IStorageItem> p)
         {
-            ShowModalUI(true, "Loading Files");
+            ShowModalUI(true, Consts.Localizer.GetString("LoadingFiles"));
 
             var list = new List<StorageFile>();
             if (p.Count > 0)

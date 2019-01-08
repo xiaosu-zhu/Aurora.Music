@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
+using Aurora.Music.Core;
 using Aurora.Music.ViewModels;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -41,7 +42,7 @@ namespace Aurora.Music.Controls
 
         private async void SongList_Play(object sender, RoutedEventArgs e)
         {
-            MainPage.Current.ShowModalUI(true, "Prepare to Play");
+            MainPage.Current.ShowModalUI(true, Consts.Localizer.GetString("PrepareToPlay"));
             await MainPageViewModel.Current.InstantPlayAsync(await (await ((sender as FrameworkElement).DataContext as SongViewModel).GetAlbumAsync()).GetSongsAsync(), (int)((sender as FrameworkElement).DataContext as SongViewModel).Index);
             MainPage.Current.ShowModalUI(false);
         }

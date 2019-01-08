@@ -30,10 +30,9 @@ namespace Aurora.Music.Controls
 
         internal ArtistViewDialog(ArtistViewModel artist)
         {
-            MainPage.Current.ShowModalUI(true, "Prepare to Play");
+            MainPage.Current.ShowModalUI(true, Consts.Localizer.GetString("WaitingResultText"));
             this.InitializeComponent();
             Context.Artist = artist;
-            Title = artist.Name;
 
             Task.Run(async () =>
             {
@@ -61,15 +60,24 @@ namespace Aurora.Music.Controls
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (DescriIndicator.Glyph == "\uE018")
+            if (Descriptions.Height == (double)Resources["DescriptionHeight"])
             {
-                DescriIndicator.Glyph = "\uE09D";
-                Descriptions.Height = 75;
+                Descriptions.Height = double.NaN;
             }
             else
             {
-                DescriIndicator.Glyph = "\uE018";
-                Descriptions.Height = double.NaN;
+                Descriptions.Height = (double)Resources["DescriptionHeight"];
+            }
+        }
+        private string MoreButtonText(double height)
+        {
+            if (height == (double)Resources["DescriptionHeight"])
+            {
+                return Consts.Localizer.GetString("MoreButtonExpand");
+            }
+            else
+            {
+                return Consts.Localizer.GetString("MoreButtonCollapse");
             }
         }
 

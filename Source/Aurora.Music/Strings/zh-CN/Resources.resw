@@ -1581,4 +1581,28 @@
     <value>全部播放</value>
     <comment>Play All</comment>
   </data>
+    <data name="MoreButtonExpand" xml:space="preserve">
+    <value>展开</value>
+    <comment>More</comment>
+  </data>
+    <data name="MoreButtonCollapse" xml:space="preserve">
+    <value>收起</value>
+    <comment>Less</comment>
+  </data>
+    <data name="PrepareToPlay" xml:space="preserve">
+    <value>准备播放</value>
+    <comment>Prepare to Play</comment>
+  </data>
+    <data name="LoadingFiles" xml:space="preserve">
+    <value>加载文件中</value>
+    <comment>Loading Files</comment>
+  </data>
+    <data name="Deleting" xml:space="preserve">
+    <value>删除中</value>
+    <comment>Deleting</comment>
+  </data>
+    <data name="Syncing" xml:space="preserve">
+    <value>云端同步中</value>
+    <comment>Syncing from cloud</comment>
+  </data>
 </root>

@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -127,7 +128,7 @@ namespace Aurora.Music.Controls
 
         private async void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            MainPage.Current.ShowModalUI(true, "Prepare to Play");
+            MainPage.Current.ShowModalUI(true, Consts.Localizer.GetString("PrepareToPlay"));
             await MainPageViewModel.Current.InstantPlayAsync(await album.GetSongsAsync());
             MainPage.Current.ShowModalUI(false);
         }
@@ -171,19 +172,25 @@ namespace Aurora.Music.Controls
 
         private void DetailPanel_Click(object sender, RoutedEventArgs e)
         {
-            if (DescriIndicator.Glyph == "\uE018")
+            if (Descriptions.Height == (double)Resources["DescriptionHeight"])
             {
-                DetailPanel.SetValue(Grid.ColumnProperty, 1);
-                DetailPanel.SetValue(Grid.ColumnSpanProperty, 1);
-                DescriIndicator.Glyph = "\uE09D";
-                Descriptions.Height = 75;
+                Descriptions.Height = double.NaN;
             }
             else
             {
-                DetailPanel.SetValue(Grid.ColumnProperty, 0);
-                DetailPanel.SetValue(Grid.ColumnSpanProperty, 2);
-                DescriIndicator.Glyph = "\uE018";
-                Descriptions.Height = double.NaN;
+                Descriptions.Height = (double)Resources["DescriptionHeight"];
+            }
+        }
+
+        private string MoreButtonText(double height)
+        {
+            if (height == (double)Resources["DescriptionHeight"])
+            {
+                return Consts.Localizer.GetString("MoreButtonExpand");
+            }
+            else
+            {
+                return Consts.Localizer.GetString("MoreButtonCollapse");
             }
         }
 

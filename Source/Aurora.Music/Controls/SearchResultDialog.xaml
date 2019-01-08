@@ -26,16 +26,23 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <toolkit:DropShadowPanel Margin="16" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BlurRadius="8" Color="Black" ShadowOpacity="0.5" OffsetX="0" OffsetY="0">
-            <Image MaxHeight="150" MaxWidth="150" x:Name="Artwork" Stretch="Uniform" />
-        </toolkit:DropShadowPanel>
-        <StackPanel Grid.Column="1" Margin="16" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Center">
-            <StackPanel Orientation="Horizontal" Margin="4,0,4,4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MaxWidth="320">
-                <TextBlock x:Name="TitleText" Style="{ThemeResource TitleTextBlockStyle}" MaxLines="2" TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis"/>
-                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE753;" Margin="8,0" Foreground="{ThemeResource SystemControlForegroundAccentBrush}" x:Name="OnlineIndicator"/>
-            </StackPanel>
-            <TextBlock x:Name="Description" Style="{ThemeResource BodyTextBlockStyle}" Margin="4,0,4,4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MaxLines="2" MaxWidth="320"/>
-            <TextBlock x:Name="Addtional" Style="{ThemeResource BodyTextBlockStyle}" Margin="4,0,4,4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MaxLines="2" MaxWidth="320"/>
+        <Image HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+               MaxHeight="150" MaxWidth="150" 
+               x:Name="Artwork" Stretch="Uniform" />
+        <StackPanel Orientation="Horizontal" Grid.Column="1"
+                    Margin="16,0,16,4" HorizontalAlignment="Stretch" 
+                    VerticalAlignment="Top" MaxWidth="320">
+            <TextBlock x:Name="TitleText" Style="{ThemeResource TitleTextBlockStyle}" MaxLines="2" 
+                       TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis"/>
+            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE753;" 
+                      Margin="8,0" Foreground="{ThemeResource SystemControlForegroundAccentBrush}" 
+                      x:Name="OnlineIndicator"/>
+        </StackPanel>
+        <StackPanel Grid.Column="1" Margin="16,0" 
+                    Orientation="Vertical" HorizontalAlignment="Stretch" 
+                    VerticalAlignment="Bottom">
+            <TextBlock x:Name="Description" Style="{ThemeResource BodyTextBlockStyle}" Margin="0,0,0,4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MaxLines="2" MaxWidth="320"/>
+            <TextBlock x:Name="Addtional" Style="{ThemeResource BodyTextBlockStyle}" Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MaxLines="2" MaxWidth="320"/>
         </StackPanel>
     </Grid>
 </ContentDialog>

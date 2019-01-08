@@ -12,6 +12,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         <ResourceDictionary Source="./Light.xaml" x:Key="Light"/>
         <ResourceDictionary Source="./Dark.xaml" x:Key="Dark"/>
     </ResourceDictionary.ThemeDictionaries>
+    <x:Double x:Key="DescriptionHeight">88</x:Double>
 
 
     <Style TargetType="Button" x:Key="RevealRoundCornerButton">

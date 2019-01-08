@@ -478,7 +478,7 @@ namespace Aurora.Music.ViewModels
         {
             get => new DelegateCommand(async () =>
             {
-                MainPage.Current.ShowModalUI(true, "Deleting");
+                MainPage.Current.ShowModalUI(true, Consts.Localizer.GetString("Deleting"));
                 (PlaybackEngine.PlaybackEngine.Current).Dispose();
                 Settings.Current.DANGER_DELETE();
                 var opr = SQLOperator.Current();
