@@ -155,13 +155,15 @@ namespace Aurora.Music.ViewModels
                 IsOnline = true;
                 OnlineIDs = o.OnlineID;
                 OnlineAlbumID = o.OnlineAlbumId;
-                HasMultipleItem = OnlineIDs.Length > 1;
+                if (OnlineIDs != null)
+                    HasMultipleItem = o.OnlineAlbumId != null || OnlineIDs.Length > 1;
             }
             else
             {
                 ContextualID = item.ContextualID;
                 IDs = item.IDs;
-                HasMultipleItem = IDs.Length > 1;
+                if (IDs != null)
+                    HasMultipleItem = IDs.Length > 1;
             }
             InnerType = item.InnerType;
             Title = item.Title;

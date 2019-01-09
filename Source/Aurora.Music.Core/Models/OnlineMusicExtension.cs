@@ -65,6 +65,14 @@ namespace Aurora.Music.Core.Models
                                 {
                                     return GetAlbum(r, message["songs"] as string, message["album_artists"] as string);
                                 }
+                                if (message.ContainsKey("playlists") && message["playlists"] is string p)
+                                {
+                                    return GetPlayLists(p);
+                                }
+                                if (message.ContainsKey("playlist_result") && message["playlist_result"] is string a)
+                                {
+                                    return GetAlbum(a, message["songs"] as string, message["album_artists"] as string);
+                                }
                             }
                         }
                     }
@@ -77,6 +85,60 @@ namespace Aurora.Music.Core.Models
             }
         }
 
+        private List<OnlineMusicItem> GetPlayLists(string p)
+        {
+            var playlist = JsonConvert.DeserializeObject<PropertySet[]>(p);
+            return playlist.Select(a => new OnlineMusicItem(a["title"] as string, a["description"] as string, a["addtional"] as string, null, a["id"] as string, a["picture_path"] as string)).ToList();
+        }
+
+        private Album GetPlaylist(string r, string s, string art)
+        {
+            var set = JsonConvert.DeserializeObject<PropertySet>(r);
+            var songs = JsonConvert.DeserializeObject<PropertySet[]>(s);
+            var artists = JsonConvert.DeserializeObject<PropertySet[]>(art);
+            var a = new Album
+            {
+                Name = set["name"] as string,
+                Decsription = set["description"] as string,
+                Year = Convert.ToUInt32(set["year"]),
+                IsOnline = true,
+                OnlineIDs = songs.Select(x => x["id"] as string).ToArray(),
+                AlbumArtists = artists.Select(x => x["name"] as string).ToArray(),
+                DiscCount = Convert.ToUInt32(set["disc_count"]),
+                TrackCount = Convert.ToUInt32(set["track_count"]),
+                PicturePath = set["picture_path"] as string,
+                Genres = (set["genres"] as Newtonsoft.Json.Linq.JArray).Select(x => x.ToString()).ToArray(),
+            };
+            a.SongItems = new List<Song>();
+            foreach (var item in songs)
+            {
+                a.SongItems.Add(new Song()
+                {
+                    Title = item["title"] as string,
+                    Album = item["album"] as string,
+                    Performers = (item["performers"] as Newtonsoft.Json.Linq.JArray).Select(x => x.ToString()).ToArray(),
+                    AlbumArtists = (item["album_artists"] as Newtonsoft.Json.Linq.JArray).Select(x => x.ToString()).ToArray(),
+                    PicturePath = item["picture_path"] as string,
+                    OnlineID = item["id"] as string,
+                    OnlineAlbumID = item["album_id"] as string,
+                    IsOnline = true,
+                    BitRate = Convert.ToUInt32(item["bit_rate"]),
+                    Year = Convert.ToUInt32(item["year"]),
+                    OnlineUri = new Uri(item["file_url"] as string),
+                    FilePath = item["file_url"] as string,
+                    Track = Convert.ToUInt32(item["track"]),
+                    Duration = TimeSpan.Parse(item["duration"] as string),
+                    FileType = item["file_type"] as string
+                });
+            }
+
+            a.OnlineArtistIDs = artists.Select(x => x["id"] as string).ToArray();
+
+            // TODO: Optional Properties
+
+            return a;
+        }
+
         private Album GetAlbum(string r, string s, string art)
         {
             var set = JsonConvert.DeserializeObject<PropertySet>(r);
@@ -85,7 +147,7 @@ namespace Aurora.Music.Core.Models
             var a = new Album
             {
                 Name = set["name"] as string,
-                Desription = set["desription"] as string,
+                Decsription = set["description"] as string,
                 Year = Convert.ToUInt32(set["year"]),
                 IsOnline = true,
                 OnlineIDs = songs.Select(x => x["id"] as string).ToArray(),

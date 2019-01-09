@@ -1601,4 +1601,8 @@
     <value>雲端同步中</value>
     <comment>Syncing from cloud</comment>
   </data>
+    <data name="TopPlaylist.Text" xml:space="preserve">
+    <value>精選歌單</value>
+    <comment>Featured</comment>
+  </data>
 </root>

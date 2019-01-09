@@ -63,6 +63,16 @@ namespace Aurora.Music.Controls.ListItems
             }
         }
 
+        public Visibility Placeholder(MediaType t)
+        {
+            return t == MediaType.Placeholder ? Visibility.Collapsed : Visibility.Visible;
+        }
+
+        public Visibility NotPlaceholder(MediaType t)
+        {
+            return t != MediaType.Placeholder ? Visibility.Collapsed : Visibility.Visible;
+        }
+
         private void G_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "Artwork")

@@ -9,12 +9,10 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using TagLib;
 using Windows.Storage;
-using Windows.Storage.FileProperties;
 using Windows.System.Threading;
 
 namespace Aurora.Music.Core.Models
@@ -748,7 +746,7 @@ namespace Aurora.Music.Core.Models
         public double ReplayGainAlbumGain { get; set; }
         public double ReplayGainAlbumPeak { get; set; }
         public int ID { get; }
-        public string Desription { get; set; }
+        public string Decsription { get; set; }
         public bool IsOnline { get; set; }
         public string[] OnlineIDs { get; set; }
         public List<Song> SongItems { get; set; }

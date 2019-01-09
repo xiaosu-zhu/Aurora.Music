@@ -14,6 +14,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
+using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 
 namespace Aurora.Music.ViewModels
@@ -95,6 +96,7 @@ namespace Aurora.Music.ViewModels
             HeroList.Add(new HeroItemViewModel());
             HeroList.Add(new HeroItemViewModel());
             HeroList.Add(new HeroItemViewModel());
+
             FavList.Add(new GenericMusicItemViewModel());
             FavList.Add(new GenericMusicItemViewModel());
             FavList.Add(new GenericMusicItemViewModel());
@@ -144,6 +146,7 @@ namespace Aurora.Music.ViewModels
 
         public ObservableCollection<GenericMusicItemViewModel> FavList { get; set; } = new ObservableCollection<GenericMusicItemViewModel>();
         public ObservableCollection<GenericMusicItemViewModel> RandomList { get; set; } = new ObservableCollection<GenericMusicItemViewModel>();
+        public ObservableCollection<GenericMusicItemViewModel> OnlineList { get; set; } = new ObservableCollection<GenericMusicItemViewModel>();
 
         public ObservableCollection<HeroItemViewModel> HeroList { get; set; } = new ObservableCollection<HeroItemViewModel>();
 
@@ -308,8 +311,91 @@ namespace Aurora.Music.ViewModels
                             FavList.RemoveAt(i);
                         }
                     });
+                }),
+
+                Task.Run(async () =>
+                {
+                    if (MainPageViewModel.Current.OnlineMusicExtension != null)
+                    {
+
+                        var querys = new ValueSet
+                        {
+                            new KeyValuePair<string,object>("q", "online_music"),
+                            new KeyValuePair<string, object>("action", "require_playlist"),
+                            new KeyValuePair<string, object>("offset", 0),
+                            new KeyValuePair<string, object>("count", 20),
+                        };
+                        var result = await MainPageViewModel.Current.OnlineMusicExtension.ExecuteAsync(querys);
+                        if (result is List<OnlineMusicItem> s)
+                        {
+                            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                            {
+                                    foreach (var item in s)
+                                    {
+                                        OnlineList.Add(new GenericMusicItemViewModel(item));
+                                    }
+                                    OnlineList.Add(new GenericMusicItemViewModel()
+                                    {
+                                        InnerType = MediaType.Placeholder
+                                    });
+                            });
+                        }
+                    }
                 })
             };
+        }
+
+        internal async Task ShowMoreOnlineList()
+        {
+            if (MainPageViewModel.Current.OnlineMusicExtension != null)
+            {
+
+                var querys = new ValueSet
+                {
+                    new KeyValuePair<string,object>("q", "online_music"),
+                    new KeyValuePair<string, object>("action", "require_playlist"),
+                    new KeyValuePair<string, object>("offset", OnlineList.Count - 1),
+                    new KeyValuePair<string, object>("count", 20),
+                };
+                var result = await MainPageViewModel.Current.OnlineMusicExtension.ExecuteAsync(querys);
+                if (result is List<OnlineMusicItem> s)
+                {
+                    await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                    {
+                        if (OnlineList[OnlineList.Count - 1].InnerType == MediaType.Placeholder)
+                        {
+                            OnlineList.RemoveAt(OnlineList.Count - 1);
+                        }
+                        foreach (var item in s)
+                        {
+                            OnlineList.Add(new GenericMusicItemViewModel(item));
+                        }
+                        OnlineList.Add(new GenericMusicItemViewModel()
+                        {
+                            InnerType = MediaType.Placeholder
+                        });
+                    });
+                }
+            }
+        }
+
+        internal async Task<AlbumViewModel> GetPlaylistAsync(GenericMusicItemViewModel genericMusicItem)
+        {
+            if (MainPageViewModel.Current.OnlineMusicExtension != null)
+            {
+                var querys = new ValueSet
+                {
+                    new KeyValuePair<string,object>("q", "online_music"),
+                    new KeyValuePair<string, object>("action", "show_playlist"),
+                    new KeyValuePair<string, object>("id", genericMusicItem.OnlineAlbumID),
+                };
+                var result = await MainPageViewModel.Current.OnlineMusicExtension.ExecuteAsync(querys);
+                if (result is Album s)
+                {
+                    return new AlbumViewModel(s);
+                }
+            }
+            return null;
         }
 
         internal void Unload()

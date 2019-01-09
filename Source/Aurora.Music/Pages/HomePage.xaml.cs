@@ -1,7 +1,9 @@
 ﻿// Copyright (c) Aurora Studio. All rights reserved.
 //
 // Licensed under the MIT License. See LICENSE in the project root for license information.
+using Aurora.Music.Controls;
 using Aurora.Music.Core;
+using Aurora.Music.Core.Models;
 using Aurora.Music.ViewModels;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
@@ -262,6 +264,27 @@ namespace Aurora.Music.Pages
         private void HeroPanel_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
 
+        }
+
+        private async void OnlineList_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            if ((e.ClickedItem as GenericMusicItemViewModel).InnerType == MediaType.Placeholder)
+            {
+                await Context.ShowMoreOnlineList();
+                return;
+            }
+            MainPage.Current.ShowModalUI(true, Consts.Localizer.GetString("WaitingResultText"));
+            var result = await Context.GetPlaylistAsync(e.ClickedItem as GenericMusicItemViewModel);
+            if (result != null)
+            {
+                var dialog = new AlbumViewDialog(result);
+                MainPage.Current.ShowModalUI(false);
+                await dialog.ShowAsync();
+            }
+            else
+            {
+                MainPage.Current.ShowModalUI(false);
+            }
         }
     }
 }

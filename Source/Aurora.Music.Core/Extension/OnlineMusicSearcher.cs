@@ -101,8 +101,64 @@ namespace Aurora.Music.Core.Extension
             throw new NotImplementedException();
         }
 
+        private const string playlistUrl = @"https://c.y.qq.com/splcloud/fcgi-bin/fcg_get_diss_by_tag.fcg?rnd=0.4781484879517406&g_tk=732560869&jsonpCallback=MusicJsonCallback&loginUin=0&hostUin=0&format=jsonp&inCharset=utf8&outCharset=utf-8&notice=0&platform=yqq&needNewCode=0&categoryId=10000000&sortId=5&sin={0}&ein={1}";
+
+        public static async Task<QQMusicPlaylistJson> GetPlaylist(int offset, int count)
+        {
+            var url = string.Format(playlistUrl, offset, offset + count - 1);
+            var header = new Dictionary<string, string>()
+            {
+                ["Accept-Language"] = "zh-CN",
+                ["Accept"] = "application/json, text/plain, */*",
+                ["Referer"] = "http://y.qq.com/",
+                ["Origin"] = "http://y.qq.com/",
+            };
+            var result = await ApiRequestHelper.HttpGet(url, addHeader: header);
+            try
+            {
+                if (result != null)
+                {
+                    var length = result.Length - 19;
+                    return JsonConvert.DeserializeObject<QQMusicPlaylistJson>(result.Substring(18, length));
+                }
+                return null;
+            }
+            catch (JsonReaderException)
+            {
+                return null;
+            }
+        }
+
+        public const string getPlaylistUrl = @"http://i.y.qq.com/qzone-music/fcg-bin/fcg_ucc_getcdinfo_byids_cp.fcg?type=1&json=1&utf8=1&onlysong=0&jsonpCallback=jsonCallback&nosign=1&disstid={0}&g_tk=5381&loginUin=0&hostUin=0&format=jsonp&inCharset=GB2312&outCharset=utf-8&notice=0&platform=yqq&needNewCode=0";
+
+
+        public static async Task<QQMusicDiscJson> ShowPlaylist(string id)
+        {
+            var url = string.Format(getPlaylistUrl, id);
+            var header = new Dictionary<string, string>()
+            {
+                ["Accept-Language"] = "zh-CN",
+                ["Accept"] = "application/json, text/plain, */*",
+                ["Referer"] = "http://y.qq.com/",
+                ["Origin"] = "http://y.qq.com/",
+            };
+            var result = await ApiRequestHelper.HttpGet(url, addHeader: header);
+            try
+            {
+                if (result != null)
+                {
+                    var length = result.Length - 14;
+                    return JsonConvert.DeserializeObject<QQMusicDiscJson>(result.Substring(13, length));
+                }
+                return null;
+            }
+            catch (JsonReaderException)
+            {
+                return null;
+            }
+        }
+
         private const string fileUrl = @"https://u.y.qq.com/cgi-bin/musicu.fcg?loginUin=0&hostUin=0&format=json&inCharset=utf8&outCharset=utf-8&notice=0&platform=yqq.json&needNewCode=0&data=%7B%22req_0%22%3A%7B%22module%22%3A%22vkey.GetVkeyServer%22%2C%22method%22%3A%22CgiGetVkey%22%2C%22param%22%3A%7B%22guid%22%3A%2210000%22%2C%22songmid%22%3A%5B%22{0}%22%5D%2C%22songtype%22%3A%5B0%5D%2C%22uin%22%3A%220%22%2C%22loginflag%22%3A1%2C%22platform%22%3A%2220%22%7D%7D%2C%22comm%22%3A%7B%22uin%22%3A0%2C%22format%22%3A%22json%22%2C%22ct%22%3A20%2C%22cv%22%3A0%7D%7D";
-        private const string streamUrl = "https://dl.stream.qqmusic.qq.com/";
 
         private static readonly List<QQMusicFileFormat> fileFormats = new List<QQMusicFileFormat>()
         {

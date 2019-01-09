@@ -12,6 +12,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     xmlns:list="using:Aurora.Music.Controls.ListItems"
     xmlns:vm="using:Aurora.Music.ViewModels"
     xmlns:ext="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     SizeChanged="Page_SizeChanged"
     Unloaded="Page_Unloaded"
     mc:Ignorable="d">
@@ -36,10 +37,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <ResourceDictionary x:Key="Light" Source="../Themes/Light.xaml"/>
                 <ResourceDictionary x:Key="Dark" Source="../Themes/Dark.xaml"/>
             </ResourceDictionary.ThemeDictionaries>
-
-            <AcrylicBrush x:Key="HomePageBackground" BackgroundSource="HostBackdrop" 
-                          TintColor="Transparent" TintOpacity="0" 
-                          FallbackColor="{StaticResource SystemChromeMediumColor}" />
             <Style x:Key="HeroGridViewStyle" TargetType="GridView">
                 <Setter Property="Padding" Value="0,0,0,10"/>
                 <Setter Property="IsTabStop" Value="False"/>
@@ -356,9 +353,11 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <VisualState.Setters>
                         <Setter Target="RandomPanel.Margin" Value="16,64,8,8"/>
                         <Setter Target="FavoritPanel.Margin" Value="16,64,8,8"/>
+                        <Setter Target="OnlinePanel.Margin" Value="16,64,8,8"/>
                         <Setter Target="TextContainer.Padding" Value="16,0,0,0"/>
                         <Setter Target="RandomHeader.Width" Value="16"/>
                         <Setter Target="FavHeader.MinWidth" Value="16"/>
+                        <Setter Target="OnlineList.Padding" Value="16,0"/>
                         <Setter Target="FavHeader.Padding" Value="16,0,0,0"/>
                         <Setter Target="HeroHeader.Width" Value="16"/>
                     </VisualState.Setters>
@@ -370,8 +369,10 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <VisualState.Setters>
                         <Setter Target="RandomPanel.Margin" Value="16,64,16,8"/>
                         <Setter Target="FavoritPanel.Margin" Value="16,64,16,8"/>
+                        <Setter Target="OnelinePanel.Margin" Value="16,64,16,8"/>
                         <Setter Target="TextContainer.Padding" Value="16,0,0,0"/>
                         <Setter Target="RandomHeader.Width" Value="16"/>
+                        <Setter Target="OnlineList.Padding" Value="16,0"/>
                         <Setter Target="FavHeader.MinWidth" Value="16"/>
                         <Setter Target="FavHeader.Padding" Value="16,0,0,0"/>
                         <Setter Target="HeroHeader.Width" Value="16"/>
@@ -385,8 +386,10 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <VisualState.Setters>
                         <Setter Target="RandomPanel.Margin" Value="32,64,0,8"/>
                         <Setter Target="FavoritPanel.Margin" Value="32,64,0,8"/>
+                        <Setter Target="OnlinePanel.Margin" Value="32,64,0,8"/>
                         <Setter Target="TextContainer.Padding" Value="32,0,0,0"/>
                         <Setter Target="RandomHeader.Width" Value="32"/>
+                        <Setter Target="OnlineList.Padding" Value="32,0"/>
                         <Setter Target="FavHeader.MinWidth" Value="32"/>
                         <Setter Target="FavHeader.Padding" Value="32,0,0,0"/>
                         <Setter Target="HeroHeader.Width" Value="32"/>
@@ -435,6 +438,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <ListView SelectionMode="None" IsItemClickEnabled="True" 
                           ItemsSource="{x:Bind Context.HeroList}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                           ItemContainerStyle="{ThemeResource HomeListViewItemStyle}" x:Name="HeroGrid"
+                          ScrollViewer.IsVerticalScrollChainingEnabled="True"
+                          ScrollViewer.IsHorizontalScrollChainingEnabled="True"
                           ContextRequested="HeroGrid_ContextRequested" ContextCanceled="HeroGrid_ContextCanceled" 
                           ItemClick="HeroGrid_ItemClick" Margin="0" Style="{ThemeResource HorizontalListView}">
                     <ListView.Header>
@@ -446,16 +451,40 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
+                <StackPanel x:Name="OnlinePanel" Orientation="Horizontal" Margin="16,16,16,8"
+                            Visibility="{x:Bind Context.CollapseIfZero(Context.OnlineList.Count),Mode=OneWay,FallbackValue=Collapsed}">
+                    <TextBlock x:Uid="TopPlaylist" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold"/>
+                </StackPanel>
+                <GridView Margin="0,8" IsSynchronizedWithCurrentItem="False" 
+                          Padding="16,0" x:Name="OnlineList"
+                          Visibility="{x:Bind Context.CollapseIfZero(Context.OnlineList.Count),Mode=OneWay,FallbackValue=Collapsed}"
+                          HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                          ScrollViewer.IsHorizontalRailEnabled="True"
+                          animations:ReorderGridAnimation.Duration="360"
+                          IsItemClickEnabled="True" SelectionMode="None" ItemClick="OnlineList_ItemClick"
+                          ScrollViewer.IsVerticalScrollChainingEnabled="True"
+                          ScrollViewer.IsHorizontalScrollChainingEnabled="True"
+                          ItemsSource="{x:Bind Context.OnlineList}"
+                          ItemContainerStyle="{ThemeResource GeneralGridViewItemStyle}">
+                    <GridView.ItemTemplate>
+                        <DataTemplate x:DataType="vm:GenericMusicItemViewModel">
+                            <list:HomeItem Data="{x:Bind }"/>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
+                </GridView>
                 <StackPanel x:Name="FavoritPanel" Orientation="Horizontal" Margin="60,16,16,8">
-                    <TextBlock x:Uid="Favorite" Text="Your Favorite" x:Name="FavoritTitle" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold"/>
+                    <TextBlock x:Uid="Favorite" Text="Your Favorite" x:Name="FavoritTitle" 
+                               Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold"/>
                     <Button Visibility="{x:Bind Context.CollapseIfZero(Context.FavList.Count),Mode=OneWay,FallbackValue=Collapsed}" 
                             Style="{ThemeResource PlayAllButton}" Command="{x:Bind Context.PlayFav}"
                             Margin="8,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </StackPanel>
                 <ListView Margin="0,8" IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" ItemClick="FavList_ItemClick"
-                          ScrollViewer.IsHorizontalScrollChainingEnabled="True" ScrollViewer.IsHorizontalRailEnabled="True"
+                          ScrollViewer.IsHorizontalRailEnabled="True"
                           ContextRequested="HeroGrid_ContextRequested" ContextCanceled="HeroGrid_ContextCanceled"
                           SelectionMode="None" ItemsSource="{x:Bind Context.FavList}" 
+                          ScrollViewer.IsVerticalScrollChainingEnabled="True"
+                          ScrollViewer.IsHorizontalScrollChainingEnabled="True"
                           HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                           ItemContainerStyle="{ThemeResource HomeListViewItemStyle}"
                           Style="{StaticResource HorizontalListView}" x:Name="FavList">
@@ -496,10 +525,14 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         </Button.Content>
                     </Button>
                 </StackPanel>
-                <ListView Margin="0,8" IsSynchronizedWithCurrentItem="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                          ScrollViewer.IsHorizontalScrollChainingEnabled="True" ContextRequested="HeroGrid_ContextRequested" 
-                          ContextCanceled="HeroGrid_ContextCanceled" ScrollViewer.IsHorizontalRailEnabled="True"
+                <ListView Margin="0,8" IsSynchronizedWithCurrentItem="False" 
+                          HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                          ContextRequested="HeroGrid_ContextRequested" 
+                          ContextCanceled="HeroGrid_ContextCanceled" 
+                          ScrollViewer.IsHorizontalRailEnabled="True"
                           IsItemClickEnabled="True" SelectionMode="None" ItemClick="FavList_ItemClick"
+                          ScrollViewer.IsVerticalScrollChainingEnabled="True"
+                          ScrollViewer.IsHorizontalScrollChainingEnabled="True"
                           ItemsSource="{x:Bind Context.RandomList}"
                           ItemContainerStyle="{ThemeResource HomeListViewItemStyle}" 
                           Style="{StaticResource HorizontalListView}" 

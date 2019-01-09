@@ -57,8 +57,7 @@ namespace Aurora.Music.Core
         private static string commaSeparator = localizer.GetString("CommaSeparator");
         public static string CommaSeparator => commaSeparator;
 
-        public static string UpdateNote => "* **Update**: Updated file association.\r\n" +
-            "* **Fix**: Fixed playing issue with built-in online music extension.\r\n";
+        public static string UpdateNote => "* **Fix**: A few UI updated and bugs fixed.\r\n";
 
         public static string UpdateNoteTitle => localizer.GetString("UpdateNoteTitle");
 

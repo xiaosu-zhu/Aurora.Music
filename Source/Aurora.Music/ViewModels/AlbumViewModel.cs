@@ -34,7 +34,7 @@ namespace Aurora.Music.ViewModels
                 Songs = album.SongItems?.ToList();
             }
 
-            Description = album.Desription;
+            Description = album.Decsription;
 
             SongsID = album.Songs;
             Name = album.Name;

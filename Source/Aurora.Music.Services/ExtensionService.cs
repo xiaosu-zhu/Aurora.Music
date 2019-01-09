@@ -1,4 +1,5 @@
-﻿using Aurora.Music.Core.Extension;
+﻿using Aurora.Music.Core;
+using Aurora.Music.Core.Extension;
 using Aurora.Music.Core.Models;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
@@ -167,7 +168,7 @@ namespace Aurora.Music.Services
                                 var albumRes = new PropertySet
                                 {
                                     ["name"] = album.Data.GetAlbumInfo.Falbum_Name,
-                                    ["desription"] = album.Data.GetAlbumDesc.Falbum_Desc.Replace("\n", "\r\n\r\n"),
+                                    ["description"] = album.Data.GetAlbumDesc.Falbum_Desc.Replace("\n", "\r\n\r\n"),
                                     ["year"] = t.Year,
                                     ["track_count"] = album.Data.GetSongInfoItems.Count,
                                     ["disc_count"] = album.Data.GetSongInfoItems.Max(x => x.Index_Cd) + 1,
@@ -208,6 +209,73 @@ namespace Aurora.Music.Services
                             break;
                         case "artist":
                             var artist = await OnlineMusicSearcher.GetArtistAsync(message["id"] as string);
+                            break;
+                        case "require_playlist":
+                            var playlists = await OnlineMusicSearcher.GetPlaylist((int)message["offset"], (int)message["count"]);
+                            if (playlists != null && playlists.Data != null)
+                            {
+                                returnData.Add("status", 1);
+                                returnData.Add("playlists", JsonConvert.SerializeObject(playlists.Data.ListItems.Select(a =>
+                                {
+                                    return new PropertySet()
+                                    {
+                                        ["title"] = a.Dissname,
+                                        ["addtional"] = DateTime.ParseExact(a.Createtime, "yyyy-M-dd", CultureInfo.InvariantCulture).PubDatetoString(Consts.Today, "ddd", "M/dd ddd", "yy/M/dd", Consts.Next, Consts.Last),
+                                        ["description"] = a.Creator.Name,
+                                        ["id"] = a.Dissid,
+                                        ["picture_path"] = a.Imgurl
+                                    };
+                                })));
+                            }
+                            break;
+                        case "show_playlist":
+                            var playlist = await OnlineMusicSearcher.ShowPlaylist(message["id"] as string);
+                            if (playlist != null && playlist.CdlistItems != null)
+                            {
+                                returnData.Add("status", 1);
+                                returnData.Add("playlist_result", JsonConvert.SerializeObject(new PropertySet()
+                                {
+                                    ["name"] = playlist.CdlistItems[0].Dissname,
+                                    ["description"] = playlist.CdlistItems[0].Desc,
+                                    ["id"] = playlist.CdlistItems[0].Disstid,
+                                    ["picture_path"] = playlist.CdlistItems[0].Logo,
+                                    ["year"] = 0,
+                                    ["disc_count"] = 1,
+                                    ["track_count"] = playlist.CdlistItems[0].SongList.Count,
+                                    ["genres"] = playlist.CdlistItems[0].TagsItems.Select(a => a.Name)
+                                }
+                                ));
+
+                                returnData.Add("songs", JsonConvert.SerializeObject(playlist.CdlistItems[0].SongList.Select(x =>
+                                {
+                                    var p = new PropertySet()
+                                    {
+                                        ["id"] = x.Songmid,
+                                        ["title"] = x.Songname,
+                                        ["album"] = x.Albumname,
+                                        ["album_id"] = x.Albumid,
+                                        ["performers"] = x.SingerItems.Select(y => y.Name).ToArray(),
+                                        ["year"] = 0,
+                                        ["bit_rate"] = Settings.Current.GetPreferredBitRate() * 1000,
+                                        ["picture_path"] = OnlineMusicSearcher.GeneratePicturePathByID(x.Albummid),
+                                        ["track"] = playlist.CdlistItems[0].SongList.IndexOf(x),
+                                        ["duration"] = TimeSpan.FromSeconds(x.Interval).ToString(),
+                                        ["file_url"] = AsyncHelper.RunSync(async () => await OnlineMusicSearcher.GenerateFileUriByID(x.Songmid, Settings.Current.GetPreferredBitRate())),
+                                        ["file_type"] = OnlineMusicSearcher.GenerateFileTypeByID(x.Songmid, Settings.Current.GetPreferredBitRate())
+                                    };
+                                    p["album_artists"] = p["performers"];
+                                    return p;
+                                })));
+                                returnData.Add("album_artists", JsonConvert.SerializeObject(
+                                    new PropertySet[]{
+                                        new PropertySet()
+                                        {
+                                            ["name"] = playlist.CdlistItems[0].Nickname,
+                                            ["id"] = playlist.CdlistItems[0].Singerid,
+                                        }
+                                    }
+                                ));
+                            }
                             break;
                         default:
                             break;

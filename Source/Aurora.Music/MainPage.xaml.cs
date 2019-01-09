@@ -29,7 +29,6 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
@@ -415,7 +414,7 @@ namespace Aurora.Music
                 CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
                 Window.Current.SetTitleBar(frame);
                 var titleBar = ApplicationView.GetForCurrentView().TitleBar;
-                titleBar.ButtonHoverBackgroundColor = Colors.Red;
+                // titleBar.ButtonHoverBackgroundColor = Colors.Red;
                 titleBar.ButtonBackgroundColor = Colors.Transparent;
                 titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
                 titleBar.ButtonHoverBackgroundColor = Color.FromArgb(0x33, 0x00, 0x00, 0x00);
@@ -803,6 +802,12 @@ namespace Aurora.Music
 
         private async void SearchBox_GettingFocus(UIElement sender, Windows.UI.Xaml.Input.GettingFocusEventArgs args)
         {
+            if (args.OldFocusedElement is Button)
+            {
+                args.TryCancel();
+                return;
+            }
+
             if (args.FocusState != FocusState.Pointer)
             {
                 return;

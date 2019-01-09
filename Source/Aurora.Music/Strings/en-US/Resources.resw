@@ -1601,4 +1601,8 @@
     <value>Syncing from cloud</value>
     <comment>Syncing from cloud</comment>
   </data>
+    <data name="TopPlaylist.Text" xml:space="preserve">
+    <value>Featured</value>
+    <comment>Featured</comment>
+  </data>
 </root>

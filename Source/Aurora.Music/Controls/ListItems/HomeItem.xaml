@@ -7,10 +7,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
              x:Class="Aurora.Music.Controls.ListItems.HomeItem"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="using:Aurora.Music.Controls.ListItems"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
-             xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
+             xmlns:ext="using:Microsoft.Toolkit.Uwp.UI.Extensions"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" MaxWidth="150"
              d:DesignHeight="300"
@@ -34,7 +32,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
           PointerReleased="Grid_PointerReleased" 
           PointerCanceled="Grid_PointerExited" 
           PointerCaptureLost="Grid_PointerExited"
-          x:Name="Root">
+          x:Name="Root" Height="210">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="CommonStates">
                 <VisualState x:Name="Normal">
@@ -47,6 +45,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <VisualState x:Name="PointerOver">
                     <VisualState.Setters>
                         <Setter Target="Root.Background" Value="{ThemeResource ButtonPointerOverBackgroundThemeBrush}"/>
+                        <Setter Target="PlaceholderBG.Background" Value="{ThemeResource ButtonPointerOverBackgroundThemeBrush}"/>
+                        <Setter Target="PlaceholderSymbol.Foreground" Value="{ThemeResource AccentForTextPointerOver}"/>
+                        <Setter Target="PlaceholderText.Foreground" Value="{ThemeResource AccentForTextPointerOver}"/>
                     </VisualState.Setters>
                     <Storyboard>
                     </Storyboard>
@@ -54,6 +55,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <VisualState x:Name="Pressed">
                     <VisualState.Setters>
                         <Setter Target="Root.Background" Value="{ThemeResource ButtonPointerOverBackgroundThemeBrush}"/>
+                        <Setter Target="PlaceholderBG.Background" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}"/>
+                        <Setter Target="PlaceholderSymbol.Foreground" Value="{ThemeResource AccentForTextPressed}"/>
+                        <Setter Target="PlaceholderText.Foreground" Value="{ThemeResource AccentForTextPressed}"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -92,32 +96,67 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         </Grid.RowDefinitions>
         <Image x:Name="Artwork" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="150" Stretch="Uniform"
                Source="{x:Bind DataArtwork,TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png,Mode=OneWay}"
-               ToolTipService.ToolTip="{x:Bind Data.Title,Mode=OneWay}"/>
-        <Border Visibility="{x:Bind NightModeEnabled}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="150" Background="{ThemeResource ImageDarkOverlay}"/>
+               ToolTipService.ToolTip="{x:Bind Data.Title,Mode=OneWay}" 
+               Visibility="{x:Bind Placeholder(Data.InnerType), Mode=OneWay}"
+               ext:FrameworkElementExtensions.EnableActualSizeBinding="True"/>
+        <Border Visibility="{x:Bind NightModeEnabled}" 
+                HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                Height="150" Background="{ThemeResource ImageDarkOverlay}"/>
         <StackPanel HorizontalAlignment="Stretch" 
                     VerticalAlignment="Stretch" 
-                    Orientation="Horizontal"
-                    Margin="0,4,0,0" Grid.Row="1" >
+                    Orientation="Horizontal" 
+                    Visibility="{x:Bind Placeholder(Data.InnerType), Mode=OneWay}"
+                    Margin="0" Grid.Row="1" >
             <FontIcon HorizontalAlignment="Center" 
-                      VerticalAlignment="Center" 
+                      VerticalAlignment="Top" 
                       FontFamily="Segoe MDL2 Assets"
-                      FontSize="13" Margin="0,0,4,0"
+                      FontSize="13" Margin="0,4,4,0"
                       Visibility="{x:Bind Data.HasMultipleItem,Mode=OneWay}"
                       Glyph="&#xE179;"/>
-            <TextBlock Style="{ThemeResource BaseTextBlockStyle}" 
-                   ToolTipService.ToolTip="{x:Bind Data.Title,Mode=OneWay}"
-                   HorizontalAlignment="Left" VerticalAlignment="Center" 
-                   MaxLines="1" TextWrapping="NoWrap"
-                   TextTrimming="CharacterEllipsis"
+            <TextBlock Style="{ThemeResource BaseTextBlockStyle}"
+                       ToolTipService.ToolTip="{x:Bind Data.Title,Mode=OneWay}"
+                       HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                       MaxLines="2" TextWrapping="WrapWholeWords"
+                       TextTrimming="CharacterEllipsis" 
+                       Width="{Binding ElementName=Artwork, Path=(ext:FrameworkElementExtensions.ActualWidth)}"
                    Text="{x:Bind Data.Title,Mode=OneWay}">
             </TextBlock>
         </StackPanel>
-        <TextBlock FontSize="13" Style="{ThemeResource BodyTextBlockStyle}" ToolTipService.ToolTip="{x:Bind Data.AddtionalAndDescription(Data.Addtional, Data.Description), Mode=OneWay}"
-                       HorizontalAlignment="Left" VerticalAlignment="Center" MaxLines="1" TextWrapping="NoWrap" Grid.Row="2"
-                       TextTrimming="CharacterEllipsis" Foreground="{ThemeResource SystemControlBackgroundBaseMediumLowRevealBorderBrush}">
+        <TextBlock FontSize="13" 
+                   Style="{ThemeResource BodyTextBlockStyle}" 
+                   ToolTipService.ToolTip="{x:Bind Data.AddtionalAndDescription(Data.Addtional, Data.Description), Mode=OneWay}"
+                   HorizontalAlignment="Left" VerticalAlignment="Center" 
+                   MaxLines="1" TextWrapping="NoWrap" 
+                   Grid.Row="2"
+                   TextTrimming="CharacterEllipsis"
+                   Visibility="{x:Bind Placeholder(Data.InnerType), Mode=OneWay}"
+                   Foreground="{ThemeResource SystemControlBackgroundBaseMediumLowRevealBorderBrush}">
             <Run Text="{x:Bind Data.Addtional,Mode=OneWay}"/>
             <Run Text="·"/>
             <Run Text="{x:Bind Data.Description,Mode=OneWay}"/>
         </TextBlock>
+        <Grid Grid.RowSpan="3" Height="210" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+              Background="{ThemeResource SystemControlAccentAcrylicWindowAccentLowBrush}"
+              x:Name="PlaceholderBG"
+              Visibility="{x:Bind NotPlaceholder(Data.InnerType), Mode=OneWay}">
+            <StackPanel Orientation="Vertical" 
+                        HorizontalAlignment="Center" 
+                        VerticalAlignment="Center">
+                <FontIcon HorizontalAlignment="Center"
+                          VerticalAlignment="Center"
+                          FontSize="24" 
+                          x:Name="PlaceholderSymbol"
+                          Foreground="{ThemeResource SystemControlForegroundAltHighBrush}"
+                          FontFamily="Segoe MDL2 Assets"
+                          Glyph="&#xE712;" />
+                <TextBlock x:Uid="MoreButton" 
+                           Text="More" 
+                           x:Name="PlaceholderText"
+                           Foreground="{ThemeResource SystemControlForegroundAltHighBrush}"
+                           HorizontalAlignment="Center" 
+                           VerticalAlignment="Center"
+                           Style="{ThemeResource SubtitleTextBlockStyle}"/>
+            </StackPanel>
+        </Grid>
     </Grid>
 </UserControl>
