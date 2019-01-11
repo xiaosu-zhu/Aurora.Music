@@ -277,5 +277,10 @@ namespace Aurora.Music.Controls
         {
             MainPage.Current.SongFlyout.Hide();
         }
+
+        private void Artwork_ImageOpened(object sender, RoutedEventArgs e)
+        {
+            (sender as Image).Height = double.NaN;
+        }
     }
 }

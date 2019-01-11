@@ -63,6 +63,11 @@ namespace Aurora.Music.Controls.ListItems
             }
         }
 
+        public string AlbumIndicate(bool b)
+        {
+            return b ? "    " : "";
+        }
+
         public Visibility Placeholder(MediaType t)
         {
             return t == MediaType.Placeholder ? Visibility.Collapsed : Visibility.Visible;
@@ -100,6 +105,7 @@ namespace Aurora.Music.Controls.ListItems
             MaxWidth = DataArtwork.PixelWidth * 150d / DataArtwork.PixelHeight;
             DataArtwork.ImageOpened -= DataArtwork_ImageOpened;
             SizeChanged += HomeItem_SizeChanged;
+            Artwork.Width = double.NaN;
         }
 
         private void HomeItem_SizeChanged(object sender, SizeChangedEventArgs e)

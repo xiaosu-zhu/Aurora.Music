@@ -28,7 +28,7 @@ namespace Aurora.Music.Core.Storage
                 FileTypeFilter = { ".flac", ".wav", ".m4a", ".aac", ".mp3", ".wma", ".ogg", ".oga" },
                 FolderDepth = FolderDepth.Deep,
                 IndexerOption = IndexerOption.DoNotUseIndexer,
-                UserSearchFilter = ComposeFilters(filteredFolderNames),
+                ApplicationSearchFilter = ComposeFilters(filteredFolderNames),
             };
             Query = Folder.CreateFileQueryWithOptions(options);
             Query.ContentsChanged += Query_ContentsChanged;
@@ -47,12 +47,12 @@ namespace Aurora.Music.Core.Storage
             string q = string.Empty;
             if (filteredFolderNames != null && filteredFolderNames.Count > 0)
             {
-                q = "folder:NOT";
+                q = "System.FolderNameDisplay:NOT";
                 q += $"({string.Join(" OR ", filteredFolderNames)}) ";
             }
             if (Settings.Current.FileSizeFilterEnabled)
             {
-                q += $"System.Size:>{Settings.Current.GetSystemSize()} ";
+                q += $" System.Size:>{Settings.Current.GetSystemSize()} ";
             }
             return q;
         }

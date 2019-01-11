@@ -32,7 +32,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
           PointerReleased="Grid_PointerReleased" 
           PointerCanceled="Grid_PointerExited" 
           PointerCaptureLost="Grid_PointerExited"
-          x:Name="Root" Height="210">
+          x:Name="Root" Height="210"
+          Background="Transparent">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="CommonStates">
                 <VisualState x:Name="Normal">
@@ -45,9 +46,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <VisualState x:Name="PointerOver">
                     <VisualState.Setters>
                         <Setter Target="Root.Background" Value="{ThemeResource ButtonPointerOverBackgroundThemeBrush}"/>
-                        <Setter Target="PlaceholderBG.Background" Value="{ThemeResource ButtonPointerOverBackgroundThemeBrush}"/>
-                        <Setter Target="PlaceholderSymbol.Foreground" Value="{ThemeResource AccentForTextPointerOver}"/>
-                        <Setter Target="PlaceholderText.Foreground" Value="{ThemeResource AccentForTextPointerOver}"/>
+                        <Setter Target="PlaceholderBG.Background" Value="{ThemeResource SystemControlAccentAcrylicWindowAccentLowBrush}"/>
                     </VisualState.Setters>
                     <Storyboard>
                     </Storyboard>
@@ -55,9 +54,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <VisualState x:Name="Pressed">
                     <VisualState.Setters>
                         <Setter Target="Root.Background" Value="{ThemeResource ButtonPointerOverBackgroundThemeBrush}"/>
-                        <Setter Target="PlaceholderBG.Background" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}"/>
-                        <Setter Target="PlaceholderSymbol.Foreground" Value="{ThemeResource AccentForTextPressed}"/>
-                        <Setter Target="PlaceholderText.Foreground" Value="{ThemeResource AccentForTextPressed}"/>
+                        <Setter Target="PlaceholderBG.Background" Value="{ThemeResource SystemControlBackgroundBaseMediumBrush}"/>
+                        <Setter Target="PlaceholderSymbol.Foreground" Value="{ThemeResource SystemControlForegroundAltMediumHighBrush}"/>
+                        <Setter Target="PlaceholderText.Foreground" Value="{ThemeResource SystemControlForegroundAltMediumHighBrush}"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -96,32 +95,30 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         </Grid.RowDefinitions>
         <Image x:Name="Artwork" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="150" Stretch="Uniform"
                Source="{x:Bind DataArtwork,TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png,Mode=OneWay}"
-               ToolTipService.ToolTip="{x:Bind Data.Title,Mode=OneWay}" 
+               ToolTipService.ToolTip="{x:Bind Data.Title,Mode=OneWay}" Width="150"
                Visibility="{x:Bind Placeholder(Data.InnerType), Mode=OneWay}"
                ext:FrameworkElementExtensions.EnableActualSizeBinding="True"/>
         <Border Visibility="{x:Bind NightModeEnabled}" 
                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                 Height="150" Background="{ThemeResource ImageDarkOverlay}"/>
-        <StackPanel HorizontalAlignment="Stretch" 
-                    VerticalAlignment="Stretch" 
-                    Orientation="Horizontal" 
-                    Visibility="{x:Bind Placeholder(Data.InnerType), Mode=OneWay}"
-                    Margin="0" Grid.Row="1" >
-            <FontIcon HorizontalAlignment="Center" 
-                      VerticalAlignment="Top" 
-                      FontFamily="Segoe MDL2 Assets"
-                      FontSize="13" Margin="0,4,4,0"
-                      Visibility="{x:Bind Data.HasMultipleItem,Mode=OneWay}"
-                      Glyph="&#xE179;"/>
+        <Grid HorizontalAlignment="Stretch" 
+              VerticalAlignment="Stretch" 
+              Grid.Row="1"
+              Width="{Binding ElementName=Artwork, Path=(ext:FrameworkElementExtensions.ActualWidth)}">
             <TextBlock Style="{ThemeResource BaseTextBlockStyle}"
                        ToolTipService.ToolTip="{x:Bind Data.Title,Mode=OneWay}"
-                       HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                       HorizontalAlignment="Stretch" VerticalAlignment="Top"
                        MaxLines="2" TextWrapping="WrapWholeWords"
-                       TextTrimming="CharacterEllipsis" 
-                       Width="{Binding ElementName=Artwork, Path=(ext:FrameworkElementExtensions.ActualWidth)}"
-                   Text="{x:Bind Data.Title,Mode=OneWay}">
+                       TextTrimming="CharacterEllipsis"
+                       Visibility="{x:Bind Placeholder(Data.InnerType), Mode=OneWay}"
+                       Margin="0"
+                       Width="{Binding ElementName=Artwork, Path=(ext:FrameworkElementExtensions.ActualWidth)}">
+                <Run Text="{x:Bind AlbumIndicate(Data.HasMultipleItem),Mode=OneWay}"/><Run Text="{x:Bind Data.Title,Mode=OneWay}"/>
             </TextBlock>
-        </StackPanel>
+            <FontIcon FontSize="15" Glyph="&#xE93C;" Margin="0,3,0,0"
+                      HorizontalAlignment="Left" VerticalAlignment="Top"
+                      Visibility="{x:Bind Data.HasMultipleItem, Mode=OneWay}"/>
+        </Grid>
         <TextBlock FontSize="13" 
                    Style="{ThemeResource BodyTextBlockStyle}" 
                    ToolTipService.ToolTip="{x:Bind Data.AddtionalAndDescription(Data.Addtional, Data.Description), Mode=OneWay}"
@@ -136,7 +133,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <Run Text="{x:Bind Data.Description,Mode=OneWay}"/>
         </TextBlock>
         <Grid Grid.RowSpan="3" Height="210" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-              Background="{ThemeResource SystemControlAccentAcrylicWindowAccentLowBrush}"
+              Background="{ThemeResource SystemControlAccentDark2AcrylicWindowAccentDark2MediumHighBrush}"
               x:Name="PlaceholderBG"
               Visibility="{x:Bind NotPlaceholder(Data.InnerType), Mode=OneWay}">
             <StackPanel Orientation="Vertical" 

@@ -42,18 +42,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     <ListView ItemContainerStyleSelector="{StaticResource SongListStyleSelector}" ItemTemplate="{StaticResource NarrowSongListTemplate}"
               ContextRequested="SongList_ContextRequested" ContextCanceled="SongList_ContextCanceled" HorizontalAlignment="Stretch"
               ItemsSource="{x:Bind SongList}" Padding="0,0,20,0">
-        <ListView.Resources>
-            <Storyboard x:Name="DetailExpand">
-                <DoubleAnimation Storyboard.TargetName="Descriptions" Storyboard.TargetProperty="Heigh" From="75">
-                    <DoubleAnimation.EasingFunction>
-                        <QuinticEase/>
-                    </DoubleAnimation.EasingFunction>
-                </DoubleAnimation>
-            </Storyboard>
-            <Storyboard x:Name="DetailCollapse">
-
-            </Storyboard>
-        </ListView.Resources>
         <ListView.Header>
             <Grid Margin="0,0,0,24">
                 <Grid.ColumnDefinitions>
@@ -64,7 +52,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-                <Image x:Name="Artwork" Width="150" HorizontalAlignment="Stretch" VerticalAlignment="Center" Stretch="Uniform"/>
+                <Image x:Name="Artwork" Height="150" ImageOpened="Artwork_ImageOpened" Width="150" HorizontalAlignment="Stretch" VerticalAlignment="Center" Stretch="Uniform"/>
                 <TextBlock Grid.Column="1" VerticalAlignment="Top" Margin="8,0" x:Name="Album" 
                            Text="" Style="{ThemeResource TitleTextBlockStyle}" MaxLines="2" 
                            TextTrimming="CharacterEllipsis" TextWrapping="WrapWholeWords"/>
