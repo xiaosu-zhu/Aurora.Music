@@ -54,7 +54,7 @@ namespace Aurora.Music.Controls
                         return;
                     }
                     podcast = pod;
-                    await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                    await Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
                     {
                         Description.Text = pod.Description;
                         TitleText.Text = pod.Title;
@@ -67,6 +67,7 @@ namespace Aurora.Music.Controls
                         FetchingHeader.Visibility = Visibility.Collapsed;
                         FetchingProgress.IsIndeterminate = false;
                         FetchingProgress.Visibility = Visibility.Collapsed;
+                        IsPrimaryButtonEnabled = true;
                         if (pod.Subscribed)
                         {
                             PrimaryButtonText = Consts.Localizer.GetString("PlayText");
@@ -74,8 +75,8 @@ namespace Aurora.Music.Controls
                         }
                         else
                         {
+                            DefaultButton = ContentDialogButton.Primary;
                         }
-                        IsPrimaryButtonEnabled = true;
                     });
                 }
                 catch (Exception ex)

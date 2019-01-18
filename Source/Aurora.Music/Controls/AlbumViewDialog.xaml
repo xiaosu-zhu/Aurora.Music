@@ -7,12 +7,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     x:Class="Aurora.Music.Controls.AlbumViewDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Aurora.Music.Controls"
     xmlns:controls="using:Aurora.Music.Controls"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:star="using:StarButton"
-    xmlns:vm="using:Aurora.Music.ViewModels"
-    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
@@ -52,7 +48,10 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-                <Image x:Name="Artwork" Height="150" ImageOpened="Artwork_ImageOpened" Width="150" HorizontalAlignment="Stretch" VerticalAlignment="Center" Stretch="Uniform"/>
+                <Image x:Name="Artwork" Height="150" Width="150"  
+                       ImageOpened="Artwork_ImageOpened" 
+                       HorizontalAlignment="Stretch" VerticalAlignment="Center" 
+                       Stretch="Uniform"/>
                 <TextBlock Grid.Column="1" VerticalAlignment="Top" Margin="8,0" x:Name="Album" 
                            Text="" Style="{ThemeResource TitleTextBlockStyle}" MaxLines="2" 
                            TextTrimming="CharacterEllipsis" TextWrapping="WrapWholeWords"/>
@@ -72,13 +71,13 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <Button HorizontalContentAlignment="Right" VerticalContentAlignment="Stretch"
                             Style="{ThemeResource TextBlockButtonStyle}"
                             HorizontalAlignment="Stretch" Click="DetailPanel_Click"
-                            Content="{x:Bind MoreButtonText(Descriptions.Height), Mode=OneWay}"
+                            Content="{x:Bind MoreButtonText(Descriptions.MaxHeight), Mode=OneWay}"
                             BorderThickness="0" VerticalAlignment="Stretch" 
                             Padding="0"/>
                     <toolkit:MarkdownTextBlock IsTextSelectionEnabled="False"
                                                LinkClicked="Descriptions_LinkClicked"
                                                Background="{x:Null}" 
-                                               Height="{StaticResource DescriptionHeight}"
+                                               MaxHeight="{StaticResource DescriptionHeight}"
                                                Text="" x:Name="Descriptions"
                                                HorizontalAlignment="Stretch"
                                                VerticalAlignment="Stretch"

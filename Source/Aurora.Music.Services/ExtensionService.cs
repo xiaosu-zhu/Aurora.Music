@@ -236,7 +236,7 @@ namespace Aurora.Music.Services
                                 returnData.Add("playlist_result", JsonConvert.SerializeObject(new PropertySet()
                                 {
                                     ["name"] = playlist.CdlistItems[0].Dissname,
-                                    ["description"] = playlist.CdlistItems[0].Desc,
+                                    ["description"] = System.Net.WebUtility.HtmlDecode(playlist.CdlistItems[0].Desc).Replace("<br>", Environment.NewLine + Environment.NewLine).Replace("<br/>", Environment.NewLine + Environment.NewLine).Replace("<br >", Environment.NewLine + Environment.NewLine).Replace("<br />", Environment.NewLine + Environment.NewLine),
                                     ["id"] = playlist.CdlistItems[0].Disstid,
                                     ["picture_path"] = playlist.CdlistItems[0].Logo,
                                     ["year"] = 0,

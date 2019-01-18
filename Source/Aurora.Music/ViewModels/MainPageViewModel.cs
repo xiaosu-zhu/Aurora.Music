@@ -71,7 +71,7 @@ namespace Aurora.Music.ViewModels
         {
             if (d.AlmostEqualTo(0))
             {
-                return "\uE992";
+                return "\uE198";
             }
             if (d < 33.333333)
             {
@@ -543,18 +543,20 @@ namespace Aurora.Music.ViewModels
             player = PlaybackEngine.PlaybackEngine.Current;
             if (Settings.Current.LastUpdateBuild < SystemInfoHelper.GetPackageVersionNum())
             {
-                if(Consts.UpdateNote == null)
+                if (Consts.UpdateNote == null)
                 {
                     Settings.Current.LastUpdateBuild = SystemInfoHelper.GetPackageVersionNum();
                     Settings.Current.Save();
-                    return;
                 }
-                var i = new UpdateInfo();
+                else
+                {
+                    var i = new UpdateInfo();
 #pragma warning disable CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
-                i.ShowAsync();
+                    i.ShowAsync();
 #pragma warning restore CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
-                Settings.Current.LastUpdateBuild = SystemInfoHelper.GetPackageVersionNum();
-                Settings.Current.Save();
+                    Settings.Current.LastUpdateBuild = SystemInfoHelper.GetPackageVersionNum();
+                    Settings.Current.Save();
+                }
             }
             Task.Run(() =>
             {
@@ -767,7 +769,7 @@ namespace Aurora.Music.ViewModels
             get => sVisualizing; set
             {
                 sVisualizing = value;
-                if (visualizerSource.Source != null) visualizerSource.Source.IsSuspended = !value;
+                if (visualizerSource?.Source != null) visualizerSource.Source.IsSuspended = !value;
             }
         }
 

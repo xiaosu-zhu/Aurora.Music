@@ -111,8 +111,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                        MaxLines="2" TextWrapping="WrapWholeWords"
                        TextTrimming="CharacterEllipsis"
                        Visibility="{x:Bind Placeholder(Data.InnerType), Mode=OneWay}"
-                       Margin="0"
-                       Width="{Binding ElementName=Artwork, Path=(ext:FrameworkElementExtensions.ActualWidth)}">
+                       Margin="0">
                 <Run Text="{x:Bind AlbumIndicate(Data.HasMultipleItem),Mode=OneWay}"/><Run Text="{x:Bind Data.Title,Mode=OneWay}"/>
             </TextBlock>
             <FontIcon FontSize="15" Glyph="&#xE93C;" Margin="0,3,0,0"
@@ -125,6 +124,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                    HorizontalAlignment="Left" VerticalAlignment="Center" 
                    MaxLines="1" TextWrapping="NoWrap" 
                    Grid.Row="2"
+                   Width="{Binding ElementName=Artwork, Path=(ext:FrameworkElementExtensions.ActualWidth)}"
                    TextTrimming="CharacterEllipsis"
                    Visibility="{x:Bind Placeholder(Data.InnerType), Mode=OneWay}"
                    Foreground="{ThemeResource SystemControlBackgroundBaseMediumLowRevealBorderBrush}">

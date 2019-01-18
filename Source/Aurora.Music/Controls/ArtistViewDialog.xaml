@@ -192,12 +192,12 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <Button Click="Button_Click" Margin="8" Style="{ThemeResource TextBlockButtonStyle}"
                         HorizontalContentAlignment="Right" VerticalContentAlignment="Stretch" 
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                        Content="{x:Bind MoreButtonText(Descriptions.Height), Mode=OneWay}"/>
+                        Content="{x:Bind MoreButtonText(Descriptions.MaxHeight), Mode=OneWay}"/>
                 <toolkit:MarkdownTextBlock IsTextSelectionEnabled="False"
                                            LinkClicked="Descriptions_LinkClicked"
                                            Text="{x:Bind Context.Artist.Description, Mode=OneWay}"
                                            x:Name="Descriptions" Background="{x:Null}"
-                                           Height="{StaticResource DescriptionHeight}"
+                                           MaxHeight="{StaticResource DescriptionHeight}"
                                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                            TextWrapping="WrapWholeWords"/>
             </StackPanel>

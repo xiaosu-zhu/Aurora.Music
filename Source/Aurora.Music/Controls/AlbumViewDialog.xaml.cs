@@ -171,13 +171,13 @@ namespace Aurora.Music.Controls
 
         private void DetailPanel_Click(object sender, RoutedEventArgs e)
         {
-            if (Descriptions.Height == (double)Resources["DescriptionHeight"])
+            if (Descriptions.MaxHeight == (double)Resources["DescriptionHeight"])
             {
-                Descriptions.Height = double.NaN;
+                Descriptions.MaxHeight = double.PositiveInfinity;
             }
             else
             {
-                Descriptions.Height = (double)Resources["DescriptionHeight"];
+                Descriptions.MaxHeight = (double)Resources["DescriptionHeight"];
             }
         }
 

@@ -62,7 +62,7 @@ namespace Aurora.Music.Controls
         {
             if (Descriptions.Height == (double)Resources["DescriptionHeight"])
             {
-                Descriptions.Height = double.NaN;
+                Descriptions.Height = double.PositiveInfinity;
             }
             else
             {

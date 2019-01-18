@@ -340,13 +340,20 @@ namespace Aurora.Shared.Helpers
             }
             else
             {
-                var random = RandomAccessStreamReference.CreateFromUri(path);
-                using (IRandomAccessStream stream = await random.OpenReadAsync())
+                try
                 {
-                    //Create a decoder for the image
-                    var decoder = await BitmapDecoder.CreateAsync(stream);
+                    var random = RandomAccessStreamReference.CreateFromUri(path);
+                    using (IRandomAccessStream stream = await random.OpenReadAsync())
+                    {
+                        //Create a decoder for the image
+                        var decoder = await BitmapDecoder.CreateAsync(stream);
 
-                    return FromColorThief((await colorThief.GetColor(decoder, 4)).Color);
+                        return FromColorThief((await colorThief.GetColor(decoder, 4)).Color);
+                    }
+                }
+                catch (Exception)
+                {
+                    return new UISettings().GetColorValue(UIColorType.Accent);
                 }
             }
         }

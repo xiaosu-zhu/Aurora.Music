@@ -131,7 +131,7 @@ namespace Aurora.Music.ViewModels
         {
             if (d.AlmostEqualTo(0))
             {
-                return "\uE992";
+                return "\uE198";
             }
             if (d < 33.333333)
             {
