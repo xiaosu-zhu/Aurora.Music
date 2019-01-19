@@ -246,7 +246,7 @@ namespace Aurora.Music.Services
                                 }
                                 ));
 
-                                returnData.Add("songs", JsonConvert.SerializeObject(playlist.CdlistItems[0].SongList.Select(x =>
+                                returnData.Add("songs", JsonConvert.SerializeObject(playlist.CdlistItems[0].SongList.Select((x, index) =>
                                 {
                                     var p = new PropertySet()
                                     {
@@ -258,7 +258,7 @@ namespace Aurora.Music.Services
                                         ["year"] = 0,
                                         ["bit_rate"] = Settings.Current.GetPreferredBitRate() * 1000,
                                         ["picture_path"] = OnlineMusicSearcher.GeneratePicturePathByID(x.Albummid),
-                                        ["track"] = playlist.CdlistItems[0].SongList.IndexOf(x),
+                                        ["track"] = index + 1,
                                         ["duration"] = TimeSpan.FromSeconds(x.Interval).ToString(),
                                         ["file_url"] = AsyncHelper.RunSync(async () => await OnlineMusicSearcher.GenerateFileUriByID(x.Songmid, Settings.Current.GetPreferredBitRate())),
                                         ["file_type"] = OnlineMusicSearcher.GenerateFileTypeByID(x.Songmid, Settings.Current.GetPreferredBitRate())

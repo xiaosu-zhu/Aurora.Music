@@ -22,6 +22,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“内容对话框”项模板
@@ -281,6 +282,36 @@ namespace Aurora.Music.Controls
         private void Artwork_ImageOpened(object sender, RoutedEventArgs e)
         {
             (sender as Image).Height = double.NaN;
+        }
+
+
+
+        private void Grid_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            if (sender is Panel s)
+            {
+                (s.Resources["PointerOver"] as Storyboard).Begin();
+            }
+        }
+
+        private void Grid_PointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            if (sender is Panel s)
+            {
+                (s.Resources["Normal"] as Storyboard).Begin();
+            }
+        }
+
+        private void PlayBtn_Click(object sender, RoutedEventArgs e)
+        {
+            MainPageViewModel.Current.SkiptoItem((sender as Button).DataContext as SongViewModel);
+        }
+
+        private async void SongList_Play(object sender, RoutedEventArgs e)
+        {
+            MainPage.Current.ShowModalUI(true, Consts.Localizer.GetString("PrepareToPlay"));
+            await MainPageViewModel.Current.InstantPlayAsync(await album.GetSongsAsync(), (int)((sender as FrameworkElement).DataContext as SongViewModel).Index);
+            MainPage.Current.ShowModalUI(false);
         }
     }
 }

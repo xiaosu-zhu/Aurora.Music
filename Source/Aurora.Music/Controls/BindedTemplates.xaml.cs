@@ -18,7 +18,6 @@ namespace Aurora.Music.Controls
         {
             this.InitializeComponent();
         }
-
         private void Grid_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
             if (sender is Panel s)
@@ -34,17 +33,9 @@ namespace Aurora.Music.Controls
                 (s.Resources["Normal"] as Storyboard).Begin();
             }
         }
-
         private void PlayBtn_Click(object sender, RoutedEventArgs e)
         {
             MainPageViewModel.Current.SkiptoItem((sender as Button).DataContext as SongViewModel);
-        }
-
-        private async void SongList_Play(object sender, RoutedEventArgs e)
-        {
-            MainPage.Current.ShowModalUI(true, Consts.Localizer.GetString("PrepareToPlay"));
-            await MainPageViewModel.Current.InstantPlayAsync(await (await ((sender as FrameworkElement).DataContext as SongViewModel).GetAlbumAsync()).GetSongsAsync(), (int)((sender as FrameworkElement).DataContext as SongViewModel).Index);
-            MainPage.Current.ShowModalUI(false);
         }
     }
 }
