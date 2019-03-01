@@ -139,7 +139,7 @@ namespace Aurora.Music.ViewModels
             });
         }
 
-        private bool nightMode;
+        private bool nightMode = Settings.Current.NightMode;
         public bool NightMode
         {
             get { return nightMode; }
@@ -148,6 +148,18 @@ namespace Aurora.Music.ViewModels
                 Settings.Current.NightMode = value;
                 Settings.Current.Save();
                 SetProperty(ref nightMode, value);
+            }
+        }
+
+        private bool showFeatured = Settings.Current.ShowFeatured;
+        public bool ShowFeatured
+        {
+            get { return showFeatured; }
+            set
+            {
+                Settings.Current.ShowFeatured = value;
+                Settings.Current.Save();
+                SetProperty(ref showFeatured, value);
             }
         }
 

@@ -102,7 +102,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                 Height="150" Background="{ThemeResource ImageDarkOverlay}"/>
         <Grid HorizontalAlignment="Stretch" 
-              VerticalAlignment="Stretch" 
+              VerticalAlignment="Stretch"
               Grid.Row="1"
               Width="{Binding ElementName=Artwork, Path=(ext:FrameworkElementExtensions.ActualWidth)}">
             <TextBlock Style="{ThemeResource BaseTextBlockStyle}"

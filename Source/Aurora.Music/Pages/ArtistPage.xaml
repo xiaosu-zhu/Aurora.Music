@@ -147,7 +147,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                       ItemClick="AlbumList_ItemClick" IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True"
                       SelectionMode="None" ItemsSource="{x:Bind Context.AlbumList, Mode=OneWay}" Padding="32"
                       ContextRequested="AlbumList_ContextRequested" ContextCanceled="AlbumList_ContextCanceled"
-                      ItemContainerStyle="{StaticResource GeneralGridViewItemStyle}" x:Name="AlbumList" Height="300"
+                      ItemContainerStyle="{StaticResource GridViewItemRevealBackgroundShowsAboveContentStyle}" x:Name="AlbumList" Height="300"
                       Style="{StaticResource HorizontalGridViewStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <GridView.ItemsPanel>
                             <ItemsPanelTemplate>

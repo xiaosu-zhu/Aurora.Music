@@ -217,6 +217,7 @@ namespace Aurora.Music.Core.Models
         public bool NightMode { get; set; } = false;
 
         public Engine PlaybackEngine { get; set; } = Engine.System;
+        public bool ShowFeatured { get; set; } = true;
 
         public static List<int> LibraryIndex()
         {

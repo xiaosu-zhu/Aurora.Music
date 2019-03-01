@@ -119,6 +119,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <TextBlock MaxLines="1" Grid.Column="1" 
                                TextTrimming="CharacterEllipsis" 
                                TextWrapping="NoWrap"
+                               ToolTipService.ToolTip="{x:Bind Title}"
                                Style="{ThemeResource BodyTextBlockStyle}" 
                                Margin="8,0" 
                                HorizontalAlignment="Left" 

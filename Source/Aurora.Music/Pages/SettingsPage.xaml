@@ -392,7 +392,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                             <RadioButton x:Uid="LightTheme" x:Name="LightTheme" Checked="RadioButton_Checked" Tag="Light" Content="Light"/>
                             <RadioButton x:Uid="DarkTheme" x:Name="DarkTheme" Checked="RadioButton_Checked" Tag="Dark" Content="Dark"/>
                         </StackPanel>
-                        <ToggleSwitch x:Uid="NightModeSwitch" Margin="0,8,0,12" Header="Night mode(decreases images' brightness in dark mode), requires restart" IsOn="{x:Bind Context.NightMode, Mode=TwoWay}"/>
+                        <ToggleSwitch Margin="0,8,0,12" Header="Show featured list in Homepage" IsOn="{x:Bind Context.ShowFeatured, Mode=TwoWay}"/>
+                        <ToggleSwitch x:Uid="NightModeSwitch" Margin="0,12" Header="Night mode(decreases images' brightness in dark mode), requires restart" IsOn="{x:Bind Context.NightMode, Mode=TwoWay}"/>
                         <ToggleSwitch x:Uid="DontOverlaySwitch" Margin="0,12" Header="Don't show small window at top(Compact overlay)" IsOn="{Binding DontOverlay,Mode=TwoWay}"/>
                         <ToggleSwitch x:Uid="SingletonSwitch" Margin="0,12" Header="Singleton instance of lyric window" IsOn="{Binding Singleton,Mode=TwoWay}"/>
 

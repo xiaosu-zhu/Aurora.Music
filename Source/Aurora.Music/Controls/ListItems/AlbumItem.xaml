@@ -111,6 +111,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <Setter Target="Offset.Duration" Value="200"/>
                         <Setter Target="BlurBehavior.Value" Value="0"/>
                         <Setter Target="Offset.OffsetY" Value="0"/>
+                        <Setter Target="AlbumBorder.(RevealBrush.State)" Value="0"/>
                     </VisualState.Setters>
                     <Storyboard>
                         <DoubleAnimation Storyboard.TargetName="LeftBtn" Storyboard.TargetProperty="ScaleX" To="0" Duration="0:0:0.2">
@@ -145,6 +146,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <Setter Target="BlurBehavior.Value" Value="6"/>
                         <Setter Target="Offset.OffsetY" Value="8"/>
                         <Setter Target="FloatPanel.Visibility" Value="Visible"/>
+                        <Setter Target="AlbumBorder.(RevealBrush.State)" Value="PointerOver"/>
                     </VisualState.Setters>
                     <Storyboard>
                         <DoubleAnimation Storyboard.TargetName="LeftBtn" Storyboard.TargetProperty="ScaleX" From="0" To="1" Duration="0:0:0.2">
@@ -175,6 +177,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <Setter Target="Offset.Duration" Value="0"/>
                         <Setter Target="BlurBehavior.Value" Value="0"/>
                         <Setter Target="Offset.OffsetY" Value="0"/>
+                        <Setter Target="AlbumBorder.(RevealBrush.State)" Value="Pressed"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -186,6 +189,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <Setter Target="BlurBehavior.Value" Value="0"/>
                         <Setter Target="Offset.OffsetY" Value="0"/>
                         <Setter Target="FloatPanel.Visibility" Value="Collapsed"/>
+                        <Setter Target="AlbumBorder.(RevealBrush.State)" Value="PointerOver"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="TouchPointerOver">
@@ -194,6 +198,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <Setter Target="Offset.Duration" Value="200"/>
                         <Setter Target="BlurBehavior.Value" Value="6"/>
                         <Setter Target="Offset.OffsetY" Value="8"/>
+                        <Setter Target="AlbumBorder.(RevealBrush.State)" Value="PointerOver"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="TouchPressed">
@@ -202,6 +207,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <Setter Target="Offset.Duration" Value="0"/>
                         <Setter Target="BlurBehavior.Value" Value="0"/>
                         <Setter Target="Offset.OffsetY" Value="0"/>
+                        <Setter Target="AlbumBorder.(RevealBrush.State)" Value="Pressed"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -282,7 +288,11 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </Image>
             <Border Width="{x:Bind ImageWidth,Mode=OneWay}" BorderThickness="1"
                     Height="{x:Bind ImageHeight,Mode=OneWay}" Background="{ThemeResource ImageDarkOverlay}"
-                    BorderBrush="{ThemeResource AlbumItemBorder}" Visibility="{x:Bind NightModeEnabled}"
+                    BorderBrush="{ThemeResource GridViewItemRevealBorderBrush}" Visibility="{x:Bind NightModeEnabled}"
+                    HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Border Width="{x:Bind ImageWidth,Mode=OneWay}" BorderThickness="1" x:Name="AlbumBorder"
+                    Height="{x:Bind ImageHeight,Mode=OneWay}" Background="{x:Null}"
+                    BorderBrush="{ThemeResource GridViewItemRevealBorderBrush}"
                     HorizontalAlignment="Center" VerticalAlignment="Center"/>
             <StackPanel Orientation="Horizontal" x:Load="False" x:Name="FloatPanel" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Button RenderTransformOrigin="0.5,0.5" Margin="4" Click="Play_Click" 

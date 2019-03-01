@@ -110,7 +110,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                           ItemsSource="{x:Bind AlbumListSource.View, Mode=OneWay}"
                           ContextRequested="AlbumList_ContextRequested" 
                           ContextCanceled="AlbumList_ContextCanceled"
-                          ItemContainerStyle="{StaticResource GeneralGridViewItemStyle}" 
+                          ItemContainerStyle="{StaticResource GridViewItemRevealBackgroundShowsAboveContentStyle}" 
                           x:Name="AlbumList"
                           Style="{StaticResource GeneralGridViewStyle}" 
                           HorizontalAlignment="Stretch" VerticalAlignment="Stretch">

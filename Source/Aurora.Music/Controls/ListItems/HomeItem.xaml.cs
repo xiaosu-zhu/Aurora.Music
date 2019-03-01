@@ -3,6 +3,7 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using System;
 using System.ComponentModel;
+using Aurora.Music.Core;
 using Aurora.Music.Core.Models;
 using Aurora.Music.ViewModels;
 using Windows.UI.Xaml;
@@ -47,7 +48,7 @@ namespace Aurora.Music.Controls.ListItems
                 {
                     if (g.Artwork == null)
                     {
-                        h.DataArtwork = null;
+                        h.DataArtwork = new BitmapImage(new Uri(Consts.BlackPlaceholder));
                     }
                     else
                     {
@@ -84,7 +85,7 @@ namespace Aurora.Music.Controls.ListItems
             {
                 if (Data.Artwork == null)
                 {
-                    DataArtwork = null;
+                    DataArtwork = new BitmapImage(new Uri(Consts.BlackPlaceholder));
                 }
                 else
                 {

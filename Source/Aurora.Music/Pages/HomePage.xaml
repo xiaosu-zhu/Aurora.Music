@@ -454,6 +454,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <StackPanel x:Name="OnlinePanel" Orientation="Horizontal" Margin="16,16,16,8"
                             Visibility="{x:Bind Context.CollapseIfZero(Context.OnlineList.Count),Mode=OneWay,FallbackValue=Collapsed}">
                     <TextBlock x:Uid="TopPlaylist" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold"/>
+                    <ToggleSwitch Margin="12,0" OnContent="" OffContent=""
+                                  Loaded="ToggleSwitch_Loaded"
+                                  HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </StackPanel>
                 <GridView Margin="0,8" IsSynchronizedWithCurrentItem="False" 
                           Padding="16,0" x:Name="OnlineList"
@@ -465,7 +468,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                           ScrollViewer.IsVerticalScrollChainingEnabled="True"
                           ScrollViewer.IsHorizontalScrollChainingEnabled="True"
                           ItemsSource="{x:Bind Context.OnlineList}"
-                          ItemContainerStyle="{ThemeResource GeneralGridViewItemStyle}">
+                          ItemContainerStyle="{ThemeResource GridViewItemRevealBackgroundShowsAboveContentStyle}">
                     <GridView.ItemTemplate>
                         <DataTemplate x:DataType="vm:GenericMusicItemViewModel">
                             <list:HomeItem Data="{x:Bind }"/>

@@ -312,9 +312,12 @@ namespace Aurora.Music.ViewModels
                         }
                     });
                 }),
-
                 Task.Run(async () =>
                 {
+                    if (!Settings.Current.ShowFeatured)
+                    {
+                        return;
+                    }
                     if (MainPageViewModel.Current.OnlineMusicExtension != null)
                     {
 

@@ -286,5 +286,20 @@ namespace Aurora.Music.Pages
                 MainPage.Current.ShowModalUI(false);
             }
         }
+
+        private void ToggleSwitch_Toggled(object sender, RoutedEventArgs e)
+        {
+            Context.OnlineList.Clear();
+            Settings.Current.ShowFeatured = false;
+            Settings.Current.Save();
+            MainPage.Current.PopMessage("You can re-enable featured list in settings");
+            (sender as ToggleSwitch).Toggled -= ToggleSwitch_Toggled;
+        }
+
+        private void ToggleSwitch_Loaded(object sender, RoutedEventArgs e)
+        {
+            (sender as ToggleSwitch).IsOn = Settings.Current.ShowFeatured;
+            (sender as ToggleSwitch).Toggled += ToggleSwitch_Toggled;
+        }
     }
 }
