@@ -141,7 +141,7 @@ namespace Aurora.Music.Core.Tools
                             BackgroundImage = new TileBackgroundImage()
                             {
                                 Source = image,
-                                HintOverlay = 67
+                                HintOverlay = 75
                             }
                         }
                     }
@@ -213,7 +213,7 @@ namespace Aurora.Music.Core.Tools
                                 BackgroundImage = new TileBackgroundImage()
                                 {
                                     Source = p.HeroArtworks.FirstOrDefault(),
-                                    HintOverlay = 67
+                                    HintOverlay = 75
                                 },
                                 PeekImage = new TilePeekImage()
                                 {

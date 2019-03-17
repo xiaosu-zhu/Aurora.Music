@@ -46,7 +46,7 @@ namespace Aurora.Music.Core
 
         public const string ProductID = "9NBLGGH6JVDT";
 
-        public const string Github = "https://github.com/pkzxs/Aurora.Music";
+        public const string Github = "https://github.com/xiaosu-zhu/Aurora.Music";
 
         private static ResourceLoader localizer = ResourceLoader.GetForViewIndependentUse();
         public static ResourceLoader Localizer

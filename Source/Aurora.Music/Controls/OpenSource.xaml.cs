@@ -66,7 +66,7 @@ namespace Aurora.Music.Controls
             text += string.Format(form, "Win2D", $"1.21.0", "[MIT License](https://github.com/Microsoft/Win2D/blob/master/LICENSE.txt)", "[github.com/Microsoft/Win2D](https://github.com/Microsoft/Win2D)");
 
             name = typeof(LrcParser.Lyric).Assembly.GetName();
-            text += string.Format(form, "LrcParser", $"{name.Version.ToVersionString()}", "[MIT License](https://github.com/pkzxs/Aurora.Music/blob/master/LICENSE)", "[github.com/pkzxs/LrcParser](https://github.com/pkzxs/Aurora.Music/tree/master/Source/LrcParser)");
+            text += string.Format(form, "LrcParser", $"{name.Version.ToVersionString()}", "[MIT License](https://github.com/pkzxs/Aurora.Music/blob/master/LICENSE)", "[github.com/xiaosu-zhu/LrcParser](https://github.com/pkzxs/Aurora.Music/tree/master/Source/LrcParser)");
 
             Main.Text = text;
 

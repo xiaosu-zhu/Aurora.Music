@@ -4,6 +4,7 @@
 using Aurora.Music.Core;
 using Aurora.Music.Core.Models;
 using Aurora.Music.Core.Storage;
+using Aurora.Music.Pages;
 using Aurora.Shared;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
@@ -141,6 +142,14 @@ namespace Aurora.Music.ViewModels
             await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
                 WelcomeTitle = GetWelcomeTitle();
+            });
+        }
+
+        public DelegateCommand GotoDonation
+        {
+            get => new DelegateCommand(() =>
+            {
+                MainPage.Current.Navigate(typeof(AboutPage), true);
             });
         }
 

@@ -13,6 +13,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     xmlns:vm="using:Aurora.Music.ViewModels"
     xmlns:ext="using:Microsoft.Toolkit.Uwp.UI.Extensions"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
+    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     SizeChanged="Page_SizeChanged"
     Unloaded="Page_Unloaded"
     mc:Ignorable="d">
@@ -433,7 +434,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                       VerticalScrollMode="Auto" VerticalScrollBarVisibility="Auto" 
                       IsVerticalRailEnabled="True" x:Name="MainScroller"
                       IsVerticalScrollChainingEnabled="True">
-            <StackPanel Margin="0,240,0,160" Orientation="Vertical" x:Name="ContentPanel"
+            <StackPanel Margin="0,240,0,16" Orientation="Vertical" x:Name="ContentPanel"
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <ListView SelectionMode="None" IsItemClickEnabled="True" 
                           ItemsSource="{x:Bind Context.HeroList}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
@@ -553,6 +554,24 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
+                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="48,128,48,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                               Height="1"
+                               Fill="{ThemeResource SystemControlHighlightBaseLowRevealBorderBrush}"
+                               Stroke="{x:Null}"/>
+                    <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="1" 
+                               Grid.Column="2"
+                               Fill="{ThemeResource SystemControlHighlightBaseLowRevealBorderBrush}"
+                               Stroke="{x:Null}"/>
+                    <Button Content="Aurora Music" Style="{ThemeResource TextBlockButtonStyle}"
+                            Command="{x:Bind Context.GotoDonation}" Grid.Column="1" Margin="12,0"
+                            HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Grid>
             </StackPanel>
         </ScrollViewer>
         <Border Loaded="Header_Loaded" x:Name="HeaderBG" Height="120" VerticalAlignment="Top" HorizontalAlignment="Stretch" Background="{ThemeResource SystemControlAltHighAcrylicElementBrush}"/>

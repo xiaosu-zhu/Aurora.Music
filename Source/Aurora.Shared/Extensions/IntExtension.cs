@@ -38,13 +38,17 @@ namespace Aurora.Shared.Extensions
         {
             return dec.ToString("X", CultureInfoHelper.CurrentCulture);
         }
+        public static string ToHexString(this ulong dec)
+        {
+            return dec.ToString("X", CultureInfoHelper.CurrentCulture);
+        }
     }
 
     public static class IntExtension
     {
         public static string ToHexString(this int dec)
         {
-            return "0x" + dec.ToString("X8", CultureInfoHelper.CurrentCulture);
+            return dec.ToString("X", CultureInfoHelper.CurrentCulture);
         }
 
         public static string ToString(this int[][] k)

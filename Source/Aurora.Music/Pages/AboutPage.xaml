@@ -31,7 +31,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         </ResourceDictionary>
     </Page.Resources>
 
-    <ScrollViewer HorizontalScrollMode="Disabled">
+    <ScrollViewer x:Name="Root" HorizontalScrollMode="Disabled">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState>
@@ -99,7 +99,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </Border>
             <toolkit:MarkdownTextBlock Background="{x:Null}" HorizontalAlignment="Center" VerticalAlignment="Stretch" LinkClicked="MarkdownTextBlock_LinkClicked"
                                        MaxWidth="320" HorizontalContentAlignment="Center" Margin="12,0"
-                                       Text="* Thanks for collaborators that are helping for tranlations:&#xD;&#xA;&#x9;* **Lucas Herr**&#xD;&#xA;&#x9;* **Данила Степовой**&#xD;&#xA;&#x9;* **Dan Olivaw**.&#xD;&#xA;* Pull requests [#4](https://github.com/pkzxs/Aurora.Music/pull/4), [#5](https://github.com/pkzxs/Aurora.Music/pull/5), [#6](https://github.com/pkzxs/Aurora.Music/pull/6), [#7](https://github.com/pkzxs/Aurora.Music/pull/7), [#9](https://github.com/pkzxs/Aurora.Music/pull/9), [#22](https://github.com/pkzxs/Aurora.Music/pull/22), [#23](https://github.com/pkzxs/Aurora.Music/pull/23), [#25](https://github.com/pkzxs/Aurora.Music/pull/25) by [OpportunityLiu](https://github.com/OpportunityLiu).&#xD;&#xA;&#xD;&#xA;* And **[everyone supported development](https://github.com/pkzxs/Aurora.Music/issues)**.&#xD;&#xA;&#xD;&#xA;* And **You**."/>
+                                       Text="* Thanks for collaborators that are helping for tranlations:&#xD;&#xA;&#x9;* **Lucas Herr**&#xD;&#xA;&#x9;* **Данила Степовой**&#xD;&#xA;&#x9;* **Dan Olivaw**.&#xD;&#xA;* Pull requests [#4](https://github.com/xiaosu-zhu/Aurora.Music/pull/4), [#5](https://github.com/xiaosu-zhu/Aurora.Music/pull/5), [#6](https://github.com/xiaosu-zhu/Aurora.Music/pull/6), [#7](https://github.com/xiaosu-zhu/Aurora.Music/pull/7), [#9](https://github.com/xiaosu-zhu/Aurora.Music/pull/9), [#22](https://github.com/xiaosu-zhu/Aurora.Music/pull/22), [#23](https://github.com/xiaosu-zhu/Aurora.Music/pull/23), [#25](https://github.com/xiaosu-zhu/Aurora.Music/pull/25) by [OpportunityLiu](https://github.com/OpportunityLiu).&#xD;&#xA;&#xD;&#xA;* And **[everyone supported development](https://github.com/xiaosu-zhu/Aurora.Music/issues)**.&#xD;&#xA;&#xD;&#xA;* And **You**."/>
 
 
             <Border Padding="8,4" Margin="12,24,12,12" CornerRadius="8" Background="{ThemeResource AccentForText}" 
@@ -196,7 +196,10 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                            HorizontalAlignment="Center" VerticalAlignment="Center" 
                            Foreground="{ThemeResource SystemControlForegroundAltHighBrush}"/>
             </Border>
-            <toolkit:WrapPanel HorizontalSpacing="8" VerticalSpacing="8" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <toolkit:WrapPanel x:Name="Donation"
+                               HorizontalSpacing="8" VerticalSpacing="8" 
+                               Orientation="Horizontal" 
+                               HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Button Style="{ThemeResource RevealRoundButton}" Width="48" Height="48">
                     <Button.Background>
                         <AcrylicBrush FallbackColor="#09bb07" TintColor="#09bb07" TintOpacity="0.3333333333333333" BackgroundSource="HostBackdrop"/>
@@ -227,7 +230,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                     </LinearGradientBrush>
                                 </StackPanel.Background>
                                 <TextBlock FontWeight="Bold" Foreground="White" TextWrapping="WrapWholeWords" HorizontalAlignment="Center" VerticalAlignment="Center" Text="Donate via PayPal" Style="{ThemeResource TitleTextBlockStyle}"/>
-                                <HyperlinkButton Foreground="White" Content="Using PayPal.me to donate" HorizontalAlignment="Center" VerticalAlignment="Center" NavigateUri="https://www.paypal.me/aurorastu"/>
+                                <HyperlinkButton Foreground="White" Content="Using PayPal.me to donate" HorizontalAlignment="Center" VerticalAlignment="Center" NavigateUri="https://www.paypal.me/auroramusic"/>
                             </StackPanel>
                         </Flyout>
                     </Button.Flyout>

@@ -65,16 +65,16 @@ namespace Aurora.Shared.Helpers
 
         }
 
-        public static string GetPackageVer()
+        public static PackageVersion GetPackageVer()
+        {
+            return Package.Current.Id.Version;
+        }
+        public static string ToVersionString(this PackageVersion version)
         {
 #if BETA
-            return Package.Current.Id.Version.Major.ToString("0") + "." +
-               Package.Current.Id.Version.Minor.ToString("0") + "." +
-               Package.Current.Id.Version.Build.ToString("0")+" - BETA";
+            return $"{version.Major.ToString("0")}.{version.Minor.ToString("0")}.{version.Build.ToString("0")} - BETA";
 #else
-            return Package.Current.Id.Version.Major.ToString("0") + "." +
-               Package.Current.Id.Version.Minor.ToString("0") + "." +
-               Package.Current.Id.Version.Build.ToString("0");
+            return $"{version.Major.ToString("0")}.{version.Minor.ToString("0")}.{version.Build.ToString("0")}";
 #endif
         }
 

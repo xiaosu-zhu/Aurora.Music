@@ -7,10 +7,13 @@ using Aurora.Music.ViewModels;
 using Aurora.Shared.Helpers;
 using System;
 using System.Threading.Tasks;
+using Windows.Foundation;
 using Windows.Services.Store;
 using Windows.System;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Navigation;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -26,31 +29,47 @@ namespace Aurora.Music.Pages
 
         public AboutPage()
         {
-            BuildText = SystemInfoHelper.GetPackageVer();
+            BuildText = SystemInfoHelper.GetPackageVer().ToVersionString();
             this.InitializeComponent();
             MainPageViewModel.Current.Title = Consts.Localizer.GetString("AboutText");
             MainPageViewModel.Current.NeedShowTitle = true;
         }
 
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            if (e.Parameter is bool b && b)
+            {
+                Task.Run(async () =>
+                {
+                    await Task.Delay(200);
+                    await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                    {
+                        Root.ChangeView(0, Root.ScrollableHeight, 1);
+                    });
+                });
+            }
+        }
+
         public string BuildText { get; set; }
 
-        private async void OpenSource(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private async void OpenSource(object sender, RoutedEventArgs e)
         {
-            OpenSource o = new OpenSource();
+            var o = new OpenSource();
             await o.ShowAsync();
         }
 
-        private async void Github(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private async void Github(object sender, RoutedEventArgs e)
         {
-            await Launcher.LaunchUriAsync(new Uri("https://github.com/pkzxs/Aurora.Music"));
+            await Launcher.LaunchUriAsync(new Uri("https://github.com/xiaosu-zhu/Aurora.Music"));
         }
 
-        private async void Tranlate(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private async void Tranlate(object sender, RoutedEventArgs e)
         {
             await Launcher.LaunchUriAsync(new Uri("https://aurorastudio.oneskyapp.com/collaboration/project?id=141901"));
         }
 
-        private async void UnSplash(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private async void UnSplash(object sender, RoutedEventArgs e)
         {
             await Launcher.LaunchUriAsync(new Uri("https://unsplash.com/"));
         }
@@ -60,33 +79,33 @@ namespace Aurora.Music.Pages
             await Launcher.LaunchUriAsync(new Uri(e.Link));
         }
 
-        private async void Comment(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private async void Comment(object sender, RoutedEventArgs e)
         {
             await Launcher.LaunchUriAsync(new Uri($"ms-windows-store://review/?ProductId={Consts.ProductID}"));
         }
 
-        private async void Report(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private async void Report(object sender, RoutedEventArgs e)
         {
-            await Launcher.LaunchUriAsync(new Uri("https://github.com/pkzxs/Aurora.Music/issues"));
+            await Launcher.LaunchUriAsync(new Uri("https://github.com/xiaosu-zhu/Aurora.Music/issues"));
         }
 
-        private async void Extension(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private async void Extension(object sender, RoutedEventArgs e)
         {
             await Launcher.LaunchUriAsync(new Uri($"ms-windows-store://search/?query=Aurora Music Extension"));
         }
 
-        private async void Privacy(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private async void Privacy(object sender, RoutedEventArgs e)
         {
-            await Launcher.LaunchUriAsync(new Uri("https://github.com/pkzxs/Aurora.Music/blob/master/Documentation/Privacy%20Policy.md"));
+            await Launcher.LaunchUriAsync(new Uri("https://github.com/xiaosu-zhu/Aurora.Music/blob/master/Documentation/Privacy%20Policy.md"));
         }
 
-        private async void EaseAccess(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private async void EaseAccess(object sender, RoutedEventArgs e)
         {
             var u = new EaseAccess();
             await u.ShowAsync();
         }
 
-        private async void Update(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private async void Update(object sender, RoutedEventArgs e)
         {
             var u = new UpdateInfo();
             await u.ShowAsync();
@@ -127,7 +146,7 @@ namespace Aurora.Music.Pages
             }
         }
 
-        private async void Donate(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private async void Donate(object sender, RoutedEventArgs e)
         {
             MainPage.Current.ShowModalUI(true, Consts.Localizer.GetString("WaitingResultText"));
 

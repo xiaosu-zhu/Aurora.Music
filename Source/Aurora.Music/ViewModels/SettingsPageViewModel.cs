@@ -93,7 +93,7 @@ namespace Aurora.Music.ViewModels
         {
             get => new DelegateCommand(async () =>
             {
-                await Launcher.LaunchUriAsync(new Uri("https://github.com/pkzxs/Aurora.Music/blob/master/Documentation/Privacy%20Policy.md"));
+                await Launcher.LaunchUriAsync(new Uri("https://github.com/xiaosu-zhu/Aurora.Music/blob/master/Documentation/Privacy%20Policy.md"));
             });
         }
 
@@ -135,7 +135,7 @@ namespace Aurora.Music.ViewModels
         {
             get => new DelegateCommand(async () =>
             {
-                await Launcher.LaunchUriAsync(new Uri("https://github.com/pkzxs/Aurora.Music/issues"));
+                await Launcher.LaunchUriAsync(new Uri("https://github.com/xiaosu-zhu/Aurora.Music/issues"));
             });
         }
 
