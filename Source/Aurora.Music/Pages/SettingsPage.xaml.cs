@@ -31,24 +31,39 @@ namespace Aurora.Music.Pages
             SystemTheme.Checked -= RadioButton_Checked;
             LightTheme.Checked -= RadioButton_Checked;
             DarkTheme.Checked -= RadioButton_Checked;
-            switch (Settings.Current.Theme)
+            AutoTheme.Checked -= RadioButton_Checked;
+            SunThemeChecker.Checked -= SunThemeChecker_Checked;
+            SunThemeChecker.Unchecked -= SunThemeChecker_Checked;
+            SunThemeChecker.IsChecked = Settings.Current.SunTheme;
+            if (Settings.Current.AutoTheme)
             {
-                case ElementTheme.Default:
-                    SystemTheme.IsChecked = true;
-                    break;
-                case ElementTheme.Light:
-                    LightTheme.IsChecked = true;
-                    break;
-                case ElementTheme.Dark:
-                    DarkTheme.IsChecked = true;
-                    break;
-                default:
-                    SystemTheme.IsChecked = true;
-                    break;
+                AutoTheme.IsChecked = true;
+            }
+            else
+            {
+                AutoTheme.IsChecked = false;
+                switch (Settings.Current.Theme)
+                {
+                    case ElementTheme.Default:
+                        SystemTheme.IsChecked = true;
+                        break;
+                    case ElementTheme.Light:
+                        LightTheme.IsChecked = true;
+                        break;
+                    case ElementTheme.Dark:
+                        DarkTheme.IsChecked = true;
+                        break;
+                    default:
+                        SystemTheme.IsChecked = true;
+                        break;
+                }
             }
             SystemTheme.Checked += RadioButton_Checked;
             LightTheme.Checked += RadioButton_Checked;
             DarkTheme.Checked += RadioButton_Checked;
+            AutoTheme.Checked += RadioButton_Checked;
+            SunThemeChecker.Checked += SunThemeChecker_Checked;
+            SunThemeChecker.Unchecked += SunThemeChecker_Checked;
 
             Task.Run(async () =>
             {
@@ -217,18 +232,39 @@ namespace Aurora.Music.Pages
             switch (b.Tag)
             {
                 case "System":
+                    Context.SetAutoTheme(false);
                     Context.ChangeTheme(ElementTheme.Default);
                     break;
                 case "Light":
+                    Context.SetAutoTheme(false);
                     Context.ChangeTheme(ElementTheme.Light);
                     break;
                 case "Dark":
+                    Context.SetAutoTheme(false);
                     Context.ChangeTheme(ElementTheme.Dark);
                     break;
+                case "Auto":
+                    Context.SetAutoTheme(true);
+                    break;
                 default:
+                    Context.SetAutoTheme(false);
                     Context.ChangeTheme(ElementTheme.Default);
                     break;
             }
+        }
+
+        Visibility SunThemeVis(bool? b)
+        {
+            if (b is bool a && a)
+            {
+                return Visibility.Collapsed;
+            }
+            return Visibility.Visible;
+        }
+
+        private void SunThemeChecker_Checked(object sender, RoutedEventArgs e)
+        {
+            Context.SetSunTheme(SunThemeChecker.IsChecked is bool a && a);
         }
     }
 }

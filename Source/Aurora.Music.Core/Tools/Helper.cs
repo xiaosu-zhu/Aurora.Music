@@ -10,6 +10,7 @@ using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using TagLib;
+using Windows.Devices.Geolocation;
 using Windows.Storage;
 using Windows.Storage.Streams;
 
@@ -59,6 +60,30 @@ namespace Aurora.Music.Core.Tools
                         return null;
                     }
                 }
+            }
+        }
+
+        public static async Task<(double? lng, double? lat)> GetLocationAsync()
+        {
+            var accessStatus = await Geolocator.RequestAccessAsync();
+            switch (accessStatus)
+            {
+                case GeolocationAccessStatus.Allowed:
+
+                    // If DesiredAccuracy or DesiredAccuracyInMeters are not set (or value is 0), DesiredAccuracy.Default is used.
+                    var geolocator = new Geolocator();
+                    // Carry out the operation.
+                    var pos = await geolocator.GetGeopositionAsync();
+                    return (pos.Coordinate.Point.Position.Longitude, pos.Coordinate.Point.Position.Latitude);
+
+                case GeolocationAccessStatus.Denied:
+                    return (null, null);
+
+                case GeolocationAccessStatus.Unspecified:
+                    return (null, null);
+
+                default:
+                    return (null, null);
             }
         }
 

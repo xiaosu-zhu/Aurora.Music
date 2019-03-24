@@ -218,6 +218,15 @@ namespace Aurora.Music.Core.Models
 
         public Engine PlaybackEngine { get; set; } = Engine.System;
         public bool ShowFeatured { get; set; } = true;
+        public bool AutoTheme { get; set; } = false;
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+        public bool SunTheme { get; set; } = false;
+
+        // 8:00
+        public double RiseTime { get; set; } = 28800d;
+        // 20:00
+        public double FallTime { get; set; } = 72000d;
 
         public static List<int> LibraryIndex()
         {

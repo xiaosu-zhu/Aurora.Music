@@ -294,6 +294,57 @@ namespace Aurora.Music.ViewModels
             }
         }
 
+        internal void SetAutoTheme(bool v)
+        {
+            Settings.Current.AutoTheme = v;
+            Settings.Current.Save();
+            if (v)
+            {
+                MainPage.Current.AutoChangeTheme();
+            }
+            RiseTime = TimeSpan.FromSeconds(Settings.Current.RiseTime);
+            FallTime = TimeSpan.FromSeconds(Settings.Current.FallTime);
+        }
+
+        internal async void SetSunTheme(bool v)
+        {
+            Settings.Current.SunTheme = v;
+            Settings.Current.Save();
+            if (v)
+            {
+                await MainPage.Current.RecalcSunTimeAsync();
+            }
+            RiseTime = TimeSpan.FromSeconds(Settings.Current.RiseTime);
+            FallTime = TimeSpan.FromSeconds(Settings.Current.FallTime);
+            MainPage.Current.AutoChangeTheme();
+        }
+
+        private TimeSpan riseTime = TimeSpan.FromSeconds(Settings.Current.RiseTime);
+        public TimeSpan RiseTime
+        {
+            get { return riseTime; }
+            set
+            {
+                Settings.Current.RiseTime = value.TotalSeconds;
+                Settings.Current.Save();
+                SetProperty(ref riseTime, value);
+                MainPage.Current.AutoChangeTheme();
+            }
+        }
+
+        private TimeSpan fallTime = TimeSpan.FromSeconds(Settings.Current.FallTime);
+        public TimeSpan FallTime
+        {
+            get { return fallTime; }
+            set
+            {
+                Settings.Current.FallTime = value.TotalSeconds;
+                Settings.Current.Save();
+                SetProperty(ref fallTime, value);
+                MainPage.Current.AutoChangeTheme();
+            }
+        }
+
         private static async void RegisterPodcastTask()
         {
             if (BackgroundTaskHelper.IsBackgroundTaskRegistered(Consts.PodcastTaskName))

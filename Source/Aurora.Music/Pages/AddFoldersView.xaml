@@ -56,7 +56,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <Button x:Uid="FilterNewFolder" Command="{x:Bind Context.FilterFolderCommand}" Background="{ThemeResource SystemControlBackgroundBaseLowRevealBackgroundBrush}" 
                     HorizontalAlignment="Left" Style="{ThemeResource ButtonRevealStyle}" Foreground="#ff4343" Content="Add a folder don't scan"/>
             </StackPanel>
-            <TextBlock FontSize="13" Foreground="{ThemeResource SystemControlBackgroundBaseMediumLowRevealBorderBrush}" x:Uid="FilterFoldeNote" Text="Note: filtered folder names will apply to all folder"/>
+            <TextBlock FontSize="13" Foreground="{ThemeResource SystemControlHighlightBaseMediumLowRevealBorderBrush}" x:Uid="FilterFoldeNote" Text="Note: filtered folder names will apply to all folder"/>
             <ListView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                       ItemContainerStyleSelector="{StaticResource SongListStyleSelector}"
                       SelectionMode="None" IsItemClickEnabled="True" 

@@ -10,6 +10,7 @@ using Aurora.Music.Controls;
 using Aurora.Music.Core;
 using Aurora.Music.Core.Models;
 using Aurora.Music.Core.Storage;
+using Aurora.Music.Core.Tools;
 using Aurora.Music.Pages;
 using Aurora.Music.ViewModels;
 using Aurora.Shared;
@@ -56,8 +57,27 @@ namespace Aurora.Music
             SongFlyout = (Resources["SongFlyout"] as MenuFlyout);
 
             dataTransferManager = DataTransferManager.GetForCurrentView();
-
-            ChangeTheme(Settings.Current.Theme);
+            Task.Run(async () =>
+            {
+                if (Settings.Current.AutoTheme)
+                {
+                    if (Settings.Current.SunTheme)
+                    {
+                        await RecalcSunTimeAsync();
+                    }
+                    await Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+                    {
+                        AutoChangeTheme();
+                    });
+                }
+                else
+                {
+                    await Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+                    {
+                        ChangeTheme(Settings.Current.Theme);
+                    });
+                }
+            });
         }
 
         internal void SetSleepTimer(DateTime t, SleepAction a)
@@ -270,6 +290,10 @@ namespace Aurora.Music
             if (OverlayFrame.Visibility == Visibility.Visible)
                 return;
             MainFrame.Navigate(type);
+            if (Settings.Current.AutoTheme)
+            {
+                AutoChangeTheme();
+            }
         }
 
         public void Navigate(Type type, object parameter)
@@ -277,6 +301,10 @@ namespace Aurora.Music
             if (OverlayFrame.Visibility == Visibility.Visible)
                 return;
             MainFrame.Navigate(type, parameter);
+            if (Settings.Current.AutoTheme)
+            {
+                AutoChangeTheme();
+            }
         }
 
         public Orientation PaneToOrientation(bool a)
@@ -292,6 +320,49 @@ namespace Aurora.Music
             }
             var ui = new UISettings();
             Context.IsDarkAccent = Palette.IsDarkColor(ui.GetColorValue(UIColorType.Accent));
+        }
+
+        internal async Task RecalcSunTimeAsync()
+        {
+            var loc = await Helper.GetLocationAsync();
+            if (loc.lat is double lat && loc.lng is double lng)
+            {
+                Settings.Current.Longitude = lng;
+                Settings.Current.Latitude = lat;
+            }
+            var (tsunrise, tsunset) = Sunriset.SunriseSunset(DateTime.Now, (Settings.Current.Longitude, Settings.Current.Latitude));
+            Settings.Current.RiseTime = tsunrise.TotalSeconds;
+            Settings.Current.FallTime = tsunset.TotalSeconds;
+            Settings.Current.Save();
+        }
+
+        internal void AutoChangeTheme()
+        {
+            var elapsed = DateTime.Now - DateTime.Today;
+            if (Settings.Current.FallTime > Settings.Current.RiseTime)
+            {
+                // normal dark and light
+                if (elapsed.TotalSeconds > Settings.Current.RiseTime && elapsed.TotalSeconds < Settings.Current.FallTime)
+                {
+                    ChangeTheme(ElementTheme.Light);
+                }
+                else
+                {
+                    ChangeTheme(ElementTheme.Dark);
+                }
+            }
+            else
+            {
+                // dark light inverted
+                if (elapsed.TotalSeconds > Settings.Current.FallTime && elapsed.TotalSeconds < Settings.Current.RiseTime)
+                {
+                    ChangeTheme(ElementTheme.Dark);
+                }
+                else
+                {
+                    ChangeTheme(ElementTheme.Light);
+                }
+            }
         }
 
         public void ChangeTheme(ElementTheme theme)

@@ -57,7 +57,7 @@ namespace Aurora.Music.Core
         private static string commaSeparator = localizer.GetString("CommaSeparator");
         public static string CommaSeparator => commaSeparator;
 
-        public static string UpdateNote => null;
+        public static string UpdateNote => "Update dependencies, remove duplicated codes, and add auto-changed dark/light theme, please refer to \"Settings -> Interface\" to change it.";
 
         public static string UpdateNoteTitle => localizer.GetString("UpdateNoteTitle");
 

@@ -716,22 +716,22 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.1.9</Version>
+      <Version>6.2.8</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.Connectivity">
-      <Version>5.0.0</Version>
+      <Version>5.1.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications">
-      <Version>5.0.0</Version>
+      <Version>5.1.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI">
-      <Version>5.0.0</Version>
+      <Version>5.1.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls">
-      <Version>5.0.0</Version>
+      <Version>5.1.1</Version>
     </PackageReference>
     <PackageReference Include="SmartFormat.NET">
-      <Version>2.3.1.1</Version>
+      <Version>2.4.2</Version>
     </PackageReference>
     <PackageReference Include="UWPAudioVisualizer">
       <Version>0.1.96</Version>
