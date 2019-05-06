@@ -803,12 +803,14 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     <Style TargetType="Button" BasedOn="{StaticResource RevealRoundCornerButton}" x:Key="PlayAllButton">
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
-        <Setter Property="Content">
+        <Setter Property="ContentTemplate">
             <Setter.Value>
-                <TextBlock>
-                    <Run FontSize="13" FontFamily="Segoe MDL2 Assets" Text="&#xE142;"/>
-                    <Run x:Uid="PlayAll"/>
-                </TextBlock>
+                <DataTemplate>
+                    <TextBlock>
+                        <Run FontSize="13" FontFamily="Segoe MDL2 Assets" Text="&#xE142;"/>
+                        <Run x:Uid="PlayAll"/>
+                    </TextBlock>
+                </DataTemplate>
             </Setter.Value>
         </Setter>
     </Style>
@@ -1589,7 +1591,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     <Style TargetType="ProgressBar" x:Key="SlimProgressBar">
         <Setter Property="MinHeight" Value="0"/>
     </Style>
-    
+
     <Style TargetType="GridViewItem" x:Key="GridViewItemRevealBackgroundShowsAboveContentStyle">
         <Setter Property="Padding" Value="0"/>
         <Setter Property="Margin" Value="12"/>
