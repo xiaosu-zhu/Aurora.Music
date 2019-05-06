@@ -1,194 +1,205 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3" xmlns:uap4="http://schemas.microsoft.com/appx/manifest/uap/windows10/4" IgnorableNamespaces="uap mp uap3 uap4">
-  <Identity Name="6727Aurora-ZXS.10476770C0EE5" Publisher="CN=C726CFE3-60F0-4B5C-8D98-3381263565AE" Version="2.19032.41853.0" />
-  <mp:PhoneIdentity PhoneProductId="743dcb49-5f9d-472b-996d-be7602b35973" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
-  <Properties>
-    <DisplayName>ms-resource:AppNameText</DisplayName>
-    <PublisherDisplayName>Aurora-Studio</PublisherDisplayName>
-    <Logo>Assets\StoreLogo.png</Logo>
-  </Properties>
-  <Dependencies>
-    <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.0.0" MaxVersionTested="10.0.0.0" />
-  </Dependencies>
-  <Resources>
-    <Resource Language="x-generate" />
-  </Resources>
-  <Applications>
-    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="Aurora.Music.App">
-      <uap:VisualElements DisplayName="ms-resource:AppNameText" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="ms-resource:AppNameText" BackgroundColor="transparent">
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" ShortName="ms-resource:MusicText" Square310x310Logo="Assets\LargeTile.png" Square71x71Logo="Assets\SmallTile.png">
-          <uap:ShowNameOnTiles>
-            <uap:ShowOn Tile="square150x150Logo" />
-            <uap:ShowOn Tile="wide310x150Logo" />
-            <uap:ShowOn Tile="square310x310Logo" />
-          </uap:ShowNameOnTiles>
-        </uap:DefaultTile>
-        <uap:SplashScreen Image="Assets\SplashScreen.png" BackgroundColor="transparent" />
-        <uap:InitialRotationPreference>
-          <uap:Rotation Preference="portrait" />
-          <uap:Rotation Preference="landscape" />
-          <uap:Rotation Preference="portraitFlipped" />
-          <uap:Rotation Preference="landscapeFlipped" />
-        </uap:InitialRotationPreference>
-      </uap:VisualElements>
-      <Extensions>
-        <uap3:Extension Category="windows.appExtension">
-          <uap3:AppExtension Name="Aurora.Music.Extensions" Id="BuiltIn" PublicFolder="Public" DisplayName="ms-resource:NativeText" Description="ms-resource:BuiltInText">
-            <uap3:Properties>
-              <Service>Aurora.Music.Services</Service>
-              <Category>Lyric;OnlineMusic;OnlineMeta</Category>
-              <LaunchUri>as-music:///settings/extension</LaunchUri>
-            </uap3:Properties>
-          </uap3:AppExtension>
-        </uap3:Extension>
-        <Extension Category="windows.backgroundTasks" EntryPoint="Aurora.Music.Services.PodcastsFetcher">
-          <BackgroundTasks>
-            <Task Type="timer" />
-          </BackgroundTasks>
+    <Identity Name="6727Aurora-ZXS.10476770C0EE5" Publisher="CN=C726CFE3-60F0-4B5C-8D98-3381263565AE" Version="2.19032.41853.0" />
+    <mp:PhoneIdentity PhoneProductId="743dcb49-5f9d-472b-996d-be7602b35973" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
+    <Properties>
+        <DisplayName>ms-resource:AppNameText</DisplayName>
+        <PublisherDisplayName>Aurora-Studio</PublisherDisplayName>
+        <Logo>Assets\StoreLogo.png</Logo>
+    </Properties>
+    <Dependencies>
+        <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.0.0" MaxVersionTested="10.0.0.0" />
+    </Dependencies>
+    <Resources>
+        <Resource Language="x-generate" />
+    </Resources>
+    <Applications>
+        <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="Aurora.Music.App">
+            <uap:VisualElements DisplayName="ms-resource:AppNameText" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="ms-resource:AppNameText" BackgroundColor="transparent">
+                <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" ShortName="ms-resource:MusicText" Square310x310Logo="Assets\LargeTile.png" Square71x71Logo="Assets\SmallTile.png">
+                    <uap:ShowNameOnTiles>
+                        <uap:ShowOn Tile="square150x150Logo" />
+                        <uap:ShowOn Tile="wide310x150Logo" />
+                        <uap:ShowOn Tile="square310x310Logo" />
+                    </uap:ShowNameOnTiles>
+                </uap:DefaultTile>
+                <uap:SplashScreen Image="Assets\SplashScreen.png" BackgroundColor="transparent" />
+                <uap:InitialRotationPreference>
+                    <uap:Rotation Preference="portrait" />
+                    <uap:Rotation Preference="landscape" />
+                    <uap:Rotation Preference="portraitFlipped" />
+                    <uap:Rotation Preference="landscapeFlipped" />
+                </uap:InitialRotationPreference>
+            </uap:VisualElements>
+            <Extensions>
+                <uap3:Extension Category="windows.appExtension">
+                    <uap3:AppExtension Name="Aurora.Music.Extensions" Id="BuiltIn" PublicFolder="Public" DisplayName="ms-resource:NativeText" Description="ms-resource:BuiltInText">
+                        <uap3:Properties>
+                            <Service>Aurora.Music.Services</Service>
+                            <Category>Lyric;OnlineMusic;OnlineMeta</Category>
+                            <LaunchUri>as-music:///settings/extension</LaunchUri>
+                        </uap3:Properties>
+                    </uap3:AppExtension>
+                </uap3:Extension>
+                <Extension Category="windows.backgroundTasks" EntryPoint="Aurora.Music.Services.PodcastsFetcher">
+                    <BackgroundTasks>
+                        <Task Type="timer" />
+                    </BackgroundTasks>
+                </Extension>
+                <uap:Extension Category="windows.protocol">
+                    <uap:Protocol Name="as-music">
+                        <uap:Logo>Assets\Square44x44Logo.png</uap:Logo>
+                        <uap:DisplayName>Aurora Music</uap:DisplayName>
+                    </uap:Protocol>
+                </uap:Extension>
+                <uap3:Extension Category="windows.appExtensionHost">
+                    <uap3:AppExtensionHost>
+                        <uap3:Name>Aurora.Music.Extensions</uap3:Name>
+                    </uap3:AppExtensionHost>
+                </uap3:Extension>
+                <uap:Extension Category="windows.appService" EntryPoint="Aurora.Music.Services.ExtensionService">
+                    <uap:AppService Name="Aurora.Music.Services" />
+                </uap:Extension>
+                <uap:Extension Category="windows.shareTarget">
+                    <uap:ShareTarget Description="Copy to Aurora Music">
+                        <uap:SupportedFileTypes>
+                            <uap:FileType>.mp3</uap:FileType>
+                            <uap:FileType>.m4a</uap:FileType>
+                            <uap:FileType>.wav</uap:FileType>
+                            <uap:FileType>.wma</uap:FileType>
+                            <uap:FileType>.aac</uap:FileType>
+                            <uap:FileType>.flac</uap:FileType>
+                            <uap:FileType>.ogg</uap:FileType>
+                            <uap:FileType>.oga</uap:FileType>
+                            <uap:FileType>.opus</uap:FileType>
+                        </uap:SupportedFileTypes>
+                        <uap:DataFormat>StorageItems</uap:DataFormat>
+                    </uap:ShareTarget>
+                </uap:Extension>
+                <Extension Category="windows.backgroundTasks" EntryPoint="Aurora.Music.Services.DownloadCompletor">
+                    <BackgroundTasks>
+                        <Task Type="systemEvent" />
+                    </BackgroundTasks>
+                </Extension>
+                <Extension Category="windows.backgroundTasks" EntryPoint="Aurora.Music.Services.FileRetriever">
+                    <BackgroundTasks>
+                        <Task Type="timer" />
+                    </BackgroundTasks>
+                </Extension>
+                <uap:Extension Category="windows.appService" EntryPoint="Aurora.Music.Services.Rome">
+                    <uap3:AppService Name="Aurora.Music.Rome" SupportsRemoteSystems="true" />
+                </uap:Extension>
+                <uap:Extension Category="windows.fileTypeAssociation">
+                    <uap:FileTypeAssociation Name="mp3">
+                        <uap:DisplayName>MP3 Music File</uap:DisplayName>
+                        <uap:Logo>Assets\FileAssociation\mp3.png</uap:Logo>
+                        <uap:InfoTip>Play MP3 with Aurora Music</uap:InfoTip>
+                        <uap:EditFlags OpenIsSafe="true" />
+                        <uap:SupportedFileTypes>
+                            <uap:FileType ContentType="audio/mpeg">.mp3</uap:FileType>
+                        </uap:SupportedFileTypes>
+                    </uap:FileTypeAssociation>
+                </uap:Extension>
+                <uap:Extension Category="windows.fileTypeAssociation">
+                    <uap:FileTypeAssociation Name="m4a">
+                        <uap:DisplayName>M4A Music File</uap:DisplayName>
+                        <uap:Logo>Assets\FileAssociation\m4a.png</uap:Logo>
+                        <uap:InfoTip>Play M4A with Aurora Music</uap:InfoTip>
+                        <uap:EditFlags OpenIsSafe="true" />
+                        <uap:SupportedFileTypes>
+                            <uap:FileType ContentType="audio/mp4">.m4a</uap:FileType>
+                        </uap:SupportedFileTypes>
+                    </uap:FileTypeAssociation>
+                </uap:Extension>
+                <uap:Extension Category="windows.fileTypeAssociation">
+                    <uap:FileTypeAssociation Name="flac">
+                        <uap:DisplayName>FLAC Music File</uap:DisplayName>
+                        <uap:Logo>Assets\FileAssociation\flac.png</uap:Logo>
+                        <uap:InfoTip>Play FLAC with Aurora Music</uap:InfoTip>
+                        <uap:EditFlags OpenIsSafe="true" />
+                        <uap:SupportedFileTypes>
+                            <uap:FileType ContentType="audio/flac">.flac</uap:FileType>
+                        </uap:SupportedFileTypes>
+                    </uap:FileTypeAssociation>
+                </uap:Extension>
+                <uap:Extension Category="windows.fileTypeAssociation">
+                    <uap:FileTypeAssociation Name="wav">
+                        <uap:DisplayName>WAV Music File</uap:DisplayName>
+                        <uap:Logo>Assets\FileAssociation\wav.png</uap:Logo>
+                        <uap:InfoTip>Play WAV with Aurora Music</uap:InfoTip>
+                        <uap:EditFlags OpenIsSafe="true" />
+                        <uap:SupportedFileTypes>
+                            <uap:FileType ContentType="audio/wav">.wav</uap:FileType>
+                        </uap:SupportedFileTypes>
+                    </uap:FileTypeAssociation>
+                </uap:Extension>
+                <uap:Extension Category="windows.fileTypeAssociation">
+                    <uap:FileTypeAssociation Name="wma">
+                        <uap:DisplayName>WMA Music File</uap:DisplayName>
+                        <uap:Logo>Assets\FileAssociation\wma.png</uap:Logo>
+                        <uap:InfoTip>Play WMA with Aurora Music</uap:InfoTip>
+                        <uap:SupportedFileTypes>
+                            <uap:FileType ContentType="audio/x-ms-wma">.wma</uap:FileType>
+                        </uap:SupportedFileTypes>
+                    </uap:FileTypeAssociation>
+                </uap:Extension>
+                <uap:Extension Category="windows.fileTypeAssociation">
+                    <uap:FileTypeAssociation Name="aac">
+                        <uap:DisplayName>AAC Music File</uap:DisplayName>
+                        <uap:Logo>Assets\FileAssociation\aac.png</uap:Logo>
+                        <uap:InfoTip>Play AAC with Aurora Music</uap:InfoTip>
+                        <uap:SupportedFileTypes>
+                            <uap:FileType ContentType="audio/aac">.aac</uap:FileType>
+                        </uap:SupportedFileTypes>
+                    </uap:FileTypeAssociation>
+                </uap:Extension>
+                <uap:Extension Category="windows.fileTypeAssociation">
+                    <uap:FileTypeAssociation Name="oga" DesiredView="default">
+                        <uap:DisplayName>OGA Music File</uap:DisplayName>
+                        <uap:Logo>Assets\Others\oga.png</uap:Logo>
+                        <uap:InfoTip>Play OGA with Aurora Music</uap:InfoTip>
+                        <uap:EditFlags OpenIsSafe="true" />
+                        <uap:SupportedFileTypes>
+                            <uap:FileType ContentType="audio/ogg">.oga</uap:FileType>
+                        </uap:SupportedFileTypes>
+                    </uap:FileTypeAssociation>
+                </uap:Extension>
+                <uap:Extension Category="windows.fileTypeAssociation">
+                    <uap:FileTypeAssociation Name="ogg">
+                        <uap:DisplayName>OGG Music File</uap:DisplayName>
+                        <uap:Logo>Assets\FileAssociation\ogg.png</uap:Logo>
+                        <uap:InfoTip>Play OGG with Aurora Music</uap:InfoTip>
+                        <uap:SupportedFileTypes>
+                            <uap:FileType ContentType="audio/ogg">.ogg</uap:FileType>
+                        </uap:SupportedFileTypes>
+                    </uap:FileTypeAssociation>
+                </uap:Extension>
+                <uap:Extension Category="windows.fileTypeAssociation">
+                    <uap:FileTypeAssociation Name="opus">
+                        <uap:DisplayName>OPUS Music File</uap:DisplayName>
+                        <uap:Logo>Assets\FileAssociation\ogg.png</uap:Logo>
+                        <uap:InfoTip>Play OPUS with Aurora Music</uap:InfoTip>
+                        <uap:SupportedFileTypes>
+                            <uap:FileType ContentType="audio/ogg">.opus</uap:FileType>
+                        </uap:SupportedFileTypes>
+                    </uap:FileTypeAssociation>
+                </uap:Extension>
+            </Extensions>
+        </Application>
+    </Applications>
+    <Extensions>
+        <Extension Category="windows.activatableClass.inProcessServer">
+            <InProcessServer>
+                <Path>AudioVisualizer.dll</Path>
+                <ActivatableClass ActivatableClassId="AudioVisualizer.MediaAnalyzer" ThreadingModel="both" />
+            </InProcessServer>
         </Extension>
-        <uap:Extension Category="windows.protocol">
-          <uap:Protocol Name="as-music">
-            <uap:Logo>Assets\Square44x44Logo.png</uap:Logo>
-            <uap:DisplayName>Aurora Music</uap:DisplayName>
-          </uap:Protocol>
-        </uap:Extension>
-        <uap3:Extension Category="windows.appExtensionHost">
-          <uap3:AppExtensionHost>
-            <uap3:Name>Aurora.Music.Extensions</uap3:Name>
-          </uap3:AppExtensionHost>
-        </uap3:Extension>
-        <uap:Extension Category="windows.fileTypeAssociation">
-          <uap:FileTypeAssociation Name="oga" DesiredView="default">
-            <uap:DisplayName>OGA Music File</uap:DisplayName>
-            <uap:Logo>Assets\Others\oga.png</uap:Logo>
-            <uap:InfoTip>Play OGA with Aurora Music</uap:InfoTip>
-            <uap:EditFlags OpenIsSafe="true" />
-            <uap:SupportedFileTypes>
-              <uap:FileType ContentType="audio/ogg">.oga</uap:FileType>
-            </uap:SupportedFileTypes>
-          </uap:FileTypeAssociation>
-        </uap:Extension>
-        <uap:Extension Category="windows.appService" EntryPoint="Aurora.Music.Services.ExtensionService">
-          <uap:AppService Name="Aurora.Music.Services" />
-        </uap:Extension>
-        <uap:Extension Category="windows.shareTarget">
-          <uap:ShareTarget Description="Copy to Aurora Music">
-            <uap:SupportedFileTypes>
-              <uap:FileType>.mp3</uap:FileType>
-              <uap:FileType>.m4a</uap:FileType>
-              <uap:FileType>.wav</uap:FileType>
-              <uap:FileType>.wma</uap:FileType>
-              <uap:FileType>.aac</uap:FileType>
-              <uap:FileType>.flac</uap:FileType>
-              <uap:FileType>.ogg</uap:FileType>
-              <uap:FileType>.oga</uap:FileType>
-            </uap:SupportedFileTypes>
-            <uap:DataFormat>StorageItems</uap:DataFormat>
-          </uap:ShareTarget>
-        </uap:Extension>
-        <Extension Category="windows.backgroundTasks" EntryPoint="Aurora.Music.Services.DownloadCompletor">
-          <BackgroundTasks>
-            <Task Type="systemEvent" />
-          </BackgroundTasks>
-        </Extension>
-        <Extension Category="windows.backgroundTasks" EntryPoint="Aurora.Music.Services.FileRetriever">
-          <BackgroundTasks>
-            <Task Type="timer" />
-          </BackgroundTasks>
-        </Extension>
-        <uap:Extension Category="windows.appService" EntryPoint="Aurora.Music.Services.Rome">
-          <uap3:AppService Name="Aurora.Music.Rome" SupportsRemoteSystems="true" />
-        </uap:Extension>
-        <uap:Extension Category="windows.fileTypeAssociation">
-          <uap:FileTypeAssociation Name="mp3">
-            <uap:DisplayName>MP3 Music File</uap:DisplayName>
-            <uap:Logo>Assets\FileAssociation\mp3.png</uap:Logo>
-            <uap:InfoTip>Play MP3 with Aurora Music</uap:InfoTip>
-            <uap:EditFlags OpenIsSafe="true" />
-            <uap:SupportedFileTypes>
-              <uap:FileType ContentType="audio/mpeg">.mp3</uap:FileType>
-            </uap:SupportedFileTypes>
-          </uap:FileTypeAssociation>
-        </uap:Extension>
-        <uap:Extension Category="windows.fileTypeAssociation">
-          <uap:FileTypeAssociation Name="m4a">
-            <uap:DisplayName>M4A Music File</uap:DisplayName>
-            <uap:Logo>Assets\FileAssociation\m4a.png</uap:Logo>
-            <uap:InfoTip>Play M4A with Aurora Music</uap:InfoTip>
-            <uap:EditFlags OpenIsSafe="true" />
-            <uap:SupportedFileTypes>
-              <uap:FileType ContentType="audio/mp4">.m4a</uap:FileType>
-            </uap:SupportedFileTypes>
-          </uap:FileTypeAssociation>
-        </uap:Extension>
-        <uap:Extension Category="windows.fileTypeAssociation">
-          <uap:FileTypeAssociation Name="flac">
-            <uap:DisplayName>FLAC Music File</uap:DisplayName>
-            <uap:Logo>Assets\FileAssociation\flac.png</uap:Logo>
-            <uap:InfoTip>Play FLAC with Aurora Music</uap:InfoTip>
-            <uap:EditFlags OpenIsSafe="true" />
-            <uap:SupportedFileTypes>
-              <uap:FileType ContentType="audio/flac">.flac</uap:FileType>
-            </uap:SupportedFileTypes>
-          </uap:FileTypeAssociation>
-        </uap:Extension>
-        <uap:Extension Category="windows.fileTypeAssociation">
-          <uap:FileTypeAssociation Name="wav">
-            <uap:DisplayName>WAV Music File</uap:DisplayName>
-            <uap:Logo>Assets\FileAssociation\wav.png</uap:Logo>
-            <uap:InfoTip>Play WAV with Aurora Music</uap:InfoTip>
-            <uap:EditFlags OpenIsSafe="true" />
-            <uap:SupportedFileTypes>
-              <uap:FileType ContentType="audio/wav">.wav</uap:FileType>
-            </uap:SupportedFileTypes>
-          </uap:FileTypeAssociation>
-        </uap:Extension>
-        <uap:Extension Category="windows.fileTypeAssociation">
-          <uap:FileTypeAssociation Name="wma">
-            <uap:DisplayName>WMA Music File</uap:DisplayName>
-            <uap:Logo>Assets\FileAssociation\wma.png</uap:Logo>
-            <uap:InfoTip>Play WMA with Aurora Music</uap:InfoTip>
-            <uap:SupportedFileTypes>
-              <uap:FileType ContentType="audio/x-ms-wma">.wma</uap:FileType>
-            </uap:SupportedFileTypes>
-          </uap:FileTypeAssociation>
-        </uap:Extension>
-        <uap:Extension Category="windows.fileTypeAssociation">
-          <uap:FileTypeAssociation Name="aac">
-            <uap:DisplayName>AAC Music File</uap:DisplayName>
-            <uap:Logo>Assets\FileAssociation\aac.png</uap:Logo>
-            <uap:InfoTip>Play AAC with Aurora Music</uap:InfoTip>
-            <uap:SupportedFileTypes>
-              <uap:FileType ContentType="audio/aac">.aac</uap:FileType>
-            </uap:SupportedFileTypes>
-          </uap:FileTypeAssociation>
-        </uap:Extension>
-        <uap:Extension Category="windows.fileTypeAssociation">
-          <uap:FileTypeAssociation Name="ogg">
-            <uap:DisplayName>OGG Music File</uap:DisplayName>
-            <uap:Logo>Assets\FileAssociation\ogg.png</uap:Logo>
-            <uap:InfoTip>Play OGG with Aurora Music</uap:InfoTip>
-            <uap:SupportedFileTypes>
-              <uap:FileType ContentType="audio/ogg">.ogg</uap:FileType>
-            </uap:SupportedFileTypes>
-          </uap:FileTypeAssociation>
-        </uap:Extension>
-      </Extensions>
-    </Application>
-  </Applications>
-  <Extensions>
-    <Extension Category="windows.activatableClass.inProcessServer">
-      <InProcessServer>
-        <Path>AudioVisualizer.dll</Path>
-        <ActivatableClass ActivatableClassId="AudioVisualizer.MediaAnalyzer" ThreadingModel="both" />
-      </InProcessServer>
-    </Extension>
-  </Extensions>
-  <Capabilities>
-    <Capability Name="internetClient" />
-    <uap:Capability Name="musicLibrary" />
-    <uap3:Capability Name="backgroundMediaPlayback" />
-    <uap3:Capability Name="remoteSystem" />
-    <DeviceCapability Name="location" />
-  </Capabilities>
+    </Extensions>
+    <Capabilities>
+        <Capability Name="internetClient" />
+        <uap:Capability Name="musicLibrary" />
+        <uap3:Capability Name="backgroundMediaPlayback" />
+        <uap3:Capability Name="remoteSystem" />
+        <DeviceCapability Name="location" />
+    </Capabilities>
 </Package>

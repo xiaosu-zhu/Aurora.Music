@@ -11,7 +11,7 @@
     <AssemblyName>Aurora.Music.Core</AssemblyName>
     <DefaultLanguage>zh-CN</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.17134.0</TargetPlatformVersion>
+    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.17763.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
@@ -109,7 +109,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Consts.cs" />
-    <Compile Include="Excluded.cs" />
     <Compile Include="Extension\ITunesSearcher.cs" />
     <Compile Include="Extension\Json\GecimiJson.cs" />
     <Compile Include="Extension\Json\QQMusic.cs" />
@@ -189,13 +188,13 @@
       <Project>{e24bad49-f0a6-4c07-b4d9-3d3644a22c69}</Project>
       <Name>LrcParser</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TagLib\src\taglib-sharp.csproj">
+    <ProjectReference Include="..\TagLib\src\TaglibSharp\TaglibSharp.csproj">
       <Project>{56569777-4f05-44eb-9f34-e8c40159bb0b}</Project>
       <Name>taglib-sharp</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <SDKReference Include="WindowsDesktop, Version=10.0.17134.0">
+    <SDKReference Include="WindowsDesktop, Version=10.0.17763.0">
       <Name>Windows Desktop Extensions for the UWP</Name>
     </SDKReference>
   </ItemGroup>

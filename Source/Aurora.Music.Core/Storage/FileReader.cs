@@ -36,10 +36,13 @@ namespace Aurora.Music.Core.Storage
                 {
                     var options = new Windows.Storage.Search.QueryOptions
                     {
-                        FileTypeFilter = { ".flac", ".wav", ".m4a", ".aac", ".mp3", ".wma", ".ogg", ".oga" },
                         FolderDepth = Windows.Storage.Search.FolderDepth.Deep,
                         IndexerOption = Windows.Storage.Search.IndexerOption.DoNotUseIndexer,
                     };
+                    foreach (var ext in Consts.FileTypes)
+                    {
+                        options.FileTypeFilter.Add(ext);
+                    }
                     var query = folder.CreateFileQueryWithOptions(options);
                     list.AddRange(await query.GetFilesAsync());
                 }

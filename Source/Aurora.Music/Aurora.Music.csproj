@@ -11,7 +11,7 @@
     <AssemblyName>Aurora.Music</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.17134.0</TargetPlatformVersion>
+    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.17763.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
@@ -744,7 +744,7 @@
     <SDKReference Include="Microsoft.VCLibs, Version=14.0">
       <Name>Visual C++ 2015 Runtime for Universal Windows Platform Apps</Name>
     </SDKReference>
-    <SDKReference Include="WindowsDesktop, Version=10.0.17134.0">
+    <SDKReference Include="WindowsDesktop, Version=10.0.17763.0">
       <Name>Windows Desktop Extensions for the UWP</Name>
     </SDKReference>
   </ItemGroup>
@@ -781,7 +781,7 @@
       <Project>{013c6cda-318b-4ee7-a1c3-80df4bb9c092}</Project>
       <Name>StarButton</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TagLib\src\taglib-sharp.csproj">
+    <ProjectReference Include="..\TagLib\src\TaglibSharp\TaglibSharp.csproj">
       <Project>{56569777-4f05-44eb-9f34-e8c40159bb0b}</Project>
       <Name>taglib-sharp</Name>
     </ProjectReference>

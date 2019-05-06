@@ -11,7 +11,7 @@
     <AssemblyName>Aurora.Shared</AssemblyName>
     <DefaultLanguage>zh-CN</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.17134.0</TargetPlatformVersion>
+    <TargetPlatformVersion>10.0.17763.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
@@ -183,12 +183,12 @@
     <SDKReference Include="Microsoft.VCLibs, Version=14.0">
       <Name>Visual C++ 2015 Runtime for Universal Windows Platform Apps</Name>
     </SDKReference>
-    <SDKReference Include="SQLite.UWP.2015, Version=3.27.2">
+    <SDKReference Include="SQLite.UWP.2015, Version=3.28.0">
       <Name>SQLite for Universal Windows Platform</Name>
     </SDKReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TagLib\src\taglib-sharp.csproj">
+    <ProjectReference Include="..\TagLib\src\TaglibSharp\TaglibSharp.csproj">
       <Project>{56569777-4F05-44EB-9F34-E8C40159BB0B}</Project>
       <Name>taglib-sharp</Name>
     </ProjectReference>

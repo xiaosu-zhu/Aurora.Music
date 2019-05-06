@@ -33,7 +33,7 @@ namespace Aurora.Music.Core
         public const string ArtistPageInAnimation = "ARTIST_PAGE_IN";
         public const string AlbumItemConnectedAnimation = "ALBUM_DETAIL_IN";
 
-        public static readonly string[] FileTypes = { ".flac", ".wav", ".m4a", ".aac", ".mp3", ".wma", ".ogg", ".oga" };
+        public static readonly string[] FileTypes = { ".flac", ".wav", ".m4a", ".aac", ".mp3", ".wma", ".ogg", ".oga", "opus" };
         public static readonly string[] PlaylistType = { "m3u", ".m3u8", ".wpl", ".zpl" };
 
         public const string ExtensionContract = "Aurora.Music.Extensions";
