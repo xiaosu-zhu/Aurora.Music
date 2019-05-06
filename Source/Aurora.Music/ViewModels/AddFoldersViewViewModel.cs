@@ -31,20 +31,16 @@ namespace Aurora.Music.ViewModels
                     {
                         SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.ComputerFolder
                     };
-                    folderPicker.FileTypeFilter.Add(".mp3");
-                    folderPicker.FileTypeFilter.Add(".m4a");
-                    folderPicker.FileTypeFilter.Add(".wav");
-                    folderPicker.FileTypeFilter.Add(".flac");
-                    folderPicker.FileTypeFilter.Add(".aac");
-                    folderPicker.FileTypeFilter.Add(".wma");
-                    folderPicker.FileTypeFilter.Add(".ogg");
-                    folderPicker.FileTypeFilter.Add(".oga");
-                    folderPicker.FileTypeFilter.Add(".m3u");
-                    folderPicker.FileTypeFilter.Add(".m3u8");
-                    folderPicker.FileTypeFilter.Add(".wpl");
-                    folderPicker.FileTypeFilter.Add(".zpl");
+                    foreach (var ext in Consts.PlaylistType)
+                    {
+                        folderPicker.FileTypeFilter.Add(ext);
+                    }
+                    foreach (var ext in Consts.FileTypes)
+                    {
+                        folderPicker.FileTypeFilter.Add(ext);
+                    }
 
-                    StorageFolder folder = await folderPicker.PickSingleFolderAsync();
+                    var folder = await folderPicker.PickSingleFolderAsync();
                     if (folder != null)
                     {
                         var opr = SQLOperator.Current();
@@ -83,20 +79,16 @@ namespace Aurora.Music.ViewModels
                     {
                         SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.ComputerFolder
                     };
-                    folderPicker.FileTypeFilter.Add(".mp3");
-                    folderPicker.FileTypeFilter.Add(".m4a");
-                    folderPicker.FileTypeFilter.Add(".wav");
-                    folderPicker.FileTypeFilter.Add(".flac");
-                    folderPicker.FileTypeFilter.Add(".aac");
-                    folderPicker.FileTypeFilter.Add(".wma");
-                    folderPicker.FileTypeFilter.Add(".ogg");
-                    folderPicker.FileTypeFilter.Add(".oga");
-                    folderPicker.FileTypeFilter.Add(".m3u");
-                    folderPicker.FileTypeFilter.Add(".m3u8");
-                    folderPicker.FileTypeFilter.Add(".wpl");
-                    folderPicker.FileTypeFilter.Add(".zpl");
+                    foreach (var ext in Consts.PlaylistType)
+                    {
+                        folderPicker.FileTypeFilter.Add(ext);
+                    }
+                    foreach (var ext in Consts.FileTypes)
+                    {
+                        folderPicker.FileTypeFilter.Add(ext);
+                    }
 
-                    StorageFolder folder = await folderPicker.PickSingleFolderAsync();
+                    var folder = await folderPicker.PickSingleFolderAsync();
                     if (folder != null)
                     {
                         var opr = SQLOperator.Current();
