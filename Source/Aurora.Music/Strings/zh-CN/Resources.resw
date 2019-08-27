@@ -442,7 +442,7 @@
     <comment>Comment in Store</comment>
   </data>
   <data name="ReportBug.Content" xml:space="preserve">
-    <value>报告 Bug</value>
+    <value>报告问题</value>
     <comment>Report a Bug</comment>
   </data>
   <data name="GetExtension.Content" xml:space="preserve">
@@ -520,6 +520,10 @@
   <data name="AlbumViewDialog.CloseButtonText" xml:space="preserve">
     <value>关闭</value>
     <comment>Close</comment>
+  </data>
+  <data name="AlbumViewDialog.SecondaryButtonText" xml:space="preserve">
+    <value>下载全部</value>
+    <comment>Download All</comment>
   </data>
   <data name="ArtistDialog.Title" xml:space="preserve">
     <value>歌手详情</value>
@@ -1494,7 +1498,7 @@
     <comment>Interface</comment>
   </data>
     <data name="PreferredTheme.Text" xml:space="preserve">
-    <value>偏好的模式</value>
+    <value>偏好的界面主题</value>
     <comment>Preferred theme</comment>
   </data>
     <data name="SystemTheme.Content" xml:space="preserve">
@@ -1508,6 +1512,10 @@
     <data name="DarkTheme.Content" xml:space="preserve">
     <value>暗黑</value>
     <comment>Dark</comment>
+  </data>
+    <data name="AutoTheme.Content" xml:space="preserve">
+    <value>自动切换</value>
+    <comment>Auto</comment>
   </data>
     <data name="NightModeSwitch.Header" xml:space="preserve">
     <value>夜晚模式（暗黑色调下减少图片亮度），需要重新启动</value>
@@ -1608,5 +1616,53 @@
     <data name="TopPlaylist.Text" xml:space="preserve">
     <value>精选歌单</value>
     <comment>Featured</comment>
+  </data>
+    <data name="EmptyFolderHint.Text" xml:space="preserve">
+    <value>这里似乎没有东西</value>
+    <comment>It looks like nothing</comment>
+  </data>
+    <data name="AddFolderHint.Text" xml:space="preserve">
+    <value>在上方添加一个新文件夹</value>
+    <comment>Click the button to add a new folder</comment>
+  </data>
+    <data name="ShowFeatureSwitch.Header" xml:space="preserve">
+    <value>在主页显示精选歌单</value>
+    <comment>Show featured list in Homepage</comment>
+  </data>
+    <data name="MeterFetchSwitch.Header" xml:space="preserve">
+    <value>通过按流量计费的连接获取在线内容</value>
+    <comment>Using metered connection to fetch online contents</comment>
+  </data>
+    <data name="MeterDownSwitch.Header" xml:space="preserve">
+    <value>也用按流量计费的连接来下载</value>
+    <comment>Using metered connection to download online contents</comment>
+  </data>
+    <data name="PlaybackEngineBox.Header" xml:space="preserve">
+    <value>播放引擎</value>
+    <comment>Playback Engine</comment>
+  </data>
+    <data name="EngineChangeHint.Text" xml:space="preserve">
+    <value>引擎变更会在下次启动时生效。</value>
+    <comment>Engines will be applied at next launch.</comment>
+  </data>
+    <data name="AutoThemeLocation.Content" xml:space="preserve">
+    <value>根据位置自动设置主题（需要申请权限）</value>
+    <comment>Automatically set time from location (permission required)</comment>
+  </data>
+    <data name="AutoLightStart.Text" xml:space="preserve">
+    <value>亮主题开始时间：</value>
+    <comment>Light theme start from:</comment>
+  </data>
+    <data name="AutoDarkStart.Text" xml:space="preserve">
+    <value>暗主题开始时间：</value>
+    <comment>Dark theme start from:</comment>
+  </data>
+    <data name="ExperimentalText.Text" xml:space="preserve">
+    <value>实验性功能</value>
+    <comment>EXPERIMENTAL</comment>
+  </data>
+    <data name="OneDriveReadText.Text" xml:space="preserve">
+    <value>按需检索 Onedrive 文件</value>
+    <comment>Retrieve OneDrive files on-demand</comment>
   </data>
 </root>

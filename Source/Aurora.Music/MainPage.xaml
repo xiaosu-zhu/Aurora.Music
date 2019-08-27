@@ -840,7 +840,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <ProgressBar Grid.Column="1" Margin="12,0"
                          HorizontalAlignment="Stretch" VerticalAlignment="Center"
                          Style="{ThemeResource SlimProgressBar}" Height="2" 
-                         Foreground="Red" 
+                         Foreground="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" 
                          Background="{x:Null}" Value="{x:Bind Context.BufferProgress, Mode=OneWay}"/>
             <Slider Style="{StaticResource RoundSlider}" Grid.Column="1" Margin="0,6,0,0"
                     Foreground="{ThemeResource SystemControlBackgroundBaseHighRevealBorderBrush}"

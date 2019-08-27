@@ -114,11 +114,29 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     </DataTemplate>
                 </ListView.ItemTemplate>
                 <ListView.Header>
-                    <Border Visibility="{x:Bind Context.CollapseIfNotZero(Context.Folders.Count), Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                            Padding="12,0" Height="32" CornerRadius="16" Margin="0,32"
-                            Background="{ThemeResource SystemControlAltTranslucentAcrylicWindowBrush}">
-                        <TextBlock Text="No folders yet." FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </Border>
+                    <Grid Visibility="{x:Bind Context.CollapseIfNotZero(Context.Folders.Count), Mode=OneWay}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ChildrenTransitions>
+                            <TransitionCollection>
+                                <RepositionThemeTransition/>
+                            </TransitionCollection>
+                        </Grid.ChildrenTransitions>
+                        <Grid x:Name="Symbol" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"
+                              Width="36" Height="36" Margin="8" CornerRadius="999" BorderBrush="{x:Null}" BorderThickness="0">
+                            <FontIcon FontSize="28" FontFamily="Segoe MDL2 Assets" Glyph="&#xE756;" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
+                        <StackPanel HorizontalAlignment="Stretch" Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
+                            <TextBlock x:Uid="EmptyFolderHint" Style="{ThemeResource BaseTextBlockStyle}" Margin="8,4,8,0"/>
+                            <TextBlock x:Uid="AddFolderHint" Style="{ThemeResource BodyTextBlockStyle}" FontSize="10" Margin="8,0,8,4"/>
+                        </StackPanel>
+                    </Grid>
                 </ListView.Header>
             </ListView>
         </StackPanel>

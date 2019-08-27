@@ -5,7 +5,6 @@ using Aurora.Music.Core.Models;
 using NAudio.CoreAudioApi;
 using NAudio.MediaFoundation;
 using NAudio.Wave;
-using NAudio.Win8.Wave.WaveOutputs;
 using System;
 using System.Collections.Generic;
 using System.Linq;

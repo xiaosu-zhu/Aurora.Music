@@ -539,6 +539,11 @@
     <value>Chiudi</value>
     <comment>Close</comment>
   </data>
+    <!--TODO-->
+    <data name="AlbumViewDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Download All</value>
+    <comment>Download All</comment>
+  </data>
     <data name="ArtistDialog.Title" xml:space="preserve">
     <value>Dettagli artista</value>
     <comment>Artist Details</comment>
@@ -1622,5 +1627,53 @@
     <data name="TopPlaylist.Text" xml:space="preserve">
     <value>Featured</value>
     <comment>Featured</comment>
+  </data>
+    <data name="EmptyFolderHint.Text" xml:space="preserve">
+    <value>It looks like nothing</value>
+    <comment>It looks like nothing</comment>
+  </data>
+    <data name="AddFolderHint.Text" xml:space="preserve">
+    <value>Click the button to add a new folder</value>
+    <comment>Click the button to add a new folder</comment>
+  </data>
+    <data name="ShowFeatureSwitch.Header" xml:space="preserve">
+    <value>Show featured list in Homepage</value>
+    <comment>Show featured list in Homepage</comment>
+  </data>
+    <data name="MeterFetchSwitch.Header" xml:space="preserve">
+    <value>Using metered connection to fetch online contents</value>
+    <comment>Using metered connection to fetch online contents</comment>
+  </data>
+    <data name="MeterDownSwitch.Header" xml:space="preserve">
+    <value>Using metered connection to download online contents</value>
+    <comment>Using metered connection to download online contents</comment>
+  </data>
+    <data name="PlaybackEngineBox.Header" xml:space="preserve">
+    <value>Playback Engine</value>
+    <comment>Playback Engine</comment>
+  </data>
+    <data name="EngineChangeHint.Text" xml:space="preserve">
+    <value>Engines will be applied at next launch.</value>
+    <comment>Engines will be applied at next launch.</comment>
+  </data>
+    <data name="AutoThemeLocation.Content" xml:space="preserve">
+    <value>Automatically set time from location (permission required)</value>
+    <comment>Automatically set time from location (permission required)</comment>
+  </data>
+    <data name="AutoLightStart.Text" xml:space="preserve">
+    <value>Light theme start from:</value>
+    <comment>Light theme start from:</comment>
+  </data>
+    <data name="AutoDarkStart.Text" xml:space="preserve">
+    <value>Dark theme start from:</value>
+    <comment>Dark theme start from:</comment>
+  </data>
+    <data name="ExperimentalText.Text" xml:space="preserve">
+    <value>EXPERIMENTAL</value>
+    <comment>EXPERIMENTAL</comment>
+  </data>
+    <data name="OneDriveReadText.Text" xml:space="preserve">
+    <value>Retrieve OneDrive files on-demand</value>
+    <comment>Retrieve OneDrive files on-demand</comment>
   </data>
 </root>

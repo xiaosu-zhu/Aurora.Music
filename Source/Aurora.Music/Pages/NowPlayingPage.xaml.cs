@@ -369,7 +369,7 @@ namespace Aurora.Music.Pages
 
             _previousSpectrum = spectrumData.ApplyRiseAndFall(_previousSpectrum, _rmsRiseTime, _rmsFallTime, _frameDuration);
             _previousPeakSpectrum = spectrumData.ApplyRiseAndFall(_previousPeakSpectrum, _peakRiseTime, _peakFallTime, _frameDuration);
-
+            
             var logSpectrum = _previousSpectrum.ConvertToDecibels(-50, 0);
             var logPeakSpectrum = _previousPeakSpectrum.ConvertToDecibels(-50, 0);
 
@@ -406,23 +406,23 @@ namespace Aurora.Music.Pages
 
         private async void Artwork_ImageOpened(object sender, RoutedEventArgs e)
         {
-            var ani = ConnectedAnimationService.GetForCurrentView().GetAnimation(Consts.NowPlayingPageInAnimation);
+            var service = ConnectedAnimationService.GetForCurrentView();
+            var ani = service.GetAnimation(Consts.NowPlayingPageInAnimation);
             if (ani != null)
             {
                 ani.TryStart(Artwork, new UIElement[] { Root });
             }
-            ani = ConnectedAnimationService.GetForCurrentView().GetAnimation($"{Consts.NowPlayingPageInAnimation}_1");
+            ani = service.GetAnimation($"{Consts.NowPlayingPageInAnimation}_1");
             if (ani != null)
             {
                 ani.TryStart(Title);
             }
-            ani = ConnectedAnimationService.GetForCurrentView().GetAnimation($"{Consts.NowPlayingPageInAnimation}_2");
+            ani = service.GetAnimation($"{Consts.NowPlayingPageInAnimation}_2");
             if (ani != null)
             {
                 ani.TryStart(Album);
             }
             await Task.Delay(200);
-            var service = ConnectedAnimationService.GetForCurrentView();
             ani = service.GetAnimation("DropAni");
             if (ani != null)
                 ani.TryStart(SongPanel);

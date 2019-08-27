@@ -308,37 +308,37 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     <Grid>
         <Grid.Resources>
             <Storyboard x:Name="Ani1">
-                <DoubleAnimation BeginTime="0:0:1" Storyboard.TargetName="Re0" EnableDependentAnimation="True" Duration="0:0:2" Storyboard.TargetProperty="Height" To="80">
+                <DoubleAnimation BeginTime="0:0:0.5" Storyboard.TargetName="Re0" EnableDependentAnimation="True" Duration="0:0:1" Storyboard.TargetProperty="Height" To="80">
                     <DoubleAnimation.EasingFunction>
                         <QuinticEase/>
                     </DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
-                <DoubleAnimation BeginTime="0:0:1" Storyboard.TargetName="Re1" EnableDependentAnimation="True" Duration="0:0:2" Storyboard.TargetProperty="Height" To="90">
+                <DoubleAnimation BeginTime="0:0:0.6" Storyboard.TargetName="Re1" EnableDependentAnimation="True" Duration="0:0:1" Storyboard.TargetProperty="Height" To="90">
                     <DoubleAnimation.EasingFunction>
                         <QuinticEase/>
                     </DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
-                <DoubleAnimation BeginTime="0:0:1" Storyboard.TargetName="Re2" EnableDependentAnimation="True" Duration="0:0:2" Storyboard.TargetProperty="Height" To="60">
+                <DoubleAnimation BeginTime="0:0:0.7" Storyboard.TargetName="Re2" EnableDependentAnimation="True" Duration="0:0:1" Storyboard.TargetProperty="Height" To="60">
                     <DoubleAnimation.EasingFunction>
                         <QuinticEase/>
                     </DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
-                <DoubleAnimation BeginTime="0:0:1" Storyboard.TargetName="Re3" EnableDependentAnimation="True" Duration="0:0:2" Storyboard.TargetProperty="Height" To="120">
+                <DoubleAnimation BeginTime="0:0:0.8" Storyboard.TargetName="Re3" EnableDependentAnimation="True" Duration="0:0:1" Storyboard.TargetProperty="Height" To="120">
                     <DoubleAnimation.EasingFunction>
                         <QuinticEase/>
                     </DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
-                <DoubleAnimation BeginTime="0:0:1" Storyboard.TargetName="Re4" EnableDependentAnimation="True" Duration="0:0:2" Storyboard.TargetProperty="Height" To="72">
+                <DoubleAnimation BeginTime="0:0:0.9" Storyboard.TargetName="Re4" EnableDependentAnimation="True" Duration="0:0:1" Storyboard.TargetProperty="Height" To="72">
                     <DoubleAnimation.EasingFunction>
                         <QuinticEase/>
                     </DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
-                <DoubleAnimation BeginTime="0:0:1" Storyboard.TargetName="Re5" EnableDependentAnimation="True" Duration="0:0:2" Storyboard.TargetProperty="Height" To="36">
+                <DoubleAnimation BeginTime="0:0:1" Storyboard.TargetName="Re5" EnableDependentAnimation="True" Duration="0:0:1" Storyboard.TargetProperty="Height" To="36">
                     <DoubleAnimation.EasingFunction>
                         <QuinticEase/>
                     </DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
-                <DoubleAnimation BeginTime="0:0:1" Storyboard.TargetName="Re6" EnableDependentAnimation="True" Duration="0:0:2" Storyboard.TargetProperty="Height" To="24">
+                <DoubleAnimation BeginTime="0:0:1.1" Storyboard.TargetName="Re6" EnableDependentAnimation="True" Duration="0:0:1" Storyboard.TargetProperty="Height" To="24">
                     <DoubleAnimation.EasingFunction>
                         <QuinticEase/>
                     </DoubleAnimation.EasingFunction>
@@ -361,7 +361,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <BitmapImage UriSource="/Assets/Images/welcome_bg.png" DecodePixelHeight="1080" DecodePixelType="Logical"/>
                     </Image.Source>
                 </Image>
-                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#AA000000"/>
+                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#e0000000"/>
             </Grid>
         </ParallaxView>
         <FlipView Style="{StaticResource WelcomPageFlipView}" Background="{x:Null}"
@@ -376,7 +376,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <TextBlock x:Uid="Welcome" Style="{ThemeResource SubheaderTextBlockStyle}" 
                            HorizontalAlignment="Center" VerticalAlignment="Center" 
                            Margin="8,4" Text="Welcome!"/>
-                <Grid Grid.Row="1" Width="160" Height="160">
+                <Grid Grid.Row="1" Width="320" Height="160">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
@@ -416,13 +416,13 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                            Margin="8,4" Text="Fluent Feel"/>
                 <Grid Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Grid x:Name="Ani2BG" Height="144" Width="144" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Ellipse Stroke="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" Fill="{x:Null}" StrokeThickness="4" Height="128" Width="128"
+                        <Ellipse Stroke="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" Fill="{ThemeResource SystemControlBackgroundBaseLowBrush}" StrokeThickness="4" Height="128" Width="128"
                                  HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        <Ellipse Stroke="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" Fill="{x:Null}" StrokeThickness="2" Height="96" Width="96"
+                        <Ellipse Stroke="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" Fill="{x:Null}" StrokeThickness="1" Height="96" Width="96"
                                  HorizontalAlignment="Center" VerticalAlignment="Center" StrokeDashArray="3.4557519189487725623089077216075" StrokeDashCap="Round" StrokeLineJoin="Round" StrokeEndLineCap="Round" StrokeStartLineCap="Round"/>
-                        <Ellipse Stroke="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" Fill="{x:Null}" StrokeThickness="2" Height="64" Width="64"
+                        <Ellipse Stroke="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" Fill="{x:Null}" StrokeThickness="1" Height="64" Width="64"
                                  HorizontalAlignment="Center" VerticalAlignment="Center" StrokeDashArray="3.7699111843077518861551720599354" StrokeDashCap="Round" StrokeLineJoin="Round" StrokeEndLineCap="Round" StrokeStartLineCap="Round"/>
-                        <Ellipse Stroke="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" Fill="{x:Null}" StrokeThickness="2" Height="24" Width="24"
+                        <Ellipse Stroke="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" Fill="{x:Null}" StrokeThickness="1" Height="24" Width="24"
                                  HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         <Grid.RenderTransform>
                             <RotateTransform Angle="0" x:Name="Ani2BGR"/>

@@ -111,28 +111,28 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                             <RadioButton x:Uid="SystemTheme" x:Name="SystemTheme" Tag="System" Content="System"/>
                             <RadioButton x:Uid="LightTheme" x:Name="LightTheme" Tag="Light" Content="Light"/>
                             <RadioButton x:Uid="DarkTheme" x:Name="DarkTheme" Tag="Dark" Content="Dark"/>
-                            <RadioButton x:Name="AutoTheme" Tag="Auto" Content="Auto"/>
+                            <RadioButton x:Uid="AutoTheme" x:Name="AutoTheme" Tag="Auto" Content="Auto"/>
                             <StackPanel Orientation="Vertical" Visibility="{x:Bind AutoTheme.IsChecked, Mode=OneWay}">
-                                <CheckBox Margin="12,4" Content="Automatically set time by location (needs permission)" 
-                                      x:Name="SunThemeChecker"
+                                <CheckBox Margin="12,4" Content="Automatically set time from location (permission required)" 
+                                      x:Name="SunThemeChecker" x:Uid="AutoThemeLocation"
                                       IsThreeState="False"/>
                                 <StackPanel Visibility="{x:Bind SunThemeVis(SunThemeChecker.IsChecked), Mode=OneWay}" 
                                         Margin="12,4" Orientation="Vertical">
-                                    <TextBlock Text="Light theme start from:"/>
+                                    <TextBlock x:Uid="AutoLightStart" Text="Light theme start from:"/>
                                     <TimePicker x:Name="RiseTimePicker" Time="{x:Bind Context.RiseTime, Mode=TwoWay}"/>
-                                    <TextBlock Text="Dark theme start from:"/>
+                                    <TextBlock x:Uid="AutoDarkStart" Text="Dark theme start from:"/>
                                     <TimePicker x:Name="FallTimePicker" Time="{x:Bind Context.FallTime, Mode=TwoWay}"/>
                                 </StackPanel>
                             </StackPanel>
                         </StackPanel>
-                        <ToggleSwitch Margin="0,8,0,12" Header="Show featured list in Homepage" IsOn="{x:Bind Context.ShowFeatured, Mode=TwoWay}"/>
+                        <ToggleSwitch x:Uid="ShowFeatureSwitch" Margin="0,8,0,12" Header="Show featured list in Homepage" IsOn="{x:Bind Context.ShowFeatured, Mode=TwoWay}"/>
                         <ToggleSwitch x:Uid="NightModeSwitch" Margin="0,12" Header="Night mode(decreases images' brightness in dark mode), requires restart" IsOn="{x:Bind Context.NightMode, Mode=TwoWay}"/>
                         <ToggleSwitch x:Uid="DontOverlaySwitch" Margin="0,12" Header="Don't show small window at top(Compact overlay)" IsOn="{Binding DontOverlay,Mode=TwoWay}"/>
                         <ToggleSwitch x:Uid="SingletonSwitch" Margin="0,12" Header="Singleton instance of lyric window" IsOn="{Binding Singleton,Mode=TwoWay}"/>
 
-                        <ToggleSwitch IsOn="{Binding DataPlayEnabled, Mode=TwoWay}"
+                        <ToggleSwitch x:Uid="MeterFetchSwitch" IsOn="{Binding DataPlayEnabled, Mode=TwoWay}"
                                       Header="Using metered connection to fetch online contents" Margin="0,12" />
-                        <ToggleSwitch IsOn="{Binding DataDownloadEnabled, Mode=TwoWay}"
+                        <ToggleSwitch x:Uid="MeterDownSwitch" IsOn="{Binding DataDownloadEnabled, Mode=TwoWay}"
                                       Header="Using metered connection to download online contents" Margin="0,12"/>
                     </StackPanel>
                 </ScrollViewer>
@@ -309,9 +309,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <StackPanel Padding="0,0,0,160" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <ToggleSwitch x:Uid="DebugMode" Header="Debug Mode" 
                                     IsOn="{Binding DebugModeEnabled,Mode=TwoWay}" Margin="0,12" />
-                        <TextBlock FontSize="12" Margin="0,12,0,-8" Text="EXPERIMENTAL" Foreground="{ThemeResource AccentForText}"/>
+                        <TextBlock x:Uid="ExperimentalText" FontSize="12" Margin="0,12,0,-8" Text="EXPERIMENTAL" Foreground="{ThemeResource AccentForText}"/>
                         <StackPanel Margin="0,-4,0,12" Orientation="Horizontal">
-                            <TextBlock Margin="0,0,8,0" VerticalAlignment="Center" Text="Read OneDrive Files On-Demand"/>
+                            <TextBlock x:Uid="OneDriveReadText" Margin="0,0,8,0" VerticalAlignment="Center" Text="Retrieve OneDrive files on-demand"/>
                             <ToggleSwitch Style="{StaticResource ColoredToggleSwitch}" VerticalAlignment="Center"
                                           IsOn="{x:Bind Context.ReadOndriveRoaming,Mode=TwoWay}"/>
                         </StackPanel>
@@ -330,8 +330,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <StackPanel Padding="4" Margin="0,12,32,12" BorderBrush="#ff4343" 
                                 BorderThickness="1" Orientation="Vertical" 
                                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                            <TextBlock x:Uid="DangerZone" Foreground="#ff4343" 
-                                    Text="Danger Zone" Margin="0,12"/>
+                            <TextBlock x:Uid="DangerZone" Foreground="#ff4343" FontWeight="Bold"
+                                       FontSize="20" Text="Danger Zone" Margin="0,4"/>
                             <Button x:Uid="ClearCache" IsEnabled="{Binding CanClearCache,Mode=OneWay}" 
                                 Command="{Binding ClearCache}" Style="{ThemeResource ButtonRevealStyle}" 
                                 Margin="0,12" Content="Clear Cache"/>
