@@ -538,6 +538,7 @@ namespace Aurora.Music.Core.Models
 
 
         public bool IsOnline { get; set; }
+        public bool IsAvaliable { get; set; } = true;
         public Uri OnlineUri { get; set; }
         public string OnlineID { get; set; }
         public double Rating { get; set; }
